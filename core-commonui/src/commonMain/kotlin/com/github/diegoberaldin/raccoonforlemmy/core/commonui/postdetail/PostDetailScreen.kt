@@ -56,6 +56,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardSubtitle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardTitle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getPostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
@@ -300,6 +301,18 @@ class PostDetailScreen(
                                             ),
                                         )
                                     },
+                                    onReply = {
+                                        bottomSheetNavigator.show(
+                                            CreateCommentScreen(
+                                                originalPost = post,
+                                                originalComment = comment,
+                                                onCommentCreated = {
+                                                    bottomSheetNavigator.hide()
+                                                    model.reduce(PostDetailMviModel.Intent.Refresh)
+                                                }
+                                            )
+                                        )
+                                    }
                                 )
                             },
                         )

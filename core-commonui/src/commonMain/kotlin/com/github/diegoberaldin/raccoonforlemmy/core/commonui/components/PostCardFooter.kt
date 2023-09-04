@@ -60,6 +60,7 @@ fun PostCardFooter(
             Text(
                 modifier = Modifier.padding(end = Spacing.s),
                 text = "$comments",
+                style = MaterialTheme.typography.labelSmall,
             )
         }
         if (date != null) {
@@ -98,6 +99,7 @@ fun PostCardFooter(
                         }
                     }
                 },
+                style = MaterialTheme.typography.labelSmall,
             )
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -149,6 +151,7 @@ fun PostCardFooter(
         )
         Text(
             text = "$score",
+            style = MaterialTheme.typography.labelSmall,
         )
         Image(
             modifier = buttonModifier

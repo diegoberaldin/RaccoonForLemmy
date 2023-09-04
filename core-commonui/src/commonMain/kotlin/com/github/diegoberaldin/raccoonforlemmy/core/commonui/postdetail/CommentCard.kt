@@ -48,6 +48,7 @@ fun CommentCard(
                 saved = comment.saved,
                 upVoted = comment.myVote > 0,
                 downVoted = comment.myVote < 0,
+                comments = comment.comments,
                 onUpVote = onUpVote,
                 onDownVote = onDownVote,
                 onSave = onSave,

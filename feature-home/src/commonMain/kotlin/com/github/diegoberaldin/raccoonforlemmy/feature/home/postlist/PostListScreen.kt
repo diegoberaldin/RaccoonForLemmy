@@ -44,6 +44,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
@@ -223,6 +224,17 @@ class PostListScreen : Screen {
                                             ),
                                         )
                                     },
+                                    onReply = {
+                                        bottomSheetNavigator.show(
+                                            CreateCommentScreen(
+                                                originalPost = post,
+                                                onCommentCreated = {
+                                                    bottomSheetNavigator.hide()
+                                                    model.reduce(PostListMviModel.Intent.Refresh)
+                                                }
+                                            )
+                                        )
+                                    }
                                 )
                             },
                         )

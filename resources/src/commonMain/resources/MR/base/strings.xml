@@ -100,4 +100,7 @@
     <string name="inbox_item_reply_post">replied to your post in</string>
     <string name="inbox_item_reply_comment">replied to your comment in</string>
     <string name="inbox_item_mention">mentioned you in</string>
+
+    <string name="create_comment_title">New comment</string>
+    <string name="create_comment_body">Comment body</string>
 </resources>

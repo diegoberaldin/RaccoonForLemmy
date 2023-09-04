@@ -26,7 +26,7 @@ interface LoginBottomSheetMviModel :
     )
 
     sealed interface Effect {
-        data class LoginError(val message: String) : Effect
+        data class LoginError(val message: String?) : Effect
         object LoginSuccess : Effect
     }
 }

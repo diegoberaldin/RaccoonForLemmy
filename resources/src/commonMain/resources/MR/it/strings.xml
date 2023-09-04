@@ -94,7 +94,10 @@
     <string name="inbox_listing_type_title">Tipo inbox</string>
     <string name="inbox_listing_type_all">Tutti</string>
     <string name="inbox_listing_type_unread">Non letti</string>
-    <string name="inbox_item_reply_post">replied to your post in</string>
-    <string name="inbox_item_reply_comment">replied to your comment in</string>
-    <string name="inbox_item_mention">mentioned you in</string>
+    <string name="inbox_item_reply_post">ha risposto al tuo post su</string>
+    <string name="inbox_item_reply_comment">ha risposto al tuo commento tu</string>
+    <string name="inbox_item_mention">ti ha menzionato in</string>
+
+    <string name="create_comment_title">Nuovo commento</string>
+    <string name="create_comment_body">Contenuto commento</string>
 </resources>

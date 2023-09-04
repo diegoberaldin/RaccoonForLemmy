@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
@@ -15,30 +16,33 @@ import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
 
 actual fun getPostDetailViewModel(post: PostModel): PostDetailViewModel =
-    PostDetailScreenViewModelHelper.getPostDetailModel(post)
+    CommonUiViewModelHelper.getPostDetailModel(post)
 
 actual fun getCommunityDetailViewModel(
     community: CommunityModel,
     otherInstance: String,
 ): CommunityDetailViewModel =
-    PostDetailScreenViewModelHelper.getCommunityDetailModel(community, otherInstance)
+    CommonUiViewModelHelper.getCommunityDetailModel(community, otherInstance)
 
 actual fun getCommunityInfoViewModel(community: CommunityModel): CommunityInfoViewModel =
-    PostDetailScreenViewModelHelper.getCommunityInfoModel(community)
+    CommonUiViewModelHelper.getCommunityInfoModel(community)
 
 actual fun getInstanceInfoViewModel(url: String): InstanceInfoViewModel =
-    PostDetailScreenViewModelHelper.getInstanceInfoModel(url)
+    CommonUiViewModelHelper.getInstanceInfoModel(url)
 
 actual fun getUserDetailViewModel(user: UserModel): UserDetailViewModel =
-    PostDetailScreenViewModelHelper.getUserDetailModel(user)
+    CommonUiViewModelHelper.getUserDetailModel(user)
 
 actual fun getUserPostsViewModel(user: UserModel): UserPostsViewModel =
-    PostDetailScreenViewModelHelper.getUserPostsModel(user)
+    CommonUiViewModelHelper.getUserPostsModel(user)
 
 actual fun getUserCommentsViewModel(user: UserModel): UserCommentsViewModel =
-    PostDetailScreenViewModelHelper.getUserCommentsModel(user)
+    CommonUiViewModelHelper.getUserCommentsModel(user)
 
-object PostDetailScreenViewModelHelper : KoinComponent {
+actual fun getCreateCommentViewModel(postId: Int, parentId: Int?): CreateCommentViewModel =
+    CommonUiViewModelHelper.getCreateCommentModel(postId, parentId)
+
+object CommonUiViewModelHelper : KoinComponent {
 
     fun getPostDetailModel(post: PostModel): PostDetailViewModel {
         val model: PostDetailViewModel by inject(
@@ -88,6 +92,13 @@ object PostDetailScreenViewModelHelper : KoinComponent {
     fun getUserCommentsModel(user: UserModel): UserCommentsViewModel {
         val model: UserCommentsViewModel by inject(
             parameters = { parametersOf(user) },
+        )
+        return model
+    }
+
+    fun getCreateCommentModel(postId: Int, parentId: Int?): CreateCommentViewModel {
+        val model: CreateCommentViewModel by inject(
+            parameters = { parametersOf(postId, parentId) }
         )
         return model
     }

@@ -4,7 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReplyView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentSortType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Community
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityFollowerView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.All
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Local
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
@@ -103,6 +102,8 @@ internal fun CommentView.toModel() = CommentModel(
     saved = saved,
     myVote = myVote ?: 0,
     publishDate = comment.published,
+    postId = comment.postId,
+    comments = counts.childCount,
 )
 
 internal fun Community.toModel() = CommunityModel(
@@ -127,6 +128,7 @@ internal fun PersonMentionView.toModel() = PersonMentionModel(
     ),
     comment = CommentModel(
         id = comment.id,
+        postId = comment.postId,
         text = comment.content,
         community = community.toModel(),
     ),
@@ -150,6 +152,7 @@ internal fun CommentReplyView.toModel() = PersonMentionModel(
     ),
     comment = CommentModel(
         id = comment.id,
+        postId = comment.postId,
         text = comment.content,
         community = community.toModel(),
         publishDate = comment.published,

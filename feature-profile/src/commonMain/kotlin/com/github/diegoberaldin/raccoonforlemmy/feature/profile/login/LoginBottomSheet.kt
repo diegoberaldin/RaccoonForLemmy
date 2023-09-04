@@ -68,13 +68,14 @@ class LoginBottomSheet(
 
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
+        val genericError = stringResource(MR.strings.message_generic_error)
 
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
                     is LoginBottomSheetMviModel.Effect.LoginError -> {
                         snackbarHostState.showSnackbar(
-                            message = it.message,
+                            message = it.message ?: genericError,
                         )
                     }
 

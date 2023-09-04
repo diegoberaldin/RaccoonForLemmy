@@ -67,6 +67,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.Comm
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Dropdown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
@@ -470,6 +471,17 @@ class CommunityDetailScreen(
                                             )
                                         }
                                     },
+                                    onReply = {
+                                        bottomSheetNavigator.show(
+                                            CreateCommentScreen(
+                                                originalPost = post,
+                                                onCommentCreated = {
+                                                    bottomSheetNavigator.hide()
+                                                    model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                                                }
+                                            )
+                                        )
+                                    }
                                 )
                             },
                         )

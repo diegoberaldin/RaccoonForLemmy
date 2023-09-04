@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.diegoberaldin.racconforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -47,6 +48,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserCounters
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserPostsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
@@ -77,6 +79,7 @@ internal class UserDetailPostsScreen(
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigator = LocalNavigator.currentOrThrow
+        val bottomSheetNavigator = LocalBottomSheetNavigator.current
 
         LaunchedEffect(parentModel) {
             parentModel.uiState.map { it.sortType }.distinctUntilChanged().onEach { sortType ->
@@ -228,6 +231,17 @@ internal class UserDetailPostsScreen(
                                         ),
                                     )
                                 },
+                                onReply = {
+                                    bottomSheetNavigator.show(
+                                        CreateCommentScreen(
+                                            originalPost = post,
+                                            onCommentCreated = {
+                                                bottomSheetNavigator.hide()
+                                                model.reduce(UserPostsMviModel.Intent.Refresh)
+                                            }
+                                        )
+                                    )
+                                }
                             )
                         },
                     )

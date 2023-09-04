@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
@@ -84,5 +85,20 @@ class CommentRepository(
             auth = auth,
         )
         services.comment.save(data)
+    }
+
+    suspend fun create(
+        postId: Int,
+        parentId: Int?,
+        text: String,
+        auth: String,
+    ) {
+        val data = CreateCommentForm(
+            content = text,
+            postId = postId,
+            parentId = parentId,
+            auth = auth,
+        )
+        services.comment.create(data)
     }
 }
