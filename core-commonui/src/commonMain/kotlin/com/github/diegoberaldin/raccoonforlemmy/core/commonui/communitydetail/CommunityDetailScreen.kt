@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
@@ -26,6 +27,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -68,6 +70,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Dropdow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
@@ -152,6 +155,30 @@ class CommunityDetailScreen(
                     },
                 )
             },
+            floatingActionButton = {
+                FloatingActionButton(
+                    modifier = Modifier.padding(bottom = 48.dp),
+                    backgroundColor = MaterialTheme.colorScheme.secondary,
+                    shape = CircleShape,
+                    onClick = {
+                        bottomSheetNavigator.show(
+                            CreatePostScreen(
+                                communityId = community.id,
+                                onPostCreated = {
+                                    bottomSheetNavigator.hide()
+                                    model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                                }
+                            )
+                        )
+                    },
+                    content = {
+                        Icon(
+                            imageVector = Icons.Default.Create,
+                            contentDescription = null,
+                        )
+                    },
+                )
+            }
         ) { padding ->
             val community = uiState.community
             val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {

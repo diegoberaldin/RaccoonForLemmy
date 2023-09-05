@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
@@ -79,6 +80,14 @@ actual fun getCreateCommentViewModel(postId: Int, parentId: Int?): CreateComment
     val res: CreateCommentViewModel by inject(
         clazz = CreateCommentViewModel::class.java,
         parameters = { parametersOf(postId, parentId) }
+    )
+    return res
+}
+
+actual fun getCreatePostViewModel(communityId: Int): CreatePostViewModel {
+    val res: CreatePostViewModel by inject(
+        clazz = CreatePostViewModel::class.java,
+        parameters = { parametersOf(communityId) }
     )
     return res
 }

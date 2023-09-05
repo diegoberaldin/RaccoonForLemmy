@@ -106,4 +106,7 @@
 
     <string name="create_comment_title">New comment</string>
     <string name="create_comment_body">Comment body</string>
+    <string name="create_post_title">New post</string>
+    <string name="create_post_name">Post title</string>
+    <string name="create_post_body">Post body</string>
 </resources>

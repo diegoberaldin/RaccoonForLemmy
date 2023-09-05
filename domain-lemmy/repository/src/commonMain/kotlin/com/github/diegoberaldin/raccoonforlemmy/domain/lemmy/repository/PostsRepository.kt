@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
@@ -105,5 +106,24 @@ class PostsRepository(
             auth = auth,
         )
         services.post.save(data)
+    }
+
+    suspend fun create(
+        communityId: Int,
+        title: String,
+        body: String?,
+        url: String? = null,
+        nsfw: Boolean = false,
+        auth: String,
+    ) {
+        val data = CreatePostForm(
+            communityId = communityId,
+            name = title,
+            body = body,
+            url = url,
+            nsfw = nsfw,
+            auth = auth,
+        )
+        services.post.create(data)
     }
 }

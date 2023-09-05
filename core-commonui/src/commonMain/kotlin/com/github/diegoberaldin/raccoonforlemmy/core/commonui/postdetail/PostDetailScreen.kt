@@ -15,11 +15,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -119,6 +121,30 @@ class PostDetailScreen(
                     },
                 )
             },
+            floatingActionButton = {
+                FloatingActionButton(
+                    modifier = Modifier.padding(bottom = 48.dp),
+                    shape = CircleShape,
+                    backgroundColor = MaterialTheme.colorScheme.secondary,
+                    onClick = {
+                        bottomSheetNavigator.show(
+                            CreateCommentScreen(
+                                originalPost = post,
+                                onCommentCreated = {
+                                    bottomSheetNavigator.hide()
+                                    model.reduce(PostDetailMviModel.Intent.Refresh)
+                                }
+                            )
+                        )
+                    },
+                    content = {
+                        Icon(
+                            imageVector = Icons.Default.Reply,
+                            contentDescription = null,
+                        )
+                    },
+                )
+            }
         ) { padding ->
             val post = uiState.post
             val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {

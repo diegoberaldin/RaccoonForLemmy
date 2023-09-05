@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
@@ -41,6 +42,9 @@ actual fun getUserCommentsViewModel(user: UserModel): UserCommentsViewModel =
 
 actual fun getCreateCommentViewModel(postId: Int, parentId: Int?): CreateCommentViewModel =
     CommonUiViewModelHelper.getCreateCommentModel(postId, parentId)
+
+actual fun getCreatePostViewModel(communityId: Int): CreatePostViewModel =
+    CommonUiViewModelHelper.getCreatePostModel(communityId)
 
 object CommonUiViewModelHelper : KoinComponent {
 
@@ -99,6 +103,13 @@ object CommonUiViewModelHelper : KoinComponent {
     fun getCreateCommentModel(postId: Int, parentId: Int?): CreateCommentViewModel {
         val model: CreateCommentViewModel by inject(
             parameters = { parametersOf(postId, parentId) }
+        )
+        return model
+    }
+
+    fun getCreatePostModel(communityId: Int): CreatePostViewModel {
+        val model: CreatePostViewModel by inject(
+            parameters = { parametersOf(communityId) }
         )
         return model
     }

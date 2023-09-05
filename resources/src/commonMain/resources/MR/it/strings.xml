@@ -103,5 +103,8 @@
     <string name="inbox_item_mention">ti ha menzionato in</string>
 
     <string name="create_comment_title">Nuovo commento</string>
-    <string name="create_comment_body">Contenuto commento</string>
+    <string name="create_comment_body">Testo commento</string>
+    <string name="create_post_title">Nuovo post</string>
+    <string name="create_post_name">Titolo post</string>
+    <string name="create_post_body">Testo post</string>
 </resources>

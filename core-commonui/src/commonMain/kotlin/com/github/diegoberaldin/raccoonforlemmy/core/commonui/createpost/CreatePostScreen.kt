@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,11 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +32,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -41,27 +41,20 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateCommentViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.CommentCard
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class CreateCommentScreen(
-    private val originalPost: PostModel,
-    private val originalComment: CommentModel? = null,
-    private val onCommentCreated: () -> Unit = {},
+class CreatePostScreen(
+    private val communityId: Int,
+    private val onPostCreated: () -> Unit = {},
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel {
-            getCreateCommentViewModel(postId = originalPost.id, parentId = originalComment?.id)
-        }
+        val model = rememberScreenModel { getCreatePostViewModel(communityId) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
@@ -70,11 +63,11 @@ class CreateCommentScreen(
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
-                    is CreateCommentMviModel.Effect.Failure -> {
+                    is CreatePostMviModel.Effect.Failure -> {
                         snackbarHostState.showSnackbar(it.message ?: genericError)
                     }
 
-                    CreateCommentMviModel.Effect.Success -> onCommentCreated()
+                    CreatePostMviModel.Effect.Success -> onPostCreated()
                 }
             }.launchIn(this)
         }
@@ -95,7 +88,7 @@ class CreateCommentScreen(
                             ),
                     )
                     Text(
-                        text = stringResource(MR.strings.create_comment_title),
+                        text = stringResource(MR.strings.create_post_title),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -105,41 +98,41 @@ class CreateCommentScreen(
                 SnackbarHost(snackbarHostState)
             }
         ) { padding ->
-            val scrollState = rememberScrollState()
             Column(
                 modifier = Modifier.padding(padding)
-                    .verticalScroll(scrollState)
             ) {
-                LaunchedEffect(Unit) {
-                    scrollState.scrollTo(scrollState.maxValue)
-                }
-
-                if (originalComment != null) {
-                    CommentCard(comment = originalComment)
-                } else if (originalPost != null) {
-                    PostCard(
-                        post = originalPost,
-                        blurNsfw = false
-                    )
-                }
-
-                Box(
-                    modifier = Modifier.fillMaxWidth()
-                        .height(1.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.onSurface,
-                            shape = RoundedCornerShape(1.dp),
-                        ),
+                val bodyFocusRequester = remember { FocusRequester() }
+                TextField(
+                    modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp),
+                    label = {
+                        Text(text = stringResource(MR.strings.create_post_name))
+                    },
+                    textStyle = MaterialTheme.typography.titleMedium,
+                    value = uiState.title,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Ascii,
+                        autoCorrect = false,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            bodyFocusRequester.requestFocus()
+                        }
+                    ),
+                    onValueChange = { value ->
+                        model.reduce(CreatePostMviModel.Intent.SetTitle(value))
+                    },
                 )
 
-
                 TextField(
-                    modifier = Modifier.heightIn(min = 300.dp, max = 500.dp).fillMaxWidth(),
+                    modifier = Modifier.height(500.dp)
+                        .fillMaxWidth()
+                        .focusRequester(bodyFocusRequester),
                     label = {
-                        Text(text = stringResource(MR.strings.create_comment_body))
+                        Text(text = stringResource(MR.strings.create_post_body))
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
-                    value = uiState.text,
+                    value = uiState.body,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Ascii,
                         autoCorrect = false,
@@ -147,11 +140,11 @@ class CreateCommentScreen(
                     ),
                     keyboardActions = KeyboardActions(
                         onSend = {
-                            model.reduce(CreateCommentMviModel.Intent.Send)
+                            model.reduce(CreatePostMviModel.Intent.Send)
                         }
                     ),
                     onValueChange = { value ->
-                        model.reduce(CreateCommentMviModel.Intent.SetText(value))
+                        model.reduce(CreatePostMviModel.Intent.SetText(value))
                     },
                 )
 
@@ -165,7 +158,7 @@ class CreateCommentScreen(
                             )
                         },
                         onClick = {
-                            model.reduce(CreateCommentMviModel.Intent.Send)
+                            model.reduce(CreatePostMviModel.Intent.Send)
                         }
                     )
                 }
