@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose)
+    alias(libs.plugins.gms)
+    alias(libs.plugins.crashlytics)
 }
 
 android {
@@ -48,4 +50,5 @@ dependencies {
     implementation(libs.koin.android)
 
     implementation(projects.shared)
+    implementation(projects.coreCrashreport)
 }

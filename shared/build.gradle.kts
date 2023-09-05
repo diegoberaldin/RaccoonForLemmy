@@ -60,6 +60,7 @@ kotlin {
                 implementation(projects.corePreferences)
                 implementation(projects.coreApi)
                 implementation(projects.coreNotifications)
+                implementation(projects.coreCrashreport)
                 implementation(projects.domainIdentity)
 
                 api(projects.resources)

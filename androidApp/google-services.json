@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1029148257075",
+    "project_id": "racconforlemmy",
+    "storage_bucket": "racconforlemmy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029148257075:android:d9c35824464ecb48962c46",
+        "android_client_info": {
+          "package_name": "com.github.diegoberaldin.raccoonforlemmy.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029148257075-gjg4spic0pq568rqioa5klqm0krqjaaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeYJcQV0SD8uZGeqonElu4zE3zdakD3Og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029148257075-gjg4spic0pq568rqioa5klqm0krqjaaa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
