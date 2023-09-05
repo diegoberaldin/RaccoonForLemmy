@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.content
 
 import cafe.adriel.voyager.core.model.ScreenModel
+import com.github.diegoberaldin.racconforlemmy.core.utils.AppInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.ThemeState
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
@@ -60,6 +61,7 @@ class SettingsScreenViewModel(
                 defaultCommentSortType = commentSortType,
                 includeNsfw = keyStore[KeyStoreKeys.IncludeNsfw, true],
                 blurNsfw = keyStore[KeyStoreKeys.BlurNsfw, true],
+                appVersion = AppInfo.versionCode,
             )
         }
     }

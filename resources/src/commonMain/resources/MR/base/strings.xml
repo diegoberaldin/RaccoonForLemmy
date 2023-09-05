@@ -84,6 +84,7 @@
     <string name="settings_navigation_bar_titles_visible">Show navigation bar titles</string>
     <string name="settings_include_nsfw">Include NSFW contents</string>
     <string name="settings_blur_nsfw">Blur NSFW images</string>
+    <string name="settings_app_version">App version</string>
 
     <string name="community_button_subscribe">Subscribe</string>
     <string name="community_button_subscribed">Subscribed</string>

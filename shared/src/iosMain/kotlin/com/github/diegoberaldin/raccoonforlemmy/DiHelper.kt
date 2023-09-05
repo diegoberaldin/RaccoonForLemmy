@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy
 
+import com.github.diegoberaldin.racconforlemmy.core.utils.AppInfo
 import com.github.diegoberaldin.racconforlemmy.core.utils.hapticFeedbackModule
 import com.github.diegoberaldin.raccoonforlemmy.core.api.di.coreApiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.coreAppearanceModule
@@ -14,6 +15,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.searchTabModul
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.settingsTabModule
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.localizationModule
 import org.koin.core.context.startKoin
+import platform.Foundation.NSBundle
 
 fun initKoin() {
     startKoin {
@@ -32,5 +34,19 @@ fun initKoin() {
             searchTabModule,
             settingsTabModule,
         )
+    }
+
+    AppInfo.versionCode = buildString {
+        val dict = NSBundle.mainBundle.infoDictionary
+        val buildNumber = dict?.get("CFBundleVersion") as? String ?: ""
+        val versionName = dict?.get("CFBundleShortVersionString") as? String ?: ""
+        if (versionName.isNotEmpty()) {
+            append(versionName)
+        }
+        if (buildNumber.isNotEmpty()) {
+            append(" (")
+            append(buildNumber)
+            append(")")
+        }
     }
 }

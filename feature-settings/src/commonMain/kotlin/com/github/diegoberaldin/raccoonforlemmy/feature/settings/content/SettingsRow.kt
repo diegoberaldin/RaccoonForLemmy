@@ -16,10 +16,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 internal fun SettingsRow(
     title: String,
     value: String,
-    onTap: () -> Unit,
+    modifier: Modifier = Modifier,
+    onTap: () -> Unit = {},
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = Spacing.s)
             .onClick {
                 onTap()

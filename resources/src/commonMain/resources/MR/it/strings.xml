@@ -82,6 +82,7 @@
     </string>
     <string name="settings_include_nsfw">Includi contenuti NSFW</string>
     <string name="settings_blur_nsfw">Sfuma immagini NSFW</string>
+    <string name="settings_app_version">Versione app</string>
 
     <string name="community_button_subscribe">Iscriviti</string>
     <string name="community_button_subscribed">Iscritto</string>

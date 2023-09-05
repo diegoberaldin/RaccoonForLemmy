@@ -14,7 +14,7 @@ android {
         minSdk = 26
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0-alpha"
     }
     buildFeatures {
         compose = true
@@ -51,4 +51,5 @@ dependencies {
 
     implementation(projects.shared)
     implementation(projects.coreCrashreport)
+    implementation(projects.coreUtils)
 }

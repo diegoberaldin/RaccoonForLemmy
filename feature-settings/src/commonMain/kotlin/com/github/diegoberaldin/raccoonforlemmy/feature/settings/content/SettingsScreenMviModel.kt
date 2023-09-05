@@ -32,6 +32,7 @@ interface SettingsScreenMviModel :
         val navBarTitlesVisible: Boolean = false,
         val includeNsfw: Boolean = true,
         val blurNsfw: Boolean = true,
+        val appVersion: String = "",
     )
 
     sealed interface Effect
