@@ -31,7 +31,7 @@ class PostDetailViewModel(
     ScreenModel {
 
     companion object {
-        private const val COMMENT_DEPTH = 5
+        const val COMMENT_DEPTH = 5
     }
 
     private var currentPage: Int = 1
@@ -55,6 +55,9 @@ class PostDetailViewModel(
         when (intent) {
             PostDetailMviModel.Intent.LoadNextPage -> loadNextPage()
             PostDetailMviModel.Intent.Refresh -> refresh()
+            PostDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
+            is PostDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
+
             is PostDetailMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
                 comment = intent.comment,
                 feedback = intent.feedback,
@@ -85,8 +88,9 @@ class PostDetailViewModel(
                 feedback = intent.feedback,
             )
 
-            PostDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            is PostDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
+            is PostDetailMviModel.Intent.FetchMoreComments -> {
+                loadMoreComments(intent.parentId)
+            }
         }
     }
 
@@ -136,6 +140,27 @@ class PostDetailViewModel(
     private fun applySortType(value: SortType) {
         mvi.updateState { it.copy(sortType = value) }
         refresh()
+    }
+
+    private fun loadMoreComments(parentId: Int) {
+        mvi.scope.launch(Dispatchers.IO) {
+            val currentState = mvi.uiState.value
+            val auth = identityRepository.authToken.value
+            val sort = currentState.sortType
+            val fetchResult = commentRepository.getChildren(
+                auth = auth,
+                parentId = parentId,
+                sort = sort,
+                maxDepth = COMMENT_DEPTH,
+            )
+            val newList = uiState.value.comments.let { list ->
+                val index = list.indexOfFirst { c -> c.id == parentId }
+                list.toMutableList().apply {
+                    addAll(index, fetchResult)
+                }.toList()
+            }
+            mvi.updateState { it.copy(comments = newList) }
+        }
     }
 
     private fun toggleUpVotePost(

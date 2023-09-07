@@ -11,6 +11,7 @@ interface PostDetailMviModel :
     sealed interface Intent {
         object Refresh : Intent
         object LoadNextPage : Intent
+        data class FetchMoreComments(val parentId: Int) : Intent
         data class ChangeSort(val value: SortType) : Intent
         data class UpVotePost(val post: PostModel, val feedback: Boolean = false) : Intent
         data class DownVotePost(val post: PostModel, val feedback: Boolean = false) : Intent

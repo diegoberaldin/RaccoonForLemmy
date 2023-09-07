@@ -40,6 +40,26 @@ class CommentRepository(
         return dto.map { it.toModel() }
     }
 
+    suspend fun getChildren(
+        parentId: Int,
+        auth: String? = null,
+        limit: Int = PostsRepository.DEFAULT_PAGE_SIZE,
+        type: ListingType = ListingType.All,
+        sort: SortType = SortType.New,
+        maxDepth: Int = 1,
+    ): List<CommentModel> {
+        val response = services.comment.getAll(
+            auth = auth,
+            parentId = parentId,
+            limit = limit,
+            type = type.toDto(),
+            sort = sort.toCommentDto(),
+            maxDepth = maxDepth,
+        )
+        val dto = response.body()?.comments ?: emptyList()
+        return dto.map { it.toModel() }
+    }
+
     fun asUpVoted(comment: CommentModel, voted: Boolean) = comment.copy(
         myVote = if (voted) 1 else 0,
         score = when {

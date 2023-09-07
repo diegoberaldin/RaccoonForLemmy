@@ -41,10 +41,9 @@ fun CommentCard(
             fontScale = fontScale,
         ),
     ) {
-        val depth = comment.path.split(".").size - 1
         Card(
             modifier = modifier.padding(
-                start = (10 * depth).dp
+                start = (10 * comment.depth).dp
             ).fillMaxWidth().background(
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 shape = RoundedCornerShape(CornerSize.m),

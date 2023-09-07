@@ -13,4 +13,6 @@ data class CommentModel(
     val comments: Int? = null,
     val path: String = "",
     val children: List<CommentModel>? = null,
-)
+) {
+    val depth: Int = (path.split(".").size - 1).coerceAtLeast(0)
+}
