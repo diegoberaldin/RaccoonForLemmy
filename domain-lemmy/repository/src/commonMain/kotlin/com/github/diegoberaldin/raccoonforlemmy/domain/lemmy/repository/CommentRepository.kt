@@ -25,6 +25,7 @@ class CommentRepository(
         limit: Int = PostsRepository.DEFAULT_PAGE_SIZE,
         type: ListingType = ListingType.All,
         sort: SortType = SortType.New,
+        maxDepth: Int = 1,
     ): List<CommentModel> {
         val response = services.comment.getAll(
             auth = auth,
@@ -33,6 +34,7 @@ class CommentRepository(
             limit = limit,
             type = type.toDto(),
             sort = sort.toCommentDto(),
+            maxDepth = maxDepth,
         )
         val dto = response.body()?.comments ?: emptyList()
         return dto.map { it.toModel() }

@@ -104,6 +104,7 @@ internal fun CommentView.toModel() = CommentModel(
     publishDate = comment.published,
     postId = comment.postId,
     comments = counts.childCount,
+    path = comment.path,
 )
 
 internal fun Community.toModel() = CommunityModel(

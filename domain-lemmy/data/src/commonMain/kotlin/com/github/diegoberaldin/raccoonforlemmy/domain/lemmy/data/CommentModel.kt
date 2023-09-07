@@ -11,4 +11,6 @@ data class CommentModel(
     val saved: Boolean = false,
     val publishDate: String? = null,
     val comments: Int? = null,
+    val path: String = "",
+    val children: List<CommentModel>? = null,
 )

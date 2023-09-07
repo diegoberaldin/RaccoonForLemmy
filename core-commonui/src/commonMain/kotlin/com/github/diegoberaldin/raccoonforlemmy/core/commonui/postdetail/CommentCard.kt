@@ -9,7 +9,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
@@ -25,36 +33,50 @@ fun CommentCard(
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth().background(
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            shape = RoundedCornerShape(CornerSize.m),
-        ).padding(
-            vertical = Spacing.lHalf,
-            horizontal = Spacing.s,
+    val themeRepository = remember { getThemeRepository() }
+    val fontScale by themeRepository.contentFontScale.collectAsState()
+    CompositionLocalProvider(
+        LocalDensity provides Density(
+            density = LocalDensity.current.density,
+            fontScale = fontScale,
         ),
     ) {
+        val depth = comment.path.split(".").size - 1
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
-            PostCardSubtitle(
-                creator = comment.creator,
-            )
-            PostCardBody(
-                text = comment.text,
-            )
-            PostCardFooter(
-                score = comment.score,
-                saved = comment.saved,
-                upVoted = comment.myVote > 0,
-                downVoted = comment.myVote < 0,
-                comments = comment.comments,
-                onUpVote = onUpVote,
-                onDownVote = onDownVote,
-                onSave = onSave,
-                onReply = onReply,
-                date = comment.publishDate,
-            )
+            Card(
+                modifier = Modifier.padding(
+                    start = (10 * depth).dp
+                ).fillMaxWidth().background(
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(CornerSize.m),
+                ).padding(
+                    vertical = Spacing.xxs,
+                    horizontal = Spacing.s,
+                ),
+            ) {
+                Column {
+                    PostCardSubtitle(
+                        creator = comment.creator,
+                    )
+                    PostCardBody(
+                        text = comment.text,
+                    )
+                    PostCardFooter(
+                        score = comment.score,
+                        saved = comment.saved,
+                        upVoted = comment.myVote > 0,
+                        downVoted = comment.myVote < 0,
+                        comments = comment.comments,
+                        onUpVote = onUpVote,
+                        onDownVote = onDownVote,
+                        onSave = onSave,
+                        onReply = onReply,
+                        date = comment.publishDate,
+                    )
+                }
+            }
         }
     }
 }
