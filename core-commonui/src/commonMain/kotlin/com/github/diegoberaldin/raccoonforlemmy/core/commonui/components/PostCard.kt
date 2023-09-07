@@ -42,27 +42,30 @@ fun PostCard(
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
 ) {
-    Card(
-        modifier = modifier.background(
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            shape = RoundedCornerShape(CornerSize.m),
-        ).padding(
-            vertical = Spacing.lHalf,
-            horizontal = Spacing.s,
+    val themeRepository = remember { getThemeRepository() }
+    val fontScale by themeRepository.contentFontScale.collectAsState()
+    CompositionLocalProvider(
+        LocalDensity provides Density(
+            density = LocalDensity.current.density,
+            fontScale = fontScale,
         ),
     ) {
-        val themeRepository = remember { getThemeRepository() }
-        val fontScale by themeRepository.contentFontScale.collectAsState()
-        CompositionLocalProvider(
-            LocalDensity provides Density(
-                density = LocalDensity.current.density,
-                fontScale = fontScale,
+        Card(
+            modifier = modifier.background(
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(CornerSize.m),
+            ).padding(
+                vertical = Spacing.xxs,
+                horizontal = Spacing.s,
             ),
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
-                PostCardTitle(post)
+                PostCardTitle(
+                    modifier = Modifier.padding(top = Spacing.s),
+                    post = post
+                )
                 PostCardSubtitle(
                     community = post.community,
                     creator = post.creator?.copy(avatar = null),

@@ -29,6 +29,11 @@ class PostDetailViewModel(
     private val hapticFeedback: HapticFeedback,
 ) : MviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect> by mvi,
     ScreenModel {
+
+    companion object {
+        private const val COMMENT_DEPTH = 5
+    }
+
     private var currentPage: Int = 1
 
     override fun onStarted() {
@@ -108,6 +113,7 @@ class PostDetailViewModel(
                 postId = post.id,
                 page = currentPage,
                 sort = sort,
+                maxDepth = COMMENT_DEPTH,
             )
             currentPage++
             val canFetchMore = commentList.size >= CommentRepository.DEFAULT_PAGE_SIZE

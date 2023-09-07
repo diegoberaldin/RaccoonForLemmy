@@ -43,7 +43,7 @@ fun PostCardFooter(
     onReply: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = Modifier.padding(horizontal = Spacing.xs),
+        modifier = Modifier.padding(vertical = Spacing.xxxs),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {

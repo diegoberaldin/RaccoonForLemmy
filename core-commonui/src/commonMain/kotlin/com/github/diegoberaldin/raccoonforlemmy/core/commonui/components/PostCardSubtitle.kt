@@ -38,7 +38,7 @@ fun PostCardSubtitle(
     val iconSize = 16.dp
     if (communityName.isNotEmpty() || creatorName.isNotEmpty()) {
         Row(
-            modifier = modifier.padding(vertical = Spacing.xs),
+            modifier = modifier.padding(vertical = Spacing.xxxs),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {

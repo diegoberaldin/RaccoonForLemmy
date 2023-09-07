@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
@@ -25,6 +26,7 @@ import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +51,7 @@ import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
@@ -166,70 +169,80 @@ class PostDetailScreen(
                                 fontScale = fontScale,
                             ),
                         ) {
-                            PostCardTitle(post)
-                            PostCardSubtitle(
-                                community = post.community,
-                                creator = post.creator?.copy(avatar = null),
-                                onOpenCommunity = { community ->
-                                    navigator.push(
-                                        CommunityDetailScreen(
-                                            community = community,
-                                            onBack = {
-                                                navigator.pop()
-                                            },
-                                        ),
-                                    )
-                                },
-                                onOpenCreator = { user ->
-                                    navigator.push(
-                                        UserDetailScreen(
-                                            user = user,
-                                            onBack = {
-                                                navigator.pop()
-                                            },
-                                        ),
-                                    )
-                                },
-                            )
-                            PostCardImage(
-                                post = post,
-                                blurNsfw = false,
-                            )
-                            PostCardBody(
-                                text = post.text,
-                            )
-                            PostCardFooter(
-                                comments = post.comments,
-                                score = post.score,
-                                upVoted = post.myVote > 0,
-                                downVoted = post.myVote < 0,
-                                saved = post.saved,
-                                date = post.publishDate,
-                                onUpVote = {
-                                    model.reduce(
-                                        PostDetailMviModel.Intent.UpVotePost(
-                                            post = post,
-                                            feedback = true,
-                                        ),
-                                    )
-                                },
-                                onDownVote = {
-                                    model.reduce(
-                                        PostDetailMviModel.Intent.DownVotePost(
-                                            post = post,
-                                            feedback = true,
-                                        ),
-                                    )
-                                },
-                                onSave = {
-                                    model.reduce(
-                                        PostDetailMviModel.Intent.SavePost(
-                                            post = post,
-                                            feedback = true,
-                                        ),
-                                    )
-                                },
-                            )
+                            Card(
+                                modifier = Modifier.background(
+                                    color = MaterialTheme.colorScheme.surfaceVariant,
+                                    shape = RoundedCornerShape(CornerSize.m),
+                                ).padding(
+                                    vertical = Spacing.lHalf,
+                                    horizontal = Spacing.s,
+                                ),
+                            ) {
+                                PostCardTitle(post)
+                                PostCardSubtitle(
+                                    community = post.community,
+                                    creator = post.creator?.copy(avatar = null),
+                                    onOpenCommunity = { community ->
+                                        navigator.push(
+                                            CommunityDetailScreen(
+                                                community = community,
+                                                onBack = {
+                                                    navigator.pop()
+                                                },
+                                            ),
+                                        )
+                                    },
+                                    onOpenCreator = { user ->
+                                        navigator.push(
+                                            UserDetailScreen(
+                                                user = user,
+                                                onBack = {
+                                                    navigator.pop()
+                                                },
+                                            ),
+                                        )
+                                    },
+                                )
+                                PostCardImage(
+                                    post = post,
+                                    blurNsfw = false,
+                                )
+                                PostCardBody(
+                                    text = post.text,
+                                )
+                                PostCardFooter(
+                                    comments = post.comments,
+                                    score = post.score,
+                                    upVoted = post.myVote > 0,
+                                    downVoted = post.myVote < 0,
+                                    saved = post.saved,
+                                    date = post.publishDate,
+                                    onUpVote = {
+                                        model.reduce(
+                                            PostDetailMviModel.Intent.UpVotePost(
+                                                post = post,
+                                                feedback = true,
+                                            ),
+                                        )
+                                    },
+                                    onDownVote = {
+                                        model.reduce(
+                                            PostDetailMviModel.Intent.DownVotePost(
+                                                post = post,
+                                                feedback = true,
+                                            ),
+                                        )
+                                    },
+                                    onSave = {
+                                        model.reduce(
+                                            PostDetailMviModel.Intent.SavePost(
+                                                post = post,
+                                                feedback = true,
+                                            ),
+                                        )
+                                    },
+                                )
+                            }
                         }
                     }
                     items(uiState.comments) { comment ->
@@ -360,7 +373,7 @@ class PostDetailScreen(
                         }
                     }
                     item {
-                        Spacer(modifier = Modifier.height(Spacing.xxl))
+                        Spacer(modifier = Modifier.height(Spacing.xxxl))
                     }
                 }
 

@@ -244,7 +244,7 @@ internal class UserDetailCommentsScreen(
                     }
                 }
                 item {
-                    Spacer(modifier = Modifier.height(Spacing.xxl))
+                    Spacer(modifier = Modifier.height(Spacing.xxxl))
                 }
             }
 
