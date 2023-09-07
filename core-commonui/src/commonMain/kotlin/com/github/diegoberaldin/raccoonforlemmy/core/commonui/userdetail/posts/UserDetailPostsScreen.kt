@@ -263,7 +263,7 @@ internal class UserDetailPostsScreen(
                     }
                 }
                 item {
-                    Spacer(modifier = Modifier.height(Spacing.xxxl))
+                    Spacer(modifier = Modifier.height(Spacing.s))
                 }
             }
 

@@ -40,10 +40,6 @@ object InboxTab : Tab {
 
     @Composable
     override fun Content() {
-        Column(modifier = Modifier.padding(Spacing.xs)) {
-            Navigator(
-                InboxScreen(),
-            )
-        }
+        InboxScreen().Content()
     }
 }

@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
@@ -61,7 +60,7 @@ class InboxRepliesScreen(
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val parentUiState by parentModel.uiState.collectAsState()
-        val navigator = LocalNavigator.currentOrThrow
+        val navigator = LocalNavigator.current?.parent ?: throw Exception("Navigator not found")
 
         LaunchedEffect(parentModel) {
             parentModel.uiState.map { it.unreadOnly }.distinctUntilChanged().onEach {

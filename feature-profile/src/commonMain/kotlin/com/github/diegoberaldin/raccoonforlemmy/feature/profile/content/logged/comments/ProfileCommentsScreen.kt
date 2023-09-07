@@ -96,6 +96,9 @@ internal class ProfileCommentsScreen(
                     )
                 }
                 item {
+                    Spacer(modifier = Modifier.height(Spacing.xxxl))
+                }
+                item {
                     if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
                         model.reduce(ProfileCommentsMviModel.Intent.LoadNextPage)
                     }

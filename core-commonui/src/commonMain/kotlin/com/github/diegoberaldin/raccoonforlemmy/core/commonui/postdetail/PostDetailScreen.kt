@@ -132,7 +132,6 @@ class PostDetailScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    modifier = Modifier.padding(bottom = 48.dp),
                     shape = CircleShape,
                     backgroundColor = MaterialTheme.colorScheme.secondary,
                     onClick = {
@@ -403,7 +402,7 @@ class PostDetailScreen(
                         }
                     }
                     item {
-                        Spacer(modifier = Modifier.height(Spacing.xxxl))
+                        Spacer(modifier = Modifier.height(Spacing.s))
                     }
                 }
 

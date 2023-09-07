@@ -157,7 +157,6 @@ class CommunityDetailScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    modifier = Modifier.padding(bottom = 48.dp),
                     backgroundColor = MaterialTheme.colorScheme.secondary,
                     shape = CircleShape,
                     onClick = {
@@ -530,7 +529,7 @@ class CommunityDetailScreen(
                         }
                     }
                     item {
-                        Spacer(modifier = Modifier.height(Spacing.xxxl))
+                        Spacer(modifier = Modifier.height(Spacing.s))
                     }
                 }
 

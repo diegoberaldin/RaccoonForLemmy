@@ -35,6 +35,6 @@ object SearchTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(CommunityListScreen())
+        CommunityListScreen().Content()
     }
 }
