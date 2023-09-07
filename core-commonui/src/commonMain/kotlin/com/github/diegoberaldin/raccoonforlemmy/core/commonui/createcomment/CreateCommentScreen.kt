@@ -27,18 +27,24 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
@@ -82,7 +88,7 @@ class CreateCommentScreen(
         Scaffold(
             topBar = {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
                     verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -105,26 +111,40 @@ class CreateCommentScreen(
                 SnackbarHost(snackbarHostState)
             }
         ) { padding ->
-            val scrollState = rememberScrollState()
             Column(
                 modifier = Modifier.padding(padding)
-                    .verticalScroll(scrollState)
+                    .verticalScroll(rememberScrollState())
             ) {
-                LaunchedEffect(Unit) {
-                    scrollState.scrollTo(scrollState.maxValue)
-                }
-
-                if (originalComment != null) {
-                    CommentCard(comment = originalComment)
-                } else if (originalPost != null) {
-                    PostCard(
-                        post = originalPost,
-                        blurNsfw = false
+                val themeRepository = remember { getThemeRepository() }
+                val fontScale by themeRepository.contentFontScale.collectAsState()
+                CompositionLocalProvider(
+                    LocalDensity provides Density(
+                        density = LocalDensity.current.density,
+                        fontScale = fontScale,
+                    ),
+                ) {
+                    val referenceModifier = Modifier.padding(
+                        horizontal = Spacing.s,
+                        vertical = Spacing.xxs,
                     )
+                    if (originalComment != null) {
+                        CommentCard(
+                            modifier = referenceModifier,
+                            comment = originalComment
+                        )
+                    } else {
+                        PostCard(
+                            modifier = referenceModifier,
+                            post = originalPost,
+                            blurNsfw = false
+                        )
+                    }
                 }
 
                 Box(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .padding(vertical = Spacing.s)
+                        .fillMaxWidth()
                         .height(1.dp)
                         .background(
                             color = MaterialTheme.colorScheme.onSurface,
@@ -132,9 +152,11 @@ class CreateCommentScreen(
                         ),
                 )
 
-
                 TextField(
-                    modifier = Modifier.heightIn(min = 300.dp, max = 500.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .heightIn(min = 300.dp, max = 500.dp)
+                        .fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
                     label = {
                         Text(text = stringResource(MR.strings.create_comment_body))
                     },

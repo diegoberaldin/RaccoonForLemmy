@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,6 +27,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 @Composable
 fun CommentCard(
     comment: CommentModel,
+    modifier: Modifier = Modifier,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
@@ -42,40 +42,36 @@ fun CommentCard(
         ),
     ) {
         val depth = comment.path.split(".").size - 1
-        Column(
-            verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+        Card(
+            modifier = modifier.padding(
+                start = (10 * depth).dp
+            ).fillMaxWidth().background(
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(CornerSize.m),
+            ).padding(
+                vertical = Spacing.xxs,
+                horizontal = Spacing.s,
+            ),
         ) {
-            Card(
-                modifier = Modifier.padding(
-                    start = (10 * depth).dp
-                ).fillMaxWidth().background(
-                    color = MaterialTheme.colorScheme.surfaceVariant,
-                    shape = RoundedCornerShape(CornerSize.m),
-                ).padding(
-                    vertical = Spacing.xxs,
-                    horizontal = Spacing.s,
-                ),
-            ) {
-                Column {
-                    PostCardSubtitle(
-                        creator = comment.creator,
-                    )
-                    PostCardBody(
-                        text = comment.text,
-                    )
-                    PostCardFooter(
-                        score = comment.score,
-                        saved = comment.saved,
-                        upVoted = comment.myVote > 0,
-                        downVoted = comment.myVote < 0,
-                        comments = comment.comments,
-                        onUpVote = onUpVote,
-                        onDownVote = onDownVote,
-                        onSave = onSave,
-                        onReply = onReply,
-                        date = comment.publishDate,
-                    )
-                }
+            Column {
+                PostCardSubtitle(
+                    creator = comment.creator,
+                )
+                PostCardBody(
+                    text = comment.text,
+                )
+                PostCardFooter(
+                    score = comment.score,
+                    saved = comment.saved,
+                    upVoted = comment.myVote > 0,
+                    downVoted = comment.myVote < 0,
+                    comments = comment.comments,
+                    onUpVote = onUpVote,
+                    onDownVote = onDownVote,
+                    onSave = onSave,
+                    onReply = onReply,
+                    date = comment.publishDate,
+                )
             }
         }
     }

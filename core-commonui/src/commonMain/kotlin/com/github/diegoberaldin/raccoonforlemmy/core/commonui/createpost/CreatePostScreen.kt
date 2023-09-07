@@ -25,6 +25,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -75,7 +77,7 @@ class CreatePostScreen(
         Scaffold(
             topBar = {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
                     verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -104,6 +106,7 @@ class CreatePostScreen(
                 val bodyFocusRequester = remember { FocusRequester() }
                 TextField(
                     modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp),
+                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
                     label = {
                         Text(text = stringResource(MR.strings.create_post_name))
                     },
@@ -128,6 +131,7 @@ class CreatePostScreen(
                     modifier = Modifier.height(500.dp)
                         .fillMaxWidth()
                         .focusRequester(bodyFocusRequester),
+                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
                     label = {
                         Text(text = stringResource(MR.strings.create_post_body))
                     },

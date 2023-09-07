@@ -17,4 +17,7 @@ object Spacing {
 
 object CornerSize {
     val m = 4.dp
+    val l = 10.dp
+    val xl = 20.dp
+    val xxl = 30.dp
 }
