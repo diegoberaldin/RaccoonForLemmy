@@ -1,5 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -41,11 +44,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
@@ -91,6 +98,20 @@ class PostDetailScreen(
         val navigator = LocalNavigator.currentOrThrow
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        val isFabVisible = remember { mutableStateOf(true) }
+        val fabNestedScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                    if (available.y < -1) {
+                        isFabVisible.value = false
+                    }
+                    if (available.y > 1) {
+                        isFabVisible.value = true
+                    }
+                    return Offset.Zero
+                }
+            }
+        }
 
         Scaffold(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface).padding(Spacing.xs),
@@ -136,27 +157,37 @@ class PostDetailScreen(
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(
-                    shape = CircleShape,
-                    backgroundColor = MaterialTheme.colorScheme.secondary,
-                    onClick = {
-                        bottomSheetNavigator.show(
-                            CreateCommentScreen(
-                                originalPost = post,
-                                onCommentCreated = {
-                                    bottomSheetNavigator.hide()
-                                    model.reduce(PostDetailMviModel.Intent.Refresh)
-                                }
+                AnimatedVisibility(
+                    visible = isFabVisible.value,
+                    enter = slideInVertically(
+                        initialOffsetY = { it * 2 },
+                    ),
+                    exit = slideOutVertically(
+                        targetOffsetY = { it * 2 },
+                    ),
+                ) {
+                    FloatingActionButton(
+                        shape = CircleShape,
+                        backgroundColor = MaterialTheme.colorScheme.secondary,
+                        onClick = {
+                            bottomSheetNavigator.show(
+                                CreateCommentScreen(
+                                    originalPost = post,
+                                    onCommentCreated = {
+                                        bottomSheetNavigator.hide()
+                                        model.reduce(PostDetailMviModel.Intent.Refresh)
+                                    }
+                                )
                             )
-                        )
-                    },
-                    content = {
-                        Icon(
-                            imageVector = Icons.Default.Reply,
-                            contentDescription = null,
-                        )
-                    },
-                )
+                        },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.Reply,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+                }
             }
         ) { padding ->
             val post = uiState.post
@@ -166,6 +197,7 @@ class PostDetailScreen(
             Box(
                 modifier = Modifier
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(

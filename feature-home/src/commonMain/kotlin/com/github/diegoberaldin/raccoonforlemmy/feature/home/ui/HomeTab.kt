@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist.PostListScreen
@@ -15,7 +16,9 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageReposito
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
 import dev.icerock.moko.resources.desc.desc
 
-object HomeTab : Tab {
+class HomeTab(
+    val bottomBarNestedScrollConnection: NestedScrollConnection,
+) : Tab {
 
     override val options: TabOptions
         @Composable
@@ -35,6 +38,6 @@ object HomeTab : Tab {
 
     @Composable
     override fun Content() {
-        PostListScreen().Content()
+        PostListScreen(bottomBarNestedScrollConnection).Content()
     }
 }

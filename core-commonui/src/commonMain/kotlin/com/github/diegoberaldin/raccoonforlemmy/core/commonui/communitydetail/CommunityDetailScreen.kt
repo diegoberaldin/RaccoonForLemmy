@@ -1,5 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -41,7 +44,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -51,9 +53,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -106,6 +111,20 @@ class CommunityDetailScreen(
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val isOnOtherInstance = otherInstance.isNotEmpty()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        val isFabVisible = remember { mutableStateOf(true) }
+        val fabNestedScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                    if (available.y < -1) {
+                        isFabVisible.value = false
+                    }
+                    if (available.y > 1) {
+                        isFabVisible.value = true
+                    }
+                    return Offset.Zero
+                }
+            }
+        }
 
         Scaffold(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface).padding(Spacing.xs),
@@ -162,27 +181,37 @@ class CommunityDetailScreen(
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(
-                    backgroundColor = MaterialTheme.colorScheme.secondary,
-                    shape = CircleShape,
-                    onClick = {
-                        bottomSheetNavigator.show(
-                            CreatePostScreen(
-                                communityId = community.id,
-                                onPostCreated = {
-                                    bottomSheetNavigator.hide()
-                                    model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                                }
+                AnimatedVisibility(
+                    visible = isFabVisible.value,
+                    enter = slideInVertically(
+                        initialOffsetY = { it * 2 },
+                    ),
+                    exit = slideOutVertically(
+                        targetOffsetY = { it * 2 },
+                    ),
+                ) {
+                    FloatingActionButton(
+                        backgroundColor = MaterialTheme.colorScheme.secondary,
+                        shape = CircleShape,
+                        onClick = {
+                            bottomSheetNavigator.show(
+                                CreatePostScreen(
+                                    communityId = community.id,
+                                    onPostCreated = {
+                                        bottomSheetNavigator.hide()
+                                        model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                                    }
+                                )
                             )
-                        )
-                    },
-                    content = {
-                        Icon(
-                            imageVector = Icons.Default.Create,
-                            contentDescription = null,
-                        )
-                    },
-                )
+                        },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.Create,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+                }
             }
         ) { padding ->
             val community = uiState.community
@@ -192,6 +221,7 @@ class CommunityDetailScreen(
             Box(
                 modifier = Modifier
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .nestedScroll(fabNestedScrollConnection)
                     .padding(padding)
                     .pullRefresh(pullRefreshState),
             ) {
