@@ -13,7 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
-import androidx.compose.material.icons.filled.HourglassBottom
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -157,7 +157,7 @@ fun InboxReplySubtitle(
         ) {
             Icon(
                 modifier = buttonModifier,
-                imageVector = Icons.Default.HourglassBottom,
+                imageVector = Icons.Default.Schedule,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface,
             )

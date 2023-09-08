@@ -4,7 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Fireplace
-import androidx.compose.material.icons.filled.HourglassBottom
 import androidx.compose.material.icons.filled.MilitaryTech
 import androidx.compose.material.icons.filled.Reviews
 import androidx.compose.material.icons.filled.Rocket

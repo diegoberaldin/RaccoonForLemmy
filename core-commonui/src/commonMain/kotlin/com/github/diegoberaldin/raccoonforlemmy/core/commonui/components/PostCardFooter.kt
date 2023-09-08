@@ -14,7 +14,7 @@ import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Chat
-import androidx.compose.material.icons.filled.HourglassBottom
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -67,7 +67,7 @@ fun PostCardFooter(
         if (date != null) {
             Icon(
                 modifier = buttonModifier.padding(1.dp),
-                imageVector = Icons.Default.HourglassBottom,
+                imageVector = Icons.Default.Schedule,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface,
             )

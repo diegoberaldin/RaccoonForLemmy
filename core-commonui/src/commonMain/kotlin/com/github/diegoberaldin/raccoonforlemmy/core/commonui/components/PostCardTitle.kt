@@ -14,7 +14,7 @@ fun PostCardTitle(
     Text(
         modifier = modifier,
         text = post.title,
-        style = MaterialTheme.typography.titleMedium,
+        style = MaterialTheme.typography.titleLarge,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
 }
