@@ -30,10 +30,6 @@ class PostDetailViewModel(
 ) : MviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect> by mvi,
     ScreenModel {
 
-    companion object {
-        const val COMMENT_DEPTH = 5
-    }
-
     private var currentPage: Int = 1
 
     override fun onStarted() {
@@ -117,7 +113,7 @@ class PostDetailViewModel(
                 postId = post.id,
                 page = currentPage,
                 sort = sort,
-                maxDepth = COMMENT_DEPTH,
+                maxDepth = CommentRepository.MAX_COMMENT_DEPTH,
             )
             currentPage++
             val canFetchMore = commentList.size >= CommentRepository.DEFAULT_PAGE_SIZE
@@ -151,7 +147,7 @@ class PostDetailViewModel(
                 auth = auth,
                 parentId = parentId,
                 sort = sort,
-                maxDepth = COMMENT_DEPTH,
+                maxDepth = CommentRepository.MAX_COMMENT_DEPTH,
             )
             val newList = uiState.value.comments.let { list ->
                 val index = list.indexOfFirst { c -> c.id == parentId }

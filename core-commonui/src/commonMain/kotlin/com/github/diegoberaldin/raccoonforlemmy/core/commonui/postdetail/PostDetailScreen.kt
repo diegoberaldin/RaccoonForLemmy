@@ -72,6 +72,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -362,7 +363,7 @@ class PostDetailScreen(
                                 },
                             )
                             if ((comment.comments ?: 0) > 0
-                                && comment.depth == PostDetailViewModel.COMMENT_DEPTH
+                                && comment.depth == CommentRepository.MAX_COMMENT_DEPTH
                                 && (idx < uiState.comments.lastIndex && uiState.comments[idx + 1].depth < comment.depth)
                             ) {
                                 Row {

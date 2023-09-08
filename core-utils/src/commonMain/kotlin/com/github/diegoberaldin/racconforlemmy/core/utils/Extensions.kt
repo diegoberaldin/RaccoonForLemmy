@@ -32,6 +32,11 @@ fun Dp.toLocalPixel(): Float = with(LocalDensity.current) {
     value * density
 }
 
+@Composable
+fun Float.toLocalDp(): Dp = with(LocalDensity.current) {
+    this@toLocalDp.toDp()
+}
+
 fun Int.getPrettyNumber(
     millionLabel: String,
     thousandLabel: String,

@@ -16,6 +16,7 @@ class CommentRepository(
 ) {
     companion object {
         const val DEFAULT_PAGE_SIZE = 20
+        const val MAX_COMMENT_DEPTH = 5
     }
 
     suspend fun getAll(
