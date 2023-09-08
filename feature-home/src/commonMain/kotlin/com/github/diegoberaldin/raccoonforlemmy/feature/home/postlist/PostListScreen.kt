@@ -83,6 +83,7 @@ class PostListScreen : Screen {
                     onSelectSortType = {
                         bottomSheetNavigator.show(
                             SortBottomSheet(
+                                expandTop = true,
                                 onSelected = {
                                     model.reduce(PostListMviModel.Intent.ChangeSort(it))
                                 },

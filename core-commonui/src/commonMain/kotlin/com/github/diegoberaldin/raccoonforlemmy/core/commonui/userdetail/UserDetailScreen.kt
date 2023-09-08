@@ -69,6 +69,7 @@ class UserDetailScreen(
                             modifier = Modifier.onClick {
                                 bottomSheetNavigator.show(
                                     SortBottomSheet(
+                                        expandTop = true,
                                         onSelected = {
                                             model.reduce(UserDetailMviModel.Intent.ChangeSort(it))
                                         },

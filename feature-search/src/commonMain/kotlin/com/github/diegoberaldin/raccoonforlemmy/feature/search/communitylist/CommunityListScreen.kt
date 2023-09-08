@@ -85,6 +85,7 @@ class CommunityListScreen : Screen {
                     onSelectSortType = {
                         bottomNavigator.show(
                             SortBottomSheet(
+                                expandTop = true,
                                 onHide = {
                                     bottomNavigator.hide()
                                 },

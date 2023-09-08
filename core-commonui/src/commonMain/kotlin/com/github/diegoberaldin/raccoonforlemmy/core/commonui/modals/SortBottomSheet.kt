@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -50,14 +54,12 @@ class SortBottomSheet(
     @Composable
     override fun Content() {
         Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(
+                top = Spacing.s,
+                start = Spacing.s,
+                end = Spacing.s,
+                bottom = Spacing.m,
+            ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             Box(
@@ -67,6 +69,29 @@ class SortBottomSheet(
                         shape = RoundedCornerShape(1.dp),
                     ),
             )
+            Navigator(
+                SortBottomSheetMain(
+                    values = values,
+                    expandTop = expandTop,
+                    onSelected = {
+                        onSelected(it)
+                        onHide()
+                    }
+                )
+            )
+        }
+    }
+}
+
+internal class SortBottomSheetMain(
+    private val values: List<SortType>,
+    private val expandTop: Boolean = false,
+    private val onSelected: (SortType) -> Unit,
+) : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        Column {
             Text(
                 modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
                 text = stringResource(MR.strings.home_sort_title),
@@ -85,8 +110,17 @@ class SortBottomSheet(
                         )
                             .fillMaxWidth()
                             .onClick {
-                                onSelected(value)
-                                onHide()
+                                if (value == SortType.Top.Generic == expandTop) {
+                                    navigator.push(
+                                        SortBottomSheetTop(
+                                            onSelected = {
+                                                onSelected(it)
+                                            }
+                                        )
+                                    )
+                                } else {
+                                    onSelected(value)
+                                }
                             },
                     ) {
                         val name = buildString {
@@ -103,10 +137,70 @@ class SortBottomSheet(
                         Spacer(modifier = Modifier.weight(1f))
                         Image(
                             imageVector = if (value == SortType.Top.Generic && expandTop) {
-                               Icons.Default.ChevronRight
+                                Icons.Default.ChevronRight
                             } else value.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+internal class SortBottomSheetTop(
+    private val values: List<SortType> = listOf(
+        SortType.Top.PastHour,
+        SortType.Top.Past6Hours,
+        SortType.Top.Past12Hours,
+        SortType.Top.Day,
+        SortType.Top.Week,
+        SortType.Top.Month,
+        SortType.Top.Year,
+    ),
+    private val onSelected: (SortType) -> Unit,
+) : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        Column {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(Spacing.s),
+            ) {
+                Icon(
+                    modifier = Modifier.onClick {
+                        navigator.pop()
+                    },
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = null,
+                )
+                Text(
+                    modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
+                    text = SortType.Top.Generic.toReadableName() + "…",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            }
+            Column(
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+            ) {
+                for (value in values) {
+                    Row(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.s,
+                            vertical = Spacing.m,
+                        )
+                            .fillMaxWidth()
+                            .onClick {
+                                onSelected(value)
+                            },
+                    ) {
+                        Text(
+                            text = value.toReadableName(),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 }

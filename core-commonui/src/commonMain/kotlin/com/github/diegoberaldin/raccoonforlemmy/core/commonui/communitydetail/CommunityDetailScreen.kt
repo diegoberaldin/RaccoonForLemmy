@@ -125,6 +125,7 @@ class CommunityDetailScreen(
                             modifier = Modifier.onClick {
                                 bottomSheetNavigator.show(
                                     SortBottomSheet(
+                                        expandTop = true,
                                         onSelected = {
                                             model.reduce(
                                                 CommunityDetailMviModel.Intent.ChangeSort(

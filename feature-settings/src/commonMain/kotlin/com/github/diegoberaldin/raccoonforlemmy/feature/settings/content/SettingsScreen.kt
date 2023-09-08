@@ -173,6 +173,7 @@ class SettingsScreen : Screen {
                         onTap = {
                             bottomSheetNavigator.show(
                                 SortBottomSheet(
+                                    expandTop = true,
                                     onSelected = { newValue ->
                                         model.reduce(
                                             SettingsScreenMviModel.Intent.ChangeDefaultPostSortType(

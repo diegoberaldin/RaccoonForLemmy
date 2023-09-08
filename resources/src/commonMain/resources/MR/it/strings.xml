@@ -31,6 +31,13 @@
     <string name="home_sort_type_top_hour">Top ultima ora</string>
     <string name="home_sort_type_top_week">Top settimana</string>
     <string name="home_sort_type_top_year">Top anno</string>
+    <string name="home_sort_type_top_day_short">giorno</string>
+    <string name="home_sort_type_top_month_short">mese</string>
+    <string name="home_sort_type_top_12_hours_short">12h</string>
+    <string name="home_sort_type_top_6_hours_short">6h</string>
+    <string name="home_sort_type_top_hour_short">1h</string>
+    <string name="home_sort_type_top_week_short">settimana</string>
+    <string name="home_sort_type_top_year_short">anno</string>
     <string name="home_sort_type_old">Vecchi</string>
     <string name="home_instance_via">via %1$s</string>
     <string name="post_hour_short">h</string>
