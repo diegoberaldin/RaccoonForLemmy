@@ -25,7 +25,6 @@ fun PostCardImage(
         KamelImage(
             modifier = modifier.fillMaxWidth()
                 .heightIn(min = 200.dp)
-                .padding(vertical = Spacing.xxs)
                 .blur(radius = if (post.nsfw && blurNsfw) 60.dp else 0.dp),
             resource = painterResource,
             contentDescription = null,
