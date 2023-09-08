@@ -28,6 +28,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -87,25 +88,29 @@ class CreateCommentScreen(
 
         Scaffold(
             topBar = {
-                Column(
-                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Box(
-                        modifier = Modifier.width(60.dp)
-                            .height(1.dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.onSurface,
-                                shape = RoundedCornerShape(1.dp),
-                            ),
-                    )
-                    Text(
-                        text = stringResource(MR.strings.create_comment_title),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
+                TopAppBar(
+                    title = {
+                        Column(
+                            modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                            verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Box(
+                                modifier = Modifier.width(60.dp)
+                                    .height(1.dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        shape = RoundedCornerShape(1.dp),
+                                    ),
+                            )
+                            Text(
+                                text = stringResource(MR.strings.create_comment_title),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
+                    },
+                )
             },
             snackbarHost = {
                 SnackbarHost(snackbarHostState)

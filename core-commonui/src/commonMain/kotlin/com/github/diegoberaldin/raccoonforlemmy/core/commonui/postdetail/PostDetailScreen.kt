@@ -36,6 +36,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -45,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -88,12 +90,14 @@ class PostDetailScreen(
         val uiState by model.uiState.collectAsState()
         val navigator = LocalNavigator.currentOrThrow
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
         Scaffold(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface).padding(Spacing.xs),
             topBar = {
                 TopAppBar(
                     title = {},
+                    scrollBehavior = scrollBehavior,
                     actions = {
                         Image(
                             modifier = Modifier.onClick {
@@ -160,7 +164,9 @@ class PostDetailScreen(
                 model.reduce(PostDetailMviModel.Intent.Refresh)
             })
             Box(
-                modifier = Modifier.pullRefresh(pullRefreshState),
+                modifier = Modifier
+                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
                     modifier = Modifier.padding(padding),

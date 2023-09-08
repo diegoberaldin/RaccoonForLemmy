@@ -19,6 +19,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -72,20 +74,23 @@ class CommunityInfoScreen(
 
             Scaffold(
                 topBar = {
-                    Row {
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = buildString {
-                                append(uiState.community.name)
-                                if (uiState.community.host.isNotEmpty()) {
-                                    append("@${uiState.community.host}")
-                                }
-                            },
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                    }
+                    TopAppBar(
+                        title = {
+                            Row {
+                                Spacer(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = buildString {
+                                        append(uiState.community.name)
+                                        if (uiState.community.host.isNotEmpty()) {
+                                            append("@${uiState.community.host}")
+                                        }
+                                    },
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        })
                 },
             ) { paddingValues ->
                 Column(

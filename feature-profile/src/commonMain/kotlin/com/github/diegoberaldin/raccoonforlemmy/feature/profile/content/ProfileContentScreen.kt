@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
@@ -40,6 +42,7 @@ internal class ProfileContentScreen : Screen {
         val model = rememberScreenModel { getProfileScreenModel() }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
@@ -50,6 +53,7 @@ internal class ProfileContentScreen : Screen {
                     mutableStateOf(staticString(MR.strings.navigation_profile.desc()))
                 }
                 TopAppBar(
+                    scrollBehavior = scrollBehavior,
                     title = {
                         Text(
                             text = title,
@@ -73,7 +77,9 @@ internal class ProfileContentScreen : Screen {
         ) {
             val bottomSheetNavigator = LocalBottomSheetNavigator.current
             Box(
-                modifier = Modifier.padding(it),
+                modifier = Modifier
+                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .padding(it),
                 contentAlignment = Alignment.Center,
             ) {
                 if (!uiState.initial) {

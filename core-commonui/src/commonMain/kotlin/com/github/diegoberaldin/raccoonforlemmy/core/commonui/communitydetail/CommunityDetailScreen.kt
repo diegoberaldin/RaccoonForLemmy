@@ -40,6 +40,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -52,6 +54,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.DpOffset
@@ -102,6 +105,7 @@ class CommunityDetailScreen(
         val navigator = LocalNavigator.currentOrThrow
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val isOnOtherInstance = otherInstance.isNotEmpty()
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
         Scaffold(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface).padding(Spacing.xs),
@@ -109,6 +113,7 @@ class CommunityDetailScreen(
                 val communityName = community.name
                 val communityHost = community.host
                 TopAppBar(
+                    scrollBehavior = scrollBehavior,
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
@@ -185,10 +190,12 @@ class CommunityDetailScreen(
                 model.reduce(CommunityDetailMviModel.Intent.Refresh)
             })
             Box(
-                modifier = Modifier.pullRefresh(pullRefreshState),
+                modifier = Modifier
+                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .padding(padding)
+                    .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(padding),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     item {

@@ -21,3 +21,7 @@ object CornerSize {
     val xl = 20.dp
     val xxl = 30.dp
 }
+
+object Dimensions {
+    val topBarHeight = 50.dp
+}
