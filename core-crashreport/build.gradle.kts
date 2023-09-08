@@ -27,6 +27,8 @@ kotlin {
         framework {
             baseName = "core-crashreport"
         }
+        // pod("FirebaseAuth")
+        // pod("FirebaseFirestore")
     }
     
     sourceSets {

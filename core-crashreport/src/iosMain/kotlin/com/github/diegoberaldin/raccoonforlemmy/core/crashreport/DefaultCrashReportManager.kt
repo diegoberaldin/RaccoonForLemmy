@@ -1,8 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.crashreport
+// import Firebase
 
-actual class DefaultCrashReportManager : CrashReportManager {
+class DefaultCrashReportManager : CrashReportManager {
     override fun setup() {
-        // TODO
+        // FirebaseApp.configure()
+
     }
 
     override fun log(message: String) {
