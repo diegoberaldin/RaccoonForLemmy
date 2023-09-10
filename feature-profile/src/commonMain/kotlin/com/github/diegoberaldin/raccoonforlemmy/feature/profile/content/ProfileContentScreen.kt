@@ -24,16 +24,14 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.notlogged.ProfileNotLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileScreenModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
@@ -83,7 +81,6 @@ internal class ProfileContentScreen : Screen {
                 )
             },
         ) {
-            val bottomSheetNavigator = LocalBottomSheetNavigator.current
             Box(
                 modifier = Modifier
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -91,23 +88,13 @@ internal class ProfileContentScreen : Screen {
                 contentAlignment = Alignment.Center,
             ) {
                 val screens = listOf(
-                    ProfileNotLoggedScreen().apply {
-                        onLogin = {
-                            bottomSheetNavigator.show(
-                                LoginBottomSheet(
-                                    onHide = {
-                                        bottomSheetNavigator.hide()
-                                    },
-                                ),
-                            )
-                        }
-                    },
-                    ProfileLoggedScreen(),
+                    ProfileNotLoggedScreen,
+                    ProfileLoggedScreen,
                 )
-                Navigator(screens) {
-                    CurrentScreen()
 
-                    val navigator = LocalNavigator.current
+                TabNavigator(ProfileNotLoggedScreen) {
+                    CurrentScreen()
+                    val navigator = LocalTabNavigator.current
                     LaunchedEffect(model) {
                         model.uiState.map { s -> s.logged }.distinctUntilChanged()
                             .onEach { logged ->
@@ -115,9 +102,7 @@ internal class ProfileContentScreen : Screen {
                                     true -> 1
                                     else -> 0
                                 }
-                                navigator?.apply {
-                                    replace(screens[index])
-                                }
+                                navigator.current = screens[index]
                             }.launchIn(this)
                     }
                 }

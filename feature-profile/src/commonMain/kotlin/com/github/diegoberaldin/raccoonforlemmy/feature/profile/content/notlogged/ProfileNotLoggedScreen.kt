@@ -11,17 +11,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
-internal class ProfileNotLoggedScreen : Screen {
+internal object ProfileNotLoggedScreen : Tab {
 
-    var onLogin: (() -> Unit)? = null
+    override val options: TabOptions
+        @Composable get() {
+            return TabOptions(1u, "")
+        }
 
     @Composable
     override fun Content() {
+        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         Column(
             modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.m),
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
@@ -33,7 +40,13 @@ internal class ProfileNotLoggedScreen : Screen {
             Button(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = {
-                    onLogin?.invoke()
+                    bottomSheetNavigator.show(
+                        LoginBottomSheet(
+                            onHide = {
+                                bottomSheetNavigator.hide()
+                            },
+                        ),
+                    )
                 },
             ) {
                 Text(stringResource(MR.strings.profile_button_login))
