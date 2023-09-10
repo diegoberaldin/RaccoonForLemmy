@@ -58,6 +58,7 @@ internal class MainScreen : Screen {
         val bottomNavBarCoordinator = remember { getNavigationCoordinator() }
         LaunchedEffect(bottomNavBarCoordinator) {
             bottomNavBarCoordinator.setBottomBarScrollConnection(bottomBarNestedScrollConnection)
+            bottomNavBarCoordinator.setCurrentSection(HomeTab)
         }
 
         TabNavigator(HomeTab) {
