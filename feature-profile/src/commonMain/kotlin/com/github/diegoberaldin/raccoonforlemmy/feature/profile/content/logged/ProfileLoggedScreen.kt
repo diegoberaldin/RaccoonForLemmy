@@ -3,7 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,9 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -49,7 +48,6 @@ internal object ProfileLoggedScreen : Tab {
             if (user != null) {
                 val screens = listOf(
                     ProfilePostsScreen(
-                        modifier = Modifier.weight(1f).fillMaxWidth(),
                         user = user,
                     ).apply {
                         onSectionSelected = {
@@ -57,7 +55,6 @@ internal object ProfileLoggedScreen : Tab {
                         }
                     },
                     ProfileCommentsScreen(
-                        modifier = Modifier.weight(1f).fillMaxWidth(),
                         user = user,
                     ).apply {
                         onSectionSelected = {
@@ -65,7 +62,6 @@ internal object ProfileLoggedScreen : Tab {
                         }
                     },
                     ProfileSavedScreen(
-                        modifier = Modifier.weight(1f).fillMaxWidth(),
                         user = user,
                     ).apply {
                         onSectionSelected = {
@@ -74,10 +70,9 @@ internal object ProfileLoggedScreen : Tab {
                     },
                 )
 
-                Navigator(screens) {
+                TabNavigator(screens.first()) {
                     CurrentScreen()
-
-                    val navigator = LocalNavigator.current
+                    val navigator = LocalTabNavigator.current
                     LaunchedEffect(model) {
                         model.uiState.map { it.currentTab }
                             .distinctUntilChanged()
@@ -87,9 +82,7 @@ internal object ProfileLoggedScreen : Tab {
                                     ProfileLoggedSection.COMMENTS -> 1
                                     ProfileLoggedSection.SAVED -> 2
                                 }
-                                navigator?.apply {
-                                    replace(screens[index])
-                                }
+                                navigator.current = screens[index]
                             }.launchIn(this)
                     }
                 }

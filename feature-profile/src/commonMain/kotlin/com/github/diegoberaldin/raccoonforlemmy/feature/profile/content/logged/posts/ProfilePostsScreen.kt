@@ -26,7 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.racconforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -44,11 +45,15 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 internal class ProfilePostsScreen(
-    private val modifier: Modifier = Modifier,
     private val user: UserModel,
-) : Screen {
+) : Tab {
 
     var onSectionSelected: ((ProfileLoggedSection) -> Unit)? = null
+
+    override val options: TabOptions
+        @Composable get() {
+            return TabOptions(0u, "")
+        }
 
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
@@ -66,7 +71,7 @@ internal class ProfilePostsScreen(
             model.reduce(ProfilePostsMviModel.Intent.Refresh)
         })
         Box(
-            modifier = modifier.pullRefresh(pullRefreshState),
+            modifier = Modifier.pullRefresh(pullRefreshState),
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
