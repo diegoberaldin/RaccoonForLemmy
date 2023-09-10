@@ -22,6 +22,7 @@ class ProfilePostsViewModel(
     MviModel<ProfilePostsMviModel.Intent, ProfilePostsMviModel.UiState, ProfilePostsMviModel.Effect> by mvi {
 
     private var currentPage: Int = 1
+
     override fun onStarted() {
         mvi.onStarted()
 

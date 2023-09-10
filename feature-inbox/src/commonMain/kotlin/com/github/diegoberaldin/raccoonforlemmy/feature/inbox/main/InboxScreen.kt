@@ -24,9 +24,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
+import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -45,7 +47,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
-class InboxScreen : Screen {
+object InboxScreen : Tab {
+    override val options: TabOptions
+        @Composable get() {
+            return TabOptions(0u, "")
+        }
+
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -141,17 +148,13 @@ class InboxScreen : Screen {
                     },
                 )
                 val screens = listOf(
-                    InboxRepliesScreen().apply {
-                        parentModel = model
-                    },
-                    InboxMentionsScreen().apply {
-                        parentModel = model
-                    },
-                    InboxMessagesScreen()
+                    InboxRepliesScreen(),
+                    InboxMentionsScreen(),
+                    InboxMessagesScreen(),
                 )
-                Navigator(screens) {
+                TabNavigator(screens.first()) {
                     CurrentScreen()
-                    val navigator = LocalNavigator.current
+                    val navigator = LocalTabNavigator.current
                     LaunchedEffect(model) {
                         model.uiState.map { it.section }.onEach { section ->
                             val index = when (section) {
@@ -159,7 +162,7 @@ class InboxScreen : Screen {
                                 InboxSection.MENTIONS -> 1
                                 InboxSection.MESSAGES -> 2
                             }
-                            navigator?.replace(screens[index])
+                            navigator.current = screens[index]
                         }.launchIn(this)
                     }
                 }

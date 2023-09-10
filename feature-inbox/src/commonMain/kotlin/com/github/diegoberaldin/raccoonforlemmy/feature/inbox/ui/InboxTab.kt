@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxScreen
@@ -40,6 +41,6 @@ object InboxTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(InboxScreen())
+        TabNavigator(InboxScreen)
     }
 }

@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.DefaultInboxCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.mentions.InboxMentionsMviModel
@@ -10,11 +12,15 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies.InboxRepli
 import org.koin.dsl.module
 
 val inboxTabModule = module {
+    single<InboxCoordinator> {
+        DefaultInboxCoordinator()
+    }
     factory {
         InboxViewModel(
             mvi = DefaultMviModel(InboxMviModel.UiState()),
             identityRepository = get(),
             userRepository = get(),
+            coordinator = get(),
         )
     }
     factory {
@@ -24,6 +30,7 @@ val inboxTabModule = module {
             identityRepository = get(),
             siteRepository = get(),
             hapticFeedback = get(),
+            coordinator = get(),
         )
     }
     factory {
@@ -32,6 +39,7 @@ val inboxTabModule = module {
             userRepository = get(),
             identityRepository = get(),
             hapticFeedback = get(),
+            coordinator = get(),
         )
     }
 }

@@ -8,8 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
 
-class InboxMessagesScreen : Screen {
+class InboxMessagesScreen : Tab {
+
+    override val options: TabOptions
+        @Composable get() {
+            return TabOptions(2u, "")
+        }
+
     @Composable
     override fun Content() {
         Column(

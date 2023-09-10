@@ -35,6 +35,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
@@ -46,15 +48,21 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxMentionsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies.InboxRepliesMviModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
-class InboxMentionsScreen : Screen {
+class InboxMentionsScreen : Tab {
 
     var parentModel: InboxViewModel? = null
+
+    override val options: TabOptions
+        @Composable get() {
+            return TabOptions(1u, "")
+        }
 
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
@@ -67,21 +75,21 @@ class InboxMentionsScreen : Screen {
         val navigator = remember { getNavigationCoordinator().getRootNavigator() }
 
         LaunchedEffect(parentModel) {
-            parentModel?.uiState?.map { it.unreadOnly }?.distinctUntilChanged()?.onEach {
-                model.reduce(InboxMentionsMviModel.Intent.ChangeUnreadOnly(unread = it))
-            }?.launchIn(this)
-
-            if (uiState.unreadOnly != parentUiState.unreadOnly) {
-                model.reduce(InboxMentionsMviModel.Intent.ChangeUnreadOnly(parentUiState.unreadOnly))
-            }
-
-            parentModel?.effects?.onEach {
-                when (it) {
-                    InboxMviModel.Effect.Refresh -> {
-                        model.reduce(InboxMentionsMviModel.Intent.Refresh)
+            parentModel?.also { parentModel ->
+                parentModel.uiState.onEach {
+                    if (it.unreadOnly != model.uiState.value.unreadOnly) {
+                        model.reduce(InboxMentionsMviModel.Intent.ChangeUnreadOnly(unread = it.unreadOnly))
                     }
-                }
-            }?.launchIn(this)
+                }.launchIn(this)
+
+                parentModel.effects.onEach {
+                    when (it) {
+                        InboxMviModel.Effect.Refresh -> {
+                            model.reduce(InboxMentionsMviModel.Intent.Refresh)
+                        }
+                    }
+                }.launchIn(this)
+            }
         }
 
         val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {

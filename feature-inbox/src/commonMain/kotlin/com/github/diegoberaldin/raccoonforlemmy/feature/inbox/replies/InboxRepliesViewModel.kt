@@ -9,20 +9,43 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class InboxRepliesViewModel(
-    private val mvi: DefaultMviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect>,
+    private val mvi: DefaultMviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect> = DefaultMviModel(
+        InboxRepliesMviModel.UiState()
+    ),
     private val identityRepository: IdentityRepository,
     private val userRepository: UserRepository,
     private val siteRepository: SiteRepository,
     private val hapticFeedback: HapticFeedback,
+    private val coordinator: InboxCoordinator,
 ) : ScreenModel,
     MviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect> by mvi {
 
     private var currentPage: Int = 1
+
+    override fun onStarted() {
+        mvi.onStarted()
+        mvi.scope.launch {
+            coordinator.effects.onEach {
+                when (it) {
+                    InboxMviModel.Effect.Refresh -> refresh()
+                }
+            }.launchIn(this)
+            coordinator.unreadOnly.onEach {
+                if (it != uiState.value.unreadOnly) {
+                    changeUnreadOnly(it)
+                }
+            }.launchIn(this)
+        }
+    }
 
     override fun reduce(intent: InboxRepliesMviModel.Intent) {
         when (intent) {
