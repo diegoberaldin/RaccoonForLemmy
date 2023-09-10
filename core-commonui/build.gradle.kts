@@ -44,6 +44,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.bottomsheet)
+                implementation(libs.voyager.tab)
                 implementation(libs.kamel)
 
                 implementation(projects.coreUtils)

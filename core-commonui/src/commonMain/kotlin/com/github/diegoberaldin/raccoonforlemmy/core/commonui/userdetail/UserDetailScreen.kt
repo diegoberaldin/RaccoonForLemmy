@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -27,9 +26,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -123,7 +122,6 @@ class UserDetailScreen(
             ) {
                 val screens = listOf(
                     UserDetailPostsScreen(
-                        modifier = Modifier.weight(1f).fillMaxWidth(),
                         user = user,
                     ).apply {
                         parentModel = model
@@ -132,7 +130,6 @@ class UserDetailScreen(
                         }
                     },
                     UserDetailCommentsScreen(
-                        modifier = Modifier.weight(1f).fillMaxWidth(),
                         user = user,
                     ).apply {
                         parentModel = model
@@ -141,10 +138,10 @@ class UserDetailScreen(
                         }
                     }
                 )
-                Navigator(screens) {
+                TabNavigator(screens.first()) {
                     CurrentScreen()
 
-                    val navigator = LocalNavigator.current
+                    val navigator = LocalTabNavigator.current
                     LaunchedEffect(model) {
                         model.uiState.map { state -> state.currentTab }.distinctUntilChanged()
                             .onEach { tab ->
@@ -152,7 +149,7 @@ class UserDetailScreen(
                                     UserDetailSection.POSTS -> 0
                                     UserDetailSection.COMMENTS -> 1
                                 }
-                                navigator?.replace(screens[index])
+                                navigator.current = screens[index]
                             }.launchIn(this)
                     }
                 }
