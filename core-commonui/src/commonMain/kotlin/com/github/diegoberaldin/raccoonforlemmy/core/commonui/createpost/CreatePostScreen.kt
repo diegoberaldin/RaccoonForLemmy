@@ -33,11 +33,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -60,7 +62,7 @@ class CreatePostScreen(
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = stringResource(MR.strings.message_generic_error)
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val notificationCenter = remember { getNotificationCenter() }
 
         LaunchedEffect(model) {
@@ -72,7 +74,7 @@ class CreatePostScreen(
 
                     CreatePostMviModel.Effect.Success -> {
                         notificationCenter.getObserver(key)?.also { o -> o.invoke(Unit) }
-                        navigator?.pop()
+                        bottomSheetNavigator.hide()
                     }
                 }
             }.launchIn(this)
@@ -95,6 +97,19 @@ class CreatePostScreen(
                             )
                         }
                     },
+                    actions = {
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.Send,
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = {
+                                model.reduce(CreatePostMviModel.Intent.Send)
+                            }
+                        )
+                    },
                 )
             },
             snackbarHost = {
@@ -105,6 +120,7 @@ class CreatePostScreen(
                 modifier = Modifier.padding(padding)
             ) {
                 val bodyFocusRequester = remember { FocusRequester() }
+                val focusManager = LocalFocusManager.current
                 TextField(
                     modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp),
                     colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
@@ -141,11 +157,11 @@ class CreatePostScreen(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Ascii,
                         autoCorrect = false,
-                        imeAction = ImeAction.Send,
+                        imeAction = ImeAction.Done,
                     ),
                     keyboardActions = KeyboardActions(
-                        onSend = {
-                            model.reduce(CreatePostMviModel.Intent.Send)
+                        onDone  = {
+                            focusManager.clearFocus()
                         }
                     ),
                     onValueChange = { value ->
@@ -153,20 +169,7 @@ class CreatePostScreen(
                     },
                 )
 
-                Row {
-                    Spacer(modifier = Modifier.weight(1f))
-                    IconButton(
-                        content = {
-                            Icon(
-                                imageVector = Icons.Default.Send,
-                                contentDescription = null,
-                            )
-                        },
-                        onClick = {
-                            model.reduce(CreatePostMviModel.Intent.Send)
-                        }
-                    )
-                }
+                Spacer(Modifier.height(Spacing.xxl))
             }
         }
     }

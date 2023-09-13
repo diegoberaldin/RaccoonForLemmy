@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,22 +35,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateCommentViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -73,7 +76,8 @@ class CreateCommentScreen(
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = stringResource(MR.strings.message_generic_error)
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val notificationCenter = remember { getNotificationCenter() }
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -83,7 +87,8 @@ class CreateCommentScreen(
                     }
 
                     CreateCommentMviModel.Effect.Success -> {
-                        navigator?.pop()
+                        notificationCenter.getObserver(key)?.also { o -> o.invoke(Unit) }
+                        bottomSheetNavigator.hide()
                     }
                 }
             }.launchIn(this)
@@ -105,6 +110,19 @@ class CreateCommentScreen(
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
                         }
+                    },
+                    actions = {
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.Send,
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = {
+                                model.reduce(CreateCommentMviModel.Intent.Send)
+                            }
+                        )
                     },
                 )
             },
@@ -153,8 +171,11 @@ class CreateCommentScreen(
                         ),
                 )
 
+                val commentFocusRequester = remember { FocusRequester() }
+                val focusManager = LocalFocusManager.current
                 TextField(
                     modifier = Modifier
+                        .focusRequester(commentFocusRequester)
                         .heightIn(min = 300.dp, max = 500.dp)
                         .fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
@@ -166,11 +187,11 @@ class CreateCommentScreen(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Ascii,
                         autoCorrect = false,
-                        imeAction = ImeAction.Send,
+                        imeAction = ImeAction.Done,
                     ),
                     keyboardActions = KeyboardActions(
-                        onSend = {
-                            model.reduce(CreateCommentMviModel.Intent.Send)
+                        onDone = {
+                            focusManager.clearFocus()
                         }
                     ),
                     onValueChange = { value ->
@@ -178,20 +199,7 @@ class CreateCommentScreen(
                     },
                 )
 
-                Row {
-                    Spacer(modifier = Modifier.weight(1f))
-                    IconButton(
-                        content = {
-                            Icon(
-                                imageVector = Icons.Default.Send,
-                                contentDescription = null,
-                            )
-                        },
-                        onClick = {
-                            model.reduce(CreateCommentMviModel.Intent.Send)
-                        }
-                    )
-                }
+                Spacer(Modifier.height(Spacing.xxl))
             }
         }
     }
