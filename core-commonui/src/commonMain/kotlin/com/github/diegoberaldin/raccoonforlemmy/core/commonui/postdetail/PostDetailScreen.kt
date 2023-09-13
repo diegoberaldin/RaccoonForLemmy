@@ -124,6 +124,7 @@ class PostDetailScreen(
             }
         }
 
+        val statePost = uiState.post
         Scaffold(modifier = Modifier.background(MaterialTheme.colorScheme.surface)
             .padding(Spacing.xs),
             topBar = {
@@ -131,7 +132,7 @@ class PostDetailScreen(
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = post.title,
+                            text = statePost.title,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -187,7 +188,7 @@ class PostDetailScreen(
                         backgroundColor = MaterialTheme.colorScheme.secondary,
                         onClick = {
                             val screen = CreateCommentScreen(
-                                originalPost = post,
+                                originalPost = statePost,
                             )
                             notificationCenter.addObserver({
                                 model.reduce(PostDetailMviModel.Intent.Refresh)
@@ -233,11 +234,11 @@ class PostDetailScreen(
                                 ),
                             ) {
                                 PostCardTitle(
-                                    text = post.title
+                                    text = statePost.title
                                 )
                                 PostCardSubtitle(
-                                    community = post.community,
-                                    creator = post.creator?.copy(avatar = null),
+                                    community = statePost.community,
+                                    creator = statePost.creator?.copy(avatar = null),
                                     onOpenCommunity = { community ->
                                         navigator?.push(
                                             CommunityDetailScreen(community),
@@ -250,31 +251,31 @@ class PostDetailScreen(
                                     },
                                 )
                                 PostCardImage(
-                                    imageUrl = post.thumbnailUrl.orEmpty(),
+                                    imageUrl = statePost.thumbnailUrl.orEmpty(),
                                     onImageClick = {
                                         navigator?.push(
                                             ZoomableImageScreen(
-                                                url = post.thumbnailUrl.orEmpty()
+                                                url = statePost.thumbnailUrl.orEmpty()
                                             ),
                                         )
                                     }
                                 )
                                 PostCardBody(
-                                    text = post.text,
+                                    text = statePost.text,
                                 )
                                 PostLinkBanner(
                                     modifier = Modifier.padding(vertical = Spacing.xs),
-                                    url = post.url.takeIf {
+                                    url = statePost.url.takeIf {
                                         it?.contains("pictrs/image") == false
                                     }.orEmpty(),
                                 )
                                 PostCardFooter(
-                                    comments = post.comments,
-                                    score = post.score,
-                                    upVoted = post.myVote > 0,
-                                    downVoted = post.myVote < 0,
-                                    saved = post.saved,
-                                    date = post.publishDate,
+                                    comments = statePost.comments,
+                                    score = statePost.score,
+                                    upVoted = statePost.myVote > 0,
+                                    downVoted = statePost.myVote < 0,
+                                    saved = statePost.saved,
+                                    date = statePost.publishDate,
                                     onUpVote = {
                                         model.reduce(
                                             PostDetailMviModel.Intent.UpVotePost(
@@ -292,7 +293,7 @@ class PostDetailScreen(
                                     onSave = {
                                         model.reduce(
                                             PostDetailMviModel.Intent.SavePost(
-                                                post = post,
+                                                post = statePost,
                                                 feedback = true,
                                             ),
                                         )
@@ -331,7 +332,7 @@ class PostDetailScreen(
                                         DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
                                     }
                                     val (iconModifier, iconTint) = when {
-                                        direction == DismissDirection.StartToEnd && post.myVote < 0 -> {
+                                        direction == DismissDirection.StartToEnd && statePost.myVote < 0 -> {
                                             Modifier.background(
                                                 color = Color.Transparent,
                                                 shape = CircleShape,
@@ -345,7 +346,7 @@ class PostDetailScreen(
                                             ) to MaterialTheme.colorScheme.tertiary
                                         }
 
-                                        direction == DismissDirection.EndToStart && post.myVote > 0 -> {
+                                        direction == DismissDirection.EndToStart && statePost.myVote > 0 -> {
                                             Modifier.background(
                                                 color = Color.Transparent,
                                                 shape = CircleShape,
@@ -390,7 +391,7 @@ class PostDetailScreen(
                                         )
                                     }, onReply = {
                                         val screen = CreateCommentScreen(
-                                            originalPost = post,
+                                            originalPost = statePost,
                                             originalComment = comment,
                                         )
                                         notificationCenter.addObserver({
