@@ -109,14 +109,14 @@ class PostListViewModel(
                     when (evt) {
                         NotificationCenter.Event.Logout -> {
                             currentPage = 1
-                            val listingType =
+                            val newListingType =
                                 keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-                            val sortType =
+                            val newSortType =
                                 keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
                             mvi.updateState {
                                 it.copy(
-                                    listingType = listingType,
-                                    sortType = sortType,
+                                    listingType = newListingType,
+                                    sortType = newSortType,
                                     posts = emptyList(),
                                     isLogged = false,
                                 )
