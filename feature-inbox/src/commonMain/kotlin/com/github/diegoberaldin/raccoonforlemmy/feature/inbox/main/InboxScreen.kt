@@ -37,7 +37,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSh
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.mentions.InboxMentionsScreen
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.InboxMessagesScreen
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.list.InboxMessagesScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies.InboxRepliesScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
@@ -68,7 +68,6 @@ object InboxScreen : Tab {
                 notificationCenter.removeObserver(key)
             }
         }
-
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),

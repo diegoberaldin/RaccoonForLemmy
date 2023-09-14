@@ -12,3 +12,4 @@ typealias LocalUserId = Int
 typealias CustomEmojiId = Int
 typealias PersonMentionId = Int
 typealias CommentReplyId = Int
+typealias PrivateMessageId = Int

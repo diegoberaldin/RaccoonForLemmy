@@ -25,7 +25,6 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -45,15 +44,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxMentionsViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 class InboxMentionsScreen : Tab {
-
-    var parentModel: InboxViewModel? = null
 
     override val options: TabOptions
         @Composable get() {
@@ -66,27 +58,7 @@ class InboxMentionsScreen : Tab {
         val model = rememberScreenModel { getInboxMentionsViewModel() }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val parentUiState by (parentModel?.uiState
-            ?: MutableStateFlow(InboxMviModel.UiState())).collectAsState()
         val navigator = remember { getNavigationCoordinator().getRootNavigator() }
-
-        LaunchedEffect(parentModel) {
-            parentModel?.also { parentModel ->
-                parentModel.uiState.onEach {
-                    if (it.unreadOnly != model.uiState.value.unreadOnly) {
-                        model.reduce(InboxMentionsMviModel.Intent.ChangeUnreadOnly(unread = it.unreadOnly))
-                    }
-                }.launchIn(this)
-
-                parentModel.effects.onEach {
-                    when (it) {
-                        InboxMviModel.Effect.Refresh -> {
-                            model.reduce(InboxMentionsMviModel.Intent.Refresh)
-                        }
-                    }
-                }.launchIn(this)
-            }
-        }
 
         val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
             model.reduce(InboxMentionsMviModel.Intent.Refresh)
@@ -113,7 +85,7 @@ class InboxMentionsScreen : Tab {
                         },
                         onDismissToStart = {
                             model.reduce(
-                                InboxMentionsMviModel.Intent.MarkMentionAsRead(
+                                InboxMentionsMviModel.Intent.MarkAsRead(
                                     read = true,
                                     mentionId = mention.id,
                                 ),
@@ -121,7 +93,7 @@ class InboxMentionsScreen : Tab {
                         },
                         onDismissToEnd = {
                             model.reduce(
-                                InboxMentionsMviModel.Intent.MarkMentionAsRead(
+                                InboxMentionsMviModel.Intent.MarkAsRead(
                                     read = false,
                                     mentionId = mention.id,
                                 ),

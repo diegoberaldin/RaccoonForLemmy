@@ -1,15 +1,13 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies
+package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.list
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import com.github.diegoberaldin.racconforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import kotlinx.coroutines.Dispatchers
@@ -18,18 +16,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class InboxRepliesViewModel(
-    private val mvi: DefaultMviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect> = DefaultMviModel(
-        InboxRepliesMviModel.UiState()
-    ),
+class InboxMessagesViewModel(
+    private val mvi: DefaultMviModel<InboxMessagesMviModel.Intent, InboxMessagesMviModel.UiState, InboxMessagesMviModel.SideEffect>,
     private val identityRepository: IdentityRepository,
-    private val userRepository: UserRepository,
     private val siteRepository: SiteRepository,
-    private val hapticFeedback: HapticFeedback,
+    private val messageRepository: PrivateMessageRepository,
     private val coordinator: InboxCoordinator,
     private val notificationCenter: NotificationCenter,
 ) : ScreenModel,
-    MviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect> by mvi {
+    MviModel<InboxMessagesMviModel.Intent, InboxMessagesMviModel.UiState, InboxMessagesMviModel.SideEffect> by mvi {
 
     private var currentPage: Int = 1
 
@@ -49,25 +44,24 @@ class InboxRepliesViewModel(
             notificationCenter.events.onEach { evt ->
                 when (evt) {
                     NotificationCenter.Event.Logout -> {
-                        mvi.updateState { it.copy(replies = emptyList()) }
+                        mvi.updateState { it.copy(chats = emptyList()) }
                     }
 
                     else -> Unit
                 }
             }.launchIn(this)
+            launch(Dispatchers.IO) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
+                mvi.updateState { it.copy(currentUserId = currentUserId) }
+            }
         }
     }
 
-    override fun reduce(intent: InboxRepliesMviModel.Intent) {
+    override fun reduce(intent: InboxMessagesMviModel.Intent) {
         when (intent) {
-            InboxRepliesMviModel.Intent.LoadNextPage -> loadNextPage()
-            InboxRepliesMviModel.Intent.Refresh -> refresh()
-
-            is InboxRepliesMviModel.Intent.MarkAsRead -> {
-                markAsRead(read = intent.read, replyId = intent.mentionId)
-            }
-
-            InboxRepliesMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
+            InboxMessagesMviModel.Intent.LoadNextPage -> loadNextPage()
+            InboxMessagesMviModel.Intent.Refresh -> refresh()
         }
     }
 
@@ -92,46 +86,35 @@ class InboxRepliesViewModel(
         mvi.scope.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
-            val currentUser = siteRepository.getCurrentUser(auth.orEmpty())
             val refreshing = currentState.refreshing
             val unreadOnly = currentState.unreadOnly
-            val itemList = userRepository.getReplies(
+            val itemList = messageRepository.getAll(
                 auth = auth,
                 page = currentPage,
                 unreadOnly = unreadOnly,
-                sort = SortType.New,
-            ).map {
-                val isOwnPost = it.post.creator?.id == currentUser?.id
-                it.copy(isOwnPost = isOwnPost)
+            ).groupBy {
+                val creatorId = it.creator?.id ?: 0
+                val recipientId = it.recipient?.id ?: 0
+                listOf(creatorId, recipientId).sorted().toString()
+            }.mapNotNull {
+                val messages = it.value.sortedBy { m -> m.publishDate }
+                messages.lastOrNull()
             }
-
             currentPage++
             val canFetchMore = itemList.size >= CommentRepository.DEFAULT_PAGE_SIZE
             mvi.updateState {
                 val newItems = if (refreshing) {
                     itemList
                 } else {
-                    it.replies + itemList
+                    it.chats + itemList
                 }
                 it.copy(
-                    replies = newItems,
+                    chats = newItems,
                     loading = false,
                     canFetchMore = canFetchMore,
                     refreshing = false,
                 )
             }
-        }
-    }
-
-    private fun markAsRead(read: Boolean, replyId: Int) {
-        val auth = identityRepository.authToken.value
-        mvi.scope.launch(Dispatchers.IO) {
-            userRepository.setReplyRead(
-                read = read,
-                replyId = replyId,
-                auth = auth,
-            )
-            refresh()
         }
     }
 }

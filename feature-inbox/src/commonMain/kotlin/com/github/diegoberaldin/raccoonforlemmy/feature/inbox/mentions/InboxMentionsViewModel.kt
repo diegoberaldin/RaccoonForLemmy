@@ -59,8 +59,7 @@ class InboxMentionsViewModel(
         when (intent) {
             InboxMentionsMviModel.Intent.LoadNextPage -> loadNextPage()
             InboxMentionsMviModel.Intent.Refresh -> refresh()
-            is InboxMentionsMviModel.Intent.ChangeUnreadOnly -> changeUnreadOnly(intent.unread)
-            is InboxMentionsMviModel.Intent.MarkMentionAsRead -> {
+            is InboxMentionsMviModel.Intent.MarkAsRead -> {
                 markAsRead(read = intent.read, mentionId = intent.mentionId)
             }
 

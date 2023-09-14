@@ -25,16 +25,20 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
@@ -70,83 +74,92 @@ class InboxRepliesScreen : Tab {
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 items(uiState.replies) { mention ->
-                    SwipeableCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        backgroundColor = {
-                            when (it) {
-                                DismissValue.DismissedToStart -> MaterialTheme.colorScheme.secondary
-                                DismissValue.DismissedToEnd -> MaterialTheme.colorScheme.tertiary
-                                else -> Color.Transparent
-                            }
-                        },
-                        onGestureBegin = {
-                            model.reduce(InboxRepliesMviModel.Intent.HapticIndication)
-                        },
-                        onDismissToStart = {
-                            model.reduce(
-                                InboxRepliesMviModel.Intent.MarkMentionAsRead(
-                                    read = true,
-                                    mentionId = mention.id,
-                                ),
-                            )
-                        },
-                        onDismissToEnd = {
-                            model.reduce(
-                                InboxRepliesMviModel.Intent.MarkMentionAsRead(
-                                    read = false,
-                                    mentionId = mention.id,
-                                ),
-                            )
-                        },
-                        swipeContent = { direction ->
-                            val icon = when (direction) {
-                                DismissDirection.StartToEnd -> Icons.Default.MarkChatUnread
-                                DismissDirection.EndToStart -> Icons.Default.MarkChatRead
-                            }
-                            val (iconModifier, iconTint) = when (direction) {
-                                DismissDirection.StartToEnd -> {
-                                    Modifier.background(
-                                        color = MaterialTheme.colorScheme.onTertiary,
-                                        shape = CircleShape,
-                                    ) to MaterialTheme.colorScheme.tertiary
+                    val themeRepository = remember { getThemeRepository() }
+                    val fontScale by themeRepository.contentFontScale.collectAsState()
+                    CompositionLocalProvider(
+                        LocalDensity provides Density(
+                            density = LocalDensity.current.density,
+                            fontScale = fontScale,
+                        ),
+                    ) {
+                        SwipeableCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            backgroundColor = {
+                                when (it) {
+                                    DismissValue.DismissedToStart -> MaterialTheme.colorScheme.secondary
+                                    DismissValue.DismissedToEnd -> MaterialTheme.colorScheme.tertiary
+                                    else -> Color.Transparent
+                                }
+                            },
+                            onGestureBegin = {
+                                model.reduce(InboxRepliesMviModel.Intent.HapticIndication)
+                            },
+                            onDismissToStart = {
+                                model.reduce(
+                                    InboxRepliesMviModel.Intent.MarkAsRead(
+                                        read = true,
+                                        mentionId = mention.id,
+                                    ),
+                                )
+                            },
+                            onDismissToEnd = {
+                                model.reduce(
+                                    InboxRepliesMviModel.Intent.MarkAsRead(
+                                        read = false,
+                                        mentionId = mention.id,
+                                    ),
+                                )
+                            },
+                            swipeContent = { direction ->
+                                val icon = when (direction) {
+                                    DismissDirection.StartToEnd -> Icons.Default.MarkChatUnread
+                                    DismissDirection.EndToStart -> Icons.Default.MarkChatRead
+                                }
+                                val (iconModifier, iconTint) = when (direction) {
+                                    DismissDirection.StartToEnd -> {
+                                        Modifier.background(
+                                            color = MaterialTheme.colorScheme.onTertiary,
+                                            shape = CircleShape,
+                                        ) to MaterialTheme.colorScheme.tertiary
+                                    }
+
+                                    else -> {
+                                        Modifier.background(
+                                            color = MaterialTheme.colorScheme.onSecondary,
+                                            shape = CircleShape,
+                                        ) to MaterialTheme.colorScheme.secondary
+                                    }
                                 }
 
-                                else -> {
-                                    Modifier.background(
-                                        color = MaterialTheme.colorScheme.onSecondary,
-                                        shape = CircleShape,
-                                    ) to MaterialTheme.colorScheme.secondary
-                                }
-                            }
-
-                            Icon(
-                                modifier = iconModifier.padding(Spacing.xs),
-                                imageVector = icon,
-                                contentDescription = null,
-                                tint = iconTint,
-                            )
-                        },
-                        content = {
-                            InboxMentionCard(
-                                mention = mention,
-                                onOpenPost = { post ->
-                                    navigator?.push(
-                                        PostDetailScreen(post),
-                                    )
-                                },
-                                onOpenCreator = { user ->
-                                    navigator?.push(
-                                        UserDetailScreen(user),
-                                    )
-                                },
-                                onOpenCommunity = { community ->
-                                    navigator?.push(
-                                        CommunityDetailScreen(community),
-                                    )
-                                },
-                            )
-                        },
-                    )
+                                Icon(
+                                    modifier = iconModifier.padding(Spacing.xs),
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = iconTint,
+                                )
+                            },
+                            content = {
+                                InboxMentionCard(
+                                    mention = mention,
+                                    onOpenPost = { post ->
+                                        navigator?.push(
+                                            PostDetailScreen(post),
+                                        )
+                                    },
+                                    onOpenCreator = { user ->
+                                        navigator?.push(
+                                            UserDetailScreen(user),
+                                        )
+                                    },
+                                    onOpenCommunity = { community ->
+                                        navigator?.push(
+                                            CommunityDetailScreen(community),
+                                        )
+                                    },
+                                )
+                            },
+                        )
+                    }
                 }
                 item {
                     if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {

@@ -208,11 +208,13 @@ class PostDetailScreen(
                 model.reduce(PostDetailMviModel.Intent.Refresh)
             })
             Box(
-                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
+                modifier = Modifier
+                    .padding(padding)
+                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .nestedScroll(fabNestedScrollConnection)
+                    .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(padding),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     item {

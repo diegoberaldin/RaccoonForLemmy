@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Person
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonAggregates
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Active
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Hot
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.MostComments
@@ -30,6 +31,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserScoreModel
@@ -182,6 +184,16 @@ internal fun CommentReplyView.toModel() = PersonMentionModel(
     myVote = myVote ?: 0,
     saved = saved,
     publishDate = commentReply.published,
+)
+
+internal fun PrivateMessageView.toModel() = PrivateMessageModel(
+    id = privateMessage.id,
+    content = privateMessage.content,
+    creator = creator.toModel(),
+    recipient = recipient.toModel(),
+    publishDate = privateMessage.published,
+    updateDate = privateMessage.updated,
+    read = privateMessage.read,
 )
 
 internal fun String.toHost(): String = this.replace("https://", "").let {

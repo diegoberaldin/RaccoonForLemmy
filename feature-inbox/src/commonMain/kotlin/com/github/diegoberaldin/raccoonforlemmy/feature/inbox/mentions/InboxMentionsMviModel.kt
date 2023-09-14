@@ -9,8 +9,7 @@ interface InboxMentionsMviModel :
     sealed interface Intent {
         object Refresh : Intent
         object LoadNextPage : Intent
-        data class ChangeUnreadOnly(val unread: Boolean) : Intent
-        data class MarkMentionAsRead(val read: Boolean, val mentionId: Int) : Intent
+        data class MarkAsRead(val read: Boolean, val mentionId: Int) : Intent
         object HapticIndication : Intent
     }
 

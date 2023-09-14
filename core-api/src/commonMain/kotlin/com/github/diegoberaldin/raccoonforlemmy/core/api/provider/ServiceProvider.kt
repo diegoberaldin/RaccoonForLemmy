@@ -4,6 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.service.AuthService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.CommentService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.CommunityService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.PostService
+import com.github.diegoberaldin.raccoonforlemmy.core.api.service.PrivateMessageService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.SearchService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.SiteService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.UserService
@@ -18,6 +19,7 @@ interface ServiceProvider {
     val site: SiteService
     val comment: CommentService
     val search: SearchService
+    val privateMessages: PrivateMessageService
 
     fun changeInstance(value: String)
 }
