@@ -2,12 +2,23 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.interop.UIKitView
+import androidx.compose.ui.platform.LocalDensity
 import kotlinx.cinterop.readValue
+import kotlinx.cinterop.useContents
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import platform.CoreGraphics.CGRectZero
+import platform.UIKit.UIScrollView
+import platform.UIKit.UIScrollViewDelegateProtocol
 import platform.WebKit.WKNavigation
 import platform.WebKit.WKNavigationDelegateProtocol
 import platform.WebKit.WKWebView
@@ -16,9 +27,10 @@ import platform.darwin.NSObject
 
 @Composable
 actual fun CustomWebView(
-    navigator: WebViewNavigator,
-    modifier: Modifier,
     url: String,
+    modifier: Modifier,
+    navigator: WebViewNavigator,
+    scrollConnection: NestedScrollConnection?,
 ) {
     var webView: WKWebView? = null
 
@@ -29,6 +41,10 @@ actual fun CustomWebView(
             }
         }.launchIn(this)
     }
+
+    val density = LocalDensity.current.density
+    var lastOffsetX by remember { mutableStateOf(0f) }
+    var lastOffsetY by remember { mutableStateOf(0f) }
 
     UIKitView(
         factory = {
@@ -42,7 +58,6 @@ actual fun CustomWebView(
                 userInteractionEnabled = true
                 allowsBackForwardNavigationGestures = true
                 val navigationDelegate = object : NSObject(), WKNavigationDelegateProtocol {
-
                     override fun webView(
                         webView: WKWebView,
                         didFinishNavigation: WKNavigation?,
@@ -51,6 +66,21 @@ actual fun CustomWebView(
                     }
                 }
                 this.navigationDelegate = navigationDelegate
+                this.scrollView.delegate = object : NSObject(), UIScrollViewDelegateProtocol {
+                    override fun scrollViewDidScroll(scrollView: UIScrollView) {
+                        scrollView.contentOffset.useContents {
+                            val offsetX = (lastOffsetX - x).toFloat() / density
+                            val offsetY = (lastOffsetY - y).toFloat() / density
+                            scrollConnection?.onPreScroll(
+                                available = Offset(offsetX, offsetY),
+                                source = NestedScrollSource.Drag,
+                            )
+                            lastOffsetX = x.toFloat()
+                            lastOffsetY = y.toFloat()
+                        }
+                    }
+                }
+
             }.also {
                 webView = it
             }

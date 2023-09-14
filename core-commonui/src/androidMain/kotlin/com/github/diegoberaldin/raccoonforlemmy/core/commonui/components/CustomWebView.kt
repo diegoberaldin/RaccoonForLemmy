@@ -8,6 +8,10 @@ import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -15,9 +19,10 @@ import kotlinx.coroutines.flow.onEach
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 actual fun CustomWebView(
-    navigator: WebViewNavigator,
-    modifier: Modifier,
     url: String,
+    modifier: Modifier,
+    navigator: WebViewNavigator,
+    scrollConnection: NestedScrollConnection?,
 ) {
     var webView: WebView? = null
 
@@ -29,6 +34,7 @@ actual fun CustomWebView(
         }.launchIn(this)
     }
 
+    val density = LocalDensity.current.density
     AndroidView(
         modifier = modifier,
         factory = { context ->
@@ -44,7 +50,17 @@ actual fun CustomWebView(
                 }
                 settings.javaScriptEnabled = true
 
+                setOnScrollChangeListener { _, scrollX, scrollY, oldScrollX, oldScrollY ->
+                    scrollConnection?.onPreScroll(
+                        available = Offset(
+                            x = (oldScrollX - scrollX) / density,
+                            y = (oldScrollY - scrollY) / density,
+                        ), source = NestedScrollSource.Drag
+                    )
+                }
+
                 loadUrl(url)
+
                 webView = this
             }
         },
