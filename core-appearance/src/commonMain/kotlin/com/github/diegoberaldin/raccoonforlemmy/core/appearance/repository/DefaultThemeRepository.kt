@@ -34,6 +34,9 @@ internal class DefaultThemeRepository : ThemeRepository {
         startColor: Color,
         endColor: Color,
     ): Color {
+        if (depth == 0) {
+            return Color.Transparent
+        }
         val r1 = startColor.red
         val g1 = startColor.green
         val b1 = startColor.blue
@@ -46,7 +49,7 @@ internal class DefaultThemeRepository : ThemeRepository {
         val greenStep = (g2 - g1) / maxDepth
         val blueStep = (b2 - b1) / maxDepth
 
-        val index = (depth % maxDepth)
+        val index = ((depth - 1).coerceAtLeast(0) % maxDepth)
         return Color(
             r1 + redStep * index,
             g1 + greenStep * index,
