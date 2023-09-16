@@ -74,7 +74,7 @@ import com.github.diegoberaldin.racconforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Dropdown
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
@@ -241,12 +241,10 @@ class CommunityDetailScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             var width by remember { mutableStateOf(0.dp) }
-                            var height by remember { mutableStateOf(0.dp) }
                             var optionsExpanded by remember { mutableStateOf(false) }
                             Box(
                                 modifier = Modifier.onGloballyPositioned {
                                     width = it.size.width.dp
-                                    height = it.size.height.dp
                                 },
                             ) {
                                 val banner = community.banner.orEmpty()
@@ -277,14 +275,14 @@ class CommunityDetailScreen(
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.onPrimary,
                                 )
-                                Dropdown(
+                                CustomDropDown(
                                     expanded = optionsExpanded,
                                     onDismiss = {
                                         optionsExpanded = false
                                     },
                                     offset = DpOffset(
                                         x = width - Spacing.m,
-                                        y = -height,
+                                        y = 0.dp,
                                     ),
                                 ) {
                                     Text(

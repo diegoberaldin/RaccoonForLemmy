@@ -32,6 +32,7 @@ val commonUiModule = module {
             mvi = DefaultMviModel(PostDetailMviModel.UiState()),
             post = params[0],
             identityRepository = get(),
+            siteRepository = get(),
             postsRepository = get(),
             commentRepository = get(),
             keyStore = get(),

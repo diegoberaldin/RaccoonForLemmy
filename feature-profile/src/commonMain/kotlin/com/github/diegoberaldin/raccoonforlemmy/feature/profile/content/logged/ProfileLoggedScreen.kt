@@ -56,10 +56,11 @@ internal object ProfileLoggedScreen : Tab {
             }
 
             if (user != null) {
-                val postsScreen = remember { ProfilePostsScreen(user) }
-                val commentsScreen = remember { ProfileCommentsScreen(user) }
-                val savedScreen = remember { ProfileSavedScreen(user) }
-                LaunchedEffect(key) {
+                val screens = remember {
+                    val postsScreen = ProfilePostsScreen(user)
+                    val commentsScreen = ProfileCommentsScreen(user)
+                    val savedScreen = ProfileSavedScreen(user)
+
                     notificationCenter.addObserver({
                         (it as? ProfileLoggedSection)?.also { value ->
                             model.reduce(ProfileLoggedMviModel.Intent.SelectTab(value))
@@ -75,18 +76,18 @@ internal object ProfileLoggedScreen : Tab {
                             model.reduce(ProfileLoggedMviModel.Intent.SelectTab(value))
                         }
                     }, key, savedScreen.key)
+
+                    listOf(
+                        postsScreen,
+                        commentsScreen,
+                        savedScreen,
+                    )
                 }
-                val screens = listOf(
-                    postsScreen,
-                    commentsScreen,
-                    savedScreen,
-                )
                 TabNavigator(screens.first()) {
                     CurrentScreen()
                     val navigator = LocalTabNavigator.current
                     LaunchedEffect(model) {
                         model.uiState.map { it.currentTab }
-                            .distinctUntilChanged()
                             .onEach { section ->
                                 val index = when (section) {
                                     ProfileLoggedSection.POSTS -> 0

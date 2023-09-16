@@ -25,9 +25,6 @@ import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.racconforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardFooter
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardSubtitle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 
@@ -35,10 +32,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentR
 fun CommentCard(
     comment: CommentModel,
     modifier: Modifier = Modifier,
+    options: List<String> = emptyList(),
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
+    onOptionSelected: ((Int) -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
     val fontScale by themeRepository.contentFontScale.collectAsState()
@@ -90,6 +89,8 @@ fun CommentCard(
                         onSave = onSave,
                         onReply = onReply,
                         date = comment.publishDate,
+                        options = options,
+                        onOptionSelected = onOptionSelected,
                     )
                 }
                 Box(

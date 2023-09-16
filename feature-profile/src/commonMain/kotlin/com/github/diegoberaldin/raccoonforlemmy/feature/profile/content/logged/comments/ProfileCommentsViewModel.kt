@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,7 @@ class ProfileCommentsViewModel(
     private val user: UserModel,
     private val identityRepository: IdentityRepository,
     private val userRepository: UserRepository,
+    private val commentRepository: CommentRepository,
 ) : ScreenModel,
     MviModel<ProfileCommentsMviModel.Intent, ProfileCommentsMviModel.UiState, ProfileCommentsMviModel.Effect> by mvi {
 
@@ -33,6 +35,7 @@ class ProfileCommentsViewModel(
         when (intent) {
             ProfileCommentsMviModel.Intent.LoadNextPage -> loadNextPage()
             ProfileCommentsMviModel.Intent.Refresh -> refresh()
+            is ProfileCommentsMviModel.Intent.DeleteComment -> deleteComment(intent.id)
         }
     }
 
@@ -74,6 +77,14 @@ class ProfileCommentsViewModel(
                     refreshing = false,
                 )
             }
+        }
+    }
+
+    private fun deleteComment(id: Int) {
+        mvi.scope.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            commentRepository.delete(id, auth)
+            refresh()
         }
     }
 }

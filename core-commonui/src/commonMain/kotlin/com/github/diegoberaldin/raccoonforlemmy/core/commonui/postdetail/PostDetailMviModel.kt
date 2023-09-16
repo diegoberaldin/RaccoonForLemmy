@@ -21,6 +21,7 @@ interface PostDetailMviModel :
             Intent
 
         data class SaveComment(val index: Int, val feedback: Boolean = false) : Intent
+        data class DeleteComment(val id: Int) : Intent
         object HapticIndication : Intent
     }
 
@@ -31,6 +32,7 @@ interface PostDetailMviModel :
         val canFetchMore: Boolean = true,
         val sortType: SortType = SortType.New,
         val comments: List<CommentModel> = emptyList(),
+        val currentUserId: Int = 0,
     )
 
     sealed interface Effect

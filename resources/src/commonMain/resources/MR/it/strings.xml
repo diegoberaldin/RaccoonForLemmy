@@ -43,7 +43,9 @@
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
+
     <string name="post_detail_load_more_comments">Carica altri commenti…</string>
+    <string name="comment_action_delete">Elimina</string>
 
     <string name="explore_search_placeholder">Cerca comunità</string>
 

@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 
 @Composable
-actual fun Dropdown(
+actual fun CustomDropDown(
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier,

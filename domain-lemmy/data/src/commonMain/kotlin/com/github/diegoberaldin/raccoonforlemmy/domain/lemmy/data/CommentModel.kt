@@ -12,7 +12,6 @@ data class CommentModel(
     val publishDate: String? = null,
     val comments: Int? = null,
     val path: String = "",
-    val children: List<CommentModel>? = null,
 ) : JavaSerializable {
     val depth: Int get() = (path.split(".").size - 2).coerceAtLeast(0)
 }

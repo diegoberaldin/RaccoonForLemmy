@@ -51,6 +51,7 @@ val profileTabModule = module {
             user = params[0],
             identityRepository = get(),
             userRepository = get(),
+            commentRepository = get(),
         )
     }
 }

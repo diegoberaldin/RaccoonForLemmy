@@ -15,6 +15,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class PostDetailViewModel(
     private val mvi: DefaultMviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>,
     private val post: PostModel,
     private val identityRepository: IdentityRepository,
+    private val siteRepository: SiteRepository,
     private val postsRepository: PostsRepository,
     private val commentRepository: CommentRepository,
     private val keyStore: TemporaryKeyStore,
@@ -42,9 +44,16 @@ class PostDetailViewModel(
                 post = post,
             )
         }
-
-        if (mvi.uiState.value.comments.isEmpty()) {
-            refresh()
+        mvi.scope.launch {
+            val auth = identityRepository.authToken.value
+            if (auth != null) {
+                siteRepository.getCurrentUser(auth)?.also { user ->
+                    mvi.updateState { it.copy(currentUserId = user.id) }
+                }
+            }
+            if (mvi.uiState.value.comments.isEmpty()) {
+                refresh()
+            }
         }
     }
 
@@ -88,6 +97,8 @@ class PostDetailViewModel(
             is PostDetailMviModel.Intent.FetchMoreComments -> {
                 loadMoreComments(intent.parentId)
             }
+
+            is PostDetailMviModel.Intent.DeleteComment -> deleteComment(intent.id)
         }
     }
 
@@ -392,6 +403,14 @@ class PostDetailViewModel(
                     )
                 }
             }
+        }
+    }
+
+    private fun deleteComment(id: Int) {
+        mvi.scope.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            commentRepository.delete(id, auth)
+            refresh()
         }
     }
 }

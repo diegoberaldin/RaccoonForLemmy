@@ -9,6 +9,7 @@ interface ProfileCommentsMviModel :
     sealed interface Intent {
         object Refresh : Intent
         object LoadNextPage : Intent
+        data class DeleteComment(val id: Int) : Intent
     }
 
     data class UiState(

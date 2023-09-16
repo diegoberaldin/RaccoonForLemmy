@@ -6,10 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 
 @Composable
-expect fun Dropdown(
+expect fun CustomDropDown(
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    offset: DpOffset,
+    offset: DpOffset = DpOffset.Zero,
     content: @Composable ColumnScope.() -> Unit,
 )

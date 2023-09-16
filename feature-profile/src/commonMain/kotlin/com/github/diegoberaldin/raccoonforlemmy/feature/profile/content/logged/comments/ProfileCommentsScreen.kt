@@ -102,6 +102,17 @@ internal class ProfileCommentsScreen(
                 items(uiState.comments) { comment ->
                     ProfileCommentCard(
                         comment = comment,
+                        options = listOf(stringResource(MR.strings.comment_action_delete)),
+                        onOptionSelected = { idx ->
+                            when (idx) {
+                                else ->
+                                    model.reduce(
+                                        ProfileCommentsMviModel.Intent.DeleteComment(
+                                            comment.id
+                                        )
+                                    )
+                            }
+                        }
                     )
                 }
                 item {

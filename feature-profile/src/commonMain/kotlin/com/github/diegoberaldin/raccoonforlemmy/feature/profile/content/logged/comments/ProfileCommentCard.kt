@@ -27,6 +27,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 @Composable
 fun ProfileCommentCard(
     comment: CommentModel,
+    options: List<String> = emptyList(),
+    onOptionSelected: ((Int) -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
     val fontScale by themeRepository.contentFontScale.collectAsState()
@@ -62,6 +64,8 @@ fun ProfileCommentCard(
                     upVoted = comment.myVote > 0,
                     downVoted = comment.myVote < 0,
                     date = comment.publishDate,
+                    options = options,
+                    onOptionSelected = onOptionSelected,
                 )
             }
         }

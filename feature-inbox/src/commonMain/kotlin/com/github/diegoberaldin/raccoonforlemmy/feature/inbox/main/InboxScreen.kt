@@ -148,11 +148,13 @@ object InboxScreen : Tab {
                         model.reduce(InboxMviModel.Intent.ChangeSection(section))
                     },
                 )
-                val screens = listOf(
-                    InboxRepliesScreen(),
-                    InboxMentionsScreen(),
-                    InboxMessagesScreen(),
-                )
+                val screens = remember {
+                    listOf(
+                        InboxRepliesScreen(),
+                        InboxMentionsScreen(),
+                        InboxMessagesScreen(),
+                    )
+                }
                 TabNavigator(screens.first()) {
                     CurrentScreen()
                     val navigator = LocalTabNavigator.current
