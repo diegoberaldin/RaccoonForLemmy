@@ -36,6 +36,7 @@ fun PostCard(
     modifier: Modifier = Modifier,
     post: PostModel,
     blurNsfw: Boolean,
+    options: List<String> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
@@ -43,6 +44,7 @@ fun PostCard(
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
+    onOptionSelected: ((Int) -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
     val fontScale by themeRepository.contentFontScale.collectAsState()
@@ -115,6 +117,8 @@ fun PostCard(
                     onSave = onSave,
                     onReply = onReply,
                     date = post.publishDate,
+                    options = options,
+                    onOptionSelected = onOptionSelected,
                 )
             }
         }

@@ -221,344 +221,361 @@ class CommunityDetailScreen(
                     )
                 }
             }) { padding ->
-            val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                model.reduce(CommunityDetailMviModel.Intent.Refresh)
-            })
-            Box(
-                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .nestedScroll(fabNestedScrollConnection).padding(padding)
-                    .pullRefresh(pullRefreshState),
-            ) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+            if (uiState.currentUserId != null) {
+                val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
+                    model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                })
+                Box(
+                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        .nestedScroll(fabNestedScrollConnection).padding(padding)
+                        .pullRefresh(pullRefreshState),
                 ) {
-                    item {
-                        val communityIcon = community.icon.orEmpty()
-                        val communityTitle = community.title
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+                    ) {
+                        item {
+                            val communityIcon = community.icon.orEmpty()
+                            val communityTitle = community.title
 
-                        val iconSize = 80.dp
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            var width by remember { mutableStateOf(0.dp) }
-                            var optionsExpanded by remember { mutableStateOf(false) }
-                            Box(
-                                modifier = Modifier.onGloballyPositioned {
-                                    width = it.size.width.dp
-                                },
-                            ) {
-                                val banner = community.banner.orEmpty()
-                                if (banner.isNotEmpty()) {
-                                    val painterResource = asyncPainterResource(banner)
-                                    KamelImage(
-                                        modifier = Modifier.fillMaxWidth().aspectRatio(2f),
-                                        resource = painterResource,
-                                        contentScale = ContentScale.FillBounds,
-                                        contentDescription = null,
-                                    )
-                                } else {
-                                    Box(
-                                        modifier = Modifier.fillMaxWidth().aspectRatio(2f),
-                                    )
-                                }
-                                Icon(
-                                    modifier = Modifier.padding(
-                                        top = Spacing.s,
-                                        end = Spacing.s,
-                                    ).background(
-                                        color = MaterialTheme.colorScheme.primary,
-                                        shape = CircleShape,
-                                    ).padding(Spacing.s).align(Alignment.TopEnd).onClick {
-                                        optionsExpanded = true
-                                    },
-                                    imageVector = Icons.Rounded.MoreVert,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onPrimary,
-                                )
-                                CustomDropDown(
-                                    expanded = optionsExpanded,
-                                    onDismiss = {
-                                        optionsExpanded = false
-                                    },
-                                    offset = DpOffset(
-                                        x = width - Spacing.m,
-                                        y = 0.dp,
-                                    ),
-                                ) {
-                                    Text(
-                                        modifier = Modifier.padding(
-                                            horizontal = Spacing.m,
-                                            vertical = Spacing.xs,
-                                        ).onClick {
-                                            optionsExpanded = false
-                                            bottomSheetNavigator.show(
-                                                CommunityInfoScreen(community),
-                                            )
-                                        },
-                                        text = stringResource(MR.strings.community_detail_info),
-                                    )
-                                    Text(
-                                        modifier = Modifier.padding(
-                                            horizontal = Spacing.m,
-                                            vertical = Spacing.xs,
-                                        ).onClick {
-                                            optionsExpanded = false
-                                            navigator?.push(
-                                                InstanceInfoScreen(
-                                                    url = community.instanceUrl,
-                                                ),
-                                            )
-                                        },
-                                        text = stringResource(MR.strings.community_detail_instance_info),
-                                    )
-                                }
-                            }
+                            val iconSize = 80.dp
                             Column(
-                                modifier = Modifier.graphicsLayer(translationY = -(iconSize / 2).toLocalPixel()),
                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                             ) {
-                                if (communityIcon.isNotEmpty()) {
-                                    val painterResource = asyncPainterResource(data = communityIcon)
-                                    KamelImage(
-                                        modifier = Modifier.padding(Spacing.xxxs).size(iconSize)
-                                            .clip(RoundedCornerShape(iconSize / 2)),
-                                        resource = painterResource,
+                                var width by remember { mutableStateOf(0.dp) }
+                                var optionsExpanded by remember { mutableStateOf(false) }
+                                Box(
+                                    modifier = Modifier.onGloballyPositioned {
+                                        width = it.size.width.dp
+                                    },
+                                ) {
+                                    val banner = community.banner.orEmpty()
+                                    if (banner.isNotEmpty()) {
+                                        val painterResource = asyncPainterResource(banner)
+                                        KamelImage(
+                                            modifier = Modifier.fillMaxWidth().aspectRatio(2f),
+                                            resource = painterResource,
+                                            contentScale = ContentScale.FillBounds,
+                                            contentDescription = null,
+                                        )
+                                    } else {
+                                        Box(
+                                            modifier = Modifier.fillMaxWidth().aspectRatio(2f),
+                                        )
+                                    }
+                                    Icon(
+                                        modifier = Modifier.padding(
+                                            top = Spacing.s,
+                                            end = Spacing.s,
+                                        ).background(
+                                            color = MaterialTheme.colorScheme.primary,
+                                            shape = CircleShape,
+                                        ).padding(Spacing.s).align(Alignment.TopEnd).onClick {
+                                            optionsExpanded = true
+                                        },
+                                        imageVector = Icons.Rounded.MoreVert,
                                         contentDescription = null,
-                                        contentScale = ContentScale.FillBounds,
+                                        tint = MaterialTheme.colorScheme.onPrimary,
                                     )
-                                } else {
-                                    Box(
-                                        modifier = Modifier.padding(Spacing.xxxs).size(iconSize)
-                                            .background(
-                                                color = MaterialTheme.colorScheme.primary,
-                                                shape = RoundedCornerShape(iconSize / 2),
-                                            ),
-                                        contentAlignment = Alignment.Center,
+                                    CustomDropDown(
+                                        expanded = optionsExpanded,
+                                        onDismiss = {
+                                            optionsExpanded = false
+                                        },
+                                        offset = DpOffset(
+                                            x = width - Spacing.m,
+                                            y = 0.dp,
+                                        ),
                                     ) {
                                         Text(
-                                            text = community.name.firstOrNull()?.toString()
-                                                .orEmpty().uppercase(),
-                                            style = MaterialTheme.typography.bodyLarge,
-                                            color = MaterialTheme.colorScheme.onPrimary,
+                                            modifier = Modifier.padding(
+                                                horizontal = Spacing.m,
+                                                vertical = Spacing.xs,
+                                            ).onClick {
+                                                optionsExpanded = false
+                                                bottomSheetNavigator.show(
+                                                    CommunityInfoScreen(community),
+                                                )
+                                            },
+                                            text = stringResource(MR.strings.community_detail_info),
+                                        )
+                                        Text(
+                                            modifier = Modifier.padding(
+                                                horizontal = Spacing.m,
+                                                vertical = Spacing.xs,
+                                            ).onClick {
+                                                optionsExpanded = false
+                                                navigator?.push(
+                                                    InstanceInfoScreen(
+                                                        url = community.instanceUrl,
+                                                    ),
+                                                )
+                                            },
+                                            text = stringResource(MR.strings.community_detail_instance_info),
                                         )
                                     }
                                 }
-                                Text(
-                                    text = buildString {
-                                        append(communityTitle)
-                                    },
-                                    style = MaterialTheme.typography.headlineSmall,
-                                )
-                                if (!isOnOtherInstance) {
-                                    Button(
-                                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                                            .padding(top = Spacing.m),
-                                        onClick = {
-                                            when (community.subscribed) {
-                                                true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
-                                                false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
-                                                else -> Unit
+                                Column(
+                                    modifier = Modifier.graphicsLayer(translationY = -(iconSize / 2).toLocalPixel()),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+                                ) {
+                                    if (communityIcon.isNotEmpty()) {
+                                        val painterResource =
+                                            asyncPainterResource(data = communityIcon)
+                                        KamelImage(
+                                            modifier = Modifier.padding(Spacing.xxxs).size(iconSize)
+                                                .clip(RoundedCornerShape(iconSize / 2)),
+                                            resource = painterResource,
+                                            contentDescription = null,
+                                            contentScale = ContentScale.FillBounds,
+                                        )
+                                    } else {
+                                        Box(
+                                            modifier = Modifier.padding(Spacing.xxxs).size(iconSize)
+                                                .background(
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    shape = RoundedCornerShape(iconSize / 2),
+                                                ),
+                                            contentAlignment = Alignment.Center,
+                                        ) {
+                                            Text(
+                                                text = community.name.firstOrNull()?.toString()
+                                                    .orEmpty().uppercase(),
+                                                style = MaterialTheme.typography.bodyLarge,
+                                                color = MaterialTheme.colorScheme.onPrimary,
+                                            )
+                                        }
+                                    }
+                                    Text(
+                                        text = buildString {
+                                            append(communityTitle)
+                                        },
+                                        style = MaterialTheme.typography.headlineSmall,
+                                    )
+                                    if (!isOnOtherInstance) {
+                                        Button(
+                                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                                                .padding(top = Spacing.m),
+                                            onClick = {
+                                                when (community.subscribed) {
+                                                    true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
+                                                    false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
+                                                    else -> Unit
+                                                }
+                                            },
+                                        ) {
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(Spacing.s),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Image(
+                                                    imageVector = when (community.subscribed) {
+                                                        true -> Icons.Default.Check
+                                                        false -> Icons.Default.AddCircle
+                                                        else -> Icons.Default.MoreHoriz
+                                                    },
+                                                    contentDescription = null,
+                                                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary),
+                                                )
+                                                Text(
+                                                    text = when (community.subscribed) {
+                                                        true -> stringResource(MR.strings.community_button_subscribed)
+                                                        false -> stringResource(MR.strings.community_button_subscribe)
+                                                        else -> stringResource(MR.strings.community_button_pending)
+                                                    },
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        itemsIndexed(uiState.posts) { idx, post ->
+                            SwipeableCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                directions = if (isOnOtherInstance) {
+                                    emptySet()
+                                } else {
+                                    setOf(
+                                        DismissDirection.StartToEnd,
+                                        DismissDirection.EndToStart,
+                                    )
+                                },
+                                backgroundColor = {
+                                    when (it) {
+                                        DismissValue.DismissedToStart -> MaterialTheme.colorScheme.secondary
+                                        DismissValue.DismissedToEnd -> MaterialTheme.colorScheme.tertiary
+                                        else -> Color.Transparent
+                                    }
+                                },
+                                swipeContent = { direction ->
+                                    val icon = when (direction) {
+                                        DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
+                                        DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
+                                    }
+                                    val (iconModifier, iconTint) = when {
+                                        direction == DismissDirection.StartToEnd && post.myVote < 0 -> {
+                                            Modifier.background(
+                                                color = Color.Transparent,
+                                                shape = CircleShape,
+                                            ) to MaterialTheme.colorScheme.onTertiary
+                                        }
+
+                                        direction == DismissDirection.StartToEnd -> {
+                                            Modifier.background(
+                                                color = MaterialTheme.colorScheme.onTertiary,
+                                                shape = CircleShape,
+                                            ) to MaterialTheme.colorScheme.tertiary
+                                        }
+
+                                        direction == DismissDirection.EndToStart && post.myVote > 0 -> {
+                                            Modifier.background(
+                                                color = Color.Transparent,
+                                                shape = CircleShape,
+                                            ) to MaterialTheme.colorScheme.onSecondary
+                                        }
+
+                                        else -> {
+                                            Modifier.background(
+                                                color = MaterialTheme.colorScheme.onSecondary,
+                                                shape = CircleShape,
+                                            ) to MaterialTheme.colorScheme.secondary
+                                        }
+                                    }
+                                    Icon(
+                                        modifier = iconModifier,
+                                        imageVector = icon,
+                                        contentDescription = null,
+                                        tint = iconTint,
+                                    )
+                                },
+                                onGestureBegin = {
+                                    model.reduce(CommunityDetailMviModel.Intent.HapticIndication)
+                                },
+                                onDismissToStart = {
+                                    model.reduce(
+                                        CommunityDetailMviModel.Intent.UpVotePost(idx),
+                                    )
+                                },
+                                onDismissToEnd = {
+                                    model.reduce(
+                                        CommunityDetailMviModel.Intent.DownVotePost(idx),
+                                    )
+                                },
+                                content = {
+                                    PostCard(
+                                        modifier = Modifier.onClick {
+                                            navigator?.push(
+                                                PostDetailScreen(post),
+                                            )
+                                        },
+                                        onOpenCreator = { user ->
+                                            navigator?.push(
+                                                UserDetailScreen(user),
+                                            )
+                                        },
+                                        post = post,
+                                        options = buildList {
+                                            if (post.creator?.id == uiState.currentUserId) {
+                                                add(stringResource(MR.strings.comment_action_delete))
                                             }
                                         },
-                                    ) {
-                                        Row(
-                                            horizontalArrangement = Arrangement.spacedBy(Spacing.s),
-                                            verticalAlignment = Alignment.CenterVertically,
-                                        ) {
-                                            Image(
-                                                imageVector = when (community.subscribed) {
-                                                    true -> Icons.Default.Check
-                                                    false -> Icons.Default.AddCircle
-                                                    else -> Icons.Default.MoreHoriz
-                                                },
-                                                contentDescription = null,
-                                                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary),
+                                        blurNsfw = when {
+                                            community.nsfw -> false
+                                            else -> uiState.blurNsfw
+                                        },
+                                        onUpVote = if (isOnOtherInstance) {
+                                            null
+                                        } else {
+                                            {
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.UpVotePost(
+                                                        index = idx,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
+                                        },
+                                        onDownVote = if (isOnOtherInstance) {
+                                            null
+                                        } else {
+                                            {
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.DownVotePost(
+                                                        index = idx,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
+                                        },
+                                        onSave = if (isOnOtherInstance) {
+                                            null
+                                        } else {
+                                            {
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.SavePost(
+                                                        index = idx,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
+                                        },
+                                        onReply = {
+                                            val screen = CreateCommentScreen(
+                                                originalPost = post,
                                             )
-                                            Text(
-                                                text = when (community.subscribed) {
-                                                    true -> stringResource(MR.strings.community_button_subscribed)
-                                                    false -> stringResource(MR.strings.community_button_subscribe)
-                                                    else -> stringResource(MR.strings.community_button_pending)
-                                                },
+                                            notificationCenter.addObserver({
+                                                model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                                            }, key, screen.key)
+                                            bottomSheetNavigator.show(screen)
+                                        },
+                                        onImageClick = { url ->
+                                            navigator?.push(
+                                                ZoomableImageScreen(url),
                                             )
+                                        },
+                                        onOptionSelected = { idx ->
+                                            when (idx) {
+                                                else -> model.reduce(
+                                                    CommunityDetailMviModel.Intent.DeletePost(
+                                                        post.id
+                                                    )
+                                                )
+                                            }
                                         }
-                                    }
+                                    )
+                                },
+                            )
+                        }
+                        item {
+                            if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
+                                model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
+                            }
+                            if (uiState.loading && !uiState.refreshing) {
+                                Box(
+                                    modifier = Modifier.fillMaxWidth().padding(Spacing.xs),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(25.dp),
+                                        color = MaterialTheme.colorScheme.primary,
+                                    )
                                 }
                             }
                         }
-                    }
-                    itemsIndexed(uiState.posts) { idx, post ->
-                        SwipeableCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            directions = if (isOnOtherInstance) {
-                                emptySet()
-                            } else {
-                                setOf(
-                                    DismissDirection.StartToEnd,
-                                    DismissDirection.EndToStart,
-                                )
-                            },
-                            backgroundColor = {
-                                when (it) {
-                                    DismissValue.DismissedToStart -> MaterialTheme.colorScheme.secondary
-                                    DismissValue.DismissedToEnd -> MaterialTheme.colorScheme.tertiary
-                                    else -> Color.Transparent
-                                }
-                            },
-                            swipeContent = { direction ->
-                                val icon = when (direction) {
-                                    DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
-                                    DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
-                                }
-                                val (iconModifier, iconTint) = when {
-                                    direction == DismissDirection.StartToEnd && post.myVote < 0 -> {
-                                        Modifier.background(
-                                            color = Color.Transparent,
-                                            shape = CircleShape,
-                                        ) to MaterialTheme.colorScheme.onTertiary
-                                    }
-
-                                    direction == DismissDirection.StartToEnd -> {
-                                        Modifier.background(
-                                            color = MaterialTheme.colorScheme.onTertiary,
-                                            shape = CircleShape,
-                                        ) to MaterialTheme.colorScheme.tertiary
-                                    }
-
-                                    direction == DismissDirection.EndToStart && post.myVote > 0 -> {
-                                        Modifier.background(
-                                            color = Color.Transparent,
-                                            shape = CircleShape,
-                                        ) to MaterialTheme.colorScheme.onSecondary
-                                    }
-
-                                    else -> {
-                                        Modifier.background(
-                                            color = MaterialTheme.colorScheme.onSecondary,
-                                            shape = CircleShape,
-                                        ) to MaterialTheme.colorScheme.secondary
-                                    }
-                                }
-                                Icon(
-                                    modifier = iconModifier,
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    tint = iconTint,
-                                )
-                            },
-                            onGestureBegin = {
-                                model.reduce(CommunityDetailMviModel.Intent.HapticIndication)
-                            },
-                            onDismissToStart = {
-                                model.reduce(
-                                    CommunityDetailMviModel.Intent.UpVotePost(idx),
-                                )
-                            },
-                            onDismissToEnd = {
-                                model.reduce(
-                                    CommunityDetailMviModel.Intent.DownVotePost(idx),
-                                )
-                            },
-                            content = {
-                                PostCard(
-                                    modifier = Modifier.onClick {
-                                        navigator?.push(
-                                            PostDetailScreen(post),
-                                        )
-                                    },
-                                    onOpenCreator = { user ->
-                                        navigator?.push(
-                                            UserDetailScreen(user),
-                                        )
-                                    },
-                                    post = post,
-                                    blurNsfw = when {
-                                        community.nsfw -> false
-                                        else -> uiState.blurNsfw
-                                    },
-                                    onUpVote = if (isOnOtherInstance) {
-                                        null
-                                    } else {
-                                        {
-                                            model.reduce(
-                                                CommunityDetailMviModel.Intent.UpVotePost(
-                                                    index = idx,
-                                                    feedback = true,
-                                                ),
-                                            )
-                                        }
-                                    },
-                                    onDownVote = if (isOnOtherInstance) {
-                                        null
-                                    } else {
-                                        {
-                                            model.reduce(
-                                                CommunityDetailMviModel.Intent.DownVotePost(
-                                                    index = idx,
-                                                    feedback = true,
-                                                ),
-                                            )
-                                        }
-                                    },
-                                    onSave = if (isOnOtherInstance) {
-                                        null
-                                    } else {
-                                        {
-                                            model.reduce(
-                                                CommunityDetailMviModel.Intent.SavePost(
-                                                    index = idx,
-                                                    feedback = true,
-                                                ),
-                                            )
-                                        }
-                                    },
-                                    onReply = {
-                                        val screen = CreateCommentScreen(
-                                            originalPost = post,
-                                        )
-                                        notificationCenter.addObserver({
-                                            model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                                        }, key, screen.key)
-                                        bottomSheetNavigator.show(screen)
-                                    },
-                                    onImageClick = { url ->
-                                        navigator?.push(
-                                            ZoomableImageScreen(url),
-                                        )
-                                    },
-                                )
-                            },
-                        )
-                    }
-                    item {
-                        if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
-                            model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
-                        }
-                        if (uiState.loading && !uiState.refreshing) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth().padding(Spacing.xs),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(25.dp),
-                                    color = MaterialTheme.colorScheme.primary,
-                                )
-                            }
+                        item {
+                            Spacer(modifier = Modifier.height(Spacing.s))
                         }
                     }
-                    item {
-                        Spacer(modifier = Modifier.height(Spacing.s))
-                    }
+
+                    PullRefreshIndicator(
+                        refreshing = uiState.refreshing,
+                        state = pullRefreshState,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        backgroundColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                    )
                 }
-
-                PullRefreshIndicator(
-                    refreshing = uiState.refreshing,
-                    state = pullRefreshState,
-                    modifier = Modifier.align(Alignment.TopCenter),
-                    backgroundColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                )
             }
         }
     }

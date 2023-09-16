@@ -18,6 +18,7 @@ interface PostListMviModel :
         data class SavePost(val index: Int, val feedback: Boolean = false) : Intent
         data class HandlePostUpdate(val post: PostModel) : Intent
         object HapticIndication : Intent
+        data class DeletePost(val id: Int) : Intent
     }
 
     data class UiState(
@@ -30,6 +31,7 @@ interface PostListMviModel :
         val sortType: SortType = SortType.Active,
         val posts: List<PostModel> = emptyList(),
         val blurNsfw: Boolean = true,
+        val currentUserId: Int = 0,
     )
 
     sealed interface Effect

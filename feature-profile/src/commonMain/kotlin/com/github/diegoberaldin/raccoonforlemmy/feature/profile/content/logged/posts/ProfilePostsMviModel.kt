@@ -9,6 +9,7 @@ interface ProfilePostsMviModel :
     sealed interface Intent {
         object Refresh : Intent
         object LoadNextPage : Intent
+        data class DeletePost(val id: Int) : Intent
     }
 
     data class UiState(

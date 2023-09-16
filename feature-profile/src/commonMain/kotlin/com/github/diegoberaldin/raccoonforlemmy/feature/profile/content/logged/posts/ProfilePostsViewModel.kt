@@ -21,11 +21,25 @@ class ProfilePostsViewModel(
     private val savedOnly: Boolean = false,
     private val identityRepository: IdentityRepository,
     private val userRepository: UserRepository,
+    private val postsRepository: PostsRepository,
     private val notificationCenter: NotificationCenter,
 ) : ScreenModel,
     MviModel<ProfilePostsMviModel.Intent, ProfilePostsMviModel.UiState, ProfilePostsMviModel.Effect> by mvi {
 
     private var currentPage: Int = 1
+
+    init {
+        notificationCenter.addObserver({
+            (it as? PostModel)?.also { post ->
+                handlePostUpdate(post)
+            }
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
+        notificationCenter.addObserver({
+            (it as? PostModel)?.also { post ->
+                handlePostDelete(post.id)
+            }
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted)
+    }
 
     fun finalize() {
         notificationCenter.removeObserver(this::class.simpleName.orEmpty())
@@ -33,12 +47,6 @@ class ProfilePostsViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdate)
 
         if (mvi.uiState.value.posts.isEmpty()) {
             refresh()
@@ -49,6 +57,7 @@ class ProfilePostsViewModel(
         when (intent) {
             ProfilePostsMviModel.Intent.LoadNextPage -> loadNextPage()
             ProfilePostsMviModel.Intent.Refresh -> refresh()
+            is ProfilePostsMviModel.Intent.DeletePost -> deletePost(intent.id)
         }
     }
 
@@ -105,6 +114,18 @@ class ProfilePostsViewModel(
                     }
                 },
             )
+        }
+    }
+
+    private fun handlePostDelete(id: Int) {
+        mvi.updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+    }
+
+    private fun deletePost(id: Int) {
+        mvi.scope.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            postsRepository.delete(id = id, auth = auth)
+            handlePostDelete(id)
         }
     }
 }

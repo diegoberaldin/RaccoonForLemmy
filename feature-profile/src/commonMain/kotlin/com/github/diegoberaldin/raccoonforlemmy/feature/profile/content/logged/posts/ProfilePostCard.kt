@@ -40,8 +40,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 fun ProfilePostCard(
     post: PostModel,
     modifier: Modifier = Modifier,
+    options: List<String> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
+    onOptionSelected: ((Int) -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
     val fontScale by themeRepository.contentFontScale.collectAsState()
@@ -113,6 +115,8 @@ fun ProfilePostCard(
                     upVoted = post.myVote > 0,
                     downVoted = post.myVote < 0,
                     date = post.publishDate,
+                    options = options,
+                    onOptionSelected = onOptionSelected,
                 )
             }
         }

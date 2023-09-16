@@ -45,11 +45,10 @@ class PostDetailViewModel(
             )
         }
         mvi.scope.launch {
-            val auth = identityRepository.authToken.value
-            if (auth != null) {
-                siteRepository.getCurrentUser(auth)?.also { user ->
-                    mvi.updateState { it.copy(currentUserId = user.id) }
-                }
+            if (uiState.value.currentUserId == null) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val user = siteRepository.getCurrentUser(auth)
+                mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
             if (mvi.uiState.value.comments.isEmpty()) {
                 refresh()
@@ -99,6 +98,7 @@ class PostDetailViewModel(
             }
 
             is PostDetailMviModel.Intent.DeleteComment -> deleteComment(intent.id)
+            PostDetailMviModel.Intent.DeletePost -> deletePost()
         }
     }
 
@@ -192,7 +192,7 @@ class PostDetailViewModel(
                     post = post,
                     voted = newValue,
                 )
-                notificationCenter.getObserver(NotificationCenterContractKeys.PostUpdate)?.also {
+                notificationCenter.getObserver(NotificationCenterContractKeys.PostUpdated)?.also {
                     it.invoke(newPost)
                 }
             } catch (e: Throwable) {
@@ -224,7 +224,7 @@ class PostDetailViewModel(
                     post = post,
                     downVoted = newValue,
                 )
-                notificationCenter.getObserver(NotificationCenterContractKeys.PostUpdate)?.also {
+                notificationCenter.getObserver(NotificationCenterContractKeys.PostUpdated)?.also {
                     it.invoke(newPost)
                 }
             } catch (e: Throwable) {
@@ -255,7 +255,7 @@ class PostDetailViewModel(
                     post = post,
                     saved = newValue,
                 )
-                notificationCenter.getObserver(NotificationCenterContractKeys.PostUpdate)?.also {
+                notificationCenter.getObserver(NotificationCenterContractKeys.PostUpdated)?.also {
                     it.invoke(newPost)
                 }
             } catch (e: Throwable) {
@@ -411,6 +411,17 @@ class PostDetailViewModel(
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             refresh()
+        }
+    }
+
+    private fun deletePost() {
+        mvi.scope.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            postsRepository.delete(id = post.id, auth = auth)
+            notificationCenter.getObserver(NotificationCenterContractKeys.PostDeleted)?.also {
+                it.invoke(post)
+            }
+            mvi.emitEffect(PostDetailMviModel.Effect.Close)
         }
     }
 }

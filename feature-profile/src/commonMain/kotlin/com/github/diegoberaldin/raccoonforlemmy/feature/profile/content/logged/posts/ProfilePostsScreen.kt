@@ -116,6 +116,7 @@ internal class ProfilePostsScreen(
                             )
                         },
                         post = post,
+                        options = listOf(stringResource(MR.strings.comment_action_delete)),
                         onOpenCommunity = { community ->
                             navigator?.push(
                                 CommunityDetailScreen(community),
@@ -126,6 +127,13 @@ internal class ProfilePostsScreen(
                                 ZoomableImageScreen(url),
                             )
                         },
+                        onOptionSelected = { idx ->
+                            when (idx) {
+                                else -> model.reduce(
+                                    ProfilePostsMviModel.Intent.DeletePost(post.id)
+                                )
+                            }
+                        }
                     )
                 }
                 item {

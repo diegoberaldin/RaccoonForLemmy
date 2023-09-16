@@ -16,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -28,6 +29,7 @@ class PostListViewModel(
     private val postsRepository: PostsRepository,
     private val apiConfigRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
+    private val siteRepository: SiteRepository,
     private val keyStore: TemporaryKeyStore,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
@@ -35,6 +37,19 @@ class PostListViewModel(
     MviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect> by mvi {
 
     private var currentPage: Int = 1
+
+    init {
+        notificationCenter.addObserver({
+            (it as? PostModel)?.also { post ->
+                handlePostUpdate(post)
+            }
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
+        notificationCenter.addObserver({
+            (it as? PostModel)?.also { post ->
+                handlePostDelete(post.id)
+            }
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted)
+    }
 
     fun finalize() {
         notificationCenter.removeObserver(this::class.simpleName.orEmpty())
@@ -63,6 +78,7 @@ class PostListViewModel(
 
             PostListMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is PostListMviModel.Intent.HandlePostUpdate -> handlePostUpdate(intent.post)
+            is PostListMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
         }
     }
 
@@ -80,45 +96,45 @@ class PostListViewModel(
             )
         }
 
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdate)
-
         mvi.scope.launch(Dispatchers.Main) {
             identityRepository.authToken.map { !it.isNullOrEmpty() }.onEach { isLogged ->
                 mvi.updateState {
                     it.copy(isLogged = isLogged)
                 }
             }.launchIn(this)
-            notificationCenter.events
-                .onEach { evt ->
-                    when (evt) {
-                        NotificationCenter.Event.Logout -> {
-                            currentPage = 1
-                            val newListingType =
-                                keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-                            val newSortType =
-                                keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
-                            mvi.updateState {
-                                it.copy(
-                                    listingType = newListingType,
-                                    sortType = newSortType,
-                                    posts = emptyList(),
-                                    isLogged = false,
-                                )
-                            }
+            notificationCenter.events.onEach { evt ->
+                when (evt) {
+                    NotificationCenter.Event.Logout -> {
+                        currentPage = 1
+                        val newListingType =
+                            keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
+                        val newSortType =
+                            keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
+                        mvi.updateState {
+                            it.copy(
+                                listingType = newListingType,
+                                sortType = newSortType,
+                                posts = emptyList(),
+                                isLogged = false,
+                            )
                         }
-
-                        else -> Unit
                     }
 
-                }.launchIn(this)
+                    else -> Unit
+                }
+
+            }.launchIn(this)
         }
 
-        if (mvi.uiState.value.posts.isEmpty()) {
-            refresh()
+        mvi.scope.launch(Dispatchers.IO) {
+            if (uiState.value.currentUserId == null) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val user = siteRepository.getCurrentUser(auth)
+                mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
+                if (mvi.uiState.value.posts.isEmpty()) {
+                    refresh()
+                }
+            }
         }
     }
 
@@ -328,6 +344,14 @@ class PostListViewModel(
                     }
                 },
             )
+        }
+    }
+
+    private fun handlePostDelete(id: Int) {
+        mvi.scope.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            postsRepository.delete(id = id, auth = auth)
+            handlePostDelete(id)
         }
     }
 }

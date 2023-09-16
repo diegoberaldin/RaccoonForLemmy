@@ -14,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ class CommunityDetailViewModel(
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val postsRepository: PostsRepository,
+    private val siteRepository: SiteRepository,
     private val keyStore: TemporaryKeyStore,
     private val hapticFeedback: HapticFeedback,
 ) : MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi,
@@ -42,8 +44,15 @@ class CommunityDetailViewModel(
             )
         }
 
-        if (mvi.uiState.value.posts.isEmpty()) {
-            refresh()
+        mvi.scope.launch(Dispatchers.IO) {
+            if (uiState.value.currentUserId == null) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val user = siteRepository.getCurrentUser(auth)
+                mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
+            }
+            if (mvi.uiState.value.posts.isEmpty()) {
+                refresh()
+            }
         }
     }
 
@@ -71,6 +80,7 @@ class CommunityDetailViewModel(
             is CommunityDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
             CommunityDetailMviModel.Intent.Subscribe -> subscribe()
             CommunityDetailMviModel.Intent.Unsubscribe -> unsubscribe()
+            is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
         }
     }
 
@@ -307,5 +317,9 @@ class CommunityDetailViewModel(
                 mvi.updateState { it.copy(community = community) }
             }
         }
+    }
+
+    private fun handlePostDelete(id: Int) {
+        mvi.updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
     }
 }

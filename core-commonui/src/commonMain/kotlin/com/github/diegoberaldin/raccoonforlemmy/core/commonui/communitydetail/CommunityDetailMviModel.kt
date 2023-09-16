@@ -18,6 +18,7 @@ interface CommunityDetailMviModel :
         object HapticIndication : Intent
         object Subscribe : Intent
         object Unsubscribe : Intent
+        data class DeletePost(val id: Int) : Intent
     }
 
     data class UiState(
@@ -28,6 +29,7 @@ interface CommunityDetailMviModel :
         val sortType: SortType = SortType.Active,
         val posts: List<PostModel> = emptyList(),
         val blurNsfw: Boolean = true,
+        val currentUserId: Int? = null,
     )
 
     sealed interface Effect

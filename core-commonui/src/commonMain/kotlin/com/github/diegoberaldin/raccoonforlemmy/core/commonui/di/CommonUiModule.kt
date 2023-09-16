@@ -48,6 +48,7 @@ val commonUiModule = module {
             identityRepository = get(),
             communityRepository = get(),
             postsRepository = get(),
+            siteRepository = get(),
             keyStore = get(),
             hapticFeedback = get(),
         )

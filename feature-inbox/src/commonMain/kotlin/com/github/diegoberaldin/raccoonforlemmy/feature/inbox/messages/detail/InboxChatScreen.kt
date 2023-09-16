@@ -113,7 +113,7 @@ class InboxChatScreen(
                 )
             },
         ) { padding ->
-            if (uiState.currentUserId != 0) {
+            if (uiState.currentUserId != null) {
                 Box(
                     modifier = Modifier.padding(padding)
                 ) {

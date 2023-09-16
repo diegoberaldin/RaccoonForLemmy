@@ -43,6 +43,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -89,6 +90,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class PostDetailScreen(
     private val post: PostModel,
@@ -122,6 +125,15 @@ class PostDetailScreen(
             onDispose {
                 notificationCenter.removeObserver(key)
             }
+        }
+        LaunchedEffect(model) {
+            model.effects.onEach {
+                when (it) {
+                    PostDetailMviModel.Effect.Close -> {
+                        navigator?.pop()
+                    }
+                }
+            }.launchIn(this)
         }
 
         val statePost = uiState.post
@@ -204,7 +216,7 @@ class PostDetailScreen(
                     )
                 }
             }) { padding ->
-            if (uiState.currentUserId != 0) {
+            if (uiState.currentUserId != null) {
                 val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
                     model.reduce(PostDetailMviModel.Intent.Refresh)
                 })
@@ -279,6 +291,11 @@ class PostDetailScreen(
                                         downVoted = statePost.myVote < 0,
                                         saved = statePost.saved,
                                         date = statePost.publishDate,
+                                        options = buildList {
+                                            if (post.creator?.id == uiState.currentUserId) {
+                                                add(stringResource(MR.strings.comment_action_delete))
+                                            }
+                                        },
                                         onUpVote = {
                                             model.reduce(
                                                 PostDetailMviModel.Intent.UpVotePost(
@@ -301,6 +318,11 @@ class PostDetailScreen(
                                                 ),
                                             )
                                         },
+                                        onOptionSelected = { idx ->
+                                            when (idx) {
+                                                else -> model.reduce(PostDetailMviModel.Intent.DeletePost)
+                                            }
+                                        }
                                     )
                                 }
                             }

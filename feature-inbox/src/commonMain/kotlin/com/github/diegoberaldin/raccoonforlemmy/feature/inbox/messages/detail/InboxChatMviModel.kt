@@ -15,7 +15,7 @@ interface InboxChatMviModel :
         val refreshing: Boolean = false,
         val loading: Boolean = false,
         val canFetchMore: Boolean = true,
-        val currentUserId: Int = 0,
+        val currentUserId: Int? = null,
         val otherUserName: String = "",
         val otherUserAvatar: String? = null,
         val messages: List<PrivateMessageModel> = emptyList(),

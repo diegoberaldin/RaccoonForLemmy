@@ -32,18 +32,20 @@ class UserPostsViewModel(
 
     private var currentPage: Int = 1
 
+    init {
+        notificationCenter.addObserver({
+            (it as? PostModel)?.also { post ->
+                handlePostUpdate(post)
+            }
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
+    }
+
     fun finalize() {
         notificationCenter.removeObserver(this::class.simpleName.orEmpty())
     }
 
     override fun onStarted() {
         mvi.onStarted()
-
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdate)
 
         mvi.scope.launch(Dispatchers.IO) {
             val user = userRepository.get(user.id)
