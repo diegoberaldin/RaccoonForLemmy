@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://img.shields.io/badge/Kotlin-1.8.20-7f52ff?logo=kotlin" />
-  <img src="https://img.shields.io/badge/platform-Android,iOS-blue" />
-  <img src="https://img.shields.io/badge/Jetpack_Compose-1.4.3-3e7fea?logo=jetpackcompose" />
+  <img src="https://img.shields.io/badge/platforms-Android,iOS-green" />
+  <img src="https://img.shields.io/badge/Jetpack_Compose-1.5.1-3e7fea?logo=jetpackcompose" />
   <img src="https://img.shields.io/github/license/diegoberaldin/MetaPhrase" />
 </div>
 

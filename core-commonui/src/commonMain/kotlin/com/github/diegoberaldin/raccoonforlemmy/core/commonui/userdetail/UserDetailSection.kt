@@ -1,6 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail
 
-enum class UserDetailSection {
-    POSTS,
-    COMMENTS,
+sealed interface UserDetailSection {
+    object Posts : UserDetailSection
+    object Comments : UserDetailSection
 }

@@ -103,6 +103,18 @@ class ProfileLoggedViewModel(
                     page = currentPage,
                     sort = SortType.New,
                 )
+                val comments = if (currentPage == 1 && currentState.comments.isEmpty()) {
+                    // this is needed because otherwise on first selector change
+                    // the lazy column scrolls back to top (it must have an empty data set)
+                    userRepository.getComments(
+                        auth = auth,
+                        id = userId,
+                        page = currentPage,
+                        sort = SortType.New,
+                    )
+                } else {
+                    currentState.comments
+                }
                 val canFetchMore = postList.size >= PostsRepository.DEFAULT_PAGE_SIZE
                 mvi.updateState {
                     val newPosts = if (refreshing) {
@@ -112,6 +124,7 @@ class ProfileLoggedViewModel(
                     }
                     it.copy(
                         posts = newPosts,
+                        comments = comments,
                         loading = false,
                         canFetchMore = canFetchMore,
                         refreshing = false,

@@ -1,18 +1,53 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail
 
 import cafe.adriel.voyager.core.model.ScreenModel
+import com.github.diegoberaldin.racconforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.launch
 
 class UserDetailViewModel(
     private val mvi: DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>,
+    private val user: UserModel,
+    private val identityRepository: IdentityRepository,
+    private val userRepository: UserRepository,
+    private val postsRepository: PostsRepository,
+    private val commentRepository: CommentRepository,
+    private val hapticFeedback: HapticFeedback,
     private val keyStore: TemporaryKeyStore,
+    private val notificationCenter: NotificationCenter,
 ) : ScreenModel,
     MviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect> by mvi {
+
+    private var currentPage = 1
+
+    init {
+        notificationCenter.addObserver({
+            (it as? PostModel)?.also { post ->
+                handlePostUpdate(post)
+            }
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
+    }
+
+    fun finalize() {
+        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
+    }
+
     override fun onStarted() {
         mvi.onStarted()
         val sortType = keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
@@ -23,15 +58,427 @@ class UserDetailViewModel(
 
     override fun reduce(intent: UserDetailMviModel.Intent) {
         when (intent) {
-            is UserDetailMviModel.Intent.SelectTab -> mvi.updateState {
-                it.copy(currentTab = intent.value)
+            is UserDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
+            is UserDetailMviModel.Intent.ChangeSection -> changeSection(intent.section)
+            is UserDetailMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
+                comment = uiState.value.comments[intent.index],
+                feedback = intent.feedback,
+            )
+
+            is UserDetailMviModel.Intent.DownVotePost -> {
+                toggleDownVote(
+                    post = uiState.value.posts[intent.index],
+                    feedback = intent.feedback,
+                )
             }
 
-            is UserDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
+            UserDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
+            UserDetailMviModel.Intent.LoadNextPage -> loadNextPage()
+            UserDetailMviModel.Intent.Refresh -> refresh()
+            is UserDetailMviModel.Intent.SaveComment -> toggleSaveComment(
+                comment = uiState.value.comments[intent.index],
+                feedback = intent.feedback,
+            )
+
+            is UserDetailMviModel.Intent.SavePost -> toggleSave(
+                post = uiState.value.posts[intent.index],
+                feedback = intent.feedback,
+            )
+
+            is UserDetailMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
+                comment = uiState.value.comments[intent.index],
+                feedback = intent.feedback,
+            )
+
+            is UserDetailMviModel.Intent.UpVotePost -> toggleUpVote(
+                post = uiState.value.posts[intent.index],
+                feedback = intent.feedback,
+            )
         }
     }
 
     private fun applySortType(value: SortType) {
         mvi.updateState { it.copy(sortType = value) }
+    }
+
+    private fun changeSection(section: UserDetailSection) {
+        currentPage = 1
+        mvi.updateState {
+            it.copy(
+                section = section,
+                canFetchMore = true,
+                refreshing = true,
+            )
+        }
+        loadNextPage()
+    }
+
+    private fun refresh() {
+        currentPage = 1
+        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        loadNextPage()
+    }
+
+    private fun loadNextPage() {
+        val currentState = mvi.uiState.value
+        if (!currentState.canFetchMore || currentState.loading) {
+            mvi.updateState { it.copy(refreshing = false) }
+            return
+        }
+
+        mvi.scope?.launch(Dispatchers.IO) {
+            mvi.updateState { it.copy(loading = true) }
+            val auth = identityRepository.authToken.value
+            val refreshing = currentState.refreshing
+            val section = currentState.section
+            if (section == UserDetailSection.Posts) {
+                val postList = userRepository.getPosts(
+                    auth = auth,
+                    id = user.id,
+                    page = currentPage,
+                    sort = currentState.sortType,
+                )
+                val comments = if (currentPage == 1 && currentState.comments.isEmpty()) {
+                    // this is needed because otherwise on first selector change
+                    // the lazy column scrolls back to top (it must have an empty data set)
+                    userRepository.getComments(
+                        auth = auth,
+                        id = user.id,
+                        page = currentPage,
+                        sort = currentState.sortType,
+                    )
+                } else {
+                    currentState.comments
+                }
+                val canFetchMore = postList.size >= PostsRepository.DEFAULT_PAGE_SIZE
+                mvi.updateState {
+                    val newPosts = if (refreshing) {
+                        postList
+                    } else {
+                        it.posts + postList
+                    }
+                    it.copy(
+                        posts = newPosts,
+                        comments = comments,
+                        loading = false,
+                        canFetchMore = canFetchMore,
+                        refreshing = false,
+                    )
+                }
+            } else {
+                val commentList = userRepository.getComments(
+                    auth = auth,
+                    id = user.id,
+                    page = currentPage,
+                    sort = currentState.sortType,
+                )
+
+                val canFetchMore = commentList.size >= PostsRepository.DEFAULT_PAGE_SIZE
+                mvi.updateState {
+                    val newcomments = if (refreshing) {
+                        commentList
+                    } else {
+                        it.comments + commentList
+                    }
+                    it.copy(
+                        comments = newcomments,
+                        loading = false,
+                        canFetchMore = canFetchMore,
+                        refreshing = false,
+                    )
+                }
+            }
+            currentPage++
+        }
+    }
+
+    private fun toggleUpVote(post: PostModel, feedback: Boolean) {
+        val newVote = post.myVote <= 0
+        val newPost = postsRepository.asUpVoted(
+            post = post,
+            voted = newVote,
+        )
+        if (feedback) {
+            hapticFeedback.vibrate()
+        }
+        mvi.updateState {
+            it.copy(
+                posts = it.posts.map { p ->
+                    if (p.id == post.id) {
+                        newPost
+                    } else {
+                        p
+                    }
+                },
+            )
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                postsRepository.upVote(
+                    post = post,
+                    auth = auth,
+                    voted = newVote,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                mvi.updateState {
+                    it.copy(
+                        posts = it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    private fun toggleDownVote(post: PostModel, feedback: Boolean) {
+        val newValue = post.myVote >= 0
+        val newPost = postsRepository.asDownVoted(
+            post = post,
+            downVoted = newValue,
+        )
+        if (feedback) {
+            hapticFeedback.vibrate()
+        }
+        mvi.updateState {
+            it.copy(
+                posts = it.posts.map { p ->
+                    if (p.id == post.id) {
+                        newPost
+                    } else {
+                        p
+                    }
+                },
+            )
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                postsRepository.downVote(
+                    post = post,
+                    auth = auth,
+                    downVoted = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                mvi.updateState {
+                    it.copy(
+                        posts = it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    private fun toggleSave(post: PostModel, feedback: Boolean) {
+        val newValue = !post.saved
+        val newPost = postsRepository.asSaved(
+            post = post,
+            saved = newValue,
+        )
+        if (feedback) {
+            hapticFeedback.vibrate()
+        }
+        mvi.updateState {
+            it.copy(
+                posts = it.posts.map { p ->
+                    if (p.id == post.id) {
+                        newPost
+                    } else {
+                        p
+                    }
+                },
+            )
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                postsRepository.save(
+                    post = post,
+                    auth = auth,
+                    saved = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                mvi.updateState {
+                    it.copy(
+                        posts = it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    private fun toggleUpVoteComment(
+        comment: CommentModel,
+        feedback: Boolean,
+    ) {
+        val newValue = comment.myVote <= 0
+        if (feedback) {
+            hapticFeedback.vibrate()
+        }
+        val newComment = commentRepository.asUpVoted(
+            comment = comment,
+            voted = newValue,
+        )
+        mvi.updateState {
+            it.copy(
+                comments = it.comments.map { c ->
+                    if (c.id == comment.id) {
+                        newComment
+                    } else {
+                        c
+                    }
+                },
+            )
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                commentRepository.upVote(
+                    auth = auth,
+                    comment = comment,
+                    voted = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                mvi.updateState {
+                    it.copy(
+                        comments = it.comments.map { c ->
+                            if (c.id == comment.id) {
+                                comment
+                            } else {
+                                c
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    private fun toggleDownVoteComment(
+        comment: CommentModel,
+        feedback: Boolean,
+    ) {
+        val newValue = comment.myVote >= 0
+        if (feedback) {
+            hapticFeedback.vibrate()
+        }
+        val newComment = commentRepository.asDownVoted(comment, newValue)
+        mvi.updateState {
+            it.copy(
+                comments = it.comments.map { c ->
+                    if (c.id == comment.id) {
+                        newComment
+                    } else {
+                        c
+                    }
+                },
+            )
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                commentRepository.downVote(
+                    auth = auth,
+                    comment = comment,
+                    downVoted = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                mvi.updateState {
+                    it.copy(
+                        comments = it.comments.map { c ->
+                            if (c.id == comment.id) {
+                                comment
+                            } else {
+                                c
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    private fun toggleSaveComment(
+        comment: CommentModel,
+        feedback: Boolean,
+    ) {
+        val newValue = !comment.saved
+        if (feedback) {
+            hapticFeedback.vibrate()
+        }
+        val newComment = commentRepository.asSaved(
+            comment = comment,
+            saved = newValue,
+        )
+        mvi.updateState {
+            it.copy(
+                comments = it.comments.map { c ->
+                    if (c.id == comment.id) {
+                        newComment
+                    } else {
+                        c
+                    }
+                },
+            )
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                commentRepository.save(
+                    auth = auth,
+                    comment = comment,
+                    saved = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                mvi.updateState {
+                    it.copy(
+                        comments = it.comments.map { c ->
+                            if (c.id == comment.id) {
+                                comment
+                            } else {
+                                c
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    }
+
+    private fun handlePostUpdate(post: PostModel) {
+        mvi.updateState {
+            it.copy(
+                posts = it.posts.map { p ->
+                    if (p.id == post.id) {
+                        post
+                    } else {
+                        p
+                    }
+                },
+            )
+        }
     }
 }

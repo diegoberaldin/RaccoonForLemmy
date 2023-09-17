@@ -9,8 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.Insta
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.comments.UserCommentsViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.posts.UserPostsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -61,24 +59,6 @@ actual fun getInstanceInfoViewModel(url: String): InstanceInfoViewModel {
 actual fun getUserDetailViewModel(user: UserModel): UserDetailViewModel {
     val res: UserDetailViewModel by inject(
         clazz = UserDetailViewModel::class.java,
-        parameters = { parametersOf(user) },
-    )
-    return res
-}
-
-actual fun getUserPostsViewModel(
-    user: UserModel,
-): UserPostsViewModel {
-    val res: UserPostsViewModel by inject(
-        clazz = UserPostsViewModel::class.java,
-        parameters = { parametersOf(user) },
-    )
-    return res
-}
-
-actual fun getUserCommentsViewModel(user: UserModel): UserCommentsViewModel {
-    val res: UserCommentsViewModel by inject(
-        clazz = UserCommentsViewModel::class.java,
         parameters = { parametersOf(user) },
     )
     return res

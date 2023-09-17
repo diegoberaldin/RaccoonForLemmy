@@ -9,8 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.Insta
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.comments.UserCommentsViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.posts.UserPostsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -33,14 +31,6 @@ expect fun getCommunityInfoViewModel(
 expect fun getUserDetailViewModel(
     user: UserModel,
 ): UserDetailViewModel
-
-expect fun getUserPostsViewModel(
-    user: UserModel,
-): UserPostsViewModel
-
-expect fun getUserCommentsViewModel(
-    user: UserModel,
-): UserCommentsViewModel
 
 expect fun getInstanceInfoViewModel(
     url: String,

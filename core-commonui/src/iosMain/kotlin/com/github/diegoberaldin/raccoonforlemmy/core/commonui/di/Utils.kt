@@ -9,8 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.Insta
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.comments.UserCommentsViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.posts.UserPostsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -37,12 +35,6 @@ actual fun getInstanceInfoViewModel(url: String): InstanceInfoViewModel =
 
 actual fun getUserDetailViewModel(user: UserModel): UserDetailViewModel =
     CommonUiViewModelHelper.getUserDetailModel(user)
-
-actual fun getUserPostsViewModel(user: UserModel): UserPostsViewModel =
-    CommonUiViewModelHelper.getUserPostsModel(user)
-
-actual fun getUserCommentsViewModel(user: UserModel): UserCommentsViewModel =
-    CommonUiViewModelHelper.getUserCommentsModel(user)
 
 actual fun getCreateCommentViewModel(postId: Int, parentId: Int?): CreateCommentViewModel =
     CommonUiViewModelHelper.getCreateCommentModel(postId, parentId)
@@ -91,20 +83,6 @@ object CommonUiViewModelHelper : KoinComponent {
 
     fun getUserDetailModel(user: UserModel): UserDetailViewModel {
         val model: UserDetailViewModel by inject(
-            parameters = { parametersOf(user) },
-        )
-        return model
-    }
-
-    fun getUserPostsModel(user: UserModel): UserPostsViewModel {
-        val model: UserPostsViewModel by inject(
-            parameters = { parametersOf(user) },
-        )
-        return model
-    }
-
-    fun getUserCommentsModel(user: UserModel): UserCommentsViewModel {
-        val model: UserCommentsViewModel by inject(
             parameters = { parametersOf(user) },
         )
         return model
