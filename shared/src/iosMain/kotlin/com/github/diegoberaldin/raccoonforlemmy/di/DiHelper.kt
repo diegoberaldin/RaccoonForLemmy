@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.di
 
 import com.github.diegoberaldin.racconforlemmy.core.utils.AppInfo
 import com.github.diegoberaldin.racconforlemmy.core.utils.hapticFeedbackModule
+import com.github.diegoberaldin.racconforlemmy.core.utils.shareHelperModule
 import com.github.diegoberaldin.raccoonforlemmy.core.api.di.coreApiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.coreAppearanceModule
 import com.github.diegoberaldin.raccoonforlemmy.core.crashreport.di.crashReportModule
@@ -29,6 +30,7 @@ fun initKoin() {
             crashReportModule,
             hapticFeedbackModule,
             localizationModule,
+            shareHelperModule,
             homeTabModule,
             inboxTabModule,
             profileTabModule,

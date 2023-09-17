@@ -9,6 +9,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.DefaultNavigationCoordinator
@@ -112,6 +114,12 @@ val commonUiModule = module {
             communityId = params[0],
             identityRepository = get(),
             postsRepository = get(),
+        )
+    }
+    factory {
+        ZoomableImageViewModel(
+            mvi = DefaultMviModel(ZoomableImageMviModel.UiState()),
+            shareHelper = get(),
         )
     }
 }

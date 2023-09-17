@@ -4,6 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.Comm
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
@@ -53,3 +54,5 @@ expect fun getCreateCommentViewModel(
 expect fun getCreatePostViewModel(
     communityId: Int,
 ): CreatePostViewModel
+
+expect fun getZoomableImageViewModel(): ZoomableImageViewModel
