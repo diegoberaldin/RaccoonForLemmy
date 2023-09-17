@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Bookmarks
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.racconforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -27,6 +31,7 @@ import io.kamel.image.asyncPainterResource
 @Composable
 fun UserHeader(
     user: UserModel,
+    onOpenBookmarks: (() -> Unit)? = null,
 ) {
     val userAvatar = user.avatar.orEmpty()
     val userDisplayName = user.name
@@ -96,6 +101,18 @@ fun UserHeader(
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
+        }
+        if (onOpenBookmarks != null) {
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(Spacing.s)
+                    .onClick {
+                        onOpenBookmarks.invoke()
+                    },
+                imageVector = Icons.Outlined.Bookmarks,
+                contentDescription = null,
+            )
         }
     }
 }

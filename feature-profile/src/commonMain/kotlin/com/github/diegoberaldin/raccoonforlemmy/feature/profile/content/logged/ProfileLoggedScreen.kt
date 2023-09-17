@@ -24,7 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.comments.ProfileCommentsScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.posts.ProfilePostsScreen
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.saved.ProfileSavedScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLoggedViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -59,13 +58,7 @@ internal object ProfileLoggedScreen : Tab {
                 val screens = remember {
                     val postsScreen = ProfilePostsScreen(user)
                     val commentsScreen = ProfileCommentsScreen(user)
-                    val savedScreen = ProfileSavedScreen(user)
 
-                    notificationCenter.addObserver({
-                        (it as? ProfileLoggedSection)?.also { value ->
-                            model.reduce(ProfileLoggedMviModel.Intent.SelectTab(value))
-                        }
-                    }, key, NotificationCenterContractKeys.SectionChanged)
                     notificationCenter.addObserver({
                         (it as? ProfileLoggedSection)?.also { value ->
                             model.reduce(ProfileLoggedMviModel.Intent.SelectTab(value))
@@ -80,7 +73,6 @@ internal object ProfileLoggedScreen : Tab {
                     listOf(
                         postsScreen,
                         commentsScreen,
-                        savedScreen,
                     )
                 }
                 TabNavigator(screens.first()) {
@@ -92,7 +84,6 @@ internal object ProfileLoggedScreen : Tab {
                                 val index = when (section) {
                                     ProfileLoggedSection.POSTS -> 0
                                     ProfileLoggedSection.COMMENTS -> 1
-                                    ProfileLoggedSection.SAVED -> 2
                                 }
                                 navigator.current = screens[index]
                             }.launchIn(this)

@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.ProfileC
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.comments.ProfileCommentsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.posts.ProfilePostsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetViewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
@@ -26,11 +27,10 @@ actual fun getProfileLoggedViewModel(): ProfileLoggedViewModel {
 
 actual fun getProfilePostsViewModel(
     user: UserModel,
-    savedOnly: Boolean,
 ): ProfilePostsViewModel {
     val res: ProfilePostsViewModel by inject(
         clazz = ProfilePostsViewModel::class.java,
-        parameters = { parametersOf(user, savedOnly) },
+        parameters = { parametersOf(user) },
     )
     return res
 }
@@ -38,6 +38,14 @@ actual fun getProfilePostsViewModel(
 actual fun getProfileCommentsViewModel(user: UserModel): ProfileCommentsViewModel {
     val res: ProfileCommentsViewModel by inject(
         clazz = ProfileCommentsViewModel::class.java,
+        parameters = { parametersOf(user) },
+    )
+    return res
+}
+
+actual fun getProfileSavedViewModel(user: UserModel): ProfileSavedViewModel {
+    val res: ProfileSavedViewModel by inject(
+        clazz = ProfileSavedViewModel::class.java,
         parameters = { parametersOf(user) },
     )
     return res

@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.ProfileC
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.comments.ProfileCommentsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.posts.ProfilePostsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetViewModel
 
 expect fun getProfileScreenModel(): ProfileContentViewModel
@@ -15,7 +16,8 @@ expect fun getProfileLoggedViewModel(): ProfileLoggedViewModel
 
 expect fun getProfilePostsViewModel(
     user: UserModel,
-    savedOnly: Boolean = false,
 ): ProfilePostsViewModel
 
 expect fun getProfileCommentsViewModel(user: UserModel): ProfileCommentsViewModel
+
+expect fun getProfileSavedViewModel(user: UserModel): ProfileSavedViewModel

@@ -9,6 +9,8 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.c
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.comments.ProfileCommentsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.posts.ProfilePostsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.posts.ProfilePostsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetViewModel
 import org.koin.dsl.module
@@ -39,7 +41,6 @@ val profileTabModule = module {
         ProfilePostsViewModel(
             mvi = DefaultMviModel(ProfilePostsMviModel.UiState()),
             user = params[0],
-            savedOnly = params[1],
             identityRepository = get(),
             userRepository = get(),
             postsRepository = get(),
@@ -53,6 +54,18 @@ val profileTabModule = module {
             identityRepository = get(),
             userRepository = get(),
             commentRepository = get(),
+        )
+    }
+    factory { params ->
+        ProfileSavedViewModel(
+            mvi = DefaultMviModel(ProfileSavedMviModel.UiState()),
+            user = params[0],
+            identityRepository = get(),
+            userRepository = get(),
+            postsRepository = get(),
+            commentRepository = get(),
+            hapticFeedback = get(),
+            notificationCenter = get(),
         )
     }
 }

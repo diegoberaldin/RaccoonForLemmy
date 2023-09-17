@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.ProfileC
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.comments.ProfileCommentsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.posts.ProfilePostsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -19,9 +20,13 @@ actual fun getProfileLoggedViewModel(): ProfileLoggedViewModel =
 
 actual fun getProfilePostsViewModel(
     user: UserModel,
-    savedOnly: Boolean,
 ): ProfilePostsViewModel =
-    ProfileScreenModelHelper.getPostsModel(user = user, savedOnly = savedOnly)
+    ProfileScreenModelHelper.getPostsModel(user = user)
+
+actual fun getProfileSavedViewModel(
+    user: UserModel,
+): ProfileSavedViewModel =
+    ProfileScreenModelHelper.getSavedModel(user = user)
 
 actual fun getProfileCommentsViewModel(user: UserModel): ProfileCommentsViewModel =
     ProfileScreenModelHelper.getCommentsModel(user)
@@ -31,15 +36,22 @@ object ProfileScreenModelHelper : KoinComponent {
     val loginModel: LoginBottomSheetViewModel by inject()
     val loggedModel: ProfileLoggedViewModel by inject()
 
-    fun getPostsModel(user: UserModel, savedOnly: Boolean): ProfilePostsViewModel {
+    fun getPostsModel(user: UserModel): ProfilePostsViewModel {
         val res: ProfilePostsViewModel by inject(
-            parameters = { parametersOf(user, savedOnly) },
+            parameters = { parametersOf(user) },
         )
         return res
     }
 
     fun getCommentsModel(user: UserModel): ProfileCommentsViewModel {
         val res: ProfileCommentsViewModel by inject(
+            parameters = { parametersOf(user) },
+        )
+        return res
+    }
+
+    fun getSavedModel(user: UserModel): ProfileSavedViewModel {
+        val res: ProfileSavedViewModel by inject(
             parameters = { parametersOf(user) },
         )
         return res

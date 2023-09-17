@@ -43,7 +43,6 @@ class UserRepository(
         page: Int,
         limit: Int = PostsRepository.DEFAULT_PAGE_SIZE,
         sort: SortType = SortType.Active,
-        savedOnly: Boolean = false,
     ): List<PostModel> = runCatching {
         val response = serviceProvider.user.getDetails(
             auth = auth,
@@ -51,7 +50,25 @@ class UserRepository(
             page = page,
             limit = limit,
             sort = sort.toCommentDto(),
-            savedOnly = savedOnly,
+        )
+        val dto = response.body() ?: return@runCatching emptyList()
+        dto.posts.map { it.toModel() }
+    }.getOrElse { emptyList() }
+
+    suspend fun getSavedPosts(
+        id: Int,
+        auth: String? = null,
+        page: Int,
+        limit: Int = PostsRepository.DEFAULT_PAGE_SIZE,
+        sort: SortType = SortType.Active,
+    ): List<PostModel> = runCatching {
+        val response = serviceProvider.user.getDetails(
+            auth = auth,
+            personId = id,
+            page = page,
+            limit = limit,
+            sort = sort.toCommentDto(),
+            savedOnly = true,
         )
         val dto = response.body() ?: return@runCatching emptyList()
         dto.posts.map { it.toModel() }
@@ -70,6 +87,25 @@ class UserRepository(
             page = page,
             limit = limit,
             sort = sort.toCommentDto(),
+        )
+        val dto = response.body() ?: return@runCatching emptyList()
+        dto.comments.map { it.toModel() }
+    }.getOrElse { emptyList() }
+
+    suspend fun getSavedComments(
+        id: Int,
+        auth: String? = null,
+        page: Int,
+        limit: Int = PostsRepository.DEFAULT_PAGE_SIZE,
+        sort: SortType = SortType.Active,
+    ): List<CommentModel> = runCatching {
+        val response = serviceProvider.user.getDetails(
+            auth = auth,
+            personId = id,
+            page = page,
+            limit = limit,
+            sort = sort.toCommentDto(),
+            savedOnly = true,
         )
         val dto = response.body() ?: return@runCatching emptyList()
         dto.comments.map { it.toModel() }
