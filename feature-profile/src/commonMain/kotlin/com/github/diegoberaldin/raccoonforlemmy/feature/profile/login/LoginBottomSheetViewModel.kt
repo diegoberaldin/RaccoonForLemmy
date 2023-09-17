@@ -94,7 +94,7 @@ class LoginBottomSheetViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val result = loginUseCase.login(
                 instance = instance,

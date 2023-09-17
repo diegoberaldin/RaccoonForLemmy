@@ -36,7 +36,7 @@ class CreatePostViewModel(
     }
 
     private fun submit() {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val title = uiState.value.title

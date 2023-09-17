@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,7 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreatePostViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -73,7 +72,8 @@ class CreatePostScreen(
                     }
 
                     CreatePostMviModel.Effect.Success -> {
-                        notificationCenter.getObserver(key)?.also { o -> o.invoke(Unit) }
+                        notificationCenter.getObserver(NotificationCenterContractKeys.PostCreated)
+                            ?.also { o -> o.invoke(Unit) }
                         bottomSheetNavigator.hide()
                     }
                 }
@@ -160,7 +160,7 @@ class CreatePostScreen(
                         imeAction = ImeAction.Done,
                     ),
                     keyboardActions = KeyboardActions(
-                        onDone  = {
+                        onDone = {
                             focusManager.clearFocus()
                         }
                     ),

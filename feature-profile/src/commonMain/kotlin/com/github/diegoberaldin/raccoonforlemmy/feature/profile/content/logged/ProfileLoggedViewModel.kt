@@ -18,7 +18,7 @@ class ProfileLoggedViewModel(
     override fun onStarted() {
         mvi.onStarted()
         val auth = identityRepository.authToken.value.orEmpty()
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val user = siteRepository.getCurrentUser(auth)
             mvi.updateState { it.copy(user = user) }
         }

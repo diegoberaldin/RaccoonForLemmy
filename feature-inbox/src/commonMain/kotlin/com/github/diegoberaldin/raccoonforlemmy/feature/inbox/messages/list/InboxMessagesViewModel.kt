@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
@@ -28,9 +29,19 @@ class InboxMessagesViewModel(
 
     private var currentPage: Int = 1
 
+    init {
+        notificationCenter.addObserver({
+            handleLogout()
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
+    }
+
+    fun finalize() {
+        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
+    }
+
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope.launch {
+        mvi.scope?.launch {
             coordinator.effects.onEach {
                 when (it) {
                     InboxMviModel.Effect.Refresh -> refresh()
@@ -39,15 +50,6 @@ class InboxMessagesViewModel(
             coordinator.unreadOnly.onEach {
                 if (it != uiState.value.unreadOnly) {
                     changeUnreadOnly(it)
-                }
-            }.launchIn(this)
-            notificationCenter.events.onEach { evt ->
-                when (evt) {
-                    NotificationCenter.Event.Logout -> {
-                        mvi.updateState { it.copy(chats = emptyList()) }
-                    }
-
-                    else -> Unit
                 }
             }.launchIn(this)
             launch(Dispatchers.IO) {
@@ -83,7 +85,7 @@ class InboxMessagesViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
@@ -116,5 +118,9 @@ class InboxMessagesViewModel(
                 )
             }
         }
+    }
+
+    private fun handleLogout() {
+        mvi.updateState { it.copy(chats = emptyList()) }
     }
 }

@@ -54,6 +54,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateCommentViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -87,7 +88,8 @@ class CreateCommentScreen(
                     }
 
                     CreateCommentMviModel.Effect.Success -> {
-                        notificationCenter.getObserver(key)?.also { o -> o.invoke(Unit) }
+                        notificationCenter.getObserver(NotificationCenterContractKeys.CommentCreated)
+                            ?.also { o -> o.invoke(Unit) }
                         bottomSheetNavigator.hide()
                     }
                 }

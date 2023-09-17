@@ -44,7 +44,7 @@ class CommunityDetailViewModel(
             )
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
@@ -87,7 +87,7 @@ class CommunityDetailViewModel(
     private fun refresh() {
         currentPage = 1
         mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val community = communityRepository.get(
                 auth = identityRepository.authToken.value,
                 id = community.id,
@@ -111,7 +111,7 @@ class CommunityDetailViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
@@ -172,7 +172,7 @@ class CommunityDetailViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.upVote(
@@ -220,7 +220,7 @@ class CommunityDetailViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.downVote(
@@ -268,7 +268,7 @@ class CommunityDetailViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.save(
@@ -295,7 +295,7 @@ class CommunityDetailViewModel(
 
     private fun subscribe() {
         hapticFeedback.vibrate()
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val community = communityRepository.subscribe(
                 auth = identityRepository.authToken.value,
                 id = community.id,
@@ -308,7 +308,7 @@ class CommunityDetailViewModel(
 
     private fun unsubscribe() {
         hapticFeedback.vibrate()
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val community = communityRepository.unsubscribe(
                 auth = identityRepository.authToken.value,
                 id = community.id,

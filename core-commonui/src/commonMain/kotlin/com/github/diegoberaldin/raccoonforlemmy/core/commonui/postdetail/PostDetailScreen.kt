@@ -83,6 +83,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getPostDetailVi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -165,7 +166,7 @@ class PostDetailScreen(
                                     (it as? SortType)?.also { sortType ->
                                         model.reduce(PostDetailMviModel.Intent.ChangeSort(sortType))
                                     }
-                                }, key, sheet.key)
+                                }, key, NotificationCenterContractKeys.ChangeSortType)
                                 bottomSheetNavigator.show(sheet)
                             },
                             imageVector = uiState.sortType.toIcon(),
@@ -204,7 +205,7 @@ class PostDetailScreen(
                             )
                             notificationCenter.addObserver({
                                 model.reduce(PostDetailMviModel.Intent.Refresh)
-                            }, key, screen.key)
+                            }, key, NotificationCenterContractKeys.CommentCreated)
                             bottomSheetNavigator.show(screen)
                         },
                         content = {
@@ -429,9 +430,13 @@ class PostDetailScreen(
                                                     originalPost = statePost,
                                                     originalComment = comment,
                                                 )
-                                                notificationCenter.addObserver({
-                                                    model.reduce(PostDetailMviModel.Intent.Refresh)
-                                                }, key, screen.key)
+                                                notificationCenter.addObserver(
+                                                    {
+                                                        model.reduce(PostDetailMviModel.Intent.Refresh)
+                                                    },
+                                                    key,
+                                                    NotificationCenterContractKeys.CommentCreated
+                                                )
                                                 bottomSheetNavigator.show(screen)
                                             },
                                             onOptionSelected = { idx ->

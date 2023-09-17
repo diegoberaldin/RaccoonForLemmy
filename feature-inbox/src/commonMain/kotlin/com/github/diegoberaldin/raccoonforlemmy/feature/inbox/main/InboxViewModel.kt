@@ -37,7 +37,7 @@ class InboxViewModel(
     }
 
     private fun markAllRead() {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             userRepository.readAll(auth)
             mvi.emitEffect(InboxMviModel.Effect.Refresh)

@@ -24,7 +24,11 @@ object DefaultNotificationCenter : NotificationCenter {
     }
 
     override fun getObserver(contract: String): ((Any) -> Unit)? {
-        return registry.filter { it.key.second == contract }.map { it.value }.firstOrNull()
+        return getAllObservers(contract).firstOrNull()
+    }
+
+    override fun getAllObservers(contract: String): List<(Any) -> Unit> {
+        return registry.filter { it.key.second == contract }.map { it.value }
     }
 
     override fun removeObserver(key: String) {

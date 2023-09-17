@@ -31,7 +31,7 @@ class CreateCommentViewModel(
     }
 
     private fun submit() {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val text = uiState.value.text

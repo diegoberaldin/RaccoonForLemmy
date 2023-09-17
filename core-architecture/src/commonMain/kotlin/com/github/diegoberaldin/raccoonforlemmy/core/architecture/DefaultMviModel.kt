@@ -25,7 +25,8 @@ class DefaultMviModel<Intent, State, Effect>(
 
     override val uiState = MutableStateFlow(initialState)
     override val effects = MutableSharedFlow<Effect>()
-    lateinit var scope: CoroutineScope
+    var scope: CoroutineScope? = null
+        private set
 
     /**
      * Emit an effect (event).
@@ -54,6 +55,7 @@ class DefaultMviModel<Intent, State, Effect>(
     }
 
     override fun onDisposed() {
-        scope.cancel()
+        scope?.cancel()
+        scope = null
     }
 }

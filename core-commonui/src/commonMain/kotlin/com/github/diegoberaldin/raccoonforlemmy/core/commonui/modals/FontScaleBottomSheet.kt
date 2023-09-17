@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -73,9 +73,10 @@ class FontScaleBottomSheet : Screen {
                             )
                                 .fillMaxWidth()
                                 .onClick {
-                                    notificationCenter.getObserver(key)?.also {
-                                        it.invoke(value.scaleFactor)
-                                    }
+                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeFontSize)
+                                        ?.also {
+                                            it.invoke(value.scaleFactor)
+                                        }
                                     bottomSheetNavigator.hide()
                                 },
                         ) {

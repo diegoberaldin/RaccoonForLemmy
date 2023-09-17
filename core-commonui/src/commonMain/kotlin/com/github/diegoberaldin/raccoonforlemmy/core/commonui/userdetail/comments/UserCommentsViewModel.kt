@@ -31,7 +31,7 @@ class UserCommentsViewModel(
     override fun onStarted() {
         mvi.onStarted()
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val user = userRepository.get(user.id)
             if (user != null) {
                 mvi.updateState { it.copy(user = user) }
@@ -76,7 +76,7 @@ class UserCommentsViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
@@ -132,7 +132,7 @@ class UserCommentsViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -177,7 +177,7 @@ class UserCommentsViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -225,7 +225,7 @@ class UserCommentsViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(

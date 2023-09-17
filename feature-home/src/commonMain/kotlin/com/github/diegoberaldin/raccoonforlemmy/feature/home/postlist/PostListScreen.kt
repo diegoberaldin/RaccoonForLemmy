@@ -59,6 +59,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -113,7 +114,7 @@ class PostListScreen : Screen {
                             (result as? ListingType)?.also {
                                 model.reduce(PostListMviModel.Intent.ChangeListing(it))
                             }
-                        }, key, sheet.key)
+                        }, key, NotificationCenterContractKeys.ChangeFeedType)
                         bottomSheetNavigator.show(sheet)
                     },
                     onSelectSortType = {
@@ -126,7 +127,7 @@ class PostListScreen : Screen {
                                     PostListMviModel.Intent.ChangeSort(sortType)
                                 )
                             }
-                        }, key, sheet.key)
+                        }, key, NotificationCenterContractKeys.ChangeSortType)
                         bottomSheetNavigator.show(sheet)
                     },
                 )
@@ -272,7 +273,7 @@ class PostListScreen : Screen {
                                                 )
                                                 notificationCenter.addObserver({
                                                     model.reduce(PostListMviModel.Intent.Refresh)
-                                                }, key, screen.key)
+                                                }, key, NotificationCenterContractKeys.CommentCreated)
                                                 bottomSheetNavigator.show(screen)
                                             },
                                             onImageClick = { url ->

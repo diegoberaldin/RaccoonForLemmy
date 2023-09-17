@@ -10,9 +10,7 @@ interface NotificationCenter {
     /**
      * Available event types.
      */
-    sealed interface Event {
-        object Logout : Event
-    }
+    sealed interface Event
 
     /**
      * Observable event flow
@@ -29,6 +27,8 @@ interface NotificationCenter {
     fun addObserver(observer: (Any) -> Unit, key: String, contract: String)
 
     fun getObserver(contract: String): ((Any) -> Unit)?
+
+    fun getAllObservers(contract: String): List<(Any) -> Unit>
 
     fun removeObserver(key: String)
 }

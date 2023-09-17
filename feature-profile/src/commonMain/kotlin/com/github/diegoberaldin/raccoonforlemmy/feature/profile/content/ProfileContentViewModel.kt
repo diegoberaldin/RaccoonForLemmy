@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -21,9 +22,11 @@ class ProfileContentViewModel(
     override fun onStarted() {
         mvi.onStarted()
 
-        identityRepository.authToken.onEach { token ->
-            mvi.updateState { it.copy(logged = !token.isNullOrEmpty()) }
-        }.launchIn(mvi.scope)
+        mvi.scope?.apply {
+            identityRepository.authToken.onEach { token ->
+                mvi.updateState { it.copy(logged = !token.isNullOrEmpty()) }
+            }.launchIn(this)
+        }
     }
 
     override fun reduce(intent: ProfileContentMviModel.Intent) {
@@ -37,6 +40,8 @@ class ProfileContentViewModel(
         keyStore.save(KeyStoreKeys.DefaultCommentSortType, 13)
         keyStore.save(KeyStoreKeys.DefaultPostSortType, 0)
         identityRepository.clearToken()
-        notificationCenter.send(NotificationCenter.Event.Logout)
+        notificationCenter.getAllObservers(NotificationCenterContractKeys.Logout)?.forEach {
+            it.invoke(Unit)
+        }
     }
 }

@@ -49,6 +49,9 @@ class PostListViewModel(
                 handlePostDelete(post.id)
             }
         }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted)
+        notificationCenter.addObserver({
+            handleLogout()
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
     }
 
     fun finalize() {
@@ -96,37 +99,15 @@ class PostListViewModel(
             )
         }
 
-        mvi.scope.launch(Dispatchers.Main) {
+        mvi.scope?.launch(Dispatchers.Main) {
             identityRepository.authToken.map { !it.isNullOrEmpty() }.onEach { isLogged ->
                 mvi.updateState {
                     it.copy(isLogged = isLogged)
                 }
             }.launchIn(this)
-            notificationCenter.events.onEach { evt ->
-                when (evt) {
-                    NotificationCenter.Event.Logout -> {
-                        currentPage = 1
-                        val newListingType =
-                            keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-                        val newSortType =
-                            keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
-                        mvi.updateState {
-                            it.copy(
-                                listingType = newListingType,
-                                sortType = newSortType,
-                                posts = emptyList(),
-                                isLogged = false,
-                            )
-                        }
-                    }
-
-                    else -> Unit
-                }
-
-            }.launchIn(this)
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
@@ -151,7 +132,7 @@ class PostListViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val type = currentState.listingType
@@ -218,7 +199,7 @@ class PostListViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.upVote(
@@ -263,7 +244,7 @@ class PostListViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.downVote(
@@ -308,7 +289,7 @@ class PostListViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.save(
@@ -347,8 +328,24 @@ class PostListViewModel(
         }
     }
 
+    private fun handleLogout() {
+        currentPage = 1
+        val newListingType =
+            keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
+        val newSortType =
+            keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
+        mvi.updateState {
+            it.copy(
+                listingType = newListingType,
+                sortType = newSortType,
+                posts = emptyList(),
+                isLogged = false,
+            )
+        }
+    }
+
     private fun handlePostDelete(id: Int) {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postsRepository.delete(id = id, auth = auth)
             handlePostDelete(id)

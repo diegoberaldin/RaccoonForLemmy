@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +19,7 @@ import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.racconforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -66,9 +66,10 @@ class LanguageBottomSheet : Screen {
                             )
                                 .fillMaxWidth()
                                 .onClick {
-                                    notificationCenter.getObserver(key)?.also {
-                                        it.invoke(value)
-                                    }
+                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeLanguage)
+                                        ?.also {
+                                            it.invoke(value)
+                                        }
                                     bottomSheetNavigator.hide()
                                 },
                         ) {

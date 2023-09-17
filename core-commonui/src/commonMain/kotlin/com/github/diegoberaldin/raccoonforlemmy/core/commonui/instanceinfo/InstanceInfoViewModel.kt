@@ -24,7 +24,7 @@ class InstanceInfoViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val metadata = siteRepository.getMetadata(url)
             if (metadata != null) {
                 mvi.updateState {
@@ -61,7 +61,7 @@ class InstanceInfoViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing

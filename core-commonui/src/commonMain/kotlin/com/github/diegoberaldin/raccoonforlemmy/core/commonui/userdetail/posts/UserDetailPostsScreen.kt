@@ -55,6 +55,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserPostsVie
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailSection
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -63,7 +64,6 @@ import dev.icerock.moko.resources.compose.stringResource
 
 internal class UserDetailPostsScreen(
     private val user: UserModel,
-    private val parentKey: String,
 ) : Tab {
 
     override val options: TabOptions
@@ -91,7 +91,7 @@ internal class UserDetailPostsScreen(
                 (it as? SortType)?.also { sortType ->
                     model.reduce(UserPostsMviModel.Intent.ChangeSort(sortType))
                 }
-            }, key, parentKey)
+            }, key, NotificationCenterContractKeys.ChangeSortType)
 
             onDispose {
                 notificationCenter.removeObserver(key)
@@ -130,9 +130,10 @@ internal class UserDetailPostsScreen(
                                     0 -> UserDetailSection.POSTS
                                     else -> UserDetailSection.COMMENTS
                                 }
-                                notificationCenter.getObserver(key)?.also { obsever ->
-                                    obsever.invoke(section)
-                                }
+                                notificationCenter.getObserver(NotificationCenterContractKeys.SectionChanged)
+                                    ?.also { obsever ->
+                                        obsever.invoke(section)
+                                    }
                             },
                         )
                     }
@@ -246,7 +247,7 @@ internal class UserDetailPostsScreen(
                                     )
                                     notificationCenter.addObserver({
                                         model.reduce(UserPostsMviModel.Intent.Refresh)
-                                    }, key, screen.key)
+                                    }, key, NotificationCenterContractKeys.CommentCreated)
                                     bottomSheetNavigator.show(screen)
                                 },
                                 onImageClick = { url ->

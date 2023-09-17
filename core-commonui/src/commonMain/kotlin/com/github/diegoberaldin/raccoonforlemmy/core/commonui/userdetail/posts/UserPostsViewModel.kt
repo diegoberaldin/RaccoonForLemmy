@@ -47,7 +47,7 @@ class UserPostsViewModel(
     override fun onStarted() {
         mvi.onStarted()
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val user = userRepository.get(user.id)
             if (user != null) {
                 mvi.updateState {
@@ -97,7 +97,7 @@ class UserPostsViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
@@ -150,7 +150,7 @@ class UserPostsViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.upVote(
@@ -195,7 +195,7 @@ class UserPostsViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.downVote(
@@ -240,7 +240,7 @@ class UserPostsViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.save(

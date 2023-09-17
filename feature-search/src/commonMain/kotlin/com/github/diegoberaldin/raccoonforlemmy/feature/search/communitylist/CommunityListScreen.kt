@@ -52,6 +52,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Communi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -92,7 +93,7 @@ class CommunityListScreen : Screen {
                             (result as? ListingType)?.also {
                                 model.reduce(CommunityListMviModel.Intent.SetListingType(it))
                             }
-                        }, key, sheet.key)
+                        }, key, NotificationCenterContractKeys.ChangeFeedType)
                         bottomNavigator.show(sheet)
                     },
                     onSelectSortType = {
@@ -105,7 +106,7 @@ class CommunityListScreen : Screen {
                                     CommunityListMviModel.Intent.SetSortType(sortType)
                                 )
                             }
-                        }, key, sheet.key)
+                        }, key, NotificationCenterContractKeys.ChangeSortType)
                         bottomNavigator.show(sheet)
                     },
                 )

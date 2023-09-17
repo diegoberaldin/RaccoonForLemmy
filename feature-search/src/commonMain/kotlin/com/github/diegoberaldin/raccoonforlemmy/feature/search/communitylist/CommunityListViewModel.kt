@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
@@ -34,6 +35,16 @@ class CommunityListViewModel(
     private var currentPage: Int = 1
     private var debounceJob: Job? = null
 
+    init {
+        notificationCenter.addObserver({
+            handleLogout()
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
+    }
+
+    fun finalize() {
+        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
+    }
+
     override fun onStarted() {
         mvi.onStarted()
         mvi.updateState {
@@ -41,31 +52,16 @@ class CommunityListViewModel(
                 instance = apiConfigRepository.getInstance(),
             )
         }
-        mvi.scope.launch(Dispatchers.Main) {
+        mvi.scope?.launch(Dispatchers.Main) {
             identityRepository.authToken.map { !it.isNullOrEmpty() }.onEach { isLogged ->
                 mvi.updateState {
                     it.copy(isLogged = isLogged)
                 }
             }.launchIn(this)
-            notificationCenter.events.onEach { evt ->
-                when (evt) {
-                    NotificationCenter.Event.Logout -> {
-                        currentPage = 1
-                        mvi.updateState {
-                            it.copy(
-                                listingType = ListingType.Local,
-                                communities = emptyList(),
-                            )
-                        }
-                    }
-
-                    else -> Unit
-                }
-            }.launchIn(this)
         }
 
         if (mvi.uiState.value.communities.isEmpty()) {
-            mvi.scope.launch(Dispatchers.IO) {
+            mvi.scope?.launch(Dispatchers.IO) {
                 refresh()
             }
         }
@@ -74,13 +70,13 @@ class CommunityListViewModel(
     override fun reduce(intent: CommunityListMviModel.Intent) {
         when (intent) {
             CommunityListMviModel.Intent.LoadNextPage -> {
-                mvi.scope.launch(Dispatchers.IO) {
+                mvi.scope?.launch(Dispatchers.IO) {
                     loadNextPage()
                 }
             }
 
             CommunityListMviModel.Intent.Refresh -> {
-                mvi.scope.launch(Dispatchers.IO) {
+                mvi.scope?.launch(Dispatchers.IO) {
                     refresh()
                 }
             }
@@ -94,7 +90,7 @@ class CommunityListViewModel(
     private fun setSearch(value: String) {
         debounceJob?.cancel()
         mvi.updateState { it.copy(searchText = value) }
-        debounceJob = mvi.scope.launch(Dispatchers.IO) {
+        debounceJob = mvi.scope?.launch(Dispatchers.IO) {
             delay(1_000)
             refresh()
         }
@@ -102,14 +98,14 @@ class CommunityListViewModel(
 
     private fun changeListingType(value: ListingType) {
         mvi.updateState { it.copy(listingType = value) }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             refresh()
         }
     }
 
     private fun changeSortType(value: SortType) {
         mvi.updateState { it.copy(sortType = value) }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             refresh()
         }
     }
@@ -159,6 +155,16 @@ class CommunityListViewModel(
                 loading = false,
                 canFetchMore = canFetchMore,
                 refreshing = false,
+            )
+        }
+    }
+
+    private fun handleLogout() {
+        currentPage = 1
+        mvi.updateState {
+            it.copy(
+                listingType = ListingType.Local,
+                communities = emptyList(),
             )
         }
     }

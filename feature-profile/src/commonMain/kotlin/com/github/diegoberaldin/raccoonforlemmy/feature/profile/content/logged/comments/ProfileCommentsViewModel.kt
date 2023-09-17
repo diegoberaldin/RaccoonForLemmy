@@ -52,7 +52,7 @@ class ProfileCommentsViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
@@ -81,7 +81,7 @@ class ProfileCommentsViewModel(
     }
 
     private fun deleteComment(id: Int) {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             refresh()

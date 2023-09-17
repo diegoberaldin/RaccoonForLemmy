@@ -74,7 +74,7 @@ class ProfilePostsViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
@@ -122,7 +122,7 @@ class ProfilePostsViewModel(
     }
 
     private fun deletePost(id: Int) {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postsRepository.delete(id = id, auth = auth)
             handlePostDelete(id)

@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +24,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -74,9 +74,10 @@ class ThemeBottomSheet : Screen {
                         )
                             .fillMaxWidth()
                             .onClick {
-                                notificationCenter.getObserver(key)?.also {
-                                    it.invoke(value)
-                                }
+                                notificationCenter.getObserver(NotificationCenterContractKeys.ChangeTheme)
+                                    ?.also {
+                                        it.invoke(value)
+                                    }
                                 bottomSheetNavigator.hide()
                             },
                     ) {

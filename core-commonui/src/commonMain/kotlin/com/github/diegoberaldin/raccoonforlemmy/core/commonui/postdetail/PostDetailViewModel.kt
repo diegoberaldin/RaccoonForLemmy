@@ -44,7 +44,7 @@ class PostDetailViewModel(
                 post = post,
             )
         }
-        mvi.scope.launch {
+        mvi.scope?.launch {
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
@@ -115,7 +115,7 @@ class PostDetailViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
@@ -151,7 +151,7 @@ class PostDetailViewModel(
     }
 
     private fun loadMoreComments(parentId: Int) {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val currentState = mvi.uiState.value
             val auth = identityRepository.authToken.value
             val sort = currentState.sortType
@@ -184,7 +184,7 @@ class PostDetailViewModel(
             voted = newValue,
         )
         mvi.updateState { it.copy(post = newPost) }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.upVote(
@@ -216,7 +216,7 @@ class PostDetailViewModel(
         )
         mvi.updateState { it.copy(post = newPost) }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.downVote(
@@ -247,7 +247,7 @@ class PostDetailViewModel(
             saved = newValue,
         )
         mvi.updateState { it.copy(post = newPost) }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postsRepository.save(
@@ -288,7 +288,7 @@ class PostDetailViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -333,7 +333,7 @@ class PostDetailViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -381,7 +381,7 @@ class PostDetailViewModel(
                 },
             )
         }
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -407,7 +407,7 @@ class PostDetailViewModel(
     }
 
     private fun deleteComment(id: Int) {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             refresh()
@@ -415,7 +415,7 @@ class PostDetailViewModel(
     }
 
     private fun deletePost() {
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postsRepository.delete(id = post.id, auth = auth)
             notificationCenter.getObserver(NotificationCenterContractKeys.PostDeleted)?.also {

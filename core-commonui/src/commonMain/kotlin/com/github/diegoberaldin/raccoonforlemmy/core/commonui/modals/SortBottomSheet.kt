@@ -29,6 +29,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
@@ -106,12 +107,13 @@ internal class SortBottomSheetMain(
                             .onClick {
                                 if (value == SortType.Top.Generic == expandTop) {
                                     navigator.push(
-                                        SortBottomSheetTop(mainKey = mainKey)
+                                        SortBottomSheetTop()
                                     )
                                 } else {
-                                    notificationCenter.getObserver(mainKey)?.also {
-                                        it.invoke(value)
-                                    }
+                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeSortType)
+                                        ?.also {
+                                            it.invoke(value)
+                                        }
                                     bottomSheetNavigator.hide()
                                 }
                             },
@@ -152,7 +154,6 @@ internal class SortBottomSheetTop(
         SortType.Top.Month,
         SortType.Top.Year,
     ),
-    private val mainKey: String,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -190,9 +191,10 @@ internal class SortBottomSheetTop(
                         )
                             .fillMaxWidth()
                             .onClick {
-                                notificationCenter.getObserver(mainKey)?.also {
-                                    it.invoke(value)
-                                }
+                                notificationCenter.getObserver(NotificationCenterContractKeys.ChangeSortType)
+                                    ?.also {
+                                        it.invoke(value)
+                                    }
                                 bottomSheetNavigator.hide()
                             },
                     ) {

@@ -20,12 +20,12 @@ import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.comments.ProfileCommentsScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.posts.ProfilePostsScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.saved.ProfileSavedScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLoggedViewModel
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -65,17 +65,17 @@ internal object ProfileLoggedScreen : Tab {
                         (it as? ProfileLoggedSection)?.also { value ->
                             model.reduce(ProfileLoggedMviModel.Intent.SelectTab(value))
                         }
-                    }, key, postsScreen.key)
+                    }, key, NotificationCenterContractKeys.SectionChanged)
                     notificationCenter.addObserver({
                         (it as? ProfileLoggedSection)?.also { value ->
                             model.reduce(ProfileLoggedMviModel.Intent.SelectTab(value))
                         }
-                    }, key, commentsScreen.key)
+                    }, key, NotificationCenterContractKeys.SectionChanged)
                     notificationCenter.addObserver({
                         (it as? ProfileLoggedSection)?.also { value ->
                             model.reduce(ProfileLoggedMviModel.Intent.SelectTab(value))
                         }
-                    }, key, savedScreen.key)
+                    }, key, NotificationCenterContractKeys.SectionChanged)
 
                     listOf(
                         postsScreen,

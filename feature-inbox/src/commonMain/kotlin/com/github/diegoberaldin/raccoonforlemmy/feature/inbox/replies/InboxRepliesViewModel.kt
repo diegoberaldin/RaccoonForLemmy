@@ -5,6 +5,7 @@ import com.github.diegoberaldin.racconforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
@@ -31,9 +32,19 @@ class InboxRepliesViewModel(
 
     private var currentPage: Int = 1
 
+    init {
+        notificationCenter.addObserver({
+            handleLogout()
+        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
+    }
+
+    fun finalize() {
+        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
+    }
+
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope.launch {
+        mvi.scope?.launch {
             coordinator.effects.onEach {
                 when (it) {
                     InboxMviModel.Effect.Refresh -> refresh()
@@ -42,15 +53,6 @@ class InboxRepliesViewModel(
             coordinator.unreadOnly.onEach {
                 if (it != uiState.value.unreadOnly) {
                     changeUnreadOnly(it)
-                }
-            }.launchIn(this)
-            notificationCenter.events.onEach { evt ->
-                when (evt) {
-                    NotificationCenter.Event.Logout -> {
-                        mvi.updateState { it.copy(replies = emptyList()) }
-                    }
-
-                    else -> Unit
                 }
             }.launchIn(this)
         }
@@ -87,7 +89,7 @@ class InboxRepliesViewModel(
             return
         }
 
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val currentUser = siteRepository.getCurrentUser(auth.orEmpty())
@@ -123,7 +125,7 @@ class InboxRepliesViewModel(
 
     private fun markAsRead(read: Boolean, replyId: Int) {
         val auth = identityRepository.authToken.value
-        mvi.scope.launch(Dispatchers.IO) {
+        mvi.scope?.launch(Dispatchers.IO) {
             userRepository.setReplyRead(
                 read = read,
                 replyId = replyId,
@@ -131,5 +133,9 @@ class InboxRepliesViewModel(
             )
             refresh()
         }
+    }
+
+    private fun handleLogout() {
+        mvi.updateState { it.copy(replies = emptyList()) }
     }
 }

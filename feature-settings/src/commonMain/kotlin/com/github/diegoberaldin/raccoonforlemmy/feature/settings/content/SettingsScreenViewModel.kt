@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ColorSchem
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -35,9 +36,21 @@ class SettingsScreenViewModel(
 ) : ScreenModel,
     MviModel<SettingsScreenMviModel.Intent, SettingsScreenMviModel.UiState, SettingsScreenMviModel.Effect> by mvi {
 
+    init {
+        notificationCenter.addObserver(
+            { handleLogout() },
+            this::class.simpleName.orEmpty(),
+            NotificationCenterContractKeys.Logout
+        )
+    }
+
+    fun finalize() {
+        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
+    }
+
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope.launch(Dispatchers.Main) {
+        mvi.scope?.launch(Dispatchers.Main) {
             themeRepository.state.onEach { currentTheme ->
                 mvi.updateState { it.copy(currentTheme = currentTheme) }
             }.launchIn(this)
@@ -55,27 +68,6 @@ class SettingsScreenViewModel(
             }.launchIn(this)
             identityRepository.authToken.onEach { auth ->
                 mvi.updateState { it.copy(isLogged = !auth.isNullOrEmpty()) }
-            }.launchIn(this)
-            notificationCenter.events.onEach { evt ->
-                when (evt) {
-                    NotificationCenter.Event.Logout -> {
-                        val listingType =
-                            keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-                        val postSortType =
-                            keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
-                        val commentSortType =
-                            keyStore[KeyStoreKeys.DefaultCommentSortType, 3].toSortType()
-                        mvi.updateState {
-                            it.copy(
-                                defaultListingType = listingType,
-                                defaultPostSortType = postSortType,
-                                defaultCommentSortType = commentSortType,
-                            )
-                        }
-                    }
-
-                    else -> Unit
-                }
             }.launchIn(this)
         }
 
@@ -198,5 +190,21 @@ class SettingsScreenViewModel(
     private fun changeOpenUrlsInExternalBrowser(value: Boolean) {
         mvi.updateState { it.copy(openUrlsInExternalBrowser = value) }
         keyStore.save(KeyStoreKeys.OpenUrlsInExternalBrowser, value)
+    }
+
+    private fun handleLogout() {
+        val listingType =
+            keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
+        val postSortType =
+            keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
+        val commentSortType =
+            keyStore[KeyStoreKeys.DefaultCommentSortType, 3].toSortType()
+        mvi.updateState {
+            it.copy(
+                defaultListingType = listingType,
+                defaultPostSortType = postSortType,
+                defaultCommentSortType = commentSortType,
+            )
+        }
     }
 }

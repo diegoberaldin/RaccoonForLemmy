@@ -39,6 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserDetailVi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.comments.UserDetailCommentsScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.posts.UserDetailPostsScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -99,7 +100,7 @@ class UserDetailScreen(
                                     (it as? SortType)?.also { sortType ->
                                         model.reduce(UserDetailMviModel.Intent.ChangeSort(sortType))
                                     }
-                                }, key, sheet.key)
+                                }, key, NotificationCenterContractKeys.ChangeSortType)
                                 bottomSheetNavigator.show(sheet)
                             },
                             imageVector = uiState.sortType.toIcon(),
@@ -128,27 +129,26 @@ class UserDetailScreen(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val postsScreen = remember {
-                    UserDetailPostsScreen(user, key)
-                }
-                val commentsScreen = remember {
-                    UserDetailCommentsScreen(user, key)
-                }
-                val screens = listOf(
-                    postsScreen,
-                    commentsScreen,
-                )
-                LaunchedEffect(key) {
+
+                val screens = remember(user.id) {
+                    val postsScreen = UserDetailPostsScreen(user)
+                    val commentsScreen = UserDetailCommentsScreen(user)
+
                     notificationCenter.addObserver({
                         (it as? UserDetailSection)?.also { section ->
                             model.reduce(UserDetailMviModel.Intent.SelectTab(section))
                         }
-                    }, key, postsScreen.key)
+                    }, key, NotificationCenterContractKeys.SectionChanged)
                     notificationCenter.addObserver({
                         (it as? UserDetailSection)?.also { section ->
                             model.reduce(UserDetailMviModel.Intent.SelectTab(section))
                         }
-                    }, key, commentsScreen.key)
+                    }, key, NotificationCenterContractKeys.SectionChanged)
+
+                    listOf(
+                        postsScreen,
+                        commentsScreen,
+                    )
                 }
                 TabNavigator(screens.first()) {
                     CurrentScreen()

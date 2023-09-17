@@ -86,6 +86,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.Insta
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -170,7 +171,7 @@ class CommunityDetailScreen(
                                             )
                                         )
                                     }
-                                }, key, sheet.key)
+                                }, key, NotificationCenterContractKeys.ChangeSortType)
                                 bottomSheetNavigator.show(sheet)
                             },
                             imageVector = uiState.sortType.toIcon(),
@@ -209,7 +210,7 @@ class CommunityDetailScreen(
                             )
                             notificationCenter.addObserver({
                                 model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                            }, key, screen.key)
+                            }, key, NotificationCenterContractKeys.PostCreated)
                             bottomSheetNavigator.show(screen)
                         },
                         content = {
@@ -526,7 +527,7 @@ class CommunityDetailScreen(
                                             )
                                             notificationCenter.addObserver({
                                                 model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                                            }, key, screen.key)
+                                            }, key, NotificationCenterContractKeys.CommentCreated)
                                             bottomSheetNavigator.show(screen)
                                         },
                                         onImageClick = { url ->

@@ -34,6 +34,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserCounters
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedSection
@@ -91,7 +92,7 @@ internal class ProfileCommentsScreen(
                                     1 -> ProfileLoggedSection.COMMENTS
                                     else -> ProfileLoggedSection.SAVED
                                 }
-                                notificationCenter.getObserver(key)?.also { observer ->
+                                notificationCenter.getObserver(NotificationCenterContractKeys.SectionChanged)?.also { observer ->
                                     observer.invoke(section)
                                 }
                             },

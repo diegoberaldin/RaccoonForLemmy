@@ -39,6 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserHea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedSection
@@ -100,9 +101,10 @@ internal class ProfilePostsScreen(
                                     1 -> ProfileLoggedSection.COMMENTS
                                     else -> ProfileLoggedSection.SAVED
                                 }
-                                notificationCenter.getObserver(key)?.also { observer ->
-                                    observer.invoke(section)
-                                }
+                                notificationCenter.getObserver(NotificationCenterContractKeys.SectionChanged)
+                                    ?.also { observer ->
+                                        observer.invoke(section)
+                                    }
                             },
                         )
                         Spacer(modifier = Modifier.height(Spacing.m))

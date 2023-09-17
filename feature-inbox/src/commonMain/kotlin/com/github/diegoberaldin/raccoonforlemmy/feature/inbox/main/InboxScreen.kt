@@ -34,6 +34,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.mentions.InboxMentionsScreen
@@ -100,7 +101,7 @@ object InboxScreen : Tab {
                                                 InboxMviModel.Intent.ChangeUnreadOnly(value)
                                             )
                                         }
-                                    }, key, sheet.key)
+                                    }, key, NotificationCenterContractKeys.ChangeInboxType)
                                     bottomSheetNavigator.show(sheet)
                                 },
                                 text = text,

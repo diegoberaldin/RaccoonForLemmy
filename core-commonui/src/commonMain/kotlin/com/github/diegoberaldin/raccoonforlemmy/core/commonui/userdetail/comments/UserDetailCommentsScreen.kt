@@ -42,14 +42,15 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.racconforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserCounters
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserCommentsViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailSection
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -59,7 +60,6 @@ import dev.icerock.moko.resources.compose.stringResource
 
 internal class UserDetailCommentsScreen(
     private val user: UserModel,
-    private val parentKey: String,
 ) : Tab {
 
     override val options: TabOptions
@@ -82,7 +82,7 @@ internal class UserDetailCommentsScreen(
                 (it as? SortType)?.also { sortType ->
                     model.reduce(UserCommentsMviModel.Intent.ChangeSort(sortType))
                 }
-            }, key, parentKey)
+            }, key, NotificationCenterContractKeys.ChangeSortType)
             onDispose {
                 notificationCenter.removeObserver(key)
             }
@@ -119,9 +119,10 @@ internal class UserDetailCommentsScreen(
                                     0 -> UserDetailSection.POSTS
                                     else -> UserDetailSection.COMMENTS
                                 }
-                                notificationCenter.getObserver(key)?.also { obsever ->
-                                    obsever.invoke(section)
-                                }
+                                notificationCenter.getObserver(NotificationCenterContractKeys.SectionChanged)
+                                    ?.also { obsever ->
+                                        obsever.invoke(section)
+                                    }
                             },
                         )
                     }
@@ -224,7 +225,7 @@ internal class UserDetailCommentsScreen(
                                     )
                                     notificationCenter.addObserver({
                                         model.reduce(UserCommentsMviModel.Intent.Refresh)
-                                    }, key, screen.key)
+                                    }, key, NotificationCenterContractKeys.CommentCreated)
                                     bottomSheetNavigator.show(screen)
                                 }
                             )

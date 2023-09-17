@@ -34,6 +34,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBot
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -105,7 +106,7 @@ class SettingsScreen : Screen {
                                 (result as? ThemeState)?.also { value ->
                                     model.reduce(SettingsScreenMviModel.Intent.ChangeTheme(value))
                                 }
-                            }, key, sheet.key)
+                            }, key, NotificationCenterContractKeys.ChangeTheme)
                             bottomSheetNavigator.show(sheet)
                         },
                     )
@@ -124,7 +125,7 @@ class SettingsScreen : Screen {
                                         )
                                     )
                                 }
-                            }, key, sheet.key)
+                            }, key, NotificationCenterContractKeys.ChangeFontSize)
                             bottomSheetNavigator.show(sheet)
                         },
                     )
@@ -139,7 +140,7 @@ class SettingsScreen : Screen {
                                 (result as? String)?.also { lang ->
                                     model.reduce(SettingsScreenMviModel.Intent.ChangeLanguage(lang))
                                 }
-                            }, key, sheet.key)
+                            }, key, NotificationCenterContractKeys.ChangeLanguage)
                             bottomSheetNavigator.show(sheet)
                         },
                     )
@@ -160,7 +161,7 @@ class SettingsScreen : Screen {
                                         )
                                     )
                                 }
-                            }, key, sheet.key)
+                            }, key, NotificationCenterContractKeys.ChangeFeedType)
                             bottomSheetNavigator.show(sheet)
                         },
                     )
@@ -181,7 +182,7 @@ class SettingsScreen : Screen {
                                         )
                                     )
                                 }
-                            }, key, sheet.key)
+                            }, key, NotificationCenterContractKeys.ChangeSortType)
                             bottomSheetNavigator.show(sheet)
                         },
                     )
@@ -207,7 +208,7 @@ class SettingsScreen : Screen {
                                         )
                                     )
                                 }
-                            }, key, sheet.key)
+                            }, key, NotificationCenterContractKeys.ChangeCommentSortType)
                             bottomSheetNavigator.show(sheet)
                         },
                     )
