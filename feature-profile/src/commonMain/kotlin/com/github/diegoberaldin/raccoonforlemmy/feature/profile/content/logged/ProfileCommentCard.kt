@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.comments
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

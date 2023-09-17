@@ -190,10 +190,10 @@ class ProfileSavedViewModel(
             it.copy(
                 section = section,
                 canFetchMore = true,
-                posts = emptyList(),
-                comments = emptyList(),
+                refreshing = true,
             )
         }
+        loadNextPage()
     }
 
     private fun toggleUpVotePost(
