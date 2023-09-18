@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
@@ -38,9 +39,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserCounters
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLoggedViewModel
@@ -68,6 +72,7 @@ internal object ProfileLoggedScreen : Tab {
             val user = uiState.user
             val notificationCenter = remember { getNotificationCenter() }
             val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+            val bottomSheetNavigator = LocalBottomSheetNavigator.current
             DisposableEffect(key) {
                 onDispose {
                     notificationCenter.removeObserver(key)
@@ -138,6 +143,7 @@ internal object ProfileLoggedScreen : Tab {
                                     post = post,
                                     options = buildList {
                                         add(stringResource(MR.strings.post_action_share))
+                                        add(stringResource(MR.strings.post_action_edit))
                                         add(stringResource(MR.strings.comment_action_delete))
                                     },
                                     onOpenCommunity = { community ->
@@ -152,7 +158,22 @@ internal object ProfileLoggedScreen : Tab {
                                     },
                                     onOptionSelected = { optionIdx ->
                                         when (optionIdx) {
-                                            1 -> model.reduce(
+                                            1 -> {
+                                                notificationCenter.addObserver(
+                                                    {
+                                                        model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+                                                    },
+                                                    key,
+                                                    NotificationCenterContractKeys.PostCreated
+                                                )
+                                                bottomSheetNavigator.show(
+                                                    CreatePostScreen(
+                                                        editedPost = post,
+                                                    )
+                                                )
+                                            }
+
+                                            2 -> model.reduce(
                                                 ProfileLoggedMviModel.Intent.DeletePost(post.id)
                                             )
 
@@ -167,15 +188,34 @@ internal object ProfileLoggedScreen : Tab {
                             items(uiState.comments) { comment ->
                                 ProfileCommentCard(
                                     comment = comment,
-                                    options = listOf(stringResource(MR.strings.comment_action_delete)),
-                                    onOptionSelected = { idx ->
-                                        when (idx) {
-                                            else ->
+                                    options = buildList {
+                                        add(stringResource(MR.strings.post_action_edit))
+                                        add(stringResource(MR.strings.comment_action_delete))
+                                    },
+                                    onOptionSelected = { optionIdx ->
+                                        when (optionIdx) {
+                                            0 -> {
                                                 model.reduce(
                                                     ProfileLoggedMviModel.Intent.DeleteComment(
                                                         comment.id
                                                     )
                                                 )
+                                            }
+
+                                            else -> {
+                                                notificationCenter.addObserver(
+                                                    {
+                                                        model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+                                                    },
+                                                    key,
+                                                    NotificationCenterContractKeys.CommentCreated
+                                                )
+                                                bottomSheetNavigator.show(
+                                                    CreateCommentScreen(
+                                                        editedComment = comment,
+                                                    )
+                                                )
+                                            }
                                         }
                                     }
                                 )

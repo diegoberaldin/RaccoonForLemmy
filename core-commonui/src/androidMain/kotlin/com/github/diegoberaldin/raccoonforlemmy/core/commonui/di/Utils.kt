@@ -64,18 +64,22 @@ actual fun getUserDetailViewModel(user: UserModel): UserDetailViewModel {
     return res
 }
 
-actual fun getCreateCommentViewModel(postId: Int, parentId: Int?): CreateCommentViewModel {
+actual fun getCreateCommentViewModel(
+    postId: Int?,
+    parentId: Int?,
+    editedCommentId: Int?,
+): CreateCommentViewModel {
     val res: CreateCommentViewModel by inject(
         clazz = CreateCommentViewModel::class.java,
-        parameters = { parametersOf(postId, parentId) }
+        parameters = { parametersOf(postId, parentId, editedCommentId) }
     )
     return res
 }
 
-actual fun getCreatePostViewModel(communityId: Int): CreatePostViewModel {
+actual fun getCreatePostViewModel(communityId: Int?, editedPostId: Int?): CreatePostViewModel {
     val res: CreatePostViewModel by inject(
         clazz = CreatePostViewModel::class.java,
-        parameters = { parametersOf(communityId) }
+        parameters = { parametersOf(communityId, editedPostId) }
     )
     return res
 }

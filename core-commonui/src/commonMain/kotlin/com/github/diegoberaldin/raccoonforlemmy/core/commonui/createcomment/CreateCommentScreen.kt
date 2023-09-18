@@ -66,14 +66,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class CreateCommentScreen(
-    private val originalPost: PostModel,
+    private val originalPost: PostModel? = null,
     private val originalComment: CommentModel? = null,
+    private val editedComment: CommentModel? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val model = rememberScreenModel {
-            getCreateCommentViewModel(postId = originalPost.id, parentId = originalComment?.id)
+            getCreateCommentViewModel(
+                postId = originalPost?.id,
+                parentId = originalComment?.id,
+                editedCommentId = editedComment?.id,
+            )
         }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
@@ -83,6 +88,10 @@ class CreateCommentScreen(
         val notificationCenter = remember { getNotificationCenter() }
 
         LaunchedEffect(model) {
+            if (editedComment != null) {
+                model.reduce(CreateCommentMviModel.Intent.SetText(editedComment.text))
+            }
+
             model.effects.onEach {
                 when (it) {
                     is CreateCommentMviModel.Effect.Failure -> {
@@ -98,48 +107,41 @@ class CreateCommentScreen(
             }.launchIn(this)
         }
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Box {
-                            Column(
-                                modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
-                                verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                BottomSheetHandle()
-                                Text(
-                                    text = stringResource(MR.strings.create_comment_title),
-                                    style = MaterialTheme.typography.titleLarge,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                )
-                            }
-                            Row {
-                                Spacer(modifier = Modifier.weight(1f))
-                                IconButton(
-                                    content = {
-                                        Icon(
-                                            imageVector = Icons.Default.Send,
-                                            contentDescription = null,
-                                        )
-                                    },
-                                    onClick = {
-                                        model.reduce(CreateCommentMviModel.Intent.Send)
-                                    }
-                                )
-                            }
+        Scaffold(topBar = {
+            TopAppBar(
+                title = {
+                    Box {
+                        Column(
+                            modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                            verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            BottomSheetHandle()
+                            Text(
+                                text = stringResource(MR.strings.create_comment_title),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
                         }
-                    },
-                )
-            },
-            snackbarHost = {
-                SnackbarHost(snackbarHostState)
-            }
-        ) { padding ->
+                        Row {
+                            Spacer(modifier = Modifier.weight(1f))
+                            IconButton(content = {
+                                Icon(
+                                    imageVector = Icons.Default.Send,
+                                    contentDescription = null,
+                                )
+                            }, onClick = {
+                                model.reduce(CreateCommentMviModel.Intent.Send)
+                            })
+                        }
+                    }
+                },
+            )
+        }, snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        }) { padding ->
             Column(
-                modifier = Modifier.padding(padding)
-                    .verticalScroll(rememberScrollState())
+                modifier = Modifier.padding(padding).verticalScroll(rememberScrollState())
             ) {
                 val themeRepository = remember { getThemeRepository() }
                 val fontScale by themeRepository.contentFontScale.collectAsState()
@@ -153,25 +155,25 @@ class CreateCommentScreen(
                         horizontal = Spacing.s,
                         vertical = Spacing.xxs,
                     )
-                    if (originalComment != null) {
-                        CommentCard(
-                            modifier = referenceModifier,
-                            comment = originalComment
-                        )
-                    } else {
-                        PostCard(
-                            modifier = referenceModifier,
-                            post = originalPost,
-                            blurNsfw = false,
-                        )
+                    when {
+                        originalComment != null -> {
+                            CommentCard(
+                                modifier = referenceModifier, comment = originalComment
+                            )
+                        }
+
+                        originalPost != null -> {
+                            PostCard(
+                                modifier = referenceModifier,
+                                post = originalPost,
+                                blurNsfw = false,
+                            )
+                        }
                     }
                 }
 
                 Box(
-                    modifier = Modifier
-                        .padding(vertical = Spacing.s)
-                        .fillMaxWidth()
-                        .height(1.dp)
+                    modifier = Modifier.padding(vertical = Spacing.s).fillMaxWidth().height(1.dp)
                         .background(
                             color = MaterialTheme.colorScheme.onSurface,
                             shape = RoundedCornerShape(1.dp),
@@ -181,10 +183,8 @@ class CreateCommentScreen(
                 val commentFocusRequester = remember { FocusRequester() }
                 val focusManager = LocalFocusManager.current
                 TextField(
-                    modifier = Modifier
-                        .focusRequester(commentFocusRequester)
-                        .heightIn(min = 300.dp, max = 500.dp)
-                        .fillMaxWidth(),
+                    modifier = Modifier.focusRequester(commentFocusRequester)
+                        .heightIn(min = 300.dp, max = 500.dp).fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
                     label = {
                         Text(text = stringResource(MR.strings.create_comment_body))
@@ -196,11 +196,9 @@ class CreateCommentScreen(
                         autoCorrect = false,
                         imeAction = ImeAction.Done,
                     ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            focusManager.clearFocus()
-                        }
-                    ),
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.clearFocus()
+                    }),
                     onValueChange = { value ->
                         model.reduce(CreateCommentMviModel.Intent.SetText(value))
                     },

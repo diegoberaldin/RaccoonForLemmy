@@ -87,6 +87,7 @@ val commonUiModule = module {
             mvi = DefaultMviModel(CreateCommentMviModel.UiState()),
             postId = params[0],
             parentId = params[1],
+            editedCommentId = params[2],
             identityRepository = get(),
             commentRepository = get(),
         )
@@ -95,6 +96,7 @@ val commonUiModule = module {
         CreatePostViewModel(
             mvi = DefaultMviModel(CreatePostMviModel.UiState()),
             communityId = params[0],
+            editedPostId = params[1],
             identityRepository = get(),
             postsRepository = get(),
         )

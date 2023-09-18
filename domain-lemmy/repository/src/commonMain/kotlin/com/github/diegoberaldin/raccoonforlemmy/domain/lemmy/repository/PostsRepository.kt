@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeletePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -131,6 +132,25 @@ class PostsRepository(
             auth = auth,
         )
         services.post.create(data)
+    }
+
+    suspend fun edit(
+        postId: Int,
+        title: String,
+        body: String?,
+        url: String? = null,
+        nsfw: Boolean = false,
+        auth: String,
+    ) {
+        val data = EditPostForm(
+            postId = postId,
+            name = title,
+            body = body,
+            url = url,
+            nsfw = nsfw,
+            auth = auth,
+        )
+        services.post.edit(data)
     }
 
     suspend fun delete(id: Int, auth: String) {

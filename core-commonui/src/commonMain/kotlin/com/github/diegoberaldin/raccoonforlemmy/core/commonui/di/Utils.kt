@@ -37,12 +37,14 @@ expect fun getInstanceInfoViewModel(
 ): InstanceInfoViewModel
 
 expect fun getCreateCommentViewModel(
-    postId: Int,
+    postId: Int? = null,
     parentId: Int? = null,
+    editedCommentId: Int? = null,
 ): CreateCommentViewModel
 
 expect fun getCreatePostViewModel(
-    communityId: Int,
+    communityId: Int?,
+    editedPostId: Int?,
 ): CreatePostViewModel
 
 expect fun getZoomableImageViewModel(): ZoomableImageViewModel

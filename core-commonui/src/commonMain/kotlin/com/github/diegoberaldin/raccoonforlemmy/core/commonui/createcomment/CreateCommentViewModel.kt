@@ -10,8 +10,9 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class CreateCommentViewModel(
-    private val postId: Int,
+    private val postId: Int?,
     private val parentId: Int?,
+    private val editedCommentId: Int?,
     private val mvi: DefaultMviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val commentRepository: CommentRepository,
@@ -36,12 +37,20 @@ class CreateCommentViewModel(
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val text = uiState.value.text
-                commentRepository.create(
-                    postId = postId,
-                    parentId = parentId,
-                    text = text,
-                    auth = auth,
-                )
+                if (postId != null) {
+                    commentRepository.create(
+                        postId = postId,
+                        parentId = parentId,
+                        text = text,
+                        auth = auth,
+                    )
+                } else if (editedCommentId != null) {
+                    commentRepository.edit(
+                        commentId = editedCommentId,
+                        text = text,
+                        auth = auth,
+                    )
+                }
                 mvi.emitEffect(CreateCommentMviModel.Effect.Success)
             } catch (e: Throwable) {
                 val message = e.message

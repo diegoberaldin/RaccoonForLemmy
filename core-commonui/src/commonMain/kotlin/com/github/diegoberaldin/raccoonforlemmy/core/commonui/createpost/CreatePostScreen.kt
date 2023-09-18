@@ -48,18 +48,25 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Progres
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class CreatePostScreen(
-    private val communityId: Int,
+    private val communityId: Int? = null,
+    private val editedPost: PostModel? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getCreatePostViewModel(communityId) }
+        val model = rememberScreenModel {
+            getCreatePostViewModel(
+                communityId = communityId,
+                editedPostId = editedPost?.id,
+            )
+        }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
@@ -68,6 +75,9 @@ class CreatePostScreen(
         val notificationCenter = remember { getNotificationCenter() }
 
         LaunchedEffect(model) {
+            model.reduce(CreatePostMviModel.Intent.SetTitle(editedPost?.title.orEmpty()))
+            model.reduce(CreatePostMviModel.Intent.SetText(editedPost?.text.orEmpty()))
+
             model.effects.onEach {
                 when (it) {
                     is CreatePostMviModel.Effect.Failure -> {

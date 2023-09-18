@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeleteCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
@@ -124,6 +125,19 @@ class CommentRepository(
             auth = auth,
         )
         services.comment.create(data)
+    }
+
+    suspend fun edit(
+        commentId: Int,
+        text: String,
+        auth: String,
+    ) {
+        val data = EditCommentForm(
+            content = text,
+            commentId = commentId,
+            auth = auth,
+        )
+        services.comment.edit(data)
     }
 
     suspend fun delete(

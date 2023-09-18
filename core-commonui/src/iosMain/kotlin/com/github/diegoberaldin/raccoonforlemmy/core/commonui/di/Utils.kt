@@ -36,11 +36,18 @@ actual fun getInstanceInfoViewModel(url: String): InstanceInfoViewModel =
 actual fun getUserDetailViewModel(user: UserModel): UserDetailViewModel =
     CommonUiViewModelHelper.getUserDetailModel(user)
 
-actual fun getCreateCommentViewModel(postId: Int, parentId: Int?): CreateCommentViewModel =
-    CommonUiViewModelHelper.getCreateCommentModel(postId, parentId)
+actual fun getCreateCommentViewModel(
+    postId: Int?,
+    parentId: Int?,
+    editedCommentId: Int?,
+): CreateCommentViewModel =
+    CommonUiViewModelHelper.getCreateCommentModel(postId, parentId, editedCommentId)
 
-actual fun getCreatePostViewModel(communityId: Int): CreatePostViewModel =
-    CommonUiViewModelHelper.getCreatePostModel(communityId)
+actual fun getCreatePostViewModel(
+    communityId: Int?,
+    editedPostId: Int?,
+): CreatePostViewModel =
+    CommonUiViewModelHelper.getCreatePostModel(communityId, editedPostId)
 
 actual fun getZoomableImageViewModel(): ZoomableImageViewModel =
     CommonUiViewModelHelper.zoomableImageModel
@@ -88,16 +95,20 @@ object CommonUiViewModelHelper : KoinComponent {
         return model
     }
 
-    fun getCreateCommentModel(postId: Int, parentId: Int?): CreateCommentViewModel {
+    fun getCreateCommentModel(
+        postId: Int?,
+        parentId: Int?,
+        editedCommentId: Int?,
+    ): CreateCommentViewModel {
         val model: CreateCommentViewModel by inject(
-            parameters = { parametersOf(postId, parentId) }
+            parameters = { parametersOf(postId, parentId, editedCommentId) }
         )
         return model
     }
 
-    fun getCreatePostModel(communityId: Int): CreatePostViewModel {
+    fun getCreatePostModel(communityId: Int?, editedPostId: Int?): CreatePostViewModel {
         val model: CreatePostViewModel by inject(
-            parameters = { parametersOf(communityId) }
+            parameters = { parametersOf(communityId, editedPostId) }
         )
         return model
     }

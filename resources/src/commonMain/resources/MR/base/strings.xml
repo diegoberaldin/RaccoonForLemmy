@@ -50,6 +50,7 @@
     <string name="post_detail_load_more_comments">Load more comments…</string>
     <string name="comment_action_delete">Delete</string>
     <string name="post_action_share">Share</string>
+    <string name="post_action_edit">Edit</string>
 
     <string name="explore_search_placeholder">Search for communities</string>
 
