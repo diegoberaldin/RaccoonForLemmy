@@ -50,11 +50,9 @@ class PostDetailViewModel(
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                val p = postsRepository.get(id = post.id, auth = auth) ?: post
                 mvi.updateState {
                     it.copy(
                         currentUserId = user?.id ?: 0,
-                        post = p,
                     )
                 }
             }
@@ -116,6 +114,15 @@ class PostDetailViewModel(
     private fun refresh() {
         currentPage = 1
         mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value
+            val updatedPost = postsRepository.get(id = post.id, auth = auth) ?: post
+            mvi.updateState {
+                it.copy(
+                    post = updatedPost,
+                )
+            }
+        }
         loadNextPage()
     }
 

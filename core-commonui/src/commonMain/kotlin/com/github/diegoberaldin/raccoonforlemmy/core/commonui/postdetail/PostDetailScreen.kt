@@ -78,6 +78,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostLinkBanner
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getPostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
@@ -295,6 +296,7 @@ class PostDetailScreen(
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
                                             if (statePost.creator?.id == uiState.currentUserId) {
+                                                add(stringResource(MR.strings.post_action_edit))
                                                 add(stringResource(MR.strings.comment_action_delete))
                                             }
                                         },
@@ -322,7 +324,23 @@ class PostDetailScreen(
                                         },
                                         onOptionSelected = { idx ->
                                             when (idx) {
-                                                else -> model.reduce(PostDetailMviModel.Intent.DeletePost)
+                                                2 -> model.reduce(PostDetailMviModel.Intent.DeletePost)
+                                                1 -> {
+                                                    notificationCenter.addObserver(
+                                                        {
+                                                            model.reduce(PostDetailMviModel.Intent.Refresh)
+                                                        },
+                                                        key,
+                                                        NotificationCenterContractKeys.PostCreated
+                                                    )
+                                                    bottomSheetNavigator.show(
+                                                        CreatePostScreen(
+                                                            editedPost = post,
+                                                        )
+                                                    )
+                                                }
+
+                                                else -> model.reduce(PostDetailMviModel.Intent.SharePost)
                                             }
                                         }
                                     )
@@ -449,9 +467,20 @@ class PostDetailScreen(
                                                         )
                                                     )
 
-                                                    else -> model.reduce(
-                                                        PostDetailMviModel.Intent.SharePost
-                                                    )
+                                                    else -> {
+                                                        notificationCenter.addObserver(
+                                                            {
+                                                                model.reduce(PostDetailMviModel.Intent.Refresh)
+                                                            },
+                                                            key,
+                                                            NotificationCenterContractKeys.CommentCreated
+                                                        )
+                                                        bottomSheetNavigator.show(
+                                                            CreateCommentScreen(
+                                                                editedComment = comment,
+                                                            )
+                                                        )
+                                                    }
                                                 }
                                             }
                                         )
