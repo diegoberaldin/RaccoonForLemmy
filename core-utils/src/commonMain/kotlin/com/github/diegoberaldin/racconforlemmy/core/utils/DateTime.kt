@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.racconforlemmy.core.utils
 
 expect object DateTime {
+    fun epochMillis(): Long
+
     fun getFormattedDate(
         iso8601Timestamp: String,
         format: String,

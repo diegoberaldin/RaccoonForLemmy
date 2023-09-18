@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter
 import java.util.GregorianCalendar
 
 actual object DateTime {
+    actual fun epochMillis(): Long = System.currentTimeMillis()
+
     actual fun getFormattedDate(
         iso8601Timestamp: String,
         format: String,

@@ -103,6 +103,7 @@ val commonUiModule = module {
         ZoomableImageViewModel(
             mvi = DefaultMviModel(ZoomableImageMviModel.UiState()),
             shareHelper = get(),
+            galleryHelper = get(),
         )
     }
 }

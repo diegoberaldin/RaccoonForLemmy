@@ -6,6 +6,7 @@ interface ZoomableImageMviModel :
     MviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect> {
     sealed interface Intent {
         data class Share(val url: String) : Intent
+        data class SaveToGallery(val url: String) : Intent
     }
 
     data class UiState(val loading: Boolean = false)

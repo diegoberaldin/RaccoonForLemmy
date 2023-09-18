@@ -15,8 +15,13 @@ import platform.Foundation.NSLocale
 import platform.Foundation.NSTimeZone
 import platform.Foundation.autoupdatingCurrentLocale
 import platform.Foundation.localTimeZone
+import platform.Foundation.timeIntervalSince1970
 
 actual object DateTime {
+
+    actual fun epochMillis(): Long {
+        return (NSDate().timeIntervalSince1970 * 1000).toLong()
+    }
 
     actual fun getFormattedDate(
         iso8601Timestamp: String,
@@ -48,7 +53,7 @@ actual object DateTime {
                 .or(NSCalendarUnitDay).or(NSCalendarUnitMonth).or(NSCalendarUnitYear),
             fromDate = date,
             toDate = now,
-            options = 0,
+            options = 0u,
         )
         return when {
             delta.year >= 1 -> buildString {

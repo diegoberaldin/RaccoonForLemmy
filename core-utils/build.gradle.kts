@@ -40,6 +40,7 @@ kotlin {
                 implementation(compose.components.resources)
 
                 implementation(libs.koin.core)
+                implementation(libs.ktor.cio)
                 implementation(projects.resources)
             }
         }
