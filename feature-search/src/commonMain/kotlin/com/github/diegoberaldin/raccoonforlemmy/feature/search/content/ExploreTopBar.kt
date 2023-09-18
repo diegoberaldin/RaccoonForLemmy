@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.search.communitylist
+package com.github.diegoberaldin.raccoonforlemmy.feature.search.content
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -49,7 +49,7 @@ internal fun CommunityTopBar(
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 Text(
-                    text = stringResource(MR.strings.instance_detail_communities),
+                    text = stringResource(MR.strings.navigation_search),
                     style = MaterialTheme.typography.titleLarge,
                 )
                 Text(

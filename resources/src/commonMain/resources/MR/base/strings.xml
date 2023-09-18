@@ -52,7 +52,12 @@
     <string name="post_action_share">Share</string>
     <string name="post_action_edit">Edit</string>
 
-    <string name="explore_search_placeholder">Search for communities</string>
+    <string name="explore_result_type_all">All</string>
+    <string name="explore_result_type_posts">Posts</string>
+    <string name="explore_result_type_comments">Comments</string>
+    <string name="explore_result_type_communities">Communities</string>
+    <string name="explore_result_type_users">Users</string>
+    <string name="explore_search_placeholder">Search text</string>
 
     <string name="profile_not_logged_message">You are currently not logged in.\nPlease add an
         account to continue.

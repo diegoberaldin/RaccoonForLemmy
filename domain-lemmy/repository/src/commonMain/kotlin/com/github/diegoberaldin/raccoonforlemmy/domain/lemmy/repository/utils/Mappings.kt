@@ -10,8 +10,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscri
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Person
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonAggregates
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Active
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Hot
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.MostComments
@@ -32,6 +34,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserScoreModel
@@ -67,6 +70,14 @@ internal fun SortType.toCommentDto(): CommentSortType = when (this) {
     else -> CommentSortType.New
 }
 
+internal fun SearchResultType.toDto(): SearchType = when (this) {
+    SearchResultType.All -> SearchType.All
+    SearchResultType.Comments -> SearchType.Comments
+    SearchResultType.Communities -> SearchType.Communities
+    SearchResultType.Posts -> SearchType.Posts
+    SearchResultType.Users -> SearchType.Users
+}
+
 internal fun Person.toModel() = UserModel(
     id = id,
     name = name,
@@ -74,6 +85,8 @@ internal fun Person.toModel() = UserModel(
     host = actorId.toHost(),
     accountAge = published,
 )
+
+internal fun PersonView.toModel() = person.toModel()
 
 internal fun PersonAggregates.toModel() = UserScoreModel(
     postScore = postScore,

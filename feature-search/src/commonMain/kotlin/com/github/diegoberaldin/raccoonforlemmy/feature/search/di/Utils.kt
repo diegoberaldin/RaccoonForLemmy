@@ -1,5 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.search.di
 
-import com.github.diegoberaldin.raccoonforlemmy.feature.search.communitylist.CommunityListViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.content.ExporeViewModel
 
-expect fun getSearchScreenModel(): CommunityListViewModel
+expect fun getExploreViewModel(): ExporeViewModel

@@ -2,11 +2,11 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SubscribedType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
@@ -27,19 +27,25 @@ class CommunityRepository(
         limit: Int = DEFAULT_PAGE_SIZE,
         listingType: ListingType = ListingType.All,
         sortType: SortType = SortType.Active,
-    ): List<CommunityModel> = runCatching {
+        resultType: SearchResultType = SearchResultType.All,
+    ): List<Any> = runCatching {
         val response = services.search.search(
             q = query,
             auth = auth,
             page = page,
             limit = limit,
-            type = SearchType.Communities,
+            type = resultType.toDto(),
             listingType = listingType.toDto(),
             sort = sortType.toDto(),
         ).body()
-        response?.communities?.map {
-            it.toModel()
-        }.orEmpty()
+
+        val posts = response?.posts?.map { it.toModel() }.orEmpty()
+        val comments = response?.comments?.map { it.toModel() }.orEmpty()
+        val communities = response?.communities?.map { it.toModel() }.orEmpty()
+        val users = response?.users?.map { it.toModel() }.orEmpty()
+
+        // returns everything
+        posts + comments + communities + users
     }.getOrElse { emptyList() }
 
     suspend fun getAllInInstance(
