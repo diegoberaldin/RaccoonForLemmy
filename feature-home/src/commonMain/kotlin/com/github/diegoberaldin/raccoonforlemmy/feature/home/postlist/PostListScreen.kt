@@ -53,6 +53,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
@@ -231,6 +232,7 @@ class PostListScreen : Screen {
                                             options = buildList {
                                                 add(stringResource(MR.strings.post_action_share))
                                                 if (post.creator?.id == uiState.currentUserId) {
+                                                    add(stringResource(MR.strings.post_action_edit))
                                                     add(stringResource(MR.strings.comment_action_delete))
                                                 }
                                             },
@@ -289,11 +291,26 @@ class PostListScreen : Screen {
                                             },
                                             onOptionSelected = { optionIdx ->
                                                 when (optionIdx) {
-                                                    1 -> model.reduce(
+                                                    2 -> model.reduce(
                                                         PostListMviModel.Intent.DeletePost(
                                                             post.id
                                                         )
                                                     )
+
+                                                    1 -> {
+                                                        notificationCenter.addObserver(
+                                                            {
+                                                                model.reduce(PostListMviModel.Intent.Refresh)
+                                                            },
+                                                            key,
+                                                            NotificationCenterContractKeys.PostCreated
+                                                        )
+                                                        bottomSheetNavigator.show(
+                                                            CreatePostScreen(
+                                                                editedPost = post,
+                                                            )
+                                                        )
+                                                    }
 
                                                     else -> model.reduce(
                                                         PostListMviModel.Intent.SharePost(idx)
