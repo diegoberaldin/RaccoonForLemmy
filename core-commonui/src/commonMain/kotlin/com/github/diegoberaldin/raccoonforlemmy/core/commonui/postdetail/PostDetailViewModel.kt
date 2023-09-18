@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.racconforlemmy.core.utils.HapticFeedback
+import com.github.diegoberaldin.racconforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -12,6 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
@@ -27,6 +29,7 @@ class PostDetailViewModel(
     private val siteRepository: SiteRepository,
     private val postsRepository: PostsRepository,
     private val commentRepository: CommentRepository,
+    private val shareHelper: ShareHelper,
     private val keyStore: TemporaryKeyStore,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
@@ -104,6 +107,9 @@ class PostDetailViewModel(
 
             is PostDetailMviModel.Intent.DeleteComment -> deleteComment(intent.id)
             PostDetailMviModel.Intent.DeletePost -> deletePost()
+            PostDetailMviModel.Intent.SharePost -> share(
+                post = uiState.value.post,
+            )
         }
     }
 
@@ -427,6 +433,13 @@ class PostDetailViewModel(
                 it.invoke(post)
             }
             mvi.emitEffect(PostDetailMviModel.Effect.Close)
+        }
+    }
+
+    private fun share(post: PostModel) {
+        val url = post.shareUrl
+        if (url.isNotEmpty()) {
+            shareHelper.share(url, "text/plain")
         }
     }
 }

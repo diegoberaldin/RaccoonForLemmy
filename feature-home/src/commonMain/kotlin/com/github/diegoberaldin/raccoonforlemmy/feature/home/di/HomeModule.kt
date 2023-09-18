@@ -19,6 +19,7 @@ val homeTabModule = module {
             apiConfigRepository = get(),
             identityRepository = get(),
             siteRepository = get(),
+            shareHelper = get(),
             keyStore = get(),
             notificationCenter = get(),
             hapticFeedback = get(),

@@ -19,6 +19,7 @@ interface CommunityDetailMviModel :
         object Subscribe : Intent
         object Unsubscribe : Intent
         data class DeletePost(val id: Int) : Intent
+        data class SharePost(val index: Int) : Intent
     }
 
     data class UiState(

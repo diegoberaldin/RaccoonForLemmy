@@ -22,6 +22,7 @@ interface UserDetailMviModel :
 
         data class SaveComment(val index: Int, val feedback: Boolean = false) : Intent
         object HapticIndication : Intent
+        data class SharePost(val index: Int) : Intent
     }
 
     data class UiState(

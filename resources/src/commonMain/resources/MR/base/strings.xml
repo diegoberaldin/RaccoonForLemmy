@@ -49,6 +49,7 @@
 
     <string name="post_detail_load_more_comments">Load more comments…</string>
     <string name="comment_action_delete">Delete</string>
+    <string name="post_action_share">Share</string>
 
     <string name="explore_search_placeholder">Search for communities</string>
 
@@ -108,7 +109,9 @@
     <string name="instance_detail_title">Instance: %1$s</string>
     <string name="instance_detail_communities">Communities</string>
 
-    <string name="inbox_not_logged_message">You are currently not logged in.\nPlease add an account from the profile screen to see your inbox. </string>
+    <string name="inbox_not_logged_message">You are currently not logged in.\nPlease add an account
+        from the profile screen to see your inbox.
+    </string>
     <string name="inbox_section_replies">Replies</string>
     <string name="inbox_section_mentions">Mentions</string>
     <string name="inbox_section_messages">Messages</string>

@@ -16,3 +16,12 @@ data class PostModel(
     val publishDate: String? = null,
     val nsfw: Boolean = false,
 ) : JavaSerializable
+
+
+val PostModel.shareUrl: String
+    get() = buildString {
+        append("https://")
+        append(community?.host)
+        append("/post/")
+        append(id)
+    }

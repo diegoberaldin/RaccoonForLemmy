@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.racconforlemmy.core.utils.HapticFeedback
+import com.github.diegoberaldin.racconforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
@@ -10,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
@@ -27,6 +29,7 @@ class CommunityDetailViewModel(
     private val communityRepository: CommunityRepository,
     private val postsRepository: PostsRepository,
     private val siteRepository: SiteRepository,
+    private val shareHelper: ShareHelper,
     private val keyStore: TemporaryKeyStore,
     private val hapticFeedback: HapticFeedback,
 ) : MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi,
@@ -82,6 +85,9 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.Subscribe -> subscribe()
             CommunityDetailMviModel.Intent.Unsubscribe -> unsubscribe()
             is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
+            is CommunityDetailMviModel.Intent.SharePost -> share(
+                post = uiState.value.posts[intent.index],
+            )
         }
     }
 
@@ -322,5 +328,12 @@ class CommunityDetailViewModel(
 
     private fun handlePostDelete(id: Int) {
         mvi.updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+    }
+
+    private fun share(post: PostModel) {
+        val url = post.shareUrl
+        if (url.isNotEmpty()) {
+            shareHelper.share(url, "text/plain")
+        }
     }
 }

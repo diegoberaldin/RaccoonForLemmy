@@ -270,6 +270,9 @@ class UserDetailScreen(
                                             },
                                             post = post,
                                             blurNsfw = uiState.blurNsfw,
+                                            options = buildList {
+                                                add(stringResource(MR.strings.post_action_share))
+                                            },
                                             onUpVote = {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.UpVotePost(
@@ -317,6 +320,13 @@ class UserDetailScreen(
                                                     ZoomableImageScreen(url),
                                                 )
                                             },
+                                            onOptionSelected = { optionIdx ->
+                                                when (optionIdx) {
+                                                    else -> model.reduce(
+                                                        UserDetailMviModel.Intent.SharePost(idx)
+                                                    )
+                                                }
+                                            }
                                         )
                                     },
                                 )

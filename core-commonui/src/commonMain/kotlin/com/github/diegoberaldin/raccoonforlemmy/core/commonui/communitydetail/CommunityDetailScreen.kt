@@ -478,6 +478,7 @@ class CommunityDetailScreen(
                                         },
                                         post = post,
                                         options = buildList {
+                                            add(stringResource(MR.strings.post_action_share))
                                             if (post.creator?.id == uiState.currentUserId) {
                                                 add(stringResource(MR.strings.comment_action_delete))
                                             }
@@ -536,12 +537,16 @@ class CommunityDetailScreen(
                                                 ZoomableImageScreen(url),
                                             )
                                         },
-                                        onOptionSelected = { idx ->
-                                            when (idx) {
-                                                else -> model.reduce(
+                                        onOptionSelected = { optionIdx ->
+                                            when (optionIdx) {
+                                                1 -> model.reduce(
                                                     CommunityDetailMviModel.Intent.DeletePost(
                                                         post.id
                                                     )
+                                                )
+
+                                                else -> model.reduce(
+                                                    CommunityDetailMviModel.Intent.SharePost(idx)
                                                 )
                                             }
                                         }

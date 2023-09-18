@@ -14,6 +14,7 @@ interface ProfileLoggedMviModel :
         object LoadNextPage : Intent
         data class DeletePost(val id: Int) : Intent
         data class DeleteComment(val id: Int) : Intent
+        data class SharePost(val index: Int) : Intent
     }
 
     data class UiState(

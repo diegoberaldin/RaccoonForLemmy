@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged
 
 import cafe.adriel.voyager.core.model.ScreenModel
+import com.github.diegoberaldin.racconforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -8,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
@@ -23,6 +25,7 @@ class ProfileLoggedViewModel(
     private val postsRepository: PostsRepository,
     private val commentRepository: CommentRepository,
     private val userRepository: UserRepository,
+    private val shareHelper: ShareHelper,
     private val notificationCenter: NotificationCenter,
 ) : ScreenModel,
     MviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect> by mvi {
@@ -62,6 +65,9 @@ class ProfileLoggedViewModel(
             is ProfileLoggedMviModel.Intent.DeletePost -> deletePost(intent.id)
             ProfileLoggedMviModel.Intent.LoadNextPage -> loadNextPage()
             ProfileLoggedMviModel.Intent.Refresh -> refresh()
+            is ProfileLoggedMviModel.Intent.SharePost -> share(
+                post = uiState.value.posts[intent.index]
+            )
         }
     }
 
@@ -187,6 +193,13 @@ class ProfileLoggedViewModel(
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             refresh()
+        }
+    }
+
+    private fun share(post: PostModel) {
+        val url = post.shareUrl
+        if (url.isNotEmpty()) {
+            shareHelper.share(url, "text/plain")
         }
     }
 }

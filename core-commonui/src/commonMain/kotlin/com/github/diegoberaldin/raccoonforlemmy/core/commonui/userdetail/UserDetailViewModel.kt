@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.racconforlemmy.core.utils.HapticFeedback
+import com.github.diegoberaldin.racconforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -13,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
@@ -28,6 +30,7 @@ class UserDetailViewModel(
     private val userRepository: UserRepository,
     private val postsRepository: PostsRepository,
     private val commentRepository: CommentRepository,
+    private val shareHelper: ShareHelper,
     private val hapticFeedback: HapticFeedback,
     private val keyStore: TemporaryKeyStore,
     private val notificationCenter: NotificationCenter,
@@ -93,6 +96,10 @@ class UserDetailViewModel(
             is UserDetailMviModel.Intent.UpVotePost -> toggleUpVote(
                 post = uiState.value.posts[intent.index],
                 feedback = intent.feedback,
+            )
+
+            is UserDetailMviModel.Intent.SharePost -> share(
+                post = uiState.value.posts[intent.index],
             )
         }
     }
@@ -479,6 +486,13 @@ class UserDetailViewModel(
                     }
                 },
             )
+        }
+    }
+
+    private fun share(post: PostModel) {
+        val url = post.shareUrl
+        if (url.isNotEmpty()) {
+            shareHelper.share(url, "text/plain")
         }
     }
 }

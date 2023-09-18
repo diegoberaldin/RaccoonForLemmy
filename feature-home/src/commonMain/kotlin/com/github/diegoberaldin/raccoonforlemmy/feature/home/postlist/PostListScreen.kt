@@ -229,6 +229,7 @@ class PostListScreen : Screen {
                                             },
                                             post = post,
                                             options = buildList {
+                                                add(stringResource(MR.strings.post_action_share))
                                                 if (post.creator?.id == uiState.currentUserId) {
                                                     add(stringResource(MR.strings.comment_action_delete))
                                                 }
@@ -272,9 +273,13 @@ class PostListScreen : Screen {
                                                 val screen = CreateCommentScreen(
                                                     originalPost = post,
                                                 )
-                                                notificationCenter.addObserver({
-                                                    model.reduce(PostListMviModel.Intent.Refresh)
-                                                }, key, NotificationCenterContractKeys.CommentCreated)
+                                                notificationCenter.addObserver(
+                                                    {
+                                                        model.reduce(PostListMviModel.Intent.Refresh)
+                                                    },
+                                                    key,
+                                                    NotificationCenterContractKeys.CommentCreated
+                                                )
                                                 bottomSheetNavigator.show(screen)
                                             },
                                             onImageClick = { url ->
@@ -282,9 +287,17 @@ class PostListScreen : Screen {
                                                     ZoomableImageScreen(url),
                                                 )
                                             },
-                                            onOptionSelected = {idx ->
-                                                when(idx) {
-                                                    else -> model.reduce(PostListMviModel.Intent.DeletePost(post.id))
+                                            onOptionSelected = { optionIdx ->
+                                                when (optionIdx) {
+                                                    1 -> model.reduce(
+                                                        PostListMviModel.Intent.DeletePost(
+                                                            post.id
+                                                        )
+                                                    )
+
+                                                    else -> model.reduce(
+                                                        PostListMviModel.Intent.SharePost(idx)
+                                                    )
                                                 }
                                             }
                                         )

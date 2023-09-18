@@ -5,7 +5,7 @@ import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 
 class DefaultShareHelper() : ShareHelper {
-    override fun shareImage(url: String, mimeType: String) {
+    override fun share(url: String, mimeType: String) {
         val shareActivity = UIActivityViewController(listOf(url), null)
         val rvc = UIApplication.sharedApplication().keyWindow?.rootViewController
         rvc?.presentViewController(shareActivity, true, null)

@@ -14,7 +14,7 @@ class ZoomableImageViewModel(
     override fun reduce(intent: ZoomableImageMviModel.Intent) {
         when (intent) {
             is ZoomableImageMviModel.Intent.Share -> {
-                shareHelper.shareImage(intent.url, "image/*")
+                shareHelper.share(intent.url, "image/*")
             }
         }
     }

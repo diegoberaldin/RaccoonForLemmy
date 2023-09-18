@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -127,7 +128,7 @@ internal object ProfileLoggedScreen : Tab {
                             }
                         }
                         if (uiState.section == ProfileLoggedSection.Posts) {
-                            items(uiState.posts) { post ->
+                            itemsIndexed(uiState.posts) { idx, post ->
                                 ProfilePostCard(
                                     modifier = Modifier.onClick {
                                         navigator?.push(
@@ -135,7 +136,10 @@ internal object ProfileLoggedScreen : Tab {
                                         )
                                     },
                                     post = post,
-                                    options = listOf(stringResource(MR.strings.comment_action_delete)),
+                                    options = buildList {
+                                        add(stringResource(MR.strings.post_action_share))
+                                        add(stringResource(MR.strings.comment_action_delete))
+                                    },
                                     onOpenCommunity = { community ->
                                         navigator?.push(
                                             CommunityDetailScreen(community),
@@ -146,10 +150,14 @@ internal object ProfileLoggedScreen : Tab {
                                             ZoomableImageScreen(url),
                                         )
                                     },
-                                    onOptionSelected = { idx ->
-                                        when (idx) {
-                                            else -> model.reduce(
+                                    onOptionSelected = { optionIdx ->
+                                        when (optionIdx) {
+                                            1 -> model.reduce(
                                                 ProfileLoggedMviModel.Intent.DeletePost(post.id)
+                                            )
+
+                                            else -> model.reduce(
+                                                ProfileLoggedMviModel.Intent.SharePost(idx)
                                             )
                                         }
                                     }

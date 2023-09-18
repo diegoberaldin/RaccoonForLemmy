@@ -24,6 +24,7 @@ interface PostDetailMviModel :
         data class DeleteComment(val id: Int) : Intent
         object DeletePost : Intent
         object HapticIndication : Intent
+        object SharePost : Intent
     }
 
     data class UiState(

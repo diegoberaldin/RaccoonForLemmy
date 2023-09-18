@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.racconforlemmy.core.utils.HapticFeedback
+import com.github.diegoberaldin.racconforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -13,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostsRepository
@@ -30,6 +32,7 @@ class PostListViewModel(
     private val apiConfigRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
+    private val shareHelper: ShareHelper,
     private val keyStore: TemporaryKeyStore,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
@@ -117,6 +120,9 @@ class PostListViewModel(
             PostListMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is PostListMviModel.Intent.HandlePostUpdate -> handlePostUpdate(intent.post)
             is PostListMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
+            is PostListMviModel.Intent.SharePost -> {
+                share(post = uiState.value.posts[intent.index])
+            }
         }
     }
 
@@ -350,6 +356,13 @@ class PostListViewModel(
             val auth = identityRepository.authToken.value.orEmpty()
             postsRepository.delete(id = id, auth = auth)
             handlePostDelete(id)
+        }
+    }
+
+    private fun share(post: PostModel) {
+        val url = post.shareUrl
+        if (url.isNotEmpty()) {
+            shareHelper.share(url, "text/plain")
         }
     }
 }

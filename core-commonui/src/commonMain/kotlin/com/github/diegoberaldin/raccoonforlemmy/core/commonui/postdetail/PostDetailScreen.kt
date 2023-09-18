@@ -293,6 +293,7 @@ class PostDetailScreen(
                                         saved = statePost.saved,
                                         date = statePost.publishDate,
                                         options = buildList {
+                                            add(stringResource(MR.strings.post_action_share))
                                             if (statePost.creator?.id == uiState.currentUserId) {
                                                 add(stringResource(MR.strings.comment_action_delete))
                                             }
@@ -442,10 +443,14 @@ class PostDetailScreen(
                                             },
                                             onOptionSelected = { idx ->
                                                 when (idx) {
-                                                    else -> model.reduce(
+                                                    1 -> model.reduce(
                                                         PostDetailMviModel.Intent.DeleteComment(
                                                             comment.id
                                                         )
+                                                    )
+
+                                                    else -> model.reduce(
+                                                        PostDetailMviModel.Intent.SharePost
                                                     )
                                                 }
                                             }
