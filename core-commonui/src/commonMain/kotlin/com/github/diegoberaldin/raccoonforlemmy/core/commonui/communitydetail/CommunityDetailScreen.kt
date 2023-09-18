@@ -480,6 +480,7 @@ class CommunityDetailScreen(
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
                                             if (post.creator?.id == uiState.currentUserId) {
+                                                add(stringResource(MR.strings.post_action_edit))
                                                 add(stringResource(MR.strings.comment_action_delete))
                                             }
                                         },
@@ -539,11 +540,26 @@ class CommunityDetailScreen(
                                         },
                                         onOptionSelected = { optionIdx ->
                                             when (optionIdx) {
-                                                1 -> model.reduce(
+                                                2 -> model.reduce(
                                                     CommunityDetailMviModel.Intent.DeletePost(
                                                         post.id
                                                     )
                                                 )
+
+                                                1 -> {
+                                                    notificationCenter.addObserver(
+                                                        {
+                                                            model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                                                        },
+                                                        key,
+                                                        NotificationCenterContractKeys.PostCreated
+                                                    )
+                                                    bottomSheetNavigator.show(
+                                                        CreatePostScreen(
+                                                            editedPost = post,
+                                                        )
+                                                    )
+                                                }
 
                                                 else -> model.reduce(
                                                     CommunityDetailMviModel.Intent.SharePost(idx)
