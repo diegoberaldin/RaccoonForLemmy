@@ -11,6 +11,7 @@ interface CreatePostMviModel :
         data class SetText(val value: String) : Intent
         data class SetUrl(val value: String) : Intent
         data class ChangeNsfw(val value: Boolean) : Intent
+        data class ImageSelected(val value: ByteArray) : Intent
 
         object Send : Intent
     }

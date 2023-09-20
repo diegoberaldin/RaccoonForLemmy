@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,7 +30,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -42,6 +45,8 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import com.github.diegoberaldin.racconforlemmy.core.utils.getGalleryHelper
+import com.github.diegoberaldin.racconforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -75,6 +80,7 @@ class CreatePostScreen(
         val genericError = stringResource(MR.strings.message_generic_error)
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val notificationCenter = remember { getNotificationCenter() }
+        val galleryHelper = remember { getGalleryHelper() }
 
         LaunchedEffect(model) {
             model.reduce(CreatePostMviModel.Intent.SetTitle(editedPost?.title.orEmpty()))
@@ -91,49 +97,45 @@ class CreatePostScreen(
                             ?.also { o -> o.invoke(Unit) }
                         bottomSheetNavigator.hide()
                     }
+
+                    else -> {}
                 }
             }.launchIn(this)
         }
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Box {
-                            Column(
-                                modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
-                                verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                BottomSheetHandle()
-                                Text(
-                                    text = stringResource(MR.strings.create_post_title),
-                                    style = MaterialTheme.typography.titleLarge,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                )
-                            }
-                            Row {
-                                Spacer(modifier = Modifier.weight(1f))
-                                IconButton(
-                                    content = {
-                                        Icon(
-                                            imageVector = Icons.Default.Send,
-                                            contentDescription = null,
-                                        )
-                                    },
-                                    onClick = {
-                                        model.reduce(CreatePostMviModel.Intent.Send)
-                                    }
-                                )
-                            }
+        Scaffold(topBar = {
+            TopAppBar(
+                title = {
+                    Box {
+                        Column(
+                            modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                            verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            BottomSheetHandle()
+                            Text(
+                                text = stringResource(MR.strings.create_post_title),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
                         }
-                    },
-                )
-            },
-            snackbarHost = {
-                SnackbarHost(snackbarHostState)
-            }
-        ) { padding ->
+                        Row {
+                            Spacer(modifier = Modifier.weight(1f))
+                            IconButton(content = {
+                                Icon(
+                                    imageVector = Icons.Default.Send,
+                                    contentDescription = null,
+                                )
+                            }, onClick = {
+                                model.reduce(CreatePostMviModel.Intent.Send)
+                            })
+                        }
+                    }
+                },
+            )
+        }, snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        }) { padding ->
             Column(
                 modifier = Modifier.padding(padding)
             ) {
@@ -153,11 +155,9 @@ class CreatePostScreen(
                         autoCorrect = false,
                         imeAction = ImeAction.Next,
                     ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            urlFocusRequester.requestFocus()
-                        }
-                    ),
+                    keyboardActions = KeyboardActions(onNext = {
+                        urlFocusRequester.requestFocus()
+                    }),
                     onValueChange = { value ->
                         model.reduce(CreatePostMviModel.Intent.SetTitle(value))
                     },
@@ -172,13 +172,29 @@ class CreatePostScreen(
                     },
                 )
 
+                var openImagePicker by remember { mutableStateOf(false) }
+                if (openImagePicker) {
+                    galleryHelper.getImageFromGallery { bytes ->
+                        openImagePicker = false
+                        model.reduce(CreatePostMviModel.Intent.ImageSelected(bytes))
+                    }
+                }
+
                 TextField(
-                    modifier = Modifier.fillMaxWidth()
-                        .focusRequester(urlFocusRequester),
+                    modifier = Modifier.fillMaxWidth().focusRequester(urlFocusRequester),
                     colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
                     maxLines = 1,
                     label = {
                         Text(text = stringResource(MR.strings.create_post_url))
+                    },
+                    trailingIcon = {
+                        Icon(
+                            modifier = Modifier.onClick {
+                                openImagePicker = true
+                            },
+                            imageVector = Icons.Default.Image,
+                            contentDescription = null,
+                        )
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = uiState.url,
@@ -187,11 +203,9 @@ class CreatePostScreen(
                         autoCorrect = false,
                         imeAction = ImeAction.Next,
                     ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            bodyFocusRequester.requestFocus()
-                        }
-                    ),
+                    keyboardActions = KeyboardActions(onNext = {
+                        bodyFocusRequester.requestFocus()
+                    }),
                     onValueChange = { value ->
                         model.reduce(CreatePostMviModel.Intent.SetUrl(value))
                     },
@@ -208,8 +222,7 @@ class CreatePostScreen(
 
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(
-                        vertical = Spacing.s,
-                        horizontal = Spacing.m
+                        vertical = Spacing.s, horizontal = Spacing.m
                     ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -219,17 +232,13 @@ class CreatePostScreen(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                     Spacer(modifier = Modifier.weight(1f))
-                    Switch(
-                        checked = uiState.nsfw,
-                        onCheckedChange = {
-                            model.reduce(CreatePostMviModel.Intent.ChangeNsfw(it))
-                        }
-                    )
+                    Switch(checked = uiState.nsfw, onCheckedChange = {
+                        model.reduce(CreatePostMviModel.Intent.ChangeNsfw(it))
+                    })
                 }
 
                 TextField(
-                    modifier = Modifier.height(500.dp)
-                        .fillMaxWidth()
+                    modifier = Modifier.height(500.dp).fillMaxWidth()
                         .focusRequester(bodyFocusRequester),
                     colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
                     label = {
@@ -242,11 +251,9 @@ class CreatePostScreen(
                         autoCorrect = false,
                         imeAction = ImeAction.Done,
                     ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            focusManager.clearFocus()
-                        }
-                    ),
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.clearFocus()
+                    }),
                     onValueChange = { value ->
                         model.reduce(CreatePostMviModel.Intent.SetText(value))
                     },

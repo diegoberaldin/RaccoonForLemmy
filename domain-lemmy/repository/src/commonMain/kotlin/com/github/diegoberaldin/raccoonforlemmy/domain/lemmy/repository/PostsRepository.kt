@@ -11,6 +11,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
 
 class PostsRepository(
     private val services: ServiceProvider,
@@ -160,5 +164,20 @@ class PostsRepository(
             auth = auth
         )
         services.post.delete(data)
+    }
+
+    suspend fun uploadImage(auth: String, bytes: ByteArray): String? = try {
+        val url = "https://${services.currentInstance}/pictrs/image"
+        val multipart = MultiPartFormDataContent(formData {
+            append(key = "images[]", value = bytes, headers = Headers.build {
+                append(HttpHeaders.ContentType, "image/*")
+                append(HttpHeaders.ContentDisposition, "filename=image.jpeg")
+            })
+        })
+        val images = services.post.uploadImage(url, "jwt=$auth", multipart).body()
+        "$url/${images?.files?.firstOrNull()?.file}"
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
     }
 }

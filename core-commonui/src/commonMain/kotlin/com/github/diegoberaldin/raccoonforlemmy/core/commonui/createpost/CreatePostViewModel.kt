@@ -50,7 +50,28 @@ class CreatePostViewModel(
                 }
             }
 
+            is CreatePostMviModel.Intent.ImageSelected -> {
+                loadImageAndObtainUrl(intent.value)
+            }
+
             CreatePostMviModel.Intent.Send -> submit()
+        }
+    }
+
+    private fun loadImageAndObtainUrl(bytes: ByteArray) {
+        if (bytes.isEmpty()) {
+            return
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            mvi.updateState { it.copy(loading = true) }
+            val auth = identityRepository.authToken.value.orEmpty()
+            val url = postsRepository.uploadImage(auth, bytes)
+            mvi.updateState {
+                it.copy(
+                    url = url.orEmpty(),
+                    loading = false,
+                )
+            }
         }
     }
 

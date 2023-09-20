@@ -1,5 +1,5 @@
 [versions]
-androidx_activity_compose = "1.7.2"
+androidx_activity = "1.7.2"
 androidx_crypto = "1.0.0"
 android_gradle = "7.4.2"
 compose = "1.5.1"
@@ -21,7 +21,8 @@ voyager = "1.0.0-rc06"
 
 [libraries]
 
-androidx_activity_compose = { module = "androidx.activity:activity-compose", version.ref = "androidx.activity.compose" }
+androidx_activity_compose = { module = "androidx.activity:activity-compose", version.ref = "androidx.activity" }
+androidx_activity = { module = "androidx.activity:activity", version.ref = "androidx.activity" }
 androidx_security_crypto = { module = "androidx.security:security-crypto", version.ref = "androidx.crypto" }
 
 firebase_crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "crashlytics" }

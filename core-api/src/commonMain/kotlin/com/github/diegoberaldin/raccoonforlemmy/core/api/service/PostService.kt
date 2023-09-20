@@ -7,16 +7,21 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PictrsImages
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
+import de.jensklingenberg.ktorfit.http.Multipart
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.http.Query
+import de.jensklingenberg.ktorfit.http.Url
+import io.ktor.client.request.forms.MultiPartFormDataContent
 
 interface PostService {
 
@@ -58,4 +63,11 @@ interface PostService {
     @POST("post/delete")
     @Headers("Content-Type: application/json")
     suspend fun delete(@Body form: DeletePostForm): Response<PostResponse>
+
+    @POST
+    suspend fun uploadImage(
+        @Url url: String,
+        @Header("Cookie") token: String,
+        @Body content: MultiPartFormDataContent,
+    ): Response<PictrsImages>
 }
