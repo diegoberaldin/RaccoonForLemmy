@@ -11,7 +11,7 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.ProfileContentScreen
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainScreen
 
 object ProfileTab : Tab {
 
@@ -32,6 +32,6 @@ object ProfileTab : Tab {
 
     @Composable
     override fun Content() {
-        TabNavigator(ProfileContentScreen)
+        TabNavigator(ProfileMainScreen)
     }
 }

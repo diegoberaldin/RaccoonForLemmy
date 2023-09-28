@@ -1,15 +1,16 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.profile.di
 
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.ProfileContentViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.saved.ProfileSavedViewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
 
-actual fun getProfileScreenModel(): ProfileContentViewModel {
-    val res: ProfileContentViewModel by inject(ProfileContentViewModel::class.java)
+actual fun getProfileScreenModel(): ProfileMainViewModel {
+    val res: ProfileMainViewModel by inject(ProfileMainViewModel::class.java)
     return res
 }
 
@@ -28,5 +29,10 @@ actual fun getProfileSavedViewModel(user: UserModel): ProfileSavedViewModel {
         clazz = ProfileSavedViewModel::class.java,
         parameters = { parametersOf(user) },
     )
+    return res
+}
+
+actual fun getManageAccountsViewModel(): ManageAccountsViewModel {
+    val res: ManageAccountsViewModel by inject(ManageAccountsViewModel::class.java)
     return res
 }

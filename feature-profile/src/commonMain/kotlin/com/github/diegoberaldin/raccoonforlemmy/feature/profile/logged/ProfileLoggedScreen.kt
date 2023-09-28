@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,8 +48,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLoggedViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.saved.ProfileSavedScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 

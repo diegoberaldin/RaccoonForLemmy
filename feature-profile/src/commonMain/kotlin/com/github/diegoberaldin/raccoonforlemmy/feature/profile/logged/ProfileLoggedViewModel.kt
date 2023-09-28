@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -61,8 +61,15 @@ class ProfileLoggedViewModel(
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
-            val user = siteRepository.getCurrentUser(auth)
-            mvi.updateState { it.copy(user = user) }
+            identityRepository.authToken.onEach {
+                mvi.updateState {
+                    it.copy(
+                        posts = emptyList(),
+                        comments = emptyList(),
+                    )
+                }
+                refresh()
+            }.launchIn(this)
         }
     }
 
@@ -81,8 +88,18 @@ class ProfileLoggedViewModel(
 
     private fun refresh() {
         currentPage = 1
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
-        loadNextPage()
+        mvi.scope?.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val user = siteRepository.getCurrentUser(auth)
+            mvi.updateState {
+                it.copy(
+                    user = user,
+                    canFetchMore = true,
+                    refreshing = true,
+                )
+            }
+            loadNextPage()
+        }
     }
 
     private fun changeSection(section: ProfileLoggedSection) {
@@ -99,7 +116,7 @@ class ProfileLoggedViewModel(
 
     private fun loadNextPage() {
         val currentState = mvi.uiState.value
-        if (!currentState.canFetchMore || currentState.loading) {
+        if (!currentState.canFetchMore || currentState.loading || currentState.user == null) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }

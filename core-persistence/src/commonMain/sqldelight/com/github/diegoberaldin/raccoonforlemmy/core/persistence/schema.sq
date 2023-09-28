@@ -1,13 +1,14 @@
 CREATE TABLE AccountEntity(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     active INTEGER DEFAULT 0,
-    username TEXT,
-    instance TEXT,
-    jwt TEXT
+    username TEXT NOT NULL,
+    instance TEXT NOT NULL,
+    jwt TEXT DEFAULT NULL,
+    avatar TEXT DEFAULT NULL
 );
 
 createAccount:
-INSERT OR IGNORE INTO AccountEntity (username, instance, jwt) VALUES(?,?, ?);
+INSERT OR IGNORE INTO AccountEntity (username, instance, jwt, avatar) VALUES(?,?, ?, ?);
 
 markAccountActive:
 UPDATE AccountEntity SET active = 1 WHERE id = ?;
@@ -17,6 +18,12 @@ UPDATE AccountEntity SET active = 0 WHERE id = ?;
 
 getAllAccounts:
 SELECT * FROM AccountEntity;
+
+getAccountBy:
+SELECT * FROM AccountEntity WHERE username = ? AND instance = ?;
+
+updateAccount:
+UPDATE AccountEntity SET jwt = ?, avatar = ? WHERE id = ?;
 
 getActiveAccount:
 SELECT * FROM AccountEntity WHERE active = 1;

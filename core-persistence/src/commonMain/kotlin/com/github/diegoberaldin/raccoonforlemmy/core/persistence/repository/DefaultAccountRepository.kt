@@ -16,6 +16,10 @@ internal class DefaultAccountRepository(
         db.schemaQueries.getAllAccounts().executeAsList().map { it.toModel() }
     }
 
+    override suspend fun getBy(username: String, instance: String) = withContext(Dispatchers.IO) {
+        db.schemaQueries.getAccountBy(username, instance).executeAsOneOrNull()?.toModel()
+    }
+
     override suspend fun createAccount(
         account: AccountModel,
     ) = withContext(Dispatchers.IO) {
@@ -23,10 +27,10 @@ internal class DefaultAccountRepository(
             username = account.username,
             instance = account.instance,
             jwt = account.jwt,
+            avatar = account.avatar,
         )
-        val entity = db.schemaQueries.getAllAccounts()
-            .executeAsList()
-            .firstOrNull { it.jwt == account.jwt }
+        val entity =
+            db.schemaQueries.getAllAccounts().executeAsList().firstOrNull { it.jwt == account.jwt }
         entity?.id ?: 0
     }
 
@@ -43,6 +47,15 @@ internal class DefaultAccountRepository(
         entity?.toModel()
     }
 
+    override suspend fun update(id: Long, avatar: String?, jwt: String?) =
+        withContext(Dispatchers.IO) {
+            db.schemaQueries.updateAccount(
+                jwt = jwt,
+                avatar = avatar,
+                id = id,
+            )
+        }
+
     override suspend fun delete(id: Long) = withContext(Dispatchers.IO) {
         db.schemaQueries.deleteAccount(id)
     }
@@ -50,7 +63,9 @@ internal class DefaultAccountRepository(
 
 private fun AccountEntity.toModel() = AccountModel(
     id = id,
-    username = username.orEmpty(),
-    instance = instance.orEmpty(),
+    username = username,
+    instance = instance,
     jwt = jwt.orEmpty(),
+    active = active != 0L,
+    avatar = avatar,
 )

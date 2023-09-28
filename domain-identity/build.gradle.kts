@@ -34,6 +34,7 @@ kotlin {
                 implementation(projects.coreApi)
                 implementation(projects.coreUtils)
                 implementation(projects.corePersistence)
+                implementation(projects.coreNotifications)
             }
         }
         val commonTest by getting {

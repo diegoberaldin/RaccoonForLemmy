@@ -14,7 +14,7 @@ internal class DefaultLoginUseCase(
     private val accountRepository: AccountRepository,
 ) : LoginUseCase {
 
-    override suspend fun login(
+    override suspend operator fun invoke(
         instance: String,
         username: String,
         password: String,
@@ -42,21 +42,16 @@ internal class DefaultLoginUseCase(
                     instance = instance,
                     jwt = auth
                 )
-                val id = accountRepository.createAccount(account)
-                val oldAccountId = accountRepository.getActive()?.id
-                if (oldAccountId != null) {
-                    accountRepository.setActive(oldAccountId, false)
+                val existingId = accountRepository.getBy(username, instance)?.id
+                val id = existingId ?: run {
+                    accountRepository.createAccount(account)
+                }
+                val oldActiveAccountId = accountRepository.getActive()?.id
+                if (oldActiveAccountId != null) {
+                    accountRepository.setActive(oldActiveAccountId, false)
                 }
                 accountRepository.setActive(id, true)
             }
-        }
-    }
-
-    override suspend fun logout() {
-        identityRepository.clearToken()
-        val oldAccountId = accountRepository.getActive()?.id
-        if (oldAccountId != null) {
-            accountRepository.setActive(oldAccountId, false)
         }
     }
 }

@@ -137,13 +137,16 @@ class PostListScreen : Screen {
                     model.reduce(PostListMviModel.Intent.Refresh)
                 })
                 Box(
-                    modifier = Modifier.padding(padding)
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxWidth()
                         .nestedScroll(scrollBehavior.nestedScrollConnection).let {
                             val connection = bottomNavCoordinator.getBottomBarScrollConnection()
                             if (connection != null) {
                                 it.nestedScroll(connection)
                             } else it
-                        }.pullRefresh(pullRefreshState),
+                        }
+                        .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState,

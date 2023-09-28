@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.saved
 
 sealed interface ProfileSavedSection {
     data object Posts : ProfileSavedSection

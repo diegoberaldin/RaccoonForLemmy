@@ -1,31 +1,34 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.profile.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.ProfileContentMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.ProfileContentViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved.ProfileSavedViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.saved.ProfileSavedMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.saved.ProfileSavedViewModel
 import org.koin.dsl.module
 
 val profileTabModule = module {
     factory {
-        ProfileContentViewModel(
-            mvi = DefaultMviModel(ProfileContentMviModel.UiState()),
+        ProfileMainViewModel(
+            mvi = DefaultMviModel(ProfileMainMviModel.UiState()),
             identityRepository = get(),
             keyStore = get(),
-            notificationCenter = get(),
-            themeRepository = get(),
-            loginUseCase = get(),
+            logout = get(),
         )
     }
     factory {
         LoginBottomSheetViewModel(
             mvi = DefaultMviModel(LoginBottomSheetMviModel.UiState()),
-            loginUseCase = get(),
+            login = get(),
+            accountRepository = get(),
+            identityRepository = get(),
+            siteRepository = get(),
         )
     }
     factory {
@@ -52,6 +55,13 @@ val profileTabModule = module {
             themeRepository = get(),
             hapticFeedback = get(),
             notificationCenter = get(),
+        )
+    }
+    factory {
+        ManageAccountsViewModel(
+            mvi = DefaultMviModel(ManageAccountsMviModel.UiState()),
+            accountRepository = get(),
+            switchAccount = get(),
         )
     }
 }

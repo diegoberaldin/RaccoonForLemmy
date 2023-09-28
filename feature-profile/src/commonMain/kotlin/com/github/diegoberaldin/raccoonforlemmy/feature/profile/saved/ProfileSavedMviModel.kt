@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.saved
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel

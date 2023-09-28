@@ -53,6 +53,7 @@ kotlin {
                 implementation(projects.coreCommonui.components)
                 implementation(projects.corePreferences)
                 implementation(projects.coreNotifications)
+                implementation(projects.corePersistence)
                 implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)

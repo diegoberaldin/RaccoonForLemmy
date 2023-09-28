@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.notlogged
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.notlogged
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

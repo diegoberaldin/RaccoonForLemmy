@@ -1,9 +1,9 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.main
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 
-interface ProfileContentMviModel :
-    MviModel<ProfileContentMviModel.Intent, ProfileContentMviModel.UiState, ProfileContentMviModel.Effect> {
+interface ProfileMainMviModel :
+    MviModel<ProfileMainMviModel.Intent, ProfileMainMviModel.UiState, ProfileMainMviModel.Effect> {
 
     sealed interface Intent {
         data object Logout : Intent

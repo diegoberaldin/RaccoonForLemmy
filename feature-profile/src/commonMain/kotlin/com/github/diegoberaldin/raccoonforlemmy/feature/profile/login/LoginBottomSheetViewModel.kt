@@ -3,7 +3,10 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.profile.login
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LoginUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +15,10 @@ import kotlinx.coroutines.launch
 
 class LoginBottomSheetViewModel(
     private val mvi: DefaultMviModel<LoginBottomSheetMviModel.Intent, LoginBottomSheetMviModel.UiState, LoginBottomSheetMviModel.Effect>,
-    private val loginUseCase: LoginUseCase,
+    private val login: LoginUseCase,
+    private val identityRepository: IdentityRepository,
+    private val accountRepository: AccountRepository,
+    private val siteRepository: SiteRepository,
 ) : ScreenModel,
     MviModel<LoginBottomSheetMviModel.Intent, LoginBottomSheetMviModel.UiState, LoginBottomSheetMviModel.Effect> by mvi {
 
@@ -96,7 +102,7 @@ class LoginBottomSheetViewModel(
 
         mvi.scope?.launch(Dispatchers.IO) {
             mvi.updateState { it.copy(loading = true) }
-            val result = loginUseCase.login(
+            val result = login(
                 instance = instance,
                 username = username,
                 password = password,
@@ -110,6 +116,16 @@ class LoginBottomSheetViewModel(
                     mvi.emitEffect(LoginBottomSheetMviModel.Effect.LoginError(message))
                 }
             } else {
+                val accountId = accountRepository.getActive()?.id
+                if (accountId != null) {
+                    val auth = identityRepository.authToken.value.orEmpty()
+                    val avatar = siteRepository.getCurrentUser(auth = auth)?.avatar
+                    accountRepository.update(
+                        id = accountId,
+                        avatar = avatar,
+                        jwt = auth
+                    )
+                }
                 mvi.emitEffect(LoginBottomSheetMviModel.Effect.LoginSuccess)
             }
         }

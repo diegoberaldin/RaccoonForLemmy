@@ -145,4 +145,7 @@
     <string name="create_post_nsfw">NSFW</string>
     <string name="create_post_tab_editor">Editor</string>
     <string name="create_post_tab_preview">Previsualización</string>
+
+    <string name="manage_accounts_title">Gestionar cuentas</string>
+    <string name="manage_accounts_button_add">Nueva cuenta</string>
 </resources>

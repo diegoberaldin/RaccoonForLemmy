@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.saved
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.saved
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

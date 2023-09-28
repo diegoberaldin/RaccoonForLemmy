@@ -7,7 +7,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Defau
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.DefaultIdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DefaultLoginUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DefaultLogoutUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DefaultSwitchAccountUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LoginUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LogoutUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.SwitchAccountUseCase
 import org.koin.dsl.module
 
 val coreIdentityModule = module {
@@ -32,6 +36,21 @@ val coreIdentityModule = module {
             authRepository = get(),
             identityRepository = get(),
             accountRepository = get(),
+        )
+    }
+    single<LogoutUseCase> {
+        DefaultLogoutUseCase(
+            identityRepository = get(),
+            accountRepository = get(),
+            notificationCenter = get(),
+        )
+    }
+    single<SwitchAccountUseCase> {
+        DefaultSwitchAccountUseCase(
+            identityRepository = get(),
+            accountRepository = get(),
+            serviceProvider = get(),
+            notificationCenter = get(),
         )
     }
 }

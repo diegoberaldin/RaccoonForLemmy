@@ -1,10 +1,13 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.content
+package com.github.diegoberaldin.raccoonforlemmy.feature.profile.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,6 +26,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.CurrentScreen
+import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
@@ -30,9 +34,10 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.logged.ProfileLoggedScreen
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.content.notlogged.ProfileNotLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileScreenModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedScreen
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsScreen
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.notlogged.ProfileNotLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
@@ -42,7 +47,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
-internal object ProfileContentScreen : Tab {
+internal object ProfileMainScreen : Tab {
 
     override val options: TabOptions
         @Composable get() {
@@ -56,6 +61,7 @@ internal object ProfileContentScreen : Tab {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        val bottomSheetNavigator = LocalBottomSheetNavigator.current
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
@@ -77,7 +83,18 @@ internal object ProfileContentScreen : Tab {
                         if (uiState.logged == true) {
                             Image(
                                 modifier = Modifier.onClick {
-                                    model.reduce(ProfileContentMviModel.Intent.Logout)
+                                    bottomSheetNavigator.show(ManageAccountsScreen())
+                                },
+                                imageVector = Icons.Default.ManageAccounts,
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+
+                            Spacer(modifier = Modifier.width(Spacing.s))
+
+                            Image(
+                                modifier = Modifier.onClick {
+                                    model.reduce(ProfileMainMviModel.Intent.Logout)
                                 },
                                 imageVector = Icons.Default.Logout,
                                 contentDescription = null,
