@@ -2,6 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
@@ -9,8 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCo
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.Markdown
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.markdownColor
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.markdownTypography
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.getTemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 
 @Composable
 fun PostCardTitle(
@@ -19,8 +20,9 @@ fun PostCardTitle(
 ) {
     val uriHandler = LocalUriHandler.current
     val navigator = remember { getNavigationCoordinator().getRootNavigator() }
-    val keyStore = remember { getTemporaryKeyStore() }
-    val openExternal = keyStore[KeyStoreKeys.OpenUrlsInExternalBrowser, false]
+    val settingsRepository = remember { getSettingsRepository() }
+    val settings by settingsRepository.currentSettings.collectAsState()
+    val openExternal = settings.openUrlsInExternalBrowser
 
     Markdown(
         modifier = modifier,

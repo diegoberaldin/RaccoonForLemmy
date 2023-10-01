@@ -1,0 +1,78 @@
+CREATE TABLE SettingsEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    theme INTEGER DEFAULT NULL,
+    contentFontScale REAL NOT NULL DEFAULT 1,
+    locale TEXT DEFAULT NULL,
+    defaultListingType INTEGER NOT NULL DEFAULT 0,
+    defaultPostSortType INTEGER NOT NULL DEFAULT 0,
+    defaultCommentSortType INTEGER NOT NULL DEFAULT 3,
+    includeNsfw INTEGER NOT NULL DEFAULT 1,
+    blurNsfw INTEGER NOT NULL DEFAULT 1,
+    navigationTitlesVisible INTEGER NOT NULL DEFAULT 1,
+    dynamicColors INTEGER NOT NULL DEFAULT 0,
+    openUrlsInExternalBrowser INTEGER NOT NULL DEFAULT 0,
+    enableSwipeActions INTEGER NOT NULL DEFAULT 1,
+    customSeedColor INTEGER DEFAULT NULL,
+    postLayout INTEGER NOT NULL DEFAULT 0,
+    account_id INTEGER,
+    FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
+    UNIQUE(account_id)
+);
+
+createSettings:
+INSERT OR IGNORE INTO SettingsEntity (
+    theme,
+    contentFontScale,
+    locale,
+    defaultListingType,
+    defaultPostSortType,
+    defaultCommentSortType,
+    includeNsfw,
+    blurNsfw,
+    navigationTitlesVisible,
+    dynamicColors,
+    openUrlsInExternalBrowser,
+    enableSwipeActions,
+    customSeedColor,
+    postLayout,
+    account_id
+) VALUES (
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?
+);
+
+updateSettings:
+UPDATE SettingsEntity
+SET theme = ?,
+    contentFontScale = ?,
+    locale = ?,
+    defaultListingType = ?,
+    defaultPostSortType = ?,
+    defaultCommentSortType = ?,
+    includeNsfw = ?,
+    blurNsfw = ?,
+    navigationTitlesVisible = ?,
+    dynamicColors = ?,
+    openUrlsInExternalBrowser = ?,
+    enableSwipeActions = ?,
+    customSeedColor = ?,
+    postLayout = ?
+WHERE account_id = ?;
+
+getSettings:
+SELECT *
+FROM SettingsEntity
+WHERE account_id = ?;

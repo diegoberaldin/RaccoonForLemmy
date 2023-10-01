@@ -37,8 +37,8 @@ val commonUiModule = module {
             postRepository = get(),
             commentRepository = get(),
             themeRepository = get(),
+            settingsRepository = get(),
             shareHelper = get(),
-            keyStore = get(),
             notificationCenter = get(),
             hapticFeedback = get(),
         )
@@ -53,8 +53,8 @@ val commonUiModule = module {
             postRepository = get(),
             siteRepository = get(),
             themeRepository = get(),
+            settingsRepository = get(),
             shareHelper = get(),
-            keyStore = get(),
             hapticFeedback = get(),
         )
     }
@@ -74,9 +74,9 @@ val commonUiModule = module {
             postRepository = get(),
             commentRepository = get(),
             themeRepository = get(),
+            settingsRepository = get(),
             shareHelper = get(),
             hapticFeedback = get(),
-            keyStore = get(),
             notificationCenter = get(),
         )
     }

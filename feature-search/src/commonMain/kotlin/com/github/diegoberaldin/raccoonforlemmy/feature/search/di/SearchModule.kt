@@ -17,7 +17,7 @@ val searchTabModule = module {
             postRepository = get(),
             commentRepository = get(),
             themeRepository = get(),
-            keyStore = get(),
+            settingsRepository = get(),
             notificationCenter = get(),
             hapticFeedback = get(),
         )

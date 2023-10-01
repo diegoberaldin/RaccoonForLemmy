@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DefaultDatabase
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DefaultDriverFactory
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DriverFactory
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent
 
@@ -24,5 +25,10 @@ actual val persistenceInnerModule = module {
 
 actual fun getAccountRepository(): AccountRepository {
     val res: AccountRepository by KoinJavaComponent.inject(AccountRepository::class.java)
+    return res
+}
+
+actual fun getSettingsRepository(): SettingsRepository {
+    val res: SettingsRepository by KoinJavaComponent.inject(SettingsRepository::class.java)
     return res
 }

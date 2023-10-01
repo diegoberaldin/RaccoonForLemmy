@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 
 internal class DefaultSwitchAccountUseCase(
@@ -12,6 +13,7 @@ internal class DefaultSwitchAccountUseCase(
     private val accountRepository: AccountRepository,
     private val serviceProvider: ServiceProvider,
     private val notificationCenter: NotificationCenter,
+    private val settingsRepository: SettingsRepository,
 ) : SwitchAccountUseCase {
     override suspend fun invoke(account: AccountModel) {
         val accountId = account.id ?: return
@@ -29,5 +31,8 @@ internal class DefaultSwitchAccountUseCase(
         }
         serviceProvider.changeInstance(instance)
         identityRepository.storeToken(jwt)
+
+        val newSettings = settingsRepository.getSettings(accountId)
+        settingsRepository.changeCurrentSettings(newSettings)
     }
 }

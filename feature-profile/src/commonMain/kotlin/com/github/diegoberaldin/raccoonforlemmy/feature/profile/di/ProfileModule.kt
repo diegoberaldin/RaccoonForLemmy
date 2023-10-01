@@ -18,7 +18,7 @@ val profileTabModule = module {
         ProfileMainViewModel(
             mvi = DefaultMviModel(ProfileMainMviModel.UiState()),
             identityRepository = get(),
-            keyStore = get(),
+            settingsRepository = get(),
             logout = get(),
         )
     }

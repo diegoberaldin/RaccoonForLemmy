@@ -11,6 +11,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,8 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.getTemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 
 @Composable
@@ -31,7 +32,9 @@ fun PostLinkBanner(
 ) {
     val uriHandler = LocalUriHandler.current
     val navigator = remember { getNavigationCoordinator().getRootNavigator() }
-    val keyStore = remember { getTemporaryKeyStore() }
+    val settingsRepository = remember { getSettingsRepository() }
+    val settings by settingsRepository.currentSettings.collectAsState()
+    val openExternal = settings.openUrlsInExternalBrowser
 
     if (url.isNotEmpty()) {
         Row(
@@ -40,7 +43,6 @@ fun PostLinkBanner(
                     color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.1f),
                     shape = RoundedCornerShape(CornerSize.l),
                 ).onClick {
-                    val openExternal = keyStore[KeyStoreKeys.OpenUrlsInExternalBrowser, false]
                     if (openExternal) {
                         uriHandler.openUri(url)
                     } else {

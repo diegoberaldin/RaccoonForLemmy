@@ -6,8 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
@@ -35,7 +34,7 @@ class PostListViewModel(
     private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val shareHelper: ShareHelper,
-    private val keyStore: TemporaryKeyStore,
+    private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
 ) : ScreenModel,
@@ -66,13 +65,6 @@ class PostListViewModel(
     override fun onStarted() {
         mvi.onStarted()
 
-        mvi.updateState {
-            it.copy(
-                blurNsfw = keyStore[KeyStoreKeys.BlurNsfw, true],
-                swipeActionsEnabled = keyStore[KeyStoreKeys.EnableSwipeActions, true],
-            )
-        }
-
         mvi.scope?.launch(Dispatchers.Main) {
             apiConfigRepository.instance.onEach { instance ->
                 mvi.updateState {
@@ -89,6 +81,15 @@ class PostListViewModel(
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
+
+            settingsRepository.currentSettings.onEach { settings ->
+                mvi.updateState {
+                    it.copy(
+                        blurNsfw = settings.blurNsfw,
+                        swipeActionsEnabled = settings.enableSwipeActions,
+                    )
+                }
+            }.launchIn(this)
         }
 
         mvi.scope?.launch(Dispatchers.IO) {
@@ -96,12 +97,11 @@ class PostListViewModel(
             val user = siteRepository.getCurrentUser(auth)
             mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
             if (uiState.value.posts.isEmpty()) {
-                val listingType = keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-                val sortType = keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
+                val settings = settingsRepository.currentSettings.value
                 mvi.updateState {
                     it.copy(
-                        listingType = listingType,
-                        sortType = sortType,
+                        listingType = settings.defaultListingType.toListingType(),
+                        sortType = settings.defaultPostSortType.toSortType(),
                     )
                 }
                 refresh()
@@ -158,7 +158,7 @@ class PostListViewModel(
             val type = currentState.listingType ?: ListingType.Local
             val sort = currentState.sortType ?: SortType.Active
             val refreshing = currentState.refreshing
-            val includeNsfw = keyStore[KeyStoreKeys.IncludeNsfw, true]
+            val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
             val postList = postRepository.getAll(
                 auth = auth,
                 page = currentPage,
@@ -350,14 +350,8 @@ class PostListViewModel(
 
     private fun handleLogout() {
         currentPage = 1
-        val newListingType =
-            keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-        val newSortType =
-            keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
         mvi.updateState {
             it.copy(
-                listingType = newListingType,
-                sortType = newSortType,
                 posts = emptyList(),
                 isLogged = false,
             )

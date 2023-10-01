@@ -36,6 +36,7 @@ val coreIdentityModule = module {
             authRepository = get(),
             identityRepository = get(),
             accountRepository = get(),
+            settingsRepository = get(),
         )
     }
     single<LogoutUseCase> {
@@ -43,12 +44,14 @@ val coreIdentityModule = module {
             identityRepository = get(),
             accountRepository = get(),
             notificationCenter = get(),
+            settingsRepository = get(),
         )
     }
     single<SwitchAccountUseCase> {
         DefaultSwitchAccountUseCase(
             identityRepository = get(),
             accountRepository = get(),
+            settingsRepository = get(),
             serviceProvider = get(),
             notificationCenter = get(),
         )

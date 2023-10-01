@@ -4,8 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -33,8 +32,8 @@ class CommunityDetailViewModel(
     private val postRepository: PostRepository,
     private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
+    private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
-    private val keyStore: TemporaryKeyStore,
     private val hapticFeedback: HapticFeedback,
 ) : MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi,
     ScreenModel {
@@ -44,21 +43,27 @@ class CommunityDetailViewModel(
     override fun onStarted() {
         mvi.onStarted()
 
-        val sortType = keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
         val auth = identityRepository.authToken.value.orEmpty()
         mvi.updateState {
             it.copy(
                 community = community,
-                sortType = sortType,
-                blurNsfw = keyStore[KeyStoreKeys.BlurNsfw, true],
-                swipeActionsEnabled = keyStore[KeyStoreKeys.EnableSwipeActions, true],
-                isLogged = !auth.isNullOrEmpty(),
+                isLogged = auth.isNotEmpty(),
             )
         }
 
         mvi.scope?.launch(Dispatchers.IO) {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
+            }.launchIn(this)
+
+            settingsRepository.currentSettings.onEach { settings ->
+                mvi.updateState {
+                    it.copy(
+                        blurNsfw = settings.blurNsfw,
+                        swipeActionsEnabled = settings.enableSwipeActions,
+                        sortType = settings.defaultPostSortType.toSortType(),
+                    )
+                }
             }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {

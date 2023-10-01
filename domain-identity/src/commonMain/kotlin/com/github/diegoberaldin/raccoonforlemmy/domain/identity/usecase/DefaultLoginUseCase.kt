@@ -1,7 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase
 
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.Log
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.AuthRepository
@@ -12,6 +14,7 @@ internal class DefaultLoginUseCase(
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
     private val accountRepository: AccountRepository,
+    private val settingsRepository: SettingsRepository,
 ) : LoginUseCase {
 
     override suspend operator fun invoke(
@@ -44,13 +47,19 @@ internal class DefaultLoginUseCase(
                 )
                 val existingId = accountRepository.getBy(username, instance)?.id
                 val id = existingId ?: run {
-                    accountRepository.createAccount(account)
+                    // new account
+                    val res = accountRepository.createAccount(account)
+                    settingsRepository.createSettings(settings = SettingsModel(), accountId = res)
+                    res
                 }
                 val oldActiveAccountId = accountRepository.getActive()?.id
                 if (oldActiveAccountId != null) {
                     accountRepository.setActive(oldActiveAccountId, false)
                 }
                 accountRepository.setActive(id, true)
+
+                val newSettings = settingsRepository.getSettings(id)
+                settingsRepository.changeCurrentSettings(newSettings)
             }
         }
     }

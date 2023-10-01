@@ -7,16 +7,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.ThemeState
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toPostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toThemeState
@@ -25,8 +27,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.AppTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.getTemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
@@ -39,26 +40,35 @@ import kotlinx.coroutines.flow.onEach
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun App() {
-    val keyStore = remember { getTemporaryKeyStore() }
-    val systemDarkTheme = isSystemInDarkTheme()
-    val currentTheme = keyStore[KeyStoreKeys.UiTheme, if (systemDarkTheme) 1 else 0].let {
-        it.toThemeState()
+    val accountRepository = remember { getAccountRepository() }
+    val settingsRepository = remember { getSettingsRepository() }
+    val settings by settingsRepository.currentSettings.collectAsState()
+    var hasBeenInitialized by remember { mutableStateOf(false) }
+    LaunchedEffect(settingsRepository) {
+        val accountId = accountRepository.getActive()?.id
+        val currentSettings = settingsRepository.getSettings(accountId)
+        settingsRepository.changeCurrentSettings(currentSettings)
+        // debounce time for setting
+        delay(50)
+        hasBeenInitialized = true
+    }
+    val defaultTheme = if (isSystemInDarkTheme()) {
+        ThemeState.Dark.toInt()
+    } else {
+        ThemeState.Light.toInt()
     }
 
     val defaultLocale = stringResource(MR.strings.lang)
-    val langCode = keyStore[KeyStoreKeys.Locale, defaultLocale]
-    val fontScale = keyStore[KeyStoreKeys.ContentFontScale, 1f]
     val languageRepository = remember { getLanguageRepository() }
-    LaunchedEffect(Unit) {
-        delay(100)
-        languageRepository.changeLanguage(langCode)
+    val locale by derivedStateOf { settings.locale }
+    LaunchedEffect(locale) {
+        languageRepository.changeLanguage(locale ?: defaultLocale)
     }
     val scope = rememberCoroutineScope()
     languageRepository.currentLanguage.onEach { lang ->
         StringDesc.localeType = StringDesc.LocaleType.Custom(lang)
     }.launchIn(scope)
 
-    val accountRepository = remember { getAccountRepository() }
     val apiConfigurationRepository = remember { getApiConfigurationRepository() }
     LaunchedEffect(Unit) {
         val lastActiveAccount = accountRepository.getActive()
@@ -69,21 +79,19 @@ fun App() {
     }
 
     val themeRepository = remember { getThemeRepository() }
-    val navTitles = keyStore[KeyStoreKeys.NavItemTitlesVisible, false]
-    val dynamicColors = keyStore[KeyStoreKeys.DynamicColors, false]
-    val customSeedColor = if (keyStore.containsKey(KeyStoreKeys.CustomSeedColor)) {
-        Color(keyStore[KeyStoreKeys.CustomSeedColor, Color.Black.toArgb()])
-    } else null
-    val postLayout = keyStore[KeyStoreKeys.PostLayout, PostLayout.Card.toInt()].toPostLayout()
-    LaunchedEffect(Unit) {
+    LaunchedEffect(settings) {
         with(themeRepository) {
-            changeNavItemTitles(navTitles)
-            changeDynamicColors(dynamicColors)
-            changeCustomSeedColor(customSeedColor)
-            changePostLayout(postLayout)
+            changeTheme((settings.theme ?: defaultTheme).toThemeState())
+            changeNavItemTitles(settings.navigationTitlesVisible)
+            changeDynamicColors(settings.dynamicColors)
+            changeCustomSeedColor(settings.customSeedColor?.let { Color(it) })
+            changePostLayout(settings.postLayout.toPostLayout())
+            changeContentFontScale(settings.contentFontScale)
         }
     }
+    val currentTheme by themeRepository.state.collectAsState()
     val useDynamicColors by themeRepository.dynamicColors.collectAsState()
+    val fontScale by themeRepository.contentFontScale.collectAsState()
     val navigationCoordinator = remember { getNavigationCoordinator() }
 
     AppTheme(
@@ -107,7 +115,9 @@ fun App() {
             ) {
                 val navigator = LocalNavigator.current
                 navigationCoordinator.setRootNavigator(navigator)
-                CurrentScreen()
+                if (hasBeenInitialized) {
+                    CurrentScreen()
+                }
             }
         }
     }

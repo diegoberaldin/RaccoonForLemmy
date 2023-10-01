@@ -1,0 +1,55 @@
+CREATE TABLE AccountEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    active INTEGER DEFAULT 0,
+    username TEXT NOT NULL,
+    instance TEXT NOT NULL,
+    jwt TEXT DEFAULT NULL,
+    avatar TEXT DEFAULT NULL
+);
+
+create:
+INSERT OR IGNORE INTO AccountEntity (
+    username,
+    instance,
+    jwt,
+    avatar
+) VALUES (
+    ?,
+    ?,
+    ?,
+    ?
+);
+
+setActive:
+UPDATE AccountEntity
+SET active = 1
+WHERE id = ?;
+
+setInactive:
+UPDATE AccountEntity
+SET active = 0
+WHERE id = ?;
+
+getAll:
+SELECT *
+FROM AccountEntity;
+
+getBy:
+SELECT *
+FROM AccountEntity
+WHERE username = ? AND instance = ?;
+
+update:
+UPDATE AccountEntity
+SET jwt = ?, avatar = ?
+WHERE id = ?;
+
+getActive:
+SELECT *
+FROM AccountEntity
+WHERE active = 1;
+
+delete:
+DELETE
+FROM AccountEntity
+WHERE id = ?;

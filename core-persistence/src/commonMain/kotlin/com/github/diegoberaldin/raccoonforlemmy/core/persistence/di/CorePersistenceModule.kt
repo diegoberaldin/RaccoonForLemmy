@@ -4,6 +4,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DatabaseProvide
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DefaultDatabaseProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultAccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultSettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import org.koin.dsl.module
 
 val corePersistenceModule = module {
@@ -16,6 +18,12 @@ val corePersistenceModule = module {
     single<AccountRepository> {
         DefaultAccountRepository(
             provider = get(),
+        )
+    }
+    single<SettingsRepository> {
+        DefaultSettingsRepository(
+            provider = get(),
+            keyStore = get(),
         )
     }
 }

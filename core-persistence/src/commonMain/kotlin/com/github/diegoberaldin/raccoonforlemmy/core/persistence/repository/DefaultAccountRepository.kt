@@ -8,49 +8,49 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
 internal class DefaultAccountRepository(
-    private val provider: DatabaseProvider,
+    val provider: DatabaseProvider,
 ) : AccountRepository {
 
     private val db = provider.getDatabase()
 
     override suspend fun getAll(): List<AccountModel> = withContext(Dispatchers.IO) {
-        db.schemaQueries.getAllAccounts().executeAsList().map { it.toModel() }
+        db.accountsQueries.getAll().executeAsList().map { it.toModel() }
     }
 
     override suspend fun getBy(username: String, instance: String) = withContext(Dispatchers.IO) {
-        db.schemaQueries.getAccountBy(username, instance).executeAsOneOrNull()?.toModel()
+        db.accountsQueries.getBy(username, instance).executeAsOneOrNull()?.toModel()
     }
 
     override suspend fun createAccount(
         account: AccountModel,
     ) = withContext(Dispatchers.IO) {
-        db.schemaQueries.createAccount(
+        db.accountsQueries.create(
             username = account.username,
             instance = account.instance,
             jwt = account.jwt,
             avatar = account.avatar,
         )
         val entity =
-            db.schemaQueries.getAllAccounts().executeAsList().firstOrNull { it.jwt == account.jwt }
+            db.accountsQueries.getAll().executeAsList().firstOrNull { it.jwt == account.jwt }
         entity?.id ?: 0
     }
 
     override suspend fun setActive(id: Long, active: Boolean) = withContext(Dispatchers.IO) {
         if (active) {
-            db.schemaQueries.markAccountActive(id)
+            db.accountsQueries.setActive(id)
         } else {
-            db.schemaQueries.markAccountInactive(id)
+            db.accountsQueries.setInactive(id)
         }
     }
 
     override suspend fun getActive() = withContext(Dispatchers.IO) {
-        val entity = db.schemaQueries.getActiveAccount().executeAsOneOrNull()
+        val entity = db.accountsQueries.getActive().executeAsOneOrNull()
         entity?.toModel()
     }
 
     override suspend fun update(id: Long, avatar: String?, jwt: String?) =
         withContext(Dispatchers.IO) {
-            db.schemaQueries.updateAccount(
+            db.accountsQueries.update(
                 jwt = jwt,
                 avatar = avatar,
                 id = id,
@@ -58,7 +58,7 @@ internal class DefaultAccountRepository(
         }
 
     override suspend fun delete(id: Long) = withContext(Dispatchers.IO) {
-        db.schemaQueries.deleteAccount(id)
+        db.accountsQueries.delete(id)
     }
 }
 

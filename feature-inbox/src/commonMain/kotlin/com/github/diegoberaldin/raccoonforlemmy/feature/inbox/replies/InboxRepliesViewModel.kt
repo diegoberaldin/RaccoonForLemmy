@@ -6,8 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
@@ -33,7 +32,7 @@ class InboxRepliesViewModel(
     private val hapticFeedback: HapticFeedback,
     private val coordinator: InboxCoordinator,
     private val notificationCenter: NotificationCenter,
-    private val keyStore: TemporaryKeyStore,
+    private val settingsRepository: SettingsRepository,
 ) : ScreenModel,
     MviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect> by mvi {
 
@@ -52,11 +51,7 @@ class InboxRepliesViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-        mvi.updateState {
-            it.copy(
-                swipeActionsEnabled = keyStore[KeyStoreKeys.EnableSwipeActions, true],
-            )
-        }
+
         mvi.scope?.launch {
             coordinator.effects.onEach {
                 when (it) {
@@ -70,6 +65,13 @@ class InboxRepliesViewModel(
             }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
+            }.launchIn(this)
+            settingsRepository.currentSettings.onEach { settings ->
+                mvi.updateState {
+                    it.copy(
+                        swipeActionsEnabled = settings.enableSwipeActions,
+                    )
+                }
             }.launchIn(this)
         }
     }

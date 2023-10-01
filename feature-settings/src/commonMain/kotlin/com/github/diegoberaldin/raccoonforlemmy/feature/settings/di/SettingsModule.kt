@@ -11,7 +11,8 @@ val settingsTabModule = module {
             mvi = DefaultMviModel(
                 SettingsScreenMviModel.UiState(),
             ),
-            keyStore = get(),
+            settingsRepository = get(),
+            accountRepository = get(),
             themeRepository = get(),
             languageRepository = get(),
             identityRepository = get(),

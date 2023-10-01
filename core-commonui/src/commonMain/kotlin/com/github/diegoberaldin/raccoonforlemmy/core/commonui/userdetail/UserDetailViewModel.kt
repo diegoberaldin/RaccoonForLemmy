@@ -6,8 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -37,7 +36,7 @@ class UserDetailViewModel(
     private val themeRepository: ThemeRepository,
     private val shareHelper: ShareHelper,
     private val hapticFeedback: HapticFeedback,
-    private val keyStore: TemporaryKeyStore,
+    private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
 ) : ScreenModel,
     MviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect> by mvi {
@@ -63,12 +62,21 @@ class UserDetailViewModel(
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
         }
-        val sortType = keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
         mvi.updateState {
             it.copy(
                 user = user,
-                sortType = sortType
             )
+        }
+        mvi.scope?.launch {
+            settingsRepository.currentSettings.onEach { settings ->
+                mvi.updateState {
+                    it.copy(
+                        blurNsfw = settings.blurNsfw,
+                        swipeActionsEnabled = settings.enableSwipeActions,
+                        sortType = settings.defaultPostSortType.toSortType(),
+                    )
+                }
+            }.launchIn(this)
         }
         if (uiState.value.posts.isEmpty()) {
             refresh()

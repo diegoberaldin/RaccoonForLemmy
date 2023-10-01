@@ -33,10 +33,10 @@ val inboxTabModule = module {
             siteRepository = get(),
             commentRepository = get(),
             themeRepository = get(),
+            settingsRepository = get(),
             hapticFeedback = get(),
             coordinator = get(),
             notificationCenter = get(),
-            keyStore = get(),
         )
     }
     factory {
@@ -46,10 +46,10 @@ val inboxTabModule = module {
             identityRepository = get(),
             commentRepository = get(),
             themeRepository = get(),
+            settingsRepository = get(),
             hapticFeedback = get(),
             coordinator = get(),
             notificationCenter = get(),
-            keyStore = get(),
         )
     }
     factory {

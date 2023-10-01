@@ -13,8 +13,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.AppInfo
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -34,7 +34,8 @@ class SettingsScreenViewModel(
     private val colorSchemeProvider: ColorSchemeProvider,
     private val languageRepository: LanguageRepository,
     private val identityRepository: IdentityRepository,
-    private val keyStore: TemporaryKeyStore,
+    private val settingsRepository: SettingsRepository,
+    private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
 ) : ScreenModel,
     MviModel<SettingsScreenMviModel.Intent, SettingsScreenMviModel.UiState, SettingsScreenMviModel.Effect> by mvi {
@@ -80,21 +81,17 @@ class SettingsScreenViewModel(
             }.launchIn(this)
         }
 
-        val listingType = keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-        val postSortType = keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
-        val commentSortType = keyStore[KeyStoreKeys.DefaultCommentSortType, 3].toSortType()
-        val openUrlsInExternalBrowser = keyStore[KeyStoreKeys.OpenUrlsInExternalBrowser, false]
-        val enableSwipeActions = keyStore[KeyStoreKeys.EnableSwipeActions, true]
+        val settings = settingsRepository.currentSettings.value
         mvi.updateState {
             it.copy(
-                defaultListingType = listingType,
-                defaultPostSortType = postSortType,
-                defaultCommentSortType = commentSortType,
-                includeNsfw = keyStore[KeyStoreKeys.IncludeNsfw, true],
-                blurNsfw = keyStore[KeyStoreKeys.BlurNsfw, true],
+                defaultListingType = settings.defaultListingType.toListingType(),
+                defaultPostSortType = settings.defaultPostSortType.toSortType(),
+                defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
+                includeNsfw = settings.includeNsfw,
+                blurNsfw = settings.blurNsfw,
                 supportsDynamicColors = colorSchemeProvider.supportsDynamicColors,
-                openUrlsInExternalBrowser = openUrlsInExternalBrowser,
-                enableSwipeActions = enableSwipeActions,
+                openUrlsInExternalBrowser = settings.openUrlsInExternalBrowser,
+                enableSwipeActions = settings.enableSwipeActions,
                 appVersion = AppInfo.versionCode,
             )
         }
@@ -160,91 +157,168 @@ class SettingsScreenViewModel(
 
     private fun changeTheme(value: ThemeState) {
         themeRepository.changeTheme(value)
-        keyStore.save(KeyStoreKeys.UiTheme, value.toInt())
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                theme = value.toInt()
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeContentFontScale(value: Float) {
         themeRepository.changeContentFontScale(value)
-        keyStore.save(KeyStoreKeys.ContentFontScale, value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                contentFontScale = value
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeLanguage(value: String) {
         languageRepository.changeLanguage(value)
-        keyStore.save(KeyStoreKeys.Locale, value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                locale = value
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeDefaultListingType(value: ListingType) {
         mvi.updateState { it.copy(defaultListingType = value) }
-        keyStore.save(KeyStoreKeys.DefaultListingType, value.toInt())
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                defaultListingType = value.toInt()
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeDefaultPostSortType(value: SortType) {
         mvi.updateState { it.copy(defaultPostSortType = value) }
-        keyStore.save(KeyStoreKeys.DefaultPostSortType, value.toInt())
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                defaultPostSortType = value.toInt()
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeDefaultCommentSortType(value: SortType) {
         mvi.updateState { it.copy(defaultCommentSortType = value) }
-        keyStore.save(KeyStoreKeys.DefaultCommentSortType, value.toInt())
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                defaultCommentSortType = value.toInt()
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeNavBarTitlesVisible(value: Boolean) {
-        keyStore.save(KeyStoreKeys.NavItemTitlesVisible, value)
         themeRepository.changeNavItemTitles(value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                navigationTitlesVisible = value
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeIncludeNsfw(value: Boolean) {
         mvi.updateState { it.copy(includeNsfw = value) }
-        keyStore.save(KeyStoreKeys.IncludeNsfw, value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                includeNsfw = value
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeBlurNsfw(value: Boolean) {
         mvi.updateState { it.copy(blurNsfw = value) }
-        keyStore.save(KeyStoreKeys.BlurNsfw, value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                blurNsfw = value
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeDynamicColors(value: Boolean) {
         themeRepository.changeDynamicColors(value)
-        keyStore.save(KeyStoreKeys.DynamicColors, value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                dynamicColors = value
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeCustomSeedColor(value: Color?) {
         themeRepository.changeCustomSeedColor(value)
-        if (value != null) {
-            keyStore.save(KeyStoreKeys.CustomSeedColor, value.toArgb())
-        } else {
-            keyStore.remove(KeyStoreKeys.CustomSeedColor)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                customSeedColor = value?.toArgb()
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
         }
     }
 
     private fun changeOpenUrlsInExternalBrowser(value: Boolean) {
         mvi.updateState { it.copy(openUrlsInExternalBrowser = value) }
-        keyStore.save(KeyStoreKeys.OpenUrlsInExternalBrowser, value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                openUrlsInExternalBrowser = value
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changeEnableSwipeActions(value: Boolean) {
         mvi.updateState { it.copy(enableSwipeActions = value) }
-        keyStore.save(KeyStoreKeys.EnableSwipeActions, value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                enableSwipeActions = value
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun changePostLayout(value: PostLayout) {
         themeRepository.changePostLayout(value)
-        keyStore.save(KeyStoreKeys.PostLayout, value.toInt())
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                postLayout = value.toInt()
+            )
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+        }
     }
 
     private fun handleLogout() {
-        val listingType =
-            keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-        val postSortType =
-            keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
-        val commentSortType =
-            keyStore[KeyStoreKeys.DefaultCommentSortType, 3].toSortType()
-        mvi.updateState {
-            it.copy(
-                defaultListingType = listingType,
-                defaultPostSortType = postSortType,
-                defaultCommentSortType = commentSortType,
-            )
+        mvi.scope?.launch {
+            val settings = settingsRepository.getSettings(null)
+            mvi.updateState {
+                it.copy(
+                    defaultListingType = settings.defaultListingType.toListingType(),
+                    defaultPostSortType = settings.defaultPostSortType.toSortType(),
+                    defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
+                )
+            }
         }
     }
 }

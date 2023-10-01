@@ -6,8 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.KeyStoreKeys
-import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -39,7 +38,7 @@ class ExploreViewModel(
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
     private val themeRepository: ThemeRepository,
-    private val keyStore: TemporaryKeyStore,
+    private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
 ) : ScreenModel,
@@ -60,11 +59,9 @@ class ExploreViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-        val blurNsfw = keyStore[KeyStoreKeys.BlurNsfw, true]
         mvi.updateState {
             it.copy(
                 instance = apiConfigRepository.getInstance(),
-                blurNsfw = blurNsfw,
             )
         }
         mvi.scope?.launch(Dispatchers.Main) {
@@ -76,11 +73,19 @@ class ExploreViewModel(
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
+            settingsRepository.currentSettings.onEach { settings ->
+                mvi.updateState {
+                    it.copy(
+                        blurNsfw = settings.blurNsfw,
+                    )
+                }
+            }.launchIn(this)
         }
 
         if (mvi.uiState.value.results.isEmpty()) {
-            val listingType = keyStore[KeyStoreKeys.DefaultListingType, 0].toListingType()
-            val sortType = keyStore[KeyStoreKeys.DefaultPostSortType, 0].toSortType()
+            val settings = settingsRepository.currentSettings.value
+            val listingType = settings.defaultListingType.toListingType()
+            val sortType = settings.defaultPostSortType.toSortType()
             mvi.updateState {
                 it.copy(
                     listingType = listingType,
@@ -192,7 +197,7 @@ class ExploreViewModel(
         val listingType = currentState.listingType
         val sortType = currentState.sortType
         val resultType = currentState.resultType
-        val inclueNsfw = keyStore[KeyStoreKeys.IncludeNsfw, true]
+        val settings = settingsRepository.currentSettings.value
         val items = communityRepository.getAll(
             query = searchText,
             auth = auth,
@@ -209,7 +214,7 @@ class ExploreViewModel(
             } else {
                 it.results + items
             }.filter { community ->
-                if (inclueNsfw) {
+                if (settings.includeNsfw) {
                     true
                 } else {
                     isSafeForWork(community)

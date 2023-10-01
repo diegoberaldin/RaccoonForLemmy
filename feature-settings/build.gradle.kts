@@ -43,6 +43,7 @@ kotlin {
 
                 implementation(projects.coreAppearance)
                 implementation(projects.corePreferences)
+                implementation(projects.corePersistence)
                 implementation(projects.coreArchitecture)
                 implementation(projects.coreUtils)
                 implementation(projects.coreCommonui)
