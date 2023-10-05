@@ -4,18 +4,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Unsubscribe
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -41,10 +45,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommunityItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.MultiCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getManageSubscriptionsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.detail.MultiCommunityScreen
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.editor.MultiCommunityEditorScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -81,15 +88,11 @@ class ManageSubscriptionsScreen : Screen {
                 )
             },
         ) { paddingValues ->
-            val pullRefreshState = rememberPullRefreshState(
-                uiState.refreshing,
-                {
-                    model.reduce(ManageSubscriptionsMviModel.Intent.Refresh)
-                }
-            )
+            val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
+                model.reduce(ManageSubscriptionsMviModel.Intent.Refresh)
+            })
             Box(
-                modifier = Modifier
-                    .padding(paddingValues)
+                modifier = Modifier.padding(paddingValues)
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {
@@ -97,6 +100,87 @@ class ManageSubscriptionsScreen : Screen {
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.s),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(MR.strings.manage_subscriptions_header_multicommunities),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Icon(
+                                modifier = Modifier.onClick {
+                                    navigator?.push(MultiCommunityEditorScreen())
+                                },
+                                imageVector = Icons.Default.AddCircle,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
+                    }
+                    itemsIndexed(uiState.multiCommunities) { idx, community ->
+                        SwipeableCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            backgroundColor = {
+                                when (it) {
+                                    DismissValue.DismissedToStart -> MaterialTheme.colorScheme.surfaceTint
+                                    DismissValue.DismissedToEnd -> MaterialTheme.colorScheme.tertiary
+                                    else -> Color.Transparent
+                                }
+                            },
+                            onGestureBegin = {
+                                model.reduce(ManageSubscriptionsMviModel.Intent.HapticIndication)
+                            },
+                            onDismissToStart = {
+                                navigator?.push(
+                                    MultiCommunityEditorScreen(community),
+                                )
+                            },
+                            onDismissToEnd = {
+                                model.reduce(
+                                    ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(idx),
+                                )
+                            },
+                            swipeContent = { direction ->
+                                val icon = when (direction) {
+                                    DismissDirection.StartToEnd -> Icons.Default.Delete
+                                    DismissDirection.EndToStart -> Icons.Default.Edit
+                                }
+                                Icon(
+                                    modifier = Modifier.padding(Spacing.xs),
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                )
+                            },
+                            content = {
+                                MultiCommunityItem(
+                                    modifier = Modifier.fillMaxWidth()
+                                        .background(MaterialTheme.colorScheme.background).onClick {
+                                            navigator?.push(
+                                                MultiCommunityScreen(community),
+                                            )
+                                        },
+                                    community = community,
+                                )
+                            },
+                        )
+                    }
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.s),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(MR.strings.manage_subscriptions_header_subscriptions),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
+                    }
                     itemsIndexed(uiState.communities) { idx, community ->
                         SwipeableCard(
                             modifier = Modifier.fillMaxWidth(),
@@ -117,21 +201,16 @@ class ManageSubscriptionsScreen : Screen {
                             },
                             swipeContent = { _ ->
                                 Icon(
-                                    modifier = Modifier.background(
-                                        color = MaterialTheme.colorScheme.onSecondary,
-                                        shape = CircleShape,
-                                    ).padding(Spacing.xs),
+                                    modifier = Modifier.padding(Spacing.xs),
                                     imageVector = Icons.Default.Unsubscribe,
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.secondary,
+                                    tint = Color.White,
                                 )
                             },
                             content = {
                                 CommunityItem(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background)
-                                        .onClick {
+                                    modifier = Modifier.fillMaxWidth()
+                                        .background(MaterialTheme.colorScheme.background).onClick {
                                             navigator?.push(
                                                 CommunityDetailScreen(community),
                                             )

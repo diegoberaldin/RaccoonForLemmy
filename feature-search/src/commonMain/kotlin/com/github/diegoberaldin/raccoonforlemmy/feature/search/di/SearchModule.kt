@@ -27,7 +27,10 @@ val searchTabModule = module {
             mvi = DefaultMviModel(ManageSubscriptionsMviModel.UiState()),
             identityRepository = get(),
             communityRepository = get(),
+            accountRepository = get(),
+            multiCommunityRepository = get(),
             hapticFeedback = get(),
+            notificationCenter = get(),
         )
     }
 }
