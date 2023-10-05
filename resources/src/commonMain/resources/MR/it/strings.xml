@@ -61,7 +61,7 @@
     <string name="explore_result_type_comments">Commenti</string>
     <string name="explore_result_type_communities">Comunità</string>
     <string name="explore_result_type_users">Utenti</string>
-    <string name="explore_search_placeholder">Testo di ricerca</string>
+    <string name="explore_search_placeholder">Ricerca</string>
     <string name="explore_title_manage_subscriptions">Gestione iscrizioni</string>
 
     <string name="profile_not_logged_message">Login non effettuato.\nAggiungi un account per
@@ -159,4 +159,12 @@
 
     <string name="manage_accounts_title">Gestisci account</string>
     <string name="manage_accounts_button_add">Aggiungi account</string>
+
+    <string name="manage_subscriptions_header_multicommunities">Multi-comunità</string>
+    <string name="manage_subscriptions_header_subscriptions">Iscrizioni</string>
+
+    <string name="multi_community_editor_title">Editor Multi-comunità</string>
+    <string name="multi_community_editor_name">Nome</string>
+    <string name="multi_community_editor_icon">Icona</string>
+    <string name="multi_community_editor_communities">Comunità</string>
 </resources>

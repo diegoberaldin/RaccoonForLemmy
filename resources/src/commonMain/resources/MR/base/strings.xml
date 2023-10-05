@@ -65,7 +65,7 @@
     <string name="explore_result_type_comments">Comments</string>
     <string name="explore_result_type_communities">Communities</string>
     <string name="explore_result_type_users">Users</string>
-    <string name="explore_search_placeholder">Search text</string>
+    <string name="explore_search_placeholder">Search</string>
     <string name="explore_title_manage_subscriptions">Manage subscriptions</string>
 
     <string name="profile_not_logged_message">You are currently not logged in.\nPlease add an
@@ -162,4 +162,12 @@
 
     <string name="manage_accounts_title">Manage accounts</string>
     <string name="manage_accounts_button_add">Add account</string>
+
+    <string name="manage_subscriptions_header_multicommunities">Multi-communities</string>
+    <string name="manage_subscriptions_header_subscriptions">Subscriptions</string>
+
+    <string name="multi_community_editor_title">Multi-community editor</string>
+    <string name="multi_community_editor_name">Name</string>
+    <string name="multi_community_editor_icon">Icon</string>
+    <string name="multi_community_editor_communities">Communities</string>
 </resources>
