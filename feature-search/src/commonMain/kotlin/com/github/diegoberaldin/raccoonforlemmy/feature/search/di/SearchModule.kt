@@ -5,6 +5,12 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.search.main.ExploreMviMo
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.main.ExploreViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.managesubscriptions.ManageSubscriptionsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.managesubscriptions.ManageSubscriptionsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.detail.MultiCommunityMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.detail.MultiCommunityViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.editor.MultiCommunityEditorMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.editor.MultiCommunityEditorViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.utils.DefaultMultiCommunityPaginator
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.utils.MultiCommunityPaginator
 import org.koin.dsl.module
 
 val searchTabModule = module {
@@ -31,6 +37,25 @@ val searchTabModule = module {
             multiCommunityRepository = get(),
             hapticFeedback = get(),
             notificationCenter = get(),
+        )
+    }
+    factory { params ->
+        MultiCommunityViewModel(
+            mvi = DefaultMviModel(MultiCommunityMviModel.UiState()),
+            community = params[0],
+            postRepository = get(),
+            identityRepository = get(),
+            themeRepository = get(),
+            shareHelper = get(),
+            settingsRepository = get(),
+            notificationCenter = get(),
+            hapticFeedback = get(),
+            paginator = get(),
+        )
+    }
+    factory<MultiCommunityPaginator> {
+        DefaultMultiCommunityPaginator(
+            postRepository = get(),
         )
     }
     factory { params ->
