@@ -1,7 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.search.di
 
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.main.ExploreViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.managesubscriptions.ManageSubscriptionsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.editor.MultiCommunityEditorViewModel
+import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
 
 actual fun getExploreViewModel(): ExploreViewModel {
@@ -14,3 +17,10 @@ actual fun getManageSubscriptionsViewModel(): ManageSubscriptionsViewModel {
     return res
 }
 
+actual fun getMultiCommunityEditorViewModel(editedCommunity: MultiCommunityModel?): MultiCommunityEditorViewModel {
+    val res: MultiCommunityEditorViewModel by inject(
+        MultiCommunityEditorViewModel::class.java,
+        parameters = { parametersOf(editedCommunity) }
+    )
+    return res
+}

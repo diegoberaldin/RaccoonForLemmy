@@ -33,4 +33,15 @@ val searchTabModule = module {
             notificationCenter = get(),
         )
     }
+    factory { params ->
+        MultiCommunityEditorViewModel(
+            mvi = DefaultMviModel(MultiCommunityEditorMviModel.UiState()),
+            editedCommunity = params[0],
+            identityRepository = get(),
+            communityRepository = get(),
+            accountRepository = get(),
+            multiCommunityRepository = get(),
+            notificationCenter = get(),
+        )
+    }
 }
