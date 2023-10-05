@@ -1,5 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
+
 data class CommentModel(
     val id: Int = 0,
     val postId: Int = 0,
