@@ -26,7 +26,7 @@ private object KeyStoreKeys {
     const val PostLayout = "postLayout"
 }
 
-class DefaultSettingsRepository(
+internal class DefaultSettingsRepository(
     val provider: DatabaseProvider,
     private val keyStore: TemporaryKeyStore,
 ) : SettingsRepository {
@@ -37,7 +37,7 @@ class DefaultSettingsRepository(
 
     override suspend fun createSettings(settings: SettingsModel, accountId: Long) =
         withContext(Dispatchers.IO) {
-            db.settingsQueries.createSettings(
+            db.settingsQueries.create(
                 theme = settings.theme?.toLong(),
                 contentFontScale = settings.contentFontScale.toDouble(),
                 locale = settings.locale,
@@ -77,7 +77,7 @@ class DefaultSettingsRepository(
                     postLayout = keyStore[KeyStoreKeys.PostLayout, 0],
                 )
             } else {
-                db.settingsQueries.getSettings(accountId)
+                db.settingsQueries.getBy(accountId)
                     .executeAsOneOrNull()?.toModel() ?: SettingsModel()
             }
         }
@@ -110,7 +110,7 @@ class DefaultSettingsRepository(
                 }
                 keyStore.save(KeyStoreKeys.PostLayout, settings.postLayout)
             } else {
-                db.settingsQueries.updateSettings(
+                db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
                     contentFontScale = settings.contentFontScale.toDouble(),
                     locale = settings.locale,

@@ -1,0 +1,8 @@
+CREATE TABLE MultiCommunityEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL DEFAULT "",
+    icon TEXT DEFAULT NULL,
+    communityIds TEXT NOT NULL DEFAULT "",
+    account_id INTEGER,
+    FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE
+);

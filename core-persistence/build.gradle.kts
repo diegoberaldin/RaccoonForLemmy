@@ -48,6 +48,7 @@ kotlin {
                 implementation(libs.koin.core)
 
                 implementation(projects.corePreferences)
+                implementation(projects.coreUtils)
             }
         }
         val commonTest by getting {

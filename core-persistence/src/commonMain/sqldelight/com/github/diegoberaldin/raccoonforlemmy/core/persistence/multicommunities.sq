@@ -1,0 +1,44 @@
+CREATE TABLE MultiCommunityEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL DEFAULT "",
+    icon TEXT DEFAULT NULL,
+    communityIds TEXT NOT NULL DEFAULT "",
+    account_id INTEGER,
+    FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
+    UNIQUE(name, account_id)
+);
+
+getAll:
+SELECT *
+FROM MultiCommunityEntity
+WHERE account_id = ?;
+
+getBy:
+SELECT *
+FROM MultiCommunityEntity
+WHERE name = ? AND account_id = ?;
+
+create:
+INSERT OR IGNORE INTO MultiCommunityEntity (
+    name,
+    icon,
+    communityIds,
+    account_id
+) VALUES (
+?,
+?,
+?,
+ ?
+);
+
+update:
+UPDATE OR IGNORE MultiCommunityEntity
+SET
+    name = ?,
+    icon = ?,
+    communityIds = ?
+WHERE id = ?;
+
+delete:
+DELETE FROM MultiCommunityEntity
+WHERE id = ?;

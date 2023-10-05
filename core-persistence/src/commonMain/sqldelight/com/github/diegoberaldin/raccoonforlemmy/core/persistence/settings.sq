@@ -19,7 +19,7 @@ CREATE TABLE SettingsEntity (
     UNIQUE(account_id)
 );
 
-createSettings:
+create:
 INSERT OR IGNORE INTO SettingsEntity (
     theme,
     contentFontScale,
@@ -54,7 +54,7 @@ INSERT OR IGNORE INTO SettingsEntity (
     ?
 );
 
-updateSettings:
+update:
 UPDATE SettingsEntity
 SET theme = ?,
     contentFontScale = ?,
@@ -72,7 +72,7 @@ SET theme = ?,
     postLayout = ?
 WHERE account_id = ?;
 
-getSettings:
+getBy:
 SELECT *
 FROM SettingsEntity
 WHERE account_id = ?;
