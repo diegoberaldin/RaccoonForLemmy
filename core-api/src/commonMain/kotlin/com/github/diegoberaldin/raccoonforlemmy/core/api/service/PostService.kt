@@ -16,7 +16,6 @@ import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
-import de.jensklingenberg.ktorfit.http.Multipart
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.http.Query
@@ -27,6 +26,7 @@ interface PostService {
 
     @GET("post/list")
     suspend fun getAll(
+        @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("limit") limit: Int? = null,
         @Query("sort") sort: SortType? = null,
@@ -39,6 +39,7 @@ interface PostService {
 
     @GET("post")
     suspend fun get(
+        @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("id") id: Int? = null,
         @Query("comment_id") commentId: Int? = null,
@@ -46,28 +47,44 @@ interface PostService {
 
     @PUT("post/save")
     @Headers("Content-Type: application/json")
-    suspend fun save(@Body form: SavePostForm): Response<PostResponse>
+    suspend fun save(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: SavePostForm,
+    ): Response<PostResponse>
 
     @POST("post/like")
     @Headers("Content-Type: application/json")
-    suspend fun like(@Body form: CreatePostLikeForm): Response<PostResponse>
+    suspend fun like(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: CreatePostLikeForm,
+    ): Response<PostResponse>
 
     @POST("post")
     @Headers("Content-Type: application/json")
-    suspend fun create(@Body form: CreatePostForm): Response<PostResponse>
+    suspend fun create(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: CreatePostForm,
+    ): Response<PostResponse>
 
     @PUT("post")
     @Headers("Content-Type: application/json")
-    suspend fun edit(@Body form: EditPostForm): Response<PostResponse>
+    suspend fun edit(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: EditPostForm,
+    ): Response<PostResponse>
 
     @POST("post/delete")
     @Headers("Content-Type: application/json")
-    suspend fun delete(@Body form: DeletePostForm): Response<PostResponse>
+    suspend fun delete(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: DeletePostForm,
+    ): Response<PostResponse>
 
     @POST
     suspend fun uploadImage(
         @Url url: String,
         @Header("Cookie") token: String,
+        @Header("Authorization") authHeader: String? = null,
         @Body content: MultiPartFormDataContent,
     ): Response<PictrsImages>
 }

@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessagesResp
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Query
@@ -14,6 +15,7 @@ import de.jensklingenberg.ktorfit.http.Query
 interface PrivateMessageService {
     @GET("private_message/list")
     suspend fun getPrivateMessages(
+        @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("page") page: Int? = null,
         @Query("limit") limit: Int? = null,
@@ -22,9 +24,15 @@ interface PrivateMessageService {
 
     @POST("private_message")
     @Headers("Content-Type: application/json")
-    suspend fun createPrivateMessage(@Body form: CreatePrivateMessageForm): Response<PrivateMessageResponse>
+    suspend fun createPrivateMessage(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: CreatePrivateMessageForm,
+    ): Response<PrivateMessageResponse>
 
     @POST("private_message/mark_as_read")
     @Headers("Content-Type: application/json")
-    suspend fun markPrivateMessageAsRead(@Body form: MarkPrivateMessageAsReadForm): Response<PrivateMessageResponse>
+    suspend fun markPrivateMessageAsRead(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: MarkPrivateMessageAsReadForm,
+    ): Response<PrivateMessageResponse>
 }

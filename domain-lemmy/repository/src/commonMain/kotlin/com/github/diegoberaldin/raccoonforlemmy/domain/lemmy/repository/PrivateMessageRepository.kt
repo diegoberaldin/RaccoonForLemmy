@@ -4,6 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePrivateMessag
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPrivateMessageAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
 
 class PrivateMessageRepository(
@@ -16,6 +17,7 @@ class PrivateMessageRepository(
         unreadOnly: Boolean = true,
     ): List<PrivateMessageModel>? = runCatching {
         val response = serviceProvider.privateMessages.getPrivateMessages(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             limit = limit,
             page = page,
@@ -35,7 +37,10 @@ class PrivateMessageRepository(
             auth = auth.orEmpty(),
             recipientId = recipiendId,
         )
-        serviceProvider.privateMessages.createPrivateMessage(data)
+        serviceProvider.privateMessages.createPrivateMessage(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 
     suspend fun markAsRead(
@@ -48,6 +53,9 @@ class PrivateMessageRepository(
             auth = auth.orEmpty(),
             read = read,
         )
-        serviceProvider.privateMessages.markPrivateMessageAsRead(data)
+        serviceProvider.privateMessages.markPrivateMessageAsRead(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 }

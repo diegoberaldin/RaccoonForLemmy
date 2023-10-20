@@ -6,11 +6,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Query
 
 interface SearchService {
     @GET("search")
     suspend fun search(
+        @Header("Authorization") authHeader: String? = null,
         @Query("q") q: String,
         @Query("community_id") communityId: Int? = null,
         @Query("community_name") communityName: String? = null,

@@ -222,6 +222,8 @@ internal fun PrivateMessageView.toModel() = PrivateMessageModel(
     read = privateMessage.read,
 )
 
+internal fun String?.toAuthHeader() = this?.let { "Bearer $it" }
+
 internal fun String.toHost(): String = this.replace("https://", "").let {
     val index = it.indexOf("/")
     if (index < 0) {

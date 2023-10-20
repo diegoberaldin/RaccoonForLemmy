@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toCommentDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toHost
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
@@ -25,6 +26,7 @@ class UserRepository(
         username: String? = null,
     ): UserModel? = runCatching {
         val response = serviceProvider.user.getDetails(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             personId = id,
             username = username,
@@ -48,6 +50,7 @@ class UserRepository(
     ): UserModel? = runCatching {
         customServiceProvider.changeInstance(instance)
         val response = customServiceProvider.user.getDetails(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             username = username,
         )
@@ -71,6 +74,7 @@ class UserRepository(
         sort: SortType = SortType.Active,
     ): List<PostModel>? = runCatching {
         val response = serviceProvider.user.getDetails(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             personId = id,
             page = page,
@@ -89,6 +93,7 @@ class UserRepository(
         sort: SortType = SortType.Active,
     ): List<PostModel>? = runCatching {
         val response = serviceProvider.user.getDetails(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             personId = id,
             page = page,
@@ -108,6 +113,7 @@ class UserRepository(
         sort: SortType = SortType.Active,
     ): List<CommentModel>? = runCatching {
         val response = serviceProvider.user.getDetails(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             personId = id,
             page = page,
@@ -126,6 +132,7 @@ class UserRepository(
         sort: SortType = SortType.Active,
     ): List<CommentModel>? = runCatching {
         val response = serviceProvider.user.getDetails(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             personId = id,
             page = page,
@@ -145,6 +152,7 @@ class UserRepository(
         unreadOnly: Boolean = true,
     ): List<PersonMentionModel>? = runCatching {
         val response = serviceProvider.user.getMentions(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             limit = limit,
             sort = sort.toCommentDto(),
@@ -163,6 +171,7 @@ class UserRepository(
         unreadOnly: Boolean = true,
     ): List<PersonMentionModel>? = runCatching {
         val response = serviceProvider.user.getReplies(
+            authHeader = auth.toAuthHeader(),
             auth = auth,
             limit = limit,
             sort = sort.toCommentDto(),
@@ -177,7 +186,10 @@ class UserRepository(
         auth: String? = null,
     ) {
         val data = MarkAllAsReadForm(auth.orEmpty())
-        serviceProvider.user.markAllAsRead(data)
+        serviceProvider.user.markAllAsRead(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 
     suspend fun setMentionRead(read: Boolean, mentionId: Int, auth: String? = null) = runCatching {
@@ -186,7 +198,10 @@ class UserRepository(
             read = read,
             auth = auth.orEmpty(),
         )
-        serviceProvider.user.markPersonMentionAsRead(data)
+        serviceProvider.user.markPersonMentionAsRead(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 
     suspend fun setReplyRead(read: Boolean, replyId: Int, auth: String? = null) = runCatching {
@@ -195,7 +210,10 @@ class UserRepository(
             read = read,
             auth = auth.orEmpty(),
         )
-        serviceProvider.user.markCommentReplyAsRead(data)
+        serviceProvider.user.markCommentReplyAsRead(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 
     suspend fun block(id: Int, blocked: Boolean, auth: String? = null): Result<Unit> = runCatching {
@@ -204,6 +222,9 @@ class UserRepository(
             block = blocked,
             auth = auth.orEmpty(),
         )
-        serviceProvider.user.blockPerson(data)
+        serviceProvider.user.blockPerson(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 }

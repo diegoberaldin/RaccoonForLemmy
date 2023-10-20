@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
 
@@ -33,6 +34,7 @@ class CommunityRepository(
     ): List<Any>? = runCatching {
         if (instance.isNullOrEmpty()) {
             val response = services.search.search(
+                authHeader = auth.toAuthHeader(),
                 q = query,
                 auth = auth,
                 page = page,
@@ -61,7 +63,10 @@ class CommunityRepository(
     suspend fun getSubscribed(
         auth: String? = null,
     ): List<CommunityModel> = runCatching {
-        val response = services.site.get(auth).body()
+        val response = services.site.get(
+            authHeader = auth.toAuthHeader(),
+            auth = auth,
+        ).body()
         response?.myUser?.follows?.map { it.community.toModel() }.orEmpty()
     }.getOrElse { emptyList() }
 
@@ -73,16 +78,14 @@ class CommunityRepository(
     ): CommunityModel? = runCatching {
         val response = if (instance.isNullOrEmpty()) {
             services.community.get(
+                authHeader = auth.toAuthHeader(),
                 auth = auth,
                 id = id,
                 name = name,
             ).body()
         } else {
             customServices.changeInstance(instance)
-            customServices.community.get(
-                auth = auth,
-                name = name,
-            ).body()
+            customServices.community.get(name = name).body()
         }
         response?.communityView?.toModel()
     }.getOrNull()
@@ -96,7 +99,10 @@ class CommunityRepository(
             communityId = id,
             follow = true,
         )
-        val response = services.community.follow(data)
+        val response = services.community.follow(
+            authHeader = auth.toAuthHeader(),
+            form = data
+        )
         response.body()?.communityView?.toModel()
     }.getOrNull()
 
@@ -109,7 +115,10 @@ class CommunityRepository(
             communityId = id,
             follow = false,
         )
-        val response = services.community.follow(data)
+        val response = services.community.follow(
+            authHeader = auth.toAuthHeader(),
+            form = data
+        )
         response.body()?.communityView?.toModel()
     }.getOrNull()
 
@@ -119,7 +128,10 @@ class CommunityRepository(
             block = blocked,
             auth = auth.orEmpty(),
         )
-        services.community.block(data)
+        services.community.block(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 }
 

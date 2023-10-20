@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toCommentDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
@@ -35,6 +36,7 @@ class CommentRepository(
     ): List<CommentModel>? = runCatching {
         val response = if (instance.isNullOrEmpty()) {
             services.comment.getAll(
+                authHeader = auth.toAuthHeader(),
                 auth = auth,
                 postId = postId,
                 page = page,
@@ -61,10 +63,14 @@ class CommentRepository(
     suspend fun getBy(id: Int, auth: String?, instance: String? = null): CommentModel? =
         runCatching {
             if (instance.isNullOrEmpty()) {
-                services.comment.getBy(id, auth).body()
+                services.comment.getBy(
+                    authHeader = auth.toAuthHeader(),
+                    id = id,
+                    auth = auth,
+                ).body()
             } else {
                 customServices.changeInstance(instance)
-                customServices.comment.getBy(id).body()
+                customServices.comment.getBy(id = id).body()
             }?.commentView?.toModel()
         }.getOrNull()
 
@@ -79,6 +85,7 @@ class CommentRepository(
     ): List<CommentModel>? = runCatching {
         val response = if (instance.isNullOrEmpty()) {
             services.comment.getAll(
+                authHeader = auth.toAuthHeader(),
                 auth = auth,
                 parentId = parentId,
                 limit = limit,
@@ -142,7 +149,7 @@ class CommentRepository(
             score = if (voted) 1 else 0,
             auth = auth,
         )
-        services.comment.like(data)
+        services.comment.like(authHeader = auth.toAuthHeader(), form = data)
     }
 
     fun asDownVoted(comment: CommentModel, downVoted: Boolean) = comment.copy(
@@ -187,7 +194,7 @@ class CommentRepository(
             score = if (downVoted) -1 else 0,
             auth = auth,
         )
-        services.comment.like(data)
+        services.comment.like(authHeader = auth.toAuthHeader(), form = data)
     }
 
     fun asSaved(comment: CommentModel, saved: Boolean) = comment.copy(saved = saved)
@@ -198,7 +205,7 @@ class CommentRepository(
             save = saved,
             auth = auth,
         )
-        services.comment.save(data)
+        services.comment.save(authHeader = auth.toAuthHeader(), form = data)
     }
 
     suspend fun create(
@@ -213,7 +220,7 @@ class CommentRepository(
             parentId = parentId,
             auth = auth,
         )
-        services.comment.create(data)
+        services.comment.create(authHeader = auth.toAuthHeader(), form = data)
     }
 
     suspend fun edit(
@@ -226,7 +233,7 @@ class CommentRepository(
             commentId = commentId,
             auth = auth,
         )
-        services.comment.edit(data)
+        services.comment.edit(authHeader = auth.toAuthHeader(), form = data)
     }
 
     suspend fun delete(
@@ -238,6 +245,6 @@ class CommentRepository(
             deleted = true,
             auth = auth
         )
-        services.comment.delete(data)
+        services.comment.delete(authHeader = auth.toAuthHeader(), form = data)
     }
 }

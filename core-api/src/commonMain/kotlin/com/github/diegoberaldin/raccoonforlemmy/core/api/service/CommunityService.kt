@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Query
@@ -18,6 +19,7 @@ interface CommunityService {
 
     @GET("community")
     suspend fun get(
+        @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("id") id: Int? = null,
         @Query("name") name: String? = null,
@@ -25,6 +27,7 @@ interface CommunityService {
 
     @GET("community/list")
     suspend fun getAll(
+        @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("page") page: Int? = null,
         @Query("limit") limit: Int? = null,
@@ -34,9 +37,15 @@ interface CommunityService {
 
     @POST("community/follow")
     @Headers("Content-Type: application/json")
-    suspend fun follow(@Body form: FollowCommunityForm): Response<CommunityResponse>
+    suspend fun follow(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: FollowCommunityForm,
+    ): Response<CommunityResponse>
 
     @POST("community/block")
     @Headers("Content-Type: application/json")
-    suspend fun block(@Body form: BlockCommunityForm): Response<BlockCommunityResponse>
+    suspend fun block(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: BlockCommunityForm,
+    ): Response<BlockCommunityResponse>
 }

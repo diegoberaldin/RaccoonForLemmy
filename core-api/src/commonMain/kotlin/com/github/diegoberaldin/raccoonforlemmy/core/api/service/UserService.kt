@@ -14,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionRespon
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Query
@@ -22,6 +23,7 @@ interface UserService {
 
     @GET("user")
     suspend fun getDetails(
+        @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("community_id") communityId: Int? = null,
         @Query("person_id") personId: Int? = null,
@@ -34,6 +36,7 @@ interface UserService {
 
     @GET("user/mention")
     suspend fun getMentions(
+        @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("page") page: Int? = null,
         @Query("limit") limit: Int? = null,
@@ -43,6 +46,7 @@ interface UserService {
 
     @GET("user/replies")
     suspend fun getReplies(
+        @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("page") page: Int? = null,
         @Query("limit") limit: Int? = null,
@@ -52,17 +56,29 @@ interface UserService {
 
     @POST("user/mark_all_as_read")
     @Headers("Content-Type: application/json")
-    suspend fun markAllAsRead(@Body form: MarkAllAsReadForm): Response<GetRepliesResponse>
+    suspend fun markAllAsRead(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: MarkAllAsReadForm,
+    ): Response<GetRepliesResponse>
 
     @POST("user/mention/mark_as_read")
     @Headers("Content-Type: application/json")
-    suspend fun markPersonMentionAsRead(@Body form: MarkPersonMentionAsReadForm): Response<PersonMentionResponse>
+    suspend fun markPersonMentionAsRead(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: MarkPersonMentionAsReadForm,
+    ): Response<PersonMentionResponse>
 
     @POST("comment/mark_as_read")
     @Headers("Content-Type: application/json")
-    suspend fun markCommentReplyAsRead(@Body form: MarkCommentReplyAsReadForm): Response<CommentReplyResponse>
+    suspend fun markCommentReplyAsRead(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: MarkCommentReplyAsReadForm,
+    ): Response<CommentReplyResponse>
 
     @POST("user/block")
     @Headers("Content-Type: application/json")
-    suspend fun blockPerson(@Body form: BlockPersonForm): Response<BlockPersonResponse>
+    suspend fun blockPerson(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: BlockPersonForm,
+    ): Response<BlockPersonResponse>
 }
