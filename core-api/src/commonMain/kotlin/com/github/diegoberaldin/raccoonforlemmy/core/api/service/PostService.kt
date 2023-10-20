@@ -31,6 +31,7 @@ interface PostService {
         @Query("limit") limit: Int? = null,
         @Query("sort") sort: SortType? = null,
         @Query("page") page: Int? = null,
+        @Query("page_cursor") pageCursor: String? = null,
         @Query("type_") type: ListingType? = null,
         @Query("community_id") communityId: Int? = null,
         @Query("community_name") communityName: String? = null,

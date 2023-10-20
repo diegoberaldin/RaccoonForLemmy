@@ -40,6 +40,7 @@ class PostListViewModel(
     MviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect> by mvi {
 
     private var currentPage: Int = 1
+    private var pageCursor: String? = null
     private var firstLoad = true
 
     init {
@@ -150,6 +151,7 @@ class PostListViewModel(
 
     private fun refresh() {
         currentPage = 1
+        pageCursor = null
         mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
     }
@@ -168,9 +170,10 @@ class PostListViewModel(
             val sort = currentState.sortType ?: SortType.Active
             val refreshing = currentState.refreshing
             val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
-            val itemList = postRepository.getAll(
+            val (itemList, nextPage) = postRepository.getAll(
                 auth = auth,
                 page = currentPage,
+                pageCursor = pageCursor,
                 type = type,
                 sort = sort,
             )?.let {
@@ -178,13 +181,19 @@ class PostListViewModel(
                     it
                 } else {
                     // prevents accidental duplication
-                    it.filter { p1 ->
-                        currentState.posts.none { p2 -> p2.id == p1.id }
-                    }
+                    val posts = it.first
+                    it.copy(
+                        first = posts.filter { p1 ->
+                            currentState.posts.none { p2 -> p2.id == p1.id }
+                        },
+                    )
                 }
-            }
+            } ?: (null to null)
             if (!itemList.isNullOrEmpty()) {
                 currentPage++
+            }
+            if (nextPage != null) {
+                pageCursor = nextPage
             }
             mvi.updateState {
                 val newPosts = if (refreshing) {
@@ -375,6 +384,7 @@ class PostListViewModel(
 
     private fun handleLogout() {
         currentPage = 1
+        pageCursor = null
         mvi.updateState {
             it.copy(
                 posts = emptyList(),

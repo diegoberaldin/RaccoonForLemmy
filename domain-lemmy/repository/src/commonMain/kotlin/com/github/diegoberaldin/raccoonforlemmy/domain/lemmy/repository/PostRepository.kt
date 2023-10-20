@@ -29,18 +29,20 @@ class PostRepository(
     suspend fun getAll(
         auth: String? = null,
         page: Int,
+        pageCursor: String? = null,
         limit: Int = DEFAULT_PAGE_SIZE,
         type: ListingType = ListingType.Local,
         sort: SortType = SortType.Active,
         communityId: Int? = null,
         instance: String? = null,
-    ): List<PostModel>? = runCatching {
+    ): Pair<List<PostModel>, String?>? = runCatching {
         val response = if (instance.isNullOrEmpty()) {
             services.post.getAll(
                 authHeader = auth.toAuthHeader(),
                 auth = auth,
                 communityId = communityId,
                 page = page,
+                pageCursor = pageCursor,
                 limit = limit,
                 type = type.toDto(),
                 sort = sort.toDto(),
@@ -50,13 +52,15 @@ class PostRepository(
             customServices.post.getAll(
                 communityId = communityId,
                 page = page,
+                pageCursor = pageCursor,
                 limit = limit,
                 type = type.toDto(),
                 sort = sort.toDto(),
             )
         }
-        val dto = response.body()?.posts ?: emptyList()
-        dto.map { it.toModel() }
+        val body = response.body()
+        val posts = body?.posts?.map { it.toModel() } ?: emptyList()
+        posts to body?.nextPage
     }.getOrNull()
 
     suspend fun get(

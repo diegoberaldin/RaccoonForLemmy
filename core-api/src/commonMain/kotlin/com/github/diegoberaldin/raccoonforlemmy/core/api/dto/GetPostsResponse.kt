@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GetPostsResponse(
     @SerialName("posts") val posts: List<PostView>,
+    @SerialName("next_page") val nextPage: String? = null,
 )

@@ -10,11 +10,13 @@ internal class CommunityPaginator(
     private val postRepository: PostRepository,
 ) {
     private var currentPage: Int = 1
+    private var pageCursor: String? = null
     var canFetchMore: Boolean = true
         private set
 
     fun reset() {
         currentPage = 1
+        pageCursor = null
         canFetchMore = true
     }
 
@@ -23,19 +25,28 @@ internal class CommunityPaginator(
         sort: SortType,
         currentIds: List<Int>,
     ): List<PostModel> {
-        val result = postRepository.getAll(
+        val (result, nextPage) = postRepository.getAll(
             auth = auth,
             page = currentPage,
+            pageCursor = pageCursor,
             limit = PostRepository.DEFAULT_PAGE_SIZE,
             type = ListingType.All,
             sort = sort,
             communityId = communityId,
-        )?.filter {
+        )?.let {
             // prevents accidental duplication
-            it.id !in currentIds
-        }
+            val posts = it.first
+            it.copy(
+                first = posts.filter { p1 ->
+                    p1.id !in currentIds
+                },
+            )
+        } ?: (null to null)
         if (!result.isNullOrEmpty()) {
             currentPage++
+        }
+        if (nextPage != null) {
+            pageCursor = nextPage
         }
         canFetchMore = result?.isEmpty() != true
         return result.orEmpty()
