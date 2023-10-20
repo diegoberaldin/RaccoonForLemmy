@@ -59,4 +59,7 @@ enum class SortType {
 
     @SerialName("Controversial")
     Controversial,
+
+    @SerialName("Scaled")
+    Scaled,
 }

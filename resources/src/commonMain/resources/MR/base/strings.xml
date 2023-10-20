@@ -55,6 +55,7 @@
     <string name="home_sort_type_top_year_short">year</string>
     <string name="home_sort_type_old">Old</string>
     <string name="home_sort_type_controversial">Controversial</string>
+    <string name="home_sort_type_scaled">Scaled</string>
     <string name="home_instance_via">via %1$s</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>

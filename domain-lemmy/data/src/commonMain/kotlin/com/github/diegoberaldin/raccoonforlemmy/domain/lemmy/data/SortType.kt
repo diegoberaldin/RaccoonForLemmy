@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.MarkUnreadChatAlt
 import androidx.compose.material.icons.filled.MilitaryTech
+import androidx.compose.material.icons.filled.MonitorWeight
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material.icons.filled.Thunderstorm
 import androidx.compose.material.icons.filled.TrendingUp
@@ -33,6 +34,7 @@ sealed interface SortType {
     }
 
     data object Controversial : SortType
+    data object Scaled : SortType
 }
 
 fun SortType.toInt() = when (this) {
@@ -50,6 +52,7 @@ fun SortType.toInt() = when (this) {
     SortType.Top.Year -> 12
     SortType.Old -> 13
     SortType.Controversial -> 14
+    SortType.Scaled -> 15
     else -> 0
 }
 
@@ -68,6 +71,7 @@ fun Int.toSortType() = when (this) {
     12 -> SortType.Top.Year
     13 -> SortType.Old
     14 -> SortType.Controversial
+    15 -> SortType.Scaled
     else -> SortType.Active
 }
 
@@ -79,6 +83,7 @@ fun SortType.toIcon(): ImageVector = when (this) {
     SortType.NewComments -> Icons.Default.MarkUnreadChatAlt
     SortType.Old -> Icons.Default.ElderlyWoman
     SortType.Controversial -> Icons.Default.Thunderstorm
+    SortType.Scaled -> Icons.Default.MonitorWeight
     else -> Icons.Default.MilitaryTech
 }
 
@@ -98,5 +103,6 @@ fun SortType.toReadableName(): String = when (this) {
     SortType.Top.Year -> stringResource(MR.strings.home_sort_type_top_year)
     SortType.Old -> stringResource(MR.strings.home_sort_type_old)
     SortType.Controversial -> stringResource(MR.strings.home_sort_type_controversial)
+    SortType.Scaled -> stringResource(MR.strings.home_sort_type_scaled)
     else -> stringResource(MR.strings.home_sort_type_top)
 }

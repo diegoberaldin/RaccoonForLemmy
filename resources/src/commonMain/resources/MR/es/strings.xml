@@ -50,6 +50,7 @@
     <string name="home_sort_type_top_week_short">semana</string>
     <string name="home_sort_type_top_year_short">año</string>
     <string name="home_sort_type_controversial">Contravertidos</string>
+    <string name="home_sort_type_scaled">Proporcional</string>
     <string name="home_sort_type_old">Antiguos</string>
     <string name="home_instance_via">a través de %1$s</string>
     <string name="post_hour_short">h</string>

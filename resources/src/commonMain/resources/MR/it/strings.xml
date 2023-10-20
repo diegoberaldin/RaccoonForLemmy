@@ -51,6 +51,7 @@
     <string name="home_sort_type_top_year_short">anno</string>
     <string name="home_sort_type_old">Vecchi</string>
     <string name="home_sort_type_controversial">Controversi</string>
+    <string name="home_sort_type_scaled">Proporzionale</string>
     <string name="home_instance_via">via %1$s</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>

@@ -46,6 +46,7 @@ class SortBottomSheet(
         SortType.MostComments,
         SortType.Old,
         SortType.Controversial,
+        SortType.Scaled,
         SortType.Top.Generic,
     ),
     private val expandTop: Boolean = false,
@@ -68,7 +69,6 @@ class SortBottomSheet(
                 SortBottomSheetMain(
                     values = values,
                     expandTop = expandTop,
-                    mainKey = key,
                 )
             )
         }
@@ -78,7 +78,6 @@ class SortBottomSheet(
 internal class SortBottomSheetMain(
     private val values: List<SortType>,
     private val expandTop: Boolean = false,
-    private val mainKey: String,
 ) : Screen {
     @Composable
     override fun Content() {
