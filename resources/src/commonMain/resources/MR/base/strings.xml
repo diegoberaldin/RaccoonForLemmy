@@ -153,6 +153,7 @@
     <string name="community_detail_info">Community info</string>
     <string name="community_detail_instance_info">Instance details</string>
     <string name="community_detail_block">Block</string>
+    <string name="community_detail_block_instance">Block instance</string>
     <string name="instance_detail_title">Instance: %1$s</string>
     <string name="instance_detail_communities">Communities</string>
     <string name="action_back_to_top">Back to top</string>

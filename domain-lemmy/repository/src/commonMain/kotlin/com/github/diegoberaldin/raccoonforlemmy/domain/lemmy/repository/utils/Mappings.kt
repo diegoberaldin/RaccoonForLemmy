@@ -80,6 +80,7 @@ internal fun SearchResultType.toDto(): SearchType = when (this) {
 
 internal fun Person.toModel() = UserModel(
     id = id,
+    instanceId = instanceId,
     name = name,
     displayName = displayName.orEmpty(),
     avatar = avatar,
@@ -131,6 +132,7 @@ internal fun CommentView.toModel() = CommentModel(
 
 internal fun Community.toModel() = CommunityModel(
     id = id,
+    instanceId = instanceId,
     name = name,
     title = title,
     description = description.orEmpty(),

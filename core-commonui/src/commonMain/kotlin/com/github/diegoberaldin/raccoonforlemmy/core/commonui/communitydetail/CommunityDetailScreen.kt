@@ -285,15 +285,15 @@ class CommunityDetailScreen(
                                     stringResource(MR.strings.community_detail_info),
                                     stringResource(MR.strings.community_detail_instance_info),
                                     stringResource(MR.strings.community_detail_block),
+                                    stringResource(MR.strings.community_detail_block_instance),
                                 ),
                                 onOpenImage = { url ->
                                     navigator?.push(ZoomableImageScreen(url))
                                 },
                                 onOptionSelected = { optionIdx ->
                                     when (optionIdx) {
-                                        2 -> {
-                                            model.reduce(CommunityDetailMviModel.Intent.Block)
-                                        }
+                                        3 -> model.reduce(CommunityDetailMviModel.Intent.BlockInstance)
+                                        2 -> model.reduce(CommunityDetailMviModel.Intent.Block)
 
                                         1 -> {
                                             navigator?.push(

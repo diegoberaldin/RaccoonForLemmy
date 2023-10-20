@@ -17,6 +17,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -32,6 +33,7 @@ class UserDetailViewModel(
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
+    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val shareHelper: ShareHelper,
     private val hapticFeedback: HapticFeedback,
@@ -129,6 +131,7 @@ class UserDetailViewModel(
             )
 
             UserDetailMviModel.Intent.Block -> blockUser()
+            UserDetailMviModel.Intent.BlockInstance -> blockInstance()
         }
     }
 
@@ -549,6 +552,22 @@ class UserDetailViewModel(
                 val userId = user.id
                 val auth = identityRepository.authToken.value
                 userRepository.block(userId, true, auth).getOrThrow()
+                mvi.emitEffect(UserDetailMviModel.Effect.BlockSuccess)
+            } catch (e: Throwable) {
+                mvi.emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
+            } finally {
+                mvi.updateState { it.copy(asyncInProgress = false) }
+            }
+        }
+    }
+
+    private fun blockInstance() {
+        mvi.updateState { it.copy(asyncInProgress = true) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val instanceId = user.instanceId
+                val auth = identityRepository.authToken.value
+                siteRepository.block(instanceId, true, auth).getOrThrow()
                 mvi.emitEffect(UserDetailMviModel.Effect.BlockSuccess)
             } catch (e: Throwable) {
                 mvi.emitEffect(UserDetailMviModel.Effect.BlockError(e.message))

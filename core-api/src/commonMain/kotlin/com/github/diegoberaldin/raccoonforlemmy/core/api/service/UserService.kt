@@ -77,7 +77,7 @@ interface UserService {
 
     @POST("user/block")
     @Headers("Content-Type: application/json")
-    suspend fun blockPerson(
+    suspend fun block(
         @Header("Authorization") authHeader: String? = null,
         @Body form: BlockPersonForm,
     ): Response<BlockPersonResponse>

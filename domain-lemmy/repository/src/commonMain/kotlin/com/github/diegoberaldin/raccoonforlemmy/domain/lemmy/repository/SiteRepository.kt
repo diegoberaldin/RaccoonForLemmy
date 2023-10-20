@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockSiteForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SiteMetadata
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
@@ -21,6 +22,17 @@ class SiteRepository(
             user.toModel().copy(score = counts.toModel())
         }
     }.getOrNull()
+
+    suspend fun block(id: Int, blocked: Boolean, auth: String? = null): Result<Unit> = runCatching {
+        val data = BlockSiteForm(
+            instanceId = id,
+            block = blocked,
+        )
+        serviceProvider.site.block(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
+    }
 
     suspend fun getMetadata(url: String): MetadataModel? = runCatching {
         val response = serviceProvider.site.getSiteMetadata(

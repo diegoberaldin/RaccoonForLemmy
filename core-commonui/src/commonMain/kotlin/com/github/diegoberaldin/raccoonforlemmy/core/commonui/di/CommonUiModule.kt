@@ -83,6 +83,7 @@ val commonUiModule = module {
             userRepository = get(),
             postRepository = get(),
             commentRepository = get(),
+            siteRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
             shareHelper = get(),

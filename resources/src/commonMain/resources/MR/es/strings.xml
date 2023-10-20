@@ -151,6 +151,7 @@
     <string name="community_detail_info">Info comunidad</string>
     <string name="community_detail_instance_info">Detalles instancia</string>
     <string name="community_detail_block">Bloquear</string>
+    <string name="community_detail_block_instance">Bloquear instancia</string>
     <string name="instance_detail_title">Instancia: %1$s</string>
     <string name="instance_detail_communities">Comunidades</string>
     <string name="action_back_to_top">Volver arriba</string>

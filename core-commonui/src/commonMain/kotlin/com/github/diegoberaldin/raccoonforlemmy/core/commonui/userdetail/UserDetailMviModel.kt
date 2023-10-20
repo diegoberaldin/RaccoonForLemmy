@@ -22,11 +22,11 @@ interface UserDetailMviModel :
         data class SavePost(val index: Int, val feedback: Boolean = false) : Intent
         data class UpVoteComment(val index: Int, val feedback: Boolean = false) : Intent
         data class DownVoteComment(val index: Int, val feedback: Boolean = false) : Intent
-
         data class SaveComment(val index: Int, val feedback: Boolean = false) : Intent
         data object HapticIndication : Intent
         data class SharePost(val index: Int) : Intent
         data object Block : Intent
+        data object BlockInstance : Intent
     }
 
     data class UiState(

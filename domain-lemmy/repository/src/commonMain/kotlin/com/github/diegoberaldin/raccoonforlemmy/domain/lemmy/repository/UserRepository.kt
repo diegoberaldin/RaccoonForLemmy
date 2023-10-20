@@ -222,7 +222,7 @@ class UserRepository(
             block = blocked,
             auth = auth.orEmpty(),
         )
-        serviceProvider.user.blockPerson(
+        serviceProvider.user.block(
             authHeader = auth.toAuthHeader(),
             form = data,
         )

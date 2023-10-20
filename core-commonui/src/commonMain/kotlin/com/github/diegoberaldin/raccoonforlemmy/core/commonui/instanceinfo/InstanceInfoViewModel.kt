@@ -35,6 +35,7 @@ class InstanceInfoViewModel(
 
             val metadata = siteRepository.getMetadata(url)
             if (metadata != null) {
+                metadata.title
                 mvi.updateState {
                     it.copy(
                         title = metadata.title,

@@ -263,15 +263,17 @@ class UserDetailScreen(
                             UserHeader(
                                 user = uiState.user,
                                 autoLoadImages = uiState.autoLoadImages,
-                                options = listOf(stringResource(MR.strings.community_detail_block)),
+                                options = listOf(
+                                    stringResource(MR.strings.community_detail_block),
+                                    stringResource(MR.strings.community_detail_block_instance),
+                                ),
                                 onOpenImage = { url ->
                                     navigator?.push(ZoomableImageScreen(url))
                                 },
                                 onOptionSelected = { optionIdx ->
                                     when (optionIdx) {
-                                        else -> {
-                                            model.reduce(UserDetailMviModel.Intent.Block)
-                                        }
+                                        1 -> model.reduce(UserDetailMviModel.Intent.BlockInstance)
+                                        else -> model.reduce(UserDetailMviModel.Intent.Block)
                                     }
                                 },
                             )

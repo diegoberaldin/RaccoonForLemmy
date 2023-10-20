@@ -108,6 +108,7 @@ class CommunityDetailViewModel(
             )
 
             CommunityDetailMviModel.Intent.Block -> blockCommunity()
+            CommunityDetailMviModel.Intent.BlockInstance -> blockInstance()
         }
     }
 
@@ -394,6 +395,22 @@ class CommunityDetailViewModel(
                 val communityId = community.id
                 val auth = identityRepository.authToken.value
                 communityRepository.block(communityId, true, auth).getOrThrow()
+                mvi.emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
+            } catch (e: Throwable) {
+                mvi.emitEffect(CommunityDetailMviModel.Effect.BlockError(e.message))
+            } finally {
+                mvi.updateState { it.copy(asyncInProgress = false) }
+            }
+        }
+    }
+
+    private fun blockInstance() {
+        mvi.updateState { it.copy(asyncInProgress = true) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val instanceId = community.instanceId
+                val auth = identityRepository.authToken.value
+                siteRepository.block(instanceId, true, auth).getOrThrow()
                 mvi.emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
             } catch (e: Throwable) {
                 mvi.emitEffect(CommunityDetailMviModel.Effect.BlockError(e.message))

@@ -24,6 +24,7 @@ interface CommunityDetailMviModel :
         data class DeletePost(val id: Int) : Intent
         data class SharePost(val index: Int) : Intent
         data object Block : Intent
+        data object BlockInstance : Intent
     }
 
     data class UiState(
