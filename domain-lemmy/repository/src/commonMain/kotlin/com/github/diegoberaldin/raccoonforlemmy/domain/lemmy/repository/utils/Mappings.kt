@@ -29,6 +29,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopSixHour
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopTwelveHour
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopWeek
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopYear
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SubscribedType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -150,6 +151,7 @@ internal fun CommunityView.toModel() = community.toModel().copy(
     monthlyActiveUsers = counts.usersActiveMonth,
     weeklyActiveUsers = counts.usersActiveWeek,
     dailyActiveUsers = counts.usersActiveDay,
+    subscribed = subscribed == SubscribedType.Subscribed,
     subscribers = counts.subscribers,
     posts = counts.posts,
     comments = counts.comments,
