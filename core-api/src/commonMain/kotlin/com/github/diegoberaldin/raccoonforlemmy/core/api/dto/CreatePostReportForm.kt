@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 data class CreatePostReportForm(
     @SerialName("post_id") val postId: PostId,
     @SerialName("reason") val reason: String,
-    @SerialName("auto") val auth: String,
+    @SerialName("auth") val auth: String,
 )
