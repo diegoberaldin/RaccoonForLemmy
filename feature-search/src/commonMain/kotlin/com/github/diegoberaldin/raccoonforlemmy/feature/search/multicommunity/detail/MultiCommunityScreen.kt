@@ -304,23 +304,18 @@ class MultiCommunityScreen(
                             },
                             content = {
                                 PostCard(
-                                    modifier = Modifier.onClick {
-                                        model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(idx))
-                                        navigator?.push(
-                                            PostDetailScreen(post),
-                                        )
-                                    },
                                     post = post,
                                     postLayout = uiState.postLayout,
                                     fullHeightImage = uiState.fullHeightImages,
                                     separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                     autoLoadImages = uiState.autoLoadImages,
-                                    options = buildList {
-                                        add(stringResource(MR.strings.post_action_share))
-                                        add(stringResource(MR.strings.post_action_hide))
-                                        add(stringResource(MR.strings.post_action_report))
-                                    },
                                     blurNsfw = uiState.blurNsfw,
+                                    onClick = {
+                                        model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(idx))
+                                        navigator?.push(
+                                            PostDetailScreen(post),
+                                        )
+                                    },
                                     onOpenCommunity = { community ->
                                         navigator?.push(
                                             CommunityDetailScreen(community),
@@ -373,6 +368,11 @@ class MultiCommunityScreen(
                                         navigator?.push(
                                             ZoomableImageScreen(url),
                                         )
+                                    },
+                                    options = buildList {
+                                        add(stringResource(MR.strings.post_action_share))
+                                        add(stringResource(MR.strings.post_action_hide))
+                                        add(stringResource(MR.strings.post_action_report))
                                     },
                                     onOptionSelected = { optionIdx ->
                                         when (optionIdx) {

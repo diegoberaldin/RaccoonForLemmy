@@ -6,6 +6,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.IdRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -47,6 +48,7 @@ actual fun CustomMarkdown(
     inlineImages: Boolean,
     autoLoadImages: Boolean,
     onOpenImage: ((String) -> Unit)?,
+    onClick: (() -> Unit)?,
 ) {
     CompositionLocalProvider(
         LocalReferenceLinkHandler provides ReferenceLinkHandlerImpl(),
@@ -58,7 +60,9 @@ actual fun CustomMarkdown(
             onOpenUrl = onOpenUrl,
             onOpenImage = onOpenImage,
         )
-        BoxWithConstraints {
+        BoxWithConstraints(
+            modifier = modifier.clickable { onClick?.invoke() }
+        ) {
             val style = LocalMarkdownTypography.current.text
             val fontScale = LocalDensity.current.fontScale * 1.25f
             val canvasWidthMaybe = with(LocalDensity.current) { maxWidth.toPx() }.toInt()
@@ -82,7 +86,11 @@ actual fun CustomMarkdown(
                         style = style,
                         typeface = typeface,
                         fontSize = style.fontSize * fontScale,
-                    )
+                    ).apply {
+                        setOnClickListener {
+                            onClick?.invoke()
+                        }
+                    }
                 },
                 update = { textView ->
                     val md = markwonProvider.markwon.toMarkdown(content)
@@ -91,7 +99,6 @@ actual fun CustomMarkdown(
                     }
                     markwonProvider.markwon.setParsedMarkdown(textView, md)
                 },
-                modifier = modifier,
             )
         }
     }

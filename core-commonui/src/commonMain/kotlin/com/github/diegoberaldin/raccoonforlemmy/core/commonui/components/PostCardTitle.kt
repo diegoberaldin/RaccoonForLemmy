@@ -13,6 +13,7 @@ fun PostCardTitle(
     text: String,
     autoLoadImages: Boolean = true,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val navigator = remember { getNavigationCoordinator().getRootNavigator() }
@@ -29,6 +30,7 @@ fun PostCardTitle(
                 uriHandler = uriHandler,
                 navigator = navigator
             )
-        }
+        },
+        onClick = onClick,
     )
 }

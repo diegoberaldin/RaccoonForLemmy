@@ -157,11 +157,6 @@ internal object ProfileLoggedScreen : Tab {
                             }
                             itemsIndexed(uiState.posts) { idx, post ->
                                 PostCard(
-                                    modifier = Modifier.onClick {
-                                        navigator?.push(
-                                            PostDetailScreen(post),
-                                        )
-                                    },
                                     post = post,
                                     postLayout = uiState.postLayout,
                                     fullHeightImage = uiState.fullHeightImages,
@@ -169,10 +164,10 @@ internal object ProfileLoggedScreen : Tab {
                                     autoLoadImages = uiState.autoLoadImages,
                                     hideAuthor = true,
                                     blurNsfw = false,
-                                    options = buildList {
-                                        add(stringResource(MR.strings.post_action_share))
-                                        add(stringResource(MR.strings.post_action_edit))
-                                        add(stringResource(MR.strings.comment_action_delete))
+                                    onClick = {
+                                        navigator?.push(
+                                            PostDetailScreen(post),
+                                        )
                                     },
                                     onOpenCommunity = { community ->
                                         navigator?.push(
@@ -207,6 +202,11 @@ internal object ProfileLoggedScreen : Tab {
                                                 true
                                             )
                                         )
+                                    },
+                                    options = buildList {
+                                        add(stringResource(MR.strings.post_action_share))
+                                        add(stringResource(MR.strings.post_action_edit))
+                                        add(stringResource(MR.strings.comment_action_delete))
                                     },
                                     onOptionSelected = { optionIdx ->
                                         when (optionIdx) {

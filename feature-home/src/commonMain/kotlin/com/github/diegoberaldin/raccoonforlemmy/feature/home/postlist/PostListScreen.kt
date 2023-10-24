@@ -75,7 +75,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateRepor
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.getHomeScreenModel
@@ -293,27 +292,18 @@ class PostListScreen : Screen {
                                 },
                                 content = {
                                     PostCard(
-                                        modifier = Modifier.onClick {
-                                            model.reduce(PostListMviModel.Intent.MarkAsRead(idx))
-                                            navigator?.push(
-                                                PostDetailScreen(post),
-                                            )
-                                        },
                                         post = post,
                                         postLayout = uiState.postLayout,
                                         fullHeightImage = uiState.fullHeightImages,
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
-                                        options = buildList {
-                                            add(stringResource(MR.strings.post_action_share))
-                                            add(stringResource(MR.strings.post_action_hide))
-                                            add(stringResource(MR.strings.post_action_report))
-                                            if (post.creator?.id == uiState.currentUserId) {
-                                                add(stringResource(MR.strings.post_action_edit))
-                                                add(stringResource(MR.strings.comment_action_delete))
-                                            }
-                                        },
                                         blurNsfw = uiState.blurNsfw,
+                                        onClick = {
+                                            model.reduce(PostListMviModel.Intent.MarkAsRead(idx))
+                                            navigator?.push(
+                                                PostDetailScreen(post),
+                                            )
+                                        },
                                         onOpenCommunity = { community ->
                                             navigator?.push(
                                                 CommunityDetailScreen(community),
@@ -366,6 +356,15 @@ class PostListScreen : Screen {
                                             navigator?.push(
                                                 ZoomableImageScreen(url),
                                             )
+                                        },
+                                        options = buildList {
+                                            add(stringResource(MR.strings.post_action_share))
+                                            add(stringResource(MR.strings.post_action_hide))
+                                            add(stringResource(MR.strings.post_action_report))
+                                            if (post.creator?.id == uiState.currentUserId) {
+                                                add(stringResource(MR.strings.post_action_edit))
+                                                add(stringResource(MR.strings.comment_action_delete))
+                                            }
                                         },
                                         onOptionSelected = { optionIdx ->
                                             when (optionIdx) {

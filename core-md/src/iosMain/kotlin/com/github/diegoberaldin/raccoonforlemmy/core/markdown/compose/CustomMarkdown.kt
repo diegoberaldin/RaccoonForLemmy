@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -58,6 +59,7 @@ actual fun CustomMarkdown(
     inlineImages: Boolean,
     autoLoadImages: Boolean,
     onOpenImage: ((String) -> Unit)?,
+    onClick: (() -> Unit)?,
 ) {
     val matches = Regex("::: spoiler (?<title>.*?)\\n(?<content>.*?)\\n:::\\n").findAll(content)
     val mangledContent = buildString {
@@ -93,7 +95,7 @@ actual fun CustomMarkdown(
         LocalMarkdownColors provides colors,
         LocalMarkdownTypography provides typography,
     ) {
-        Column(modifier) {
+        Column(modifier.clickable { onClick?.invoke() }) {
             val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(mangledContent)
             parsedTree.children.forEach { node ->
                 if (!node.handleElement(

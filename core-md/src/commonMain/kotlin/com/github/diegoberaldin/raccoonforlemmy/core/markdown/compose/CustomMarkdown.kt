@@ -37,4 +37,5 @@ expect fun CustomMarkdown(
     inlineImages: Boolean = true,
     autoLoadImages: Boolean = true,
     onOpenImage: ((String) -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
 )

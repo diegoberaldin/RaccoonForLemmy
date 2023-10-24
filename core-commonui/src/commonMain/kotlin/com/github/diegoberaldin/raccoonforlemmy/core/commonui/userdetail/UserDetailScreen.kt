@@ -379,9 +379,6 @@ class UserDetailScreen(
                                 },
                                 content = {
                                     PostCard(
-                                        modifier = Modifier.onClick {
-                                            navigator?.push(PostDetailScreen(post = post))
-                                        },
                                         post = post,
                                         hideAuthor = true,
                                         postLayout = uiState.postLayout,
@@ -389,9 +386,8 @@ class UserDetailScreen(
                                         blurNsfw = uiState.blurNsfw,
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
-                                        options = buildList {
-                                            add(stringResource(MR.strings.post_action_share))
-                                            add(stringResource(MR.strings.post_action_report))
+                                        onClick = {
+                                            navigator?.push(PostDetailScreen(post = post))
                                         },
                                         onUpVote = if (isOnOtherInstance) {
                                             null
@@ -453,6 +449,10 @@ class UserDetailScreen(
                                             navigator?.push(
                                                 ZoomableImageScreen(url),
                                             )
+                                        },
+                                        options = buildList {
+                                            add(stringResource(MR.strings.post_action_share))
+                                            add(stringResource(MR.strings.post_action_report))
                                         },
                                         onOptionSelected = { optionIdx ->
                                             when (optionIdx) {

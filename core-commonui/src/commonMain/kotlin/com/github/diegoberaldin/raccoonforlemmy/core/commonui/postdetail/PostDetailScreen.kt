@@ -307,14 +307,6 @@ class PostDetailScreen(
                                         UserDetailScreen(user = user)
                                     )
                                 },
-                                options = buildList {
-                                    add(stringResource(MR.strings.post_action_share))
-                                    add(stringResource(MR.strings.post_action_report))
-                                    if (statePost.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
-                                        add(stringResource(MR.strings.post_action_edit))
-                                        add(stringResource(MR.strings.comment_action_delete))
-                                    }
-                                },
                                 onUpVote = {
                                     if (!isOnOtherInstance) {
                                         model.reduce(
@@ -351,6 +343,14 @@ class PostDetailScreen(
                                             model.reduce(PostDetailMviModel.Intent.RefreshPost)
                                         }, key, NotificationCenterContractKeys.CommentCreated)
                                         bottomSheetNavigator.show(screen)
+                                    }
+                                },
+                                options = buildList {
+                                    add(stringResource(MR.strings.post_action_share))
+                                    add(stringResource(MR.strings.post_action_report))
+                                    if (statePost.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
+                                        add(stringResource(MR.strings.post_action_edit))
+                                        add(stringResource(MR.strings.comment_action_delete))
                                     }
                                 },
                                 onOptionSelected = { idx ->
@@ -513,13 +513,6 @@ class PostDetailScreen(
                                             comment = comment,
                                             separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                             autoLoadImages = uiState.autoLoadImages,
-                                            options = buildList {
-                                                add(stringResource(MR.strings.post_action_report))
-                                                if (comment.creator?.id == uiState.currentUserId) {
-                                                    add(stringResource(MR.strings.post_action_edit))
-                                                    add(stringResource(MR.strings.comment_action_delete))
-                                                }
-                                            },
                                             onUpVote = {
                                                 if (!isOnOtherInstance) {
                                                     model.reduce(
@@ -587,6 +580,13 @@ class PostDetailScreen(
                                                             otherInstance = otherInstance,
                                                         ),
                                                     )
+                                                }
+                                            },
+                                            options = buildList {
+                                                add(stringResource(MR.strings.post_action_report))
+                                                if (comment.creator?.id == uiState.currentUserId) {
+                                                    add(stringResource(MR.strings.post_action_edit))
+                                                    add(stringResource(MR.strings.comment_action_delete))
                                                 }
                                             },
                                             onOptionSelected = { optionId ->

@@ -293,17 +293,17 @@ class ExploreScreen : Screen {
 
                                 is PostModel -> {
                                     PostCard(
-                                        modifier = Modifier.onClick {
-                                            navigator?.push(
-                                                PostDetailScreen(result),
-                                            )
-                                        },
                                         post = result,
                                         postLayout = uiState.postLayout,
                                         fullHeightImage = uiState.fullHeightImages,
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
                                         blurNsfw = uiState.blurNsfw,
+                                        onClick = {
+                                            navigator?.push(
+                                                PostDetailScreen(result),
+                                            )
+                                        },
                                         onOpenCommunity = { community ->
                                             navigator?.push(
                                                 CommunityDetailScreen(community),

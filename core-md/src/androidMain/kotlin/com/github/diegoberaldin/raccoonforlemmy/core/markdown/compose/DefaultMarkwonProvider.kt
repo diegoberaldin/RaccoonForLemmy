@@ -38,6 +38,7 @@ class DefaultMarkwonProvider(
                         }
                     }
                 }
-            ).build()
+            )
+            .build()
     }
 }

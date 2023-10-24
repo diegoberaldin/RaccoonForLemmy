@@ -223,17 +223,17 @@ class SavedItemsScreen : Screen {
                         if (uiState.section == SavedItemsSection.Posts) {
                             itemsIndexed(uiState.posts) { idx, post ->
                                 PostCard(
-                                    modifier = Modifier.onClick {
-                                        navigator?.push(
-                                            PostDetailScreen(post),
-                                        )
-                                    },
                                     post = post,
                                     postLayout = uiState.postLayout,
                                     fullHeightImage = uiState.fullHeightImages,
                                     separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                     autoLoadImages = uiState.autoLoadImages,
                                     blurNsfw = uiState.blurNsfw,
+                                    onClick = {
+                                        navigator?.push(
+                                            PostDetailScreen(post),
+                                        )
+                                    },
                                     onOpenCommunity = { community ->
                                         navigator?.push(
                                             CommunityDetailScreen(community),

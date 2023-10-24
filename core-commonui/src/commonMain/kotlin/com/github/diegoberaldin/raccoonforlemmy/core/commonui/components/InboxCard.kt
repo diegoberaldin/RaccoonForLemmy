@@ -68,6 +68,9 @@ fun InboxCard(
                     ),
                     text = mention.comment.text,
                     autoLoadImages = autoLoadImages,
+                    onClick = {
+                        onOpenPost(mention.post)
+                    }
                 )
             }
             InboxReplySubtitle(

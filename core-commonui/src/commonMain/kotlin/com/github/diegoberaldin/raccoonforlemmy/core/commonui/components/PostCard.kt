@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -58,6 +59,7 @@ fun PostCard(
     onReply: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
     onOptionSelected: ((Int) -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
 ) {
     Box(
         modifier = modifier.let {
@@ -69,7 +71,7 @@ fun PostCard(
             } else {
                 it
             }
-        },
+        }.onClick { onClick?.invoke() },
     ) {
         if (postLayout != PostLayout.Compact) {
             ExtendedPost(
@@ -95,6 +97,7 @@ fun PostCard(
                 onReply = onReply,
                 onImageClick = onImageClick,
                 onOptionSelected = onOptionSelected,
+                onClick = onClick,
             )
         } else {
             CompactPost(
@@ -112,6 +115,7 @@ fun PostCard(
                 onReply = onReply,
                 onImageClick = onImageClick,
                 onOptionSelected = onOptionSelected,
+                onClick = onClick,
             )
         }
     }
@@ -134,6 +138,7 @@ private fun CompactPost(
     onReply: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
     onOptionSelected: ((Int) -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
@@ -156,6 +161,7 @@ private fun CompactPost(
                     modifier = Modifier.weight(0.75f),
                     text = post.title,
                     autoLoadImages = autoLoadImages,
+                    onClick = onClick,
                 )
             }
             PostCardImage(
@@ -215,6 +221,7 @@ private fun ExtendedPost(
     onReply: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
     onOptionSelected: ((Int) -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier.background(backgroundColor),
@@ -236,6 +243,7 @@ private fun ExtendedPost(
                 ),
                 text = post.title,
                 autoLoadImages = autoLoadImages,
+                onClick = onClick,
             )
         }
 
@@ -276,6 +284,7 @@ private fun ExtendedPost(
                         },
                         text = post.text,
                         autoLoadImages = autoLoadImages,
+                        onClick = onClick,
                     )
                     if (limitBodyHeight && textHeightPx >= maxHeightPx) {
                         Box(

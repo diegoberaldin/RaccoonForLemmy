@@ -14,6 +14,7 @@ fun PostCardBody(
     modifier: Modifier = Modifier,
     text: String,
     autoLoadImages: Boolean = true,
+    onClick: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val navigator = remember { getNavigationCoordinator().getRootNavigator() }
@@ -36,6 +37,7 @@ fun PostCardBody(
             onOpenImage = { url ->
                 navigator?.push(ZoomableImageScreen(url))
             },
+            onClick = onClick,
         )
     }
 }

@@ -399,19 +399,29 @@ class CommunityDetailScreen(
                                     )
                                 },
                                 content = {
-                                    PostCard(modifier = Modifier.onClick {
-                                        model.reduce(
-                                            CommunityDetailMviModel.Intent.MarkAsRead(
-                                                idx
+                                    PostCard(
+                                        post = post,
+                                        postLayout = uiState.postLayout,
+                                        fullHeightImage = uiState.fullHeightImages,
+                                        separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        blurNsfw = when {
+                                            stateCommunity.nsfw -> false
+                                            else -> uiState.blurNsfw
+                                        },
+                                        onClick = {
+                                            model.reduce(
+                                                CommunityDetailMviModel.Intent.MarkAsRead(
+                                                    idx
+                                                )
                                             )
-                                        )
-                                        navigator?.push(
-                                            PostDetailScreen(
-                                                post = post,
-                                                otherInstance = otherInstance,
-                                            ),
-                                        )
-                                    },
+                                            navigator?.push(
+                                                PostDetailScreen(
+                                                    post = post,
+                                                    otherInstance = otherInstance,
+                                                ),
+                                            )
+                                        },
                                         onOpenCreator = { user ->
                                             navigator?.push(
                                                 UserDetailScreen(
@@ -419,24 +429,6 @@ class CommunityDetailScreen(
                                                     otherInstance = otherInstance,
                                                 ),
                                             )
-                                        },
-                                        post = post,
-                                        postLayout = uiState.postLayout,
-                                        fullHeightImage = uiState.fullHeightImages,
-                                        separateUpAndDownVotes = uiState.separateUpAndDownVotes,
-                                        autoLoadImages = uiState.autoLoadImages,
-                                        options = buildList {
-                                            add(stringResource(MR.strings.post_action_share))
-                                            add(stringResource(MR.strings.post_action_hide))
-                                            add(stringResource(MR.strings.post_action_report))
-                                            if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
-                                                add(stringResource(MR.strings.post_action_edit))
-                                                add(stringResource(MR.strings.comment_action_delete))
-                                            }
-                                        },
-                                        blurNsfw = when {
-                                            stateCommunity.nsfw -> false
-                                            else -> uiState.blurNsfw
                                         },
                                         onUpVote = {
                                             if (!isOnOtherInstance) {
@@ -492,6 +484,15 @@ class CommunityDetailScreen(
                                             navigator?.push(
                                                 ZoomableImageScreen(url),
                                             )
+                                        },
+                                        options = buildList {
+                                            add(stringResource(MR.strings.post_action_share))
+                                            add(stringResource(MR.strings.post_action_hide))
+                                            add(stringResource(MR.strings.post_action_report))
+                                            if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
+                                                add(stringResource(MR.strings.post_action_edit))
+                                                add(stringResource(MR.strings.comment_action_delete))
+                                            }
                                         },
                                         onOptionSelected = { optionIdx ->
                                             when (optionIdx) {
