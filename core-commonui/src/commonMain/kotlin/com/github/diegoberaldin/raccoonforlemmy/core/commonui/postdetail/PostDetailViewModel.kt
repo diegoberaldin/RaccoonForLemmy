@@ -320,7 +320,9 @@ class PostDetailViewModel(
                 sort = sort,
             )?.processCommentsToGetNestedOrder(
                 ancestorId = parentId.toString(),
-            )?.let {
+            )?.filter {
+                currentState.comments.none { c -> c.id == it.id }
+            }?.let {
                 if (autoExpandComments) {
                     expandedTopLevelComments =
                         it.filter { c -> c.depth == 0 }.map { c -> c.id }.toMutableList()
