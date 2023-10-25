@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -28,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
@@ -142,7 +144,7 @@ internal object ProfileLoggedScreen : Tab {
                             }
                         }
                         if (uiState.section == ProfileLoggedSection.Posts) {
-                            if (uiState.posts.isEmpty() && uiState.loading) {
+                            if (uiState.posts.isEmpty() && uiState.loading && !uiState.initial) {
                                 items(5) {
                                     PostCardPlaceholder(
                                         postLayout = uiState.postLayout,
@@ -240,8 +242,21 @@ internal object ProfileLoggedScreen : Tab {
                                     Spacer(modifier = Modifier.height(Spacing.s))
                                 }
                             }
+
+                            if (uiState.posts.isEmpty() && !uiState.loading && !uiState.initial) {
+                                item {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(top = Spacing.xs),
+                                        textAlign = TextAlign.Center,
+                                        text = stringResource(MR.strings.message_empty_list),
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                }
+                            }
                         } else {
-                            if (uiState.comments.isEmpty() && uiState.loading) {
+                            if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                                 items(5) {
                                     CommentCardPlaceholder(hideAuthor = true)
                                     Divider(
@@ -326,6 +341,19 @@ internal object ProfileLoggedScreen : Tab {
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
                                     thickness = 0.25.dp
                                 )
+                            }
+
+                            if (uiState.comments.isEmpty() && !uiState.loading && !uiState.initial) {
+                                item {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(top = Spacing.xs),
+                                        textAlign = TextAlign.Center,
+                                        text = stringResource(MR.strings.message_empty_list),
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                }
                             }
                         }
                         item {

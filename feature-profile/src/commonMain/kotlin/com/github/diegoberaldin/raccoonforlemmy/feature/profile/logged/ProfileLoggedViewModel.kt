@@ -85,7 +85,7 @@ class ProfileLoggedViewModel(
             }.launchIn(this)
 
             if (uiState.value.posts.isEmpty()) {
-                refresh()
+                refresh(initial = true)
             }
         }
     }
@@ -133,7 +133,7 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun refresh() {
+    private fun refresh(initial: Boolean = false) {
         currentPage = 1
         mvi.scope?.launch {
             val auth = identityRepository.authToken.value.orEmpty()
@@ -143,6 +143,7 @@ class ProfileLoggedViewModel(
                     user = user,
                     canFetchMore = true,
                     refreshing = true,
+                    initial = initial,
                 )
             }
             loadNextPage()
@@ -154,11 +155,9 @@ class ProfileLoggedViewModel(
         mvi.updateState {
             it.copy(
                 section = section,
-                canFetchMore = true,
-                refreshing = true,
             )
         }
-        loadNextPage()
+        refresh(initial = true)
     }
 
     private fun loadNextPage() {
@@ -225,6 +224,7 @@ class ProfileLoggedViewModel(
                         loading = false,
                         canFetchMore = itemList?.isEmpty() != true,
                         refreshing = false,
+                        initial = false,
                     )
                 }
             }

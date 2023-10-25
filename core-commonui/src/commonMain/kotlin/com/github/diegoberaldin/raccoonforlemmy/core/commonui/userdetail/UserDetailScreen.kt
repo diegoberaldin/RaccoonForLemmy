@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -317,7 +318,7 @@ class UserDetailScreen(
                         }
                     }
                     if (uiState.section == UserDetailSection.Posts) {
-                        if (uiState.posts.isEmpty() && uiState.loading) {
+                        if (uiState.posts.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
                                 PostCardPlaceholder(
                                     postLayout = uiState.postLayout,
@@ -477,8 +478,20 @@ class UserDetailScreen(
                                 Spacer(modifier = Modifier.height(Spacing.s))
                             }
                         }
+
+                        if (uiState.posts.isEmpty() && !uiState.loading) {
+                            item {
+                                androidx.compose.material.Text(
+                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                    textAlign = TextAlign.Center,
+                                    text = stringResource(MR.strings.message_empty_list),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
+                            }
+                        }
                     } else {
-                        if (uiState.comments.isEmpty() && uiState.loading) {
+                        if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
                                 CommentCardPlaceholder()
                                 Divider(
@@ -629,6 +642,18 @@ class UserDetailScreen(
                                     )
                                 },
                             )
+                        }
+
+                        if (uiState.comments.isEmpty() && !uiState.loading) {
+                            item {
+                                androidx.compose.material.Text(
+                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                    textAlign = TextAlign.Center,
+                                    text = stringResource(MR.strings.message_empty_list),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
+                            }
                         }
                     }
                     item {

@@ -62,6 +62,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
@@ -433,7 +434,7 @@ class PostDetailScreen(
                                 }
                             }
                         }
-                        if (uiState.comments.isEmpty() && uiState.loading) {
+                        if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
                                 CommentCardPlaceholder()
                                 Divider(
@@ -665,6 +666,17 @@ class PostDetailScreen(
                                         color = MaterialTheme.colorScheme.primary,
                                     )
                                 }
+                            }
+                        }
+                        if (uiState.comments.isEmpty() && !uiState.loading && !uiState.initial) {
+                            item {
+                                androidx.compose.material.Text(
+                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                    textAlign = TextAlign.Center,
+                                    text = stringResource(MR.strings.message_empty_comments),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
                             }
                         }
                         item {

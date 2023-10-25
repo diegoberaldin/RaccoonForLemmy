@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -415,6 +416,19 @@ class MultiCommunityScreen(
                             }
                         }
                     }
+
+                    if (uiState.posts.isEmpty() && !uiState.loading) {
+                        item {
+                            androidx.compose.material.Text(
+                                modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                textAlign = TextAlign.Center,
+                                text = stringResource(MR.strings.message_empty_list),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
+                    }
+
                     item {
                         Spacer(modifier = Modifier.height(Spacing.xxxl))
                     }

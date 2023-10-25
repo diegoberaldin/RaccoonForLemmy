@@ -34,6 +34,7 @@ interface UserDetailMviModel :
         val sortType: SortType = SortType.Active,
         val refreshing: Boolean = false,
         val loading: Boolean = false,
+        val initial: Boolean = true,
         val asyncInProgress: Boolean = false,
         val canFetchMore: Boolean = true,
         val posts: List<PostModel> = emptyList(),

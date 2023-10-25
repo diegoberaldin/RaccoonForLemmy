@@ -51,6 +51,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextAlign
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -293,6 +294,18 @@ class ManageSubscriptionsScreen : Screen {
                                 )
                             },
                         )
+                    }
+
+                    if (uiState.multiCommunities.isEmpty() && uiState.communities.isEmpty()) {
+                        item {
+                            androidx.compose.material.Text(
+                                modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                textAlign = TextAlign.Center,
+                                text = stringResource(MR.strings.message_empty_list),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
                     }
                 }
 

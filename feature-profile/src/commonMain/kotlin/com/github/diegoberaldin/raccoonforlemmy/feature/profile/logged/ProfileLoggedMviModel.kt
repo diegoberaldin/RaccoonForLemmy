@@ -32,6 +32,7 @@ interface ProfileLoggedMviModel :
         val section: ProfileLoggedSection = ProfileLoggedSection.Posts,
         val refreshing: Boolean = false,
         val loading: Boolean = false,
+        val initial: Boolean = false,
         val canFetchMore: Boolean = true,
         val posts: List<PostModel> = emptyList(),
         val comments: List<CommentModel> = emptyList(),

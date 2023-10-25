@@ -17,6 +17,10 @@
     <string name="message_invalid_field">Campo non valido</string>
     <string name="message_image_loading_error">Errore caricamento immagine</string>
     <string name="message_empty_list">Nessun elemento da visualizzare</string>
+    <string name="message_empty_comments">È tutto troppo calmo da queste parti.\nVorresti essere tu
+        a
+        scrivere il primo commento?
+    </string>
     <string name="message_operation_successful">Operazione completata con successo</string>
 
     <string name="button_confirm">Conferma</string>

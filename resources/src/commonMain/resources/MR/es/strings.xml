@@ -17,6 +17,9 @@
     <string name="message_invalid_field">Campo no válido</string>
     <string name="message_image_loading_error">No ha sido posible descargar la imagen</string>
     <string name="message_empty_list">Ningún elemento para mostrar</string>
+    <string name="message_empty_comments">Está demasiado tranquilo por aquí.\n¿Quisieras ser tú
+        el que va a escribir el primer comentario?
+    </string>
     <string name="message_operation_successful">Operación completada con éxito</string>
 
     <string name="button_confirm">Confirmar</string>

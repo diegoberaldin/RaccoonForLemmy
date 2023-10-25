@@ -83,7 +83,7 @@ class UserDetailViewModel(
             }.launchIn(this)
         }
         if (uiState.value.posts.isEmpty()) {
-            refresh()
+            refresh(initial = true)
         }
     }
 
@@ -148,15 +148,20 @@ class UserDetailViewModel(
             it.copy(
                 section = section,
                 canFetchMore = true,
-                refreshing = true,
             )
         }
-        loadNextPage()
+        refresh(initial = true)
     }
 
-    private fun refresh() {
+    private fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        mvi.updateState {
+            it.copy(
+                canFetchMore = true,
+                refreshing = true,
+                initial = initial,
+            )
+        }
         mvi.scope?.launch {
             val auth = identityRepository.authToken.value
             val refreshedUser = if (otherInstance.isNotEmpty()) {
@@ -244,6 +249,7 @@ class UserDetailViewModel(
                         loading = false,
                         canFetchMore = itemList?.isEmpty() != true,
                         refreshing = false,
+                        initial = false,
                     )
                 }
             }
