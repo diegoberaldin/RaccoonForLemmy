@@ -289,7 +289,11 @@ class SavedItemsScreen : Screen {
                         } else {
                             itemsIndexed(uiState.comments) { idx, comment ->
                                 CommentCard(
-                                    modifier = Modifier.onClick {
+                                    comment = comment,
+                                    separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                    autoLoadImages = uiState.autoLoadImages,
+                                    hideIndent = true,
+                                    onClick = {
                                         navigator?.push(
                                             PostDetailScreen(
                                                 post = PostModel(id = comment.postId),
@@ -297,10 +301,6 @@ class SavedItemsScreen : Screen {
                                             ),
                                         )
                                     },
-                                    comment = comment,
-                                    separateUpAndDownVotes = uiState.separateUpAndDownVotes,
-                                    autoLoadImages = uiState.autoLoadImages,
-                                    hideIndent = true,
                                     onUpVote = {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.UpVoteComment(

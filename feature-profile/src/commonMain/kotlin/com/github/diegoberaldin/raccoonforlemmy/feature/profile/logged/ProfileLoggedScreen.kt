@@ -50,7 +50,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImag
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
@@ -253,22 +252,21 @@ internal object ProfileLoggedScreen : Tab {
                             }
                             itemsIndexed(uiState.comments) { idx, comment ->
                                 CommentCard(
-                                    modifier = Modifier
-                                        .background(MaterialTheme.colorScheme.background)
-                                        .onClick {
-                                            navigator?.push(
-                                                PostDetailScreen(
-                                                    post = PostModel(id = comment.postId),
-                                                    highlightCommentId = comment.id,
-                                                ),
-                                            )
-                                        },
+                                    modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,
                                     separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                     autoLoadImages = uiState.autoLoadImages,
                                     hideCommunity = false,
                                     hideAuthor = true,
                                     hideIndent = true,
+                                    onClick = {
+                                        navigator?.push(
+                                            PostDetailScreen(
+                                                post = PostModel(id = comment.postId),
+                                                highlightCommentId = comment.id,
+                                            ),
+                                        )
+                                    },
                                     onUpVote = {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVoteComment(

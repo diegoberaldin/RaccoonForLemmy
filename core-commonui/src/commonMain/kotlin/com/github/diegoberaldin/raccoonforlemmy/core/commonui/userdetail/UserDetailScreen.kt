@@ -536,22 +536,21 @@ class UserDetailScreen(
                                 },
                                 content = {
                                     CommentCard(
-                                        modifier = Modifier
-                                            .background(MaterialTheme.colorScheme.background)
-                                            .onClick {
-                                                navigator?.push(
-                                                    PostDetailScreen(
-                                                        post = PostModel(id = comment.postId),
-                                                        highlightCommentId = comment.id,
-                                                    )
-                                                )
-                                            },
+                                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                         comment = comment,
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
                                         hideCommunity = false,
                                         hideAuthor = true,
                                         hideIndent = true,
+                                        onClick = {
+                                            navigator?.push(
+                                                PostDetailScreen(
+                                                    post = PostModel(id = comment.postId),
+                                                    highlightCommentId = comment.id,
+                                                )
+                                            )
+                                        },
                                         onSave = if (isOnOtherInstance) {
                                             null
                                         } else {

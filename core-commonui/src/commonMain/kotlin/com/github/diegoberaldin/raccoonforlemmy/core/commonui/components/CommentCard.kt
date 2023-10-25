@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -36,6 +37,7 @@ fun CommentCard(
     hideIndent: Boolean = false,
     autoLoadImages: Boolean = true,
     options: List<String> = emptyList(),
+    onClick: (() -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
@@ -57,7 +59,9 @@ fun CommentCard(
             endColor = MaterialTheme.colorScheme.background,
         )
         Box(
-            modifier = Modifier.padding(
+            modifier = Modifier.onClick {
+                onClick?.invoke()
+            }.padding(
                 start = if (hideIndent) 0.dp else (10 * comment.depth).dp
             ),
         ) {
@@ -86,6 +90,7 @@ fun CommentCard(
                     PostCardBody(
                         text = comment.text,
                         autoLoadImages = autoLoadImages,
+                        onClick = onClick,
                     )
                 }
                 PostCardFooter(

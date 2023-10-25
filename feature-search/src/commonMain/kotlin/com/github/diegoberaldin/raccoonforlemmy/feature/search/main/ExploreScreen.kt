@@ -366,20 +366,19 @@ class ExploreScreen : Screen {
 
                                 is CommentModel -> {
                                     CommentCard(
-                                        modifier = Modifier
-                                            .background(MaterialTheme.colorScheme.background)
-                                            .onClick {
-                                                navigator?.push(
-                                                    PostDetailScreen(
-                                                        post = PostModel(id = result.postId),
-                                                        highlightCommentId = result.id,
-                                                    ),
-                                                )
-                                            },
+                                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                         comment = result,
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
                                         hideIndent = true,
+                                        onClick = {
+                                            navigator?.push(
+                                                PostDetailScreen(
+                                                    post = PostModel(id = result.postId),
+                                                    highlightCommentId = result.id,
+                                                ),
+                                            )
+                                        },
                                         onUpVote = {
                                             model.reduce(
                                                 ExploreMviModel.Intent.UpVoteComment(
