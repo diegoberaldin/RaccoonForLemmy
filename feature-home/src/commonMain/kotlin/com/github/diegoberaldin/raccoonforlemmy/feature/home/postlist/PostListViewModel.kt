@@ -102,19 +102,20 @@ class PostListViewModel(
 
             val auth = identityRepository.authToken.value.orEmpty()
             val user = siteRepository.getCurrentUser(auth)
-            val settings = settingsRepository.currentSettings.value
             mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
-            if (firstLoad) {
-                firstLoad = false
-                mvi.updateState {
-                    it.copy(
-                        listingType = settings.defaultListingType.toListingType(),
-                        sortType = settings.defaultPostSortType.toSortType(),
-                    )
-                }
-                mvi.scope?.launch {
-                    mvi.emitEffect(PostListMviModel.Effect.BackToTop)
-                }
+        }
+
+        if (firstLoad) {
+            firstLoad = false
+            val settings = settingsRepository.currentSettings.value
+            mvi.updateState {
+                it.copy(
+                    listingType = settings.defaultListingType.toListingType(),
+                    sortType = settings.defaultPostSortType.toSortType(),
+                )
+            }
+            mvi.scope?.launch(Dispatchers.IO) {
+                mvi.emitEffect(PostListMviModel.Effect.BackToTop)
                 refresh()
             }
         }
@@ -122,8 +123,14 @@ class PostListViewModel(
 
     override fun reduce(intent: PostListMviModel.Intent) {
         when (intent) {
-            PostListMviModel.Intent.LoadNextPage -> loadNextPage()
-            PostListMviModel.Intent.Refresh -> refresh()
+            PostListMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+                loadNextPage()
+            }
+
+            PostListMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
+
             is PostListMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is PostListMviModel.Intent.ChangeListing -> applyListingType(intent.value)
             is PostListMviModel.Intent.DownVotePost -> toggleDownVote(
@@ -157,7 +164,7 @@ class PostListViewModel(
         }
     }
 
-    private fun refresh() {
+    private suspend fun refresh() {
         currentPage = 1
         pageCursor = null
         hideReadPosts = false
@@ -165,70 +172,67 @@ class PostListViewModel(
         loadNextPage()
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
-
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val type = currentState.listingType ?: ListingType.Local
-            val sort = currentState.sortType ?: SortType.Active
-            val refreshing = currentState.refreshing
-            val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
-            val (itemList, nextPage) = postRepository.getAll(
-                auth = auth,
-                page = currentPage,
-                pageCursor = pageCursor,
-                type = type,
-                sort = sort,
-            )?.let {
-                if (hideReadPosts) {
-                    it.copy(first = it.first.filter { p -> !p.read })
-                } else {
-                    it
-                }
-            }?.let {
-                if (refreshing) {
-                    it
-                } else {
-                    // prevents accidental duplication
-                    val posts = it.first
-                    it.copy(
-                        first = posts.filter { p1 ->
-                            currentState.posts.none { p2 -> p2.id == p1.id }
-                        },
-                    )
-                }
-            } ?: (null to null)
-            if (!itemList.isNullOrEmpty()) {
-                currentPage++
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val type = currentState.listingType ?: ListingType.Local
+        val sort = currentState.sortType ?: SortType.Active
+        val refreshing = currentState.refreshing
+        val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
+        val (itemList, nextPage) = postRepository.getAll(
+            auth = auth,
+            page = currentPage,
+            pageCursor = pageCursor,
+            type = type,
+            sort = sort,
+        )?.let {
+            if (hideReadPosts) {
+                it.copy(first = it.first.filter { p -> !p.read })
+            } else {
+                it
             }
-            if (nextPage != null) {
-                pageCursor = nextPage
-            }
-            mvi.updateState {
-                val newPosts = if (refreshing) {
-                    itemList.orEmpty()
-                } else {
-                    it.posts + itemList.orEmpty()
-                }.filter { post ->
-                    if (includeNsfw) {
-                        true
-                    } else {
-                        !post.nsfw
-                    }
-                }
+        }?.let {
+            if (refreshing) {
+                it
+            } else {
+                // prevents accidental duplication
+                val posts = it.first
                 it.copy(
-                    posts = newPosts,
-                    loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
-                    refreshing = false,
+                    first = posts.filter { p1 ->
+                        currentState.posts.none { p2 -> p2.id == p1.id }
+                    },
                 )
             }
+        } ?: (null to null)
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
+        if (nextPage != null) {
+            pageCursor = nextPage
+        }
+        mvi.updateState {
+            val newPosts = if (refreshing) {
+                itemList.orEmpty()
+            } else {
+                it.posts + itemList.orEmpty()
+            }.filter { post ->
+                if (includeNsfw) {
+                    true
+                } else {
+                    !post.nsfw
+                }
+            }
+            it.copy(
+                posts = newPosts,
+                loading = false,
+                canFetchMore = itemList?.isEmpty() != true,
+                refreshing = false,
+            )
         }
     }
 
@@ -236,16 +240,16 @@ class PostListViewModel(
         mvi.updateState { it.copy(sortType = value) }
         mvi.scope?.launch {
             mvi.emitEffect(PostListMviModel.Effect.BackToTop)
+            refresh()
         }
-        refresh()
     }
 
     private fun applyListingType(value: ListingType) {
         mvi.updateState { it.copy(listingType = value) }
         mvi.scope?.launch {
             mvi.emitEffect(PostListMviModel.Effect.BackToTop)
+            refresh()
         }
-        refresh()
     }
 
     private fun toggleUpVote(post: PostModel, feedback: Boolean) {
