@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
@@ -76,6 +77,7 @@ fun InboxReplySubtitle(
                 if (creatorName.isNotEmpty()) {
                     Row(
                         modifier = Modifier
+                            .weight(1f)
                             .onClick {
                                 if (creator != null) {
                                     onOpenCreator?.invoke(creator)
@@ -106,18 +108,15 @@ fun InboxReplySubtitle(
                             },
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onBackground,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
                         )
                     }
                 }
                 if (communityName.isNotEmpty()) {
-                    if (creatorName.isNotEmpty()) {
-                        Text(
-                            text = "•",
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
                     Row(
                         modifier = Modifier
+                            .weight(1f)
                             .onClick {
                                 if (community != null) {
                                     onOpenCommunity?.invoke(community)
@@ -147,6 +146,8 @@ fun InboxReplySubtitle(
                                 }
                             },
                             style = MaterialTheme.typography.bodySmall,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
                         )
                     }
                 }
