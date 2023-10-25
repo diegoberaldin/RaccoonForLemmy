@@ -415,13 +415,12 @@ class CommunityDetailViewModel(
     private fun subscribe() {
         hapticFeedback.vibrate()
         mvi.scope?.launch(Dispatchers.IO) {
-            val community = communityRepository.subscribe(
+            communityRepository.subscribe(
                 auth = identityRepository.authToken.value,
                 id = community.id,
             )
-            if (community != null) {
-                mvi.updateState { it.copy(community = community) }
-            }
+            // the first response isn't immediately true, simulate here
+            mvi.updateState { it.copy(community = it.community.copy(subscribed = true)) }
         }
     }
 
