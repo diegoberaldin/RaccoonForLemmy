@@ -77,6 +77,10 @@ class CreatePostViewModel(
                 loadImageAndObtainUrl(intent.value)
             }
 
+            is CreatePostMviModel.Intent.InsertImageInBody -> {
+                loadImageAndAppendUrlInBody(intent.value)
+            }
+
 
             is CreatePostMviModel.Intent.ChangeSection -> mvi.updateState {
                 it.copy(section = intent.value)
@@ -97,6 +101,23 @@ class CreatePostViewModel(
             mvi.updateState {
                 it.copy(
                     url = url.orEmpty(),
+                    loading = false,
+                )
+            }
+        }
+    }
+
+    private fun loadImageAndAppendUrlInBody(bytes: ByteArray) {
+        if (bytes.isEmpty()) {
+            return
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            mvi.updateState { it.copy(loading = true) }
+            val auth = identityRepository.authToken.value.orEmpty()
+            val url = postRepository.uploadImage(auth, bytes)
+            mvi.updateState {
+                it.copy(
+                    body = it.body + "\n![]($url)",
                     loading = false,
                 )
             }

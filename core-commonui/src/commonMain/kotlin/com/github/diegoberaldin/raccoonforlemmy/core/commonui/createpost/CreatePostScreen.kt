@@ -187,10 +187,17 @@ class CreatePostScreen(
                 )
 
                 var openImagePicker by remember { mutableStateOf(false) }
+                var openImagePickerInBody by remember { mutableStateOf(false) }
                 if (openImagePicker) {
                     galleryHelper.getImageFromGallery { bytes ->
                         openImagePicker = false
                         model.reduce(CreatePostMviModel.Intent.ImageSelected(bytes))
+                    }
+                }
+                if (openImagePickerInBody) {
+                    galleryHelper.getImageFromGallery { bytes ->
+                        openImagePicker = false
+                        model.reduce(CreatePostMviModel.Intent.InsertImageInBody(bytes))
                     }
                 }
 
@@ -337,6 +344,19 @@ class CreatePostScreen(
                     )
                 }
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.s),
+                ) {
+                    Icon(
+                        modifier = Modifier.onClick {
+                            openImagePickerInBody = true
+                        },
+                        imageVector = Icons.Default.Image,
+                        contentDescription = null,
+                    )
+                }
                 Spacer(Modifier.height(Spacing.xxl))
             }
         }

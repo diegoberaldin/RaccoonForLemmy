@@ -31,6 +31,23 @@ interface CreatePostMviModel :
             }
         }
 
+        data class InsertImageInBody(val value: ByteArray) : Intent {
+            override fun equals(other: Any?): Boolean {
+                if (this === other) return true
+                if (other == null || this::class != other::class) return false
+
+                other as ImageSelected
+
+                if (!value.contentEquals(other.value)) return false
+
+                return true
+            }
+
+            override fun hashCode(): Int {
+                return value.contentHashCode()
+            }
+        }
+
         data class ChangeSection(val value: CreatePostSection) : Intent
         data object Send : Intent
     }
