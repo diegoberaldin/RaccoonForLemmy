@@ -12,11 +12,11 @@ class SiteRepository(
     private val services: ServiceProvider,
 ) {
     suspend fun getCurrentUser(auth: String): UserModel? = runCatching {
-        val response = services.site.get(
+        val dto = services.site.get(
             auth = auth,
             authHeader = auth.toAuthHeader(),
-        )
-        response.body()?.myUser?.let {
+        ).body()
+        dto?.myUser?.let {
             val user = it.localUserView.person
             val counts = it.localUserView.counts
             user.toModel().copy(score = counts.toModel())

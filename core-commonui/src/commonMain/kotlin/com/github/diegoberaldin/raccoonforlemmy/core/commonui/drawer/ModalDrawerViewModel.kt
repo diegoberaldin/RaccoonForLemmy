@@ -13,6 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,17 +32,14 @@ class ModalDrawerViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.Main) {
             apiConfigurationRepository.instance.onEach { instance ->
                 mvi.updateState {
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
-            identityRepository.authToken.onEach { auth ->
-                val user = siteRepository.getCurrentUser(auth.orEmpty())
-                mvi.updateState {
-                    it.copy(user = user)
-                }
+            identityRepository.isLogged.debounce(300).onEach { _ ->
+                refreshUser()
                 refresh()
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
@@ -52,7 +50,10 @@ class ModalDrawerViewModel(
 
     override fun reduce(intent: ModalDrawerMviModel.Intent) {
         when (intent) {
-            ModalDrawerMviModel.Intent.Refresh -> refresh()
+            ModalDrawerMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
+
             is ModalDrawerMviModel.Intent.ChangeInstanceName -> mvi.updateState {
                 it.copy(changeInstanceName = intent.value)
             }
@@ -61,24 +62,33 @@ class ModalDrawerViewModel(
         }
     }
 
-    private fun refresh() {
+    private suspend fun refreshUser() {
+        val auth = identityRepository.authToken.value.orEmpty()
+        if (auth.isEmpty()) {
+            mvi.updateState { it.copy(user = null) }
+        } else {
+            val user = siteRepository.getCurrentUser(auth)
+            mvi.updateState { it.copy(user = user) }
+        }
+    }
+
+    private suspend fun refresh() {
         if (uiState.value.refreshing) {
             return
         }
         mvi.updateState { it.copy(refreshing = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            val auth = identityRepository.authToken.value
-            val communities = communityRepository.getSubscribed(auth).sortedBy { it.name }
-            val accountId = accountRepository.getActive()?.id ?: 0L
-            val multiCommunitites = multiCommunityRepository.getAll(accountId).sortedBy { it.name }
 
-            mvi.updateState {
-                it.copy(
-                    refreshing = false,
-                    communities = communities,
-                    multiCommunities = multiCommunitites,
-                )
-            }
+        val auth = identityRepository.authToken.value
+        val communities = communityRepository.getSubscribed(auth).sortedBy { it.name }
+        val accountId = accountRepository.getActive()?.id ?: 0L
+        val multiCommunitites = multiCommunityRepository.getAll(accountId).sortedBy { it.name }
+
+        mvi.updateState {
+            it.copy(
+                refreshing = false,
+                communities = communities,
+                multiCommunities = multiCommunitites,
+            )
         }
     }
 
