@@ -26,6 +26,7 @@
     <string name="button_confirm">Conferma</string>
     <string name="button_reset">Reset</string>
     <string name="button_load">Carica</string>
+    <string name="button_close">Chiudi</string>
 
     <string name="home_listing_type_all">Tutti</string>
     <string name="home_listing_type_local">Locali</string>
@@ -66,6 +67,7 @@
     <string name="post_action_edit">Modifica</string>
     <string name="post_action_hide">Nascondi</string>
     <string name="post_action_report">Segnala…</string>
+    <string name="post_action_see_raw">Vedi raw…</string>
     <string name="post_detail_cross_posts">postato anche in:</string>
 
     <string name="create_report_title_post">Segnala post</string>
@@ -212,4 +214,8 @@
     <string name="multi_community_editor_communities">Comunità</string>
 
     <string name="dialog_title_change_instance">Cambia istanza</string>
+    <string name="dialog_title_raw_content">Contenuto grezzo</string>
+    <string name="dialog_raw_content_title">Titolo</string>
+    <string name="dialog_raw_content_text">Testo</string>
+    <string name="dialog_raw_content_url">URL</string>
 </resources>

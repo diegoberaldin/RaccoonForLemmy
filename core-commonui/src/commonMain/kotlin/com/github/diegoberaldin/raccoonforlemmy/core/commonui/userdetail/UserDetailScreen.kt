@@ -48,6 +48,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -83,12 +84,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -143,6 +146,8 @@ class UserDetailScreen(
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val drawerCoordinator = remember { getDrawerCoordinator() }
+        var rawContent by remember { mutableStateOf<Any?>(null) }
+
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
             onDispose {
@@ -453,16 +458,21 @@ class UserDetailScreen(
                                         },
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
+                                            add(stringResource(MR.strings.post_action_see_raw))
                                             add(stringResource(MR.strings.post_action_report))
                                         },
                                         onOptionSelected = { optionIdx ->
                                             when (optionIdx) {
-                                                1 -> {
+                                                2 -> {
                                                     bottomSheetNavigator.show(
                                                         CreateReportScreen(
                                                             postId = post.id
                                                         )
                                                     )
+                                                }
+
+                                                1 -> {
+                                                    rawContent = post
                                                 }
 
                                                 else -> model.reduce(
@@ -622,16 +632,21 @@ class UserDetailScreen(
                                             navigator?.push(CommunityDetailScreen(community))
                                         },
                                         options = buildList {
+                                            add(stringResource(MR.strings.post_action_see_raw))
                                             add(stringResource(MR.strings.post_action_report))
                                         },
                                         onOptionSelected = { optionId ->
                                             when (optionId) {
-                                                else -> {
+                                                1 -> {
                                                     bottomSheetNavigator.show(
                                                         CreateReportScreen(
                                                             commentId = comment.id
                                                         )
                                                     )
+                                                }
+
+                                                else -> {
+                                                    rawContent = comment
                                                 }
                                             }
                                         },
@@ -686,6 +701,30 @@ class UserDetailScreen(
 
                 if (uiState.asyncInProgress) {
                     ProgressHud()
+                }
+            }
+        }
+
+        if (rawContent != null) {
+            when (val content = rawContent) {
+                is PostModel -> {
+                    RawContentDialog(
+                        title = content.title,
+                        url = content.url,
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
+                }
+
+                is CommentModel -> {
+                    RawContentDialog(
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
                 }
             }
         }

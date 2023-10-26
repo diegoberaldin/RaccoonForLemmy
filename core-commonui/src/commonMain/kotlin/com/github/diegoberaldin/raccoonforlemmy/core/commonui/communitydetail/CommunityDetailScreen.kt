@@ -50,6 +50,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -82,6 +83,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
@@ -89,7 +91,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -145,6 +149,8 @@ class CommunityDetailScreen(
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val drawerCoordinator = remember { getDrawerCoordinator() }
+        var rawContent by remember { mutableStateOf<Any?>(null) }
+
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
             onDispose {
@@ -488,6 +494,7 @@ class CommunityDetailScreen(
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
                                             add(stringResource(MR.strings.post_action_hide))
+                                            add(stringResource(MR.strings.post_action_see_raw))
                                             add(stringResource(MR.strings.post_action_report))
                                             if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                                 add(stringResource(MR.strings.post_action_edit))
@@ -496,13 +503,13 @@ class CommunityDetailScreen(
                                         },
                                         onOptionSelected = { optionIdx ->
                                             when (optionIdx) {
-                                                4 -> model.reduce(
+                                                5 -> model.reduce(
                                                     CommunityDetailMviModel.Intent.DeletePost(
                                                         post.id
                                                     )
                                                 )
 
-                                                3 -> {
+                                                4 -> {
                                                     notificationCenter.addObserver(
                                                         {
                                                             model.reduce(CommunityDetailMviModel.Intent.Refresh)
@@ -517,12 +524,16 @@ class CommunityDetailScreen(
                                                     )
                                                 }
 
-                                                2 -> {
+                                                3 -> {
                                                     bottomSheetNavigator.show(
                                                         CreateReportScreen(
                                                             postId = post.id
                                                         )
                                                     )
+                                                }
+
+                                                2 -> {
+                                                    rawContent = post
                                                 }
 
                                                 1 -> model.reduce(
@@ -576,6 +587,30 @@ class CommunityDetailScreen(
                     if (uiState.asyncInProgress) {
                         ProgressHud()
                     }
+                }
+            }
+        }
+
+        if (rawContent != null) {
+            when (val content = rawContent) {
+                is PostModel -> {
+                    RawContentDialog(
+                        title = content.title,
+                        url = content.url,
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
+                }
+
+                is CommentModel -> {
+                    RawContentDialog(
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
                 }
             }
         }

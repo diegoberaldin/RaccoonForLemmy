@@ -40,6 +40,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -69,6 +70,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
@@ -76,6 +78,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.getHomeScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
@@ -145,6 +148,8 @@ class PostListScreen : Screen {
         }
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val scope = rememberCoroutineScope()
+        var rawContent by remember { mutableStateOf<Any?>(null) }
+
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
             topBar = {
@@ -360,6 +365,7 @@ class PostListScreen : Screen {
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
                                             add(stringResource(MR.strings.post_action_hide))
+                                            add(stringResource(MR.strings.post_action_see_raw))
                                             add(stringResource(MR.strings.post_action_report))
                                             if (post.creator?.id == uiState.currentUserId) {
                                                 add(stringResource(MR.strings.post_action_edit))
@@ -368,13 +374,13 @@ class PostListScreen : Screen {
                                         },
                                         onOptionSelected = { optionIdx ->
                                             when (optionIdx) {
-                                                4 -> model.reduce(
+                                                5 -> model.reduce(
                                                     PostListMviModel.Intent.DeletePost(
                                                         post.id
                                                     )
                                                 )
 
-                                                3 -> {
+                                                4 -> {
                                                     notificationCenter.addObserver(
                                                         {
                                                             model.reduce(PostListMviModel.Intent.Refresh)
@@ -389,12 +395,16 @@ class PostListScreen : Screen {
                                                     )
                                                 }
 
-                                                2 -> {
+                                                3 -> {
                                                     bottomSheetNavigator.show(
                                                         CreateReportScreen(
                                                             postId = post.id
                                                         )
                                                     )
+                                                }
+
+                                                2 -> {
+                                                    rawContent = post
                                                 }
 
                                                 1 -> model.reduce(
@@ -453,6 +463,21 @@ class PostListScreen : Screen {
                         modifier = Modifier.align(Alignment.TopCenter),
                         backgroundColor = MaterialTheme.colorScheme.background,
                         contentColor = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+            }
+        }
+
+        if (rawContent != null) {
+            when (val content = rawContent) {
+                is PostModel -> {
+                    RawContentDialog(
+                        title = content.title,
+                        url = content.url,
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
                     )
                 }
             }

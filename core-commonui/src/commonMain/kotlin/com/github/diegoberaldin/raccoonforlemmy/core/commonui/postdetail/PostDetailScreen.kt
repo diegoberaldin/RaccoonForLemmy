@@ -52,6 +52,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -87,12 +88,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getPostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
@@ -162,6 +165,8 @@ class PostDetailScreen(
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
+        var rawContent by remember { mutableStateOf<Any?>(null) }
+
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
                 when (evt) {
@@ -348,6 +353,7 @@ class PostDetailScreen(
                                 },
                                 options = buildList {
                                     add(stringResource(MR.strings.post_action_share))
+                                    add(stringResource(MR.strings.post_action_see_raw))
                                     add(stringResource(MR.strings.post_action_report))
                                     if (statePost.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                         add(stringResource(MR.strings.post_action_edit))
@@ -356,9 +362,9 @@ class PostDetailScreen(
                                 },
                                 onOptionSelected = { idx ->
                                     when (idx) {
-                                        3 -> model.reduce(PostDetailMviModel.Intent.DeletePost)
+                                        4 -> model.reduce(PostDetailMviModel.Intent.DeletePost)
 
-                                        2 -> {
+                                        3 -> {
                                             notificationCenter.addObserver(
                                                 {
                                                     model.reduce(PostDetailMviModel.Intent.RefreshPost)
@@ -371,8 +377,12 @@ class PostDetailScreen(
                                             )
                                         }
 
-                                        1 -> {
+                                        2 -> {
                                             bottomSheetNavigator.show(CreateReportScreen(postId = statePost.id))
+                                        }
+
+                                        1 -> {
+                                            rawContent = statePost
                                         }
 
                                         else -> model.reduce(PostDetailMviModel.Intent.SharePost)
@@ -584,6 +594,7 @@ class PostDetailScreen(
                                                 }
                                             },
                                             options = buildList {
+                                                add(stringResource(MR.strings.post_action_see_raw))
                                                 add(stringResource(MR.strings.post_action_report))
                                                 if (comment.creator?.id == uiState.currentUserId) {
                                                     add(stringResource(MR.strings.post_action_edit))
@@ -592,13 +603,13 @@ class PostDetailScreen(
                                             },
                                             onOptionSelected = { optionId ->
                                                 when (optionId) {
-                                                    2 -> model.reduce(
+                                                    3 -> model.reduce(
                                                         PostDetailMviModel.Intent.DeleteComment(
                                                             comment.id
                                                         )
                                                     )
 
-                                                    1 -> {
+                                                    2 -> {
                                                         notificationCenter.addObserver(
                                                             {
                                                                 model.reduce(PostDetailMviModel.Intent.Refresh)
@@ -614,12 +625,16 @@ class PostDetailScreen(
                                                         )
                                                     }
 
-                                                    else -> {
+                                                    1 -> {
                                                         bottomSheetNavigator.show(
                                                             CreateReportScreen(
                                                                 commentId = comment.id
                                                             )
                                                         )
+                                                    }
+
+                                                    else -> {
+                                                        rawContent = comment
                                                     }
                                                 }
                                             },
@@ -690,6 +705,30 @@ class PostDetailScreen(
                         modifier = Modifier.align(Alignment.TopCenter),
                         backgroundColor = MaterialTheme.colorScheme.background,
                         contentColor = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+            }
+        }
+
+        if (rawContent != null) {
+            when (val content = rawContent) {
+                is PostModel -> {
+                    RawContentDialog(
+                        title = content.title,
+                        url = content.url,
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
+                }
+
+                is CommentModel -> {
+                    RawContentDialog(
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
                     )
                 }
             }

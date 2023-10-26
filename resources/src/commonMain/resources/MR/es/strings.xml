@@ -25,6 +25,7 @@
     <string name="button_confirm">Confirmar</string>
     <string name="button_reset">Reiniciar</string>
     <string name="button_load">Cargar</string>
+    <string name="button_close">Cerrar</string>
 
     <string name="home_listing_type_all">Todos</string>
     <string name="home_listing_type_local">Locales</string>
@@ -65,6 +66,7 @@
     <string name="post_action_edit">Modificar</string>
     <string name="post_action_hide">Esconder</string>
     <string name="post_action_report">Crear informe…</string>
+    <string name="post_action_see_raw">Ver raw…</string>
     <string name="post_detail_cross_posts">también publicado en:</string>
 
     <string name="create_report_title_post">Crear informe sobre publicación</string>
@@ -212,4 +214,8 @@
     <string name="multi_community_editor_communities">Comunidades</string>
 
     <string name="dialog_title_change_instance">Cambiar de instancia</string>
+    <string name="dialog_title_raw_content">Contenido raw</string>
+    <string name="dialog_raw_content_title">Título</string>
+    <string name="dialog_raw_content_text">Texto</string>
+    <string name="dialog_raw_content_url">URL</string>
 </resources>

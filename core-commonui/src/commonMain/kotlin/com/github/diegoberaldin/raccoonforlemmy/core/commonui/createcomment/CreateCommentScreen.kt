@@ -30,7 +30,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -56,6 +58,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Progres
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateCommentViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
@@ -87,6 +90,7 @@ class CreateCommentScreen(
         val genericError = stringResource(MR.strings.message_generic_error)
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val notificationCenter = remember { getNotificationCenter() }
+        var rawContent by remember { mutableStateOf<Any?>(null) }
 
         LaunchedEffect(model) {
             if (editedComment != null) {
@@ -158,6 +162,12 @@ class CreateCommentScreen(
                             hideIndent = true,
                             separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                             autoLoadImages = uiState.autoLoadImages,
+                            options = buildList {
+                                add(stringResource(MR.strings.post_action_see_raw))
+                            },
+                            onOptionSelected = {
+                                rawContent = originalComment
+                            },
                         )
                         Divider()
                     }
@@ -172,6 +182,12 @@ class CreateCommentScreen(
                             blurNsfw = false,
                             separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                             autoLoadImages = uiState.autoLoadImages,
+                            options = buildList {
+                                add(stringResource(MR.strings.post_action_see_raw))
+                            },
+                            onOptionSelected = {
+                                rawContent = originalPost
+                            },
                         )
                         Divider()
                     }
@@ -269,6 +285,30 @@ class CreateCommentScreen(
 
         if (uiState.loading) {
             ProgressHud()
+        }
+
+        if (rawContent != null) {
+            when (val content = rawContent) {
+                is PostModel -> {
+                    RawContentDialog(
+                        title = content.title,
+                        url = content.url,
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
+                }
+
+                is CommentModel -> {
+                    RawContentDialog(
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
+                }
+            }
         }
     }
 }

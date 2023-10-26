@@ -26,7 +26,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -49,9 +51,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
@@ -70,34 +74,36 @@ internal object ProfileLoggedScreen : Tab {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxxs),
-            verticalArrangement = Arrangement.spacedBy(Spacing.s),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            val model = rememberScreenModel { getProfileLoggedViewModel() }
-            model.bindToLifecycle(key)
-            val uiState by model.uiState.collectAsState()
-            val user = uiState.user
-            val notificationCenter = remember { getNotificationCenter() }
-            val navigationCoordinator = remember { getNavigationCoordinator() }
-            val navigator = remember { navigationCoordinator.getRootNavigator() }
-            val bottomSheetNavigator = LocalBottomSheetNavigator.current
-            val lazyListState = rememberLazyListState()
-            LaunchedEffect(navigator) {
-                navigationCoordinator.onDoubleTabSelection.onEach { tab ->
-                    if (tab == ProfileTab) {
-                        lazyListState.scrollToItem(0)
-                    }
-                }.launchIn(this)
-            }
-            DisposableEffect(key) {
-                onDispose {
-                    notificationCenter.removeObserver(key)
-                }
-            }
+        val model = rememberScreenModel { getProfileLoggedViewModel() }
+        model.bindToLifecycle(key)
+        val uiState by model.uiState.collectAsState()
+        val user = uiState.user
+        val notificationCenter = remember { getNotificationCenter() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
+        val navigator = remember { navigationCoordinator.getRootNavigator() }
+        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val lazyListState = rememberLazyListState()
+        var rawContent by remember { mutableStateOf<Any?>(null) }
 
-            if (user != null) {
+        LaunchedEffect(navigator) {
+            navigationCoordinator.onDoubleTabSelection.onEach { tab ->
+                if (tab == ProfileTab) {
+                    lazyListState.scrollToItem(0)
+                }
+            }.launchIn(this)
+        }
+        DisposableEffect(key) {
+            onDispose {
+                notificationCenter.removeObserver(key)
+            }
+        }
+
+        if (user != null) {
+            Column(
+                modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxxs),
+                verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
                 val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
                     model.reduce(ProfileLoggedMviModel.Intent.Refresh)
                 })
@@ -206,12 +212,17 @@ internal object ProfileLoggedScreen : Tab {
                                     },
                                     options = buildList {
                                         add(stringResource(MR.strings.post_action_share))
+                                        add(stringResource(MR.strings.post_action_see_raw))
                                         add(stringResource(MR.strings.post_action_edit))
                                         add(stringResource(MR.strings.comment_action_delete))
                                     },
                                     onOptionSelected = { optionIdx ->
                                         when (optionIdx) {
-                                            1 -> {
+                                            3 -> model.reduce(
+                                                ProfileLoggedMviModel.Intent.DeletePost(post.id)
+                                            )
+
+                                            2 -> {
                                                 notificationCenter.addObserver(
                                                     {
                                                         model.reduce(ProfileLoggedMviModel.Intent.Refresh)
@@ -226,9 +237,9 @@ internal object ProfileLoggedScreen : Tab {
                                                 )
                                             }
 
-                                            2 -> model.reduce(
-                                                ProfileLoggedMviModel.Intent.DeletePost(post.id)
-                                            )
+                                            1 -> {
+                                                rawContent = post
+                                            }
 
                                             else -> model.reduce(
                                                 ProfileLoggedMviModel.Intent.SharePost(idx)
@@ -307,12 +318,13 @@ internal object ProfileLoggedScreen : Tab {
                                         )
                                     },
                                     options = buildList {
+                                        add(stringResource(MR.strings.post_action_see_raw))
                                         add(stringResource(MR.strings.post_action_edit))
                                         add(stringResource(MR.strings.comment_action_delete))
                                     },
                                     onOptionSelected = { optionIdx ->
                                         when (optionIdx) {
-                                            1 -> {
+                                            2 -> {
                                                 model.reduce(
                                                     ProfileLoggedMviModel.Intent.DeleteComment(
                                                         comment.id
@@ -320,7 +332,7 @@ internal object ProfileLoggedScreen : Tab {
                                                 )
                                             }
 
-                                            else -> {
+                                            1 -> {
                                                 notificationCenter.addObserver(
                                                     {
                                                         model.reduce(ProfileLoggedMviModel.Intent.Refresh)
@@ -333,6 +345,10 @@ internal object ProfileLoggedScreen : Tab {
                                                         editedComment = comment,
                                                     )
                                                 )
+                                            }
+
+                                            else -> {
+                                                rawContent = comment
                                             }
                                         }
                                     }
@@ -383,6 +399,30 @@ internal object ProfileLoggedScreen : Tab {
                         modifier = Modifier.align(Alignment.TopCenter),
                         backgroundColor = MaterialTheme.colorScheme.background,
                         contentColor = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+            }
+        }
+
+        if (rawContent != null) {
+            when (val content = rawContent) {
+                is PostModel -> {
+                    RawContentDialog(
+                        title = content.title,
+                        url = content.url,
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
+                }
+
+                is CommentModel -> {
+                    RawContentDialog(
+                        text = content.text,
+                        onDismiss = {
+                            rawContent = null
+                        },
                     )
                 }
             }
