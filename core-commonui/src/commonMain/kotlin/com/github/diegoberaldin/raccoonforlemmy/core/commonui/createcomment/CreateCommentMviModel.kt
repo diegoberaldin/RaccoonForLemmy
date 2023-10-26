@@ -13,6 +13,23 @@ interface CreateCommentMviModel :
     sealed interface Intent {
         data class SetText(val value: String) : Intent
         data class ChangeSection(val value: CreatePostSection) : Intent
+        data class ImageSelected(val value: ByteArray) : Intent {
+            override fun equals(other: Any?): Boolean {
+                if (this === other) return true
+                if (other == null || this::class != other::class) return false
+
+                other as ImageSelected
+
+                if (!value.contentEquals(other.value)) return false
+
+                return true
+            }
+
+            override fun hashCode(): Int {
+                return value.contentHashCode()
+            }
+        }
+
         data object Send : Intent
     }
 

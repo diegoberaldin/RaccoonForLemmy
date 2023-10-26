@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,6 +63,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateCommen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.getGalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -90,6 +94,8 @@ class CreateCommentScreen(
         val genericError = stringResource(MR.strings.message_generic_error)
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val notificationCenter = remember { getNotificationCenter() }
+        val galleryHelper = remember { getGalleryHelper() }
+        var openImagePicker by remember { mutableStateOf(false) }
         var rawContent by remember { mutableStateOf<Any?>(null) }
 
         LaunchedEffect(model) {
@@ -130,7 +136,7 @@ class CreateCommentScreen(
                         }
                     },
                 )
-            },
+            }
         ) { padding ->
             val focusManager = LocalFocusManager.current
             val keyboardScrollConnection = remember {
@@ -279,12 +285,33 @@ class CreateCommentScreen(
                         )
                     }
                 }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.s),
+                ) {
+                    Icon(
+                        modifier = Modifier.onClick {
+                            openImagePicker = true
+                        },
+                        imageVector = Icons.Default.Image,
+                        contentDescription = null,
+                    )
+                }
                 Spacer(Modifier.height(Spacing.xxl))
             }
         }
 
         if (uiState.loading) {
             ProgressHud()
+        }
+
+        if (openImagePicker) {
+            galleryHelper.getImageFromGallery { bytes ->
+                openImagePicker = false
+                model.reduce(CreateCommentMviModel.Intent.ImageSelected(bytes))
+            }
         }
 
         if (rawContent != null) {

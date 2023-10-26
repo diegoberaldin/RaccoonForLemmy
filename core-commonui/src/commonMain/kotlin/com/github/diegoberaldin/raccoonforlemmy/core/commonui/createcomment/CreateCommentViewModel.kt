@@ -61,6 +61,7 @@ class CreateCommentViewModel(
                 it.copy(section = intent.value)
             }
 
+            is CreateCommentMviModel.Intent.ImageSelected -> loadImageAndAppendUrlInBody(intent.value)
             CreateCommentMviModel.Intent.Send -> submit()
         }
     }
@@ -126,6 +127,23 @@ class CreateCommentViewModel(
         if (newPost != null) {
             notificationCenter.getAllObservers(NotificationCenterContractKeys.PostUpdated).forEach {
                 it.invoke(newPost)
+            }
+        }
+    }
+
+    private fun loadImageAndAppendUrlInBody(bytes: ByteArray) {
+        if (bytes.isEmpty()) {
+            return
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            mvi.updateState { it.copy(loading = true) }
+            val auth = identityRepository.authToken.value.orEmpty()
+            val url = postRepository.uploadImage(auth, bytes)
+            mvi.updateState {
+                it.copy(
+                    text = it.text + "\n![]($url)",
+                    loading = false,
+                )
             }
         }
     }
