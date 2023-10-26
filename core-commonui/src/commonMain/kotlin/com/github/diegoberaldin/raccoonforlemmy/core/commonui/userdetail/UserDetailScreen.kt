@@ -110,7 +110,7 @@ class UserDetailScreen(
         val model = rememberScreenModel(user.id.toString()) {
             getUserDetailViewModel(user, otherInstance)
         }
-        model.bindToLifecycle(key)
+        model.bindToLifecycle(key + user.id.toString())
         val uiState by model.uiState.collectAsState()
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()

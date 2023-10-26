@@ -124,7 +124,7 @@ class PostDetailScreen(
                 otherInstance = otherInstance,
             )
         }
-        model.bindToLifecycle(key)
+        model.bindToLifecycle(key + post.id.toString())
         val uiState by model.uiState.collectAsState()
         val isOnOtherInstance = otherInstance.isNotEmpty()
         val navigationCoordinator = remember { getNavigationCoordinator() }

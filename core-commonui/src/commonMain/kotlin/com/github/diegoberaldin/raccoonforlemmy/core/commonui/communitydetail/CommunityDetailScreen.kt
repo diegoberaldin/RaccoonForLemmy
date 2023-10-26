@@ -112,7 +112,7 @@ class CommunityDetailScreen(
                 otherInstance = otherInstance,
             )
         }
-        model.bindToLifecycle(key)
+        model.bindToLifecycle(key + community.id.toString())
         val uiState by model.uiState.collectAsState()
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
