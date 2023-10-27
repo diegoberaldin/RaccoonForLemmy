@@ -11,7 +11,6 @@ interface CreateCommentMviModel :
     ScreenModel {
 
     sealed interface Intent {
-        data class SetText(val value: String) : Intent
         data class ChangeSection(val value: CreatePostSection) : Intent
         data class ImageSelected(val value: ByteArray) : Intent {
             override fun equals(other: Any?): Boolean {
@@ -30,14 +29,13 @@ interface CreateCommentMviModel :
             }
         }
 
-        data object Send : Intent
+        data class Send(val text: String) : Intent
     }
 
     data class UiState(
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
         val separateUpAndDownVotes: Boolean = false,
-        val text: String = "",
         val textError: StringDesc? = null,
         val loading: Boolean = false,
         val section: CreatePostSection = CreatePostSection.Edit,
@@ -45,8 +43,8 @@ interface CreateCommentMviModel :
     )
 
     sealed interface Effect {
+        data class AddImageToText(val url: String) : Effect
         data object Success : Effect
-
         data class Failure(val message: String?) : Effect
     }
 }

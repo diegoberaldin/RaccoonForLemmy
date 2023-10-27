@@ -51,22 +51,16 @@ class CreateCommentViewModel(
 
     override fun reduce(intent: CreateCommentMviModel.Intent) {
         when (intent) {
-            is CreateCommentMviModel.Intent.SetText -> {
-                mvi.updateState {
-                    it.copy(text = intent.value)
-                }
-            }
-
             is CreateCommentMviModel.Intent.ChangeSection -> mvi.updateState {
                 it.copy(section = intent.value)
             }
 
             is CreateCommentMviModel.Intent.ImageSelected -> loadImageAndAppendUrlInBody(intent.value)
-            CreateCommentMviModel.Intent.Send -> submit()
+            is CreateCommentMviModel.Intent.Send -> submit(intent.text)
         }
     }
 
-    private fun submit() {
+    private fun submit(text: String) {
         if (mvi.uiState.value.loading) {
             return
         }
@@ -76,7 +70,6 @@ class CreateCommentViewModel(
                 textError = null,
             )
         }
-        val text = uiState.value.text
         var valid = true
         if (text.isEmpty()) {
             mvi.updateState {
@@ -139,9 +132,11 @@ class CreateCommentViewModel(
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
+            if (url != null) {
+                mvi.emitEffect(CreateCommentMviModel.Effect.AddImageToText(url))
+            }
             mvi.updateState {
                 it.copy(
-                    text = it.text + "\n![]($url)",
                     loading = false,
                 )
             }

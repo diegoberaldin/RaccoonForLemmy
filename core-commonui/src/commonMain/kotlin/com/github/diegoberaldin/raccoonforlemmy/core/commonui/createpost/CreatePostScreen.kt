@@ -46,6 +46,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -56,6 +57,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -88,22 +90,33 @@ class CreatePostScreen(
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
+        var bodyTextFieldValue by remember {
+            mutableStateOf(TextFieldValue(text = editedPost?.text.orEmpty()))
+        }
+        val bodyFocusRequester = remember { FocusRequester() }
+        val urlFocusRequester = remember { FocusRequester() }
+        val focusManager = LocalFocusManager.current
 
         LaunchedEffect(model) {
             model.reduce(CreatePostMviModel.Intent.SetTitle(editedPost?.title.orEmpty()))
-            model.reduce(CreatePostMviModel.Intent.SetText(editedPost?.text.orEmpty()))
             model.reduce(CreatePostMviModel.Intent.SetUrl(editedPost?.url.orEmpty()))
 
-            model.effects.onEach {
-                when (it) {
+            model.effects.onEach { effect ->
+                when (effect) {
                     is CreatePostMviModel.Effect.Failure -> {
-                        snackbarHostState.showSnackbar(it.message ?: genericError)
+                        snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
 
                     CreatePostMviModel.Effect.Success -> {
                         notificationCenter.getObserver(NotificationCenterContractKeys.PostCreated)
                             ?.also { o -> o.invoke(Unit) }
                         bottomSheetNavigator.hide()
+                    }
+
+                    is CreatePostMviModel.Effect.AddImageToBody -> {
+                        bodyTextFieldValue = bodyTextFieldValue.let {
+                            it.copy(text = it.text + "\n![](${effect.url})")
+                        }
                     }
                 }
             }.launchIn(this)
@@ -132,7 +145,6 @@ class CreatePostScreen(
                 SnackbarHost(snackbarHostState)
             }
         ) { padding ->
-            val focusManager = LocalFocusManager.current
             val keyboardScrollConnection = remember {
                 object : NestedScrollConnection {
                     override fun onPreScroll(
@@ -150,8 +162,6 @@ class CreatePostScreen(
                     .nestedScroll(keyboardScrollConnection)
                     .verticalScroll(rememberScrollState()),
             ) {
-                val bodyFocusRequester = remember { FocusRequester() }
-                val urlFocusRequester = remember { FocusRequester() }
                 TextField(
                     modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp),
                     colors = TextFieldDefaults.colors(
@@ -295,20 +305,31 @@ class CreatePostScreen(
                             Text(text = stringResource(MR.strings.create_post_body))
                         },
                         textStyle = MaterialTheme.typography.bodyMedium,
-                        value = uiState.body,
+                        value = bodyTextFieldValue,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             autoCorrect = true,
                         ),
                         onValueChange = { value ->
-                            model.reduce(CreatePostMviModel.Intent.SetText(value))
+                            bodyTextFieldValue = value
                         },
                         isError = uiState.bodyError != null,
                         supportingText = {
-                            if (uiState.bodyError != null) {
-                                Text(
-                                    text = uiState.bodyError?.localized().orEmpty(),
-                                    color = MaterialTheme.colorScheme.error,
+                            Column {
+                                if (uiState.bodyError != null) {
+                                    Text(
+                                        text = uiState.bodyError?.localized().orEmpty(),
+                                        color = MaterialTheme.colorScheme.error,
+                                    )
+                                }
+                                TextFormattingBar(
+                                    textFieldValue = bodyTextFieldValue,
+                                    onTextFieldValueChanged = {
+                                        bodyTextFieldValue = it
+                                    },
+                                    onSelectImage = {
+                                        openImagePickerInBody = true
+                                    }
                                 )
                             }
                         },
@@ -321,14 +342,14 @@ class CreatePostScreen(
                                     )
                                 },
                                 onClick = {
-                                    model.reduce(CreatePostMviModel.Intent.Send)
+                                    model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
                                 },
                             )
                         }
                     )
                 } else {
                     val post = PostModel(
-                        text = uiState.body,
+                        text = bodyTextFieldValue.text,
                         title = uiState.title,
                         url = uiState.url,
                         thumbnailUrl = uiState.url,
@@ -343,21 +364,6 @@ class CreatePostScreen(
                         autoLoadImages = uiState.autoLoadImages,
                     )
                 }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Spacing.s),
-                ) {
-                    Icon(
-                        modifier = Modifier.onClick {
-                            openImagePickerInBody = true
-                        },
-                        imageVector = Icons.Default.Image,
-                        contentDescription = null,
-                    )
-                }
-                Spacer(Modifier.height(Spacing.xxl))
             }
         }
 

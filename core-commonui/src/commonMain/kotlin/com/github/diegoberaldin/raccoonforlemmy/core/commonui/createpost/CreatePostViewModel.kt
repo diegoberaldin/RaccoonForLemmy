@@ -53,12 +53,6 @@ class CreatePostViewModel(
                 }
             }
 
-            is CreatePostMviModel.Intent.SetText -> {
-                mvi.updateState {
-                    it.copy(body = intent.value)
-                }
-            }
-
 
             is CreatePostMviModel.Intent.ChangeNsfw -> {
                 mvi.updateState {
@@ -86,7 +80,7 @@ class CreatePostViewModel(
                 it.copy(section = intent.value)
             }
 
-            CreatePostMviModel.Intent.Send -> submit()
+            is CreatePostMviModel.Intent.Send -> submit(intent.body)
         }
     }
 
@@ -115,16 +109,18 @@ class CreatePostViewModel(
             mvi.updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
+            if (url != null) {
+                mvi.emitEffect(CreatePostMviModel.Effect.AddImageToBody(url))
+            }
             mvi.updateState {
                 it.copy(
-                    body = it.body + "\n![]($url)",
                     loading = false,
                 )
             }
         }
     }
 
-    private fun submit() {
+    private fun submit(body: String) {
         if (mvi.uiState.value.loading) {
             return
         }
@@ -137,7 +133,6 @@ class CreatePostViewModel(
             )
         }
         val title = uiState.value.title
-        val body = uiState.value.body
         val url = uiState.value.url
         val nsfw = uiState.value.nsfw
         var valid = true
