@@ -123,14 +123,19 @@ fun CommunityHeader(
             }
         }
 
+
         Row(
             modifier = Modifier.fillMaxWidth().padding(Spacing.s).align(Alignment.Center),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.m)
         ) {
-            // avatar
+            val title = community.title.replace("&amp;", "&")
+            val communityName = community.name
             val communityIcon = community.icon.orEmpty()
+            val communityHost = community.host
             val avatarSize = 60.dp
+
+            // avatar
             if (communityIcon.isNotEmpty() && autoLoadImages) {
                 CustomImage(
                     modifier = Modifier
@@ -148,7 +153,7 @@ fun CommunityHeader(
             } else {
                 PlaceholderImage(
                     size = avatarSize,
-                    title = community.name,
+                    title = communityName,
                 )
             }
 
@@ -157,7 +162,7 @@ fun CommunityHeader(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = community.name,
+                    text = title.replace("&amp;", "&"),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -165,9 +170,9 @@ fun CommunityHeader(
                 Text(
                     modifier = Modifier.padding(horizontal = Spacing.s),
                     text = buildString {
-                        append(community.name)
-                        if (community.host.isNotEmpty()) {
-                            append("@${community.host}")
+                        append(communityName)
+                        if (communityHost.isNotEmpty()) {
+                            append("@$communityHost")
                         }
                     },
                     maxLines = 1,

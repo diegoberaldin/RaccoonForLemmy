@@ -24,7 +24,7 @@ fun CommunityItem(
     small: Boolean = false,
     autoLoadImages: Boolean = true,
 ) {
-    val title = community.title
+    val title = community.title.replace("&amp;", "&")
     val communityName = community.name
     val communityIcon = community.icon.orEmpty()
     val communityHost = community.host
