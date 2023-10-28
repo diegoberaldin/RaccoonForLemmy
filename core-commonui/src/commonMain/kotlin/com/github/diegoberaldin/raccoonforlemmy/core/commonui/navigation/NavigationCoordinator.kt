@@ -10,11 +10,9 @@ interface NavigationCoordinator {
 
     val onDoubleTabSelection: Flow<Tab>
     val inboxUnread: StateFlow<Int>
-    val deepLinkUrl: StateFlow<String?>
+    val deepLinkUrl: Flow<String?>
 
     fun setCurrentSection(tab: Tab)
-
-    fun consumeDeeplink(): String?
 
     fun submitDeeplink(url: String)
 

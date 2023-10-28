@@ -5,15 +5,15 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
 
 internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override val onDoubleTabSelection = MutableSharedFlow<Tab>()
-    override val deepLinkUrl = MutableStateFlow<String?>(null)
+    override val deepLinkUrl = MutableSharedFlow<String>()
 
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
@@ -44,10 +44,11 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
         }
     }
 
-    override fun consumeDeeplink(): String? = deepLinkUrl.getAndUpdate { null }
-
     override fun submitDeeplink(url: String) {
-        deepLinkUrl.value = url
+        scope.launch {
+            delay(500)
+            deepLinkUrl.emit(url)
+        }
     }
 
     override fun setCanGoBackCallback(value: (() -> Boolean)?) {

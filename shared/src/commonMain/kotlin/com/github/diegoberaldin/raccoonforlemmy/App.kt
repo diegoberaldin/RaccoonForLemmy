@@ -65,6 +65,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageReposito
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.StringDesc
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -139,39 +140,42 @@ fun App() {
         val lang by languageRepository.currentLanguage.collectAsState()
         LaunchedEffect(lang) {}
 
-        val url = navigationCoordinator.consumeDeeplink()
-        LaunchedEffect(navigationCoordinator, url) {
-            val community = getCommunityFromUrl(url)
-            val user = getUserFromUrl(url)
-            val postAndInstance = getPostFromUrl(url)
-            val newScreen = when {
-                community != null -> {
-                    CommunityDetailScreen(
-                        community = community,
-                        otherInstance = community.host,
-                    )
-                }
+        LaunchedEffect(navigationCoordinator) {
+            navigationCoordinator.deepLinkUrl
+                .debounce(500)
+                .onEach { url ->
+                    val community = getCommunityFromUrl(url)
+                    val user = getUserFromUrl(url)
+                    val postAndInstance = getPostFromUrl(url)
+                    val newScreen = when {
+                        community != null -> {
+                            CommunityDetailScreen(
+                                community = community,
+                                otherInstance = community.host,
+                            )
+                        }
 
-                user != null -> {
-                    UserDetailScreen(
-                        user = user,
-                        otherInstance = user.host,
-                    )
-                }
+                        user != null -> {
+                            UserDetailScreen(
+                                user = user,
+                                otherInstance = user.host,
+                            )
+                        }
 
-                postAndInstance != null -> {
-                    val (post, otherInstance) = postAndInstance
-                    PostDetailScreen(
-                        post = post,
-                        otherInstance = otherInstance,
-                    )
-                }
+                        postAndInstance != null -> {
+                            val (post, otherInstance) = postAndInstance
+                            PostDetailScreen(
+                                post = post,
+                                otherInstance = otherInstance,
+                            )
+                        }
 
-                else -> null
-            }
-            if (newScreen != null) {
-                navigationCoordinator.getRootNavigator()?.push(newScreen)
-            }
+                        else -> null
+                    }
+                    if (newScreen != null) {
+                        navigationCoordinator.getRootNavigator()?.push(newScreen)
+                    }
+                }.launchIn(this)
         }
 
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.github.diegoberaldin.raccoonforlemmy.MainView
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
 
@@ -25,7 +27,10 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent?.data?.toString()?.also {
-            handleDeeplink(it)
+            runBlocking {
+                delay(500)
+                handleDeeplink(it)
+            }
         }
     }
 
