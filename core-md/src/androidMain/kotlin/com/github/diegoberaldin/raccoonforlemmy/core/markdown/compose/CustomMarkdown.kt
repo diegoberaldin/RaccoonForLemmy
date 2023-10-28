@@ -57,10 +57,12 @@ actual fun CustomMarkdown(
         LocalMarkdownColors provides colors,
         LocalMarkdownTypography provides typography,
     ) {
-        val markwonProvider = getMarkwonProvider(
-            onOpenUrl = onOpenUrl,
-            onOpenImage = onOpenImage,
-        )
+        val markwonProvider = remember {
+            getMarkwonProvider(
+                onOpenUrl = onOpenUrl,
+                onOpenImage = onOpenImage,
+            )
+        }
         BoxWithConstraints(
             modifier = modifier.clickable(
                 interactionSource = remember { MutableInteractionSource() },

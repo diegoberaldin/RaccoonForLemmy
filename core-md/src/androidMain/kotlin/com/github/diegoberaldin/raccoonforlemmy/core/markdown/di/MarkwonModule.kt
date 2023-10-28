@@ -7,7 +7,7 @@ import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent
 
 val markwonModule = module {
-    single<MarkwonProvider> { params ->
+    factory<MarkwonProvider> { params ->
         DefaultMarkwonProvider(
             context = get(),
             onOpenUrl = params[0],

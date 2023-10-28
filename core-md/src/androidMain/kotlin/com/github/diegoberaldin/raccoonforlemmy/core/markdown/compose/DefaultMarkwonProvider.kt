@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose
 
 import android.content.Context
 import android.text.util.Linkify
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.plugins.ClickableImagesPlugin
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.plugins.MarkwonSpoilerPlugin
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
@@ -15,7 +16,6 @@ import io.noties.markwon.linkify.LinkifyPlugin
 class DefaultMarkwonProvider(
     context: Context,
     onOpenUrl: ((String) -> Unit)?,
-    // TODO: handle image clicks in the future
     onOpenImage: ((String) -> Unit)?,
 ) : MarkwonProvider {
     override val markwon: Markwon
@@ -28,6 +28,9 @@ class DefaultMarkwonProvider(
             .usePlugin(HtmlPlugin.create())
             .usePlugin(CoilImagesPlugin.create(context))
             .usePlugin(MarkwonSpoilerPlugin.create(true))
+            .usePlugin(ClickableImagesPlugin.create(context) { url ->
+                onOpenImage?.invoke(url)
+            })
             .usePlugin(
                 object : AbstractMarkwonPlugin() {
                     override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
