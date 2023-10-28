@@ -646,10 +646,7 @@ class PostDetailScreen(
                                     thickness = 0.25.dp
                                 )
                             }
-                            val hasMoreComments = (comment.comments ?: 0) > 0
-                            val isNextCommentNotChild =
-                                idx < uiState.comments.lastIndex && uiState.comments[idx + 1].depth <= comment.depth
-                            if (hasMoreComments && isNextCommentNotChild) {
+                            if (comment.loadMoreButtonVisible) {
                                 Row {
                                     Spacer(modifier = Modifier.weight(1f))
                                     Button(onClick = {

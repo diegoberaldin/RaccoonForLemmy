@@ -250,7 +250,7 @@ class PostDetailViewModel(
                 sort = sort,
             )?.processCommentsToGetNestedOrder(
                 ancestorId = null,
-            ).let {
+            )?.populateLoadMoreComments().let {
                 if (refreshing) {
                     it
                 } else {
@@ -329,17 +329,30 @@ class PostDetailViewModel(
                 }
                 it
             }
-            val newList = uiState.value.comments.let { list ->
-                val index = list.indexOfFirst { c -> c.id == parentId }
-                list.toMutableList().apply {
-                    addAll(index + 1, fetchResult.orEmpty())
-                }.toList()
-            }
+            val commentsToInsert = fetchResult.orEmpty()
+            if (commentsToInsert.isEmpty()) {
+                // abort and disable load more button
+                val newList = uiState.value.comments.map { comment ->
+                    if (comment.id == parentId) {
+                        comment.copy(loadMoreButtonVisible = false)
+                    } else {
+                        comment
+                    }
+                }
+                mvi.updateState { it.copy(comments = newList) }
+            } else {
+                val newList = uiState.value.comments.let { list ->
+                    val index = list.indexOfFirst { c -> c.id == parentId }
+                    list.toMutableList().apply {
+                        addAll(index + 1, fetchResult.orEmpty())
+                    }.toList()
+                }.populateLoadMoreComments()
+                mvi.updateState { it.copy(comments = newList) }
 
-            mvi.updateState { it.copy(comments = newList) }
-            if (loadUntilHighlight) {
-                // start indirect recursion
-                downloadUntilHighlight()
+                if (loadUntilHighlight) {
+                    // start indirect recursion
+                    downloadUntilHighlight()
+                }
             }
         }
     }
@@ -660,6 +673,13 @@ private fun linearize(node: Node, list: MutableList<CommentModel>) {
     if (node.comment != null) {
         list.add(node.comment)
     }
+}
+
+private fun List<CommentModel>.populateLoadMoreComments() = mapIndexed() { idx, comment ->
+    val hasMoreComments = (comment.comments ?: 0) > 0
+    val isNextCommentNotChild =
+        idx < lastIndex && this[idx + 1].depth <= comment.depth
+    comment.copy(loadMoreButtonVisible = hasMoreComments && isNextCommentNotChild)
 }
 
 private fun List<CommentModel>.processCommentsToGetNestedOrder(
