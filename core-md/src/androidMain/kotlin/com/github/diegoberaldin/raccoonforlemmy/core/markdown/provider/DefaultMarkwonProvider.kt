@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose
+package com.github.diegoberaldin.raccoonforlemmy.core.markdown.provider
 
 import android.content.Context
 import android.text.util.Linkify

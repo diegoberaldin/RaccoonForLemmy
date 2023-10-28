@@ -1,13 +1,13 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.markdown.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.DefaultMarkwonProvider
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.MarkwonProvider
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.provider.DefaultMarkwonProvider
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.provider.MarkwonProvider
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent
 
 val markwonModule = module {
-    factory<MarkwonProvider> { params ->
+    single<MarkwonProvider> { params ->
         DefaultMarkwonProvider(
             context = get(),
             onOpenUrl = params[0],

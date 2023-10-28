@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.CustomMarkdown
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 
@@ -30,6 +31,9 @@ fun PostCardTitle(
                 uriHandler = uriHandler,
                 navigator = navigator
             )
+        },
+        onOpenImage = { url ->
+            navigator?.push(ZoomableImageScreen(url))
         },
         onClick = onClick,
     )
