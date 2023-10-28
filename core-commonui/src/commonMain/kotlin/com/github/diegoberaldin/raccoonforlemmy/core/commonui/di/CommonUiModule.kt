@@ -158,6 +158,7 @@ val commonUiModule = module {
             commentRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
+            shareHelper = get(),
             hapticFeedback = get(),
             notificationCenter = get(),
         )

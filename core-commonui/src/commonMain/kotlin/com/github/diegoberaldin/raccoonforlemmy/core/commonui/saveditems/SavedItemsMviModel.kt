@@ -20,6 +20,7 @@ interface SavedItemsMviModel :
         data class UpVotePost(val index: Int, val feedback: Boolean = false) : Intent
         data class DownVotePost(val index: Int, val feedback: Boolean = false) : Intent
         data class SavePost(val index: Int, val feedback: Boolean = false) : Intent
+        data class SharePost(val index: Int) : Intent
         data class UpVoteComment(val index: Int, val feedback: Boolean = false) : Intent
         data class DownVoteComment(val index: Int, val feedback: Boolean = false) : Intent
         data class SaveComment(val index: Int, val feedback: Boolean = false) : Intent

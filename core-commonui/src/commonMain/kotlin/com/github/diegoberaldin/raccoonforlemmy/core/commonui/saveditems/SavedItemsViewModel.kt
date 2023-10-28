@@ -7,10 +7,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
@@ -30,6 +32,7 @@ class SavedItemsViewModel(
     private val commentRepository: CommentRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
+    private val shareHelper: ShareHelper,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
 ) : SavedItemsMviModel,
@@ -107,6 +110,7 @@ class SavedItemsViewModel(
             )
 
             is SavedItemsMviModel.Intent.ChangeSort -> applySortType(intent.value)
+            is SavedItemsMviModel.Intent.SharePost -> share(post = uiState.value.posts[intent.index])
         }
     }
 
@@ -513,6 +517,13 @@ class SavedItemsViewModel(
                     )
                 }
             }
+        }
+    }
+
+    private fun share(post: PostModel) {
+        val url = post.shareUrl
+        if (url.isNotEmpty()) {
+            shareHelper.share(url, "text/plain")
         }
     }
 }

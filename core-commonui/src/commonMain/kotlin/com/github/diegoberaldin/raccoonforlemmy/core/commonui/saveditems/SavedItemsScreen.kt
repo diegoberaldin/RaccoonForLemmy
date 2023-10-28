@@ -68,6 +68,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImag
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -286,10 +287,28 @@ class SavedItemsScreen : Screen {
                                         )
                                     },
                                     options = buildList {
+                                        add(stringResource(MR.strings.post_action_share))
                                         add(stringResource(MR.strings.post_action_see_raw))
+                                        add(stringResource(MR.strings.post_action_report))
                                     },
-                                    onOptionSelected = {
-                                        rawContent = post
+                                    onOptionSelected = { optionIndex ->
+                                        when (optionIndex) {
+                                            2 -> {
+                                                bottomSheetNavigator.show(
+                                                    CreateReportScreen(
+                                                        postId = post.id
+                                                    )
+                                                )
+                                            }
+
+                                            1 -> {
+                                                rawContent = post
+                                            }
+
+                                            else -> {
+                                                model.reduce(SavedItemsMviModel.Intent.SharePost(idx))
+                                            }
+                                        }
                                     },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
@@ -359,9 +378,22 @@ class SavedItemsScreen : Screen {
                                     },
                                     options = buildList {
                                         add(stringResource(MR.strings.post_action_see_raw))
+                                        add(stringResource(MR.strings.post_action_report))
                                     },
-                                    onOptionSelected = {
-                                        rawContent = comment
+                                    onOptionSelected = { optionIndex ->
+                                        when (optionIndex) {
+                                            1 -> {
+                                                bottomSheetNavigator.show(
+                                                    CreateReportScreen(
+                                                        commentId = comment.id
+                                                    )
+                                                )
+                                            }
+
+                                            else -> {
+                                                rawContent = comment
+                                            }
+                                        }
                                     },
                                 )
                                 Divider(
