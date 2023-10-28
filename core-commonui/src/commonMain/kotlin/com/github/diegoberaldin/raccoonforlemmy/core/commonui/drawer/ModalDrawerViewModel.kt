@@ -13,10 +13,11 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 
 class ModalDrawerViewModel(
     private val mvi: DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>,
@@ -38,7 +39,7 @@ class ModalDrawerViewModel(
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
-            identityRepository.isLogged.debounce(300).onEach { _ ->
+            identityRepository.isLogged.onEach { _ ->
                 refreshUser()
                 refresh()
             }.launchIn(this)
@@ -67,8 +68,16 @@ class ModalDrawerViewModel(
         if (auth.isEmpty()) {
             mvi.updateState { it.copy(user = null) }
         } else {
-            val user = siteRepository.getCurrentUser(auth)
-            mvi.updateState { it.copy(user = user) }
+            var user = siteRepository.getCurrentUser(auth)
+            runCatching {
+                while (user == null) {
+                    // retry getting user if non-empty auth
+                    delay(500)
+                    user = siteRepository.getCurrentUser(auth)
+                    yield()
+                }
+                mvi.updateState { it.copy(user = user) }
+            }
         }
     }
 
