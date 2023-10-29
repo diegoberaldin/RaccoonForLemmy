@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
 
 class ModalDrawerViewModel(
@@ -70,13 +71,15 @@ class ModalDrawerViewModel(
         } else {
             var user = siteRepository.getCurrentUser(auth)
             runCatching {
-                while (user == null) {
-                    // retry getting user if non-empty auth
-                    delay(500)
-                    user = siteRepository.getCurrentUser(auth)
-                    yield()
+                withTimeout(2000) {
+                    while (user == null) {
+                        // retry getting user if non-empty auth
+                        delay(500)
+                        user = siteRepository.getCurrentUser(auth)
+                        yield()
+                    }
+                    mvi.updateState { it.copy(user = user) }
                 }
-                mvi.updateState { it.copy(user = user) }
             }
         }
     }

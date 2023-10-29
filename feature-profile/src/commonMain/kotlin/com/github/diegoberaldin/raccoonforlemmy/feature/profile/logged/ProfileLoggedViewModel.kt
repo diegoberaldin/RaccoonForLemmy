@@ -19,10 +19,13 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.yield
 
 class ProfileLoggedViewModel(
     private val mvi: DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>,
@@ -65,14 +68,17 @@ class ProfileLoggedViewModel(
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
-            identityRepository.authToken.drop(1).onEach {
-                mvi.updateState {
-                    it.copy(
-                        posts = emptyList(),
-                        comments = emptyList(),
-                    )
+            identityRepository.isLogged.debounce(250).onEach { logged ->
+                if (logged == true) {
+                    mvi.updateState {
+                        it.copy(
+                            posts = emptyList(),
+                            comments = emptyList(),
+                        )
+                    }
+                    refreshUser()
+                    refresh()
                 }
-                refresh()
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState {
@@ -95,8 +101,14 @@ class ProfileLoggedViewModel(
             is ProfileLoggedMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is ProfileLoggedMviModel.Intent.DeleteComment -> deleteComment(intent.id)
             is ProfileLoggedMviModel.Intent.DeletePost -> deletePost(intent.id)
-            ProfileLoggedMviModel.Intent.LoadNextPage -> loadNextPage()
-            ProfileLoggedMviModel.Intent.Refresh -> refresh()
+            ProfileLoggedMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+                loadNextPage()
+            }
+
+            ProfileLoggedMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
+
             is ProfileLoggedMviModel.Intent.SharePost -> share(
                 post = uiState.value.posts[intent.index]
             )
@@ -133,21 +145,36 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun refresh(initial: Boolean = false) {
-        currentPage = 1
-        mvi.scope?.launch {
-            val auth = identityRepository.authToken.value.orEmpty()
-            val user = siteRepository.getCurrentUser(auth)
-            mvi.updateState {
-                it.copy(
-                    user = user,
-                    canFetchMore = true,
-                    refreshing = true,
-                    initial = initial,
-                )
+    private suspend fun refreshUser() {
+        val auth = identityRepository.authToken.value.orEmpty()
+        if (auth.isEmpty()) {
+            mvi.updateState { it.copy(user = null) }
+        } else {
+            var user = siteRepository.getCurrentUser(auth)
+            runCatching {
+                withTimeout(2000) {
+                    while (user == null) {
+                        // retry getting user if non-empty auth
+                        delay(500)
+                        user = siteRepository.getCurrentUser(auth)
+                        yield()
+                    }
+                    mvi.updateState { it.copy(user = user) }
+                }
             }
-            loadNextPage()
         }
+    }
+
+    private suspend fun refresh(initial: Boolean = false) {
+        currentPage = 1
+        mvi.updateState {
+            it.copy(
+                canFetchMore = true,
+                refreshing = true,
+                initial = initial,
+            )
+        }
+        loadNextPage()
     }
 
     private fun changeSection(section: ProfileLoggedSection) {
@@ -157,79 +184,80 @@ class ProfileLoggedViewModel(
                 section = section,
             )
         }
-        refresh(initial = true)
+
+        mvi.scope?.launch(Dispatchers.IO) {
+            refresh(initial = true)
+        }
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading || currentState.user == null) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val userId = currentState.user.id
-            val section = currentState.section
-            if (section == ProfileLoggedSection.Posts) {
-                val itemList = userRepository.getPosts(
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val userId = currentState.user.id
+        val section = currentState.section
+        if (section == ProfileLoggedSection.Posts) {
+            val itemList = userRepository.getPosts(
+                auth = auth,
+                id = userId,
+                page = currentPage,
+                sort = SortType.New,
+            )
+            val comments = if (currentPage == 1 && currentState.comments.isEmpty()) {
+                // this is needed because otherwise on first selector change
+                // the lazy column scrolls back to top (it must have an empty data set)
+                userRepository.getComments(
                     auth = auth,
                     id = userId,
                     page = currentPage,
                     sort = SortType.New,
-                )
-                val comments = if (currentPage == 1 && currentState.comments.isEmpty()) {
-                    // this is needed because otherwise on first selector change
-                    // the lazy column scrolls back to top (it must have an empty data set)
-                    userRepository.getComments(
-                        auth = auth,
-                        id = userId,
-                        page = currentPage,
-                        sort = SortType.New,
-                    ).orEmpty()
-                } else {
-                    currentState.comments
-                }
-                mvi.updateState {
-                    val newPosts = if (refreshing) {
-                        itemList.orEmpty()
-                    } else {
-                        it.posts + itemList.orEmpty()
-                    }
-                    it.copy(
-                        posts = newPosts,
-                        comments = comments,
-                        loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
-                        refreshing = false,
-                    )
-                }
+                ).orEmpty()
             } else {
-                val itemList = userRepository.getComments(
-                    auth = auth,
-                    id = userId,
-                    page = currentPage,
-                    sort = SortType.New,
-                )
-                mvi.updateState {
-                    val newcomments = if (refreshing) {
-                        itemList.orEmpty()
-                    } else {
-                        it.comments + itemList.orEmpty()
-                    }
-                    it.copy(
-                        comments = newcomments,
-                        loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
-                        refreshing = false,
-                        initial = false,
-                    )
-                }
+                currentState.comments
             }
-            currentPage++
+            mvi.updateState {
+                val newPosts = if (refreshing) {
+                    itemList.orEmpty()
+                } else {
+                    it.posts + itemList.orEmpty()
+                }
+                it.copy(
+                    posts = newPosts,
+                    comments = comments,
+                    loading = false,
+                    canFetchMore = itemList?.isEmpty() != true,
+                    refreshing = false,
+                )
+            }
+        } else {
+            val itemList = userRepository.getComments(
+                auth = auth,
+                id = userId,
+                page = currentPage,
+                sort = SortType.New,
+            )
+            mvi.updateState {
+                val newcomments = if (refreshing) {
+                    itemList.orEmpty()
+                } else {
+                    it.comments + itemList.orEmpty()
+                }
+                it.copy(
+                    comments = newcomments,
+                    loading = false,
+                    canFetchMore = itemList?.isEmpty() != true,
+                    refreshing = false,
+                    initial = false,
+                )
+            }
         }
+        currentPage++
     }
 
     private fun toggleUpVotePost(post: PostModel, feedback: Boolean) {
