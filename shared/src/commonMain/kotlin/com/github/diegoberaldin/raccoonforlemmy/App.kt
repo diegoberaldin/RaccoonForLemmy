@@ -68,6 +68,7 @@ import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -131,6 +132,81 @@ fun App() {
     val fontScale by themeRepository.contentFontScale.collectAsState()
     val uiFontScale by themeRepository.uiFontScale.collectAsState()
     val navigationCoordinator = remember { getNavigationCoordinator() }
+    LaunchedEffect(navigationCoordinator) {
+        navigationCoordinator.deepLinkUrl
+            .debounce(500)
+            .onEach { url ->
+                val community = getCommunityFromUrl(url)
+                val user = getUserFromUrl(url)
+                val postAndInstance = getPostFromUrl(url)
+                val newScreen = when {
+                    community != null -> {
+                        CommunityDetailScreen(
+                            community = community,
+                            otherInstance = community.host,
+                        )
+                    }
+
+                    user != null -> {
+                        UserDetailScreen(
+                            user = user,
+                            otherInstance = user.host,
+                        )
+                    }
+
+                    postAndInstance != null -> {
+                        val (post, otherInstance) = postAndInstance
+                        PostDetailScreen(
+                            post = post,
+                            otherInstance = otherInstance,
+                        )
+                    }
+
+                    else -> null
+                }
+                if (newScreen != null) {
+                    navigationCoordinator.getRootNavigator()?.push(newScreen)
+                }
+            }.launchIn(this)
+    }
+
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val drawerCoordinator = remember { getDrawerCoordinator() }
+    val drawerGestureEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
+    LaunchedEffect(drawerCoordinator) {
+        drawerCoordinator.toggleEvents.onEach { evt ->
+            val navigator = navigationCoordinator.getRootNavigator()
+            when (evt) {
+                DrawerEvent.Toggled -> {
+                    drawerState.apply {
+                        launch {
+                            if (isClosed) {
+                                open()
+                            } else {
+                                close()
+                            }
+                        }
+                    }
+                }
+
+                is DrawerEvent.OpenCommunity -> {
+                    navigator?.push(CommunityDetailScreen(evt.community))
+                }
+
+                is DrawerEvent.OpenMultiCommunity -> {
+                    navigator?.push(MultiCommunityScreen(evt.community))
+                }
+
+                DrawerEvent.ManageSubscriptions -> {
+                    navigator?.push(ManageSubscriptionsScreen())
+                }
+
+                DrawerEvent.OpenBookmarks -> {
+                    navigator?.push(SavedItemsScreen())
+                }
+            }
+        }.launchIn(this)
+    }
 
     AppTheme(
         theme = currentTheme,
@@ -139,77 +215,6 @@ fun App() {
     ) {
         val lang by languageRepository.currentLanguage.collectAsState()
         LaunchedEffect(lang) {}
-
-        LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.deepLinkUrl
-                .debounce(500)
-                .onEach { url ->
-                    val community = getCommunityFromUrl(url)
-                    val user = getUserFromUrl(url)
-                    val postAndInstance = getPostFromUrl(url)
-                    val newScreen = when {
-                        community != null -> {
-                            CommunityDetailScreen(
-                                community = community,
-                                otherInstance = community.host,
-                            )
-                        }
-
-                        user != null -> {
-                            UserDetailScreen(
-                                user = user,
-                                otherInstance = user.host,
-                            )
-                        }
-
-                        postAndInstance != null -> {
-                            val (post, otherInstance) = postAndInstance
-                            PostDetailScreen(
-                                post = post,
-                                otherInstance = otherInstance,
-                            )
-                        }
-
-                        else -> null
-                    }
-                    if (newScreen != null) {
-                        navigationCoordinator.getRootNavigator()?.push(newScreen)
-                    }
-                }.launchIn(this)
-        }
-
-        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-        val drawerCoordinator = remember { getDrawerCoordinator() }
-        LaunchedEffect(drawerCoordinator) {
-            drawerCoordinator.toggleEvents.onEach { evt ->
-                val navigator = navigationCoordinator.getRootNavigator()
-                when (evt) {
-                    DrawerEvent.Toggled -> {
-                        drawerState.apply {
-                            if (isClosed) open() else close()
-                        }
-                    }
-
-                    is DrawerEvent.OpenCommunity -> {
-                        navigator?.push(CommunityDetailScreen(evt.community))
-                    }
-
-                    is DrawerEvent.OpenMultiCommunity -> {
-                        navigator?.push(MultiCommunityScreen(evt.community))
-                    }
-
-                    DrawerEvent.ManageSubscriptions -> {
-                        navigator?.push(ManageSubscriptionsScreen())
-                    }
-
-                    DrawerEvent.OpenBookmarks -> {
-                        navigator?.push(SavedItemsScreen())
-                    }
-                }
-            }.launchIn(this)
-        }
-        val drawerGestureEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
-
         CompositionLocalProvider(
             LocalDensity provides Density(
                 density = LocalDensity.current.density,
@@ -239,7 +244,9 @@ fun App() {
                             callback?.let { it() } ?: true
                         }
                     ) { navigator ->
-                        navigationCoordinator.setRootNavigator(navigator)
+                        LaunchedEffect(Unit) {
+                            navigationCoordinator.setRootNavigator(navigator)
+                        }
                         if (hasBeenInitialized) {
                             CurrentScreen()
                         } else {
