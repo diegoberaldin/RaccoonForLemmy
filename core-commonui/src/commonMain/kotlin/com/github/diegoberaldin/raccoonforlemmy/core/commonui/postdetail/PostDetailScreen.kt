@@ -434,9 +434,13 @@ class PostDetailScreen(
                                             }
                                             Text(
                                                 modifier = Modifier.onClick {
+                                                    val post = PostModel(
+                                                        id = crossPost.id,
+                                                        community = community,
+                                                    )
                                                     navigator?.push(
-                                                        CommunityDetailScreen(
-                                                            community = community
+                                                        PostDetailScreen(
+                                                            post = post,
                                                         )
                                                     )
                                                 },
