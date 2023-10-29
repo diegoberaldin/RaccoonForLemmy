@@ -12,5 +12,5 @@ data class CommentAggregates(
     @SerialName("downvotes") val downvotes: Int,
     @SerialName("published") val published: String,
     @SerialName("child_count") val childCount: Int,
-    @SerialName("hot_rank") val hotRank: Int,
+    @SerialName("hot_rank") val hotRank: Float? = null,
 )

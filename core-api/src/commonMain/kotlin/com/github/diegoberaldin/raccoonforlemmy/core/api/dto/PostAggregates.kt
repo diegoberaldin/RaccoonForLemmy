@@ -16,6 +16,6 @@ data class PostAggregates(
     @SerialName("newest_comment_time") val newestCommentTime: String? = null,
     @SerialName("featured_community") val featuredCommunity: Boolean? = null,
     @SerialName("featured_local") val featuredLocal: Boolean? = null,
-    @SerialName("hot_rank") val hotRank: Int? = null,
-    @SerialName("hot_rank_active") val hotRankActive: Int? = null,
+    @SerialName("hot_rank") val hotRank: Float? = null,
+    @SerialName("hot_rank_active") val hotRankActive: Float? = null,
 )

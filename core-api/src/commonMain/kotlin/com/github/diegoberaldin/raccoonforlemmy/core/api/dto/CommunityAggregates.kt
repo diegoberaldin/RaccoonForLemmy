@@ -15,5 +15,5 @@ data class CommunityAggregates(
     @SerialName("users_active_week") val usersActiveWeek: Int,
     @SerialName("users_active_month") val usersActiveMonth: Int,
     @SerialName("users_active_half_year") val usersActiveHalfYear: Int,
-    @SerialName("hot_rank") val hotRank: Int? = null,
+    @SerialName("hot_rank") val hotRank: Float? = null,
 )
