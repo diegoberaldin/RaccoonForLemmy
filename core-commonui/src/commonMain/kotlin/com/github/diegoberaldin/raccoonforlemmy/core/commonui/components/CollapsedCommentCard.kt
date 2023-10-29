@@ -97,7 +97,7 @@ fun CollapsedCommentCard(
             }
             Box(
                 modifier = Modifier
-                    .padding(top = Spacing.xs)
+                    .padding(top = Spacing.xxs)
                     .width(barWidth)
                     .height(commentHeight.toLocalDp())
                     .background(color = barColor)

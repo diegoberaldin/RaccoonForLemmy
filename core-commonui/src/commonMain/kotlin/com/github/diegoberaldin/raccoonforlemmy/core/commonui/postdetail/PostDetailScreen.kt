@@ -666,7 +666,6 @@ class PostDetailScreen(
                                     } else {
                                         CollapsedCommentCard(
                                             comment = comment,
-                                            modifier = Modifier.padding(vertical = Spacing.xs),
                                             onToggleExpanded = {
                                                 model.reduce(
                                                     PostDetailMviModel.Intent.ToggleExpandComment(

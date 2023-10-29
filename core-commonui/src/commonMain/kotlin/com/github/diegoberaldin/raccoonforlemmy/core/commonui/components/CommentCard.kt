@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
@@ -78,7 +77,6 @@ fun CommentCard(
                     }
             ) {
                 CommunityAndCreatorInfo(
-                    modifier = Modifier.padding(top = Spacing.xs),
                     iconSize = 20.dp,
                     creator = comment.creator.takeIf { !hideAuthor },
                     community = comment.community.takeIf { !hideCommunity },
@@ -117,18 +115,12 @@ fun CommentCard(
             if (!hideIndent) {
                 Box(
                     modifier = Modifier
-                        .padding(top = Spacing.xs)
+                        .padding(top = Spacing.xxs)
                         .width(barWidth)
                         .height(commentHeight.toLocalDp())
                         .background(color = barColor)
                 )
             }
         }
-        Box(
-            modifier = Modifier
-                .height(Dp.Hairline)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-        )
     }
 }
