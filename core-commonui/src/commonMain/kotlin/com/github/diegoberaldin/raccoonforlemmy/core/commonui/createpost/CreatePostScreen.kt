@@ -44,6 +44,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -174,6 +175,7 @@ class CreatePostScreen(
                     },
                     textStyle = MaterialTheme.typography.titleMedium,
                     value = uiState.title,
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Ascii,
                         autoCorrect = false,
@@ -218,7 +220,6 @@ class CreatePostScreen(
                         unfocusedContainerColor = Color.Transparent,
                         disabledContainerColor = Color.Transparent,
                     ),
-                    maxLines = 1,
                     label = {
                         Text(text = stringResource(MR.strings.create_post_url))
                     },
@@ -231,8 +232,11 @@ class CreatePostScreen(
                             contentDescription = null,
                         )
                     },
-                    textStyle = MaterialTheme.typography.bodyMedium,
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(
+                        fontFamily = FontFamily.Monospace,
+                    ),
                     value = uiState.url,
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Ascii,
                         autoCorrect = false,
