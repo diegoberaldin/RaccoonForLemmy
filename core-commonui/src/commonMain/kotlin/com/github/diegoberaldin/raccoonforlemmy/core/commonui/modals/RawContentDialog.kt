@@ -16,13 +16,23 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalTextToolbar
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.handleUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCustomTextToolbar
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +42,21 @@ fun RawContentDialog(
     text: String? = null,
     onDismiss: (() -> Unit)? = null,
 ) {
+    val uriHandler = LocalUriHandler.current
+    val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+    val settingsRepository = remember { getSettingsRepository() }
+    val clipboardManager = LocalClipboardManager.current
+    val onSearchLambda = {
+        val query = clipboardManager.getText()?.text.orEmpty()
+        val url = "https://www.google.com/search?q=$query"
+        handleUrl(
+            url = url,
+            openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
+            uriHandler = uriHandler,
+            navigator = navigator
+        )
+    }
+
     AlertDialog(
         onDismissRequest = { onDismiss?.invoke() },
     ) {
@@ -62,15 +87,21 @@ fun RawContentDialog(
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
-                            SelectionContainer {
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = it,
-                                    style = MaterialTheme.typography.bodyLarge.copy(
-                                        fontFamily = FontFamily.Monospace,
-                                    ),
-                                    color = MaterialTheme.colorScheme.onBackground,
+                            CompositionLocalProvider(
+                                LocalTextToolbar provides getCustomTextToolbar(
+                                    onSearch = onSearchLambda,
                                 )
+                            ) {
+                                SelectionContainer {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = it,
+                                        style = MaterialTheme.typography.bodyLarge.copy(
+                                            fontFamily = FontFamily.Monospace,
+                                        ),
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                }
                             }
                         }
                     }
@@ -84,15 +115,21 @@ fun RawContentDialog(
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
-                            SelectionContainer {
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = it,
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontFamily = FontFamily.Monospace,
-                                    ),
-                                    color = MaterialTheme.colorScheme.onBackground,
+                            CompositionLocalProvider(
+                                LocalTextToolbar provides getCustomTextToolbar(
+                                    onSearch = onSearchLambda,
                                 )
+                            ) {
+                                SelectionContainer {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = it,
+                                        style = MaterialTheme.typography.bodyMedium.copy(
+                                            fontFamily = FontFamily.Monospace,
+                                        ),
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                }
                             }
                         }
                     }
@@ -106,15 +143,22 @@ fun RawContentDialog(
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
-                            SelectionContainer {
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = it,
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontFamily = FontFamily.Monospace,
-                                    ),
-                                    color = MaterialTheme.colorScheme.onBackground,
+
+                            CompositionLocalProvider(
+                                LocalTextToolbar provides getCustomTextToolbar(
+                                    onSearch = onSearchLambda,
                                 )
+                            ) {
+                                SelectionContainer {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = it,
+                                        style = MaterialTheme.typography.bodyMedium.copy(
+                                            fontFamily = FontFamily.Monospace,
+                                        ),
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                }
                             }
                         }
                     }

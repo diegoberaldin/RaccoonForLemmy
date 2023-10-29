@@ -1,5 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.TextToolbar
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.CustomTextToolbar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
@@ -82,18 +86,14 @@ actual fun getCreateCommentViewModel(
     parentId: Int?,
     editedCommentId: Int?,
 ): CreateCommentMviModel {
-    val res: CreateCommentMviModel by inject(
-        clazz = CreateCommentMviModel::class.java,
-        parameters = { parametersOf(postId, parentId, editedCommentId) }
-    )
+    val res: CreateCommentMviModel by inject(clazz = CreateCommentMviModel::class.java,
+        parameters = { parametersOf(postId, parentId, editedCommentId) })
     return res
 }
 
 actual fun getCreatePostViewModel(communityId: Int?, editedPostId: Int?): CreatePostMviModel {
-    val res: CreatePostMviModel by inject(
-        clazz = CreatePostMviModel::class.java,
-        parameters = { parametersOf(communityId, editedPostId) }
-    )
+    val res: CreatePostMviModel by inject(clazz = CreatePostMviModel::class.java,
+        parameters = { parametersOf(communityId, editedPostId) })
     return res
 }
 
@@ -132,4 +132,15 @@ actual fun getCreateReportViewModel(
         parametersOf(postId, commentId)
     })
     return res
+}
+
+
+@Composable
+actual fun getCustomTextToolbar(
+    onSearch: () -> Unit,
+): TextToolbar {
+    return CustomTextToolbar(
+        view = LocalView.current,
+        onSearch = onSearch,
+    )
 }
