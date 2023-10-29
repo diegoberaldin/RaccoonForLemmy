@@ -43,7 +43,6 @@ class PostDetailViewModel(
     private var currentPage: Int = 1
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
-    private var expandedTopLevelComments = mutableListOf<Int>()
 
     init {
         notificationCenter.addObserver({
@@ -250,24 +249,18 @@ class PostDetailViewModel(
                 sort = sort,
             )?.processCommentsToGetNestedOrder(
                 ancestorId = null,
-            )?.populateLoadMoreComments().let {
+            )?.populateLoadMoreComments()?.let { list ->
                 if (refreshing) {
-                    it
+                    list
                 } else {
-                    it?.filter { c1 ->
+                    list.filter { c1 ->
                         // prevents accidental duplication
                         currentState.comments.none { c2 -> c1.id == c2.id }
                     }
                 }
-            }?.let {
-                if (autoExpandComments) {
-                    expandedTopLevelComments =
-                        it.filter { c -> c.depth == 0 }.map { c -> c.id }.toMutableList()
-                }
-                it
-            }?.applyExpansionFilter(
-                expandedTopLevelCommentIds = expandedTopLevelComments,
-            )
+            }?.map {
+                it.copy(expanded = autoExpandComments)
+            }
 
             if (!itemList.isNullOrEmpty()) {
                 currentPage++
@@ -322,13 +315,10 @@ class PostDetailViewModel(
                 ancestorId = parentId.toString(),
             )?.filter {
                 currentState.comments.none { c -> c.id == it.id }
-            }?.let {
-                if (autoExpandComments) {
-                    expandedTopLevelComments =
-                        it.filter { c -> c.depth == 0 }.map { c -> c.id }.toMutableList()
-                }
-                it
+            }?.map {
+                it.copy(expanded = autoExpandComments)
             }
+
             val commentsToInsert = fetchResult.orEmpty()
             if (commentsToInsert.isEmpty()) {
                 // abort and disable load more button
@@ -622,24 +612,19 @@ class PostDetailViewModel(
     }
 
     private fun toggleExpanded(comment: CommentModel) {
-        if (comment.depth > 0) {
-            return
-        }
-        val id = comment.id
-        if (expandedTopLevelComments.contains(id)) {
-            expandedTopLevelComments -= id
-        } else {
-            expandedTopLevelComments += id
-        }
+        val commentId = comment.id
         mvi.updateState {
-            val newComments = it.comments.applyExpansionFilter(
-                expandedTopLevelCommentIds = expandedTopLevelComments,
-            )
+            val newComments = it.comments.map { comment ->
+                if (comment.id == commentId) {
+                    comment.copy(expanded = !comment.expanded)
+                } else {
+                    comment
+                }
+            }
             it.copy(comments = newComments)
         }
     }
 }
-
 
 private data class Node(
     val comment: CommentModel?,
@@ -704,18 +689,4 @@ private fun List<CommentModel>.processCommentsToGetNestedOrder(
     linearize(root, result)
 
     return result.reversed().toList()
-}
-
-private fun List<CommentModel>.applyExpansionFilter(
-    expandedTopLevelCommentIds: List<Int>,
-): List<CommentModel> = map { comment ->
-    val visible = comment.depth == 0 || expandedTopLevelCommentIds.any { e ->
-        e == comment.path.split(".")[1].toInt()
-    }
-    val indicatorExpanded = when {
-        comment.depth > 0 -> null
-        (comment.comments ?: 0) == 0 -> null
-        else -> expandedTopLevelCommentIds.contains(comment.id)
-    }
-    comment.copy(visible = visible, expanded = indicatorExpanded)
 }

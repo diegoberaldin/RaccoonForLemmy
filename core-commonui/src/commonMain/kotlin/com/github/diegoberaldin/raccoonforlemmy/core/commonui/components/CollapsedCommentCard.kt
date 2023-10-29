@@ -15,55 +15,45 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 
 @Composable
-fun CommentCard(
+fun CollapsedCommentCard(
     comment: CommentModel,
     modifier: Modifier = Modifier,
     separateUpAndDownVotes: Boolean = false,
-    hideAuthor: Boolean = false,
-    hideCommunity: Boolean = true,
-    hideIndent: Boolean = false,
     autoLoadImages: Boolean = true,
     options: List<String> = emptyList(),
-    onClick: (() -> Unit)? = null,
+    onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
-    onOpenCommunity: ((CommunityModel) -> Unit)? = null,
-    onOpenCreator: ((UserModel) -> Unit)? = null,
     onOptionSelected: ((Int) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
+    var commentHeight by remember { mutableStateOf(0f) }
+    val barWidth = 2.dp
+    val barColor = themeRepository.getCommentBarColor(
+        depth = comment.depth,
+        maxDepth = CommentRepository.MAX_COMMENT_DEPTH,
+        startColor = MaterialTheme.colorScheme.primary,
+        endColor = MaterialTheme.colorScheme.background,
+    )
     Column(
         modifier = modifier
     ) {
-        var commentHeight by remember { mutableStateOf(0f) }
-        val barWidth = 2.dp
-        val barColor = themeRepository.getCommentBarColor(
-            depth = comment.depth,
-            maxDepth = CommentRepository.MAX_COMMENT_DEPTH,
-            startColor = MaterialTheme.colorScheme.primary,
-            endColor = MaterialTheme.colorScheme.background,
-        )
         Box(
-            modifier = Modifier.onClick {
-                onClick?.invoke()
-            }.padding(
-                start = if (hideIndent) 0.dp else (10 * comment.depth).dp
+            modifier = Modifier.padding(
+                start = (10 * comment.depth).dp
             ),
         ) {
             Column(
@@ -78,25 +68,16 @@ fun CommentCard(
                     }
             ) {
                 CommunityAndCreatorInfo(
-                    modifier = Modifier.padding(top = Spacing.xs),
                     iconSize = 20.dp,
-                    creator = comment.creator.takeIf { !hideAuthor },
-                    community = comment.community.takeIf { !hideCommunity },
+                    creator = comment.creator,
                     indicatorExpanded = comment.expanded,
                     autoLoadImages = autoLoadImages,
+                    onToggleExpanded = {
+                        onToggleExpanded?.invoke()
+                    },
                     onOpenCreator = onOpenCreator,
-                    onOpenCommunity = onOpenCommunity,
-                    onToggleExpanded = onToggleExpanded,
                 )
-                ScaledContent {
-                    PostCardBody(
-                        text = comment.text,
-                        autoLoadImages = autoLoadImages,
-                        onClick = onClick,
-                    )
-                }
                 PostCardFooter(
-                    modifier = Modifier.padding(top = Spacing.xs),
                     score = comment.score,
                     separateUpAndDownVotes = separateUpAndDownVotes,
                     upvotes = comment.upvotes,
@@ -114,21 +95,13 @@ fun CommentCard(
                     onOptionSelected = onOptionSelected,
                 )
             }
-            if (!hideIndent) {
-                Box(
-                    modifier = Modifier
-                        .padding(top = Spacing.xs)
-                        .width(barWidth)
-                        .height(commentHeight.toLocalDp())
-                        .background(color = barColor)
-                )
-            }
+            Box(
+                modifier = Modifier
+                    .padding(top = Spacing.xs)
+                    .width(barWidth)
+                    .height(commentHeight.toLocalDp())
+                    .background(color = barColor)
+            )
         }
-        Box(
-            modifier = Modifier
-                .height(Dp.Hairline)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-        )
     }
 }

@@ -18,9 +18,7 @@ data class CommentModel(
     val comments: Int? = null,
     val path: String = "",
     @Transient
-    val visible: Boolean = true,
-    @Transient
-    val expanded: Boolean? = null,
+    val expanded: Boolean = true,
     @Transient
     val loadMoreButtonVisible: Boolean = false,
 ) : JavaSerializable {

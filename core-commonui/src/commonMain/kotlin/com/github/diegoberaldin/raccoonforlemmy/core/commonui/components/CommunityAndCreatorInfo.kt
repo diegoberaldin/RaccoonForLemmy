@@ -36,6 +36,7 @@ fun CommunityAndCreatorInfo(
     creator: UserModel? = null,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
+    onToggleExpanded: (() -> Unit)? = null,
 ) {
     val communityName = community?.name.orEmpty()
     val communityIcon = community?.icon.orEmpty()
@@ -144,16 +145,18 @@ fun CommunityAndCreatorInfo(
         }
         if (indicatorExpanded != null) {
             Spacer(modifier = Modifier.weight(1f))
-            val modifier = Modifier.padding(end = Spacing.xs)
+            val expandedModifier = Modifier
+                .padding(end = Spacing.xs)
+                .onClick { onToggleExpanded?.invoke() }
             if (indicatorExpanded) {
                 Icon(
-                    modifier = modifier,
+                    modifier = expandedModifier,
                     imageVector = Icons.Default.ExpandLess,
                     contentDescription = null,
                 )
             } else {
                 Icon(
-                    modifier = modifier,
+                    modifier = expandedModifier,
                     imageVector = Icons.Default.ExpandMore,
                     contentDescription = null,
                 )
