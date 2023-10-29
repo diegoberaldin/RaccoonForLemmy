@@ -32,37 +32,32 @@ fun TextFormattingBar(
         Icon(
             modifier = Modifier.onClick {
                 val selection = textFieldValue.selection
-                if (selection.length == 0) {
-                    val newValue = textFieldValue.let {
-                        it.copy(
-                            text = it.text + "****",
-                            selection = TextRange(it.text.length + 2),
+                val newValue = textFieldValue.let {
+                    val newText = buildString {
+                        append(it.text.substring(0, selection.start))
+                        append("**")
+                        append(
+                            it.text.substring(
+                                selection.start,
+                                selection.end
+                            )
+                        )
+                        append("**")
+                        append(
+                            it.text.substring(
+                                selection.end,
+                                it.text.length
+                            )
                         )
                     }
-                    onTextFieldValueChanged(newValue)
-                } else {
-                    val newValue = textFieldValue.let {
-                        val newText = buildString {
-                            append(it.text.substring(0, selection.start))
-                            append("**")
-                            append(
-                                it.text.substring(
-                                    selection.start,
-                                    selection.end
-                                )
-                            )
-                            append("**")
-                            append(
-                                it.text.substring(
-                                    selection.end,
-                                    it.text.length
-                                )
-                            )
-                        }
-                        it.copy(text = newText)
+                    val newSelection = if (selection.length == 0) {
+                        TextRange(index = selection.start + 2)
+                    } else {
+                        TextRange(start = it.selection.start + 2, end = it.selection.end + 2)
                     }
-                    onTextFieldValueChanged(newValue)
+                    it.copy(text = newText, selection = newSelection)
                 }
+                onTextFieldValueChanged(newValue)
             },
             imageVector = Icons.Default.FormatBold,
             contentDescription = null,
@@ -70,37 +65,32 @@ fun TextFormattingBar(
         Icon(
             modifier = Modifier.onClick {
                 val selection = textFieldValue.selection
-                if (selection.length == 0) {
-                    val newValue = textFieldValue.let {
-                        it.copy(
-                            text = it.text + "**",
-                            selection = TextRange(it.text.length + 1),
+                val newValue = textFieldValue.let {
+                    val newText = buildString {
+                        append(it.text.substring(0, selection.start))
+                        append("*")
+                        append(
+                            it.text.substring(
+                                selection.start,
+                                selection.end
+                            )
+                        )
+                        append("*")
+                        append(
+                            it.text.substring(
+                                selection.end,
+                                it.text.length
+                            )
                         )
                     }
-                    onTextFieldValueChanged(newValue)
-                } else {
-                    val newValue = textFieldValue.let {
-                        val newText = buildString {
-                            append(it.text.substring(0, selection.start))
-                            append("*")
-                            append(
-                                it.text.substring(
-                                    selection.start,
-                                    selection.end
-                                )
-                            )
-                            append("*")
-                            append(
-                                it.text.substring(
-                                    selection.end,
-                                    it.text.length
-                                )
-                            )
-                        }
-                        it.copy(text = newText)
+                    val newSelection = if (selection.length == 0) {
+                        TextRange(index = selection.start + 1)
+                    } else {
+                        TextRange(start = it.selection.start + 1, end = it.selection.end + 1)
                     }
-                    onTextFieldValueChanged(newValue)
+                    it.copy(text = newText, selection = newSelection)
                 }
+                onTextFieldValueChanged(newValue)
             },
             imageVector = Icons.Default.FormatItalic,
             contentDescription = null,
@@ -108,37 +98,32 @@ fun TextFormattingBar(
         Icon(
             modifier = Modifier.onClick {
                 val selection = textFieldValue.selection
-                if (selection.length == 0) {
-                    val newValue = textFieldValue.let {
-                        it.copy(
-                            text = it.text + "~~~~",
-                            selection = TextRange(it.text.length + 2),
+                val newValue = textFieldValue.let {
+                    val newText = buildString {
+                        append(it.text.substring(0, selection.start))
+                        append("~~")
+                        append(
+                            it.text.substring(
+                                selection.start,
+                                selection.end
+                            )
+                        )
+                        append("~~")
+                        append(
+                            it.text.substring(
+                                selection.end,
+                                it.text.length
+                            )
                         )
                     }
-                    onTextFieldValueChanged(newValue)
-                } else {
-                    val newValue = textFieldValue.let {
-                        val newText = buildString {
-                            append(it.text.substring(0, selection.start))
-                            append("~~")
-                            append(
-                                it.text.substring(
-                                    selection.start,
-                                    selection.end
-                                )
-                            )
-                            append("~~")
-                            append(
-                                it.text.substring(
-                                    selection.end,
-                                    it.text.length
-                                )
-                            )
-                        }
-                        it.copy(text = newText)
+                    val newSelection = if (selection.length == 0) {
+                        TextRange(index = selection.start + 2)
+                    } else {
+                        TextRange(start = it.selection.start + 2, end = it.selection.end + 2)
                     }
-                    onTextFieldValueChanged(newValue)
+                    it.copy(text = newText, selection = newSelection)
                 }
+                onTextFieldValueChanged(newValue)
             },
             imageVector = Icons.Default.FormatStrikethrough,
             contentDescription = null,
@@ -153,10 +138,18 @@ fun TextFormattingBar(
         Icon(
             modifier = Modifier.onClick {
                 val newValue = textFieldValue.let {
-                    it.copy(
-                        text = it.text + "[](url)",
-                        selection = TextRange(it.text.length + 1),
-                    )
+                    val selection = it.selection
+                    val newText = buildString {
+                        append(it.text.substring(0, selection.start))
+                        append(" [](url)")
+                        append(
+                            it.text.substring(
+                                selection.end,
+                                it.text.length
+                            )
+                        )
+                    }
+                    it.copy(text = newText, selection = TextRange(index = selection.start + 2))
                 }
                 onTextFieldValueChanged(newValue)
             },
@@ -166,10 +159,30 @@ fun TextFormattingBar(
         Icon(
             modifier = Modifier.onClick {
                 val newValue = textFieldValue.let {
-                    it.copy(
-                        text = it.text + "``",
-                        selection = TextRange(it.text.length + 1),
-                    )
+                    val selection = it.selection
+                    val newText = buildString {
+                        append(it.text.substring(0, selection.start))
+                        append("`")
+                        append(
+                            it.text.substring(
+                                selection.start,
+                                selection.end
+                            )
+                        )
+                        append("`")
+                        append(
+                            it.text.substring(
+                                selection.end,
+                                it.text.length
+                            )
+                        )
+                    }
+                    val newSelection = if (selection.length == 0) {
+                        TextRange(index = selection.start + 1)
+                    } else {
+                        TextRange(start = it.selection.start + 1, end = it.selection.end + 1)
+                    }
+                    it.copy(text = newText, selection = newSelection)
                 }
                 onTextFieldValueChanged(newValue)
             },
@@ -181,7 +194,7 @@ fun TextFormattingBar(
                 val newValue = textFieldValue.let {
                     it.copy(
                         text = it.text + "\n> ",
-                        selection = TextRange(it.text.length + 3),
+                        selection = TextRange(index = it.text.length + 3),
                     )
                 }
                 onTextFieldValueChanged(newValue)
