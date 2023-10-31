@@ -646,17 +646,11 @@ private fun findNode(id: String, node: Node): Node? {
 
 
 private fun linearize(node: Node, list: MutableList<CommentModel>) {
-    if (node.children.isEmpty()) {
-        if (node.comment != null) {
-            list.add(node.comment)
-        }
-        return
+    if (node.comment != null) {
+        list.add(node.comment)
     }
     for (c in node.children) {
         linearize(c, list)
-    }
-    if (node.comment != null) {
-        list.add(node.comment)
     }
 }
 
@@ -688,5 +682,5 @@ private fun List<CommentModel>.processCommentsToGetNestedOrder(
     val result = mutableListOf<CommentModel>()
     linearize(root, result)
 
-    return result.reversed().toList()
+    return result.toList()
 }
