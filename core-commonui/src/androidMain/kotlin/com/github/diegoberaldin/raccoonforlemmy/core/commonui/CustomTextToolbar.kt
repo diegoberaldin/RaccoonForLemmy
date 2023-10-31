@@ -35,7 +35,7 @@ class CustomTextToolbar(
     ) {
         if (actionMode == null) {
             status = TextToolbarStatus.Shown
-            view.startActionMode(
+            actionMode = view.startActionMode(
                 CustomTextActionModeCallback(
                     rect = rect,
                     onCopy = {
@@ -50,6 +50,7 @@ class CustomTextToolbar(
             )
         } else {
             actionMode?.invalidate()
+            actionMode = null
         }
     }
 }
@@ -76,13 +77,21 @@ internal class CustomTextActionModeCallback(
     override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = false
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            ACTION_ID_COPY -> onCopy()
-            ACTION_ID_SEARCH -> onSearch()
-            else -> return false
+        val res = when (item?.itemId) {
+            ACTION_ID_COPY -> {
+                onCopy()
+                true
+            }
+
+            ACTION_ID_SEARCH -> {
+                onSearch()
+                true
+            }
+
+            else -> false
         }
         mode?.finish()
-        return true
+        return res
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
