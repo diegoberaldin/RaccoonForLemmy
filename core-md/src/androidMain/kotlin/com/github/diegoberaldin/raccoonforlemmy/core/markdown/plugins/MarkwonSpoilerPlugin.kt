@@ -4,7 +4,6 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextPaint
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import io.noties.markwon.AbstractMarkwonPlugin
@@ -17,7 +16,7 @@ data class SpoilerTitleSpan(val title: CharSequence)
 class SpoilerCloseSpan
 
 /*
- * CREDITS:
+ * Originally inspired by:
  * https://github.com/dessalines/jerboa/blob/main/app/src/main/java/com/jerboa/util/markwon/MarkwonSpoilerPlugin.kt
  */
 class MarkwonSpoilerPlugin private constructor(private val enableInteraction: Boolean) :
@@ -35,118 +34,132 @@ class MarkwonSpoilerPlugin private constructor(private val enableInteraction: Bo
         }
     }
 
-    private class SpoilerTextAddedListener : CorePlugin.OnTextAddedListener {
-        override fun onTextAdded(visitor: MarkwonVisitor, text: String, start: Int) {
-            val spoilerTitleRegex = Regex("(:::\\s+spoiler\\s+)(.*)")
-            // Find all spoiler "start" lines
-            val spoilerTitles = spoilerTitleRegex.findAll(text)
+    override fun afterSetText(textView: TextView) {
+        runCatching {
+            val spanned = SpannableStringBuilder(textView.text)
+            val startSpans =
+                spanned.getSpans(0, spanned.length, SpoilerTitleSpan::class.java)
+                    .sortedBy { spanned.getSpanStart(it) }
+            val closeSpans =
+                spanned.getSpans(0, spanned.length, SpoilerCloseSpan::class.java)
+                    .sortedBy { spanned.getSpanStart(it) }
 
-            for (match in spoilerTitles) {
-                val spoilerTitle = match.groups[2]!!.value
-                visitor.builder().setSpan(
-                    SpoilerTitleSpan(spoilerTitle),
-                    start,
-                    start + match.groups[2]!!.range.last,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+            startSpans
+                .zip(closeSpans)
+                .forEach { (startSpan, closeSpan) ->
+                    val spoilerStart = spanned.getSpanStart(startSpan)
+                    val spoilerEnd = spanned.getSpanEnd(closeSpan)
+
+                    val spoilerTitle = getSpoilerTitle(false, startSpan.title.toString())
+
+                    val spoilerContent = spanned.subSequence(
+                        spanned.getSpanEnd(startSpan) + 1,
+                        spoilerEnd - 3,
+                    )
+
+                    // Remove spoiler content from span
+                    spanned.replace(spoilerStart, spoilerEnd, spoilerTitle)
+
+                    // Set span block title
+                    spanned.setSpan(
+                        spoilerTitle,
+                        spoilerStart,
+                        spoilerStart + spoilerTitle.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+                    )
+                    val wrapper = SpoilerClickableSpan(
+                        enableInteraction = enableInteraction,
+                        textView = textView,
+                        spoilerTitle = startSpan.title.toString(),
+                        spoilerContent = spoilerContent.toString(),
+                    )
+
+                    // Set spoiler block type as ClickableSpan
+                    spanned.setSpan(
+                        wrapper,
+                        spoilerStart,
+                        spoilerStart + spoilerTitle.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+                    )
+
+                    textView.text = spanned
+                }
+        }
+    }
+}
+
+private fun getSpoilerTitle(openParam: Boolean, title: String): String = if (openParam) {
+    "▼ ${title}\n"
+} else {
+    // The space at the end is necessary for the lengths to be the same
+    // This reduces complexity as else it would need complex logic to determine the replacement length
+    "▶ ${title}\u200B"
+}
+
+private class SpoilerClickableSpan(
+    private val enableInteraction: Boolean,
+    private val textView: TextView,
+    private val spoilerTitle: String,
+    private val spoilerContent: String,
+) : ClickableSpan() {
+
+    private var open = false
+
+    override fun onClick(view: View) {
+        if (enableInteraction) {
+            textView.cancelPendingInputEvents()
+            val spanned = SpannableStringBuilder(textView.text)
+            val title = getSpoilerTitle(open, spoilerTitle)
+            val start = spanned.indexOf(title).coerceAtLeast(0)
+
+            open = !open
+
+            spanned.replace(
+                start,
+                start + title.length,
+                getSpoilerTitle(open, spoilerTitle),
+            )
+            if (open) {
+                spanned.insert(start + title.length, spoilerContent)
+            } else {
+                spanned.replace(
+                    start + title.length,
+                    start + title.length + spoilerContent.length,
+                    "",
                 )
             }
 
-            val spoilerCloseRegex = Regex("^(?!.*spoiler).*:::")
-            // Find all spoiler "end" lines
-            val spoilerCloses = spoilerCloseRegex.findAll(text)
-            for (match in spoilerCloses) {
-                visitor.builder()
-                    .setSpan(SpoilerCloseSpan(), start, start + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
+            textView.text = spanned
+            AsyncDrawableScheduler.schedule(textView)
         }
     }
 
-    override fun afterSetText(textView: TextView) {
-        try {
-            val spanned = SpannableStringBuilder(textView.text)
-            val spoilerTitleSpans =
-                spanned.getSpans(0, spanned.length, SpoilerTitleSpan::class.java)
-            val spoilerCloseSpans =
-                spanned.getSpans(0, spanned.length, SpoilerCloseSpan::class.java)
+    override fun updateDrawState(ds: TextPaint) {
+    }
+}
 
-            spoilerTitleSpans.sortBy { spanned.getSpanStart(it) }
-            spoilerCloseSpans.sortBy { spanned.getSpanStart(it) }
+private class SpoilerTextAddedListener : CorePlugin.OnTextAddedListener {
+    override fun onTextAdded(visitor: MarkwonVisitor, text: String, start: Int) {
+        val spoilerTitleRegex = Regex("(:::\\s+spoiler\\s+)(.*)")
+        // Find all spoiler "start" lines
+        val spoilerTitles = spoilerTitleRegex.findAll(text)
 
-            spoilerTitleSpans.forEachIndexed { index, spoilerTitleSpan ->
-                val spoilerStart = spanned.getSpanStart(spoilerTitleSpan)
+        for (match in spoilerTitles) {
+            val spoilerTitle = match.groups[2]!!.value
+            visitor.builder().setSpan(
+                SpoilerTitleSpan(spoilerTitle),
+                start,
+                start + match.groups[2]!!.range.last,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+            )
+        }
 
-                var spoilerEnd = spanned.length
-                if (index < spoilerCloseSpans.size) {
-                    val spoilerCloseSpan = spoilerCloseSpans[index]
-                    spoilerEnd = spanned.getSpanEnd(spoilerCloseSpan)
-                }
-
-                var open = false
-                // The space at the end is necessary for the lengths to be the same
-                // This reduces complexity as else it would need complex logic to determine the replacement length
-                val getSpoilerTitle = { openParam: Boolean ->
-                    if (openParam) "▼ ${spoilerTitleSpan.title}\n" else "▶ ${spoilerTitleSpan.title}\u200B"
-                }
-
-                val spoilerTitle = getSpoilerTitle(false)
-
-                val spoilerContent = spanned.subSequence(
-                    spanned.getSpanEnd(spoilerTitleSpan) + 1,
-                    spoilerEnd - 3,
-                ) as SpannableStringBuilder
-
-                // Remove spoiler content from span
-                spanned.replace(spoilerStart, spoilerEnd, spoilerTitle)
-                // Set span block title
-                spanned.setSpan(
-                    spoilerTitle,
-                    spoilerStart,
-                    spoilerStart + spoilerTitle.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
-                )
-
-                val wrapper = object : ClickableSpan() {
-                    override fun onClick(p0: View) {
-                        if (enableInteraction) {
-                            textView.cancelPendingInputEvents()
-                            open = !open
-
-                            spanned.replace(
-                                spoilerStart,
-                                spoilerStart + spoilerTitle.length,
-                                getSpoilerTitle(open),
-                            )
-                            if (open) {
-                                spanned.insert(spoilerStart + spoilerTitle.length, spoilerContent)
-                            } else {
-                                spanned.replace(
-                                    spoilerStart + spoilerTitle.length,
-                                    spoilerStart + spoilerTitle.length + spoilerContent.length,
-                                    "",
-                                )
-                            }
-
-                            textView.text = spanned
-                            AsyncDrawableScheduler.schedule(textView)
-                        }
-                    }
-
-                    override fun updateDrawState(ds: TextPaint) {
-                    }
-                }
-
-                // Set spoiler block type as ClickableSpan
-                spanned.setSpan(
-                    wrapper,
-                    spoilerStart,
-                    spoilerStart + spoilerTitle.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
-                )
-
-                textView.text = spanned
-            }
-        } catch (e: Exception) {
-            Log.w("MarkdownSpoilerPlugin", "Failed to parse spoiler tag. Format incorrect")
+        val spoilerCloseRegex = Regex("^(?!.*spoiler).*:::")
+        // Find all spoiler "end" lines
+        val spoilerCloses = spoilerCloseRegex.findAll(text)
+        for (match in spoilerCloses) {
+            visitor.builder()
+                .setSpan(SpoilerCloseSpan(), start, start + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 }
