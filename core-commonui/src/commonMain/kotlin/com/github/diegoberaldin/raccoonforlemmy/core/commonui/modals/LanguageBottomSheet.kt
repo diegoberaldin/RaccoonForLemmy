@@ -51,6 +51,7 @@ class LanguageBottomSheet : Screen {
                     color = MaterialTheme.colorScheme.onBackground,
                 )
                 val values = listOf(
+                    "de",
                     "en",
                     "es",
                     "fr",
