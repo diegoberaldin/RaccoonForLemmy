@@ -15,14 +15,6 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 33
         versionName = "1.0.0-RC2"
-
-        buildConfigField(
-            "String",
-            "CRASH_REPORT_EMAIL",
-            "\"diego.beraldin+raccoon4lemmy@gmail.com\""
-        )
-        buildConfigField("String", "CRASH_REPORT_SUBJECT", "\"Crash report\"")
-
         archivesName.set("RaccoonForLemmy")
     }
     buildFeatures {

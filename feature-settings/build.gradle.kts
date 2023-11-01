@@ -50,6 +50,7 @@ kotlin {
                 implementation(projects.coreNotifications)
                 implementation(projects.resources)
                 implementation(projects.domainLemmy.data)
+                implementation(projects.domainLemmy.repository)
                 implementation(projects.domainIdentity)
             }
         }

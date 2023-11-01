@@ -16,7 +16,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.AppInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.CrashReportConfiguration
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -112,7 +111,6 @@ class SettingsViewModel(
                 autoLoadImages = settings.autoLoadImages,
                 autoExpandComments = settings.autoExpandComments,
                 fullHeightImages = settings.fullHeightImages,
-                appVersion = AppInfo.versionCode,
             )
         }
     }

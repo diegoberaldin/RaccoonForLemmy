@@ -139,7 +139,13 @@
     <string name="profile_section_posts">Beträge</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_app_version">App Version</string>
+    <string name="settings_about">Über diese App…</string>
+    <string name="settings_about_app_version">App version</string>
+    <string name="settings_about_changelog">Änderungsprotokoll anzeigen</string>
+    <string name="settings_about_report_github">Melde einen technischen Fehler (GitHub)</string>
+    <string name="settings_about_report_email">Melde einen technischen Fehler (Email)</string>
+    <string name="settings_about_view_github">Ansicht auf GitHub</string>
+    <string name="settings_about_view_lemmy">Lemmy Community</string>
     <string name="settings_auto_expand_comments">Kommentare automatisch erweitern</string>
     <string name="settings_auto_load_images">Bilder automatisch laden</string>
     <string name="settings_blur_nsfw">NSFW-Bilder verwischen</string>

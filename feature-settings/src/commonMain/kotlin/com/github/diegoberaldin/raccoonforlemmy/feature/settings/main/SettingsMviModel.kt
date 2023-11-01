@@ -66,7 +66,6 @@ interface SettingsMviModel :
         val autoLoadImages: Boolean = false,
         val autoExpandComments: Boolean = false,
         val fullHeightImages: Boolean = false,
-        val appVersion: String = "",
     )
 
     sealed interface Effect

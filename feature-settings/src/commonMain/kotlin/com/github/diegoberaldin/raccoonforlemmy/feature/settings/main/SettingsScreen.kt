@@ -67,7 +67,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.getSettingsScreenModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.getSettingsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsColorRow
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsHeader
@@ -89,7 +90,7 @@ class SettingsScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getSettingsScreenModel() }
+        val model = rememberScreenModel { getSettingsViewModel() }
         model.bindToLifecycle(SettingsTab.key)
         val uiState by model.uiState.collectAsState()
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
@@ -101,6 +102,7 @@ class SettingsScreen : Screen {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val navigator = remember { navigationCoordinator.getRootNavigator() }
         val scrollState = rememberScrollState()
+
         LaunchedEffect(navigator) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
                 if (tab == SettingsTab) {
@@ -110,6 +112,7 @@ class SettingsScreen : Screen {
                 }
             }.launchIn(this)
         }
+
         DisposableEffect(key) {
             onDispose {
                 notificationCenter.removeObserver(key)
@@ -120,6 +123,7 @@ class SettingsScreen : Screen {
 
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
         val themeRepository = remember { getThemeRepository() }
+
         LaunchedEffect(themeRepository) {
             themeRepository.uiFontScale.drop(1).onEach {
                 uiFontSizeWorkaround = false
@@ -132,6 +136,7 @@ class SettingsScreen : Screen {
         }
         var upvoteColorDialogOpened by remember { mutableStateOf(false) }
         var downvoteColorDialogOpened by remember { mutableStateOf(false) }
+        var infoDialogOpened by remember { mutableStateOf(false) }
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
@@ -544,10 +549,13 @@ class SettingsScreen : Screen {
                         }
                     )
 
-                    // app version
+                    // about
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_app_version),
-                        value = uiState.appVersion,
+                        title = stringResource(MR.strings.settings_about),
+                        value = "",
+                        onTap = {
+                            infoDialogOpened = true
+                        },
                     )
 
                     Spacer(modifier = Modifier.height(Spacing.xxxl))
@@ -578,6 +586,7 @@ class SettingsScreen : Screen {
                 },
             )
         }
+
         if (downvoteColorDialogOpened) {
             val initial = uiState.downvoteColor ?: MaterialTheme.colorScheme.tertiary
             ColorPickerDialog(
@@ -594,6 +603,13 @@ class SettingsScreen : Screen {
                     model.reduce(SettingsMviModel.Intent.ChangeDownvoteColor(null))
                 },
             )
+        }
+
+        if (infoDialogOpened) {
+            notificationCenter.addObserver({
+                infoDialogOpened = false
+            }, key, NotificationCenterContractKeys.CloseDialog)
+            AboutDialog().Content()
         }
     }
 }
