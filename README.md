@@ -124,9 +124,17 @@ this project _is_ all about experimenting and learning.
 
 - the `core-md` module in the common flavor is heavily inspired by
   [Multiplatform Markdown Renderer](https://github.com/mikepenz/multiplatform-markdown-renderer) but
-  the Android implementation with Markwon is taken and adapted from
+  the Android implementation with Markwon is adapted from
   [Jerboa for Lemmy](https://github.com/dessalines/jerboa)
 - the UI is inspired by the really great [Thunder](https://github.com/thunder-app/thunder) app
+
+## Acknowledgements:
+
+This project would not be what it is were it not for the huge amount of patience and dedication
+of early adopters who sent me continous feedback and ideas for improvement after every release.
+
+A special thank to all those who contributed so far, namely:
+rb_c, OverfedRaccoon, …
 
 ## Want to try it out?
 
