@@ -220,18 +220,21 @@ class ExploreViewModel(
             listingType = listingType,
             sortType = sortType,
         )
-        currentPage++
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
+        val itemsToAdd = itemList.orEmpty().filter { item ->
+            if (settings.includeNsfw) {
+                true
+            } else {
+                isSafeForWork(item)
+            }
+        }
         mvi.updateState {
             val newItems = if (refreshing) {
-                itemList.orEmpty()
+                itemsToAdd
             } else {
-                it.results + itemList.orEmpty()
-            }.filter { item ->
-                if (settings.includeNsfw) {
-                    true
-                } else {
-                    isSafeForWork(item)
-                }
+                it.results + itemsToAdd
             }
             it.copy(
                 results = newItems,
