@@ -94,6 +94,7 @@
 	<string name="language_fr" translatable="false">Français</string>
 	<string name="language_it" translatable="false">Italiano</string>
 	<string name="language_pt" translatable="false">Português</string>
+	<string name="language_ro" translatable="false">Română</string>
 	<string name="login_field_instance_name">Instance name</string>
 	<string name="login_field_label_optional">(optional)</string>
 	<string name="login_field_password">Password</string>
