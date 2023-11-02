@@ -14,6 +14,8 @@ import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -40,13 +42,19 @@ class ModalDrawerViewModel(
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
-            identityRepository.isLogged.onEach { _ ->
+            identityRepository.isLogged.drop(1).debounce(250).onEach { _ ->
                 refreshUser()
                 refresh()
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)
+
+            mvi.scope?.launch {
+                delay(250)
+                refreshUser()
+                refresh()
+            }
         }
     }
 
