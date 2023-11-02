@@ -61,7 +61,7 @@ fun SwipeableCard(
                 }
                 false
             },
-            positionalThreshold = { _ -> 50.dp.toPx() }
+            positionalThreshold = { _ -> 56.dp.toPx() }
         )
 
         var notified by remember { mutableStateOf(false) }
