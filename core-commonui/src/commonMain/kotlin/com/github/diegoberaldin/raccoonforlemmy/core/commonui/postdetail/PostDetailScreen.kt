@@ -464,15 +464,19 @@ class PostDetailScreen(
                         }
                         itemsIndexed(uiState.comments, key = { _, c -> c.id }) { _, comment ->
                             val commentId = comment.id
-                            AnimatedVisibility(comment.visible) {
-                                AnimatedContent(
-                                    targetState = comment.expanded,
-                                    transitionSpec = {
-                                        fadeIn(animationSpec = tween(220, delayMillis = 90))
-                                            .togetherWith(fadeOut(animationSpec = tween(90)))
-                                    },
-                                ) {
-                                    Column {
+                            AnimatedVisibility(
+                                visible = comment.visible,
+                                enter = fadeIn(animationSpec = tween(250, delayMillis = 100)),
+                                exit = fadeOut(animationSpec = tween(250, delayMillis = 100)),
+                            ) {
+                                Column {
+                                    AnimatedContent(
+                                        targetState = comment.expanded,
+                                        transitionSpec = {
+                                            fadeIn(animationSpec = tween(250))
+                                                .togetherWith(fadeOut())
+                                        },
+                                    ) {
                                         if (comment.expanded) {
                                             SwipeableCard(
                                                 modifier = Modifier.fillMaxWidth(),
