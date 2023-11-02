@@ -208,7 +208,7 @@ class CreatePostScreen(
                 }
                 if (openImagePickerInBody) {
                     galleryHelper.getImageFromGallery { bytes ->
-                        openImagePicker = false
+                        openImagePickerInBody = false
                         model.reduce(CreatePostMviModel.Intent.InsertImageInBody(bytes))
                     }
                 }
