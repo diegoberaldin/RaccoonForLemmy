@@ -12,12 +12,6 @@ class DefaultMultiCommunityPaginator(
     override val canFetchMore: Boolean
         get() = paginators.any { it.canFetchMore }
 
-    override fun setHideReadPosts(value: Boolean) {
-        paginators.forEach {
-            it.setHideReadPosts(value)
-        }
-    }
-
     override fun setCommunities(ids: List<Int>) {
         paginators = ids.map {
             CommunityPaginator(

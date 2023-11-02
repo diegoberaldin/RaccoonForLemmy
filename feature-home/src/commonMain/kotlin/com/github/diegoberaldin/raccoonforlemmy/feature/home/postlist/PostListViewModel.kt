@@ -191,12 +191,6 @@ class PostListViewModel(
             type = type,
             sort = sort,
         )?.let {
-            if (hideReadPosts) {
-                it.copy(first = it.first.filter { p -> !p.read })
-            } else {
-                it
-            }
-        }?.let {
             if (refreshing) {
                 it
             } else {
@@ -215,17 +209,24 @@ class PostListViewModel(
         if (nextPage != null) {
             pageCursor = nextPage
         }
+        val itemsToAdd = itemList.orEmpty().filter { post ->
+            if (hideReadPosts) {
+                !post.read
+            } else {
+                true
+            }
+        }.filter { post ->
+            if (includeNsfw) {
+                true
+            } else {
+                !post.nsfw
+            }
+        }
         mvi.updateState {
             val newPosts = if (refreshing) {
-                itemList.orEmpty()
+                itemsToAdd
             } else {
-                it.posts + itemList.orEmpty()
-            }.filter { post ->
-                if (includeNsfw) {
-                    true
-                } else {
-                    !post.nsfw
-                }
+                it.posts + itemsToAdd
             }
             it.copy(
                 posts = newPosts,

@@ -36,6 +36,8 @@ class MultiCommunityViewModel(
 ) : MultiCommunityMviModel,
     MviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect> by mvi {
 
+    private var hideReadPosts = false
+
     init {
         notificationCenter.addObserver({
             (it as? PostModel)?.also { post ->
@@ -112,6 +114,7 @@ class MultiCommunityViewModel(
     }
 
     private fun refresh() {
+        hideReadPosts = false
         paginator.reset()
         mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
@@ -131,23 +134,30 @@ class MultiCommunityViewModel(
             val refreshing = currentState.refreshing
             val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
 
-            val postList = paginator.loadNextPage(
+            val itemList = paginator.loadNextPage(
                 auth = auth,
                 sort = sort,
                 currentIds = if (refreshing) emptyList() else currentState.posts.map { it.id }
             )
             val canFetchMore = paginator.canFetchMore
+            val itemsToAdd = itemList.orEmpty().filter { post ->
+                if (includeNsfw) {
+                    true
+                } else {
+                    !post.nsfw
+                }
+            }.filter { post ->
+                if (hideReadPosts) {
+                    !post.read
+                } else {
+                    true
+                }
+            }
             mvi.updateState {
                 val newPosts = if (refreshing) {
-                    postList
+                    itemsToAdd
                 } else {
-                    it.posts + postList
-                }.filter { post ->
-                    if (includeNsfw) {
-                        true
-                    } else {
-                        !post.nsfw
-                    }
+                    it.posts + itemsToAdd
                 }
                 it.copy(
                     posts = newPosts,
@@ -365,7 +375,7 @@ class MultiCommunityViewModel(
     }
 
     private fun clearRead() {
-        paginator.setHideReadPosts(true)
+        hideReadPosts = true
         mvi.updateState {
             val newPosts = it.posts.filter { e -> !e.read }
             it.copy(

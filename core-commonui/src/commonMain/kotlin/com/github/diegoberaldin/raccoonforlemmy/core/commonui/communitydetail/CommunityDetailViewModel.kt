@@ -184,12 +184,6 @@ class CommunityDetailViewModel(
                     sort = sort,
                 )
             }?.let {
-                if (hideReadPosts) {
-                    it.copy(first = it.first.filter { p -> !p.read })
-                } else {
-                    it
-                }
-            }?.let {
                 if (refreshing) {
                     it
                 } else {
@@ -208,11 +202,18 @@ class CommunityDetailViewModel(
             if (nextPage != null) {
                 pageCursor = nextPage
             }
+            val itemsToAdd = itemList.orEmpty().filter { post ->
+                if (hideReadPosts) {
+                    !post.read
+                } else {
+                    true
+                }
+            }
             mvi.updateState {
                 val newItems = if (refreshing) {
-                    itemList.orEmpty()
+                    itemsToAdd
                 } else {
-                    it.posts + itemList.orEmpty()
+                    it.posts + itemsToAdd
                 }
                 it.copy(
                     posts = newItems,

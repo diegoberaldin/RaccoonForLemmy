@@ -8,7 +8,6 @@ interface MultiCommunityPaginator {
 
     fun setCommunities(ids: List<Int>)
     fun reset()
-    fun setHideReadPosts(value: Boolean)
 
     suspend fun loadNextPage(
         auth: String? = null,

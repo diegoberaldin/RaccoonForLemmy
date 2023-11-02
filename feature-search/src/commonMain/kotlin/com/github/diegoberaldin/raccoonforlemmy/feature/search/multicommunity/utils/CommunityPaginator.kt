@@ -11,19 +11,13 @@ internal class CommunityPaginator(
 ) {
     private var currentPage: Int = 1
     private var pageCursor: String? = null
-    private var hideReadPosts = false
     var canFetchMore: Boolean = true
         private set
-
-    fun setHideReadPosts(value: Boolean) {
-        hideReadPosts = value
-    }
 
     fun reset() {
         currentPage = 1
         pageCursor = null
         canFetchMore = true
-        hideReadPosts = false
     }
 
     suspend fun loadNextPage(
@@ -40,12 +34,6 @@ internal class CommunityPaginator(
             sort = sort,
             communityId = communityId,
         )?.let {
-            if (hideReadPosts) {
-                it.copy(first = it.first.filter { p -> !p.read })
-            } else {
-                it
-            }
-        }?.let {
             // prevents accidental duplication
             val posts = it.first
             it.copy(
