@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -68,7 +69,7 @@ class ProfileLoggedViewModel(
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
-            identityRepository.isLogged.debounce(250).onEach { logged ->
+            identityRepository.isLogged.drop(1).debounce(250).onEach { logged ->
                 if (logged == true) {
                     mvi.updateState {
                         it.copy(
@@ -91,6 +92,7 @@ class ProfileLoggedViewModel(
             }.launchIn(this)
 
             if (uiState.value.posts.isEmpty()) {
+                refreshUser()
                 refresh(initial = true)
             }
         }
