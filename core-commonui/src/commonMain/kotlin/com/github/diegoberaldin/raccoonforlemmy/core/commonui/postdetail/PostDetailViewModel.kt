@@ -259,7 +259,11 @@ class PostDetailViewModel(
                     }
                 }
             }?.map {
-                it.copy(expanded = autoExpandComments)
+                it.copy(
+                    expanded = autoExpandComments,
+                    // only first level are visible and can be expanded
+                    visible = autoExpandComments || it.depth == 0
+                )
             }
 
             if (!itemList.isNullOrEmpty()) {
@@ -301,7 +305,6 @@ class PostDetailViewModel(
     }
 
     private fun loadMoreComments(parentId: Int, loadUntilHighlight: Boolean = false) {
-        val autoExpandComments = settingsRepository.currentSettings.value.autoExpandComments
         mvi.scope?.launch(Dispatchers.IO) {
             val currentState = mvi.uiState.value
             val auth = identityRepository.authToken.value
@@ -315,8 +318,6 @@ class PostDetailViewModel(
                 ancestorId = parentId.toString(),
             )?.filter {
                 currentState.comments.none { c -> c.id == it.id }
-            }?.map {
-                it.copy(expanded = autoExpandComments)
             }
 
             val commentsToInsert = fetchResult.orEmpty()
@@ -613,12 +614,25 @@ class PostDetailViewModel(
 
     private fun toggleExpanded(comment: CommentModel) {
         val commentId = comment.id
+        val newExpanded = !comment.expanded
         mvi.updateState {
-            val newComments = it.comments.map { comment ->
-                if (comment.id == commentId) {
-                    comment.copy(expanded = !comment.expanded)
+            val newComments = it.comments.map { c ->
+                if (c.id == commentId) {
+                    c.copy(expanded = newExpanded)
                 } else {
-                    comment
+                    c
+                }
+            }.map { c ->
+                if (c.path.contains(".$commentId.") && c.depth > comment.depth) {
+                    // if expanded, make all childern visible and expanded
+                    // otherwise, make all children not visible (doesn't matter expanded)
+                    if (newExpanded) {
+                        c.copy(visible = true, expanded = true)
+                    } else {
+                        c.copy(visible = false, expanded = false)
+                    }
+                } else {
+                    c
                 }
             }
             it.copy(comments = newComments)
@@ -654,7 +668,7 @@ private fun linearize(node: Node, list: MutableList<CommentModel>) {
     }
 }
 
-private fun List<CommentModel>.populateLoadMoreComments() = mapIndexed() { idx, comment ->
+private fun List<CommentModel>.populateLoadMoreComments() = mapIndexed { idx, comment ->
     val hasMoreComments = (comment.comments ?: 0) > 0
     val isNextCommentNotChild =
         idx < lastIndex && this[idx + 1].depth <= comment.depth

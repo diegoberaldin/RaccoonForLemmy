@@ -20,6 +20,8 @@ data class CommentModel(
     @Transient
     val expanded: Boolean = true,
     @Transient
+    val visible: Boolean = true,
+    @Transient
     val loadMoreButtonVisible: Boolean = false,
 ) : JavaSerializable {
     val depth: Int get() = (path.split(".").size - 2).coerceAtLeast(0)
