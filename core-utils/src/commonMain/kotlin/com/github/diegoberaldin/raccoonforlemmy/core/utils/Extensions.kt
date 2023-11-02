@@ -20,6 +20,7 @@ import kotlin.math.roundToInt
 @Composable
 fun String.toLanguageName() = when (this) {
     "de" -> stringResource(MR.strings.language_de)
+    "el" -> stringResource(MR.strings.language_el)
     "es" -> stringResource(MR.strings.language_es)
     "fr" -> stringResource(MR.strings.language_fr)
     "it" -> stringResource(MR.strings.language_it)
