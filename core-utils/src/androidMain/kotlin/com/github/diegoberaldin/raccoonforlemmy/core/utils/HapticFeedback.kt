@@ -17,7 +17,7 @@ class DefaultHapticFeedback(
             VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK)
         } else {
             VibrationEffect.createOneShot(
-                10L,
+                1L,
                 VibrationEffect.DEFAULT_AMPLITUDE,
             )
         }
