@@ -6,6 +6,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.FormatBold
 import androidx.compose.material.icons.filled.FormatItalic
+import androidx.compose.material.icons.filled.FormatListBulleted
+import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.material.icons.filled.FormatStrikethrough
 import androidx.compose.material.icons.filled.Image
@@ -141,7 +143,14 @@ fun TextFormattingBar(
                     val selection = it.selection
                     val newText = buildString {
                         append(it.text.substring(0, selection.start))
-                        append(" [](url)")
+                        append("[")
+                        append(
+                            it.text.substring(
+                                selection.start,
+                                selection.end
+                            )
+                        )
+                        append("](URL)")
                         append(
                             it.text.substring(
                                 selection.end,
@@ -149,7 +158,7 @@ fun TextFormattingBar(
                             )
                         )
                     }
-                    val newSelection = TextRange(index = selection.start + 2)
+                    val newSelection = TextRange(index = selection.start + 1 + selection.length)
                     it.copy(text = newText, selection = newSelection)
                 }
                 onTextFieldValueChanged(newValue)
@@ -210,6 +219,50 @@ fun TextFormattingBar(
                 onTextFieldValueChanged(newValue)
             },
             imageVector = Icons.Default.FormatQuote,
+            contentDescription = null,
+        )
+        Icon(
+            modifier = Modifier.onClick {
+                val newValue = textFieldValue.let {
+                    val selection = it.selection
+                    val newText = buildString {
+                        append(it.text.substring(0, selection.start))
+                        append("\n- ")
+                        append(
+                            it.text.substring(
+                                selection.end,
+                                it.text.length
+                            )
+                        )
+                    }
+                    val newSelection = TextRange(index = selection.start + 3)
+                    it.copy(text = newText, selection = newSelection)
+                }
+                onTextFieldValueChanged(newValue)
+            },
+            imageVector = Icons.Default.FormatListBulleted,
+            contentDescription = null,
+        )
+        Icon(
+            modifier = Modifier.onClick {
+                val newValue = textFieldValue.let {
+                    val selection = it.selection
+                    val newText = buildString {
+                        append(it.text.substring(0, selection.start))
+                        append("\n1. ")
+                        append(
+                            it.text.substring(
+                                selection.end,
+                                it.text.length
+                            )
+                        )
+                    }
+                    val newSelection = TextRange(index = selection.start + 4)
+                    it.copy(text = newText, selection = newSelection)
+                }
+                onTextFieldValueChanged(newValue)
+            },
+            imageVector = Icons.Default.FormatListNumbered,
             contentDescription = null,
         )
     }
