@@ -9,6 +9,7 @@
     <string name="button_confirm">Confirmă</string>
     <string name="button_load">Încărcă</string>
     <string name="button_reset">Resetează</string>
+    <string name="button_retry">Reîncearcă</string>
     <string name="comment_action_delete">Șterge</string>
     <string name="community_detail_block">Blochează</string>
     <string name="community_detail_block_instance">Blochează instanța</string>
@@ -101,6 +102,8 @@
         primul comentariu?
     </string>
     <string name="message_empty_list">Niciun element de afișat</string>
+    <string name="message_error_loading_comments">A apărut o eroare la încărcarea comentariilor.
+    </string>
     <string name="message_generic_error">Eroare generică</string>
     <string name="message_image_loading_error">Eroare de încărcare a imaginii</string>
     <string name="message_invalid_field">Câmp nevalid</string>

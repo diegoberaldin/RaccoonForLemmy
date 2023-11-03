@@ -9,6 +9,7 @@
 	<string name="button_confirm">Confirm</string>
 	<string name="button_load">Load</string>
 	<string name="button_reset">Reset</string>
+	<string name="button_retry">Retry</string>
 	<string name="comment_action_delete">Delete</string>
 	<string name="community_detail_block">Block</string>
 	<string name="community_detail_block_instance">Block instance</string>
@@ -89,6 +90,7 @@
 	<string name="instance_detail_title">Instance: %1$s</string>
 	<string name="lang">en</string>
 	<string name="language_de" translatable="false">Deutsch</string>
+	<string name="language_el" translatable="false">Ελληνικά</string>
 	<string name="language_en" translatable="false">English</string>
 	<string name="language_es" translatable="false">Español</string>
 	<string name="language_fr" translatable="false">Français</string>
@@ -108,6 +110,7 @@
 		writes the first comment?
 	</string>
 	<string name="message_empty_list">No items to display</string>
+	<string name="message_error_loading_comments">An error has occurred loading comments.</string>
 	<string name="message_generic_error">Generic error</string>
 	<string name="message_image_loading_error">Image loading error</string>
 	<string name="message_invalid_field">Invalid field</string>

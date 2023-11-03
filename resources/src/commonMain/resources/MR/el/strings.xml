@@ -9,6 +9,7 @@
     <string name="button_confirm">Επιβεβαίωση</string>
     <string name="button_load">Φόρτωση</string>
     <string name="button_reset">Επαναφορά</string>
+    <string name="button_retry">Προσπάθησε ξανά</string>
     <string name="comment_action_delete">Διαγραφή</string>
     <string name="community_detail_block">Φραγή</string>
     <string name="community_detail_block_instance">Φραγή παράδειγματος</string>
@@ -105,6 +106,9 @@
     <string name="message_image_loading_error">Σφάλμα φόρτωσης εικόνας</string>
     <string name="message_invalid_field">Μη έγκυρο πεδίο</string>
     <string name="message_missing_field">Λείπον πεδίο</string>
+    <string name="message_error_loading_comments">Παρουσιάστηκε σφάλμα κατά τη φόρτωση των
+        σχολίων.
+    </string>
     <string name="message_operation_successful">Η λειτουργία ολοκληρώθηκε με επιτυχία</string>
     <string name="multi_community_editor_communities">Κοινότητες</string>
     <string name="multi_community_editor_icon">Εικονίδιο</string>

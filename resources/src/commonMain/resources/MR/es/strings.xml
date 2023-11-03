@@ -9,6 +9,7 @@
     <string name="button_confirm">Confirmar</string>
     <string name="button_load">Cargar</string>
     <string name="button_reset">Reiniciar</string>
+    <string name="button_retry">Intentar de nuevo</string>
     <string name="comment_action_delete">Eliminar</string>
     <string name="community_detail_block">Bloquear</string>
     <string name="community_detail_block_instance">Bloquear instancia</string>
@@ -101,6 +102,9 @@
         que va a escribir el primer comentario?
     </string>
     <string name="message_empty_list">Ningún elemento para mostrar</string>
+    <string name="message_error_loading_comments">Se ha producido un error al cargar los
+        comentarios
+    </string>
     <string name="message_generic_error">Error genérico</string>
     <string name="message_image_loading_error">No ha sido posible descargar la imagen</string>
     <string name="message_invalid_field">Campo no válido</string>

@@ -9,6 +9,7 @@
     <string name="button_confirm">Bestätigen</string>
     <string name="button_load">Belastung</string>
     <string name="button_reset">Zurücksetzen</string>
+    <string name="button_retry">Wiederholen</string>
     <string name="comment_action_delete">Löschen</string>
     <string name="community_detail_block">Blockieren</string>
     <string name="community_detail_block_instance">Blockinstanz</string>
@@ -101,6 +102,9 @@
         ersten Kommentar schreibt?
     </string>
     <string name="message_empty_list">Keine Elemente zum Anzeigen</string>
+    <string name="message_error_loading_comments">Beim Laden der Kommentare ist ein Fehler
+        aufgetreten.
+    </string>
     <string name="message_generic_error">Allgemeiner Fehler</string>
     <string name="message_image_loading_error">Fehler beim Laden des Bildes</string>
     <string name="message_invalid_field">Ungültige Felder</string>

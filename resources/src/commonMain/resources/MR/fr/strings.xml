@@ -9,6 +9,7 @@
     <string name="button_confirm">Confirmer</string>
     <string name="button_load">Charger</string>
     <string name="button_reset">Réinitialiser</string>
+    <string name="button_retry">Récommencer</string>
     <string name="comment_action_delete">Effacer</string>
     <string name="community_detail_block">Bloquer</string>
     <string name="community_detail_block_instance">Bloquer l\'instance</string>
@@ -101,6 +102,9 @@
         écrit le premier commentaire ?
     </string>
     <string name="message_empty_list">Pas d\'éléments à afficher</string>
+    <string name="message_error_loading_comments">Une erreur s\'est produite lors du chargement des
+        commentaires.
+    </string>
     <string name="message_generic_error">Erreur générique</string>
     <string name="message_image_loading_error">Erreur de chargement de l\'image</string>
     <string name="message_invalid_field">Champ invalide</string>
