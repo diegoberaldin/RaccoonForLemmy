@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.markdown.provider
 import android.content.Context
 import android.text.util.Linkify
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.plugins.ClickableImagesPlugin
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.plugins.MarkwonLemmyLinkPlugin
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.plugins.MarkwonSpoilerPlugin
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
@@ -23,6 +24,7 @@ class DefaultMarkwonProvider(
     init {
         markwon = Markwon.builder(context)
             .usePlugin(LinkifyPlugin.create(Linkify.WEB_URLS))
+            .usePlugin(MarkwonLemmyLinkPlugin.create())
             .usePlugin(StrikethroughPlugin.create())
             .usePlugin(TablePlugin.create(context))
             .usePlugin(HtmlPlugin.create())
