@@ -26,4 +26,5 @@ data class SettingsModel(
     val separateUpAndDownVotes: Boolean = false,
     val autoLoadImages: Boolean = true,
     val autoExpandComments: Boolean = true,
+    val hideNavigationBarWhileScrolling: Boolean = true,
 ) : JavaSerializable

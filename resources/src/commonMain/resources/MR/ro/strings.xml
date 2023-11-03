@@ -207,4 +207,5 @@
     <string name="settings_ui_font_scale">Dimensiune textului UI</string>
     <string name="settings_ui_theme">Tema UI</string>
     <string name="settings_upvote_color">Culoare voturilor pozitive</string>
+    <string name="settings_hide_navigation_bar">Ascunde bara de navigare la derulare</string>
 </resources>

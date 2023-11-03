@@ -213,4 +213,5 @@
 	<string name="settings_ui_font_scale">UI text size</string>
 	<string name="settings_ui_theme">UI theme</string>
 	<string name="settings_upvote_color">Upvote color</string>
+	<string name="settings_hide_navigation_bar">Hide navigation bar when scrolling</string>
 </resources>

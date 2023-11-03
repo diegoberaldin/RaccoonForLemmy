@@ -77,6 +77,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateRepor
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -149,6 +150,8 @@ class PostListScreen : Screen {
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val scope = rememberCoroutineScope()
         var rawContent by remember { mutableStateOf<Any?>(null) }
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
@@ -238,7 +241,7 @@ class PostListScreen : Screen {
                         .fillMaxWidth()
                         .nestedScroll(scrollBehavior.nestedScrollConnection).let {
                             val connection = navigationCoordinator.getBottomBarScrollConnection()
-                            if (connection != null) {
+                            if (connection != null && settings.hideNavigationBarWhileScrolling) {
                                 it.nestedScroll(connection)
                             } else it
                         }

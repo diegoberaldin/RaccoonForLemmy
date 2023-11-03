@@ -38,6 +38,7 @@ interface SettingsMviModel :
         data class ChangeAutoLoadImages(val value: Boolean) : Intent
         data class ChangeAutoExpandComments(val value: Boolean) : Intent
         data class ChangeFullHeightImages(val value: Boolean) : Intent
+        data class ChangeHideNavigationBarWhileScrolling(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -66,6 +67,7 @@ interface SettingsMviModel :
         val autoLoadImages: Boolean = false,
         val autoExpandComments: Boolean = false,
         val fullHeightImages: Boolean = false,
+        val hideNavigationBarWhileScrolling: Boolean = true,
     )
 
     sealed interface Effect

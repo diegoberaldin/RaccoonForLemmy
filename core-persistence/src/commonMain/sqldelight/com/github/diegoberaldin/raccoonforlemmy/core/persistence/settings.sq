@@ -22,6 +22,7 @@ CREATE TABLE SettingsEntity (
     fullHeightImages INTEGER NOT NULL DEFAULT 1,
     upvoteColor INTEGER DEFAULT NULL,
     downvoteColor INTEGER DEFAULT NULL,
+    hideNavigationBarWhileScrolling INTEGER  NOT NULL DEFAULT 1,
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
@@ -51,8 +52,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     fullHeightImages,
     upvoteColor,
     downvoteColor,
+    hideNavigationBarWhileScrolling,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -101,7 +104,8 @@ SET theme = ?,
     autoExpandComments = ?,
     fullHeightImages = ?,
     upvoteColor = ?,
-    downvoteColor = ?
+    downvoteColor = ?,
+    hideNavigationBarWhileScrolling = ?
 WHERE account_id = ?;
 
 getBy:
@@ -128,6 +132,7 @@ SELECT
     autoExpandComments,
     fullHeightImages,
     upvoteColor,
-    downvoteColor
+    downvoteColor,
+    hideNavigationBarWhileScrolling
 FROM SettingsEntity
 WHERE account_id = ?;

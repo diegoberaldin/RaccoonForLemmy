@@ -475,6 +475,19 @@ class SettingsScreen : Screen {
                         }
                     )
 
+                    // bottom navigation hiding
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_hide_navigation_bar),
+                        value = uiState.hideNavigationBarWhileScrolling,
+                        onValueChanged = { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(
+                                    value
+                                )
+                            )
+                        }
+                    )
+
                     // URL open
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_open_url_external),

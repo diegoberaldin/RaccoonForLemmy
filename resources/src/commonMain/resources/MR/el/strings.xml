@@ -210,4 +210,6 @@
     <string name="settings_ui_font_scale">Μέγεθος κειμένου διεπαφής</string>
     <string name="settings_ui_theme">Θέμα διεπαφής</string>
     <string name="settings_upvote_color">Χρώμα ψήφου ανώτερου</string>
+    <string name="settings_hide_navigation_bar">Απόκρυψη της γραμμής πλοήγησης κατά την κύλιση
+    </string>
 </resources>

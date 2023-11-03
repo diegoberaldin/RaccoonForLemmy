@@ -32,6 +32,7 @@ private object KeyStoreKeys {
     const val FullHeightImages = "fullHeightImages"
     const val UpvoteColor = "upvoteColor"
     const val DownVoteColor = "downVoteColor"
+    const val HideNavigationBarWhileScrolling = "hideNavigationBarWhileScrolling"
 }
 
 internal class DefaultSettingsRepository(
@@ -69,6 +70,7 @@ internal class DefaultSettingsRepository(
                 fullHeightImages = if (settings.fullHeightImages) 1 else 0,
                 upvoteColor = settings.upvoteColor?.toLong(),
                 downvoteColor = settings.downvoteColor?.toLong(),
+                hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1 else 0,
             )
         }
 
@@ -101,6 +103,7 @@ internal class DefaultSettingsRepository(
                     fullHeightImages = keyStore[KeyStoreKeys.FullHeightImages, true],
                     upvoteColor = if (!keyStore.containsKey(KeyStoreKeys.UpvoteColor)) null else keyStore[KeyStoreKeys.UpvoteColor, 0],
                     downvoteColor = if (!keyStore.containsKey(KeyStoreKeys.DownVoteColor)) null else keyStore[KeyStoreKeys.DownVoteColor, 0],
+                    hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HideNavigationBarWhileScrolling, true],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -158,6 +161,10 @@ internal class DefaultSettingsRepository(
                 } else {
                     keyStore.remove(KeyStoreKeys.DownVoteColor)
                 }
+                keyStore.save(
+                    KeyStoreKeys.HideNavigationBarWhileScrolling,
+                    settings.hideNavigationBarWhileScrolling
+                )
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -183,6 +190,7 @@ internal class DefaultSettingsRepository(
                     account_id = accountId,
                     upvoteColor = settings.upvoteColor?.toLong(),
                     downvoteColor = settings.downvoteColor?.toLong(),
+                    hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1L else 0L,
                 )
             }
         }
@@ -216,4 +224,5 @@ private fun GetBy.toModel() = SettingsModel(
     fullHeightImages = fullHeightImages != 0L,
     upvoteColor = upvoteColor?.toInt(),
     downvoteColor = downvoteColor?.toInt(),
+    hideNavigationBarWhileScrolling = hideNavigationBarWhileScrolling != 0L,
 )

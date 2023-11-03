@@ -111,6 +111,7 @@ class SettingsViewModel(
                 autoLoadImages = settings.autoLoadImages,
                 autoExpandComments = settings.autoExpandComments,
                 fullHeightImages = settings.fullHeightImages,
+                hideNavigationBarWhileScrolling = settings.hideNavigationBarWhileScrolling,
             )
         }
     }
@@ -191,6 +192,9 @@ class SettingsViewModel(
             is SettingsMviModel.Intent.ChangeFullHeightImages -> changeFullHeightImages(intent.value)
             is SettingsMviModel.Intent.ChangeUpvoteColor -> changeUpvoteColor(intent.value)
             is SettingsMviModel.Intent.ChangeDownvoteColor -> changeDownvoteColor(intent.value)
+            is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling -> changeHideNavigationBarWhileScrolling(
+                intent.value
+            )
         }
     }
 
@@ -422,6 +426,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 fullHeightImages = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeHideNavigationBarWhileScrolling(value: Boolean) {
+        mvi.updateState { it.copy(hideNavigationBarWhileScrolling = value) }
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                hideNavigationBarWhileScrolling = value
             )
             saveSettings(settings)
         }

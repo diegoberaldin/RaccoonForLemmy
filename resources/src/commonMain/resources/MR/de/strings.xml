@@ -209,4 +209,5 @@
     <string name="settings_ui_font_scale">UI-Textgröße</string>
     <string name="settings_ui_theme">ui-Thema</string>
     <string name="settings_upvote_color">Farbe für Upvotes</string>
+    <string name="settings_hide_navigation_bar">Navigationsleiste beim Scrollen ausblenden</string>
 </resources>

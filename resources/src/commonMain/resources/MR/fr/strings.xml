@@ -208,4 +208,6 @@
     <string name="settings_ui_font_scale">Taille de texte de l\'interface</string>
     <string name="settings_ui_theme">Thème de l\'interface</string>
     <string name="settings_upvote_color">Couleur votes positifs</string>
+    <string name="settings_hide_navigation_bar">Masquer la barre de navigation lors du défilement
+    </string>
 </resources>
