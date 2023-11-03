@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -41,6 +42,7 @@ fun PostCardImage(
                     onImageClick?.invoke(imageUrl)
                 },
             url = imageUrl,
+            quality = FilterQuality.Low,
             autoload = autoLoadImages,
             loadButtonContent = loadButtonContent,
             contentDescription = null,
