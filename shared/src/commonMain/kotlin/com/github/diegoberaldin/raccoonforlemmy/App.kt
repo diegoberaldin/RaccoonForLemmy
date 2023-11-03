@@ -134,7 +134,7 @@ fun App() {
     val navigationCoordinator = remember { getNavigationCoordinator() }
     LaunchedEffect(navigationCoordinator) {
         navigationCoordinator.deepLinkUrl
-            .debounce(500)
+            .debounce(750)
             .onEach { url ->
                 val community = getCommunityFromUrl(url)
                 val user = getUserFromUrl(url)
