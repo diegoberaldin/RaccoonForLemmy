@@ -792,24 +792,24 @@ class PostDetailScreen(
                                             thickness = 0.25.dp
                                         )
                                     }
-                                }
 
-                                // load more button
-                                if (comment.loadMoreButtonVisible) {
-                                    Row {
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        Button(onClick = {
-                                            model.reduce(
-                                                PostDetailMviModel.Intent.FetchMoreComments(
-                                                    parentId = comment.id
+                                    // load more button
+                                    if (comment.loadMoreButtonVisible) {
+                                        Row {
+                                            Spacer(modifier = Modifier.weight(1f))
+                                            Button(onClick = {
+                                                model.reduce(
+                                                    PostDetailMviModel.Intent.FetchMoreComments(
+                                                        parentId = comment.id
+                                                    )
                                                 )
-                                            )
-                                        }) {
-                                            Text(
-                                                text = stringResource(MR.strings.post_detail_load_more_comments),
-                                            )
+                                            }) {
+                                                Text(
+                                                    text = stringResource(MR.strings.post_detail_load_more_comments),
+                                                )
+                                            }
+                                            Spacer(modifier = Modifier.weight(1f))
                                         }
-                                        Spacer(modifier = Modifier.weight(1f))
                                     }
                                 }
                             }
