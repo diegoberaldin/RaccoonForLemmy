@@ -23,6 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -73,13 +74,17 @@ class FontScaleBottomSheet(
                                 vertical = Spacing.m,
                             )
                                 .fillMaxWidth()
-                                .onClick {
-                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeFontSize)
-                                        ?.also {
-                                            it.invoke(value.scaleFactor)
-                                        }
-                                    bottomSheetNavigator.hide()
-                                },
+                                .onClick(
+                                    rememberCallback {
+                                        notificationCenter.getObserver(
+                                            NotificationCenterContractKeys.ChangeFontSize
+                                        )
+                                            ?.also {
+                                                it.invoke(value.scaleFactor)
+                                            }
+                                        bottomSheetNavigator.hide()
+                                    },
+                                ),
                         ) {
                             val originalFontSize = MaterialTheme.typography.bodyLarge.fontSize
                             Text(

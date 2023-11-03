@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 
@@ -90,9 +91,11 @@ fun CommunityHeader(
                 Icon(
                     modifier = Modifier.onGloballyPositioned {
                         optionsOffset = it.positionInParent()
-                    }.onClick {
-                        optionsExpanded = true
-                    },
+                    }.onClick(
+                        rememberCallback {
+                            optionsExpanded = true
+                        },
+                    ),
                     imageVector = Icons.Outlined.Info,
                     contentDescription = null,
                 )
@@ -112,10 +115,12 @@ fun CommunityHeader(
                             modifier = Modifier.padding(
                                 horizontal = Spacing.m,
                                 vertical = Spacing.xs,
-                            ).onClick {
-                                optionsExpanded = false
-                                onOptionSelected?.invoke(idx)
-                            },
+                            ).onClick(
+                                rememberCallback {
+                                    optionsExpanded = false
+                                    onOptionSelected?.invoke(idx)
+                                },
+                            ),
                             text = option,
                         )
                     }
@@ -142,9 +147,11 @@ fun CommunityHeader(
                         .padding(Spacing.xxxs)
                         .size(avatarSize)
                         .clip(RoundedCornerShape(avatarSize / 2))
-                        .onClick {
-                            onOpenImage?.invoke(communityIcon)
-                        },
+                        .onClick(
+                            rememberCallback {
+                                onOpenImage?.invoke(communityIcon)
+                            },
+                        ),
                     url = communityIcon,
                     quality = FilterQuality.Low,
                     contentDescription = null,

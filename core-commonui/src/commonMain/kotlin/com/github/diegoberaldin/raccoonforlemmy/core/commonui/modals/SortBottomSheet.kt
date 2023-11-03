@@ -31,6 +31,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
@@ -104,19 +105,23 @@ internal class SortBottomSheetMain(
                             vertical = Spacing.m,
                         )
                             .fillMaxWidth()
-                            .onClick {
-                                if (value == SortType.Top.Generic && expandTop) {
-                                    navigator.push(
-                                        SortBottomSheetTop()
-                                    )
-                                } else {
-                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeSortType)
-                                        ?.also {
-                                            it.invoke(value)
-                                        }
-                                    bottomSheetNavigator.hide()
-                                }
-                            },
+                            .onClick(
+                                rememberCallback {
+                                    if (value == SortType.Top.Generic && expandTop) {
+                                        navigator.push(
+                                            SortBottomSheetTop()
+                                        )
+                                    } else {
+                                        notificationCenter.getObserver(
+                                            NotificationCenterContractKeys.ChangeSortType
+                                        )
+                                            ?.also {
+                                                it.invoke(value)
+                                            }
+                                        bottomSheetNavigator.hide()
+                                    }
+                                },
+                            ),
                     ) {
                         val name = buildString {
                             append(value.toReadableName())
@@ -167,9 +172,11 @@ internal class SortBottomSheetTop(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
-                    modifier = Modifier.onClick {
-                        navigator.pop()
-                    },
+                    modifier = Modifier.onClick(
+                        rememberCallback {
+                            navigator.pop()
+                        },
+                    ),
                     imageVector = Icons.Default.ArrowBack,
                     tint = MaterialTheme.colorScheme.onBackground,
                     contentDescription = null,
@@ -192,13 +199,15 @@ internal class SortBottomSheetTop(
                             vertical = Spacing.m,
                         )
                             .fillMaxWidth()
-                            .onClick {
-                                notificationCenter.getObserver(NotificationCenterContractKeys.ChangeSortType)
-                                    ?.also {
-                                        it.invoke(value)
-                                    }
-                                bottomSheetNavigator.hide()
-                            },
+                            .onClick(
+                                rememberCallback {
+                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeSortType)
+                                        ?.also {
+                                            it.invoke(value)
+                                        }
+                                    bottomSheetNavigator.hide()
+                                },
+                            ),
                     ) {
                         Text(
                             text = value.toReadableName(),

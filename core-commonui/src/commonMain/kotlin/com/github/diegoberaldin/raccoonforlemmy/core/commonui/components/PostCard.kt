@@ -33,6 +33,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -71,7 +72,7 @@ fun PostCard(
             } else {
                 it
             }
-        }.onClick { onClick?.invoke() },
+        }.onClick(rememberCallback { onClick?.invoke() }),
     ) {
         if (postLayout != PostLayout.Compact) {
             ExtendedPost(

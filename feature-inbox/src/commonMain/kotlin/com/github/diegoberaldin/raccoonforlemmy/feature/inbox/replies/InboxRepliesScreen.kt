@@ -50,6 +50,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Swipeab
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxRepliesViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -89,9 +91,12 @@ class InboxRepliesScreen : Tab {
             }.launchIn(this)
         }
 
-        val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-            model.reduce(InboxRepliesMviModel.Intent.Refresh)
-        })
+        val pullRefreshState = rememberPullRefreshState(
+            refreshing = uiState.refreshing,
+            onRefresh = rememberCallback(model) {
+                model.reduce(InboxRepliesMviModel.Intent.Refresh)
+            },
+        )
         Box(
             modifier = Modifier.pullRefresh(pullRefreshState),
         ) {
@@ -124,20 +129,22 @@ class InboxRepliesScreen : Tab {
                     }
                 }
                 itemsIndexed(uiState.replies) { idx, mention ->
+                    val endColor = MaterialTheme.colorScheme.secondary
+                    val startColor = MaterialTheme.colorScheme.tertiary
                     SwipeableCard(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = uiState.swipeActionsEnabled,
-                        backgroundColor = {
+                        backgroundColor = rememberCallbackArgs {
                             when (it) {
-                                DismissValue.DismissedToStart -> MaterialTheme.colorScheme.secondary
-                                DismissValue.DismissedToEnd -> MaterialTheme.colorScheme.tertiary
+                                DismissValue.DismissedToStart -> endColor
+                                DismissValue.DismissedToEnd -> startColor
                                 else -> Color.Transparent
                             }
                         },
-                        onGestureBegin = {
+                        onGestureBegin = rememberCallback(model) {
                             model.reduce(InboxRepliesMviModel.Intent.HapticIndication)
                         },
-                        onDismissToStart = {
+                        onDismissToStart = rememberCallback(model) {
                             model.reduce(
                                 InboxRepliesMviModel.Intent.MarkAsRead(
                                     read = true,
@@ -145,7 +152,7 @@ class InboxRepliesScreen : Tab {
                                 ),
                             )
                         },
-                        onDismissToEnd = {
+                        onDismissToEnd = rememberCallback(model) {
                             model.reduce(
                                 InboxRepliesMviModel.Intent.MarkAsRead(
                                     read = false,
@@ -172,7 +179,7 @@ class InboxRepliesScreen : Tab {
                                 type = InboxCardType.Reply,
                                 autoLoadImages = uiState.autoLoadImages,
                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
-                                onOpenPost = { post ->
+                                onOpenPost = rememberCallbackArgs { post ->
                                     navigator?.push(
                                         PostDetailScreen(
                                             post = post,
@@ -180,20 +187,20 @@ class InboxRepliesScreen : Tab {
                                         ),
                                     )
                                 },
-                                onOpenCreator = { user ->
+                                onOpenCreator = rememberCallbackArgs { user ->
                                     navigator?.push(
                                         UserDetailScreen(user),
                                     )
                                 },
-                                onOpenCommunity = { community ->
+                                onOpenCommunity = rememberCallbackArgs { community ->
                                     navigator?.push(
                                         CommunityDetailScreen(community),
                                     )
                                 },
-                                onUpVote = {
+                                onUpVote = rememberCallbackArgs(model) {
                                     model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(idx))
                                 },
-                                onDownVote = {
+                                onDownVote = rememberCallbackArgs(model) {
                                     model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(idx))
                                 },
                             )

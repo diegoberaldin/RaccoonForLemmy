@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.CustomTextToolbar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.DrawerCoordinator
@@ -31,6 +32,11 @@ actual fun getNavigationCoordinator(): NavigationCoordinator {
 
 actual fun getDrawerCoordinator(): DrawerCoordinator {
     val res: DrawerCoordinator by inject(DrawerCoordinator::class.java)
+    return res
+}
+
+actual fun getFabNestedScrollConnection(): FabNestedScrollConnection {
+    val res: FabNestedScrollConnection by inject(FabNestedScrollConnection::class.java)
     return res
 }
 

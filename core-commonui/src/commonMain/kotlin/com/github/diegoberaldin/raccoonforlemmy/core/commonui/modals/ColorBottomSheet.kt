@@ -35,6 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -93,17 +94,19 @@ class ColorBottomSheet : Screen {
                         modifier = Modifier.padding(
                             horizontal = Spacing.s,
                             vertical = Spacing.s,
-                        ).fillMaxWidth().onClick {
-                            if (!isChooseCustom) {
-                                notificationCenter.getObserver(NotificationCenterContractKeys.ChangeColor)
-                                    ?.also {
-                                        it.invoke(value.first ?: Unit)
-                                    }
-                                bottomSheetNavigator.hide()
-                            } else {
-                                customPickerDialogOpened = true
-                            }
-                        },
+                        ).fillMaxWidth().onClick(
+                            rememberCallback {
+                                if (!isChooseCustom) {
+                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeColor)
+                                        ?.also {
+                                            it.invoke(value.first ?: Unit)
+                                        }
+                                    bottomSheetNavigator.hide()
+                                } else {
+                                    customPickerDialogOpened = true
+                                }
+                            },
+                        ),
                     ) {
                         Text(
                             text = text,

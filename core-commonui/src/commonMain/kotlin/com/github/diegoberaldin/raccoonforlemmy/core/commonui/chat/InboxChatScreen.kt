@@ -54,6 +54,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInboxChatViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -109,9 +110,11 @@ class InboxChatScreen(
                     },
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                navigator?.pop()
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.pop()
+                                },
+                            ),
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

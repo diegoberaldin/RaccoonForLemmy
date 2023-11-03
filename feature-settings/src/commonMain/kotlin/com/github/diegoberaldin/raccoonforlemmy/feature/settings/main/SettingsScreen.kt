@@ -63,6 +63,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottom
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -148,11 +150,13 @@ class SettingsScreen : Screen {
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                scope.launch {
-                                    drawerCoordinator.toggleDrawer()
-                                }
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    scope.launch {
+                                        drawerCoordinator.toggleDrawer()
+                                    }
+                                },
+                            ),
                             imageVector = Icons.Default.Menu,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -188,7 +192,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_language),
                         value = uiState.lang.toLanguageName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = LanguageBottomSheet()
                             notificationCenter.addObserver({ result ->
                                 (result as? String)?.also { lang ->
@@ -203,7 +207,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_ui_theme),
                         value = uiState.uiTheme.toReadableName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = ThemeBottomSheet()
                             notificationCenter.addObserver({ result ->
                                 (result as? UiTheme)?.also { value ->
@@ -219,7 +223,7 @@ class SettingsScreen : Screen {
                         SettingsSwitchRow(
                             title = stringResource(MR.strings.settings_dynamic_colors),
                             value = uiState.dynamicColors,
-                            onValueChanged = { value ->
+                            onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
                                     SettingsMviModel.Intent.ChangeDynamicColors(
                                         value
@@ -237,7 +241,7 @@ class SettingsScreen : Screen {
                             theme = uiState.uiTheme,
                             dynamic = uiState.dynamicColors,
                         ).primary,
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = ColorBottomSheet()
                             notificationCenter.addObserver({ result ->
                                 model.reduce(
@@ -253,14 +257,14 @@ class SettingsScreen : Screen {
                     SettingsColorRow(
                         title = stringResource(MR.strings.settings_upvote_color),
                         value = uiState.upvoteColor ?: MaterialTheme.colorScheme.primary,
-                        onTap = {
+                        onTap = rememberCallback {
                             upvoteColorDialogOpened = true
                         },
                     )
                     SettingsColorRow(
                         title = stringResource(MR.strings.settings_downvote_color),
                         value = uiState.downvoteColor ?: MaterialTheme.colorScheme.tertiary,
-                        onTap = {
+                        onTap = rememberCallback {
                             downvoteColorDialogOpened = true
                         },
                     )
@@ -269,7 +273,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_ui_font_family),
                         value = uiState.uiFontFamily.toReadableName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = FontFamilyBottomSheet()
                             notificationCenter.addObserver({ result ->
                                 (result as? UiFontFamily)?.also { value ->
@@ -287,7 +291,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_ui_font_scale),
                         value = uiState.uiFontScale.toReadableName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = FontScaleBottomSheet(
                                 values = listOf(
                                     FontScale.Large,
@@ -310,7 +314,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_content_font_scale),
                         value = uiState.contentFontScale.toReadableName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = FontScaleBottomSheet()
                             notificationCenter.addObserver({ result ->
                                 (result as? Float)?.also { value ->
@@ -329,7 +333,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_post_layout),
                         value = uiState.postLayout.toReadableName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = PostLayoutBottomSheet()
                             notificationCenter.addObserver({ result ->
                                 (result as? PostLayout)?.also { value ->
@@ -348,7 +352,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_separate_up_and_downvotes),
                         value = uiState.separateUpAndDownVotes,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeSeparateUpAndDownVotes(
                                     value
@@ -361,7 +365,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_full_height_images),
                         value = uiState.fullHeightImages,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeFullHeightImages(
                                     value
@@ -374,7 +378,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_navigation_bar_titles_visible),
                         value = uiState.navBarTitlesVisible,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeNavBarTitlesVisible(
                                     value
@@ -392,7 +396,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_default_listing_type),
                         value = uiState.defaultListingType.toReadableName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = ListingTypeBottomSheet(
                                 isLogged = uiState.isLogged,
                             )
@@ -413,7 +417,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_default_post_sort_type),
                         value = uiState.defaultPostSortType.toReadableName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = SortBottomSheet(
                                 expandTop = true,
                             )
@@ -434,7 +438,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_default_comment_sort_type),
                         value = uiState.defaultCommentSortType.toReadableName(),
-                        onTap = {
+                        onTap = rememberCallback {
                             val sheet = SortBottomSheet(
                                 values = listOf(
                                     SortType.Hot,
@@ -466,7 +470,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_enable_swipe_actions),
                         value = uiState.enableSwipeActions,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeEnableSwipeActions(
                                     value
@@ -479,7 +483,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_hide_navigation_bar),
                         value = uiState.hideNavigationBarWhileScrolling,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(
                                     value
@@ -492,7 +496,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_open_url_external),
                         value = uiState.openUrlsInExternalBrowser,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser(
                                     value
@@ -505,7 +509,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_auto_expand_comments),
                         value = uiState.autoExpandComments,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeAutoExpandComments(
                                     value
@@ -518,7 +522,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_auto_load_images),
                         value = uiState.autoLoadImages,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeAutoLoadImages(
                                     value
@@ -536,14 +540,14 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_include_nsfw),
                         value = uiState.includeNsfw,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))
                         }
                     )
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_blur_nsfw),
                         value = uiState.blurNsfw,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeBlurNsfw(value))
                         }
                     )
@@ -557,7 +561,7 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_enable_crash_report),
                         value = uiState.crashReportEnabled,
-                        onValueChanged = { value ->
+                        onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeCrashReportEnabled(value))
                         }
                     )
@@ -566,7 +570,7 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_about),
                         value = "",
-                        onTap = {
+                        onTap = rememberCallback {
                             infoDialogOpened = true
                         },
                     )
@@ -580,14 +584,14 @@ class SettingsScreen : Screen {
             val initial = uiState.upvoteColor ?: MaterialTheme.colorScheme.primary
             ColorPickerDialog(
                 initialValue = initial,
-                onClose = {
+                onClose = rememberCallback {
                     upvoteColorDialogOpened = false
                 },
-                onSubmit = { color ->
+                onSubmit = rememberCallbackArgs { color ->
                     upvoteColorDialogOpened = false
                     model.reduce(SettingsMviModel.Intent.ChangeUpvoteColor(color))
                 },
-                onReset = {
+                onReset = rememberCallback(model) {
                     upvoteColorDialogOpened = false
                     val scheme = getColorSchemeProvider().getColorScheme(
                         theme = uiState.uiTheme,
@@ -604,14 +608,14 @@ class SettingsScreen : Screen {
             val initial = uiState.downvoteColor ?: MaterialTheme.colorScheme.tertiary
             ColorPickerDialog(
                 initialValue = initial,
-                onClose = {
+                onClose = rememberCallback {
                     downvoteColorDialogOpened = false
                 },
-                onSubmit = { color ->
+                onSubmit = rememberCallbackArgs(model) { color ->
                     downvoteColorDialogOpened = false
                     model.reduce(SettingsMviModel.Intent.ChangeDownvoteColor(color))
                 },
-                onReset = {
+                onReset = rememberCallback(model) {
                     downvoteColorDialogOpened = false
                     model.reduce(SettingsMviModel.Intent.ChangeDownvoteColor(null))
                 },

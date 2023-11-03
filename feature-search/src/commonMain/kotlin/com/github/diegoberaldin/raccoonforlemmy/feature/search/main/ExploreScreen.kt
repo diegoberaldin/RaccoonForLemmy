@@ -72,6 +72,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -138,13 +140,16 @@ class ExploreScreen : Screen {
         }
 
         Scaffold(
-            modifier = Modifier.padding(Spacing.xxs),
+            modifier = Modifier
+                .padding(Spacing.xxs)
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(keyboardScrollConnection),
             topBar = {
                 ExploreTopBar(
                     scrollBehavior = scrollBehavior,
                     listingType = uiState.listingType,
                     sortType = uiState.sortType,
-                    onSelectListingType = {
+                    onSelectListingType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
@@ -156,7 +161,7 @@ class ExploreScreen : Screen {
                         }, key, NotificationCenterContractKeys.ChangeFeedType)
                         bottomSheetNavigator.show(sheet)
                     },
-                    onSelectSortType = {
+                    onSelectSortType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = SortBottomSheet(
                             expandTop = true,
@@ -170,7 +175,7 @@ class ExploreScreen : Screen {
                         }, key, NotificationCenterContractKeys.ChangeSortType)
                         bottomSheetNavigator.show(sheet)
                     },
-                    onHamburgerTapped = {
+                    onHamburgerTapped = rememberCallback {
                         scope.launch {
                             drawerCoordinator.toggleDrawer()
                         }
@@ -180,9 +185,7 @@ class ExploreScreen : Screen {
         ) { padding ->
             Column(
                 modifier = Modifier
-                    .padding(padding)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .nestedScroll(keyboardScrollConnection),
+                    .padding(padding),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 TextField(
@@ -203,11 +206,13 @@ class ExploreScreen : Screen {
                     },
                     trailingIcon = {
                         Icon(
-                            modifier = Modifier.onClick {
-                                if (uiState.searchText.isNotEmpty()) {
-                                    model.reduce(ExploreMviModel.Intent.SetSearch(""))
-                                }
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    if (uiState.searchText.isNotEmpty()) {
+                                        model.reduce(ExploreMviModel.Intent.SetSearch(""))
+                                    }
+                                },
+                            ),
                             imageVector = if (uiState.searchText.isEmpty()) Icons.Default.Search else Icons.Default.Clear,
                             contentDescription = null,
                         )
@@ -281,11 +286,15 @@ class ExploreScreen : Screen {
                             when (result) {
                                 is CommunityModel -> {
                                     CommunityItem(
-                                        modifier = Modifier.fillMaxWidth().onClick {
-                                            navigator?.push(
-                                                CommunityDetailScreen(result),
-                                            )
-                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .onClick(
+                                                rememberCallback {
+                                                    navigator?.push(
+                                                        CommunityDetailScreen(result),
+                                                    )
+                                                },
+                                            ),
                                         community = result,
                                         autoLoadImages = uiState.autoLoadImages,
                                     )
@@ -299,22 +308,22 @@ class ExploreScreen : Screen {
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
                                         blurNsfw = uiState.blurNsfw,
-                                        onClick = {
+                                        onClick = rememberCallback {
                                             navigator?.push(
                                                 PostDetailScreen(result),
                                             )
                                         },
-                                        onOpenCommunity = { community ->
+                                        onOpenCommunity = rememberCallbackArgs { community ->
                                             navigator?.push(
                                                 CommunityDetailScreen(community),
                                             )
                                         },
-                                        onOpenCreator = { user ->
+                                        onOpenCreator = rememberCallbackArgs { user ->
                                             navigator?.push(
                                                 UserDetailScreen(user),
                                             )
                                         },
-                                        onUpVote = {
+                                        onUpVote = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.UpVotePost(
                                                     index = idx,
@@ -322,7 +331,7 @@ class ExploreScreen : Screen {
                                                 ),
                                             )
                                         },
-                                        onDownVote = {
+                                        onDownVote = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.DownVotePost(
                                                     index = idx,
@@ -330,7 +339,7 @@ class ExploreScreen : Screen {
                                                 ),
                                             )
                                         },
-                                        onSave = {
+                                        onSave = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.SavePost(
                                                     index = idx,
@@ -338,7 +347,7 @@ class ExploreScreen : Screen {
                                                 ),
                                             )
                                         },
-                                        onReply = {
+                                        onReply = rememberCallback {
                                             val screen = CreateCommentScreen(
                                                 originalPost = result,
                                             )
@@ -351,7 +360,7 @@ class ExploreScreen : Screen {
                                             )
                                             bottomSheetNavigator.show(screen)
                                         },
-                                        onImageClick = { url ->
+                                        onImageClick = rememberCallbackArgs { url ->
                                             navigator?.push(
                                                 ZoomableImageScreen(url),
                                             )
@@ -371,7 +380,7 @@ class ExploreScreen : Screen {
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
                                         hideIndent = true,
-                                        onClick = {
+                                        onClick = rememberCallback {
                                             navigator?.push(
                                                 PostDetailScreen(
                                                     post = PostModel(id = result.postId),
@@ -379,7 +388,7 @@ class ExploreScreen : Screen {
                                                 ),
                                             )
                                         },
-                                        onUpVote = {
+                                        onUpVote = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.UpVoteComment(
                                                     index = idx,
@@ -387,7 +396,7 @@ class ExploreScreen : Screen {
                                                 ),
                                             )
                                         },
-                                        onDownVote = {
+                                        onDownVote = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.DownVoteComment(
                                                     index = idx,
@@ -395,7 +404,7 @@ class ExploreScreen : Screen {
                                                 ),
                                             )
                                         },
-                                        onSave = {
+                                        onSave = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.SaveComment(
                                                     index = idx,
@@ -403,7 +412,7 @@ class ExploreScreen : Screen {
                                                 ),
                                             )
                                         },
-                                        onReply = {
+                                        onReply = rememberCallback {
                                             val screen = CreateCommentScreen(
                                                 originalPost = PostModel(id = result.postId),
                                                 originalComment = result,
@@ -417,12 +426,12 @@ class ExploreScreen : Screen {
                                             )
                                             bottomSheetNavigator.show(screen)
                                         },
-                                        onOpenCommunity = {
+                                        onOpenCommunity = rememberCallbackArgs {
                                             navigator?.push(
                                                 CommunityDetailScreen(it)
                                             )
                                         },
-                                        onOpenCreator = {
+                                        onOpenCreator = rememberCallbackArgs {
                                             navigator?.push(
                                                 UserDetailScreen(it)
                                             )
@@ -436,11 +445,15 @@ class ExploreScreen : Screen {
 
                                 is UserModel -> {
                                     UserItem(
-                                        modifier = Modifier.fillMaxWidth().onClick {
-                                            navigator?.push(
-                                                UserDetailScreen(result),
-                                            )
-                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .onClick(
+                                                rememberCallback {
+                                                    navigator?.push(
+                                                        UserDetailScreen(result),
+                                                    )
+                                                },
+                                            ),
                                         user = result,
                                     )
                                 }

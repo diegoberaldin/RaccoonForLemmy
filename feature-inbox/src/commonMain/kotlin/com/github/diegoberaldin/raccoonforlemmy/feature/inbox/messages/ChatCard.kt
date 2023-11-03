@@ -25,6 +25,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Placeho
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 @Composable
@@ -40,9 +41,11 @@ internal fun ChatCard(
     Row(
         modifier = modifier
             .padding(Spacing.xs)
-            .onClick {
-                onOpen?.invoke()
-            },
+            .onClick(
+                rememberCallback {
+                    onOpen?.invoke()
+                },
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.m),
     ) {
@@ -57,11 +60,13 @@ internal fun ChatCard(
                     .padding(Spacing.xxxs)
                     .size(iconSize)
                     .clip(RoundedCornerShape(iconSize / 2))
-                    .onClick {
-                        if (user != null) {
-                            onOpenUser?.invoke(user)
-                        }
-                    },
+                    .onClick(
+                        rememberCallback {
+                            if (user != null) {
+                                onOpenUser?.invoke(user)
+                            }
+                        },
+                    ),
                 quality = FilterQuality.Low,
                 url = creatorAvatar,
                 autoload = autoLoadImages,
@@ -70,11 +75,13 @@ internal fun ChatCard(
             )
         } else {
             PlaceholderImage(
-                modifier = Modifier.onClick {
-                    if (user != null) {
-                        onOpenUser?.invoke(user)
-                    }
-                },
+                modifier = Modifier.onClick(
+                    rememberCallback {
+                        if (user != null) {
+                            onOpenUser?.invoke(user)
+                        }
+                    },
+                ),
                 size = iconSize,
                 title = creatorName,
             )

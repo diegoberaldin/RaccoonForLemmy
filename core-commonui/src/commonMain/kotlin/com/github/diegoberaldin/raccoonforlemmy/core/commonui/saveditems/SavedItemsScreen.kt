@@ -41,10 +41,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -62,6 +59,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getSavedItemsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
@@ -73,6 +71,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -94,22 +93,10 @@ class SavedItemsScreen : Screen {
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val notificationCenter = remember { getNotificationCenter() }
-        val isFabVisible = remember { mutableStateOf(true) }
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
-        val fabNestedScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    if (available.y < -1) {
-                        isFabVisible.value = false
-                    }
-                    if (available.y > 1) {
-                        isFabVisible.value = true
-                    }
-                    return Offset.Zero
-                }
-            }
-        }
+        val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
+        val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val drawerCoordinator = remember { getDrawerCoordinator() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
 
@@ -121,6 +108,9 @@ class SavedItemsScreen : Screen {
         }
 
         Scaffold(
+            modifier = Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(fabNestedScrollConnection),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -132,21 +122,27 @@ class SavedItemsScreen : Screen {
                     },
                     actions = {
                         Image(
-                            modifier = Modifier.onClick {
-                                val sheet = SortBottomSheet(
-                                    values = listOf(
-                                        SortType.Hot,
-                                        SortType.New,
-                                        SortType.Old,
-                                    ),
-                                )
-                                notificationCenter.addObserver({
-                                    (it as? SortType)?.also { sortType ->
-                                        model.reduce(SavedItemsMviModel.Intent.ChangeSort(sortType))
-                                    }
-                                }, key, NotificationCenterContractKeys.ChangeSortType)
-                                bottomSheetNavigator.show(sheet)
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    val sheet = SortBottomSheet(
+                                        values = listOf(
+                                            SortType.Hot,
+                                            SortType.New,
+                                            SortType.Old,
+                                        ),
+                                    )
+                                    notificationCenter.addObserver({
+                                        (it as? SortType)?.also { sortType ->
+                                            model.reduce(
+                                                SavedItemsMviModel.Intent.ChangeSort(
+                                                    sortType
+                                                )
+                                            )
+                                        }
+                                    }, key, NotificationCenterContractKeys.ChangeSortType)
+                                    bottomSheetNavigator.show(sheet)
+                                },
+                            ),
                             imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -154,9 +150,11 @@ class SavedItemsScreen : Screen {
                     },
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                navigator?.pop()
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.pop()
+                                },
+                            ),
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -166,7 +164,7 @@ class SavedItemsScreen : Screen {
             },
             floatingActionButton = {
                 AnimatedVisibility(
-                    visible = isFabVisible.value,
+                    visible = isFabVisible,
                     enter = slideInVertically(
                         initialOffsetY = { it * 2 },
                     ),
@@ -214,14 +212,15 @@ class SavedItemsScreen : Screen {
                         model.reduce(SavedItemsMviModel.Intent.ChangeSection(section))
                     },
                 )
-                val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                    model.reduce(SavedItemsMviModel.Intent.Refresh)
-                })
+                val pullRefreshState = rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh = rememberCallback(model) {
+                        model.reduce(SavedItemsMviModel.Intent.Refresh)
+                    },
+                )
                 Box(
                     modifier = Modifier.fillMaxWidth()
-                        .nestedScroll(scrollBehavior.nestedScrollConnection)
-                        .pullRefresh(pullRefreshState)
-                        .nestedScroll(fabNestedScrollConnection),
+                        .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState,

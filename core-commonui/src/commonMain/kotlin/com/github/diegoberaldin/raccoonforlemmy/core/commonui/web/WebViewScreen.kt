@@ -25,6 +25,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 
 class WebViewScreen(
     private val url: String,
@@ -51,9 +52,11 @@ class WebViewScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                navigator?.pop()
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.pop()
+                                },
+                            ),
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -61,9 +64,11 @@ class WebViewScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier.onClick {
-                                shareHelper.share(url, "text/plain")
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    shareHelper.share(url, "text/plain")
+                                },
+                            ),
                             imageVector = Icons.Default.Share,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,

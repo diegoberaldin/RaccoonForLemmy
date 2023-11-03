@@ -5,6 +5,7 @@ import androidx.compose.ui.platform.TextToolbar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.DrawerCoordinator
@@ -23,6 +24,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 expect fun getNavigationCoordinator(): NavigationCoordinator
 
 expect fun getDrawerCoordinator(): DrawerCoordinator
+
+expect fun getFabNestedScrollConnection(): FabNestedScrollConnection
 
 expect fun getPostDetailViewModel(
     post: PostModel,

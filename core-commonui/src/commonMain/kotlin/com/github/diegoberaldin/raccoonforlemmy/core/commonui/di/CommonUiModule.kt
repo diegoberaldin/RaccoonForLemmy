@@ -7,6 +7,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.Comm
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.DefaultFabNestedScrollConnection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
@@ -37,6 +39,9 @@ val commonUiModule = module {
     }
     single<DrawerCoordinator> {
         DefaultDrawerCoordinator()
+    }
+    factory<FabNestedScrollConnection> {
+        DefaultFabNestedScrollConnection()
     }
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(

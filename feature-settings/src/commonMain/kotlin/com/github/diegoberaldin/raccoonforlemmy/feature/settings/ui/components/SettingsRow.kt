@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 
 @Composable
 internal fun SettingsRow(
@@ -22,9 +23,11 @@ internal fun SettingsRow(
     Row(
         modifier = modifier
             .padding(vertical = Spacing.s, horizontal = Spacing.m)
-            .onClick {
-                onTap?.invoke()
-            },
+            .onClick(
+                rememberCallback {
+                    onTap?.invoke()
+                },
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(

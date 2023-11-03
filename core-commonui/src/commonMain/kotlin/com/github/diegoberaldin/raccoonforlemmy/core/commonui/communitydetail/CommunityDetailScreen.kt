@@ -53,11 +53,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -80,6 +77,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoScreen
@@ -91,6 +89,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -128,20 +128,8 @@ class CommunityDetailScreen(
         val isOnOtherInstance = otherInstance.isNotEmpty()
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-        val isFabVisible = remember { mutableStateOf(true) }
-        val fabNestedScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    if (available.y < -1) {
-                        isFabVisible.value = false
-                    }
-                    if (available.y > 1) {
-                        isFabVisible.value = true
-                    }
-                    return Offset.Zero
-                }
-            }
-        }
+        val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
+        val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
         val themeRepository = remember { getThemeRepository() }
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
@@ -180,79 +168,90 @@ class CommunityDetailScreen(
         }
 
         val stateCommunity = uiState.community
-        Scaffold(modifier = Modifier.background(MaterialTheme.colorScheme.background)
-            .padding(Spacing.xs), topBar = {
-            TopAppBar(
-                scrollBehavior = scrollBehavior,
-                title = {
-                    Text(
-                        modifier = Modifier.padding(horizontal = Spacing.s),
-                        text = stateCommunity.name,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
-                actions = {
-                    // subscribe button
-                    if (!isOnOtherInstance && uiState.isLogged) {
-                        Image(
-                            modifier = Modifier.onClick {
-                                when (stateCommunity.subscribed) {
-                                    true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
-                                    false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
-                                    else -> Unit
-                                }
-                            },
-                            imageVector = when (stateCommunity.subscribed) {
-                                true -> Icons.Outlined.CheckCircle
-                                false -> Icons.Outlined.AddCircleOutline
-                                else -> Icons.Outlined.Pending
-                            },
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
+        Scaffold(
+            modifier = Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(fabNestedScrollConnection)
+                .background(MaterialTheme.colorScheme.background)
+                .padding(Spacing.xs),
+            topBar = {
+                TopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    title = {
+                        Text(
+                            modifier = Modifier.padding(horizontal = Spacing.s),
+                            text = stateCommunity.name,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                         )
-                        Spacer(Modifier.width(Spacing.m))
-                    }
-
-                    // sort button
-                    Image(
-                        modifier = Modifier.onClick {
-                            val sheet = SortBottomSheet(
-                                expandTop = true,
+                    },
+                    actions = {
+                        // subscribe button
+                        if (!isOnOtherInstance && uiState.isLogged) {
+                            Image(
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        when (stateCommunity.subscribed) {
+                                            true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
+                                            false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
+                                            else -> Unit
+                                        }
+                                    },
+                                ),
+                                imageVector = when (stateCommunity.subscribed) {
+                                    true -> Icons.Outlined.CheckCircle
+                                    false -> Icons.Outlined.AddCircleOutline
+                                    else -> Icons.Outlined.Pending
+                                },
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
                             )
-                            notificationCenter.addObserver({
-                                (it as? SortType)?.also { sortType ->
-                                    model.reduce(
-                                        CommunityDetailMviModel.Intent.ChangeSort(
-                                            sortType
-                                        )
-                                    )
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeSortType)
-                            bottomSheetNavigator.show(sheet)
-                        },
-                        imageVector = uiState.sortType.toIcon(),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                    )
-                },
-                navigationIcon = {
-                    if (navigator?.canPop == true) {
+                            Spacer(Modifier.width(Spacing.m))
+                        }
+
+                        // sort button
                         Image(
-                            modifier = Modifier.onClick {
-                                navigator.pop()
-                            },
-                            imageVector = Icons.Default.ArrowBack,
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    val sheet = SortBottomSheet(
+                                        expandTop = true,
+                                    )
+                                    notificationCenter.addObserver({
+                                        (it as? SortType)?.also { sortType ->
+                                            model.reduce(
+                                                CommunityDetailMviModel.Intent.ChangeSort(
+                                                    sortType
+                                                )
+                                            )
+                                        }
+                                    }, key, NotificationCenterContractKeys.ChangeSortType)
+                                    bottomSheetNavigator.show(sheet)
+                                },
+                            ),
+                            imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
-                    }
-                },
-            )
-        },
+                    },
+                    navigationIcon = {
+                        if (navigator?.canPop == true) {
+                            Image(
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        navigator.pop()
+                                    },
+                                ),
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+                        }
+                    },
+                )
+            },
             floatingActionButton = {
                 AnimatedVisibility(
-                    visible = isFabVisible.value,
+                    visible = isFabVisible,
                     enter = slideInVertically(
                         initialOffsetY = { it * 2 },
                     ),
@@ -304,12 +303,15 @@ class CommunityDetailScreen(
             }
         ) { padding ->
             if (uiState.currentUserId != null) {
-                val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                    model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                })
+                val pullRefreshState = rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh = rememberCallback(model) {
+                        model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                    },
+                )
                 Box(
-                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        .nestedScroll(fabNestedScrollConnection).padding(padding)
+                    modifier = Modifier
+                        .padding(padding)
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
@@ -325,10 +327,10 @@ class CommunityDetailScreen(
                                     stringResource(MR.strings.community_detail_block),
                                     stringResource(MR.strings.community_detail_block_instance),
                                 ),
-                                onOpenImage = { url ->
+                                onOpenImage = rememberCallbackArgs { url ->
                                     navigator?.push(ZoomableImageScreen(url))
                                 },
-                                onOptionSelected = { optionIdx ->
+                                onOptionSelected = rememberCallbackArgs { optionIdx ->
                                     when (optionIdx) {
                                         3 -> model.reduce(CommunityDetailMviModel.Intent.BlockInstance)
                                         2 -> model.reduce(CommunityDetailMviModel.Intent.Block)
@@ -369,7 +371,7 @@ class CommunityDetailScreen(
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled && !isOnOtherInstance,
-                                backgroundColor = {
+                                backgroundColor = rememberCallbackArgs {
                                     when (it) {
                                         DismissValue.DismissedToStart -> upvoteColor
                                             ?: defaultUpvoteColor
@@ -391,15 +393,15 @@ class CommunityDetailScreen(
                                         tint = Color.White,
                                     )
                                 },
-                                onGestureBegin = {
+                                onGestureBegin = rememberCallback(model) {
                                     model.reduce(CommunityDetailMviModel.Intent.HapticIndication)
                                 },
-                                onDismissToStart = {
+                                onDismissToStart = rememberCallback(model) {
                                     model.reduce(
                                         CommunityDetailMviModel.Intent.UpVotePost(idx),
                                     )
                                 },
-                                onDismissToEnd = {
+                                onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
                                         CommunityDetailMviModel.Intent.DownVotePost(idx),
                                     )
@@ -415,7 +417,7 @@ class CommunityDetailScreen(
                                             stateCommunity.nsfw -> false
                                             else -> uiState.blurNsfw
                                         },
-                                        onClick = {
+                                        onClick = rememberCallback(model) {
                                             model.reduce(
                                                 CommunityDetailMviModel.Intent.MarkAsRead(
                                                     idx
@@ -428,7 +430,7 @@ class CommunityDetailScreen(
                                                 ),
                                             )
                                         },
-                                        onOpenCreator = { user ->
+                                        onOpenCreator = rememberCallbackArgs { user ->
                                             navigator?.push(
                                                 UserDetailScreen(
                                                     user = user,
@@ -436,7 +438,7 @@ class CommunityDetailScreen(
                                                 ),
                                             )
                                         },
-                                        onUpVote = {
+                                        onUpVote = rememberCallback(model) {
                                             if (!isOnOtherInstance) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.UpVotePost(
@@ -446,7 +448,7 @@ class CommunityDetailScreen(
                                                 )
                                             }
                                         },
-                                        onDownVote = {
+                                        onDownVote = rememberCallback(model) {
                                             if (!isOnOtherInstance) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.DownVotePost(
@@ -456,7 +458,7 @@ class CommunityDetailScreen(
                                                 )
                                             }
                                         },
-                                        onSave = {
+                                        onSave = rememberCallback(model) {
                                             if (!isOnOtherInstance) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.SavePost(
@@ -466,7 +468,7 @@ class CommunityDetailScreen(
                                                 )
                                             }
                                         },
-                                        onReply = {
+                                        onReply = rememberCallback(model) {
                                             if (!isOnOtherInstance) {
                                                 val screen = CreateCommentScreen(
                                                     originalPost = post,
@@ -481,7 +483,7 @@ class CommunityDetailScreen(
                                                 bottomSheetNavigator.show(screen)
                                             }
                                         },
-                                        onImageClick = { url ->
+                                        onImageClick = rememberCallbackArgs(model) { url ->
                                             model.reduce(
                                                 CommunityDetailMviModel.Intent.MarkAsRead(
                                                     idx
@@ -501,7 +503,7 @@ class CommunityDetailScreen(
                                                 add(stringResource(MR.strings.comment_action_delete))
                                             }
                                         },
-                                        onOptionSelected = { optionIdx ->
+                                        onOptionSelected = rememberCallbackArgs(model) { optionIdx ->
                                             when (optionIdx) {
                                                 5 -> model.reduce(
                                                     CommunityDetailMviModel.Intent.DeletePost(

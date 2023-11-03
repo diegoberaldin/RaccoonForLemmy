@@ -120,8 +120,20 @@ class CreateCommentScreen(
                 }
             }.launchIn(this)
         }
+        val keyboardScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(
+                    available: Offset,
+                    source: NestedScrollSource,
+                ): Offset {
+                    focusManager.clearFocus()
+                    return Offset.Zero
+                }
+            }
+        }
 
         Scaffold(
+            modifier = Modifier.nestedScroll(keyboardScrollConnection),
             topBar = {
                 TopAppBar(
                     title = {
@@ -141,21 +153,8 @@ class CreateCommentScreen(
                 )
             },
         ) { padding ->
-            val keyboardScrollConnection = remember {
-                object : NestedScrollConnection {
-                    override fun onPreScroll(
-                        available: Offset,
-                        source: NestedScrollSource,
-                    ): Offset {
-                        focusManager.clearFocus()
-                        return Offset.Zero
-                    }
-                }
-            }
             LazyColumn(
-                modifier = Modifier
-                    .padding(padding)
-                    .nestedScroll(keyboardScrollConnection)
+                modifier = Modifier.padding(padding),
             ) {
                 val referenceModifier = Modifier.padding(
                     horizontal = Spacing.s,

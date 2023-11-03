@@ -39,6 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSh
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.mentions.InboxMentionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.InboxMessagesScreen
@@ -88,11 +89,13 @@ object InboxScreen : Tab {
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                scope.launch {
-                                    drawerCoordinator.toggleDrawer()
-                                }
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    scope.launch {
+                                        drawerCoordinator.toggleDrawer()
+                                    }
+                                },
+                            ),
                             imageVector = Icons.Default.Menu,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -109,17 +112,19 @@ object InboxScreen : Tab {
                                 else -> stringResource(MR.strings.inbox_listing_type_all)
                             }
                             Text(
-                                modifier = Modifier.onClick {
-                                    val sheet = InboxTypeSheet()
-                                    notificationCenter.addObserver({
-                                        (it as? Boolean)?.also { value ->
-                                            model.reduce(
-                                                InboxMviModel.Intent.ChangeUnreadOnly(value)
-                                            )
-                                        }
-                                    }, key, NotificationCenterContractKeys.ChangeInboxType)
-                                    bottomSheetNavigator.show(sheet)
-                                },
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        val sheet = InboxTypeSheet()
+                                        notificationCenter.addObserver({
+                                            (it as? Boolean)?.also { value ->
+                                                model.reduce(
+                                                    InboxMviModel.Intent.ChangeUnreadOnly(value)
+                                                )
+                                            }
+                                        }, key, NotificationCenterContractKeys.ChangeInboxType)
+                                        bottomSheetNavigator.show(sheet)
+                                    },
+                                ),
                                 text = text,
                                 style = MaterialTheme.typography.titleSmall,
                             )
@@ -128,9 +133,11 @@ object InboxScreen : Tab {
                     actions = {
                         if (uiState.isLogged == true) {
                             Image(
-                                modifier = Modifier.onClick {
-                                    model.reduce(InboxMviModel.Intent.ReadAll)
-                                },
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        model.reduce(InboxMviModel.Intent.ReadAll)
+                                    },
+                                ),
                                 imageVector = Icons.Default.DoneAll,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

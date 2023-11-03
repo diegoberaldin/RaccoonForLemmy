@@ -43,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.getAboutDialogViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutContants.CHANGELOG_URL
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutContants.REPORT_EMAIL_ADDRESS
@@ -210,9 +211,11 @@ class AboutDialog : Screen {
             modifier = Modifier.padding(
                 horizontal = Spacing.xs,
                 vertical = Spacing.s,
-            ).onClick {
-                onClick?.invoke()
-            },
+            ).onClick(
+                rememberCallback {
+                    onClick?.invoke()
+                },
+            ),
             horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             verticalAlignment = Alignment.CenterVertically,
         ) {

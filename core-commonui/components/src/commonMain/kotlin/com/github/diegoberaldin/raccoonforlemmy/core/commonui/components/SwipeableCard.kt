@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -37,7 +38,7 @@ fun SwipeableCard(
     enabled: Boolean = true,
     content: @Composable () -> Unit,
     swipeContent: @Composable (DismissDirection) -> Unit,
-    backgroundColor: @Composable (DismissValue) -> Color,
+    backgroundColor: (DismissValue) -> Color,
     onGestureBegin: (() -> Unit)? = null,
     onDismissToEnd: (() -> Unit)? = null,
     onDismissToStart: (() -> Unit)? = null,
@@ -47,7 +48,7 @@ fun SwipeableCard(
         val dismissToStartCallback by rememberUpdatedState(onDismissToStart)
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
         val dismissState = rememberDismissState(
-            confirmValueChange = {
+            confirmValueChange = rememberCallbackArgs {
                 when (it) {
                     DismissValue.DismissedToEnd -> {
                         dismissToEndCallback?.invoke()
@@ -77,6 +78,7 @@ fun SwipeableCard(
         }
 
         SwipeToDismiss(
+            modifier = modifier,
             state = dismissState,
             directions = directions,
             background = {

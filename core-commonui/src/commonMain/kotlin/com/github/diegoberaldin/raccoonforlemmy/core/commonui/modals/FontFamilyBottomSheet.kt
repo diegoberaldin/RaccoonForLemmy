@@ -22,6 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
@@ -71,13 +72,17 @@ class FontFamilyBottomSheet(
                                 vertical = Spacing.m,
                             )
                                 .fillMaxWidth()
-                                .onClick {
-                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeFontFamily)
-                                        ?.also {
-                                            it.invoke(value)
-                                        }
-                                    bottomSheetNavigator.hide()
-                                },
+                                .onClick(
+                                    rememberCallback {
+                                        notificationCenter.getObserver(
+                                            NotificationCenterContractKeys.ChangeFontFamily
+                                        )
+                                            ?.also {
+                                                it.invoke(value)
+                                            }
+                                        bottomSheetNavigator.hide()
+                                    },
+                                ),
                         ) {
                             val fontFamily = when (value) {
                                 UiFontFamily.CrimsonText -> fontFamilyResource(MR.fonts.CrimsonText.regular)

@@ -40,16 +40,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -63,8 +59,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Floatin
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.MultiCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getManageSubscriptionsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.detail.MultiCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.editor.MultiCommunityEditorScreen
@@ -82,22 +81,10 @@ class ManageSubscriptionsScreen : Screen {
         val navigator = remember { getNavigationCoordinator().getRootNavigator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-        val isFabVisible = remember { mutableStateOf(true) }
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
-        val fabNestedScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    if (available.y < -1) {
-                        isFabVisible.value = false
-                    }
-                    if (available.y > 1) {
-                        isFabVisible.value = true
-                    }
-                    return Offset.Zero
-                }
-            }
-        }
+        val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
+        val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val drawerCoordinator = remember { getDrawerCoordinator() }
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
@@ -107,6 +94,9 @@ class ManageSubscriptionsScreen : Screen {
         }
 
         Scaffold(
+            modifier = Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(fabNestedScrollConnection),
             topBar = {
                 TopAppBar(
                     title = {
@@ -119,9 +109,11 @@ class ManageSubscriptionsScreen : Screen {
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                navigator?.pop()
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.pop()
+                                },
+                            ),
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -131,7 +123,7 @@ class ManageSubscriptionsScreen : Screen {
             },
             floatingActionButton = {
                 AnimatedVisibility(
-                    visible = isFabVisible.value,
+                    visible = isFabVisible,
                     enter = slideInVertically(
                         initialOffsetY = { it * 2 },
                     ),
@@ -157,13 +149,14 @@ class ManageSubscriptionsScreen : Screen {
                 }
             },
         ) { paddingValues ->
-            val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                model.reduce(ManageSubscriptionsMviModel.Intent.Refresh)
-            })
+            val pullRefreshState = rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh = rememberCallback(model) {
+                    model.reduce(ManageSubscriptionsMviModel.Intent.Refresh)
+                },
+            )
             Box(
                 modifier = Modifier.padding(paddingValues)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
@@ -183,9 +176,11 @@ class ManageSubscriptionsScreen : Screen {
                             )
                             Spacer(modifier = Modifier.weight(1f))
                             Icon(
-                                modifier = Modifier.onClick {
-                                    navigator?.push(MultiCommunityEditorScreen())
-                                },
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        navigator?.push(MultiCommunityEditorScreen())
+                                    },
+                                ),
                                 imageVector = Icons.Default.AddCircle,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onBackground,
@@ -193,26 +188,26 @@ class ManageSubscriptionsScreen : Screen {
                         }
                     }
                     itemsIndexed(uiState.multiCommunities) { idx, community ->
+                        val endColor = MaterialTheme.colorScheme.secondary
+                        val startColor = MaterialTheme.colorScheme.tertiary
                         SwipeableCard(
                             modifier = Modifier.fillMaxWidth(),
-                            backgroundColor = {
+                            backgroundColor = rememberCallbackArgs {
                                 when (it) {
-                                    DismissValue.DismissedToStart -> MaterialTheme.colorScheme.primary
-
-                                    DismissValue.DismissedToEnd -> MaterialTheme.colorScheme.tertiary
-
+                                    DismissValue.DismissedToStart -> endColor
+                                    DismissValue.DismissedToEnd -> startColor
                                     else -> Color.Transparent
                                 }
                             },
-                            onGestureBegin = {
+                            onGestureBegin = rememberCallback(model) {
                                 model.reduce(ManageSubscriptionsMviModel.Intent.HapticIndication)
                             },
-                            onDismissToStart = {
+                            onDismissToStart = rememberCallback {
                                 navigator?.push(
                                     MultiCommunityEditorScreen(community),
                                 )
                             },
-                            onDismissToEnd = {
+                            onDismissToEnd = rememberCallback(model) {
                                 model.reduce(
                                     ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(idx),
                                 )
@@ -232,11 +227,13 @@ class ManageSubscriptionsScreen : Screen {
                             content = {
                                 MultiCommunityItem(
                                     modifier = Modifier.fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background).onClick {
-                                            navigator?.push(
-                                                MultiCommunityScreen(community),
-                                            )
-                                        },
+                                        .background(MaterialTheme.colorScheme.background).onClick(
+                                            rememberCallback {
+                                                navigator?.push(
+                                                    MultiCommunityScreen(community),
+                                                )
+                                            },
+                                        ),
                                     community = community,
                                     autoLoadImages = uiState.autoLoadImages,
                                 )
@@ -256,19 +253,20 @@ class ManageSubscriptionsScreen : Screen {
                         }
                     }
                     itemsIndexed(uiState.communities) { idx, community ->
+                        val endColor = MaterialTheme.colorScheme.secondary
                         SwipeableCard(
                             modifier = Modifier.fillMaxWidth(),
                             directions = setOf(DismissDirection.EndToStart),
-                            backgroundColor = {
+                            backgroundColor = rememberCallbackArgs {
                                 when (it) {
-                                    DismissValue.DismissedToStart -> MaterialTheme.colorScheme.tertiary
+                                    DismissValue.DismissedToStart -> endColor
                                     else -> Color.Transparent
                                 }
                             },
-                            onGestureBegin = {
+                            onGestureBegin = rememberCallback(model) {
                                 model.reduce(ManageSubscriptionsMviModel.Intent.HapticIndication)
                             },
-                            onDismissToStart = {
+                            onDismissToStart = rememberCallback(model) {
                                 model.reduce(
                                     ManageSubscriptionsMviModel.Intent.Unsubscribe(idx),
                                 )
@@ -284,11 +282,14 @@ class ManageSubscriptionsScreen : Screen {
                             content = {
                                 CommunityItem(
                                     modifier = Modifier.fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background).onClick {
-                                            navigator?.push(
-                                                CommunityDetailScreen(community),
-                                            )
-                                        },
+                                        .background(MaterialTheme.colorScheme.background)
+                                        .onClick(
+                                            rememberCallback {
+                                                navigator?.push(
+                                                    CommunityDetailScreen(community),
+                                                )
+                                            },
+                                        ),
                                     community = community,
                                     autoLoadImages = uiState.autoLoadImages,
                                 )

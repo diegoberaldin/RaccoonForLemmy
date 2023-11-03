@@ -22,6 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 
 @Composable
 fun PostLinkBanner(
@@ -38,13 +39,15 @@ fun PostLinkBanner(
                 .background(
                     color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.1f),
                     shape = RoundedCornerShape(CornerSize.l),
-                ).onClick {
-                    if (settingsRepository.currentSettings.value.openUrlsInExternalBrowser) {
-                        uriHandler.openUri(url)
-                    } else {
-                        navigator?.push(WebViewScreen(url))
-                    }
-                }.padding(
+                ).onClick(
+                    rememberCallback {
+                        if (settingsRepository.currentSettings.value.openUrlsInExternalBrowser) {
+                            uriHandler.openUri(url)
+                        } else {
+                            navigator?.push(WebViewScreen(url))
+                        }
+                    },
+                ).padding(
                     horizontal = Spacing.m,
                     vertical = Spacing.s,
                 ),

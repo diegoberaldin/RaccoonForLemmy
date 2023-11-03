@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
@@ -93,9 +94,11 @@ fun UserHeader(
                 Icon(
                     modifier = Modifier.onGloballyPositioned {
                         optionsOffset = it.positionInParent()
-                    }.onClick {
-                        optionsExpanded = true
-                    },
+                    }.onClick(
+                        rememberCallback {
+                            optionsExpanded = true
+                        },
+                    ),
                     imageVector = Icons.Outlined.MoreVert,
                     contentDescription = null,
                 )
@@ -114,10 +117,12 @@ fun UserHeader(
                             modifier = Modifier.padding(
                                 horizontal = Spacing.m,
                                 vertical = Spacing.xs,
-                            ).onClick {
-                                optionsExpanded = false
-                                onOptionSelected?.invoke(idx)
-                            },
+                            ).onClick(
+                                rememberCallback {
+                                    optionsExpanded = false
+                                    onOptionSelected?.invoke(idx)
+                                },
+                            ),
                             text = option,
                         )
                     }
@@ -135,10 +140,14 @@ fun UserHeader(
             val avatarSize = 60.dp
             if (userAvatar.isNotEmpty() && autoLoadImages) {
                 CustomImage(
-                    modifier = Modifier.padding(Spacing.xxxs).size(avatarSize)
-                        .clip(RoundedCornerShape(avatarSize / 2)).onClick {
-                            onOpenImage?.invoke(userAvatar)
-                        },
+                    modifier = Modifier.padding(Spacing.xxxs)
+                        .size(avatarSize)
+                        .clip(RoundedCornerShape(avatarSize / 2))
+                        .onClick(
+                            rememberCallback {
+                                onOpenImage?.invoke(userAvatar)
+                            },
+                        ),
                     url = userAvatar,
                     quality = FilterQuality.Low,
                     contentDescription = null,

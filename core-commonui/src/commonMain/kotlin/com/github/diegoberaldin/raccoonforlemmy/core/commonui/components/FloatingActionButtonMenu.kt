@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 
 data class FloatingActionButtonMenuItem(
     val icon: ImageVector,
@@ -90,10 +91,12 @@ fun FloatingActionButtonMenu(
                     exit = exitTransition
                 ) {
                     Row(
-                        modifier = Modifier.onClick {
-                            fabExpanded = false
-                            item.onSelected?.invoke()
-                        }.padding(end = 15.dp),
+                        modifier = Modifier.onClick(
+                            rememberCallback {
+                                fabExpanded = false
+                                item.onSelected?.invoke()
+                            },
+                        ).padding(end = 15.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {

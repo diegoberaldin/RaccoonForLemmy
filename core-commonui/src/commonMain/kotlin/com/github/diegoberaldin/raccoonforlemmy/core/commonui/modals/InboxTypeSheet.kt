@@ -20,6 +20,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -59,13 +60,15 @@ class InboxTypeSheet : Screen {
                             vertical = Spacing.m,
                         )
                             .fillMaxWidth()
-                            .onClick {
-                                notificationCenter.getObserver(NotificationCenterContractKeys.ChangeInboxType)
-                                    ?.also {
-                                        it.invoke(true)
-                                    }
-                                bottomSheetNavigator.hide()
-                            },
+                            .onClick(
+                                rememberCallback {
+                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeInboxType)
+                                        ?.also {
+                                            it.invoke(true)
+                                        }
+                                    bottomSheetNavigator.hide()
+                                },
+                            ),
                     ) {
                         Text(
                             text = stringResource(MR.strings.inbox_listing_type_unread),
@@ -79,13 +82,15 @@ class InboxTypeSheet : Screen {
                             .padding(
                                 horizontal = Spacing.s,
                                 vertical = Spacing.m,
-                            ).onClick {
-                                notificationCenter.getObserver(NotificationCenterContractKeys.ChangeInboxType)
-                                    ?.also {
-                                        it.invoke(false)
-                                    }
-                                bottomSheetNavigator.hide()
-                            },
+                            ).onClick(
+                                rememberCallback {
+                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeInboxType)
+                                        ?.also {
+                                            it.invoke(false)
+                                        }
+                                    bottomSheetNavigator.hide()
+                                },
+                            ),
                     ) {
                         Text(
                             text = stringResource(MR.strings.inbox_listing_type_all),

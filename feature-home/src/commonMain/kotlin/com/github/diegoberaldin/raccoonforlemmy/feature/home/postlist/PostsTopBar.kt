@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
@@ -44,9 +45,11 @@ internal fun PostsTopBar(
             when {
                 onHamburgerTapped != null -> {
                     Image(
-                        modifier = Modifier.onClick {
-                            onHamburgerTapped()
-                        },
+                        modifier = Modifier.onClick(
+                            rememberCallback {
+                                onHamburgerTapped()
+                            },
+                        ),
                         imageVector = Icons.Default.Menu,
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -55,9 +58,11 @@ internal fun PostsTopBar(
 
                 listingType != null -> {
                     Image(
-                        modifier = Modifier.onClick {
-                            onSelectListingType?.invoke()
-                        },
+                        modifier = Modifier.onClick(
+                            rememberCallback {
+                                onSelectListingType?.invoke()
+                            },
+                        ),
                         imageVector = listingType.toIcon(),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -71,9 +76,13 @@ internal fun PostsTopBar(
         },
         title = {
             Column(
-                modifier = Modifier.padding(horizontal = Spacing.s).onClick {
-                    onSelectListingType?.invoke()
-                },
+                modifier = Modifier
+                    .padding(horizontal = Spacing.s)
+                    .onClick(
+                        rememberCallback {
+                            onSelectListingType?.invoke()
+                        },
+                    ),
             ) {
                 Text(
                     text = listingType?.toReadableName().orEmpty(),
@@ -113,9 +122,11 @@ internal fun PostsTopBar(
             }
             if (sortType != null) {
                 Image(
-                    modifier = Modifier.onClick {
-                        onSelectSortType?.invoke()
-                    },
+                    modifier = Modifier.onClick(
+                        rememberCallback {
+                            onSelectSortType?.invoke()
+                        },
+                    ),
                     imageVector = sortType.toIcon(),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

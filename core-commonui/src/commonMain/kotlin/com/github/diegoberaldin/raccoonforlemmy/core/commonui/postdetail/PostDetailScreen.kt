@@ -59,11 +59,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -90,6 +87,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Swipeab
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getPostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
@@ -100,6 +98,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -140,20 +140,8 @@ class PostDetailScreen(
         val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-        val isFabVisible = remember { mutableStateOf(true) }
-        val fabNestedScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    if (available.y < -1) {
-                        isFabVisible.value = false
-                    }
-                    if (available.y > 1) {
-                        isFabVisible.value = true
-                    }
-                    return Offset.Zero
-                }
-            }
-        }
+        val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
+        val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
         DisposableEffect(key) {
@@ -194,7 +182,10 @@ class PostDetailScreen(
 
         val statePost = uiState.post
         Scaffold(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(fabNestedScrollConnection)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
@@ -209,23 +200,29 @@ class PostDetailScreen(
                     scrollBehavior = scrollBehavior,
                     actions = {
                         Image(
-                            modifier = Modifier.onClick {
-                                val sheet = SortBottomSheet(
-                                    values = listOf(
-                                        SortType.Hot,
-                                        SortType.Top.Generic,
-                                        SortType.New,
-                                        SortType.Old,
-                                        SortType.Controversial,
-                                    ),
-                                )
-                                notificationCenter.addObserver({
-                                    (it as? SortType)?.also { sortType ->
-                                        model.reduce(PostDetailMviModel.Intent.ChangeSort(sortType))
-                                    }
-                                }, key, NotificationCenterContractKeys.ChangeSortType)
-                                bottomSheetNavigator.show(sheet)
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    val sheet = SortBottomSheet(
+                                        values = listOf(
+                                            SortType.Hot,
+                                            SortType.Top.Generic,
+                                            SortType.New,
+                                            SortType.Old,
+                                            SortType.Controversial,
+                                        ),
+                                    )
+                                    notificationCenter.addObserver({
+                                        (it as? SortType)?.also { sortType ->
+                                            model.reduce(
+                                                PostDetailMviModel.Intent.ChangeSort(
+                                                    sortType
+                                                )
+                                            )
+                                        }
+                                    }, key, NotificationCenterContractKeys.ChangeSortType)
+                                    bottomSheetNavigator.show(sheet)
+                                },
+                            ),
                             imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -234,9 +231,11 @@ class PostDetailScreen(
                     navigationIcon = {
                         if (navigator?.canPop == true) {
                             Image(
-                                modifier = Modifier.onClick {
-                                    navigator.pop()
-                                },
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        navigator.pop()
+                                    },
+                                ),
                                 imageVector = Icons.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -247,7 +246,7 @@ class PostDetailScreen(
             },
             floatingActionButton = {
                 AnimatedVisibility(
-                    visible = isFabVisible.value,
+                    visible = isFabVisible,
                     enter = slideInVertically(
                         initialOffsetY = { it * 2 },
                     ),
@@ -288,13 +287,15 @@ class PostDetailScreen(
             },
         ) { padding ->
             if (uiState.currentUserId != null) {
-                val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                    model.reduce(PostDetailMviModel.Intent.Refresh)
-                })
+                val pullRefreshState = rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh = rememberCallback(model) {
+                        model.reduce(PostDetailMviModel.Intent.Refresh)
+                    },
+                )
                 Box(
                     modifier = Modifier.padding(padding)
-                        .nestedScroll(scrollBehavior.nestedScrollConnection)
-                        .nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
+                        .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState
@@ -308,17 +309,17 @@ class PostDetailScreen(
                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                 autoLoadImages = uiState.autoLoadImages,
                                 blurNsfw = false,
-                                onOpenCommunity = { community ->
+                                onOpenCommunity = rememberCallbackArgs { community ->
                                     navigator?.push(
                                         CommunityDetailScreen(community = community)
                                     )
                                 },
-                                onOpenCreator = { user ->
+                                onOpenCreator = rememberCallbackArgs { user ->
                                     navigator?.push(
                                         UserDetailScreen(user = user)
                                     )
                                 },
-                                onUpVote = {
+                                onUpVote = rememberCallback(model) {
                                     if (!isOnOtherInstance) {
                                         model.reduce(
                                             PostDetailMviModel.Intent.UpVotePost(
@@ -327,7 +328,7 @@ class PostDetailScreen(
                                         )
                                     }
                                 },
-                                onDownVote = {
+                                onDownVote = rememberCallback(model) {
                                     if (!isOnOtherInstance) {
                                         model.reduce(
                                             PostDetailMviModel.Intent.DownVotePost(
@@ -336,7 +337,7 @@ class PostDetailScreen(
                                         )
                                     }
                                 },
-                                onSave = {
+                                onSave = rememberCallback(model) {
                                     model.reduce(
                                         PostDetailMviModel.Intent.SavePost(
                                             post = statePost,
@@ -344,7 +345,7 @@ class PostDetailScreen(
                                         ),
                                     )
                                 },
-                                onReply = {
+                                onReply = rememberCallback {
                                     if (!isOnOtherInstance) {
                                         val screen = CreateCommentScreen(
                                             originalPost = statePost,
@@ -365,7 +366,7 @@ class PostDetailScreen(
                                         add(stringResource(MR.strings.comment_action_delete))
                                     }
                                 },
-                                onOptionSelected = { idx ->
+                                onOptionSelected = rememberCallbackArgs(model) { idx ->
                                     when (idx) {
                                         4 -> model.reduce(PostDetailMviModel.Intent.DeletePost)
 
@@ -393,7 +394,7 @@ class PostDetailScreen(
                                         else -> model.reduce(PostDetailMviModel.Intent.SharePost)
                                     }
                                 },
-                                onImageClick = { url ->
+                                onImageClick = rememberCallbackArgs { url ->
                                     navigator?.push(
                                         ZoomableImageScreen(url),
                                     )
@@ -434,17 +435,19 @@ class PostDetailScreen(
                                                 }
                                             }
                                             Text(
-                                                modifier = Modifier.onClick {
-                                                    val post = PostModel(
-                                                        id = crossPost.id,
-                                                        community = community,
-                                                    )
-                                                    navigator?.push(
-                                                        PostDetailScreen(
-                                                            post = post,
+                                                modifier = Modifier.onClick(
+                                                    rememberCallback {
+                                                        val post = PostModel(
+                                                            id = crossPost.id,
+                                                            community = community,
                                                         )
-                                                    )
-                                                },
+                                                        navigator?.push(
+                                                            PostDetailScreen(
+                                                                post = post,
+                                                            )
+                                                        )
+                                                    },
+                                                ),
                                                 text = string,
                                                 style = MaterialTheme.typography.bodyMedium,
                                             )
@@ -481,7 +484,7 @@ class PostDetailScreen(
                                             SwipeableCard(
                                                 modifier = Modifier.fillMaxWidth(),
                                                 enabled = uiState.swipeActionsEnabled && !isOnOtherInstance,
-                                                backgroundColor = {
+                                                backgroundColor = rememberCallbackArgs {
                                                     when (it) {
                                                         DismissValue.DismissedToStart -> upvoteColor
                                                             ?: defaultUpvoteColor
@@ -492,17 +495,17 @@ class PostDetailScreen(
                                                         DismissValue.Default -> Color.Transparent
                                                     }
                                                 },
-                                                onGestureBegin = {
+                                                onGestureBegin = rememberCallback(model) {
                                                     model.reduce(PostDetailMviModel.Intent.HapticIndication)
                                                 },
-                                                onDismissToStart = {
+                                                onDismissToStart = rememberCallback(model) {
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.UpVoteComment(
                                                             commentId
                                                         ),
                                                     )
                                                 },
-                                                onDismissToEnd = {
+                                                onDismissToEnd = rememberCallback(model) {
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.DownVoteComment(
                                                             commentId
@@ -540,14 +543,14 @@ class PostDetailScreen(
                                                         comment = comment,
                                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                                         autoLoadImages = uiState.autoLoadImages,
-                                                        onToggleExpanded = {
+                                                        onToggleExpanded = rememberCallback(model) {
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.ToggleExpandComment(
                                                                     comment.id
                                                                 )
                                                             )
                                                         },
-                                                        onUpVote = {
+                                                        onUpVote = rememberCallback(model) {
                                                             if (!isOnOtherInstance) {
                                                                 model.reduce(
                                                                     PostDetailMviModel.Intent.UpVoteComment(
@@ -557,7 +560,7 @@ class PostDetailScreen(
                                                                 )
                                                             }
                                                         },
-                                                        onDownVote = {
+                                                        onDownVote = rememberCallback(model) {
                                                             if (!isOnOtherInstance) {
                                                                 model.reduce(
                                                                     PostDetailMviModel.Intent.DownVoteComment(
@@ -567,7 +570,7 @@ class PostDetailScreen(
                                                                 )
                                                             }
                                                         },
-                                                        onSave = {
+                                                        onSave = rememberCallback(model) {
                                                             if (!isOnOtherInstance) {
                                                                 model.reduce(
                                                                     PostDetailMviModel.Intent.SaveComment(
@@ -577,7 +580,7 @@ class PostDetailScreen(
                                                                 )
                                                             }
                                                         },
-                                                        onReply = {
+                                                        onReply = rememberCallback {
                                                             if (!isOnOtherInstance) {
                                                                 val screen = CreateCommentScreen(
                                                                     originalPost = statePost,
@@ -598,7 +601,7 @@ class PostDetailScreen(
                                                                 bottomSheetNavigator.show(screen)
                                                             }
                                                         },
-                                                        onOpenCreator = {
+                                                        onOpenCreator = rememberCallbackArgs {
                                                             val user = comment.creator
                                                             if (user != null) {
                                                                 navigator?.push(
@@ -609,7 +612,7 @@ class PostDetailScreen(
                                                                 )
                                                             }
                                                         },
-                                                        onOpenCommunity = {
+                                                        onOpenCommunity = rememberCallbackArgs {
                                                             val community = comment.community
                                                             if (community != null) {
                                                                 navigator?.push(
@@ -628,7 +631,9 @@ class PostDetailScreen(
                                                                 add(stringResource(MR.strings.comment_action_delete))
                                                             }
                                                         },
-                                                        onOptionSelected = { optionId ->
+                                                        onOptionSelected = rememberCallbackArgs(
+                                                            model
+                                                        ) { optionId ->
                                                             when (optionId) {
                                                                 3 -> model.reduce(
                                                                     PostDetailMviModel.Intent.DeleteComment(
@@ -675,14 +680,14 @@ class PostDetailScreen(
                                         } else {
                                             CollapsedCommentCard(
                                                 comment = comment,
-                                                onToggleExpanded = {
+                                                onToggleExpanded = rememberCallback(model) {
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.ToggleExpandComment(
                                                             comment.id
                                                         )
                                                     )
                                                 },
-                                                onUpVote = {
+                                                onUpVote = rememberCallback(model) {
                                                     if (!isOnOtherInstance) {
                                                         model.reduce(
                                                             PostDetailMviModel.Intent.UpVoteComment(
@@ -692,7 +697,7 @@ class PostDetailScreen(
                                                         )
                                                     }
                                                 },
-                                                onDownVote = {
+                                                onDownVote = rememberCallback(model) {
                                                     if (!isOnOtherInstance) {
                                                         model.reduce(
                                                             PostDetailMviModel.Intent.DownVoteComment(
@@ -702,7 +707,7 @@ class PostDetailScreen(
                                                         )
                                                     }
                                                 },
-                                                onSave = {
+                                                onSave = rememberCallback(model) {
                                                     if (!isOnOtherInstance) {
                                                         model.reduce(
                                                             PostDetailMviModel.Intent.SaveComment(
@@ -712,7 +717,7 @@ class PostDetailScreen(
                                                         )
                                                     }
                                                 },
-                                                onReply = {
+                                                onReply = rememberCallback(model) {
                                                     if (!isOnOtherInstance) {
                                                         val screen = CreateCommentScreen(
                                                             originalPost = statePost,
@@ -729,7 +734,7 @@ class PostDetailScreen(
                                                         bottomSheetNavigator.show(screen)
                                                     }
                                                 },
-                                                onOpenCreator = {
+                                                onOpenCreator = rememberCallbackArgs {
                                                     val user = comment.creator
                                                     if (user != null) {
                                                         navigator?.push(
@@ -748,7 +753,7 @@ class PostDetailScreen(
                                                         add(stringResource(MR.strings.comment_action_delete))
                                                     }
                                                 },
-                                                onOptionSelected = { optionId ->
+                                                onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                                     when (optionId) {
                                                         3 -> model.reduce(
                                                             PostDetailMviModel.Intent.DeleteComment(

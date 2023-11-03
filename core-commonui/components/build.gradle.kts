@@ -37,6 +37,7 @@ kotlin {
 
                 implementation(libs.kamel)
 
+                implementation(projects.coreUtils)
                 implementation(projects.coreAppearance)
                 implementation(projects.resources)
             }

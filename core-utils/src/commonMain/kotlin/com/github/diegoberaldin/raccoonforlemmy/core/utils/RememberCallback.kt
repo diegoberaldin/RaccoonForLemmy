@@ -1,0 +1,18 @@
+package com.github.diegoberaldin.raccoonforlemmy.core.utils
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+
+@Composable
+fun rememberCallback(key: Any = Unit, block: () -> Unit): () -> Unit {
+    return remember(key) {
+        block
+    }
+}
+
+@Composable
+fun <T, U> rememberCallbackArgs(key: Any = Unit, block: (T) -> U): (T) -> U {
+    return remember(key) {
+        block
+    }
+}

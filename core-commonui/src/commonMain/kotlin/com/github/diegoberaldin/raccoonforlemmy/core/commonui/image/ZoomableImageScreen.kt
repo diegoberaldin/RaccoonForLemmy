@@ -36,6 +36,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getZoomableImageViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
@@ -79,9 +80,11 @@ class ZoomableImageScreen(
                     title = {},
                     navigationIcon = {
                         Icon(
-                            modifier = Modifier.onClick {
-                                navigator?.pop()
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.pop()
+                                },
+                            ),
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -89,18 +92,22 @@ class ZoomableImageScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier.onClick {
-                                model.reduce(ZoomableImageMviModel.Intent.SaveToGallery(url))
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    model.reduce(ZoomableImageMviModel.Intent.SaveToGallery(url))
+                                },
+                            ),
                             imageVector = Icons.Default.Download,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
                         Spacer(Modifier.width(Spacing.s))
                         Icon(
-                            modifier = Modifier.onClick {
-                                model.reduce(ZoomableImageMviModel.Intent.Share(url))
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    model.reduce(ZoomableImageMviModel.Intent.Share(url))
+                                },
+                            ),
                             imageVector = Icons.Default.Share,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,

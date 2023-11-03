@@ -15,6 +15,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
@@ -50,9 +51,11 @@ fun InboxCard(
             } else {
                 it.background(MaterialTheme.colorScheme.background)
             }
-        }.onClick {
-            onOpenPost(mention.post)
-        },
+        }.onClick(
+            rememberCallback {
+                onOpenPost(mention.post)
+            },
+        ),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),

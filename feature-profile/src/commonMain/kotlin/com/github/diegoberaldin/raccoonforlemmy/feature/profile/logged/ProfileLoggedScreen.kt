@@ -55,6 +55,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLoggedViewModel
@@ -104,9 +106,12 @@ internal object ProfileLoggedScreen : Tab {
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                    model.reduce(ProfileLoggedMviModel.Intent.Refresh)
-                })
+                val pullRefreshState = rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh = rememberCallback(model) {
+                        model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+                    },
+                )
                 Box(
                     modifier = Modifier.pullRefresh(pullRefreshState),
                 ) {
@@ -121,7 +126,7 @@ internal object ProfileLoggedScreen : Tab {
                                 UserHeader(
                                     user = user,
                                     autoLoadImages = uiState.autoLoadImages,
-                                    onOpenImage = { url ->
+                                    onOpenImage = rememberCallbackArgs { url ->
                                         navigator?.push(ZoomableImageScreen(url))
                                     },
                                 )
@@ -134,7 +139,7 @@ internal object ProfileLoggedScreen : Tab {
                                         ProfileLoggedSection.Comments -> 1
                                         else -> 0
                                     },
-                                    onSectionSelected = {
+                                    onSectionSelected = rememberCallbackArgs(model) {
                                         val section = when (it) {
                                             1 -> ProfileLoggedSection.Comments
                                             else -> ProfileLoggedSection.Posts
@@ -171,22 +176,22 @@ internal object ProfileLoggedScreen : Tab {
                                     autoLoadImages = uiState.autoLoadImages,
                                     hideAuthor = true,
                                     blurNsfw = false,
-                                    onClick = {
+                                    onClick = rememberCallback {
                                         navigator?.push(
                                             PostDetailScreen(post),
                                         )
                                     },
-                                    onOpenCommunity = { community ->
+                                    onOpenCommunity = rememberCallbackArgs { community ->
                                         navigator?.push(
                                             CommunityDetailScreen(community),
                                         )
                                     },
-                                    onImageClick = { url ->
+                                    onImageClick = rememberCallbackArgs { url ->
                                         navigator?.push(
                                             ZoomableImageScreen(url),
                                         )
                                     },
-                                    onUpVote = {
+                                    onUpVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVotePost(
                                                 idx,
@@ -194,7 +199,7 @@ internal object ProfileLoggedScreen : Tab {
                                             )
                                         )
                                     },
-                                    onDownVote = {
+                                    onDownVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.DownVotePost(
                                                 idx,
@@ -202,7 +207,7 @@ internal object ProfileLoggedScreen : Tab {
                                             )
                                         )
                                     },
-                                    onSave = {
+                                    onSave = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.SavePost(
                                                 idx,
@@ -216,7 +221,7 @@ internal object ProfileLoggedScreen : Tab {
                                         add(stringResource(MR.strings.post_action_edit))
                                         add(stringResource(MR.strings.comment_action_delete))
                                     },
-                                    onOptionSelected = { optionIdx ->
+                                    onOptionSelected = rememberCallbackArgs(model) { optionIdx ->
                                         when (optionIdx) {
                                             3 -> model.reduce(
                                                 ProfileLoggedMviModel.Intent.DeletePost(post.id)
@@ -285,7 +290,7 @@ internal object ProfileLoggedScreen : Tab {
                                     hideCommunity = false,
                                     hideAuthor = true,
                                     hideIndent = true,
-                                    onClick = {
+                                    onClick = rememberCallback {
                                         navigator?.push(
                                             PostDetailScreen(
                                                 post = PostModel(id = comment.postId),
@@ -293,7 +298,7 @@ internal object ProfileLoggedScreen : Tab {
                                             ),
                                         )
                                     },
-                                    onUpVote = {
+                                    onUpVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVoteComment(
                                                 idx,
@@ -301,7 +306,7 @@ internal object ProfileLoggedScreen : Tab {
                                             )
                                         )
                                     },
-                                    onDownVote = {
+                                    onDownVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.DownVoteComment(
                                                 idx,
@@ -309,7 +314,7 @@ internal object ProfileLoggedScreen : Tab {
                                             )
                                         )
                                     },
-                                    onSave = {
+                                    onSave = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.SaveComment(
                                                 idx,
@@ -322,7 +327,7 @@ internal object ProfileLoggedScreen : Tab {
                                         add(stringResource(MR.strings.post_action_edit))
                                         add(stringResource(MR.strings.comment_action_delete))
                                     },
-                                    onOptionSelected = { optionIdx ->
+                                    onOptionSelected = rememberCallbackArgs(model) { optionIdx ->
                                         when (optionIdx) {
                                             2 -> {
                                                 model.reduce(

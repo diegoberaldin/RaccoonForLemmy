@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.TextToolbar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.DrawerCoordinator
@@ -27,6 +28,9 @@ import org.koin.core.parameter.parametersOf
 actual fun getNavigationCoordinator() = CommonUiViewModelHelper.navigationCoordinator
 
 actual fun getDrawerCoordinator() = CommonUiViewModelHelper.drawerCoordinator
+
+actual fun getFabNestedScrollConnection(): FabNestedScrollConnection =
+    CommonUiViewModelHelper.fabNestedScrollConnection
 
 actual fun getPostDetailViewModel(
     post: PostModel,
@@ -84,6 +88,7 @@ object CommonUiViewModelHelper : KoinComponent {
 
     val navigationCoordinator: NavigationCoordinator by inject()
     val drawerCoordinator: DrawerCoordinator by inject()
+    val fabNestedScrollConnection: FabNestedScrollConnection by inject()
     val zoomableImageModel: ZoomableImageMviModel by inject()
     val savedItemsViewModel: SavedItemsMviModel by inject()
     val modalDrawerViewModel: ModalDrawerMviModel by inject()

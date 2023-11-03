@@ -64,6 +64,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Placeho
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getModalDrawerViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
@@ -141,9 +142,12 @@ object ModalDrawerContent : Tab {
                 )
             )
 
-            val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                model.reduce(ModalDrawerMviModel.Intent.Refresh)
-            })
+            val pullRefreshState = rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh = rememberCallback(model) {
+                    model.reduce(ModalDrawerMviModel.Intent.Refresh)
+                },
+            )
             Box(
                 modifier = Modifier.weight(1f).pullRefresh(pullRefreshState),
             ) {
@@ -153,7 +157,8 @@ object ModalDrawerContent : Tab {
                 ) {
                     if (uiState.user != null) {
                         item {
-                            DrawerShortcut(title = stringResource(MR.strings.navigation_drawer_title_subscriptions),
+                            DrawerShortcut(
+                                title = stringResource(MR.strings.navigation_drawer_title_subscriptions),
                                 icon = Icons.Default.ManageAccounts,
                                 onSelected = {
                                     scope.launch {
@@ -176,14 +181,16 @@ object ModalDrawerContent : Tab {
 
                     itemsIndexed(uiState.multiCommunities) { _, community ->
                         MultiCommunityItem(
-                            modifier = Modifier.fillMaxWidth().onClick {
-                                scope.launch {
-                                    coordinator.toggleDrawer()
-                                    coordinator.sendEvent(
-                                        DrawerEvent.OpenMultiCommunity(community),
-                                    )
-                                }
-                            },
+                            modifier = Modifier.fillMaxWidth().onClick(
+                                rememberCallback {
+                                    scope.launch {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(
+                                            DrawerEvent.OpenMultiCommunity(community),
+                                        )
+                                    }
+                                },
+                            ),
                             community = community,
                             small = true,
                             autoLoadImages = uiState.autoLoadImages,
@@ -191,14 +198,16 @@ object ModalDrawerContent : Tab {
                     }
                     itemsIndexed(uiState.communities) { _, community ->
                         CommunityItem(
-                            modifier = Modifier.fillMaxWidth().onClick {
-                                scope.launch {
-                                    coordinator.toggleDrawer()
-                                    coordinator.sendEvent(
-                                        DrawerEvent.OpenCommunity(community),
-                                    )
-                                }
-                            },
+                            modifier = Modifier.fillMaxWidth().onClick(
+                                rememberCallback {
+                                    scope.launch {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(
+                                            DrawerEvent.OpenCommunity(community),
+                                        )
+                                    }
+                                },
+                            ),
                             community = community,
                             small = true,
                             autoLoadImages = uiState.autoLoadImages,
@@ -320,9 +329,11 @@ private fun DrawerHeader(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
-                        modifier = Modifier.onClick {
-                            onOpenChangeInstance?.invoke()
-                        },
+                        modifier = Modifier.onClick(
+                            rememberCallback {
+                                onOpenChangeInstance?.invoke()
+                            },
+                        ),
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = null,
                     )
@@ -343,9 +354,11 @@ private fun DrawerShortcut(
         modifier = Modifier.fillMaxWidth().padding(
             horizontal = Spacing.s,
             vertical = Spacing.xs,
-        ).onClick {
-            onSelected?.invoke()
-        },
+        ).onClick(
+            rememberCallback {
+                onSelected?.invoke()
+            },
+        ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
     ) {

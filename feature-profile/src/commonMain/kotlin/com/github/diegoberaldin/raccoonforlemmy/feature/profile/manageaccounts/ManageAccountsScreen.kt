@@ -42,6 +42,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getManageAccountsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -101,9 +102,11 @@ class ManageAccountsScreen : Screen {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .onClick {
-                                    model.reduce(ManageAccountsMviModel.Intent.SwitchAccount(idx))
-                                }
+                                .onClick(
+                                    rememberCallback {
+                                        model.reduce(ManageAccountsMviModel.Intent.SwitchAccount(idx))
+                                    },
+                                )
                                 .padding(
                                     horizontal = Spacing.m,
                                     vertical = Spacing.s,

@@ -37,6 +37,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsScreen
@@ -81,11 +82,13 @@ internal object ProfileMainScreen : Tab {
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                scope.launch {
-                                    drawerCoordinator.toggleDrawer()
-                                }
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    scope.launch {
+                                        drawerCoordinator.toggleDrawer()
+                                    }
+                                },
+                            ),
                             imageVector = Icons.Default.Menu,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -101,9 +104,11 @@ internal object ProfileMainScreen : Tab {
                     actions = {
                         if (uiState.logged == true) {
                             Image(
-                                modifier = Modifier.onClick {
-                                    bottomSheetNavigator.show(ManageAccountsScreen())
-                                },
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        bottomSheetNavigator.show(ManageAccountsScreen())
+                                    },
+                                ),
                                 imageVector = Icons.Default.ManageAccounts,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -112,9 +117,11 @@ internal object ProfileMainScreen : Tab {
                             Spacer(modifier = Modifier.width(Spacing.m))
 
                             Image(
-                                modifier = Modifier.onClick {
-                                    model.reduce(ProfileMainMviModel.Intent.Logout)
-                                },
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        model.reduce(ProfileMainMviModel.Intent.Logout)
+                                    },
+                                ),
                                 imageVector = Icons.Default.Logout,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),

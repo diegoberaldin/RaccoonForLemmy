@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 
 @Composable
@@ -74,9 +75,12 @@ fun PostCardFooter(
             val buttonModifier = Modifier.size(28.dp).padding(3.5.dp)
             if (comments != null) {
                 Image(
-                    modifier = buttonModifier.padding(1.dp).onClick {
-                        onReply?.invoke()
-                    },
+                    modifier = buttonModifier.padding(1.dp)
+                        .onClick(
+                            rememberCallback {
+                                onReply?.invoke()
+                            },
+                        ),
                     imageVector = Icons.Default.Chat,
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
@@ -107,18 +111,22 @@ fun PostCardFooter(
                         .onGloballyPositioned {
                             optionsOffset = it.positionInParent()
                         }
-                        .onClick {
-                            optionsExpanded = true
-                        },
+                        .onClick(
+                            rememberCallback {
+                                optionsExpanded = true
+                            },
+                        ),
                     imageVector = Icons.Default.MoreHoriz,
                     contentDescription = null,
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
             Image(
-                modifier = buttonModifier.onClick {
-                    onSave?.invoke()
-                },
+                modifier = buttonModifier.onClick(
+                    rememberCallback {
+                        onSave?.invoke()
+                    },
+                ),
                 imageVector = if (!saved) {
                     Icons.Default.BookmarkBorder
                 } else {
@@ -135,9 +143,11 @@ fun PostCardFooter(
             )
             Image(
                 modifier = buttonModifier
-                    .onClick {
-                        onUpVote?.invoke()
-                    },
+                    .onClick(
+                        rememberCallback {
+                            onUpVote?.invoke()
+                        },
+                    ),
                 imageVector = Icons.Default.ArrowCircleUp,
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
@@ -193,9 +203,11 @@ fun PostCardFooter(
             )
             Image(
                 modifier = buttonModifier
-                    .onClick {
-                        onDownVote?.invoke()
-                    },
+                    .onClick(
+                        rememberCallback {
+                            onDownVote?.invoke()
+                        },
+                    ),
                 imageVector = Icons.Default.ArrowCircleDown,
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
@@ -223,10 +235,12 @@ fun PostCardFooter(
                     modifier = Modifier.padding(
                         horizontal = Spacing.m,
                         vertical = Spacing.xs,
-                    ).onClick {
-                        optionsExpanded = false
-                        onOptionSelected?.invoke(idx)
-                    },
+                    ).onClick(
+                        rememberCallback {
+                            optionsExpanded = false
+                            onOptionSelected?.invoke(idx)
+                        },
+                    ),
                     text = text,
                 )
             }

@@ -64,6 +64,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.localized
@@ -122,8 +123,20 @@ class CreatePostScreen(
                 }
             }.launchIn(this)
         }
+        val keyboardScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(
+                    available: Offset,
+                    source: NestedScrollSource,
+                ): Offset {
+                    focusManager.clearFocus()
+                    return Offset.Zero
+                }
+            }
+        }
 
         Scaffold(
+            modifier = Modifier.nestedScroll(keyboardScrollConnection),
             topBar = {
                 TopAppBar(
                     title = {
@@ -146,21 +159,9 @@ class CreatePostScreen(
                 SnackbarHost(snackbarHostState)
             }
         ) { padding ->
-            val keyboardScrollConnection = remember {
-                object : NestedScrollConnection {
-                    override fun onPreScroll(
-                        available: Offset,
-                        source: NestedScrollSource,
-                    ): Offset {
-                        focusManager.clearFocus()
-                        return Offset.Zero
-                    }
-                }
-            }
             Column(
                 modifier = Modifier
                     .padding(padding)
-                    .nestedScroll(keyboardScrollConnection)
                     .verticalScroll(rememberScrollState()),
             ) {
                 TextField(
@@ -225,9 +226,11 @@ class CreatePostScreen(
                     },
                     trailingIcon = {
                         Icon(
-                            modifier = Modifier.onClick {
-                                openImagePicker = true
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    openImagePicker = true
+                                },
+                            ),
                             imageVector = Icons.Default.Image,
                             contentDescription = null,
                         )

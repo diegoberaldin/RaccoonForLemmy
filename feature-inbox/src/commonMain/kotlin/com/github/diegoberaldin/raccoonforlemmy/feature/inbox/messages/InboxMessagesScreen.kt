@@ -35,6 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxMessagesViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -75,9 +76,12 @@ class InboxMessagesScreen : Tab {
             }.launchIn(this)
         }
 
-        val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-            model.reduce(InboxMessagesMviModel.Intent.Refresh)
-        })
+        val pullRefreshState = rememberPullRefreshState(
+            refreshing = uiState.refreshing,
+            onRefresh = rememberCallback(model) {
+                model.reduce(InboxMessagesMviModel.Intent.Refresh)
+            },
+        )
         Box(
             modifier = Modifier.pullRefresh(pullRefreshState),
         ) {

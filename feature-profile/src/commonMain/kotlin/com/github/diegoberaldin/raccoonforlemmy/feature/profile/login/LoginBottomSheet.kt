@@ -53,6 +53,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.handleU
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getLoginBottomSheetViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.localized
@@ -234,13 +235,16 @@ class LoginBottomSheet : Screen {
                     visualTransformation = transformation,
                     trailingIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                transformation = if (transformation == VisualTransformation.None) {
-                                    PasswordVisualTransformation()
-                                } else {
-                                    VisualTransformation.None
-                                }
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    transformation =
+                                        if (transformation == VisualTransformation.None) {
+                                            PasswordVisualTransformation()
+                                        } else {
+                                            VisualTransformation.None
+                                        }
+                                },
+                            ),
                             imageVector = if (transformation == VisualTransformation.None) {
                                 Icons.Default.VisibilityOff
                             } else {

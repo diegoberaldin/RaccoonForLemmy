@@ -41,16 +41,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -70,6 +66,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
@@ -80,6 +77,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getMultiCommunityViewModel
@@ -110,20 +108,8 @@ class MultiCommunityScreen(
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
-        val isFabVisible = remember { mutableStateOf(true) }
-        val fabNestedScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    if (available.y < -1) {
-                        isFabVisible.value = false
-                    }
-                    if (available.y > 1) {
-                        isFabVisible.value = true
-                    }
-                    return Offset.Zero
-                }
-            }
-        }
+        val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
+        val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val drawerCoordinator = remember { getDrawerCoordinator() }
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
@@ -135,6 +121,9 @@ class MultiCommunityScreen(
 
 
         Scaffold(
+            modifier = Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(fabNestedScrollConnection),
             topBar = {
                 val sortType = uiState.sortType
                 TopAppBar(
@@ -148,9 +137,11 @@ class MultiCommunityScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                navigator?.pop()
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.pop()
+                                },
+                            ),
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -180,21 +171,23 @@ class MultiCommunityScreen(
                             }
                             if (sortType != null) {
                                 Image(
-                                    modifier = Modifier.onClick {
-                                        val sheet = SortBottomSheet(
-                                            expandTop = true,
-                                        )
-                                        notificationCenter.addObserver({
-                                            (it as? SortType)?.also { sortType ->
-                                                model.reduce(
-                                                    MultiCommunityMviModel.Intent.ChangeSort(
-                                                        sortType
+                                    modifier = Modifier.onClick(
+                                        rememberCallback {
+                                            val sheet = SortBottomSheet(
+                                                expandTop = true,
+                                            )
+                                            notificationCenter.addObserver({
+                                                (it as? SortType)?.also { sortType ->
+                                                    model.reduce(
+                                                        MultiCommunityMviModel.Intent.ChangeSort(
+                                                            sortType
+                                                        )
                                                     )
-                                                )
-                                            }
-                                        }, key, NotificationCenterContractKeys.ChangeSortType)
-                                        bottomSheetNavigator.show(sheet)
-                                    },
+                                                }
+                                            }, key, NotificationCenterContractKeys.ChangeSortType)
+                                            bottomSheetNavigator.show(sheet)
+                                        },
+                                    ),
                                     imageVector = sortType.toIcon(),
                                     contentDescription = null,
                                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -206,7 +199,7 @@ class MultiCommunityScreen(
             },
             floatingActionButton = {
                 AnimatedVisibility(
-                    visible = isFabVisible.value,
+                    visible = isFabVisible,
                     enter = slideInVertically(
                         initialOffsetY = { it * 2 },
                     ),
@@ -242,15 +235,16 @@ class MultiCommunityScreen(
                 }
             }
         ) { padding ->
-            val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                model.reduce(MultiCommunityMviModel.Intent.Refresh)
-            })
+            val pullRefreshState = rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh = rememberCallback(model) {
+                    model.reduce(MultiCommunityMviModel.Intent.Refresh)
+                },
+            )
             Box(
                 modifier = Modifier
                     .padding(padding)
                     .fillMaxWidth()
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(

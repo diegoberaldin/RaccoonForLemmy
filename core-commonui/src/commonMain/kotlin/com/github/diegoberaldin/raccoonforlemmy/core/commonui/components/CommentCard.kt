@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -59,9 +60,9 @@ fun CommentCard(
             endColor = MaterialTheme.colorScheme.background,
         )
         Box(
-            modifier = Modifier.onClick {
+            modifier = Modifier.onClick(rememberCallback {
                 onClick?.invoke()
-            }.padding(
+            }).padding(
                 start = if (hideIndent) 0.dp else (10 * comment.depth).dp
             ),
         ) {

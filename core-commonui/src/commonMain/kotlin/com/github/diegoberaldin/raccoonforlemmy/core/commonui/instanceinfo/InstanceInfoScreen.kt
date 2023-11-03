@@ -44,6 +44,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledC
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -72,9 +73,11 @@ class InstanceInfoScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                navigator?.pop()
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.pop()
+                                },
+                            ),
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -90,9 +93,12 @@ class InstanceInfoScreen(
                 )
             },
         ) { paddingValues ->
-            val pullRefreshState = rememberPullRefreshState(uiState.refreshing, {
-                model.reduce(InstanceInfoMviModel.Intent.Refresh)
-            })
+            val pullRefreshState = rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh = rememberCallback(model) {
+                    model.reduce(InstanceInfoMviModel.Intent.Refresh)
+                },
+            )
             Box(
                 modifier = Modifier
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -135,14 +141,16 @@ class InstanceInfoScreen(
                     }
                     items(uiState.communities) {
                         CommunityItem(
-                            modifier = Modifier.onClick {
-                                navigator?.push(
-                                    CommunityDetailScreen(
-                                        community = it,
-                                        otherInstance = instanceName,
-                                    ),
-                                )
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.push(
+                                        CommunityDetailScreen(
+                                            community = it,
+                                            otherInstance = instanceName,
+                                        ),
+                                    )
+                                },
+                            ),
                             community = it,
                             autoLoadImages = uiState.autoLoadImages,
                         )

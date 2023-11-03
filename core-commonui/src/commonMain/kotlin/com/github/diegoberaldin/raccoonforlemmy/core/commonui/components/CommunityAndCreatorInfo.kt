@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
@@ -54,11 +55,13 @@ fun CommunityAndCreatorInfo(
             if (autoLoadImages) {
                 CustomImage(
                     modifier = Modifier
-                        .onClick {
-                            if (community != null) {
-                                onOpenCommunity?.invoke(community)
-                            }
-                        }
+                        .onClick(
+                            rememberCallback {
+                                if (community != null) {
+                                    onOpenCommunity?.invoke(community)
+                                }
+                            },
+                        )
                         .padding(Spacing.xxxs)
                         .size(iconSize)
                         .clip(RoundedCornerShape(iconSize / 2)),
@@ -69,11 +72,13 @@ fun CommunityAndCreatorInfo(
                 )
             } else {
                 PlaceholderImage(
-                    modifier = Modifier.onClick {
-                        if (community != null) {
-                            onOpenCommunity?.invoke(community)
-                        }
-                    },
+                    modifier = Modifier.onClick(
+                        rememberCallback {
+                            if (community != null) {
+                                onOpenCommunity?.invoke(community)
+                            }
+                        },
+                    ),
                     size = 32.dp,
                     title = communityName,
                 )
@@ -82,11 +87,13 @@ fun CommunityAndCreatorInfo(
             if (autoLoadImages) {
                 CustomImage(
                     modifier = Modifier
-                        .onClick {
-                            if (creator != null) {
-                                onOpenCreator?.invoke(creator)
-                            }
-                        }
+                        .onClick(
+                            rememberCallback {
+                                if (creator != null) {
+                                    onOpenCreator?.invoke(creator)
+                                }
+                            },
+                        )
                         .padding(Spacing.xxxs)
                         .size(iconSize)
                         .clip(RoundedCornerShape(iconSize / 2)),
@@ -97,11 +104,13 @@ fun CommunityAndCreatorInfo(
                 )
             } else {
                 PlaceholderImage(
-                    modifier = Modifier.onClick {
-                        if (creator != null) {
-                            onOpenCreator?.invoke(creator)
-                        }
-                    },
+                    modifier = Modifier.onClick(
+                        rememberCallback {
+                            if (creator != null) {
+                                onOpenCreator?.invoke(creator)
+                            }
+                        },
+                    ),
                     size = iconSize,
                     title = creatorName,
                 )
@@ -113,9 +122,11 @@ fun CommunityAndCreatorInfo(
             if (community != null) {
                 Text(
                     modifier = Modifier
-                        .onClick {
-                            onOpenCommunity?.invoke(community)
-                        },
+                        .onClick(
+                            rememberCallback {
+                                onOpenCommunity?.invoke(community)
+                            },
+                        ),
                     text = buildString {
                         append(communityName)
                         if (communityHost.isNotEmpty()) {
@@ -129,9 +140,11 @@ fun CommunityAndCreatorInfo(
             if (creator != null) {
                 Text(
                     modifier = Modifier
-                        .onClick {
-                            onOpenCreator?.invoke(creator)
-                        },
+                        .onClick(
+                            rememberCallback {
+                                onOpenCreator?.invoke(creator)
+                            },
+                        ),
                     text = buildString {
                         append(creatorName)
                         if (creatorHost.isNotEmpty()) {
@@ -147,7 +160,11 @@ fun CommunityAndCreatorInfo(
             Spacer(modifier = Modifier.weight(1f))
             val expandedModifier = Modifier
                 .padding(end = Spacing.xs)
-                .onClick { onToggleExpanded?.invoke() }
+                .onClick(
+                    rememberCallback {
+                        onToggleExpanded?.invoke()
+                    },
+                )
             if (indicatorExpanded) {
                 Icon(
                     modifier = expandedModifier,

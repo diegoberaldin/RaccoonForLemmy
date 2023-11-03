@@ -63,6 +63,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getMultiCommunityEditorViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.localized
@@ -111,9 +112,11 @@ class MultiCommunityEditorScreen(
                     },
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick {
-                                navigator?.pop()
-                            },
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    navigator?.pop()
+                                },
+                            ),
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -214,13 +217,15 @@ class MultiCommunityEditorScreen(
                                             } else {
                                                 it
                                             }
-                                        }.onClick {
-                                            model.reduce(
-                                                MultiCommunityEditorMviModel.Intent.SelectImage(
-                                                    idx,
+                                        }.onClick(
+                                            rememberCallback(model) {
+                                                model.reduce(
+                                                    MultiCommunityEditorMviModel.Intent.SelectImage(
+                                                        idx,
+                                                    )
                                                 )
-                                            )
-                                        },
+                                            },
+                                        ),
                                     url = url,
                                     contentScale = ContentScale.FillBounds,
                                 )
@@ -253,13 +258,15 @@ class MultiCommunityEditorScreen(
                                         } else {
                                             it
                                         }
-                                    }.onClick {
-                                        model.reduce(
-                                            MultiCommunityEditorMviModel.Intent.SelectImage(
-                                                null,
+                                    }.onClick(
+                                        rememberCallback {
+                                            model.reduce(
+                                                MultiCommunityEditorMviModel.Intent.SelectImage(
+                                                    null,
+                                                )
                                             )
-                                        )
-                                    },
+                                        },
+                                    ),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 Text(
@@ -298,13 +305,15 @@ class MultiCommunityEditorScreen(
                         },
                         trailingIcon = {
                             Icon(
-                                modifier = Modifier.onClick {
-                                    if (uiState.searchText.isNotEmpty()) {
-                                        model.reduce(
-                                            MultiCommunityEditorMviModel.Intent.SetSearch("")
-                                        )
-                                    }
-                                },
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        if (uiState.searchText.isNotEmpty()) {
+                                            model.reduce(
+                                                MultiCommunityEditorMviModel.Intent.SetSearch("")
+                                            )
+                                        }
+                                    },
+                                ),
                                 imageVector = if (uiState.searchText.isEmpty()) Icons.Default.Search else Icons.Default.Clear,
                                 contentDescription = null,
                             )
