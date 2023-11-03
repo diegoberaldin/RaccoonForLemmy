@@ -309,6 +309,7 @@ private fun ExtendedPost(
             )
         }
         PostCardFooter(
+            modifier = Modifier.padding(top = Spacing.xs),
             comments = post.comments,
             separateUpAndDownVotes = separateUpAndDownVotes,
             score = post.score,

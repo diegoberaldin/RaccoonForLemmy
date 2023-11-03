@@ -75,7 +75,9 @@ fun InboxCard(
             }
             InboxReplySubtitle(
                 modifier = Modifier.padding(
-                    horizontal = Spacing.xs,
+                    start = Spacing.xs,
+                    end = Spacing.xs,
+                    top = Spacing.xs,
                 ),
                 creator = mention.creator,
                 community = mention.community,

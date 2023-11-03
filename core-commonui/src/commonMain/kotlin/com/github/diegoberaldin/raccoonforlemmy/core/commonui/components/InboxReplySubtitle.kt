@@ -61,7 +61,9 @@ fun InboxReplySubtitle(
     val downvoteColor by themeRepository.downvoteColor.collectAsState()
     val defaultUpvoteColor = MaterialTheme.colorScheme.primary
     val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
-    Column {
+    Column(
+        modifier = modifier,
+    ) {
         val communityName = community?.name.orEmpty()
         val communityIcon = community?.icon.orEmpty()
         val communityHost = community?.host.orEmpty()
@@ -70,7 +72,6 @@ fun InboxReplySubtitle(
         val creatorHost = creator?.host.orEmpty()
         if (communityName.isNotEmpty() || creatorName.isNotEmpty()) {
             Row(
-                modifier = modifier.padding(vertical = Spacing.xs),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {

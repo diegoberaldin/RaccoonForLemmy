@@ -68,7 +68,6 @@ fun PostCardFooter(
 
     Box(modifier = modifier) {
         Row(
-            modifier = Modifier.padding(vertical = Spacing.xxxs),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
