@@ -55,7 +55,7 @@ class ZoomableImageScreen(
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val successMessage = stringResource(MR.strings.message_operation_successful)
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
 
         LaunchedEffect(model) {
@@ -82,7 +82,7 @@ class ZoomableImageScreen(
                         Icon(
                             modifier = Modifier.onClick(
                                 rememberCallback {
-                                    navigator?.pop()
+                                    navigationCoordinator.getRootNavigator()?.pop()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,

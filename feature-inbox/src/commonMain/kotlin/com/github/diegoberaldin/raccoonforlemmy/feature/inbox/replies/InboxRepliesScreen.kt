@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -72,8 +72,8 @@ class InboxRepliesScreen : Tab {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { navigationCoordinator.getRootNavigator() }
         val lazyListState = rememberLazyListState()
+
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach {
                 if (it == InboxTab) {
@@ -128,7 +128,7 @@ class InboxRepliesScreen : Tab {
                         )
                     }
                 }
-                itemsIndexed(uiState.replies) { idx, mention ->
+                items(uiState.replies) { reply ->
                     val endColor = MaterialTheme.colorScheme.secondary
                     val startColor = MaterialTheme.colorScheme.tertiary
                     SwipeableCard(
@@ -148,7 +148,7 @@ class InboxRepliesScreen : Tab {
                             model.reduce(
                                 InboxRepliesMviModel.Intent.MarkAsRead(
                                     read = true,
-                                    index = idx,
+                                    id = reply.id,
                                 ),
                             )
                         },
@@ -156,7 +156,7 @@ class InboxRepliesScreen : Tab {
                             model.reduce(
                                 InboxRepliesMviModel.Intent.MarkAsRead(
                                     read = false,
-                                    index = idx,
+                                    id = reply.id,
                                 ),
                             )
                         },
@@ -174,34 +174,34 @@ class InboxRepliesScreen : Tab {
                         },
                         content = {
                             InboxCard(
-                                mention = mention,
+                                mention = reply,
                                 postLayout = uiState.postLayout,
                                 type = InboxCardType.Reply,
                                 autoLoadImages = uiState.autoLoadImages,
                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                 onOpenPost = rememberCallbackArgs { post ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         PostDetailScreen(
                                             post = post,
-                                            highlightCommentId = mention.comment.id,
+                                            highlightCommentId = reply.comment.id,
                                         ),
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         UserDetailScreen(user),
                                     )
                                 },
                                 onOpenCommunity = rememberCallbackArgs { community ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         CommunityDetailScreen(community),
                                     )
                                 },
                                 onUpVote = rememberCallbackArgs(model) {
-                                    model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(idx))
+                                    model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
                                 },
                                 onDownVote = rememberCallbackArgs(model) {
-                                    model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(idx))
+                                    model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
                                 },
                             )
                         },

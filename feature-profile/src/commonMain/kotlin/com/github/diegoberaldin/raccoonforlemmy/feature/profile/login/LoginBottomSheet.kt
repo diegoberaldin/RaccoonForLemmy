@@ -45,7 +45,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -74,7 +73,7 @@ class LoginBottomSheet : Screen {
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = stringResource(MR.strings.message_generic_error)
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -86,14 +85,13 @@ class LoginBottomSheet : Screen {
                     }
 
                     LoginBottomSheetMviModel.Effect.LoginSuccess -> {
-                        bottomSheetNavigator.hide()
+                        navigationCoordinator.getBottomNavigator()?.hide()
                     }
                 }
             }.launchIn(this)
         }
 
         val uriHandler = LocalUriHandler.current
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
         val settingsRepository = remember { getSettingsRepository() }
 
         Box(
@@ -125,12 +123,12 @@ class LoginBottomSheet : Screen {
                     IconButton(
                         modifier = Modifier.align(Alignment.TopEnd),
                         onClick = {
-                            bottomSheetNavigator.hide()
+                            navigationCoordinator.getBottomNavigator()?.hide()
                             handleUrl(
                                 url = HELP_URL,
                                 openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
                                 uriHandler = uriHandler,
-                                navigator = navigator
+                                navigator = navigationCoordinator.getRootNavigator(),
                             )
                         },
                     ) {

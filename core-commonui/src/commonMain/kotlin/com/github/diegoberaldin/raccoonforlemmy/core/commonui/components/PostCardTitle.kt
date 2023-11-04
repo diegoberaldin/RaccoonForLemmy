@@ -17,7 +17,7 @@ fun PostCardTitle(
     onClick: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
-    val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+    val navigationCoordinator = remember { getNavigationCoordinator() }
     val settingsRepository = remember { getSettingsRepository() }
 
     CustomMarkdown(
@@ -29,11 +29,11 @@ fun PostCardTitle(
                 url = url,
                 openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
                 uriHandler = uriHandler,
-                navigator = navigator
+                navigator = navigationCoordinator.getRootNavigator(),
             )
         },
         onOpenImage = { url ->
-            navigator?.push(ZoomableImageScreen(url))
+            navigationCoordinator.getRootNavigator()?.push(ZoomableImageScreen(url))
         },
         onClick = onClick,
     )

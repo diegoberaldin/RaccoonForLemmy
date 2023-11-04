@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation
 
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -17,6 +18,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
+    private var bottomNavigator: BottomSheetNavigator? = null
     private var currentTab: Tab? = null
     private val scope = CoroutineScope(SupervisorJob())
     private var canGoBackCallback: (() -> Boolean)? = null
@@ -59,5 +61,13 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override fun setInboxUnread(count: Int) {
         inboxUnread.value = count
+    }
+
+    override fun setBottomNavigator(value: BottomSheetNavigator?) {
+        bottomNavigator = value
+    }
+
+    override fun getBottomNavigator(): BottomSheetNavigator? {
+        return bottomNavigator
     }
 }

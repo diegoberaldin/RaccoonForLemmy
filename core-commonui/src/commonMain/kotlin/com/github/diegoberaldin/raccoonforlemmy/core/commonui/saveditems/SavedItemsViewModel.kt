@@ -41,11 +41,13 @@ class SavedItemsViewModel(
     private var currentPage: Int = 1
 
     init {
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
+        notificationCenter.addObserver(
+            {
+                (it as? PostModel)?.also { post ->
+                    handlePostUpdate(post)
+                }
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
+        )
     }
 
     fun finalize() {
@@ -80,37 +82,39 @@ class SavedItemsViewModel(
             SavedItemsMviModel.Intent.Refresh -> refresh()
             is SavedItemsMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is SavedItemsMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is SavedItemsMviModel.Intent.DownVotePost -> toggleDownVotePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is SavedItemsMviModel.Intent.SaveComment -> toggleSaveComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is SavedItemsMviModel.Intent.SavePost -> toggleSavePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is SavedItemsMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is SavedItemsMviModel.Intent.UpVotePost -> toggleUpVotePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is SavedItemsMviModel.Intent.ChangeSort -> applySortType(intent.value)
-            is SavedItemsMviModel.Intent.SharePost -> share(post = uiState.value.posts[intent.index])
+            is SavedItemsMviModel.Intent.SharePost -> share(
+                post = uiState.value.posts.first { it.id == intent.id }
+            )
         }
     }
 

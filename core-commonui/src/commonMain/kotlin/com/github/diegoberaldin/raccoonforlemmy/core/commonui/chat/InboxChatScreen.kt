@@ -67,7 +67,7 @@ class InboxChatScreen(
         val model = rememberScreenModel { getInboxChatViewModel(otherUserId) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val focusManager = LocalFocusManager.current
         val drawerCoordinator = remember { getDrawerCoordinator() }
         DisposableEffect(key) {
@@ -112,7 +112,7 @@ class InboxChatScreen(
                         Image(
                             modifier = Modifier.onClick(
                                 rememberCallback {
-                                    navigator?.pop()
+                                    navigationCoordinator.getRootNavigator()?.pop()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,

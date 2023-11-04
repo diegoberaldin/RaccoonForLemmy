@@ -1,10 +1,12 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.notifications
 
+import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.SharedFlow
 
 /**
  * Utility to publish and subscribe for broadcast notifications.
  */
+@Stable
 interface NotificationCenter {
 
     /**

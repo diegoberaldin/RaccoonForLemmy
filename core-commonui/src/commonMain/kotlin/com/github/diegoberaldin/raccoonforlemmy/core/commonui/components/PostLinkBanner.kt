@@ -30,7 +30,7 @@ fun PostLinkBanner(
     url: String,
 ) {
     val uriHandler = LocalUriHandler.current
-    val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+    val navigationCoordinator = remember { getNavigationCoordinator() }
     val settingsRepository = remember { getSettingsRepository() }
 
     if (url.isNotEmpty()) {
@@ -44,7 +44,7 @@ fun PostLinkBanner(
                         if (settingsRepository.currentSettings.value.openUrlsInExternalBrowser) {
                             uriHandler.openUri(url)
                         } else {
-                            navigator?.push(WebViewScreen(url))
+                            navigationCoordinator.getRootNavigator()?.push(WebViewScreen(url))
                         }
                     },
                 ).padding(

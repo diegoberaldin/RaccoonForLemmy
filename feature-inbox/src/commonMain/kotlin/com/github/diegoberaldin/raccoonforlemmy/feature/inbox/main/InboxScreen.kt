@@ -26,7 +26,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
@@ -35,9 +34,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxViewModel
@@ -66,15 +67,29 @@ object InboxScreen : Tab {
         val model = rememberScreenModel { getInboxViewModel() }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         val notificationCenter = remember { getNotificationCenter() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val scope = rememberCoroutineScope()
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
+
         DisposableEffect(key) {
             onDispose {
                 notificationCenter.removeObserver(key)
             }
+        }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                {
+                    (it as? Boolean)?.also { value ->
+                        model.reduce(
+                            InboxMviModel.Intent.ChangeUnreadOnly(value)
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeInboxType
+            )
         }
 
         Scaffold(
@@ -115,14 +130,7 @@ object InboxScreen : Tab {
                                 modifier = Modifier.onClick(
                                     rememberCallback {
                                         val sheet = InboxTypeSheet()
-                                        notificationCenter.addObserver({
-                                            (it as? Boolean)?.also { value ->
-                                                model.reduce(
-                                                    InboxMviModel.Intent.ChangeUnreadOnly(value)
-                                                )
-                                            }
-                                        }, key, NotificationCenterContractKeys.ChangeInboxType)
-                                        bottomSheetNavigator.show(sheet)
+                                        navigationCoordinator.getBottomNavigator()?.show(sheet)
                                     },
                                 ),
                                 text = text,
@@ -162,7 +170,13 @@ object InboxScreen : Tab {
                     Column(
                         modifier = Modifier
                             .padding(paddingValues)
-                            .nestedScroll(scrollBehavior.nestedScrollConnection),
+                            .let {
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    it
+                                }
+                            },
                         verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     ) {
                         SectionSelector(

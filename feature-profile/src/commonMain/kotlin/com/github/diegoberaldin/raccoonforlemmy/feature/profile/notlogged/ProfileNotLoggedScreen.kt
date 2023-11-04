@@ -9,12 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -28,7 +29,8 @@ internal object ProfileNotLoggedScreen : Tab {
 
     @Composable
     override fun Content() {
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
+
         Column(
             modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.m),
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
@@ -40,7 +42,7 @@ internal object ProfileNotLoggedScreen : Tab {
             Button(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = {
-                    bottomSheetNavigator.show(
+                    navigationCoordinator.getBottomNavigator()?.show(
                         LoginBottomSheet(),
                     )
                 },

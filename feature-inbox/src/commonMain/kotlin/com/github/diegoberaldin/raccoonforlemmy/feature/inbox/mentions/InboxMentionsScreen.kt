@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -73,8 +73,8 @@ class InboxMentionsScreen : Tab {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { navigationCoordinator.getRootNavigator() }
         val lazyListState = rememberLazyListState()
+
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach {
                 if (it == InboxTab) {
@@ -129,7 +129,7 @@ class InboxMentionsScreen : Tab {
                         )
                     }
                 }
-                itemsIndexed(uiState.mentions) { idx, mention ->
+                items(uiState.mentions) { mention ->
                     val endColor = MaterialTheme.colorScheme.secondary
                     val startColor = MaterialTheme.colorScheme.tertiary
                     SwipeableCard(
@@ -149,7 +149,7 @@ class InboxMentionsScreen : Tab {
                             model.reduce(
                                 InboxMentionsMviModel.Intent.MarkAsRead(
                                     read = true,
-                                    index = idx,
+                                    id = mention.id,
                                 ),
                             )
                         },
@@ -157,7 +157,7 @@ class InboxMentionsScreen : Tab {
                             model.reduce(
                                 InboxMentionsMviModel.Intent.MarkAsRead(
                                     read = false,
-                                    index = idx,
+                                    id = mention.id,
                                 ),
                             )
                         },
@@ -181,7 +181,7 @@ class InboxMentionsScreen : Tab {
                                 autoLoadImages = uiState.autoLoadImages,
                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                 onOpenPost = rememberCallbackArgs { post ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         PostDetailScreen(
                                             post = post,
                                             highlightCommentId = mention.comment.id,
@@ -189,20 +189,24 @@ class InboxMentionsScreen : Tab {
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         UserDetailScreen(user),
                                     )
                                 },
                                 onOpenCommunity = rememberCallbackArgs { community ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         CommunityDetailScreen(community),
                                     )
                                 },
                                 onUpVote = rememberCallbackArgs(model) {
-                                    model.reduce(InboxMentionsMviModel.Intent.UpVoteComment(idx))
+                                    model.reduce(InboxMentionsMviModel.Intent.UpVoteComment(mention.id))
                                 },
                                 onDownVote = rememberCallbackArgs(model) {
-                                    model.reduce(InboxMentionsMviModel.Intent.DownVoteComment(idx))
+                                    model.reduce(
+                                        InboxMentionsMviModel.Intent.DownVoteComment(
+                                            mention.id
+                                        )
+                                    )
                                 },
                             )
                         },

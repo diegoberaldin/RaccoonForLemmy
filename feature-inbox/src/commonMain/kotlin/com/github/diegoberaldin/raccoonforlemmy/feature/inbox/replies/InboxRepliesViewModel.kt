@@ -39,9 +39,11 @@ class InboxRepliesViewModel(
     private var currentUserId: Int? = null
 
     init {
-        notificationCenter.addObserver({
-            handleLogout()
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
+        notificationCenter.addObserver(
+            {
+                handleLogout()
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
+        )
     }
 
     fun finalize() {
@@ -85,19 +87,19 @@ class InboxRepliesViewModel(
             is InboxRepliesMviModel.Intent.MarkAsRead -> {
                 markAsRead(
                     read = intent.read,
-                    mention = mvi.uiState.value.replies[intent.index]
+                    mention = uiState.value.replies.first { it.id == intent.id },
                 )
             }
 
 
             InboxRepliesMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is InboxRepliesMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                mention = mvi.uiState.value.replies[intent.index],
+                mention = uiState.value.replies.first { it.id == intent.id },
                 feedback = true,
             )
 
             is InboxRepliesMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                mention = mvi.uiState.value.replies[intent.index],
+                mention = uiState.value.replies.first { it.id == intent.id },
                 feedback = true,
             )
         }

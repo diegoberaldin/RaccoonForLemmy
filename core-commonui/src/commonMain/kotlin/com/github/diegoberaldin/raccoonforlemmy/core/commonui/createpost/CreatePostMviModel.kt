@@ -1,10 +1,12 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost
 
+import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import dev.icerock.moko.resources.desc.StringDesc
 
+@Stable
 interface CreatePostMviModel :
     MviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>,
     ScreenModel {

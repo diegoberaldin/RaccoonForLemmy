@@ -14,12 +14,12 @@ interface MultiCommunityMviModel :
         data object LoadNextPage : Intent
         data class ChangeSort(val value: SortType) : Intent
         data object HapticIndication : Intent
-        data class UpVotePost(val index: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val index: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val index: Int, val feedback: Boolean = false) : Intent
-        data class SharePost(val index: Int) : Intent
-        data class MarkAsRead(val index: Int) : Intent
-        data class Hide(val index: Int) : Intent
+        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class SharePost(val id: Int) : Intent
+        data class MarkAsRead(val id: Int) : Intent
+        data class Hide(val id: Int) : Intent
         data object ClearRead : Intent
     }
 

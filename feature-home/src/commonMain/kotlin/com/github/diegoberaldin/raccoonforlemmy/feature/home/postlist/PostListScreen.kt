@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -49,7 +49,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
@@ -61,7 +60,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Floatin
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
@@ -97,13 +95,11 @@ class PostListScreen : Screen {
         val model = rememberScreenModel { getHomeScreenModel() }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { navigationCoordinator.getRootNavigator() }
         val notificationCenter = remember { getNotificationCenter() }
         val themeRepository = remember { getThemeRepository() }
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
@@ -122,7 +118,7 @@ class PostListScreen : Screen {
                 notificationCenter.removeObserver(key)
             }
         }
-        LaunchedEffect(navigator) {
+        LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
                 if (tab == HomeTab) {
                     lazyListState.scrollToItem(0)
@@ -140,20 +136,41 @@ class PostListScreen : Screen {
                 }
             }.launchIn(this)
         }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? ListingType)?.also {
+                        model.reduce(PostListMviModel.Intent.ChangeListing(it))
+                    }
+                }, key, NotificationCenterContractKeys.ChangeFeedType
+            )
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(
+                            PostListMviModel.Intent.ChangeSort(sortType)
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeSortType
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(PostListMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(PostListMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.PostCreated
+            )
+        }
 
         Scaffold(
-            modifier = Modifier
-                .padding(Spacing.xxs)
-                .let {
-                    val connection = navigationCoordinator.getBottomBarScrollConnection()
-                    if (connection != null && settings.hideNavigationBarWhileScrolling) {
-                        it.nestedScroll(connection)
-                    } else {
-                        it
-                    }
-                }
-                .nestedScroll(fabNestedScrollConnection)
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            modifier = Modifier.padding(Spacing.xxs),
             topBar = {
                 PostsTopBar(
                     currentInstance = uiState.instance,
@@ -169,25 +186,13 @@ class PostListScreen : Screen {
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
                         )
-                        notificationCenter.addObserver({ result ->
-                            (result as? ListingType)?.also {
-                                model.reduce(PostListMviModel.Intent.ChangeListing(it))
-                            }
-                        }, key, NotificationCenterContractKeys.ChangeFeedType)
-                        bottomSheetNavigator.show(sheet)
+                        navigationCoordinator.getBottomNavigator()?.show(sheet)
                     },
                     onSelectSortType = rememberCallback {
                         val sheet = SortBottomSheet(
                             expandTop = true,
                         )
-                        notificationCenter.addObserver({
-                            (it as? SortType)?.also { sortType ->
-                                model.reduce(
-                                    PostListMviModel.Intent.ChangeSort(sortType)
-                                )
-                            }
-                        }, key, NotificationCenterContractKeys.ChangeSortType)
-                        bottomSheetNavigator.show(sheet)
+                        navigationCoordinator.getBottomNavigator()?.show(sheet)
                     },
                 )
             },
@@ -207,7 +212,7 @@ class PostListScreen : Screen {
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
                                 text = stringResource(MR.strings.action_back_to_top),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
                                         topAppBarState.heightOffset = 0f
@@ -218,7 +223,7 @@ class PostListScreen : Screen {
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ClearAll,
                                 text = stringResource(MR.strings.action_clear_read),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     model.reduce(PostListMviModel.Intent.ClearRead)
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -241,6 +246,22 @@ class PostListScreen : Screen {
                     modifier = Modifier
                         .padding(padding)
                         .fillMaxWidth()
+                        .let {
+                            val connection = navigationCoordinator.getBottomBarScrollConnection()
+                            if (connection != null && settings.hideNavigationBarWhileScrolling) {
+                                it.nestedScroll(connection)
+                            } else {
+                                it
+                            }
+                        }
+                        .let {
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                it
+                            }
+                        }
+                        .nestedScroll(fabNestedScrollConnection)
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
@@ -258,7 +279,7 @@ class PostListScreen : Screen {
                                 }
                             }
                         }
-                        itemsIndexed(uiState.posts) { idx, post ->
+                        items(uiState.posts) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
@@ -273,14 +294,14 @@ class PostListScreen : Screen {
                                         DismissValue.Default -> Color.Transparent
                                     }
                                 },
-                                onGestureBegin = rememberCallback(model) {
+                                onGestureBegin = {
                                     model.reduce(PostListMviModel.Intent.HapticIndication)
                                 },
                                 onDismissToStart = rememberCallback(model) {
-                                    model.reduce(PostListMviModel.Intent.UpVotePost(idx))
+                                    model.reduce(PostListMviModel.Intent.UpVotePost(post.id))
                                 },
                                 onDismissToEnd = rememberCallback(model) {
-                                    model.reduce(PostListMviModel.Intent.DownVotePost(idx))
+                                    model.reduce(PostListMviModel.Intent.DownVotePost(post.id))
                                 },
                                 swipeContent = { direction ->
                                     val icon = when (direction) {
@@ -302,25 +323,25 @@ class PostListScreen : Screen {
                                         autoLoadImages = uiState.autoLoadImages,
                                         blurNsfw = uiState.blurNsfw,
                                         onClick = rememberCallback(model) {
-                                            model.reduce(PostListMviModel.Intent.MarkAsRead(idx))
-                                            navigator?.push(
+                                            model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 PostDetailScreen(post),
                                             )
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community ->
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 CommunityDetailScreen(community),
                                             )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user ->
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 UserDetailScreen(user),
                                             )
                                         },
                                         onUpVote = rememberCallback(model) {
                                             model.reduce(
                                                 PostListMviModel.Intent.UpVotePost(
-                                                    index = idx,
+                                                    id = post.id,
                                                     feedback = true,
                                                 ),
                                             )
@@ -328,7 +349,7 @@ class PostListScreen : Screen {
                                         onDownVote = rememberCallback(model) {
                                             model.reduce(
                                                 PostListMviModel.Intent.DownVotePost(
-                                                    index = idx,
+                                                    id = post.id,
                                                     feedback = true,
                                                 ),
                                             )
@@ -336,27 +357,22 @@ class PostListScreen : Screen {
                                         onSave = rememberCallback(model) {
                                             model.reduce(
                                                 PostListMviModel.Intent.SavePost(
-                                                    index = idx,
+                                                    id = post.id,
                                                     feedback = true,
                                                 ),
                                             )
                                         },
-                                        onReply = rememberCallback(model) {
-                                            val screen = CreateCommentScreen(
-                                                originalPost = post,
-                                            )
-                                            notificationCenter.addObserver(
-                                                {
-                                                    model.reduce(PostListMviModel.Intent.Refresh)
-                                                },
-                                                key,
-                                                NotificationCenterContractKeys.CommentCreated
-                                            )
-                                            bottomSheetNavigator.show(screen)
-                                        },
+//                                        onReply = rememberCallback(model) {
+//                                            val screen = CreateCommentScreen(
+//                                                originalPost = post,
+//                                            )
+//                                            bottomSheetNavigator.show(screen)
+//                                        },
                                         onImageClick = rememberCallbackArgs(model) { url ->
-                                            model.reduce(PostListMviModel.Intent.MarkAsRead(idx))
-                                            navigator?.push(ZoomableImageScreen(url))
+                                            model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
+                                            navigationCoordinator.getRootNavigator()?.push(
+                                                ZoomableImageScreen(url)
+                                            )
                                         },
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
@@ -375,32 +391,27 @@ class PostListScreen : Screen {
                                                 )
 
                                                 4 -> {
-                                                    notificationCenter.addObserver(
-                                                        {
-                                                            model.reduce(PostListMviModel.Intent.Refresh)
-                                                        },
-                                                        key,
-                                                        NotificationCenterContractKeys.PostCreated
-                                                    )
-                                                    bottomSheetNavigator.show(
-                                                        CreatePostScreen(editedPost = post)
-                                                    )
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreatePostScreen(editedPost = post)
+                                                        )
                                                 }
 
                                                 3 -> {
-                                                    bottomSheetNavigator.show(
-                                                        CreateReportScreen(postId = post.id)
-                                                    )
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreateReportScreen(postId = post.id)
+                                                        )
                                                 }
 
                                                 2 -> {
                                                     rawContent = post
                                                 }
 
-                                                1 -> model.reduce(PostListMviModel.Intent.Hide(idx))
+                                                1 -> model.reduce(PostListMviModel.Intent.Hide(post.id))
 
                                                 else -> model.reduce(
-                                                    PostListMviModel.Intent.SharePost(idx)
+                                                    PostListMviModel.Intent.SharePost(post.id)
                                                 )
                                             }
                                         }

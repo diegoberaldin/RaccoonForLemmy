@@ -33,8 +33,8 @@ class CommunityDetailViewModel(
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
     private val hapticFeedback: HapticFeedback,
-) : MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi,
-    CommunityDetailMviModel {
+) : CommunityDetailMviModel,
+    MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi {
 
     private var currentPage: Int = 1
     private var pageCursor: String? = null
@@ -85,17 +85,17 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.Refresh -> refresh()
 
             is CommunityDetailMviModel.Intent.DownVotePost -> toggleDownVotePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is CommunityDetailMviModel.Intent.SavePost -> toggleSavePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is CommunityDetailMviModel.Intent.UpVotePost -> toggleUpVotePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
@@ -105,17 +105,17 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.Unsubscribe -> unsubscribe()
             is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
             is CommunityDetailMviModel.Intent.SharePost -> share(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
             )
 
             CommunityDetailMviModel.Intent.Block -> blockCommunity()
             CommunityDetailMviModel.Intent.BlockInstance -> blockInstance()
             is CommunityDetailMviModel.Intent.MarkAsRead -> {
-                markAsRead(uiState.value.posts[intent.index])
+                markAsRead(uiState.value.posts.first { it.id == intent.id })
             }
 
             CommunityDetailMviModel.Intent.ClearRead -> clearRead()
-            is CommunityDetailMviModel.Intent.Hide -> hide(post = uiState.value.posts[intent.index])
+            is CommunityDetailMviModel.Intent.Hide -> hide(post = uiState.value.posts.first { it.id == intent.id })
         }
     }
 

@@ -49,13 +49,17 @@ class ExploreViewModel(
     private var firstLoad = true
 
     init {
-        notificationCenter.addObserver({
-            handleLogout()
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
-        notificationCenter.addObserver({
-            // apply new feed and sort type
-            firstLoad = true
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.ResetContents)
+        notificationCenter.addObserver(
+            {
+                handleLogout()
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
+        )
+        notificationCenter.addObserver(
+            {
+                // apply new feed and sort type
+                firstLoad = true
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.ResetContents
+        )
     }
 
     fun finalize() {
@@ -127,32 +131,32 @@ class ExploreViewModel(
             is ExploreMviModel.Intent.SetSortType -> changeSortType(intent.value)
             is ExploreMviModel.Intent.SetResultType -> changeResultType(intent.value)
             is ExploreMviModel.Intent.DownVotePost -> toggleDownVote(
-                post = uiState.value.results[intent.index] as PostModel,
+                post = uiState.value.results.first { (it as? PostModel)?.id == intent.id } as PostModel,
                 feedback = intent.feedback,
             )
 
             is ExploreMviModel.Intent.SavePost -> toggleSave(
-                post = uiState.value.results[intent.index] as PostModel,
+                post = uiState.value.results.first { (it as? PostModel)?.id == intent.id } as PostModel,
                 feedback = intent.feedback,
             )
 
             is ExploreMviModel.Intent.UpVotePost -> toggleUpVote(
-                post = uiState.value.results[intent.index] as PostModel,
+                post = uiState.value.results.first { (it as? PostModel)?.id == intent.id } as PostModel,
                 feedback = intent.feedback,
             )
 
             is ExploreMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                comment = uiState.value.results[intent.index] as CommentModel,
+                comment = uiState.value.results.first { (it as? CommentModel)?.id == intent.id } as CommentModel,
                 feedback = intent.feedback,
             )
 
             is ExploreMviModel.Intent.SaveComment -> toggleSaveComment(
-                comment = uiState.value.results[intent.index] as CommentModel,
+                comment = uiState.value.results.first { (it as? CommentModel)?.id == intent.id } as CommentModel,
                 feedback = intent.feedback,
             )
 
             is ExploreMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                comment = uiState.value.results[intent.index] as CommentModel,
+                comment = uiState.value.results.first { (it as? CommentModel)?.id == intent.id } as CommentModel,
                 feedback = intent.feedback,
             )
         }

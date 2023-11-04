@@ -22,7 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -71,7 +71,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -97,6 +96,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateRepor
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
@@ -136,21 +136,12 @@ class PostDetailScreen(
         val uiState by model.uiState.collectAsState()
         val isOnOtherInstance = otherInstance.isNotEmpty()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { navigationCoordinator.getRootNavigator() }
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
-        DisposableEffect(key) {
-            drawerCoordinator.setGesturesEnabled(false)
-            onDispose {
-                notificationCenter.removeObserver(key)
-                drawerCoordinator.setGesturesEnabled(true)
-            }
-        }
         val themeRepository = remember { getThemeRepository() }
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
         val downvoteColor by themeRepository.downvoteColor.collectAsState()
@@ -159,12 +150,91 @@ class PostDetailScreen(
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
         var rawContent by remember { mutableStateOf<Any?>(null) }
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
 
+        DisposableEffect(key) {
+            drawerCoordinator.setGesturesEnabled(false)
+            onDispose {
+                notificationCenter.removeObserver(key)
+                drawerCoordinator.setGesturesEnabled(true)
+            }
+        }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(
+                            PostDetailMviModel.Intent.ChangeSort(
+                                sortType
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeSortType
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(PostDetailMviModel.Intent.Refresh)
+                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
+                }, key, NotificationCenterContractKeys.CommentCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(PostDetailMviModel.Intent.Refresh)
+                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
+                }, key, NotificationCenterContractKeys.CommentCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
+                }, key, NotificationCenterContractKeys.PostCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(
+                        PostDetailMviModel.Intent.Refresh
+                    )
+                    model.reduce(
+                        PostDetailMviModel.Intent.RefreshPost
+                    )
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(
+                        PostDetailMviModel.Intent.Refresh
+                    )
+                    model.reduce(
+                        PostDetailMviModel.Intent.RefreshPost
+                    )
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(PostDetailMviModel.Intent.Refresh)
+                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(PostDetailMviModel.Intent.Refresh)
+                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+        }
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
                 when (evt) {
                     PostDetailMviModel.Effect.Close -> {
-                        navigator?.pop()
+                        navigationCoordinator.getRootNavigator()?.pop()
                     }
 
                     is PostDetailMviModel.Effect.ScrollToComment -> {
@@ -183,8 +253,6 @@ class PostDetailScreen(
         val statePost = uiState.post
         Scaffold(
             modifier = Modifier
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .nestedScroll(fabNestedScrollConnection)
                 .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
             topBar = {
@@ -211,16 +279,7 @@ class PostDetailScreen(
                                             SortType.Controversial,
                                         ),
                                     )
-                                    notificationCenter.addObserver({
-                                        (it as? SortType)?.also { sortType ->
-                                            model.reduce(
-                                                PostDetailMviModel.Intent.ChangeSort(
-                                                    sortType
-                                                )
-                                            )
-                                        }
-                                    }, key, NotificationCenterContractKeys.ChangeSortType)
-                                    bottomSheetNavigator.show(sheet)
+                                    navigationCoordinator.getBottomNavigator()?.show(sheet)
                                 },
                             ),
                             imageVector = uiState.sortType.toIcon(),
@@ -229,6 +288,7 @@ class PostDetailScreen(
                         )
                     },
                     navigationIcon = {
+                        val navigator = navigationCoordinator.getRootNavigator()
                         if (navigator?.canPop == true) {
                             Image(
                                 modifier = Modifier.onClick(
@@ -258,7 +318,7 @@ class PostDetailScreen(
                         this += FloatingActionButtonMenuItem(
                             icon = Icons.Default.ExpandLess,
                             text = stringResource(MR.strings.action_back_to_top),
-                            onSelected = {
+                            onSelected = rememberCallback {
                                 scope.launch {
                                     lazyListState.scrollToItem(0)
                                     topAppBarState.heightOffset = 0f
@@ -270,15 +330,11 @@ class PostDetailScreen(
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.Reply,
                                 text = stringResource(MR.strings.action_reply),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     val screen = CreateCommentScreen(
                                         originalPost = statePost,
                                     )
-                                    notificationCenter.addObserver({
-                                        model.reduce(PostDetailMviModel.Intent.Refresh)
-                                        model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                                    }, key, NotificationCenterContractKeys.CommentCreated)
-                                    bottomSheetNavigator.show(screen)
+                                    navigationCoordinator.getBottomNavigator()?.show(screen)
                                 },
                             )
                         }
@@ -295,6 +351,14 @@ class PostDetailScreen(
                 )
                 Box(
                     modifier = Modifier.padding(padding)
+                        .let {
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                it
+                            }
+                        }
+                        .nestedScroll(fabNestedScrollConnection)
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
@@ -310,12 +374,12 @@ class PostDetailScreen(
                                 autoLoadImages = uiState.autoLoadImages,
                                 blurNsfw = false,
                                 onOpenCommunity = rememberCallbackArgs { community ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         CommunityDetailScreen(community = community)
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         UserDetailScreen(user = user)
                                     )
                                 },
@@ -350,11 +414,7 @@ class PostDetailScreen(
                                         val screen = CreateCommentScreen(
                                             originalPost = statePost,
                                         )
-                                        notificationCenter.addObserver({
-                                            model.reduce(PostDetailMviModel.Intent.Refresh)
-                                            model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                                        }, key, NotificationCenterContractKeys.CommentCreated)
-                                        bottomSheetNavigator.show(screen)
+                                        navigationCoordinator.getBottomNavigator()?.show(screen)
                                     }
                                 },
                                 options = buildList {
@@ -371,12 +431,7 @@ class PostDetailScreen(
                                         4 -> model.reduce(PostDetailMviModel.Intent.DeletePost)
 
                                         3 -> {
-                                            notificationCenter.addObserver(
-                                                {
-                                                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                                                }, key, NotificationCenterContractKeys.PostCreated
-                                            )
-                                            bottomSheetNavigator.show(
+                                            navigationCoordinator.getBottomNavigator()?.show(
                                                 CreatePostScreen(
                                                     editedPost = statePost,
                                                 )
@@ -384,7 +439,9 @@ class PostDetailScreen(
                                         }
 
                                         2 -> {
-                                            bottomSheetNavigator.show(CreateReportScreen(postId = statePost.id))
+                                            navigationCoordinator.getBottomNavigator()?.show(
+                                                CreateReportScreen(postId = statePost.id)
+                                            )
                                         }
 
                                         1 -> {
@@ -395,7 +452,7 @@ class PostDetailScreen(
                                     }
                                 },
                                 onImageClick = rememberCallbackArgs { url ->
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         ZoomableImageScreen(url),
                                     )
                                 },
@@ -441,11 +498,12 @@ class PostDetailScreen(
                                                             id = crossPost.id,
                                                             community = community,
                                                         )
-                                                        navigator?.push(
-                                                            PostDetailScreen(
-                                                                post = post,
+                                                        navigationCoordinator.getRootNavigator()
+                                                            ?.push(
+                                                                PostDetailScreen(
+                                                                    post = post,
+                                                                )
                                                             )
-                                                        )
                                                     },
                                                 ),
                                                 text = string,
@@ -465,7 +523,7 @@ class PostDetailScreen(
                                 )
                             }
                         }
-                        itemsIndexed(uiState.comments, key = { _, c -> c.id }) { _, comment ->
+                        items(uiState.comments, key = { c -> c.id }) { comment ->
                             val commentId = comment.id
                             AnimatedVisibility(
                                 visible = comment.visible,
@@ -586,41 +644,34 @@ class PostDetailScreen(
                                                                     originalPost = statePost,
                                                                     originalComment = comment,
                                                                 )
-                                                                notificationCenter.addObserver(
-                                                                    {
-                                                                        model.reduce(
-                                                                            PostDetailMviModel.Intent.Refresh
-                                                                        )
-                                                                        model.reduce(
-                                                                            PostDetailMviModel.Intent.RefreshPost
-                                                                        )
-                                                                    },
-                                                                    key,
-                                                                    NotificationCenterContractKeys.CommentCreated
-                                                                )
-                                                                bottomSheetNavigator.show(screen)
+                                                                navigationCoordinator.getBottomNavigator()
+                                                                    ?.show(
+                                                                        screen
+                                                                    )
                                                             }
                                                         },
                                                         onOpenCreator = rememberCallbackArgs {
                                                             val user = comment.creator
                                                             if (user != null) {
-                                                                navigator?.push(
-                                                                    UserDetailScreen(
-                                                                        user = user,
-                                                                        otherInstance = otherInstance,
-                                                                    ),
-                                                                )
+                                                                navigationCoordinator.getRootNavigator()
+                                                                    ?.push(
+                                                                        UserDetailScreen(
+                                                                            user = user,
+                                                                            otherInstance = otherInstance,
+                                                                        ),
+                                                                    )
                                                             }
                                                         },
                                                         onOpenCommunity = rememberCallbackArgs {
                                                             val community = comment.community
                                                             if (community != null) {
-                                                                navigator?.push(
-                                                                    CommunityDetailScreen(
-                                                                        community = community,
-                                                                        otherInstance = otherInstance,
-                                                                    ),
-                                                                )
+                                                                navigationCoordinator.getRootNavigator()
+                                                                    ?.push(
+                                                                        CommunityDetailScreen(
+                                                                            community = community,
+                                                                            otherInstance = otherInstance,
+                                                                        ),
+                                                                    )
                                                             }
                                                         },
                                                         options = buildList {
@@ -642,31 +693,21 @@ class PostDetailScreen(
                                                                 )
 
                                                                 2 -> {
-                                                                    notificationCenter.addObserver(
-                                                                        {
-                                                                            model.reduce(
-                                                                                PostDetailMviModel.Intent.Refresh
+                                                                    navigationCoordinator.getBottomNavigator()
+                                                                        ?.show(
+                                                                            CreateCommentScreen(
+                                                                                editedComment = comment,
                                                                             )
-                                                                            model.reduce(
-                                                                                PostDetailMviModel.Intent.RefreshPost
-                                                                            )
-                                                                        },
-                                                                        key,
-                                                                        NotificationCenterContractKeys.CommentCreated
-                                                                    )
-                                                                    bottomSheetNavigator.show(
-                                                                        CreateCommentScreen(
-                                                                            editedComment = comment,
                                                                         )
-                                                                    )
                                                                 }
 
                                                                 1 -> {
-                                                                    bottomSheetNavigator.show(
-                                                                        CreateReportScreen(
-                                                                            commentId = comment.id
+                                                                    navigationCoordinator.getBottomNavigator()
+                                                                        ?.show(
+                                                                            CreateReportScreen(
+                                                                                commentId = comment.id
+                                                                            )
                                                                         )
-                                                                    )
                                                                 }
 
                                                                 else -> {
@@ -723,26 +764,20 @@ class PostDetailScreen(
                                                             originalPost = statePost,
                                                             originalComment = comment,
                                                         )
-                                                        notificationCenter.addObserver(
-                                                            {
-                                                                model.reduce(PostDetailMviModel.Intent.Refresh)
-                                                                model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                                                            },
-                                                            key,
-                                                            NotificationCenterContractKeys.CommentCreated
-                                                        )
-                                                        bottomSheetNavigator.show(screen)
+                                                        navigationCoordinator.getBottomNavigator()
+                                                            ?.show(screen)
                                                     }
                                                 },
                                                 onOpenCreator = rememberCallbackArgs {
                                                     val user = comment.creator
                                                     if (user != null) {
-                                                        navigator?.push(
-                                                            UserDetailScreen(
-                                                                user = user,
-                                                                otherInstance = otherInstance,
-                                                            ),
-                                                        )
+                                                        navigationCoordinator.getRootNavigator()
+                                                            ?.push(
+                                                                UserDetailScreen(
+                                                                    user = user,
+                                                                    otherInstance = otherInstance,
+                                                                ),
+                                                            )
                                                     }
                                                 },
                                                 options = buildList {
@@ -762,27 +797,21 @@ class PostDetailScreen(
                                                         )
 
                                                         2 -> {
-                                                            notificationCenter.addObserver(
-                                                                {
-                                                                    model.reduce(PostDetailMviModel.Intent.Refresh)
-                                                                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                                                                },
-                                                                key,
-                                                                NotificationCenterContractKeys.CommentCreated
-                                                            )
-                                                            bottomSheetNavigator.show(
-                                                                CreateCommentScreen(
-                                                                    editedComment = comment,
+                                                            navigationCoordinator.getBottomNavigator()
+                                                                ?.show(
+                                                                    CreateCommentScreen(
+                                                                        editedComment = comment,
+                                                                    )
                                                                 )
-                                                            )
                                                         }
 
                                                         1 -> {
-                                                            bottomSheetNavigator.show(
-                                                                CreateReportScreen(
-                                                                    commentId = comment.id
+                                                            navigationCoordinator.getBottomNavigator()
+                                                                ?.show(
+                                                                    CreateReportScreen(
+                                                                        commentId = comment.id
+                                                                    )
                                                                 )
-                                                            )
                                                         }
 
                                                         else -> {

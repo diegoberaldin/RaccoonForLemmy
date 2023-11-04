@@ -14,12 +14,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
@@ -41,7 +41,7 @@ class FontScaleBottomSheet(
 
     @Composable
     override fun Content() {
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         Column(
             modifier = Modifier
@@ -82,7 +82,7 @@ class FontScaleBottomSheet(
                                             ?.also {
                                                 it.invoke(value.scaleFactor)
                                             }
-                                        bottomSheetNavigator.hide()
+                                        navigationCoordinator.getBottomNavigator()?.hide()
                                     },
                                 ),
                         ) {

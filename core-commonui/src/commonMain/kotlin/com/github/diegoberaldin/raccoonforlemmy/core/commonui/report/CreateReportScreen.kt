@@ -34,13 +34,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateReportViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.stringResource
@@ -64,8 +63,7 @@ class CreateReportScreen(
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = stringResource(MR.strings.message_generic_error)
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
-        val notificationCenter = remember { getNotificationCenter() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -75,7 +73,7 @@ class CreateReportScreen(
                     }
 
                     CreateReportMviModel.Effect.Success -> {
-                        bottomSheetNavigator.hide()
+                        navigationCoordinator.getBottomNavigator()?.hide()
                     }
                 }
             }.launchIn(this)

@@ -1,10 +1,12 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies
 
+import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 
+@Stable
 interface InboxRepliesMviModel :
     MviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect>,
     ScreenModel {
@@ -12,10 +14,10 @@ interface InboxRepliesMviModel :
     sealed interface Intent {
         data object Refresh : Intent
         data object LoadNextPage : Intent
-        data class MarkAsRead(val read: Boolean, val index: Int) : Intent
+        data class MarkAsRead(val read: Boolean, val id: Int) : Intent
         data object HapticIndication : Intent
-        data class UpVoteComment(val index: Int) : Intent
-        data class DownVoteComment(val index: Int) : Intent
+        data class UpVoteComment(val id: Int) : Intent
+        data class DownVoteComment(val id: Int) : Intent
     }
 
     data class UiState(

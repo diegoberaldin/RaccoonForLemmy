@@ -45,23 +45,31 @@ class PostListViewModel(
     private var hideReadPosts = false
 
     init {
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostDelete(post.id)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted)
-        notificationCenter.addObserver({
-            handleLogout()
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
-        notificationCenter.addObserver({
-            // apply new feed and sort type
-            firstLoad = true
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.ResetContents)
+        notificationCenter.addObserver(
+            {
+                (it as? PostModel)?.also { post ->
+                    handlePostUpdate(post)
+                }
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
+        )
+        notificationCenter.addObserver(
+            {
+                (it as? PostModel)?.also { post ->
+                    handlePostDelete(post.id)
+                }
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted
+        )
+        notificationCenter.addObserver(
+            {
+                handleLogout()
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
+        )
+        notificationCenter.addObserver(
+            {
+                // apply new feed and sort type
+                firstLoad = true
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.ResetContents
+        )
     }
 
     fun finalize() {
@@ -134,17 +142,17 @@ class PostListViewModel(
             is PostListMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is PostListMviModel.Intent.ChangeListing -> applyListingType(intent.value)
             is PostListMviModel.Intent.DownVotePost -> toggleDownVote(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is PostListMviModel.Intent.SavePost -> toggleSave(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is PostListMviModel.Intent.UpVotePost -> toggleUpVote(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
@@ -152,15 +160,15 @@ class PostListViewModel(
             is PostListMviModel.Intent.HandlePostUpdate -> handlePostUpdate(intent.post)
             is PostListMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
             is PostListMviModel.Intent.SharePost -> {
-                share(post = uiState.value.posts[intent.index])
+                share(post = uiState.value.posts.first { it.id == intent.id })
             }
 
             is PostListMviModel.Intent.MarkAsRead -> {
-                markAsRead(post = uiState.value.posts[intent.index])
+                markAsRead(post = uiState.value.posts.first { it.id == intent.id })
             }
 
             PostListMviModel.Intent.ClearRead -> clearRead()
-            is PostListMviModel.Intent.Hide -> hide(post = uiState.value.posts[intent.index])
+            is PostListMviModel.Intent.Hide -> hide(post = uiState.value.posts.first { it.id == intent.id })
         }
     }
 

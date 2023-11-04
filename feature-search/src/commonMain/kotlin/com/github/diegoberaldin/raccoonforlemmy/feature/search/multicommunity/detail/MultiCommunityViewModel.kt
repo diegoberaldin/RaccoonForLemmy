@@ -89,7 +89,7 @@ class MultiCommunityViewModel(
         when (intent) {
             is MultiCommunityMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is MultiCommunityMviModel.Intent.DownVotePost -> toggleDownVote(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
@@ -97,19 +97,25 @@ class MultiCommunityViewModel(
             MultiCommunityMviModel.Intent.LoadNextPage -> loadNextPage()
             MultiCommunityMviModel.Intent.Refresh -> refresh()
             is MultiCommunityMviModel.Intent.SavePost -> toggleSave(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
-            is MultiCommunityMviModel.Intent.SharePost -> share(post = uiState.value.posts[intent.index])
+            is MultiCommunityMviModel.Intent.SharePost -> share(
+                post = uiState.value.posts.first { it.id == intent.id }
+            )
+
             is MultiCommunityMviModel.Intent.UpVotePost -> toggleUpVote(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             MultiCommunityMviModel.Intent.ClearRead -> clearRead()
-            is MultiCommunityMviModel.Intent.MarkAsRead -> markAsRead(post = uiState.value.posts[intent.index])
-            is MultiCommunityMviModel.Intent.Hide -> hide(post = uiState.value.posts[intent.index])
+            is MultiCommunityMviModel.Intent.MarkAsRead -> markAsRead(
+                post = uiState.value.posts.first { it.id == intent.id })
+
+            is MultiCommunityMviModel.Intent.Hide -> hide(
+                post = uiState.value.posts.first { it.id == intent.id })
         }
     }
 
@@ -140,7 +146,7 @@ class MultiCommunityViewModel(
                 currentIds = if (refreshing) emptyList() else currentState.posts.map { it.id }
             )
             val canFetchMore = paginator.canFetchMore
-            val itemsToAdd = itemList.orEmpty().filter { post ->
+            val itemsToAdd = itemList.filter { post ->
                 if (includeNsfw) {
                     true
                 } else {

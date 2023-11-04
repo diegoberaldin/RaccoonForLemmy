@@ -24,10 +24,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
@@ -83,7 +83,7 @@ internal class SortBottomSheetMain(
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -118,7 +118,7 @@ internal class SortBottomSheetMain(
                                             ?.also {
                                                 it.invoke(value)
                                             }
-                                        bottomSheetNavigator.hide()
+                                        navigationCoordinator.getBottomNavigator()?.hide()
                                     }
                                 },
                             ),
@@ -163,7 +163,7 @@ internal class SortBottomSheetTop(
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
 
         Column {
@@ -205,7 +205,7 @@ internal class SortBottomSheetTop(
                                         ?.also {
                                             it.invoke(value)
                                         }
-                                    bottomSheetNavigator.hide()
+                                    navigationCoordinator.getBottomNavigator()?.hide()
                                 },
                             ),
                     ) {

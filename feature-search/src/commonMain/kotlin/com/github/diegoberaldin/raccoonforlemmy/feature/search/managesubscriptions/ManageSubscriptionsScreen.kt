@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -78,7 +78,7 @@ class ManageSubscriptionsScreen : Screen {
         val model = rememberScreenModel { getManageSubscriptionsViewModel() }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val navigatorCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val lazyListState = rememberLazyListState()
@@ -94,9 +94,6 @@ class ManageSubscriptionsScreen : Screen {
         }
 
         Scaffold(
-            modifier = Modifier
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .nestedScroll(fabNestedScrollConnection),
             topBar = {
                 TopAppBar(
                     title = {
@@ -111,7 +108,7 @@ class ManageSubscriptionsScreen : Screen {
                         Image(
                             modifier = Modifier.onClick(
                                 rememberCallback {
-                                    navigator?.pop()
+                                    navigatorCoordinator.getRootNavigator()?.pop()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -136,7 +133,7 @@ class ManageSubscriptionsScreen : Screen {
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
                                 text = stringResource(MR.strings.action_back_to_top),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
                                         topAppBarState.heightOffset = 0f
@@ -156,7 +153,10 @@ class ManageSubscriptionsScreen : Screen {
                 },
             )
             Box(
-                modifier = Modifier.padding(paddingValues)
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
@@ -178,7 +178,9 @@ class ManageSubscriptionsScreen : Screen {
                             Icon(
                                 modifier = Modifier.onClick(
                                     rememberCallback {
-                                        navigator?.push(MultiCommunityEditorScreen())
+                                        navigatorCoordinator.getRootNavigator()?.push(
+                                            MultiCommunityEditorScreen()
+                                        )
                                     },
                                 ),
                                 imageVector = Icons.Default.AddCircle,
@@ -187,7 +189,7 @@ class ManageSubscriptionsScreen : Screen {
                             )
                         }
                     }
-                    itemsIndexed(uiState.multiCommunities) { idx, community ->
+                    items(uiState.multiCommunities) { community ->
                         val endColor = MaterialTheme.colorScheme.secondary
                         val startColor = MaterialTheme.colorScheme.tertiary
                         SwipeableCard(
@@ -203,13 +205,15 @@ class ManageSubscriptionsScreen : Screen {
                                 model.reduce(ManageSubscriptionsMviModel.Intent.HapticIndication)
                             },
                             onDismissToStart = rememberCallback {
-                                navigator?.push(
+                                navigatorCoordinator.getRootNavigator()?.push(
                                     MultiCommunityEditorScreen(community),
                                 )
                             },
                             onDismissToEnd = rememberCallback(model) {
                                 model.reduce(
-                                    ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(idx),
+                                    ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(
+                                        (community.id ?: 0).toInt()
+                                    ),
                                 )
                             },
                             swipeContent = { direction ->
@@ -229,7 +233,7 @@ class ManageSubscriptionsScreen : Screen {
                                     modifier = Modifier.fillMaxWidth()
                                         .background(MaterialTheme.colorScheme.background).onClick(
                                             rememberCallback {
-                                                navigator?.push(
+                                                navigatorCoordinator.getRootNavigator()?.push(
                                                     MultiCommunityScreen(community),
                                                 )
                                             },
@@ -252,7 +256,7 @@ class ManageSubscriptionsScreen : Screen {
                             )
                         }
                     }
-                    itemsIndexed(uiState.communities) { idx, community ->
+                    items(uiState.communities) { community ->
                         val endColor = MaterialTheme.colorScheme.secondary
                         SwipeableCard(
                             modifier = Modifier.fillMaxWidth(),
@@ -268,7 +272,7 @@ class ManageSubscriptionsScreen : Screen {
                             },
                             onDismissToStart = rememberCallback(model) {
                                 model.reduce(
-                                    ManageSubscriptionsMviModel.Intent.Unsubscribe(idx),
+                                    ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id),
                                 )
                             },
                             swipeContent = { _ ->
@@ -285,7 +289,7 @@ class ManageSubscriptionsScreen : Screen {
                                         .background(MaterialTheme.colorScheme.background)
                                         .onClick(
                                             rememberCallback {
-                                                navigator?.push(
+                                                navigatorCoordinator.getRootNavigator()?.push(
                                                     CommunityDetailScreen(community),
                                                 )
                                             },

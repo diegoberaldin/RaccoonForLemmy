@@ -46,16 +46,20 @@ class ProfileLoggedViewModel(
     private var currentPage = 1
 
     init {
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostDelete(post.id)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted)
+        notificationCenter.addObserver(
+            {
+                (it as? PostModel)?.also { post ->
+                    handlePostUpdate(post)
+                }
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
+        )
+        notificationCenter.addObserver(
+            {
+                (it as? PostModel)?.also { post ->
+                    handlePostDelete(post.id)
+                }
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted
+        )
     }
 
     fun finalize() {
@@ -112,36 +116,36 @@ class ProfileLoggedViewModel(
             }
 
             is ProfileLoggedMviModel.Intent.SharePost -> share(
-                post = uiState.value.posts[intent.index]
+                post = uiState.value.posts.first { it.id == intent.id },
             )
 
             is ProfileLoggedMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is ProfileLoggedMviModel.Intent.DownVotePost -> toggleDownVotePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is ProfileLoggedMviModel.Intent.SaveComment -> toggleSaveComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is ProfileLoggedMviModel.Intent.SavePost -> toggleSavePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is ProfileLoggedMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is ProfileLoggedMviModel.Intent.UpVotePost -> toggleUpVotePost(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
         }

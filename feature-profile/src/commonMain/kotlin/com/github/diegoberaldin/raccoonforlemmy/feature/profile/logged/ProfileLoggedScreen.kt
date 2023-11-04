@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
@@ -34,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
@@ -82,12 +81,10 @@ internal object ProfileLoggedScreen : Tab {
         val user = uiState.user
         val notificationCenter = remember { getNotificationCenter() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { navigationCoordinator.getRootNavigator() }
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val lazyListState = rememberLazyListState()
         var rawContent by remember { mutableStateOf<Any?>(null) }
 
-        LaunchedEffect(navigator) {
+        LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
                 if (tab == ProfileTab) {
                     lazyListState.scrollToItem(0)
@@ -98,6 +95,22 @@ internal object ProfileLoggedScreen : Tab {
             onDispose {
                 notificationCenter.removeObserver(key)
             }
+        }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                {
+                    model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.PostCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
         }
 
         if (user != null) {
@@ -127,7 +140,8 @@ internal object ProfileLoggedScreen : Tab {
                                     user = user,
                                     autoLoadImages = uiState.autoLoadImages,
                                     onOpenImage = rememberCallbackArgs { url ->
-                                        navigator?.push(ZoomableImageScreen(url))
+                                        navigationCoordinator.getRootNavigator()
+                                            ?.push(ZoomableImageScreen(url))
                                     },
                                 )
                                 SectionSelector(
@@ -167,7 +181,7 @@ internal object ProfileLoggedScreen : Tab {
                                     }
                                 }
                             }
-                            itemsIndexed(uiState.posts) { idx, post ->
+                            items(uiState.posts) { post ->
                                 PostCard(
                                     post = post,
                                     postLayout = uiState.postLayout,
@@ -177,41 +191,41 @@ internal object ProfileLoggedScreen : Tab {
                                     hideAuthor = true,
                                     blurNsfw = false,
                                     onClick = rememberCallback {
-                                        navigator?.push(
+                                        navigationCoordinator.getRootNavigator()?.push(
                                             PostDetailScreen(post),
                                         )
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community ->
-                                        navigator?.push(
+                                        navigationCoordinator.getRootNavigator()?.push(
                                             CommunityDetailScreen(community),
                                         )
                                     },
                                     onImageClick = rememberCallbackArgs { url ->
-                                        navigator?.push(
+                                        navigationCoordinator.getRootNavigator()?.push(
                                             ZoomableImageScreen(url),
                                         )
                                     },
                                     onUpVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVotePost(
-                                                idx,
-                                                true
+                                                id = post.id,
+                                                feedback = true
                                             )
                                         )
                                     },
                                     onDownVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.DownVotePost(
-                                                idx,
-                                                true
+                                                id = post.id,
+                                                feedback = true
                                             )
                                         )
                                     },
                                     onSave = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.SavePost(
-                                                idx,
-                                                true
+                                                id = post.id,
+                                                feedback = true
                                             )
                                         )
                                     },
@@ -228,14 +242,7 @@ internal object ProfileLoggedScreen : Tab {
                                             )
 
                                             2 -> {
-                                                notificationCenter.addObserver(
-                                                    {
-                                                        model.reduce(ProfileLoggedMviModel.Intent.Refresh)
-                                                    },
-                                                    key,
-                                                    NotificationCenterContractKeys.PostCreated
-                                                )
-                                                bottomSheetNavigator.show(
+                                                navigationCoordinator.getBottomNavigator()?.show(
                                                     CreatePostScreen(
                                                         editedPost = post,
                                                     )
@@ -247,7 +254,7 @@ internal object ProfileLoggedScreen : Tab {
                                             }
 
                                             else -> model.reduce(
-                                                ProfileLoggedMviModel.Intent.SharePost(idx)
+                                                ProfileLoggedMviModel.Intent.SharePost(post.id)
                                             )
                                         }
                                     },
@@ -281,7 +288,7 @@ internal object ProfileLoggedScreen : Tab {
                                     )
                                 }
                             }
-                            itemsIndexed(uiState.comments) { idx, comment ->
+                            items(uiState.comments) { comment ->
                                 CommentCard(
                                     modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,
@@ -291,7 +298,7 @@ internal object ProfileLoggedScreen : Tab {
                                     hideAuthor = true,
                                     hideIndent = true,
                                     onClick = rememberCallback {
-                                        navigator?.push(
+                                        navigationCoordinator.getRootNavigator()?.push(
                                             PostDetailScreen(
                                                 post = PostModel(id = comment.postId),
                                                 highlightCommentId = comment.id,
@@ -301,24 +308,24 @@ internal object ProfileLoggedScreen : Tab {
                                     onUpVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVoteComment(
-                                                idx,
-                                                true
+                                                id = comment.id,
+                                                feedback = true
                                             )
                                         )
                                     },
                                     onDownVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.DownVoteComment(
-                                                idx,
-                                                true
+                                                id = comment.id,
+                                                feedback = true
                                             )
                                         )
                                     },
                                     onSave = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.SaveComment(
-                                                idx,
-                                                true
+                                                id = comment.id,
+                                                feedback = true
                                             )
                                         )
                                     },
@@ -338,14 +345,7 @@ internal object ProfileLoggedScreen : Tab {
                                             }
 
                                             1 -> {
-                                                notificationCenter.addObserver(
-                                                    {
-                                                        model.reduce(ProfileLoggedMviModel.Intent.Refresh)
-                                                    },
-                                                    key,
-                                                    NotificationCenterContractKeys.CommentCreated
-                                                )
-                                                bottomSheetNavigator.show(
+                                                navigationCoordinator.getBottomNavigator()?.show(
                                                     CreateCommentScreen(
                                                         editedComment = comment,
                                                     )

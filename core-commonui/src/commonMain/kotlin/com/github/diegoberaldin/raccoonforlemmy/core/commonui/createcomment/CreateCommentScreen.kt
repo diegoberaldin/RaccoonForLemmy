@@ -45,7 +45,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -57,6 +56,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateCommentViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -88,7 +88,7 @@ class CreateCommentScreen(
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = stringResource(MR.strings.message_generic_error)
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
         var openImagePicker by remember { mutableStateOf(false) }
@@ -109,7 +109,7 @@ class CreateCommentScreen(
                     CreateCommentMviModel.Effect.Success -> {
                         notificationCenter.getObserver(NotificationCenterContractKeys.CommentCreated)
                             ?.also { o -> o.invoke(Unit) }
-                        bottomSheetNavigator.hide()
+                        navigationCoordinator.getBottomNavigator()?.hide()
                     }
 
                     is CreateCommentMviModel.Effect.AddImageToText -> {

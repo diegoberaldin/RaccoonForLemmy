@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail
 
+import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
@@ -7,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
+@Stable
 interface CommunityDetailMviModel :
     MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>,
     ScreenModel {
@@ -15,16 +17,16 @@ interface CommunityDetailMviModel :
         data object Refresh : Intent
         data object LoadNextPage : Intent
         data class ChangeSort(val value: SortType) : Intent
-        data class UpVotePost(val index: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val index: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val index: Int, val feedback: Boolean = false) : Intent
+        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
         data object HapticIndication : Intent
         data object Subscribe : Intent
         data object Unsubscribe : Intent
         data class DeletePost(val id: Int) : Intent
-        data class SharePost(val index: Int) : Intent
-        data class MarkAsRead(val index: Int) : Intent
-        data class Hide(val index: Int) : Intent
+        data class SharePost(val id: Int) : Intent
+        data class MarkAsRead(val id: Int) : Intent
+        data class Hide(val id: Int) : Intent
         data object Block : Intent
         data object BlockInstance : Intent
         data object ClearRead : Intent

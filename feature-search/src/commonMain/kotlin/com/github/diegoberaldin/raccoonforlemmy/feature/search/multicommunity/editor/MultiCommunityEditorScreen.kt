@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -81,13 +82,13 @@ class MultiCommunityEditorScreen(
         val model = rememberScreenModel { getMultiCommunityEditorViewModel(editedCommunity) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
 
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
                     MultiCommunityEditorMviModel.Effect.Close -> {
-                        navigator?.pop()
+                        navigationCoordinator.getRootNavigator()?.pop()
                     }
                 }
             }.launchIn(this)
@@ -114,7 +115,7 @@ class MultiCommunityEditorScreen(
                         Image(
                             modifier = Modifier.onClick(
                                 rememberCallback {
-                                    navigator?.pop()
+                                    navigationCoordinator.getRootNavigator()?.pop()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -326,7 +327,7 @@ class MultiCommunityEditorScreen(
                         .weight(1f),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
-                    itemsIndexed(uiState.communities) { idx, communityItem ->
+                    items(uiState.communities) { communityItem ->
                         val community = communityItem.first
                         val selected = communityItem.second
                         Row(
@@ -342,7 +343,7 @@ class MultiCommunityEditorScreen(
                                 onCheckedChange = {
                                     model.reduce(
                                         MultiCommunityEditorMviModel.Intent.ToggleCommunity(
-                                            idx
+                                            community.id
                                         )
                                     )
                                 },

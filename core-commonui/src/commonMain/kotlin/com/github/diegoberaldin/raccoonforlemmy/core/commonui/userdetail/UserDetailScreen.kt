@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -59,7 +59,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -88,6 +87,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
@@ -121,8 +121,6 @@ class UserDetailScreen(
         val genericError = stringResource(MR.strings.message_generic_error)
         val successMessage = stringResource(MR.strings.message_operation_successful)
         val isOnOtherInstance = otherInstance.isNotEmpty()
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val notificationCenter = remember { getNotificationCenter() }
@@ -133,8 +131,11 @@ class UserDetailScreen(
         val downvoteColor by themeRepository.downvoteColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
 
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
@@ -142,6 +143,33 @@ class UserDetailScreen(
                 notificationCenter.removeObserver(key)
                 drawerCoordinator.setGesturesEnabled(true)
             }
+        }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(
+                            UserDetailMviModel.Intent.ChangeSort(
+                                sortType
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeSortType
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(UserDetailMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(UserDetailMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
         }
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -166,8 +194,6 @@ class UserDetailScreen(
         Scaffold(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .nestedScroll(fabNestedScrollConnection)
                 .padding(Spacing.xs),
             topBar = {
                 val userName = user.name
@@ -194,16 +220,7 @@ class UserDetailScreen(
                                     val sheet = SortBottomSheet(
                                         expandTop = true,
                                     )
-                                    notificationCenter.addObserver({
-                                        (it as? SortType)?.also { sortType ->
-                                            model.reduce(
-                                                UserDetailMviModel.Intent.ChangeSort(
-                                                    sortType
-                                                )
-                                            )
-                                        }
-                                    }, key, NotificationCenterContractKeys.ChangeSortType)
-                                    bottomSheetNavigator.show(sheet)
+                                    navigationCoordinator.getBottomNavigator()?.show(sheet)
                                 },
                             ),
                             imageVector = uiState.sortType.toIcon(),
@@ -212,6 +229,7 @@ class UserDetailScreen(
                         )
                     },
                     navigationIcon = {
+                        val navigator = navigationCoordinator.getRootNavigator()
                         if (navigator?.canPop == true) {
                             Image(
                                 modifier = Modifier.onClick(
@@ -242,7 +260,7 @@ class UserDetailScreen(
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
                                 text = stringResource(MR.strings.action_back_to_top),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
                                         topAppBarState.heightOffset = 0f
@@ -254,9 +272,9 @@ class UserDetailScreen(
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.Chat,
                                     text = stringResource(MR.strings.action_chat),
-                                    onSelected = {
+                                    onSelected = rememberCallback {
                                         val screen = InboxChatScreen(otherUserId = user.id)
-                                        navigator?.push(screen)
+                                        navigationCoordinator.getRootNavigator()?.push(screen)
                                     },
                                 )
                             }
@@ -277,6 +295,14 @@ class UserDetailScreen(
             Box(
                 modifier = Modifier
                     .padding(padding)
+                    .let {
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            it
+                        }
+                    }
+                    .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
@@ -295,7 +321,8 @@ class UserDetailScreen(
                                     stringResource(MR.strings.community_detail_block_instance),
                                 ),
                                 onOpenImage = rememberCallbackArgs { url ->
-                                    navigator?.push(ZoomableImageScreen(url))
+                                    navigationCoordinator.getRootNavigator()
+                                        ?.push(ZoomableImageScreen(url))
                                 },
                                 onOptionSelected = rememberCallbackArgs { optionIdx ->
                                     when (optionIdx) {
@@ -337,7 +364,7 @@ class UserDetailScreen(
                                 }
                             }
                         }
-                        itemsIndexed(uiState.posts) { idx, post ->
+                        items(uiState.posts) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
@@ -377,12 +404,12 @@ class UserDetailScreen(
                                 },
                                 onDismissToStart = rememberCallback(model) {
                                     model.reduce(
-                                        UserDetailMviModel.Intent.UpVotePost(idx),
+                                        UserDetailMviModel.Intent.UpVotePost(post.id),
                                     )
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
-                                        UserDetailMviModel.Intent.DownVotePost(idx),
+                                        UserDetailMviModel.Intent.DownVotePost(post.id),
                                     )
                                 },
                                 content = {
@@ -395,7 +422,8 @@ class UserDetailScreen(
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
                                         onClick = rememberCallback {
-                                            navigator?.push(PostDetailScreen(post = post))
+                                            navigationCoordinator.getRootNavigator()
+                                                ?.push(PostDetailScreen(post = post))
                                         },
                                         onUpVote = if (isOnOtherInstance) {
                                             null
@@ -403,7 +431,7 @@ class UserDetailScreen(
                                             rememberCallback(model) {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.UpVotePost(
-                                                        index = idx,
+                                                        id = post.id,
                                                         feedback = true,
                                                     ),
                                                 )
@@ -415,7 +443,7 @@ class UserDetailScreen(
                                             rememberCallback(model) {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.DownVotePost(
-                                                        index = idx,
+                                                        id = post.id,
                                                         feedback = true,
                                                     ),
                                                 )
@@ -427,14 +455,15 @@ class UserDetailScreen(
                                             rememberCallback(model) {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.SavePost(
-                                                        index = idx,
+                                                        id = post.id,
                                                         feedback = true,
                                                     ),
                                                 )
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community ->
-                                            navigator?.push(CommunityDetailScreen(community))
+                                            navigationCoordinator.getRootNavigator()
+                                                ?.push(CommunityDetailScreen(community))
                                         },
                                         onReply = if (isOnOtherInstance) {
                                             null
@@ -443,18 +472,12 @@ class UserDetailScreen(
                                                 val screen = CreateCommentScreen(
                                                     originalPost = post,
                                                 )
-                                                notificationCenter.addObserver(
-                                                    {
-                                                        model.reduce(UserDetailMviModel.Intent.Refresh)
-                                                    },
-                                                    key,
-                                                    NotificationCenterContractKeys.CommentCreated
-                                                )
-                                                bottomSheetNavigator.show(screen)
+                                                navigationCoordinator.getBottomNavigator()
+                                                    ?.show(screen)
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs { url ->
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 ZoomableImageScreen(url),
                                             )
                                         },
@@ -466,11 +489,12 @@ class UserDetailScreen(
                                         onOptionSelected = rememberCallbackArgs { optionIdx ->
                                             when (optionIdx) {
                                                 2 -> {
-                                                    bottomSheetNavigator.show(
-                                                        CreateReportScreen(
-                                                            postId = post.id
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreateReportScreen(
+                                                                postId = post.id
+                                                            )
                                                         )
-                                                    )
                                                 }
 
                                                 1 -> {
@@ -478,7 +502,7 @@ class UserDetailScreen(
                                                 }
 
                                                 else -> model.reduce(
-                                                    UserDetailMviModel.Intent.SharePost(idx)
+                                                    UserDetailMviModel.Intent.SharePost(post.id)
                                                 )
                                             }
                                         })
@@ -512,7 +536,7 @@ class UserDetailScreen(
                                 )
                             }
                         }
-                        itemsIndexed(uiState.comments) { idx, comment ->
+                        items(uiState.comments) { comment ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
@@ -551,12 +575,12 @@ class UserDetailScreen(
                                 },
                                 onDismissToStart = rememberCallback(model) {
                                     model.reduce(
-                                        UserDetailMviModel.Intent.UpVoteComment(idx),
+                                        UserDetailMviModel.Intent.UpVoteComment(comment.id),
                                     )
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
-                                        UserDetailMviModel.Intent.DownVoteComment(idx),
+                                        UserDetailMviModel.Intent.DownVoteComment(comment.id),
                                     )
                                 },
                                 content = {
@@ -569,7 +593,7 @@ class UserDetailScreen(
                                         hideAuthor = true,
                                         hideIndent = true,
                                         onClick = rememberCallback {
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 PostDetailScreen(
                                                     post = PostModel(id = comment.postId),
                                                     highlightCommentId = comment.id,
@@ -582,7 +606,7 @@ class UserDetailScreen(
                                             rememberCallback(model) {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.SaveComment(
-                                                        index = idx,
+                                                        id = comment.id,
                                                         feedback = true,
                                                     ),
                                                 )
@@ -594,7 +618,7 @@ class UserDetailScreen(
                                             rememberCallback(model) {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.UpVoteComment(
-                                                        index = idx,
+                                                        id = comment.id,
                                                         feedback = true,
                                                     ),
                                                 )
@@ -606,7 +630,7 @@ class UserDetailScreen(
                                             rememberCallback(model) {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.DownVoteComment(
-                                                        index = idx,
+                                                        id = comment.id,
                                                         feedback = true,
                                                     ),
                                                 )
@@ -620,18 +644,13 @@ class UserDetailScreen(
                                                     originalPost = PostModel(id = comment.postId),
                                                     originalComment = comment,
                                                 )
-                                                notificationCenter.addObserver(
-                                                    {
-                                                        model.reduce(UserDetailMviModel.Intent.Refresh)
-                                                    },
-                                                    key,
-                                                    NotificationCenterContractKeys.CommentCreated
-                                                )
-                                                bottomSheetNavigator.show(screen)
+                                                navigationCoordinator.getBottomNavigator()
+                                                    ?.show(screen)
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community ->
-                                            navigator?.push(CommunityDetailScreen(community))
+                                            navigationCoordinator.getRootNavigator()
+                                                ?.push(CommunityDetailScreen(community))
                                         },
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_see_raw))
@@ -640,11 +659,12 @@ class UserDetailScreen(
                                         onOptionSelected = rememberCallbackArgs { optionId ->
                                             when (optionId) {
                                                 1 -> {
-                                                    bottomSheetNavigator.show(
-                                                        CreateReportScreen(
-                                                            commentId = comment.id
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreateReportScreen(
+                                                                commentId = comment.id
+                                                            )
                                                         )
-                                                    )
                                                 }
 
                                                 else -> {

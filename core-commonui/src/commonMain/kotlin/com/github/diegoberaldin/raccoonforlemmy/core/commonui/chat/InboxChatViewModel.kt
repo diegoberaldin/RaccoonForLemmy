@@ -31,9 +31,11 @@ class InboxChatViewModel(
     private var currentPage: Int = 1
 
     init {
-        notificationCenter.addObserver({
-            handleLogout()
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
+        notificationCenter.addObserver(
+            {
+                handleLogout()
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
+        )
     }
 
     fun finalize() {

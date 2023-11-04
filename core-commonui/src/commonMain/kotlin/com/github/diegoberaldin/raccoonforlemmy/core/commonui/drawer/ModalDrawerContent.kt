@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
@@ -179,7 +179,7 @@ object ModalDrawerContent : Tab {
                         }
                     }
 
-                    itemsIndexed(uiState.multiCommunities) { _, community ->
+                    items(uiState.multiCommunities) { community ->
                         MultiCommunityItem(
                             modifier = Modifier.fillMaxWidth().onClick(
                                 rememberCallback {
@@ -196,7 +196,7 @@ object ModalDrawerContent : Tab {
                             autoLoadImages = uiState.autoLoadImages,
                         )
                     }
-                    itemsIndexed(uiState.communities) { _, community ->
+                    items(uiState.communities) { community ->
                         CommunityItem(
                             modifier = Modifier.fillMaxWidth().onClick(
                                 rememberCallback {

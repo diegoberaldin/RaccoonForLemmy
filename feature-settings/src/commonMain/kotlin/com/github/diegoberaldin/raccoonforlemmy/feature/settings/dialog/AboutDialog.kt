@@ -65,7 +65,7 @@ class AboutDialog : Screen {
         viewModel.bindToLifecycle(key)
 
         val uriHandler = LocalUriHandler.current
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val uiState by viewModel.uiState.collectAsState()
@@ -75,7 +75,7 @@ class AboutDialog : Screen {
             viewModel.effects.onEach { effect ->
                 when (effect) {
                     is AboutDialogMviModel.Effect.OpenCommunity -> {
-                        navigator?.push(
+                        navigationCoordinator.getRootNavigator()?.push(
                             CommunityDetailScreen(
                                 community = effect.community,
                                 otherInstance = effect.instance,
@@ -126,7 +126,7 @@ class AboutDialog : Screen {
                                     url = CHANGELOG_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
-                                    navigator = navigator,
+                                    navigator = navigationCoordinator.getRootNavigator(),
                                 )
                             }
                         )
@@ -138,7 +138,7 @@ class AboutDialog : Screen {
                                     url = REPORT_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
-                                    navigator = navigator,
+                                    navigator = navigationCoordinator.getRootNavigator(),
                                 )
                             },
                         ) {
@@ -170,7 +170,7 @@ class AboutDialog : Screen {
                                     url = WEBSITE_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
-                                    navigator = navigator,
+                                    navigator = navigationCoordinator.getRootNavigator(),
                                 )
                             },
                         )

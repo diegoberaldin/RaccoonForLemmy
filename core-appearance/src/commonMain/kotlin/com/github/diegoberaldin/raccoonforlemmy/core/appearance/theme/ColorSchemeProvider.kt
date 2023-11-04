@@ -1,9 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 
+@Stable
 interface ColorSchemeProvider {
 
     val supportsDynamicColors: Boolean

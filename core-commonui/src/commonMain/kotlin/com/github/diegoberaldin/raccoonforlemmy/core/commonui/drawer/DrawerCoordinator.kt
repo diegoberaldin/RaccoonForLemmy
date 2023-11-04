@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer
 
+import androidx.compose.runtime.Stable
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import kotlinx.coroutines.flow.SharedFlow
@@ -13,6 +14,7 @@ sealed interface DrawerEvent {
     data object OpenBookmarks : DrawerEvent
 }
 
+@Stable
 interface DrawerCoordinator {
 
     val gesturesEnabled: StateFlow<Boolean>

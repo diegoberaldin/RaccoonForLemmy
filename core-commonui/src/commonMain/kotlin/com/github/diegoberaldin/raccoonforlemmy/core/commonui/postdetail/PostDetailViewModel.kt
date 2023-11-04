@@ -37,19 +37,21 @@ class PostDetailViewModel(
     private val shareHelper: ShareHelper,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
-) : MviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect> by mvi,
-    PostDetailMviModel {
+) : PostDetailMviModel,
+    MviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect> by mvi {
 
     private var currentPage: Int = 1
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
 
     init {
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
+        notificationCenter.addObserver(
+            {
+                (it as? PostModel)?.also { post ->
+                    handlePostUpdate(post)
+                }
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
+        )
     }
 
     fun finalize() {

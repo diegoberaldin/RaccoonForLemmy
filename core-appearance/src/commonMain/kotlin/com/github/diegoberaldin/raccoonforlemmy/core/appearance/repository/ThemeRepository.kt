@@ -1,11 +1,13 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import kotlinx.coroutines.flow.StateFlow
 
+@Stable
 interface ThemeRepository {
 
     val uiTheme: StateFlow<UiTheme>

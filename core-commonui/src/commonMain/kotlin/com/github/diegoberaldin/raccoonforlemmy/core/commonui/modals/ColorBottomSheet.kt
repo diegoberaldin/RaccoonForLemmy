@@ -28,9 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -43,7 +43,7 @@ class ColorBottomSheet : Screen {
 
     @Composable
     override fun Content() {
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         var customPickerDialogOpened by remember { mutableStateOf(false) }
         val settingsRepository = remember { getSettingsRepository() }
@@ -101,7 +101,7 @@ class ColorBottomSheet : Screen {
                                         ?.also {
                                             it.invoke(value.first ?: Unit)
                                         }
-                                    bottomSheetNavigator.hide()
+                                    navigationCoordinator.getBottomNavigator()?.hide()
                                 } else {
                                     customPickerDialogOpened = true
                                 }
@@ -149,7 +149,7 @@ class ColorBottomSheet : Screen {
                         ?.also {
                             it.invoke(color)
                         }
-                    bottomSheetNavigator.hide()
+                    navigationCoordinator.getBottomNavigator()?.hide()
                 }
             )
         }

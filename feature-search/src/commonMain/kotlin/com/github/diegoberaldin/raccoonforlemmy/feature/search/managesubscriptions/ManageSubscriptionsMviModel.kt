@@ -11,8 +11,8 @@ interface ManageSubscriptionsMviModel :
     sealed interface Intent {
         data object Refresh : Intent
         data object HapticIndication : Intent
-        data class Unsubscribe(val index: Int) : Intent
-        data class DeleteMultiCommunity(val index: Int) : Intent
+        data class Unsubscribe(val id: Int) : Intent
+        data class DeleteMultiCommunity(val id: Int) : Intent
     }
 
     data class UiState(

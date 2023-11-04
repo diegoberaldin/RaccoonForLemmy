@@ -63,11 +63,13 @@ class ManageSubscriptionsViewModel(
             ManageSubscriptionsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             ManageSubscriptionsMviModel.Intent.Refresh -> refresh()
             is ManageSubscriptionsMviModel.Intent.Unsubscribe -> handleUnsubscription(
-                community = uiState.value.communities[intent.index],
+                community = uiState.value.communities.first { it.id == intent.id },
             )
 
             is ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity -> deleteMultiCommunity(
-                community = uiState.value.multiCommunities[intent.index],
+                community = uiState.value.multiCommunities.first {
+                    (it.id ?: 0).toInt() == intent.id
+                },
             )
         }
     }

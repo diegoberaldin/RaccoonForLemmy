@@ -1,11 +1,14 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
+@Stable
 interface NavigationCoordinator {
 
     val onDoubleTabSelection: Flow<Tab>
@@ -29,4 +32,8 @@ interface NavigationCoordinator {
     fun getBottomBarScrollConnection(): NestedScrollConnection?
 
     fun setInboxUnread(count: Int)
+
+    fun setBottomNavigator(value: BottomSheetNavigator?)
+
+    fun getBottomNavigator(): BottomSheetNavigator?
 }

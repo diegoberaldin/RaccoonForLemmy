@@ -1,9 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.report
 
+import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import dev.icerock.moko.resources.desc.StringDesc
 
+@Stable
 interface CreateReportMviModel :
     MviModel<CreateReportMviModel.Intent, CreateReportMviModel.UiState, CreateReportMviModel.Effect>,
     ScreenModel {

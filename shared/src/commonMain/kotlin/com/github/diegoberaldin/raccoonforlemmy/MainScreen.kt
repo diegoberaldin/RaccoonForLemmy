@@ -84,8 +84,8 @@ internal object MainScreen : Screen {
             }
         }
 
-        TabNavigator(HomeTab) {
-            LaunchedEffect(it.current) {
+        TabNavigator(HomeTab) { tabNavigator ->
+            LaunchedEffect(tabNavigator.current) {
                 // when the current tab chanes, reset the bottom bar offset to the default value
                 model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(0f))
             }

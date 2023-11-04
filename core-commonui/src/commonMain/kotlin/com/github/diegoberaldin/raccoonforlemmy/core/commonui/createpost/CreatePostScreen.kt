@@ -51,7 +51,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -60,6 +59,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Progres
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreatePostViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getGalleryHelper
@@ -89,7 +89,6 @@ class CreatePostScreen(
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = stringResource(MR.strings.message_generic_error)
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
         var bodyTextFieldValue by remember {
@@ -98,6 +97,7 @@ class CreatePostScreen(
         val bodyFocusRequester = remember { FocusRequester() }
         val urlFocusRequester = remember { FocusRequester() }
         val focusManager = LocalFocusManager.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
 
         LaunchedEffect(model) {
             model.reduce(CreatePostMviModel.Intent.SetTitle(editedPost?.title.orEmpty()))
@@ -112,7 +112,7 @@ class CreatePostScreen(
                     CreatePostMviModel.Effect.Success -> {
                         notificationCenter.getObserver(NotificationCenterContractKeys.PostCreated)
                             ?.also { o -> o.invoke(Unit) }
-                        bottomSheetNavigator.hide()
+                        navigationCoordinator.getBottomNavigator()?.hide()
                     }
 
                     is CreatePostMviModel.Effect.AddImageToBody -> {

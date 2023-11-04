@@ -43,7 +43,7 @@ fun RawContentDialog(
     onDismiss: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
-    val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+    val navigationCoordinator = remember { getNavigationCoordinator() }
     val settingsRepository = remember { getSettingsRepository() }
     val clipboardManager = LocalClipboardManager.current
     val onSearchLambda = {
@@ -53,7 +53,7 @@ fun RawContentDialog(
             url = url,
             openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
             uriHandler = uriHandler,
-            navigator = navigator
+            navigator = navigationCoordinator.getRootNavigator()
         )
     }
 

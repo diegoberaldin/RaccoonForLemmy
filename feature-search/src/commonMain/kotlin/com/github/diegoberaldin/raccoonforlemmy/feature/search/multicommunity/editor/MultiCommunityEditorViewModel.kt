@@ -52,7 +52,7 @@ class MultiCommunityEditorViewModel(
         when (intent) {
             is MultiCommunityEditorMviModel.Intent.SelectImage -> selectImage(intent.index)
             is MultiCommunityEditorMviModel.Intent.SetName -> mvi.updateState { it.copy(name = intent.value) }
-            is MultiCommunityEditorMviModel.Intent.ToggleCommunity -> toggleCommunity(intent.index)
+            is MultiCommunityEditorMviModel.Intent.ToggleCommunity -> toggleCommunity(intent.id)
             is MultiCommunityEditorMviModel.Intent.SetSearch -> setSearch(intent.value)
             MultiCommunityEditorMviModel.Intent.Submit -> submit()
         }
@@ -109,10 +109,9 @@ class MultiCommunityEditorViewModel(
         mvi.updateState { it.copy(icon = image) }
     }
 
-    private fun toggleCommunity(index: Int) {
-        val toggledCommunity = uiState.value.communities[index]
+    private fun toggleCommunity(communityId: Int) {
         val newCommunities = communities.map { item ->
-            if (item.first.id == toggledCommunity.first.id) {
+            if (item.first.id == communityId) {
                 item.first to !item.second
             } else {
                 item

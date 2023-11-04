@@ -33,7 +33,7 @@ class WebViewScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         var shareHelper = remember { getShareHelper() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
@@ -54,7 +54,7 @@ class WebViewScreen(
                         Image(
                             modifier = Modifier.onClick(
                                 rememberCallback {
-                                    navigator?.pop()
+                                    navigationCoordinator.getRootNavigator()?.pop()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,

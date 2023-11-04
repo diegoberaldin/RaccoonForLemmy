@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
@@ -95,36 +94,20 @@ class SettingsScreen : Screen {
         val model = rememberScreenModel { getSettingsViewModel() }
         model.bindToLifecycle(SettingsTab.key)
         val uiState by model.uiState.collectAsState()
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val notificationCenter = remember { getNotificationCenter() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val scope = rememberCoroutineScope()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { navigationCoordinator.getRootNavigator() }
         val scrollState = rememberScrollState()
-
-        LaunchedEffect(navigator) {
-            navigationCoordinator.onDoubleTabSelection.onEach { tab ->
-                if (tab == SettingsTab) {
-                    scrollState.scrollTo(0)
-                    topAppBarState.heightOffset = 0f
-                    topAppBarState.contentOffset = 0f
-                }
-            }.launchIn(this)
-        }
-
-        DisposableEffect(key) {
-            onDispose {
-                notificationCenter.removeObserver(key)
-            }
-        }
         val languageRepository = remember { getLanguageRepository() }
         val lang by languageRepository.currentLanguage.collectAsState()
-
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
         val themeRepository = remember { getThemeRepository() }
+        var upvoteColorDialogOpened by remember { mutableStateOf(false) }
+        var downvoteColorDialogOpened by remember { mutableStateOf(false) }
+        var infoDialogOpened by remember { mutableStateOf(false) }
 
         LaunchedEffect(themeRepository) {
             themeRepository.uiFontScale.drop(1).onEach {
@@ -133,12 +116,131 @@ class SettingsScreen : Screen {
                 uiFontSizeWorkaround = true
             }.launchIn(this)
         }
+        LaunchedEffect(Unit) {
+            navigationCoordinator.onDoubleTabSelection.onEach { tab ->
+                if (tab == SettingsTab) {
+                    scrollState.scrollTo(0)
+                    topAppBarState.heightOffset = 0f
+                    topAppBarState.contentOffset = 0f
+                }
+            }.launchIn(this)
+        }
+        DisposableEffect(key) {
+            onDispose {
+                notificationCenter.removeObserver(key)
+            }
+        }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? String)?.also { lang ->
+                        model.reduce(SettingsMviModel.Intent.ChangeLanguage(lang))
+                    }
+                }, key, NotificationCenterContractKeys.ChangeLanguage
+            )
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? UiTheme)?.also { value ->
+                        model.reduce(SettingsMviModel.Intent.ChangeUiTheme(value))
+                    }
+                }, key, NotificationCenterContractKeys.ChangeTheme
+            )
+            notificationCenter.addObserver(
+                { result ->
+                    model.reduce(
+                        SettingsMviModel.Intent.ChangeCustomSeedColor(
+                            result as? Color?
+                        )
+                    )
+                }, key, NotificationCenterContractKeys.ChangeColor
+            )
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? UiFontFamily)?.also { value ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeUiFontFamily(
+                                value
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeFontFamily
+            )
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? Float)?.also { value ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeUiFontSize(
+                                value
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeFontSize
+            )
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? Float)?.also { value ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeContentFontSize(
+                                value
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeFontSize
+            )
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? PostLayout)?.also { value ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangePostLayout(
+                                value
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangePostLayout
+            )
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? ListingType)?.also {
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeDefaultListingType(
+                                it
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeFeedType
+            )
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeDefaultPostSortType(
+                                sortType
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeSortType
+            )
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeDefaultCommentSortType(
+                                sortType
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeSortType
+            )
+            notificationCenter.addObserver(
+                {
+                    infoDialogOpened = false
+                }, key, NotificationCenterContractKeys.CloseDialog
+            )
+        }
+
         if (!uiFontSizeWorkaround) {
             return
         }
-        var upvoteColorDialogOpened by remember { mutableStateOf(false) }
-        var downvoteColorDialogOpened by remember { mutableStateOf(false) }
-        var infoDialogOpened by remember { mutableStateOf(false) }
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
@@ -194,12 +296,7 @@ class SettingsScreen : Screen {
                         value = uiState.lang.toLanguageName(),
                         onTap = rememberCallback {
                             val sheet = LanguageBottomSheet()
-                            notificationCenter.addObserver({ result ->
-                                (result as? String)?.also { lang ->
-                                    model.reduce(SettingsMviModel.Intent.ChangeLanguage(lang))
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeLanguage)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
 
@@ -209,12 +306,7 @@ class SettingsScreen : Screen {
                         value = uiState.uiTheme.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = ThemeBottomSheet()
-                            notificationCenter.addObserver({ result ->
-                                (result as? UiTheme)?.also { value ->
-                                    model.reduce(SettingsMviModel.Intent.ChangeUiTheme(value))
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeTheme)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
 
@@ -243,14 +335,7 @@ class SettingsScreen : Screen {
                         ).primary,
                         onTap = rememberCallback {
                             val sheet = ColorBottomSheet()
-                            notificationCenter.addObserver({ result ->
-                                model.reduce(
-                                    SettingsMviModel.Intent.ChangeCustomSeedColor(
-                                        result as? Color?
-                                    )
-                                )
-                            }, key, NotificationCenterContractKeys.ChangeColor)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
                     // upvote and downvote colors
@@ -275,16 +360,7 @@ class SettingsScreen : Screen {
                         value = uiState.uiFontFamily.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = FontFamilyBottomSheet()
-                            notificationCenter.addObserver({ result ->
-                                (result as? UiFontFamily)?.also { value ->
-                                    model.reduce(
-                                        SettingsMviModel.Intent.ChangeUiFontFamily(
-                                            value
-                                        )
-                                    )
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeFontFamily)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
                     // font scale
@@ -299,16 +375,7 @@ class SettingsScreen : Screen {
                                     FontScale.Small,
                                 ),
                             )
-                            notificationCenter.addObserver({ result ->
-                                (result as? Float)?.also { value ->
-                                    model.reduce(
-                                        SettingsMviModel.Intent.ChangeUiFontSize(
-                                            value
-                                        )
-                                    )
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeFontSize)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
                     SettingsRow(
@@ -316,16 +383,7 @@ class SettingsScreen : Screen {
                         value = uiState.contentFontScale.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = FontScaleBottomSheet()
-                            notificationCenter.addObserver({ result ->
-                                (result as? Float)?.also { value ->
-                                    model.reduce(
-                                        SettingsMviModel.Intent.ChangeContentFontSize(
-                                            value
-                                        )
-                                    )
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeFontSize)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
 
@@ -335,16 +393,7 @@ class SettingsScreen : Screen {
                         value = uiState.postLayout.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = PostLayoutBottomSheet()
-                            notificationCenter.addObserver({ result ->
-                                (result as? PostLayout)?.also { value ->
-                                    model.reduce(
-                                        SettingsMviModel.Intent.ChangePostLayout(
-                                            value
-                                        )
-                                    )
-                                }
-                            }, key, NotificationCenterContractKeys.ChangePostLayout)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
 
@@ -400,16 +449,7 @@ class SettingsScreen : Screen {
                             val sheet = ListingTypeBottomSheet(
                                 isLogged = uiState.isLogged,
                             )
-                            notificationCenter.addObserver({ result ->
-                                (result as? ListingType)?.also {
-                                    model.reduce(
-                                        SettingsMviModel.Intent.ChangeDefaultListingType(
-                                            it
-                                        )
-                                    )
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeFeedType)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
 
@@ -421,16 +461,7 @@ class SettingsScreen : Screen {
                             val sheet = SortBottomSheet(
                                 expandTop = true,
                             )
-                            notificationCenter.addObserver({
-                                (it as? SortType)?.also { sortType ->
-                                    model.reduce(
-                                        SettingsMviModel.Intent.ChangeDefaultPostSortType(
-                                            sortType
-                                        )
-                                    )
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeSortType)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
 
@@ -448,16 +479,7 @@ class SettingsScreen : Screen {
                                     SortType.Controversial,
                                 ),
                             )
-                            notificationCenter.addObserver({
-                                (it as? SortType)?.also { sortType ->
-                                    model.reduce(
-                                        SettingsMviModel.Intent.ChangeDefaultCommentSortType(
-                                            sortType
-                                        )
-                                    )
-                                }
-                            }, key, NotificationCenterContractKeys.ChangeSortType)
-                            bottomSheetNavigator.show(sheet)
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )
 
@@ -623,9 +645,6 @@ class SettingsScreen : Screen {
         }
 
         if (infoDialogOpened) {
-            notificationCenter.addObserver({
-                infoDialogOpened = false
-            }, key, NotificationCenterContractKeys.CloseDialog)
             AboutDialog().Content()
         }
     }

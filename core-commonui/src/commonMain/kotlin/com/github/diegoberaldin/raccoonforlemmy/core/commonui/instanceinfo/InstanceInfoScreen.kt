@@ -43,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Communi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -61,9 +62,11 @@ class InstanceInfoScreen(
         val model = rememberScreenModel { getInstanceInfoViewModel(url) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val instanceName = url.replace("https://", "")
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
 
         Scaffold(
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
@@ -75,7 +78,7 @@ class InstanceInfoScreen(
                         Image(
                             modifier = Modifier.onClick(
                                 rememberCallback {
-                                    navigator?.pop()
+                                    navigationCoordinator.getRootNavigator()?.pop()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -101,7 +104,13 @@ class InstanceInfoScreen(
             )
             Box(
                 modifier = Modifier
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .let {
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            it
+                        }
+                    }
                     .padding(paddingValues)
                     .pullRefresh(pullRefreshState),
             ) {
@@ -143,7 +152,7 @@ class InstanceInfoScreen(
                         CommunityItem(
                             modifier = Modifier.onClick(
                                 rememberCallback {
-                                    navigator?.push(
+                                    navigationCoordinator.getRootNavigator()?.push(
                                         CommunityDetailScreen(
                                             community = it,
                                             otherInstance = instanceName,

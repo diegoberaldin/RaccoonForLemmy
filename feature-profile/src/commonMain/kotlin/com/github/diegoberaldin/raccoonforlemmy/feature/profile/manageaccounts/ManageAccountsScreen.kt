@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,11 +37,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getManageAccountsViewModel
@@ -57,13 +58,13 @@ class ManageAccountsScreen : Screen {
         val model = rememberScreenModel { getManageAccountsViewModel() }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
                     ManageAccountsMviModel.Effect.Close -> {
-                        bottomSheetNavigator.hide()
+                        navigationCoordinator.getBottomNavigator()?.hide()
                     }
                 }
             }.launchIn(this)
@@ -151,7 +152,7 @@ class ManageAccountsScreen : Screen {
                         Spacer(modifier = Modifier.height(Spacing.m))
                         Button(
                             onClick = {
-                                bottomSheetNavigator.show(LoginBottomSheet())
+                                navigationCoordinator.getBottomNavigator()?.show(LoginBottomSheet())
                             },
                         ) {
                             Row(

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
@@ -51,7 +51,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -71,6 +70,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
@@ -98,8 +98,6 @@ class ExploreScreen : Screen {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { navigationCoordinator.getRootNavigator() }
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val notificationCenter = remember { getNotificationCenter() }
@@ -114,13 +112,40 @@ class ExploreScreen : Screen {
                 }
             }
         }
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
         DisposableEffect(key) {
             onDispose {
                 notificationCenter.removeObserver(key)
             }
         }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? ListingType)?.also {
+                        model.reduce(ExploreMviModel.Intent.SetListingType(it))
+                    }
+                }, key, NotificationCenterContractKeys.ChangeFeedType
+            )
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(
+                            ExploreMviModel.Intent.SetSortType(sortType)
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeSortType
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(ExploreMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+        }
         val lazyListState = rememberLazyListState()
-        LaunchedEffect(navigator) {
+        LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
                 if (tab == ExploreTab) {
                     lazyListState.scrollToItem(0)
@@ -140,10 +165,7 @@ class ExploreScreen : Screen {
         }
 
         Scaffold(
-            modifier = Modifier
-                .padding(Spacing.xxs)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .nestedScroll(keyboardScrollConnection),
+            modifier = Modifier.padding(Spacing.xxs),
             topBar = {
                 ExploreTopBar(
                     scrollBehavior = scrollBehavior,
@@ -154,26 +176,14 @@ class ExploreScreen : Screen {
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
                         )
-                        notificationCenter.addObserver({ result ->
-                            (result as? ListingType)?.also {
-                                model.reduce(ExploreMviModel.Intent.SetListingType(it))
-                            }
-                        }, key, NotificationCenterContractKeys.ChangeFeedType)
-                        bottomSheetNavigator.show(sheet)
+                        navigationCoordinator.getBottomNavigator()?.show(sheet)
                     },
                     onSelectSortType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = SortBottomSheet(
                             expandTop = true,
                         )
-                        notificationCenter.addObserver({
-                            (it as? SortType)?.also { sortType ->
-                                model.reduce(
-                                    ExploreMviModel.Intent.SetSortType(sortType)
-                                )
-                            }
-                        }, key, NotificationCenterContractKeys.ChangeSortType)
-                        bottomSheetNavigator.show(sheet)
+                        navigationCoordinator.getBottomNavigator()?.show(sheet)
                     },
                     onHamburgerTapped = rememberCallback {
                         scope.launch {
@@ -265,7 +275,16 @@ class ExploreScreen : Screen {
                     { model.reduce(ExploreMviModel.Intent.Refresh) },
                 )
                 Box(
-                    modifier = Modifier.padding(Spacing.xxs).pullRefresh(pullRefreshState),
+                    modifier = Modifier.padding(Spacing.xxs)
+                        .let {
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                it
+                            }
+                        }
+                        .nestedScroll(keyboardScrollConnection)
+                        .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState,
@@ -282,7 +301,7 @@ class ExploreScreen : Screen {
                                 }
                             }
                         }
-                        itemsIndexed(uiState.results) { idx, result ->
+                        items(uiState.results) { result ->
                             when (result) {
                                 is CommunityModel -> {
                                     CommunityItem(
@@ -290,7 +309,7 @@ class ExploreScreen : Screen {
                                             .fillMaxWidth()
                                             .onClick(
                                                 rememberCallback {
-                                                    navigator?.push(
+                                                    navigationCoordinator.getRootNavigator()?.push(
                                                         CommunityDetailScreen(result),
                                                     )
                                                 },
@@ -309,24 +328,24 @@ class ExploreScreen : Screen {
                                         autoLoadImages = uiState.autoLoadImages,
                                         blurNsfw = uiState.blurNsfw,
                                         onClick = rememberCallback {
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 PostDetailScreen(result),
                                             )
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community ->
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 CommunityDetailScreen(community),
                                             )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user ->
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 UserDetailScreen(user),
                                             )
                                         },
                                         onUpVote = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.UpVotePost(
-                                                    index = idx,
+                                                    id = result.id,
                                                     feedback = true,
                                                 ),
                                             )
@@ -334,7 +353,7 @@ class ExploreScreen : Screen {
                                         onDownVote = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.DownVotePost(
-                                                    index = idx,
+                                                    id = result.id,
                                                     feedback = true,
                                                 ),
                                             )
@@ -342,7 +361,7 @@ class ExploreScreen : Screen {
                                         onSave = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.SavePost(
-                                                    index = idx,
+                                                    id = result.id,
                                                     feedback = true,
                                                 ),
                                             )
@@ -351,17 +370,10 @@ class ExploreScreen : Screen {
                                             val screen = CreateCommentScreen(
                                                 originalPost = result,
                                             )
-                                            notificationCenter.addObserver(
-                                                {
-                                                    model.reduce(ExploreMviModel.Intent.Refresh)
-                                                },
-                                                key,
-                                                NotificationCenterContractKeys.CommentCreated
-                                            )
-                                            bottomSheetNavigator.show(screen)
+                                            navigationCoordinator.getBottomNavigator()?.show(screen)
                                         },
                                         onImageClick = rememberCallbackArgs { url ->
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 ZoomableImageScreen(url),
                                             )
                                         },
@@ -381,7 +393,7 @@ class ExploreScreen : Screen {
                                         autoLoadImages = uiState.autoLoadImages,
                                         hideIndent = true,
                                         onClick = rememberCallback {
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 PostDetailScreen(
                                                     post = PostModel(id = result.postId),
                                                     highlightCommentId = result.id,
@@ -391,7 +403,7 @@ class ExploreScreen : Screen {
                                         onUpVote = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.UpVoteComment(
-                                                    index = idx,
+                                                    id = result.id,
                                                     feedback = true,
                                                 ),
                                             )
@@ -399,7 +411,7 @@ class ExploreScreen : Screen {
                                         onDownVote = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.DownVoteComment(
-                                                    index = idx,
+                                                    id = result.id,
                                                     feedback = true,
                                                 ),
                                             )
@@ -407,7 +419,7 @@ class ExploreScreen : Screen {
                                         onSave = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.SaveComment(
-                                                    index = idx,
+                                                    id = result.id,
                                                     feedback = true,
                                                 ),
                                             )
@@ -417,22 +429,15 @@ class ExploreScreen : Screen {
                                                 originalPost = PostModel(id = result.postId),
                                                 originalComment = result,
                                             )
-                                            notificationCenter.addObserver(
-                                                {
-                                                    model.reduce(ExploreMviModel.Intent.Refresh)
-                                                },
-                                                key,
-                                                NotificationCenterContractKeys.CommentCreated
-                                            )
-                                            bottomSheetNavigator.show(screen)
+                                            navigationCoordinator.getBottomNavigator()?.show(screen)
                                         },
                                         onOpenCommunity = rememberCallbackArgs {
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 CommunityDetailScreen(it)
                                             )
                                         },
                                         onOpenCreator = rememberCallbackArgs {
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 UserDetailScreen(it)
                                             )
                                         },
@@ -449,7 +454,7 @@ class ExploreScreen : Screen {
                                             .fillMaxWidth()
                                             .onClick(
                                                 rememberCallback {
-                                                    navigator?.push(
+                                                    navigationCoordinator.getRootNavigator()?.push(
                                                         UserDetailScreen(result),
                                                     )
                                                 },

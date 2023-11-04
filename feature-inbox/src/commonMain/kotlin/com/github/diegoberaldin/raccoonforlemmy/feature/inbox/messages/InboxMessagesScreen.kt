@@ -36,6 +36,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatScre
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxMessagesViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -57,7 +58,6 @@ class InboxMessagesScreen : Tab {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { navigationCoordinator.getRootNavigator() }
         val lazyListState = rememberLazyListState()
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach {
@@ -117,15 +117,15 @@ class InboxMessagesScreen : Tab {
                         autoLoadImages = uiState.autoLoadImages,
                         lastMessage = chat.content.orEmpty(),
                         lastMessageDate = chat.publishDate,
-                        onOpenUser = { user ->
-                            navigator?.push(
+                        onOpenUser = rememberCallbackArgs { user ->
+                            navigationCoordinator.getRootNavigator()?.push(
                                 UserDetailScreen(user)
                             )
                         },
-                        onOpen = {
+                        onOpen = rememberCallback {
                             val userId = otherUser?.id
                             if (userId != null) {
-                                navigator?.push(
+                                navigationCoordinator.getRootNavigator()?.push(
                                     InboxChatScreen(userId)
                                 )
                             }

@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist
 
+import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
@@ -7,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
+@Stable
 interface PostListMviModel :
     MviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>,
     ScreenModel {
@@ -16,15 +18,15 @@ interface PostListMviModel :
         data object LoadNextPage : Intent
         data class ChangeSort(val value: SortType) : Intent
         data class ChangeListing(val value: ListingType) : Intent
-        data class UpVotePost(val index: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val index: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val index: Int, val feedback: Boolean = false) : Intent
+        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
         data class HandlePostUpdate(val post: PostModel) : Intent
         data object HapticIndication : Intent
         data class DeletePost(val id: Int) : Intent
-        data class SharePost(val index: Int) : Intent
-        data class MarkAsRead(val index: Int) : Intent
-        data class Hide(val index: Int) : Intent
+        data class SharePost(val id: Int) : Intent
+        data class MarkAsRead(val id: Int) : Intent
+        data class Hide(val id: Int) : Intent
         data object ClearRead : Intent
     }
 

@@ -28,7 +28,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
@@ -36,6 +35,8 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileScreenModel
@@ -66,9 +67,11 @@ internal object ProfileMainScreen : Tab {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val drawerCoordinator = remember { getDrawerCoordinator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val scope = rememberCoroutineScope()
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
@@ -106,7 +109,8 @@ internal object ProfileMainScreen : Tab {
                             Image(
                                 modifier = Modifier.onClick(
                                     rememberCallback {
-                                        bottomSheetNavigator.show(ManageAccountsScreen())
+                                        navigationCoordinator.getBottomNavigator()
+                                            ?.show(ManageAccountsScreen())
                                     },
                                 ),
                                 imageVector = Icons.Default.ManageAccounts,
@@ -130,11 +134,17 @@ internal object ProfileMainScreen : Tab {
                     },
                 )
             },
-        ) {
+        ) { paddinValues ->
             Box(
                 modifier = Modifier
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    .padding(it),
+                    .padding(paddinValues)
+                    .let {
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            it
+                        }
+                    },
                 contentAlignment = Alignment.Center,
             ) {
                 // wait until logging status is determined

@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -60,7 +60,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -88,6 +87,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateRepor
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
@@ -123,14 +123,13 @@ class CommunityDetailScreen(
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = stringResource(MR.strings.message_generic_error)
         val successMessage = stringResource(MR.strings.message_operation_successful)
-        val navigator = remember { getNavigationCoordinator().getRootNavigator() }
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val isOnOtherInstance = otherInstance.isNotEmpty()
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val themeRepository = remember { getThemeRepository() }
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
         val downvoteColor by themeRepository.downvoteColor.collectAsState()
@@ -138,6 +137,8 @@ class CommunityDetailScreen(
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val drawerCoordinator = remember { getDrawerCoordinator() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
 
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
@@ -146,7 +147,38 @@ class CommunityDetailScreen(
                 drawerCoordinator.setGesturesEnabled(true)
             }
         }
-
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(
+                            CommunityDetailMviModel.Intent.ChangeSort(
+                                sortType
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeSortType
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                }, key, NotificationCenterContractKeys.PostCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.PostCreated
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+        }
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
@@ -170,8 +202,6 @@ class CommunityDetailScreen(
         val stateCommunity = uiState.community
         Scaffold(
             modifier = Modifier
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .nestedScroll(fabNestedScrollConnection)
                 .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
             topBar = {
@@ -216,16 +246,7 @@ class CommunityDetailScreen(
                                     val sheet = SortBottomSheet(
                                         expandTop = true,
                                     )
-                                    notificationCenter.addObserver({
-                                        (it as? SortType)?.also { sortType ->
-                                            model.reduce(
-                                                CommunityDetailMviModel.Intent.ChangeSort(
-                                                    sortType
-                                                )
-                                            )
-                                        }
-                                    }, key, NotificationCenterContractKeys.ChangeSortType)
-                                    bottomSheetNavigator.show(sheet)
+                                    navigationCoordinator.getBottomNavigator()?.show(sheet)
                                 },
                             ),
                             imageVector = uiState.sortType.toIcon(),
@@ -234,6 +255,7 @@ class CommunityDetailScreen(
                         )
                     },
                     navigationIcon = {
+                        val navigator = navigationCoordinator.getRootNavigator()
                         if (navigator?.canPop == true) {
                             Image(
                                 modifier = Modifier.onClick(
@@ -264,7 +286,7 @@ class CommunityDetailScreen(
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
                                 text = stringResource(MR.strings.action_back_to_top),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
                                         topAppBarState.heightOffset = 0f
@@ -275,7 +297,7 @@ class CommunityDetailScreen(
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ClearAll,
                                 text = stringResource(MR.strings.action_clear_read),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     model.reduce(CommunityDetailMviModel.Intent.ClearRead)
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -286,14 +308,11 @@ class CommunityDetailScreen(
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.Create,
                                     text = stringResource(MR.strings.action_create_post),
-                                    onSelected = {
+                                    onSelected = rememberCallback {
                                         val screen = CreatePostScreen(
                                             communityId = stateCommunity.id,
                                         )
-                                        notificationCenter.addObserver({
-                                            model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                                        }, key, NotificationCenterContractKeys.PostCreated)
-                                        bottomSheetNavigator.show(screen)
+                                        navigationCoordinator.getBottomNavigator()?.show(screen)
                                     },
                                 )
                             }
@@ -312,6 +331,14 @@ class CommunityDetailScreen(
                 Box(
                     modifier = Modifier
                         .padding(padding)
+                        .let {
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                it
+                            }
+                        }
+                        .nestedScroll(fabNestedScrollConnection)
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
@@ -328,7 +355,8 @@ class CommunityDetailScreen(
                                     stringResource(MR.strings.community_detail_block_instance),
                                 ),
                                 onOpenImage = rememberCallbackArgs { url ->
-                                    navigator?.push(ZoomableImageScreen(url))
+                                    navigationCoordinator.getRootNavigator()
+                                        ?.push(ZoomableImageScreen(url))
                                 },
                                 onOptionSelected = rememberCallbackArgs { optionIdx ->
                                     when (optionIdx) {
@@ -336,7 +364,7 @@ class CommunityDetailScreen(
                                         2 -> model.reduce(CommunityDetailMviModel.Intent.Block)
 
                                         1 -> {
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 InstanceInfoScreen(
                                                     url = stateCommunity.instanceUrl,
                                                 ),
@@ -344,7 +372,7 @@ class CommunityDetailScreen(
                                         }
 
                                         else -> {
-                                            bottomSheetNavigator.show(
+                                            navigationCoordinator.getBottomNavigator()?.show(
                                                 CommunityInfoScreen(stateCommunity),
                                             )
                                         }
@@ -367,7 +395,7 @@ class CommunityDetailScreen(
                                 }
                             }
                         }
-                        itemsIndexed(uiState.posts) { idx, post ->
+                        items(uiState.posts) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled && !isOnOtherInstance,
@@ -398,12 +426,12 @@ class CommunityDetailScreen(
                                 },
                                 onDismissToStart = rememberCallback(model) {
                                     model.reduce(
-                                        CommunityDetailMviModel.Intent.UpVotePost(idx),
+                                        CommunityDetailMviModel.Intent.UpVotePost(post.id),
                                     )
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
-                                        CommunityDetailMviModel.Intent.DownVotePost(idx),
+                                        CommunityDetailMviModel.Intent.DownVotePost(post.id),
                                     )
                                 },
                                 content = {
@@ -420,10 +448,10 @@ class CommunityDetailScreen(
                                         onClick = rememberCallback(model) {
                                             model.reduce(
                                                 CommunityDetailMviModel.Intent.MarkAsRead(
-                                                    idx
+                                                    post.id
                                                 )
                                             )
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 PostDetailScreen(
                                                     post = post,
                                                     otherInstance = otherInstance,
@@ -431,7 +459,7 @@ class CommunityDetailScreen(
                                             )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user ->
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 UserDetailScreen(
                                                     user = user,
                                                     otherInstance = otherInstance,
@@ -442,7 +470,7 @@ class CommunityDetailScreen(
                                             if (!isOnOtherInstance) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.UpVotePost(
-                                                        index = idx,
+                                                        id = post.id,
                                                         feedback = true,
                                                     ),
                                                 )
@@ -452,7 +480,7 @@ class CommunityDetailScreen(
                                             if (!isOnOtherInstance) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.DownVotePost(
-                                                        index = idx,
+                                                        id = post.id,
                                                         feedback = true,
                                                     ),
                                                 )
@@ -462,7 +490,7 @@ class CommunityDetailScreen(
                                             if (!isOnOtherInstance) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.SavePost(
-                                                        index = idx,
+                                                        id = post.id,
                                                         feedback = true,
                                                     ),
                                                 )
@@ -473,23 +501,17 @@ class CommunityDetailScreen(
                                                 val screen = CreateCommentScreen(
                                                     originalPost = post,
                                                 )
-                                                notificationCenter.addObserver(
-                                                    {
-                                                        model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                                                    },
-                                                    key,
-                                                    NotificationCenterContractKeys.CommentCreated
-                                                )
-                                                bottomSheetNavigator.show(screen)
+                                                navigationCoordinator.getBottomNavigator()
+                                                    ?.show(screen)
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs(model) { url ->
                                             model.reduce(
                                                 CommunityDetailMviModel.Intent.MarkAsRead(
-                                                    idx
+                                                    post.id
                                                 )
                                             )
-                                            navigator?.push(
+                                            navigationCoordinator.getRootNavigator()?.push(
                                                 ZoomableImageScreen(url),
                                             )
                                         },
@@ -512,26 +534,21 @@ class CommunityDetailScreen(
                                                 )
 
                                                 4 -> {
-                                                    notificationCenter.addObserver(
-                                                        {
-                                                            model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                                                        },
-                                                        key,
-                                                        NotificationCenterContractKeys.PostCreated
-                                                    )
-                                                    bottomSheetNavigator.show(
-                                                        CreatePostScreen(
-                                                            editedPost = post,
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreatePostScreen(
+                                                                editedPost = post,
+                                                            )
                                                         )
-                                                    )
                                                 }
 
                                                 3 -> {
-                                                    bottomSheetNavigator.show(
-                                                        CreateReportScreen(
-                                                            postId = post.id
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreateReportScreen(
+                                                                postId = post.id
+                                                            )
                                                         )
-                                                    )
                                                 }
 
                                                 2 -> {
@@ -540,12 +557,12 @@ class CommunityDetailScreen(
 
                                                 1 -> model.reduce(
                                                     CommunityDetailMviModel.Intent.Hide(
-                                                        idx
+                                                        post.id
                                                     )
                                                 )
 
                                                 else -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.SharePost(idx)
+                                                    CommunityDetailMviModel.Intent.SharePost(post.id)
                                                 )
                                             }
                                         })

@@ -1,9 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages
 
+import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 
+@Stable
 interface InboxMessagesMviModel :
     MviModel<InboxMessagesMviModel.Intent, InboxMessagesMviModel.UiState, InboxMessagesMviModel.Effect>,
     ScreenModel {

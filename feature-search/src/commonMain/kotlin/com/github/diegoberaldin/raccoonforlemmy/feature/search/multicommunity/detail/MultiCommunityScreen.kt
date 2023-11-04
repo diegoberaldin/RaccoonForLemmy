@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -39,6 +39,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -53,7 +54,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -76,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -95,11 +96,9 @@ class MultiCommunityScreen(
         val model = rememberScreenModel { getMultiCommunityViewModel(community) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-        val bottomNavCoordinator = remember { getNavigationCoordinator() }
-        val navigator = remember { bottomNavCoordinator.getRootNavigator() }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         val themeRepository = remember { getThemeRepository() }
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
@@ -111,6 +110,9 @@ class MultiCommunityScreen(
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val drawerCoordinator = remember { getDrawerCoordinator() }
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
+
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
             onDispose {
@@ -118,12 +120,28 @@ class MultiCommunityScreen(
                 drawerCoordinator.setGesturesEnabled(true)
             }
         }
-
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(
+                            MultiCommunityMviModel.Intent.ChangeSort(
+                                sortType
+                            )
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeSortType
+            )
+            notificationCenter.addObserver(
+                {
+                    model.reduce(MultiCommunityMviModel.Intent.Refresh)
+                },
+                key,
+                NotificationCenterContractKeys.CommentCreated
+            )
+        }
 
         Scaffold(
-            modifier = Modifier
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .nestedScroll(fabNestedScrollConnection),
             topBar = {
                 val sortType = uiState.sortType
                 TopAppBar(
@@ -139,7 +157,7 @@ class MultiCommunityScreen(
                         Image(
                             modifier = Modifier.onClick(
                                 rememberCallback {
-                                    navigator?.pop()
+                                    navigationCoordinator.getRootNavigator()?.pop()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -176,16 +194,7 @@ class MultiCommunityScreen(
                                             val sheet = SortBottomSheet(
                                                 expandTop = true,
                                             )
-                                            notificationCenter.addObserver({
-                                                (it as? SortType)?.also { sortType ->
-                                                    model.reduce(
-                                                        MultiCommunityMviModel.Intent.ChangeSort(
-                                                            sortType
-                                                        )
-                                                    )
-                                                }
-                                            }, key, NotificationCenterContractKeys.ChangeSortType)
-                                            bottomSheetNavigator.show(sheet)
+                                            navigationCoordinator.getBottomNavigator()?.show(sheet)
                                         },
                                     ),
                                     imageVector = sortType.toIcon(),
@@ -212,7 +221,7 @@ class MultiCommunityScreen(
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
                                 text = stringResource(MR.strings.action_back_to_top),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
                                         topAppBarState.heightOffset = 0f
@@ -223,7 +232,7 @@ class MultiCommunityScreen(
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ClearAll,
                                 text = stringResource(MR.strings.action_clear_read),
-                                onSelected = {
+                                onSelected = rememberCallback {
                                     model.reduce(MultiCommunityMviModel.Intent.ClearRead)
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -245,6 +254,14 @@ class MultiCommunityScreen(
                 modifier = Modifier
                     .padding(padding)
                     .fillMaxWidth()
+                    .let {
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            it
+                        }
+                    }
+                    .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
@@ -262,7 +279,7 @@ class MultiCommunityScreen(
                             }
                         }
                     }
-                    itemsIndexed(uiState.posts) { idx, post ->
+                    items(uiState.posts) { post ->
                         SwipeableCard(
                             modifier = Modifier.fillMaxWidth(),
                             enabled = uiState.swipeActionsEnabled,
@@ -281,10 +298,10 @@ class MultiCommunityScreen(
                                 model.reduce(MultiCommunityMviModel.Intent.HapticIndication)
                             },
                             onDismissToStart = {
-                                model.reduce(MultiCommunityMviModel.Intent.UpVotePost(idx))
+                                model.reduce(MultiCommunityMviModel.Intent.UpVotePost(post.id))
                             },
                             onDismissToEnd = {
-                                model.reduce(MultiCommunityMviModel.Intent.DownVotePost(idx))
+                                model.reduce(MultiCommunityMviModel.Intent.DownVotePost(post.id))
                             },
                             swipeContent = { direction ->
                                 val icon = when (direction) {
@@ -306,25 +323,25 @@ class MultiCommunityScreen(
                                     autoLoadImages = uiState.autoLoadImages,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = {
-                                        model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(idx))
-                                        navigator?.push(
+                                        model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
+                                        navigationCoordinator.getRootNavigator()?.push(
                                             PostDetailScreen(post),
                                         )
                                     },
                                     onOpenCommunity = { community ->
-                                        navigator?.push(
+                                        navigationCoordinator.getRootNavigator()?.push(
                                             CommunityDetailScreen(community),
                                         )
                                     },
                                     onOpenCreator = { user ->
-                                        navigator?.push(
+                                        navigationCoordinator.getRootNavigator()?.push(
                                             UserDetailScreen(user),
                                         )
                                     },
                                     onUpVote = {
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.UpVotePost(
-                                                index = idx,
+                                                id = post.id,
                                                 feedback = true,
                                             ),
                                         )
@@ -332,7 +349,7 @@ class MultiCommunityScreen(
                                     onDownVote = {
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.DownVotePost(
-                                                index = idx,
+                                                id = post.id,
                                                 feedback = true,
                                             ),
                                         )
@@ -340,7 +357,7 @@ class MultiCommunityScreen(
                                     onSave = {
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.SavePost(
-                                                index = idx,
+                                                id = post.id,
                                                 feedback = true,
                                             ),
                                         )
@@ -349,18 +366,11 @@ class MultiCommunityScreen(
                                         val screen = CreateCommentScreen(
                                             originalPost = post,
                                         )
-                                        notificationCenter.addObserver(
-                                            {
-                                                model.reduce(MultiCommunityMviModel.Intent.Refresh)
-                                            },
-                                            key,
-                                            NotificationCenterContractKeys.CommentCreated
-                                        )
-                                        bottomSheetNavigator.show(screen)
+                                        navigationCoordinator.getBottomNavigator()?.show(screen)
                                     },
                                     onImageClick = { url ->
-                                        model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(idx))
-                                        navigator?.push(
+                                        model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
+                                        navigationCoordinator.getRootNavigator()?.push(
                                             ZoomableImageScreen(url),
                                         )
                                     },
@@ -372,16 +382,21 @@ class MultiCommunityScreen(
                                     onOptionSelected = { optionIdx ->
                                         when (optionIdx) {
                                             2 -> {
-                                                bottomSheetNavigator.show(
+                                                navigationCoordinator.getBottomNavigator()?.show(
                                                     CreateReportScreen(
                                                         postId = post.id
                                                     )
                                                 )
                                             }
 
-                                            1 -> model.reduce(MultiCommunityMviModel.Intent.Hide(idx))
+                                            1 -> model.reduce(
+                                                MultiCommunityMviModel.Intent.Hide(
+                                                    post.id
+                                                )
+                                            )
+
                                             else -> model.reduce(
-                                                MultiCommunityMviModel.Intent.SharePost(idx)
+                                                MultiCommunityMviModel.Intent.SharePost(post.id)
                                             )
                                         }
                                     }

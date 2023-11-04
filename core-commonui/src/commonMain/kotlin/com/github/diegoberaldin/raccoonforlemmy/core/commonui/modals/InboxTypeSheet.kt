@@ -14,9 +14,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
@@ -27,7 +27,7 @@ import dev.icerock.moko.resources.compose.stringResource
 class InboxTypeSheet : Screen {
     @Composable
     override fun Content() {
-        val bottomSheetNavigator = LocalBottomSheetNavigator.current
+        val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
@@ -66,7 +66,7 @@ class InboxTypeSheet : Screen {
                                         ?.also {
                                             it.invoke(true)
                                         }
-                                    bottomSheetNavigator.hide()
+                                    navigationCoordinator.getBottomNavigator()?.hide()
                                 },
                             ),
                     ) {
@@ -88,7 +88,7 @@ class InboxTypeSheet : Screen {
                                         ?.also {
                                             it.invoke(false)
                                         }
-                                    bottomSheetNavigator.hide()
+                                    navigationCoordinator.getBottomNavigator()?.hide()
                                 },
                             ),
                     ) {

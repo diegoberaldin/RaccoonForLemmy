@@ -227,7 +227,9 @@ fun App() {
                     topEnd = CornerSize.xl
                 ),
                 sheetBackgroundColor = MaterialTheme.colorScheme.background,
-            ) {
+            ) { bottomNavigator ->
+                navigationCoordinator.setBottomNavigator(bottomNavigator)
+
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     gesturesEnabled = drawerGestureEnabled,

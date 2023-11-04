@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 
 private const val THRESHOLD = 5f
 
+@Stable
 interface FabNestedScrollConnection : NestedScrollConnection {
     val isFabVisible: StateFlow<Boolean>
 }

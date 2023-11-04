@@ -45,11 +45,13 @@ class UserDetailViewModel(
     private var currentPage = 1
 
     init {
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
+        notificationCenter.addObserver(
+            {
+                (it as? PostModel)?.also { post ->
+                    handlePostUpdate(post)
+                }
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
+        )
     }
 
     fun finalize() {
@@ -92,13 +94,13 @@ class UserDetailViewModel(
             is UserDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is UserDetailMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is UserDetailMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is UserDetailMviModel.Intent.DownVotePost -> {
                 toggleDownVote(
-                    post = uiState.value.posts[intent.index],
+                    post = uiState.value.posts.first { it.id == intent.id },
                     feedback = intent.feedback,
                 )
             }
@@ -107,27 +109,27 @@ class UserDetailViewModel(
             UserDetailMviModel.Intent.LoadNextPage -> loadNextPage()
             UserDetailMviModel.Intent.Refresh -> refresh()
             is UserDetailMviModel.Intent.SaveComment -> toggleSaveComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is UserDetailMviModel.Intent.SavePost -> toggleSave(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is UserDetailMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                comment = uiState.value.comments[intent.index],
+                comment = uiState.value.comments.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is UserDetailMviModel.Intent.UpVotePost -> toggleUpVote(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
                 feedback = intent.feedback,
             )
 
             is UserDetailMviModel.Intent.SharePost -> share(
-                post = uiState.value.posts[intent.index],
+                post = uiState.value.posts.first { it.id == intent.id },
             )
 
             UserDetailMviModel.Intent.Block -> blockUser()

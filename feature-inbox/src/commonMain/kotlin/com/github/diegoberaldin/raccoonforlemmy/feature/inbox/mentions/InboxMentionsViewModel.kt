@@ -36,9 +36,11 @@ class InboxMentionsViewModel(
     private var currentPage: Int = 1
 
     init {
-        notificationCenter.addObserver({
-            handleLogout()
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout)
+        notificationCenter.addObserver(
+            {
+                handleLogout()
+            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
+        )
     }
 
     fun finalize() {
@@ -81,18 +83,18 @@ class InboxMentionsViewModel(
             is InboxMentionsMviModel.Intent.MarkAsRead -> {
                 markAsRead(
                     read = intent.read,
-                    mention = mvi.uiState.value.mentions[intent.index],
+                    mention = uiState.value.mentions.first { it.id == intent.id },
                 )
             }
 
             InboxMentionsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is InboxMentionsMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                mention = mvi.uiState.value.mentions[intent.index],
+                mention = uiState.value.mentions.first { it.id == intent.id },
                 feedback = true,
             )
 
             is InboxMentionsMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                mention = mvi.uiState.value.mentions[intent.index],
+                mention = uiState.value.mentions.first { it.id == intent.id },
                 feedback = true,
             )
         }
