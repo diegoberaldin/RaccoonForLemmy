@@ -115,39 +115,65 @@ class ProfileLoggedViewModel(
                 refresh()
             }
 
-            is ProfileLoggedMviModel.Intent.SharePost -> share(
-                post = uiState.value.posts.first { it.id == intent.id },
-            )
+            is ProfileLoggedMviModel.Intent.SharePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    share(post = post)
+                }
+            }
 
-            is ProfileLoggedMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                comment = uiState.value.comments.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is ProfileLoggedMviModel.Intent.DownVoteComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
+                    toggleDownVoteComment(
+                        comment = comment,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is ProfileLoggedMviModel.Intent.DownVotePost -> toggleDownVotePost(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is ProfileLoggedMviModel.Intent.DownVotePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleDownVotePost(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is ProfileLoggedMviModel.Intent.SaveComment -> toggleSaveComment(
-                comment = uiState.value.comments.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is ProfileLoggedMviModel.Intent.SaveComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
+                    toggleSaveComment(
+                        comment = comment,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is ProfileLoggedMviModel.Intent.SavePost -> toggleSavePost(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is ProfileLoggedMviModel.Intent.SavePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleSavePost(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is ProfileLoggedMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                comment = uiState.value.comments.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is ProfileLoggedMviModel.Intent.UpVoteComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
+                    toggleUpVoteComment(
+                        comment = comment,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is ProfileLoggedMviModel.Intent.UpVotePost -> toggleUpVotePost(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is ProfileLoggedMviModel.Intent.UpVotePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleUpVotePost(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
         }
     }
 

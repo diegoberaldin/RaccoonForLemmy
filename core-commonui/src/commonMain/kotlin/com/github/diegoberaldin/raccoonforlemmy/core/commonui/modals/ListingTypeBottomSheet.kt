@@ -78,10 +78,11 @@ class ListingTypeBottomSheet(
                                 .fillMaxWidth()
                                 .onClick(
                                     rememberCallback {
-                                        notificationCenter.getObserver(
+                                        notificationCenter.getAllObservers(
                                             NotificationCenterContractKeys.ChangeFeedType
-                                        )
-                                            ?.invoke(value)
+                                        ).forEach {
+                                            it.invoke(value)
+                                        }
                                         navigationCoordinator.getBottomNavigator()?.hide()
                                     },
                                 ),

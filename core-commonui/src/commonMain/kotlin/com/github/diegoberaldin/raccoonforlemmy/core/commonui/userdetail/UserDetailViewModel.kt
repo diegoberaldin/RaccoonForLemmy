@@ -93,44 +93,68 @@ class UserDetailViewModel(
         when (intent) {
             is UserDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is UserDetailMviModel.Intent.ChangeSection -> changeSection(intent.section)
-            is UserDetailMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                comment = uiState.value.comments.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is UserDetailMviModel.Intent.DownVoteComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
+                    toggleDownVoteComment(
+                        comment = comment,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
             is UserDetailMviModel.Intent.DownVotePost -> {
-                toggleDownVote(
-                    post = uiState.value.posts.first { it.id == intent.id },
-                    feedback = intent.feedback,
-                )
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleDownVote(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
             }
 
             UserDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             UserDetailMviModel.Intent.LoadNextPage -> loadNextPage()
             UserDetailMviModel.Intent.Refresh -> refresh()
-            is UserDetailMviModel.Intent.SaveComment -> toggleSaveComment(
-                comment = uiState.value.comments.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is UserDetailMviModel.Intent.SaveComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
+                    toggleSaveComment(
+                        comment = comment,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is UserDetailMviModel.Intent.SavePost -> toggleSave(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is UserDetailMviModel.Intent.SavePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleSave(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is UserDetailMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                comment = uiState.value.comments.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is UserDetailMviModel.Intent.UpVoteComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
+                    toggleUpVoteComment(
+                        comment = comment,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is UserDetailMviModel.Intent.UpVotePost -> toggleUpVote(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is UserDetailMviModel.Intent.UpVotePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleUpVote(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is UserDetailMviModel.Intent.SharePost -> share(
-                post = uiState.value.posts.first { it.id == intent.id },
-            )
+            is UserDetailMviModel.Intent.SharePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    share(post = post)
+                }
+            }
 
             UserDetailMviModel.Intent.Block -> blockUser()
             UserDetailMviModel.Intent.BlockInstance -> blockInstance()

@@ -130,35 +130,65 @@ class ExploreViewModel(
             is ExploreMviModel.Intent.SetListingType -> changeListingType(intent.value)
             is ExploreMviModel.Intent.SetSortType -> changeSortType(intent.value)
             is ExploreMviModel.Intent.SetResultType -> changeResultType(intent.value)
-            is ExploreMviModel.Intent.DownVotePost -> toggleDownVote(
-                post = uiState.value.results.first { (it as? PostModel)?.id == intent.id } as PostModel,
-                feedback = intent.feedback,
-            )
+            is ExploreMviModel.Intent.DownVotePost -> {
+                uiState.value.results.firstOrNull { (it as? PostModel)?.id == intent.id }
+                    ?.also { post ->
+                        toggleDownVote(
+                            post = post as PostModel,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
 
-            is ExploreMviModel.Intent.SavePost -> toggleSave(
-                post = uiState.value.results.first { (it as? PostModel)?.id == intent.id } as PostModel,
-                feedback = intent.feedback,
-            )
+            is ExploreMviModel.Intent.SavePost -> {
+                uiState.value.results.firstOrNull { (it as? PostModel)?.id == intent.id }
+                    ?.also { post ->
+                        toggleSave(
+                            post = post as PostModel,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
 
-            is ExploreMviModel.Intent.UpVotePost -> toggleUpVote(
-                post = uiState.value.results.first { (it as? PostModel)?.id == intent.id } as PostModel,
-                feedback = intent.feedback,
-            )
+            is ExploreMviModel.Intent.UpVotePost -> {
+                uiState.value.results.firstOrNull { (it as? PostModel)?.id == intent.id }
+                    ?.also { post ->
+                        toggleUpVote(
+                            post = post as PostModel,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
 
-            is ExploreMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                comment = uiState.value.results.first { (it as? CommentModel)?.id == intent.id } as CommentModel,
-                feedback = intent.feedback,
-            )
+            is ExploreMviModel.Intent.DownVoteComment -> {
+                uiState.value.results.firstOrNull { (it as? CommentModel)?.id == intent.id }
+                    ?.also { comment ->
+                        toggleDownVoteComment(
+                            comment = comment as CommentModel,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
 
-            is ExploreMviModel.Intent.SaveComment -> toggleSaveComment(
-                comment = uiState.value.results.first { (it as? CommentModel)?.id == intent.id } as CommentModel,
-                feedback = intent.feedback,
-            )
+            is ExploreMviModel.Intent.SaveComment -> {
+                uiState.value.results.firstOrNull { (it as? CommentModel)?.id == intent.id }
+                    ?.also { comment ->
+                        toggleSaveComment(
+                            comment = comment as CommentModel,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
 
-            is ExploreMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                comment = uiState.value.results.first { (it as? CommentModel)?.id == intent.id } as CommentModel,
-                feedback = intent.feedback,
-            )
+            is ExploreMviModel.Intent.UpVoteComment -> {
+                uiState.value.results.firstOrNull { (it as? CommentModel)?.id == intent.id }
+                    ?.also { comment ->
+                        toggleUpVoteComment(
+                            comment = comment as CommentModel,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
         }
     }
 

@@ -112,12 +112,11 @@ internal class SortBottomSheetMain(
                                             SortBottomSheetTop()
                                         )
                                     } else {
-                                        notificationCenter.getObserver(
+                                        notificationCenter.getAllObservers(
                                             NotificationCenterContractKeys.ChangeSortType
-                                        )
-                                            ?.also {
-                                                it.invoke(value)
-                                            }
+                                        ).forEach {
+                                            it.invoke(value)
+                                        }
                                         navigationCoordinator.getBottomNavigator()?.hide()
                                     }
                                 },
@@ -201,8 +200,10 @@ internal class SortBottomSheetTop(
                             .fillMaxWidth()
                             .onClick(
                                 rememberCallback {
-                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeSortType)
-                                        ?.also {
+                                    notificationCenter.getAllObservers(
+                                        NotificationCenterContractKeys.ChangeSortType
+                                    )
+                                        .forEach {
                                             it.invoke(value)
                                         }
                                     navigationCoordinator.getBottomNavigator()?.hide()

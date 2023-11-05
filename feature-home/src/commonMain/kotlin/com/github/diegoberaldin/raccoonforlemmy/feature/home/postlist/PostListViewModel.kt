@@ -141,30 +141,46 @@ class PostListViewModel(
 
             is PostListMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is PostListMviModel.Intent.ChangeListing -> applyListingType(intent.value)
-            is PostListMviModel.Intent.DownVotePost -> toggleDownVote(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is PostListMviModel.Intent.DownVotePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleDownVote(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is PostListMviModel.Intent.SavePost -> toggleSave(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is PostListMviModel.Intent.SavePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleSave(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is PostListMviModel.Intent.UpVotePost -> toggleUpVote(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is PostListMviModel.Intent.UpVotePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleUpVote(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
             PostListMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is PostListMviModel.Intent.HandlePostUpdate -> handlePostUpdate(intent.post)
             is PostListMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
             is PostListMviModel.Intent.SharePost -> {
-                share(post = uiState.value.posts.first { it.id == intent.id })
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    share(post = post)
+                }
             }
 
             is PostListMviModel.Intent.MarkAsRead -> {
-                markAsRead(post = uiState.value.posts.first { it.id == intent.id })
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    markAsRead(post = post)
+                }
             }
 
             PostListMviModel.Intent.ClearRead -> clearRead()

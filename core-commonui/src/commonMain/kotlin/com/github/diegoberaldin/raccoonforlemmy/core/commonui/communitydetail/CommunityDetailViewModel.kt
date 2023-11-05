@@ -84,29 +84,45 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.LoadNextPage -> loadNextPage()
             CommunityDetailMviModel.Intent.Refresh -> refresh()
 
-            is CommunityDetailMviModel.Intent.DownVotePost -> toggleDownVotePost(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is CommunityDetailMviModel.Intent.DownVotePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleDownVotePost(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is CommunityDetailMviModel.Intent.SavePost -> toggleSavePost(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is CommunityDetailMviModel.Intent.SavePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleSavePost(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
-            is CommunityDetailMviModel.Intent.UpVotePost -> toggleUpVotePost(
-                post = uiState.value.posts.first { it.id == intent.id },
-                feedback = intent.feedback,
-            )
+            is CommunityDetailMviModel.Intent.UpVotePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleUpVotePost(
+                        post = post,
+                        feedback = intent.feedback,
+                    )
+                }
+            }
 
             CommunityDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is CommunityDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
             CommunityDetailMviModel.Intent.Subscribe -> subscribe()
             CommunityDetailMviModel.Intent.Unsubscribe -> unsubscribe()
             is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
-            is CommunityDetailMviModel.Intent.SharePost -> share(
-                post = uiState.value.posts.first { it.id == intent.id },
-            )
+            is CommunityDetailMviModel.Intent.SharePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    share(
+                        post = post,
+                    )
+                }
+            }
 
             CommunityDetailMviModel.Intent.Block -> blockCommunity()
             CommunityDetailMviModel.Intent.BlockInstance -> blockInstance()
@@ -115,7 +131,11 @@ class CommunityDetailViewModel(
             }
 
             CommunityDetailMviModel.Intent.ClearRead -> clearRead()
-            is CommunityDetailMviModel.Intent.Hide -> hide(post = uiState.value.posts.first { it.id == intent.id })
+            is CommunityDetailMviModel.Intent.Hide -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    hide(post = post)
+                }
+            }
         }
     }
 
