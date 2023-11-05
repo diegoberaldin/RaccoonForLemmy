@@ -123,7 +123,8 @@ class CommunityDetailScreen(
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = stringResource(MR.strings.message_generic_error)
         val successMessage = stringResource(MR.strings.message_operation_successful)
-        val isOnOtherInstance = otherInstance.isNotEmpty()
+        val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
+        val otherInstanceName = remember { otherInstance }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
@@ -199,7 +200,6 @@ class CommunityDetailScreen(
             }.launchIn(this)
         }
 
-        val stateCommunity = uiState.community
         Scaffold(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
@@ -210,7 +210,7 @@ class CommunityDetailScreen(
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = stateCommunity.name,
+                            text = uiState.community.name,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -221,14 +221,14 @@ class CommunityDetailScreen(
                             Image(
                                 modifier = Modifier.onClick(
                                     rememberCallback {
-                                        when (stateCommunity.subscribed) {
+                                        when (uiState.community.subscribed) {
                                             true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
                                             false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
                                             else -> Unit
                                         }
                                     },
                                 ),
-                                imageVector = when (stateCommunity.subscribed) {
+                                imageVector = when (uiState.community.subscribed) {
                                     true -> Icons.Outlined.CheckCircle
                                     false -> Icons.Outlined.AddCircleOutline
                                     else -> Icons.Outlined.Pending
@@ -310,7 +310,7 @@ class CommunityDetailScreen(
                                     text = stringResource(MR.strings.action_create_post),
                                     onSelected = rememberCallback {
                                         val screen = CreatePostScreen(
-                                            communityId = stateCommunity.id,
+                                            communityId = uiState.community.id,
                                         )
                                         navigationCoordinator.getBottomNavigator()?.show(screen)
                                     },
@@ -346,7 +346,7 @@ class CommunityDetailScreen(
                     ) {
                         item {
                             CommunityHeader(
-                                community = stateCommunity,
+                                community = uiState.community,
                                 autoLoadImages = uiState.autoLoadImages,
                                 options = listOf(
                                     stringResource(MR.strings.community_detail_info),
@@ -366,14 +366,14 @@ class CommunityDetailScreen(
                                         1 -> {
                                             navigationCoordinator.getRootNavigator()?.push(
                                                 InstanceInfoScreen(
-                                                    url = stateCommunity.instanceUrl,
+                                                    url = uiState.community.instanceUrl,
                                                 ),
                                             )
                                         }
 
                                         else -> {
                                             navigationCoordinator.getBottomNavigator()?.show(
-                                                CommunityInfoScreen(stateCommunity),
+                                                CommunityInfoScreen(uiState.community),
                                             )
                                         }
                                     }
@@ -442,7 +442,7 @@ class CommunityDetailScreen(
                                         separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                         autoLoadImages = uiState.autoLoadImages,
                                         blurNsfw = when {
-                                            stateCommunity.nsfw -> false
+                                            uiState.community.nsfw -> false
                                             else -> uiState.blurNsfw
                                         },
                                         onClick = rememberCallback(model) {
@@ -454,7 +454,7 @@ class CommunityDetailScreen(
                                             navigationCoordinator.getRootNavigator()?.push(
                                                 PostDetailScreen(
                                                     post = post,
-                                                    otherInstance = otherInstance,
+                                                    otherInstance = otherInstanceName,
                                                 ),
                                             )
                                         },
@@ -462,7 +462,7 @@ class CommunityDetailScreen(
                                             navigationCoordinator.getRootNavigator()?.push(
                                                 UserDetailScreen(
                                                     user = user,
-                                                    otherInstance = otherInstance,
+                                                    otherInstance = otherInstanceName,
                                                 ),
                                             )
                                         },

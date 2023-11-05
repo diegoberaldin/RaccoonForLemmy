@@ -1,7 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository
 
+import androidx.compose.runtime.Stable
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 
+@Stable
 interface AccountRepository {
 
     suspend fun getAll(): List<AccountModel>

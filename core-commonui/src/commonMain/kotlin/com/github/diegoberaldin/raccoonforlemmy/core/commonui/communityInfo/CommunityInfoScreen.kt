@@ -42,8 +42,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityInfoViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource

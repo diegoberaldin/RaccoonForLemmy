@@ -119,7 +119,7 @@ class PostDetailScreen(
     @OptIn(
         ExperimentalMaterial3Api::class,
         ExperimentalMaterialApi::class,
-        ExperimentalLayoutApi::class
+        ExperimentalLayoutApi::class,
     )
     @Composable
     override fun Content() {
@@ -134,7 +134,9 @@ class PostDetailScreen(
         }
         model.bindToLifecycle(key + post.id.toString())
         val uiState by model.uiState.collectAsState()
-        val isOnOtherInstance = otherInstance.isNotEmpty()
+        val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
+        val otherInstanceName = remember { otherInstance }
+        val commentIdToHighlight = remember { highlightCommentId }
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -250,7 +252,6 @@ class PostDetailScreen(
             }.launchIn(this)
         }
 
-        val statePost = uiState.post
         Scaffold(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
@@ -260,7 +261,7 @@ class PostDetailScreen(
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = statePost.title,
+                            text = uiState.post.title,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -332,7 +333,7 @@ class PostDetailScreen(
                                 text = stringResource(MR.strings.action_reply),
                                 onSelected = rememberCallback {
                                     val screen = CreateCommentScreen(
-                                        originalPost = statePost,
+                                        originalPost = uiState.post,
                                     )
                                     navigationCoordinator.getBottomNavigator()?.show(screen)
                                 },
@@ -366,7 +367,7 @@ class PostDetailScreen(
                     ) {
                         item {
                             PostCard(
-                                post = statePost,
+                                post = uiState.post,
                                 postLayout = uiState.postLayout,
                                 fullHeightImage = uiState.fullHeightImages,
                                 includeFullBody = true,
@@ -404,7 +405,7 @@ class PostDetailScreen(
                                 onSave = rememberCallback(model) {
                                     model.reduce(
                                         PostDetailMviModel.Intent.SavePost(
-                                            post = statePost,
+                                            post = uiState.post,
                                             feedback = true,
                                         ),
                                     )
@@ -412,7 +413,7 @@ class PostDetailScreen(
                                 onReply = rememberCallback {
                                     if (!isOnOtherInstance) {
                                         val screen = CreateCommentScreen(
-                                            originalPost = statePost,
+                                            originalPost = uiState.post,
                                         )
                                         navigationCoordinator.getBottomNavigator()?.show(screen)
                                     }
@@ -421,7 +422,7 @@ class PostDetailScreen(
                                     add(stringResource(MR.strings.post_action_share))
                                     add(stringResource(MR.strings.post_action_see_raw))
                                     add(stringResource(MR.strings.post_action_report))
-                                    if (statePost.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
+                                    if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                         add(stringResource(MR.strings.post_action_edit))
                                         add(stringResource(MR.strings.comment_action_delete))
                                     }
@@ -433,19 +434,19 @@ class PostDetailScreen(
                                         3 -> {
                                             navigationCoordinator.getBottomNavigator()?.show(
                                                 CreatePostScreen(
-                                                    editedPost = statePost,
+                                                    editedPost = uiState.post,
                                                 )
                                             )
                                         }
 
                                         2 -> {
                                             navigationCoordinator.getBottomNavigator()?.show(
-                                                CreateReportScreen(postId = statePost.id)
+                                                CreateReportScreen(postId = uiState.post.id)
                                             )
                                         }
 
                                         1 -> {
-                                            rawContent = statePost
+                                            rawContent = uiState.post
                                         }
 
                                         else -> model.reduce(PostDetailMviModel.Intent.SharePost)
@@ -463,7 +464,7 @@ class PostDetailScreen(
                                 Spacer(modifier = Modifier.height(Spacing.s))
                             }
                         }
-                        if (statePost.crossPosts.isNotEmpty()) {
+                        if (uiState.post.crossPosts.isNotEmpty()) {
                             item {
                                 FlowRow(
                                     modifier = Modifier.padding(
@@ -478,7 +479,7 @@ class PostDetailScreen(
                                         text = stringResource(MR.strings.post_detail_cross_posts),
                                         style = MaterialTheme.typography.bodyMedium,
                                     )
-                                    statePost.crossPosts.forEachIndexed { index, crossPost ->
+                                    uiState.post.crossPosts.forEachIndexed { index, crossPost ->
                                         val community = crossPost.community
                                         if (community != null) {
                                             val string = buildAnnotatedString {
@@ -487,7 +488,7 @@ class PostDetailScreen(
                                                     append("@")
                                                     append(community.host)
                                                 }
-                                                if (index < statePost.crossPosts.lastIndex) {
+                                                if (index < uiState.post.crossPosts.lastIndex) {
                                                     append(", ")
                                                 }
                                             }
@@ -500,9 +501,7 @@ class PostDetailScreen(
                                                         )
                                                         navigationCoordinator.getRootNavigator()
                                                             ?.push(
-                                                                PostDetailScreen(
-                                                                    post = post,
-                                                                )
+                                                                PostDetailScreen(post)
                                                             )
                                                     },
                                                 ),
@@ -586,7 +585,7 @@ class PostDetailScreen(
                                                         modifier = Modifier
                                                             .background(MaterialTheme.colorScheme.background)
                                                             .let {
-                                                                if (comment.id == highlightCommentId) {
+                                                                if (comment.id == commentIdToHighlight) {
                                                                     it.background(
                                                                         MaterialTheme.colorScheme.surfaceColorAtElevation(
                                                                             5.dp
@@ -604,7 +603,7 @@ class PostDetailScreen(
                                                         onToggleExpanded = rememberCallback(model) {
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.ToggleExpandComment(
-                                                                    comment.id
+                                                                    commentId
                                                                 )
                                                             )
                                                         },
@@ -641,7 +640,7 @@ class PostDetailScreen(
                                                         onReply = rememberCallback {
                                                             if (!isOnOtherInstance) {
                                                                 val screen = CreateCommentScreen(
-                                                                    originalPost = statePost,
+                                                                    originalPost = uiState.post,
                                                                     originalComment = comment,
                                                                 )
                                                                 navigationCoordinator.getBottomNavigator()
@@ -657,7 +656,7 @@ class PostDetailScreen(
                                                                     ?.push(
                                                                         UserDetailScreen(
                                                                             user = user,
-                                                                            otherInstance = otherInstance,
+                                                                            otherInstance = otherInstanceName,
                                                                         ),
                                                                     )
                                                             }
@@ -669,7 +668,7 @@ class PostDetailScreen(
                                                                     ?.push(
                                                                         CommunityDetailScreen(
                                                                             community = community,
-                                                                            otherInstance = otherInstance,
+                                                                            otherInstance = otherInstanceName,
                                                                         ),
                                                                     )
                                                             }
@@ -761,7 +760,7 @@ class PostDetailScreen(
                                                 onReply = rememberCallback(model) {
                                                     if (!isOnOtherInstance) {
                                                         val screen = CreateCommentScreen(
-                                                            originalPost = statePost,
+                                                            originalPost = uiState.post,
                                                             originalComment = comment,
                                                         )
                                                         navigationCoordinator.getBottomNavigator()
@@ -775,7 +774,7 @@ class PostDetailScreen(
                                                             ?.push(
                                                                 UserDetailScreen(
                                                                     user = user,
-                                                                    otherInstance = otherInstance,
+                                                                    otherInstance = otherInstanceName,
                                                                 ),
                                                             )
                                                     }
@@ -831,7 +830,7 @@ class PostDetailScreen(
                                     if (comment.loadMoreButtonVisible) {
                                         Row {
                                             Spacer(modifier = Modifier.weight(1f))
-                                            Button(onClick = {
+                                            Button(onClick = rememberCallback(model) {
                                                 model.reduce(
                                                     PostDetailMviModel.Intent.FetchMoreComments(
                                                         parentId = comment.id
@@ -854,7 +853,9 @@ class PostDetailScreen(
                             }
                             if (uiState.loading && !uiState.refreshing) {
                                 Box(
-                                    modifier = Modifier.fillMaxWidth().padding(Spacing.xs),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(Spacing.xs),
                                     contentAlignment = Alignment.Center,
                                 ) {
                                     CircularProgressIndicator(
@@ -869,7 +870,8 @@ class PostDetailScreen(
                                 Column {
                                     if (uiState.post.comments == 0) {
                                         Text(
-                                            modifier = Modifier.fillMaxWidth()
+                                            modifier = Modifier
+                                                .fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
                                             text = stringResource(MR.strings.message_empty_comments),
@@ -878,7 +880,8 @@ class PostDetailScreen(
                                         )
                                     } else {
                                         Text(
-                                            modifier = Modifier.fillMaxWidth()
+                                            modifier = Modifier
+                                                .fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
                                             text = stringResource(MR.strings.message_error_loading_comments),

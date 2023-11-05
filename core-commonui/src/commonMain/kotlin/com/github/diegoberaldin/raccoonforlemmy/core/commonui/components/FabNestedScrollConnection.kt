@@ -9,10 +9,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.stateIn
 
-private const val THRESHOLD = 5f
+private const val THRESHOLD = 1f
 
 @Stable
 interface FabNestedScrollConnection : NestedScrollConnection {
@@ -24,7 +23,7 @@ internal class DefaultFabNestedScrollConnection : FabNestedScrollConnection {
     private val scope = CoroutineScope(SupervisorJob())
     override val isFabVisible: StateFlow<Boolean>
         get() = fabVisible
-            .debounce(750)
+            //.debounce(750)
             .stateIn(
                 scope = scope,
                 started = SharingStarted.WhileSubscribed(3000),

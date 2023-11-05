@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.prettifyDate
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.prettifyDate
 
 @Composable
 internal fun MessageCard(

@@ -1,7 +1,6 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.utils
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.DateTime
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 

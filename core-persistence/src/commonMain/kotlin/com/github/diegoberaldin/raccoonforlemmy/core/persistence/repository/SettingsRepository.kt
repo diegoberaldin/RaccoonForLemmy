@@ -1,8 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository
 
+import androidx.compose.runtime.Stable
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import kotlinx.coroutines.flow.StateFlow
 
+@Stable
 interface SettingsRepository {
 
     val currentSettings: StateFlow<SettingsModel>
