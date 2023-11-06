@@ -22,14 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalTextToolbar
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.handleUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCustomTextToolbar
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.getShareHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -42,19 +40,11 @@ fun RawContentDialog(
     text: String? = null,
     onDismiss: (() -> Unit)? = null,
 ) {
-    val uriHandler = LocalUriHandler.current
-    val navigationCoordinator = remember { getNavigationCoordinator() }
-    val settingsRepository = remember { getSettingsRepository() }
     val clipboardManager = LocalClipboardManager.current
-    val onSearchLambda = {
+    val shareHelper = remember { getShareHelper() }
+    val onSearchLambda = rememberCallback {
         val query = clipboardManager.getText()?.text.orEmpty()
-        val url = "https://www.google.com/search?q=$query"
-        handleUrl(
-            url = url,
-            openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
-            uriHandler = uriHandler,
-            navigator = navigationCoordinator.getRootNavigator()
-        )
+        shareHelper.share(query, "text/plain")
     }
 
     AlertDialog(
