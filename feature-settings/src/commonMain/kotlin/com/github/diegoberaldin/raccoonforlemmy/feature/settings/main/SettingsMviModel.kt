@@ -9,6 +9,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 interface SettingsMviModel :
     MviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>,
@@ -39,6 +41,7 @@ interface SettingsMviModel :
         data class ChangeAutoExpandComments(val value: Boolean) : Intent
         data class ChangeFullHeightImages(val value: Boolean) : Intent
         data class ChangeHideNavigationBarWhileScrolling(val value: Boolean) : Intent
+        data class ChangeZombieModeInterval(val value: Duration) : Intent
     }
 
     data class UiState(
@@ -68,6 +71,7 @@ interface SettingsMviModel :
         val autoExpandComments: Boolean = false,
         val fullHeightImages: Boolean = false,
         val hideNavigationBarWhileScrolling: Boolean = true,
+        val zombieModeInterval: Duration = 2.5.seconds,
     )
 
     sealed interface Effect

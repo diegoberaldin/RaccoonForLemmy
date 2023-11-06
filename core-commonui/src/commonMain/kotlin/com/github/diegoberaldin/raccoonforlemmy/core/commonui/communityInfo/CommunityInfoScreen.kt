@@ -43,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityInfoViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -115,37 +116,55 @@ class CommunityInfoScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Padding,
                                 title = stringResource(MR.strings.community_info_posts),
-                                value = uiState.community.posts.toString(),
+                                value = uiState.community.posts.getPrettyNumber(
+                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
+                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                ),
                             )
                             CommunityInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Reply,
                                 title = stringResource(MR.strings.community_info_comments),
-                                value = uiState.community.comments.toString(),
+                                value = uiState.community.comments.getPrettyNumber(
+                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
+                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                ),
                             )
                             CommunityInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Group,
                                 title = stringResource(MR.strings.community_info_subscribers),
-                                value = uiState.community.subscribers.toString(),
+                                value = uiState.community.subscribers.getPrettyNumber(
+                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
+                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                ),
                             )
                             CommunityInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewMonth,
                                 title = stringResource(MR.strings.community_info_monthly_active_users),
-                                value = uiState.community.monthlyActiveUsers.toString(),
+                                value = uiState.community.monthlyActiveUsers.getPrettyNumber(
+                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
+                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                ),
                             )
                             CommunityInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewWeek,
                                 title = stringResource(MR.strings.community_info_weekly_active_users),
-                                value = uiState.community.weeklyActiveUsers.toString(),
+                                value = uiState.community.weeklyActiveUsers.getPrettyNumber(
+                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
+                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                ),
                             )
                             CommunityInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewDay,
                                 title = stringResource(MR.strings.community_info_daily_active_users),
-                                value = uiState.community.dailyActiveUsers.toString(),
+                                value = uiState.community.dailyActiveUsers.getPrettyNumber(
+                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
+                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                ),
                             )
 
                             Divider()

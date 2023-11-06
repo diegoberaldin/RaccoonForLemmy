@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
@@ -64,7 +65,10 @@ fun FloatingActionButtonMenu(
     }
     val numberOfItems by animateIntAsState(
         targetValue = if (fabExpanded) items.size else 0,
-        animationSpec = tween(250 * items.size)
+        animationSpec = tween(
+            durationMillis = 150 * items.size,
+            easing = LinearEasing,
+        )
     )
     val indices: List<Int> = if (numberOfItems == 0) {
         emptyList()

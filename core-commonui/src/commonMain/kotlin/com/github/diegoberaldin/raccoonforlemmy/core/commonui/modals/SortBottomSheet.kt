@@ -39,6 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 class SortBottomSheet(
+    private val contract: String = NotificationCenterContractKeys.ChangeSortType,
     private val values: List<SortType> = listOf(
         SortType.Active,
         SortType.Hot,
@@ -70,6 +71,7 @@ class SortBottomSheet(
                 SortBottomSheetMain(
                     values = values,
                     expandTop = expandTop,
+                    contract = contract,
                 )
             )
         }
@@ -77,6 +79,7 @@ class SortBottomSheet(
 }
 
 internal class SortBottomSheetMain(
+    private val contract: String,
     private val values: List<SortType>,
     private val expandTop: Boolean = false,
 ) : Screen {
@@ -108,13 +111,9 @@ internal class SortBottomSheetMain(
                             .onClick(
                                 rememberCallback {
                                     if (value == SortType.Top.Generic && expandTop) {
-                                        navigator.push(
-                                            SortBottomSheetTop()
-                                        )
+                                        navigator.push(SortBottomSheetTop(contract = contract))
                                     } else {
-                                        notificationCenter.getAllObservers(
-                                            NotificationCenterContractKeys.ChangeSortType
-                                        ).forEach {
+                                        notificationCenter.getAllObservers(contract).forEach {
                                             it.invoke(value)
                                         }
                                         navigationCoordinator.getBottomNavigator()?.hide()
@@ -149,6 +148,7 @@ internal class SortBottomSheetMain(
 }
 
 internal class SortBottomSheetTop(
+    private val contract: String,
     private val values: List<SortType> = listOf(
         SortType.Top.PastHour,
         SortType.Top.Past6Hours,
@@ -201,11 +201,10 @@ internal class SortBottomSheetTop(
                             .onClick(
                                 rememberCallback {
                                     notificationCenter.getAllObservers(
-                                        NotificationCenterContractKeys.ChangeSortType
-                                    )
-                                        .forEach {
-                                            it.invoke(value)
-                                        }
+                                        contract,
+                                    ).forEach {
+                                        it.invoke(value)
+                                    }
                                     navigationCoordinator.getBottomNavigator()?.hide()
                                 },
                             ),

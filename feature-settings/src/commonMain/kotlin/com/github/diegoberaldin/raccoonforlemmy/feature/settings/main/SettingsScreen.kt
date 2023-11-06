@@ -52,6 +52,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ColorBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ColorPickerDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontFamilyBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontScaleBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBottomSheet
@@ -61,6 +62,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyDuration
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
@@ -85,6 +87,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
 
 class SettingsScreen : Screen {
 
@@ -229,12 +232,25 @@ class SettingsScreen : Screen {
                             )
                         )
                     }
-                }, key, NotificationCenterContractKeys.ChangeSortType
+                }, key, NotificationCenterContractKeys.ChangeCommentSortType
             )
             notificationCenter.addObserver(
                 {
                     infoDialogOpened = false
-                }, key, NotificationCenterContractKeys.CloseDialog
+                },
+                key, NotificationCenterContractKeys.CloseDialog,
+            )
+            notificationCenter.addObserver(
+                {
+                    (it as? Duration)?.also { value ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeZombieModeInterval(
+                                value,
+                            )
+                        )
+                    }
+                },
+                key, NotificationCenterContractKeys.ChangeZombieInterval
             )
         }
 
@@ -460,6 +476,7 @@ class SettingsScreen : Screen {
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
                                 expandTop = true,
+                                contract = NotificationCenterContractKeys.ChangeSortType,
                             )
                             navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
@@ -471,6 +488,7 @@ class SettingsScreen : Screen {
                         value = uiState.defaultCommentSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
+                                contract = NotificationCenterContractKeys.ChangeCommentSortType,
                                 values = listOf(
                                     SortType.Hot,
                                     SortType.Top.Generic,
@@ -486,6 +504,20 @@ class SettingsScreen : Screen {
                     SettingsHeader(
                         icon = Icons.Default.SettingsApplications,
                         title = stringResource(MR.strings.settings_section_behaviour),
+                    )
+
+                    // zombie mode interval
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_zombie_mode_interval),
+                        value = uiState.zombieModeInterval.getPrettyDuration(
+                            secondsLabel = stringResource(MR.strings.post_second_short),
+                            minutesLabel = stringResource(MR.strings.post_minute_short),
+                            hoursLabel = stringResource(MR.strings.post_hour_short),
+                        ),
+                        onTap = rememberCallback {
+                            val sheet = DurationBottomSheet()
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                        },
                     )
 
                     // swipe actions

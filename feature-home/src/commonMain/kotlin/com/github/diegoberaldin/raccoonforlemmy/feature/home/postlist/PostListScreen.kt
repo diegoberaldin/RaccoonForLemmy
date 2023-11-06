@@ -20,6 +20,8 @@ import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material.icons.filled.SyncDisabled
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -129,10 +131,16 @@ class PostListScreen : Screen {
             }.launchIn(this)
         }
         LaunchedEffect(model) {
-            model.effects.onEach {
-                when (it) {
+            model.effects.onEach { effect ->
+                when (effect) {
                     PostListMviModel.Effect.BackToTop -> {
                         lazyListState.scrollToItem(0)
+                    }
+
+                    is PostListMviModel.Effect.ZombieModeTick -> {
+                        if (effect.index >= 0) {
+                            lazyListState.scrollToItem(effect.index)
+                        }
                     }
                 }
             }.launchIn(this)
@@ -210,6 +218,24 @@ class PostListScreen : Screen {
                     FloatingActionButtonMenu(
                         modifier = Modifier.padding(bottom = Dimensions.topBarHeight),
                         items = buildList {
+                            if (uiState.zombieModeActive) {
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.Default.SyncDisabled,
+                                    text = stringResource(MR.strings.action_deactivate_zombie_mode),
+                                    onSelected = rememberCallback(model) {
+                                        model.reduce(PostListMviModel.Intent.PauseZombieMode)
+                                    },
+                                )
+                            } else {
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.Default.Sync,
+                                    text = stringResource(MR.strings.action_activate_zombie_mode),
+                                    onSelected = rememberCallback(model) {
+                                        val idx = lazyListState.firstVisibleItemIndex
+                                        model.reduce(PostListMviModel.Intent.StartZombieMode(idx))
+                                    },
+                                )
+                            }
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
                                 text = stringResource(MR.strings.action_back_to_top),
@@ -267,6 +293,7 @@ class PostListScreen : Screen {
                 ) {
                     LazyColumn(
                         state = lazyListState,
+                        userScrollEnabled = !uiState.zombieModeActive,
                     ) {
                         if (uiState.posts.isEmpty() && uiState.loading) {
                             items(5) {

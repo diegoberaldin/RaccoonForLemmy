@@ -4,6 +4,8 @@
     <string name="action_chat">Invia messaggio</string>
     <string name="action_clear_read">Nascondi letti</string>
     <string name="action_create_post">Crea post</string>
+    <string name="action_activate_zombie_mode">Attiva modalità zombie</string>
+    <string name="action_deactivate_zombie_mode">Disattiva modalità zombie</string>
     <string name="action_reply">Rispondi</string>
     <string name="button_close">Chiudi</string>
     <string name="button_confirm">Conferma</string>
@@ -210,4 +212,5 @@
     <string name="settings_upvote_color">Colore voti positivi</string>
     <string name="settings_hide_navigation_bar">Nascondi barra di navigazione durante lo scroll
     </string>
+    <string name="settings_zombie_mode_interval">Durata intevallo modalità zombie</string>
 </resources>

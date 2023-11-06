@@ -31,9 +31,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedIt
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import org.koin.dsl.module
 
 val commonUiModule = module {
+    includes(
+        utilsModule,
+    )
+
     single<NavigationCoordinator> {
         DefaultNavigationCoordinator()
     }
@@ -73,6 +78,7 @@ val commonUiModule = module {
             settingsRepository = get(),
             shareHelper = get(),
             hapticFeedback = get(),
+            zombieModeHelper = get(),
         )
     }
     factory<CommunityInfoMviModel> { params ->

@@ -28,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
 
 class SettingsViewModel(
     private val mvi: DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>,
@@ -193,6 +194,10 @@ class SettingsViewModel(
             is SettingsMviModel.Intent.ChangeUpvoteColor -> changeUpvoteColor(intent.value)
             is SettingsMviModel.Intent.ChangeDownvoteColor -> changeDownvoteColor(intent.value)
             is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling -> changeHideNavigationBarWhileScrolling(
+                intent.value
+            )
+
+            is SettingsMviModel.Intent.ChangeZombieModeInterval -> changeZombieModeInterval(
                 intent.value
             )
         }
@@ -436,6 +441,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 hideNavigationBarWhileScrolling = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeZombieModeInterval(value: Duration) {
+        mvi.updateState { it.copy(zombieModeInterval = value) }
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                zombieModeInterval = value
             )
             saveSettings(settings)
         }

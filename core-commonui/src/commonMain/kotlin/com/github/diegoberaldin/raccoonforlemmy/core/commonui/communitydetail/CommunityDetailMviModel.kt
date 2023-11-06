@@ -30,6 +30,8 @@ interface CommunityDetailMviModel :
         data object Block : Intent
         data object BlockInstance : Intent
         data object ClearRead : Intent
+        data class StartZombieMode(val index: Int) : Intent
+        data object PauseZombieMode : Intent
     }
 
     data class UiState(
@@ -48,11 +50,13 @@ interface CommunityDetailMviModel :
         val fullHeightImages: Boolean = true,
         val separateUpAndDownVotes: Boolean = false,
         val autoLoadImages: Boolean = true,
+        val zombieModeActive: Boolean = false,
     )
 
     sealed interface Effect {
         data object BlockSuccess : Effect
         data class BlockError(val message: String?) : Effect
         data object BackToTop : Effect
+        data class ZombieModeTick(val index: Int) : Effect
     }
 }

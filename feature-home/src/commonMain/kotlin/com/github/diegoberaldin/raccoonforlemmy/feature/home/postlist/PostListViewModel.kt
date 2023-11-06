@@ -8,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ZombieModeHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -36,6 +37,7 @@ class PostListViewModel(
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
+    private val zombieModeHelper: ZombieModeHelper,
 ) : PostListMviModel,
     MviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect> by mvi {
 
@@ -106,6 +108,10 @@ class PostListViewModel(
                         fullHeightImages = settings.fullHeightImages,
                     )
                 }
+            }.launchIn(this)
+
+            zombieModeHelper.index.onEach { index ->
+                mvi.emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
             }.launchIn(this)
 
             val auth = identityRepository.authToken.value.orEmpty()
@@ -184,7 +190,21 @@ class PostListViewModel(
             }
 
             PostListMviModel.Intent.ClearRead -> clearRead()
-            is PostListMviModel.Intent.Hide -> hide(post = uiState.value.posts.first { it.id == intent.id })
+            is PostListMviModel.Intent.Hide -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    hide(post = post)
+                }
+            }
+
+            PostListMviModel.Intent.PauseZombieMode -> {
+                mvi.updateState { it.copy(zombieModeActive = false) }
+                zombieModeHelper.pause()
+            }
+
+            is PostListMviModel.Intent.StartZombieMode -> {
+                mvi.updateState { it.copy(zombieModeActive = true) }
+                zombieModeHelper.start(intent.index)
+            }
         }
     }
 

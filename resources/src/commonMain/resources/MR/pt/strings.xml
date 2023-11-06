@@ -5,6 +5,8 @@
     <string name="action_clear_read">Limpar lidas</string>
     <string name="action_create_post">Criar publicação</string>
     <string name="action_reply">Responder</string>
+    <string name="action_activate_zombie_mode">Ativar modo zumbi</string>
+    <string name="action_deactivate_zombie_mode">Desativar modo zumbi</string>
     <string name="button_close">Fechar</string>
     <string name="button_confirm">Confirmar</string>
     <string name="button_load">Carregar</string>
@@ -207,4 +209,5 @@
     <string name="settings_ui_theme">Tema da interface</string>
     <string name="settings_upvote_color">Cor votos positivos</string>
     <string name="settings_hide_navigation_bar">Ocultar a barra de navegação ao rolar</string>
+    <string name="settings_zombie_mode_interval">Duração do intervalo do modo zumbi</string>
 </resources>

@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ZombieModeHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -33,6 +34,7 @@ class CommunityDetailViewModel(
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
     private val hapticFeedback: HapticFeedback,
+    private val zombieModeHelper: ZombieModeHelper,
 ) : CommunityDetailMviModel,
     MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi {
 
@@ -67,6 +69,10 @@ class CommunityDetailViewModel(
                         autoLoadImages = settings.autoLoadImages,
                     )
                 }
+            }.launchIn(this)
+
+            zombieModeHelper.index.onEach { index ->
+                mvi.emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
             }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
@@ -135,6 +141,16 @@ class CommunityDetailViewModel(
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
                     hide(post = post)
                 }
+            }
+
+            CommunityDetailMviModel.Intent.PauseZombieMode -> {
+                mvi.updateState { it.copy(zombieModeActive = false) }
+                zombieModeHelper.pause()
+            }
+
+            is CommunityDetailMviModel.Intent.StartZombieMode -> {
+                mvi.updateState { it.copy(zombieModeActive = true) }
+                zombieModeHelper.start(intent.index)
             }
         }
     }

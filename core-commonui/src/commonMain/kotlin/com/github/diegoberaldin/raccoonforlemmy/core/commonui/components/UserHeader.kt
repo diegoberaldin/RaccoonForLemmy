@@ -40,11 +40,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun UserHeader(
@@ -203,7 +206,10 @@ fun UserHeader(
                             contentDescription = null
                         )
                         Text(
-                            text = postScore.toString(),
+                            text = postScore.getPrettyNumber(
+                                thousandLabel = stringResource(MR.strings.profile_thousand_short),
+                                millionLabel = stringResource(MR.strings.profile_million_short),
+                            ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -218,7 +224,10 @@ fun UserHeader(
                             contentDescription = null
                         )
                         Text(
-                            text = commentScore.toString(),
+                            text = commentScore.getPrettyNumber(
+                                thousandLabel = stringResource(MR.strings.profile_thousand_short),
+                                millionLabel = stringResource(MR.strings.profile_million_short),
+                            ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )

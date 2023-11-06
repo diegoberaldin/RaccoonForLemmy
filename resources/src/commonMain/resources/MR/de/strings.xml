@@ -5,6 +5,8 @@
     <string name="action_clear_read">Gelesene löschen</string>
     <string name="action_create_post">Beitrag erstellen</string>
     <string name="action_reply">Antwort</string>
+    <string name="action_activate_zombie_mode">Aktivieren den Zombie-Modus</string>
+    <string name="action_deactivate_zombie_mode">Deaktivieren den Zombie-Modus</string>
     <string name="button_close">Schließen</string>
     <string name="button_confirm">Bestätigen</string>
     <string name="button_load">Belastung</string>
@@ -210,4 +212,5 @@
     <string name="settings_ui_theme">ui-Thema</string>
     <string name="settings_upvote_color">Farbe für Upvotes</string>
     <string name="settings_hide_navigation_bar">Navigationsleiste beim Scrollen ausblenden</string>
+    <string name="settings_zombie_mode_interval">Dauer des Intervalls des Zombie-Modus</string>
 </resources>

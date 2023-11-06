@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.data
 
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 data class SettingsModel(
     val id: Long? = null,
@@ -27,4 +29,5 @@ data class SettingsModel(
     val autoLoadImages: Boolean = true,
     val autoExpandComments: Boolean = true,
     val hideNavigationBarWhileScrolling: Boolean = true,
+    val zombieModeInterval: Duration = 2.5.seconds,
 ) : JavaSerializable

@@ -24,6 +24,7 @@ val homeTabModule = module {
             shareHelper = get(),
             notificationCenter = get(),
             hapticFeedback = get(),
+            zombieModeHelper = get(),
         )
     }
 }

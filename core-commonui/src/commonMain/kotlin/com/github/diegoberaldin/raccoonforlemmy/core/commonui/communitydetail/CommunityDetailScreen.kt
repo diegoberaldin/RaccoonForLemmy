@@ -6,6 +6,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,6 +25,8 @@ import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material.icons.filled.SyncDisabled
 import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Pending
@@ -181,10 +184,10 @@ class CommunityDetailScreen(
             )
         }
         LaunchedEffect(model) {
-            model.effects.onEach {
-                when (it) {
+            model.effects.onEach { effect ->
+                when (effect) {
                     is CommunityDetailMviModel.Effect.BlockError -> {
-                        snackbarHostState.showSnackbar(it.message ?: genericError)
+                        snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
 
                     CommunityDetailMviModel.Effect.BlockSuccess -> {
@@ -192,8 +195,12 @@ class CommunityDetailScreen(
                     }
 
                     CommunityDetailMviModel.Effect.BackToTop -> {
-                        scope.launch {
-                            lazyListState.scrollToItem(0)
+                        lazyListState.scrollToItem(0)
+                    }
+
+                    is CommunityDetailMviModel.Effect.ZombieModeTick -> {
+                        if (effect.index >= 0) {
+                            lazyListState.scrollToItem(effect.index)
                         }
                     }
                 }
@@ -283,6 +290,28 @@ class CommunityDetailScreen(
                 ) {
                     FloatingActionButtonMenu(
                         items = buildList {
+                            if (uiState.zombieModeActive) {
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.Default.SyncDisabled,
+                                    text = stringResource(MR.strings.action_deactivate_zombie_mode),
+                                    onSelected = rememberCallback(model) {
+                                        model.reduce(CommunityDetailMviModel.Intent.PauseZombieMode)
+                                    },
+                                )
+                            } else {
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.Default.Sync,
+                                    text = stringResource(MR.strings.action_activate_zombie_mode),
+                                    onSelected = rememberCallback(model) {
+                                        val idx = lazyListState.firstVisibleItemIndex
+                                        model.reduce(
+                                            CommunityDetailMviModel.Intent.StartZombieMode(
+                                                idx + 1// header
+                                            )
+                                        )
+                                    },
+                                )
+                            }
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
                                 text = stringResource(MR.strings.action_back_to_top),
@@ -343,45 +372,46 @@ class CommunityDetailScreen(
                 ) {
                     LazyColumn(
                         state = lazyListState,
+                        userScrollEnabled = !uiState.zombieModeActive,
                     ) {
                         item {
-                            CommunityHeader(
-                                community = uiState.community,
-                                autoLoadImages = uiState.autoLoadImages,
-                                options = listOf(
-                                    stringResource(MR.strings.community_detail_info),
-                                    stringResource(MR.strings.community_detail_instance_info),
-                                    stringResource(MR.strings.community_detail_block),
-                                    stringResource(MR.strings.community_detail_block_instance),
-                                ),
-                                onOpenImage = rememberCallbackArgs { url ->
-                                    navigationCoordinator.getRootNavigator()
-                                        ?.push(ZoomableImageScreen(url))
-                                },
-                                onOptionSelected = rememberCallbackArgs { optionIdx ->
-                                    when (optionIdx) {
-                                        3 -> model.reduce(CommunityDetailMviModel.Intent.BlockInstance)
-                                        2 -> model.reduce(CommunityDetailMviModel.Intent.Block)
+                            Column {
+                                CommunityHeader(
+                                    community = uiState.community,
+                                    autoLoadImages = uiState.autoLoadImages,
+                                    options = listOf(
+                                        stringResource(MR.strings.community_detail_info),
+                                        stringResource(MR.strings.community_detail_instance_info),
+                                        stringResource(MR.strings.community_detail_block),
+                                        stringResource(MR.strings.community_detail_block_instance),
+                                    ),
+                                    onOpenImage = rememberCallbackArgs { url ->
+                                        navigationCoordinator.getRootNavigator()
+                                            ?.push(ZoomableImageScreen(url))
+                                    },
+                                    onOptionSelected = rememberCallbackArgs { optionIdx ->
+                                        when (optionIdx) {
+                                            3 -> model.reduce(CommunityDetailMviModel.Intent.BlockInstance)
+                                            2 -> model.reduce(CommunityDetailMviModel.Intent.Block)
 
-                                        1 -> {
-                                            navigationCoordinator.getRootNavigator()?.push(
-                                                InstanceInfoScreen(
-                                                    url = uiState.community.instanceUrl,
-                                                ),
-                                            )
-                                        }
+                                            1 -> {
+                                                navigationCoordinator.getRootNavigator()?.push(
+                                                    InstanceInfoScreen(
+                                                        url = uiState.community.instanceUrl,
+                                                    ),
+                                                )
+                                            }
 
-                                        else -> {
-                                            navigationCoordinator.getBottomNavigator()?.show(
-                                                CommunityInfoScreen(uiState.community),
-                                            )
+                                            else -> {
+                                                navigationCoordinator.getBottomNavigator()?.show(
+                                                    CommunityInfoScreen(uiState.community),
+                                                )
+                                            }
                                         }
-                                    }
-                                },
-                            )
-                        }
-                        item {
-                            Spacer(modifier = Modifier.height(Spacing.m))
+                                    },
+                                )
+                                Spacer(modifier = Modifier.height(Spacing.m))
+                            }
                         }
                         if (uiState.posts.isEmpty() && uiState.loading) {
                             items(5) {

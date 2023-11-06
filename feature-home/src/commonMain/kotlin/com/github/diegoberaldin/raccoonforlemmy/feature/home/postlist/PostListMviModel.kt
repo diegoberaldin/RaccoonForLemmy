@@ -28,6 +28,8 @@ interface PostListMviModel :
         data class MarkAsRead(val id: Int) : Intent
         data class Hide(val id: Int) : Intent
         data object ClearRead : Intent
+        data class StartZombieMode(val index: Int) : Intent
+        data object PauseZombieMode : Intent
     }
 
     data class UiState(
@@ -46,9 +48,11 @@ interface PostListMviModel :
         val fullHeightImages: Boolean = true,
         val separateUpAndDownVotes: Boolean = false,
         val autoLoadImages: Boolean = true,
+        val zombieModeActive: Boolean = false,
     )
 
     sealed interface Effect {
         data object BackToTop : Effect
+        data class ZombieModeTick(val index: Int) : Effect
     }
 }

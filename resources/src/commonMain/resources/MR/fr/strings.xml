@@ -5,6 +5,8 @@
     <string name="action_clear_read">Effacer les publications lues</string>
     <string name="action_create_post">Créer une publication</string>
     <string name="action_reply">Répondre</string>
+    <string name="action_activate_zombie_mode">Activer le mode zombie</string>
+    <string name="action_deactivate_zombie_mode">Désactiver le mode zombie</string>
     <string name="button_close">Fermer</string>
     <string name="button_confirm">Confirmer</string>
     <string name="button_load">Charger</string>
@@ -210,4 +212,5 @@
     <string name="settings_upvote_color">Couleur votes positifs</string>
     <string name="settings_hide_navigation_bar">Masquer la barre de navigation lors du défilement
     </string>
+    <string name="settings_zombie_mode_interval">Durée de l\'intervalle du mode zombie</string>
 </resources>

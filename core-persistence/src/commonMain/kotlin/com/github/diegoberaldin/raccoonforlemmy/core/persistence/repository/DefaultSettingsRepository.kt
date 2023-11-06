@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.milliseconds
 
 private object KeyStoreKeys {
     const val UiTheme = "uiTheme"
@@ -33,6 +34,7 @@ private object KeyStoreKeys {
     const val UpvoteColor = "upvoteColor"
     const val DownVoteColor = "downVoteColor"
     const val HideNavigationBarWhileScrolling = "hideNavigationBarWhileScrolling"
+    const val ZombieModeInterval = "zombieModeInterval"
 }
 
 internal class DefaultSettingsRepository(
@@ -71,7 +73,9 @@ internal class DefaultSettingsRepository(
                 upvoteColor = settings.upvoteColor?.toLong(),
                 downvoteColor = settings.downvoteColor?.toLong(),
                 hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1 else 0,
-            )
+                zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
+
+                )
         }
 
     override suspend fun getSettings(accountId: Long?): SettingsModel =
@@ -104,6 +108,7 @@ internal class DefaultSettingsRepository(
                     upvoteColor = if (!keyStore.containsKey(KeyStoreKeys.UpvoteColor)) null else keyStore[KeyStoreKeys.UpvoteColor, 0],
                     downvoteColor = if (!keyStore.containsKey(KeyStoreKeys.DownVoteColor)) null else keyStore[KeyStoreKeys.DownVoteColor, 0],
                     hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HideNavigationBarWhileScrolling, true],
+                    zombieModeInterval = keyStore[KeyStoreKeys.ZombieModeInterval, 2500].milliseconds,
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -165,6 +170,10 @@ internal class DefaultSettingsRepository(
                     KeyStoreKeys.HideNavigationBarWhileScrolling,
                     settings.hideNavigationBarWhileScrolling
                 )
+                keyStore.save(
+                    KeyStoreKeys.ZombieModeInterval,
+                    settings.zombieModeInterval.inWholeMilliseconds,
+                )
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -191,6 +200,7 @@ internal class DefaultSettingsRepository(
                     upvoteColor = settings.upvoteColor?.toLong(),
                     downvoteColor = settings.downvoteColor?.toLong(),
                     hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1L else 0L,
+                    zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
                 )
             }
         }
@@ -225,4 +235,5 @@ private fun GetBy.toModel() = SettingsModel(
     upvoteColor = upvoteColor?.toInt(),
     downvoteColor = downvoteColor?.toInt(),
     hideNavigationBarWhileScrolling = hideNavigationBarWhileScrolling != 0L,
+    zombieModeInterval = zombieModeInterval.milliseconds,
 )

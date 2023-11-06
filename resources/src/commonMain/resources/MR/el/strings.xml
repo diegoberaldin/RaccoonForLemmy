@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="action_back_to_top">Πίσω στην κορυφή</string>
-    <string name="action_chat">Αποστολή μηνύματος</string>
-    <string name="action_clear_read">Εκκαθάριση αναγνωσμένων</string>
-    <string name="action_create_post">Δημιουργία ανάρτησης</string>
-    <string name="action_reply">Απάντηση</string>
-    <string name="button_close">Κλείσιμο</string>
-    <string name="button_confirm">Επιβεβαίωση</string>
-    <string name="button_load">Φόρτωση</string>
-    <string name="button_reset">Επαναφορά</string>
+    <string name="action_chat">Αποστείλετε μήνυμα</string>
+    <string name="action_clear_read">Εκκαθαρίστε αναγνωσμένα</string>
+    <string name="action_create_post">Δημιουργήστε ανάρτηση</string>
+    <string name="action_activate_zombie_mode">Ενεργοποιήστε λειτουργία ζόμπι</string>
+    <string name="action_deactivate_zombie_mode">Απενεργοποιήστε λειτουργία ζόμπι</string>
+    <string name="action_reply">Απάντηστε</string>
+    <string name="button_close">Κλείσε</string>
+    <string name="button_confirm">Επιβεβαίωσε</string>
+    <string name="button_load">Φόρτωσε</string>
+    <string name="button_reset">Επανάφερε</string>
     <string name="button_retry">Προσπάθησε ξανά</string>
-    <string name="comment_action_delete">Διαγραφή</string>
-    <string name="community_detail_block">Φραγή</string>
-    <string name="community_detail_block_instance">Φραγή παράδειγματος</string>
+    <string name="comment_action_delete">Διάγραψε</string>
+    <string name="community_detail_block">Απόκλεισε</string>
+    <string name="community_detail_block_instance">Απόκλεισε διακομιστή</string>
     <string name="community_detail_info">Πληροφορίες κοινότητας</string>
-    <string name="community_detail_instance_info">Λεπτομέρειες παραδείγματος</string>
+    <string name="community_detail_instance_info">Πληροφορίες διακομιστή</string>
     <string name="community_info_comments">σχόλια</string>
     <string name="community_info_daily_active_users">ενεργοί χρήστες (ημέρα)</string>
     <string name="community_info_monthly_active_users">ενεργοί χρήστες (μήνας)</string>
@@ -87,9 +89,9 @@
     <string name="inbox_section_messages">Μηνύματα</string>
     <string name="inbox_section_replies">Απαντήσεις</string>
     <string name="instance_detail_communities">Κοινότητες</string>
-    <string name="instance_detail_title">Παράδειγμα: %1$s</string>
+    <string name="instance_detail_title">Διακομιστής: %1$s</string>
     <string name="lang">el</string>
-    <string name="login_field_instance_name">Όνομα παραδείγματος</string>
+    <string name="login_field_instance_name">Όνομα διακομιστή</string>
     <string name="login_field_label_optional">(προαιρετικό)</string>
     <string name="login_field_password">Κωδικός πρόσβασης</string>
     <string name="login_field_token">Τοκεν 2FA TOTP</string>
@@ -211,5 +213,7 @@
     <string name="settings_ui_theme">Θέμα διεπαφής</string>
     <string name="settings_upvote_color">Χρώμα ψήφου ανώτερου</string>
     <string name="settings_hide_navigation_bar">Απόκρυψη της γραμμής πλοήγησης κατά την κύλιση
+    </string>
+    <string name="settings_zombie_mode_interval">Διάρκεια του διαστήματος της λειτουργίας ζόμπι
     </string>
 </resources>

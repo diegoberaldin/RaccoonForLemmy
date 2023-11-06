@@ -5,6 +5,8 @@
     <string name="action_clear_read">Ascunde citite</string>
     <string name="action_create_post">Creează postare</string>
     <string name="action_reply">Răspunde</string>
+    <string name="action_activate_zombie_mode">Activează modul zombie</string>
+    <string name="action_deactivate_zombie_mode">Dezactiează modul zombie</string>
     <string name="button_close">Închide</string>
     <string name="button_confirm">Confirmă</string>
     <string name="button_load">Încărcă</string>
@@ -208,4 +210,5 @@
     <string name="settings_ui_theme">Tema UI</string>
     <string name="settings_upvote_color">Culoare voturilor pozitive</string>
     <string name="settings_hide_navigation_bar">Ascunde bara de navigare la derulare</string>
+    <string name="settings_zombie_mode_interval">Durată intervalului al modului zombie</string>
 </resources>
