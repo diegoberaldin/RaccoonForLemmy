@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -14,6 +15,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
@@ -38,6 +40,7 @@ class PostListViewModel(
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val zombieModeHelper: ZombieModeHelper,
+    private val imagePreloadManager: ImagePreloadManager,
 ) : PostListMviModel,
     MviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect> by mvi {
 
@@ -264,6 +267,11 @@ class PostListViewModel(
                 true
             } else {
                 !post.nsfw
+            }
+        }
+        itemsToAdd.forEach { post ->
+            post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                imagePreloadManager.preload(url)
             }
         }
         mvi.updateState {

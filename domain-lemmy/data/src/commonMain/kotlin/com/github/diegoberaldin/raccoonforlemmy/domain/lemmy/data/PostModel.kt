@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 
 data class PostModel(
     val id: Int = 0,
@@ -31,3 +32,8 @@ val PostModel.shareUrl: String
         append("/post/")
         append(id)
     }
+
+val PostModel.imageUrl: String
+    get() = thumbnailUrl?.takeIf { it.isNotEmpty() } ?: run {
+        url?.takeIf { it.looksLikeAnImage }
+    }.orEmpty()

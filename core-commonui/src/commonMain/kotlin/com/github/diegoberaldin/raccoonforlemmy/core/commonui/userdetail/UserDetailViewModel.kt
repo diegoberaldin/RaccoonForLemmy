@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -13,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
@@ -39,6 +41,7 @@ class UserDetailViewModel(
     private val hapticFeedback: HapticFeedback,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
+    private val imagePreloadManager: ImagePreloadManager,
 ) : UserDetailMviModel,
     MviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect> by mvi {
 
@@ -247,6 +250,11 @@ class UserDetailViewModel(
                         itemList.orEmpty()
                     } else {
                         it.posts + itemList.orEmpty()
+                    }
+                    newPosts.forEach { post ->
+                        post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                            imagePreloadManager.preload(url)
+                        }
                     }
                     it.copy(
                         posts = newPosts,

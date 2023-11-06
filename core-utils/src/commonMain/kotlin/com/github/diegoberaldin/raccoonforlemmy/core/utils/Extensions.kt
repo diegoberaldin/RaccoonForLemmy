@@ -133,3 +133,9 @@ suspend fun GalleryHelper.download(url: String): ByteArray = withContext(Dispatc
         result
     }
 }
+
+val String.looksLikeAnImage: Boolean
+    get() {
+        val imageExtensions = listOf(".jpeg", ".jpg", ".png", ".webp")
+        return imageExtensions.any { this.endsWith(it) }
+    }

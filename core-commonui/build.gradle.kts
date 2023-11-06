@@ -26,6 +26,11 @@ kotlin {
     }
 
     sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.coil)
+            }
+        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)

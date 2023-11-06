@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.d
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
@@ -12,6 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
@@ -33,6 +35,7 @@ class MultiCommunityViewModel(
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val paginator: MultiCommunityPaginator,
+    private val imagePreloadManager: ImagePreloadManager,
 ) : MultiCommunityMviModel,
     MviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect> by mvi {
 
@@ -157,6 +160,11 @@ class MultiCommunityViewModel(
                     !post.read
                 } else {
                     true
+                }
+            }
+            itemsToAdd.forEach { post ->
+                post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                    imagePreloadManager.preload(url)
                 }
             }
             mvi.updateState {

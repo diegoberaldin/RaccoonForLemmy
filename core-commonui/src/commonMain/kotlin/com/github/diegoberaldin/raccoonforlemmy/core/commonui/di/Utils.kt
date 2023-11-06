@@ -20,6 +20,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import org.koin.core.module.Module
+
+expect val imagePreloadModule: Module
 
 expect fun getNavigationCoordinator(): NavigationCoordinator
 

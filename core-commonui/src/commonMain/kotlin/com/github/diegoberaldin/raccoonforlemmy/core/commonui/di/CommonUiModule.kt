@@ -37,6 +37,7 @@ import org.koin.dsl.module
 val commonUiModule = module {
     includes(
         utilsModule,
+        imagePreloadModule,
     )
 
     single<NavigationCoordinator> {
@@ -79,6 +80,7 @@ val commonUiModule = module {
             shareHelper = get(),
             hapticFeedback = get(),
             zombieModeHelper = get(),
+            imagePreloadManager = get(),
         )
     }
     factory<CommunityInfoMviModel> { params ->
@@ -102,6 +104,7 @@ val commonUiModule = module {
             shareHelper = get(),
             hapticFeedback = get(),
             notificationCenter = get(),
+            imagePreloadManager = get(),
         )
     }
     factory<InstanceInfoMviModel> {

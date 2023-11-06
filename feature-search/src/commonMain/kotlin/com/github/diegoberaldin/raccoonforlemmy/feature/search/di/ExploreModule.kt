@@ -52,6 +52,7 @@ val exploreTabModule = module {
             notificationCenter = get(),
             hapticFeedback = get(),
             paginator = get(),
+            imagePreloadManager = get(),
         )
     }
     factory<MultiCommunityPaginator> {

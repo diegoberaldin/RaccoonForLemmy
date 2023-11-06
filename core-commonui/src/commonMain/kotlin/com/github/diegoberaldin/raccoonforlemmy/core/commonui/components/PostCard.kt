@@ -32,12 +32,14 @@ import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 
 @Composable
 fun PostCard(
@@ -329,14 +331,3 @@ private fun ExtendedPost(
         )
     }
 }
-
-private val PostModel.imageUrl: String
-    get() = thumbnailUrl?.takeIf { it.isNotEmpty() } ?: run {
-        url?.takeIf { it.looksLikeAnImage }
-    }.orEmpty()
-
-private val String.looksLikeAnImage: Boolean
-    get() {
-        val imageExtensions = listOf(".jpeg", ".jpg", ".png")
-        return imageExtensions.any { this.endsWith(it) }
-    }
