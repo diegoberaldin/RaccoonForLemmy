@@ -301,7 +301,15 @@ class ExploreScreen : Screen {
                                 }
                             }
                         }
-                        items(uiState.results) { result ->
+                        items(uiState.results, key = {
+                            when (it) {
+                                is PostModel -> "post" + it.id
+                                is CommentModel -> "comment" + it.id
+                                is UserModel -> "user" + it.id
+                                is CommunityModel -> "community" + it.id
+                                else -> ""
+                            }
+                        }) { result ->
                             when (result) {
                                 is CommunityModel -> {
                                     CommunityItem(

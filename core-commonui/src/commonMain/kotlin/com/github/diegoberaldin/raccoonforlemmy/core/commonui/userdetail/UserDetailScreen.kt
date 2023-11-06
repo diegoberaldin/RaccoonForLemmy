@@ -364,7 +364,7 @@ class UserDetailScreen(
                                 }
                             }
                         }
-                        items(uiState.posts) { post ->
+                        items(uiState.posts, { it.id }) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
@@ -536,7 +536,7 @@ class UserDetailScreen(
                                 )
                             }
                         }
-                        items(uiState.comments) { comment ->
+                        items(uiState.comments, { it.id }) { comment ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,

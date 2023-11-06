@@ -60,6 +60,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Floatin
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
@@ -279,7 +280,7 @@ class PostListScreen : Screen {
                                 }
                             }
                         }
-                        items(uiState.posts) { post ->
+                        items(uiState.posts, key = { it.id }) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
@@ -362,13 +363,13 @@ class PostListScreen : Screen {
                                                 ),
                                             )
                                         },
-//                                        onReply = rememberCallback(model) {
-//                                            val screen = CreateCommentScreen(
-//                                                originalPost = post,
-//                                            )
-//                                            bottomSheetNavigator.show(screen)
-//                                        },
-                                        onImageClick = rememberCallbackArgs(model) { url ->
+                                        onReply = rememberCallback(model) {
+                                            val screen = CreateCommentScreen(
+                                                originalPost = post,
+                                            )
+                                            navigationCoordinator.getBottomNavigator()?.show(screen)
+                                        },
+                                        onImageClick = rememberCallbackArgs(model, post) { url ->
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
                                             navigationCoordinator.getRootNavigator()?.push(
                                                 ZoomableImageScreen(url)

@@ -395,7 +395,7 @@ class CommunityDetailScreen(
                                 }
                             }
                         }
-                        items(uiState.posts) { post ->
+                        items(uiState.posts, { it.id }) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled && !isOnOtherInstance,
