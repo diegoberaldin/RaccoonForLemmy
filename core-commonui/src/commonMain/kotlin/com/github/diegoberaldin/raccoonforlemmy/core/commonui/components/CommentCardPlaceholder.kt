@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.shimmerEffect
 
@@ -35,7 +36,7 @@ fun CommentCardPlaceholder(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.s)
             ) {
                 Box(
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(IconSize.s)
                         .clip(CircleShape)
                         .shimmerEffect()
                 )
@@ -44,13 +45,13 @@ fun CommentCardPlaceholder(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                 ) {
                     Box(
-                        modifier = Modifier.height(20.dp)
+                        modifier = Modifier.height(IconSize.s)
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(CornerSize.m))
                             .shimmerEffect()
                     )
                     Box(
-                        modifier = Modifier.height(20.dp)
+                        modifier = Modifier.height(IconSize.s)
                             .fillMaxWidth(0.5f)
                             .clip(RoundedCornerShape(CornerSize.m))
                             .shimmerEffect()
@@ -67,7 +68,7 @@ fun CommentCardPlaceholder(
         )
         Box(
             modifier = Modifier
-                .height(32.dp)
+                .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
                 .shimmerEffect()

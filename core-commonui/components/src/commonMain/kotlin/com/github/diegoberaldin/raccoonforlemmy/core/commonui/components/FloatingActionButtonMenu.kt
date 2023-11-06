@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
@@ -114,7 +115,7 @@ fun FloatingActionButtonMenu(
                         )
                         Icon(
                             modifier = Modifier
-                                .size(26.dp)
+                                .size(IconSize.m)
                                 .background(
                                     color = MaterialTheme.colorScheme.secondary,
                                     shape = CircleShape

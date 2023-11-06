@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.prettifyDate
@@ -44,7 +45,7 @@ fun InboxReplySubtitle(
     autoLoadImages: Boolean = true,
     creator: UserModel? = null,
     community: CommunityModel? = null,
-    iconSize: Dp = 20.dp,
+    iconSize: Dp = IconSize.s,
     date: String? = null,
     score: Int = 0,
     upvotes: Int = 0,
@@ -57,7 +58,7 @@ fun InboxReplySubtitle(
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
 ) {
-    val buttonModifier = Modifier.size(28.dp).padding(4.dp)
+    val buttonModifier = Modifier.size(IconSize.m).padding(4.dp)
     val themeRepository = remember { getThemeRepository() }
     val upvoteColor by themeRepository.upvoteColor.collectAsState()
     val downvoteColor by themeRepository.downvoteColor.collectAsState()

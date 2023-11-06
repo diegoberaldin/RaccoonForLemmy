@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.shimmerEffect
 
@@ -39,7 +40,7 @@ fun PostCardPlaceholder(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.s)
                 ) {
                     Box(
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(IconSize.s)
                             .clip(CircleShape)
                             .shimmerEffect()
                     )
@@ -48,13 +49,13 @@ fun PostCardPlaceholder(
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                     ) {
                         Box(
-                            modifier = Modifier.height(20.dp)
+                            modifier = Modifier.height(IconSize.s)
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(CornerSize.m))
                                 .shimmerEffect()
                         )
                         Box(
-                            modifier = Modifier.height(20.dp)
+                            modifier = Modifier.height(IconSize.s)
                                 .fillMaxWidth(0.5f)
                                 .clip(RoundedCornerShape(CornerSize.m))
                                 .shimmerEffect()
@@ -82,7 +83,7 @@ fun PostCardPlaceholder(
                 }
                 Box(
                     modifier = Modifier
-                        .height(32.dp)
+                        .height(IconSize.l)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(CornerSize.s))
                         .shimmerEffect()
@@ -105,7 +106,7 @@ fun PostCardPlaceholder(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(IconSize.l)
                             .clip(CircleShape)
                             .shimmerEffect()
                     )
@@ -114,13 +115,13 @@ fun PostCardPlaceholder(
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                     ) {
                         Box(
-                            modifier = Modifier.height(20.dp)
+                            modifier = Modifier.height(IconSize.s)
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(CornerSize.m))
                                 .shimmerEffect()
                         )
                         Box(
-                            modifier = Modifier.height(20.dp)
+                            modifier = Modifier.height(IconSize.s)
                                 .fillMaxWidth(0.5f)
                                 .clip(RoundedCornerShape(CornerSize.m))
                                 .shimmerEffect()
@@ -128,7 +129,7 @@ fun PostCardPlaceholder(
                     }
                 }
                 Box(
-                    modifier = Modifier.height(32.dp)
+                    modifier = Modifier.height(IconSize.l)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(CornerSize.m))
                         .shimmerEffect()
@@ -142,7 +143,7 @@ fun PostCardPlaceholder(
                 )
                 Box(
                     modifier = Modifier
-                        .height(32.dp)
+                        .height(IconSize.l)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(CornerSize.m))
                         .shimmerEffect()
@@ -161,7 +162,7 @@ fun PostCardPlaceholder(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(IconSize.l)
                             .clip(CircleShape)
                             .shimmerEffect()
                     )
@@ -170,13 +171,13 @@ fun PostCardPlaceholder(
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                     ) {
                         Box(
-                            modifier = Modifier.height(20.dp)
+                            modifier = Modifier.height(IconSize.s)
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(CornerSize.m))
                                 .shimmerEffect()
                         )
                         Box(
-                            modifier = Modifier.height(20.dp)
+                            modifier = Modifier.height(IconSize.s)
                                 .fillMaxWidth(0.5f)
                                 .clip(RoundedCornerShape(CornerSize.m))
                                 .shimmerEffect()
@@ -185,7 +186,7 @@ fun PostCardPlaceholder(
                 }
                 Box(
                     modifier = Modifier
-                        .height(32.dp)
+                        .height(IconSize.l)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(CornerSize.m))
                         .shimmerEffect()
@@ -199,7 +200,7 @@ fun PostCardPlaceholder(
                 )
                 Box(
                     modifier = Modifier
-                        .height(32.dp)
+                        .height(IconSize.l)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(CornerSize.m))
                         .shimmerEffect()

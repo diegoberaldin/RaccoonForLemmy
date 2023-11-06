@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
@@ -78,7 +79,8 @@ fun CommentCard(
                     }
             ) {
                 CommunityAndCreatorInfo(
-                    iconSize = 20.dp,
+                    modifier = Modifier.padding(top = Spacing.xxs),
+                    iconSize = IconSize.s,
                     creator = comment.creator.takeIf { !hideAuthor },
                     community = comment.community.takeIf { !hideCommunity },
                     indicatorExpanded = comment.expanded,

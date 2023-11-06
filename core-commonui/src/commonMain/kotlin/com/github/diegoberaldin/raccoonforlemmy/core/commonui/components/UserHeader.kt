@@ -39,6 +39,7 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
@@ -141,12 +142,11 @@ fun UserHeader(
         ) {
             // avatar
             val userAvatar = user.avatar.orEmpty()
-            val avatarSize = 60.dp
             if (userAvatar.isNotEmpty() && autoLoadImages) {
                 CustomImage(
                     modifier = Modifier.padding(Spacing.xxxs)
-                        .size(avatarSize)
-                        .clip(RoundedCornerShape(avatarSize / 2))
+                        .size(IconSize.xxl)
+                        .clip(RoundedCornerShape(IconSize.xxl / 2))
                         .onClick(
                             rememberCallback {
                                 onOpenImage?.invoke(userAvatar)
@@ -159,7 +159,7 @@ fun UserHeader(
                 )
             } else {
                 PlaceholderImage(
-                    size = avatarSize,
+                    size = IconSize.xxl,
                     title = user.name,
                 )
             }

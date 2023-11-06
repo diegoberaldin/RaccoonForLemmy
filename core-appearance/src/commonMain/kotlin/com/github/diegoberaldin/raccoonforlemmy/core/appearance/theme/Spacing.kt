@@ -22,6 +22,13 @@ object CornerSize {
     val xxl = 30.dp
 }
 
+object IconSize {
+    val s = 20.dp
+    val m = 26.dp
+    val l = 30.dp
+    val xxl = 60.dp
+}
+
 object Dimensions {
     val topBarHeight = 50.dp
 }

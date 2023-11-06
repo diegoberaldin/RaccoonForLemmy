@@ -820,11 +820,12 @@ class PostDetailScreen(
                                                 },
                                             )
                                         }
-                                        Divider(
-                                            modifier = Modifier.padding(vertical = Spacing.xxxs),
-                                            thickness = 0.25.dp
-                                        )
                                     }
+
+                                    Divider(
+                                        modifier = Modifier.padding(vertical = Spacing.xxxs),
+                                        thickness = 0.25.dp
+                                    )
 
                                     // load more button
                                     if (comment.loadMoreButtonVisible) {

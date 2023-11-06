@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
@@ -68,7 +69,7 @@ fun CollapsedCommentCard(
                     }
             ) {
                 CommunityAndCreatorInfo(
-                    iconSize = 20.dp,
+                    iconSize = IconSize.s,
                     creator = comment.creator,
                     indicatorExpanded = comment.expanded,
                     autoLoadImages = autoLoadImages,

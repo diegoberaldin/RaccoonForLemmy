@@ -36,6 +36,7 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
@@ -141,15 +142,14 @@ fun CommunityHeader(
             val communityName = community.name
             val communityIcon = community.icon.orEmpty()
             val communityHost = community.host
-            val avatarSize = 60.dp
 
             // avatar
             if (communityIcon.isNotEmpty() && autoLoadImages) {
                 CustomImage(
                     modifier = Modifier
                         .padding(Spacing.xxxs)
-                        .size(avatarSize)
-                        .clip(RoundedCornerShape(avatarSize / 2))
+                        .size(IconSize.xxl)
+                        .clip(RoundedCornerShape(IconSize.xxl / 2))
                         .onClick(
                             rememberCallback {
                                 onOpenImage?.invoke(communityIcon)
@@ -162,7 +162,7 @@ fun CommunityHeader(
                 )
             } else {
                 PlaceholderImage(
-                    size = avatarSize,
+                    size = IconSize.xxl,
                     title = communityName,
                 )
             }

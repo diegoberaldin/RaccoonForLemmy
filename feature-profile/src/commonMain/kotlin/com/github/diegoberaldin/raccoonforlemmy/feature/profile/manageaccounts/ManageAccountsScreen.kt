@@ -34,9 +34,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -116,13 +116,12 @@ class ManageAccountsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             val avatar = account.avatar.orEmpty()
-                            val iconSize = 32.dp
                             if (avatar.isNotEmpty()) {
                                 CustomImage(
                                     modifier = Modifier
                                         .padding(Spacing.xxxs)
-                                        .size(iconSize)
-                                        .clip(RoundedCornerShape(iconSize / 2)),
+                                        .size(IconSize.l)
+                                        .clip(RoundedCornerShape(IconSize.l / 2)),
                                     url = avatar,
                                     autoload = uiState.autoLoadImages,
                                     quality = FilterQuality.Low,
@@ -130,7 +129,7 @@ class ManageAccountsScreen : Screen {
                                     contentScale = ContentScale.FillBounds,
                                 )
                             } else {
-                                Box(modifier = Modifier.size(iconSize))
+                                Box(modifier = Modifier.size(IconSize.l))
                             }
                             Text(
                                 text = buildString {

@@ -35,6 +35,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.prettifyDate
@@ -73,7 +74,7 @@ fun PostCardFooter(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
-            val buttonModifier = Modifier.size(28.dp).padding(3.5.dp)
+            val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
             if (comments != null) {
                 Image(
                     modifier = buttonModifier.padding(1.dp)

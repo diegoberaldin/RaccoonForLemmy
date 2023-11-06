@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
@@ -30,7 +30,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 @Composable
 fun CommunityAndCreatorInfo(
     modifier: Modifier = Modifier,
-    iconSize: Dp = 32.dp,
+    iconSize: Dp = IconSize.l,
     indicatorExpanded: Boolean? = null,
     autoLoadImages: Boolean = true,
     community: CommunityModel? = null,
@@ -79,7 +79,7 @@ fun CommunityAndCreatorInfo(
                             }
                         },
                     ),
-                    size = 32.dp,
+                    size = IconSize.l,
                     title = communityName,
                 )
             }

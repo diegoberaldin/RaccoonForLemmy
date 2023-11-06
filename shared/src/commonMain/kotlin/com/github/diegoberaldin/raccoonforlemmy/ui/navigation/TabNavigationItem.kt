@@ -22,9 +22,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -59,7 +59,7 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
                 }
                 val content = @Composable {
                     Icon(
-                        modifier = Modifier.size(28.dp),
+                        modifier = Modifier.size(IconSize.m),
                         painter = tab.options.icon ?: rememberVectorPainter(Icons.Default.Home),
                         contentDescription = null,
                         tint = color,

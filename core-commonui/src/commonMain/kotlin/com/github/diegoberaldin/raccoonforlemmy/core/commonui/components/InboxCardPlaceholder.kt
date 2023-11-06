@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.shimmerEffect
 
@@ -38,7 +39,7 @@ fun InboxCardPlaceholder(
     ) {
         Box(
             modifier = Modifier
-                .height(32.dp)
+                .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
                 .shimmerEffect()
@@ -53,7 +54,7 @@ fun InboxCardPlaceholder(
         )
         Box(
             modifier = Modifier
-                .height(32.dp)
+                .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
                 .shimmerEffect()

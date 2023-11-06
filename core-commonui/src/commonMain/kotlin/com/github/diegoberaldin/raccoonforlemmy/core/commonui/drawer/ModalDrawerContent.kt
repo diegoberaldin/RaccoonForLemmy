@@ -55,6 +55,7 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommunityItem
@@ -349,7 +350,6 @@ private fun DrawerShortcut(
     icon: ImageVector,
     onSelected: (() -> Unit)? = null,
 ) {
-    val additionalIconSize = 20.dp
     Row(
         modifier = Modifier.fillMaxWidth().padding(
             horizontal = Spacing.s,
@@ -365,7 +365,7 @@ private fun DrawerShortcut(
         Icon(
             modifier = Modifier
                 .padding(Spacing.xxs)
-                .size(additionalIconSize),
+                .size(IconSize.s),
             imageVector = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground,
@@ -446,7 +446,7 @@ private fun ChangeInstanceDialog(
                 ) {
                     if (loading) {
                         CircularProgressIndicator(
-                            modifier = Modifier.size(20.dp),
+                            modifier = Modifier.size(IconSize.s),
                             color = MaterialTheme.colorScheme.onPrimary,
                         )
                     }
