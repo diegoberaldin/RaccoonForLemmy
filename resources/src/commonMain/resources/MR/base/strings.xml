@@ -97,6 +97,7 @@
     <string name="language_es" translatable="false">Español</string>
     <string name="language_fr" translatable="false">Français</string>
     <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
     <string name="language_pt" translatable="false">Português</string>
     <string name="language_ro" translatable="false">Română</string>
     <string name="login_field_instance_name">Instance name</string>
