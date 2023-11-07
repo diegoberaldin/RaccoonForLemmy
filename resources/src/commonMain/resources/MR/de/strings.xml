@@ -194,6 +194,7 @@
     <string name="settings_navigation_bar_titles_visible">Titel der Navigationsleiste anzeigen
     </string>
     <string name="settings_open_url_external">Öffnen Sie URLs in einem externen Browser</string>
+    <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Beitragslayout</string>
     <string name="settings_post_layout_card">Karte</string>
     <string name="settings_post_layout_compact">Kompakt</string>
@@ -213,4 +214,5 @@
     <string name="settings_upvote_color">Farbe für Upvotes</string>
     <string name="settings_hide_navigation_bar">Navigationsleiste beim Scrollen ausblenden</string>
     <string name="settings_zombie_mode_interval">Dauer des Intervalls des Zombie-Modus</string>
+    <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
 </resources>

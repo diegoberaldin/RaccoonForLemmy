@@ -42,6 +42,7 @@ interface SettingsMviModel :
         data class ChangeFullHeightImages(val value: Boolean) : Intent
         data class ChangeHideNavigationBarWhileScrolling(val value: Boolean) : Intent
         data class ChangeZombieModeInterval(val value: Duration) : Intent
+        data class ChangeZombieModeScrollAmount(val value: Float) : Intent
     }
 
     data class UiState(
@@ -72,6 +73,7 @@ interface SettingsMviModel :
         val fullHeightImages: Boolean = false,
         val hideNavigationBarWhileScrolling: Boolean = true,
         val zombieModeInterval: Duration = 2.5.seconds,
+        val zombieModeScrollAmount: Float = 100f,
     )
 
     sealed interface Effect

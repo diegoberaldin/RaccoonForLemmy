@@ -194,6 +194,7 @@
     <string name="settings_language">Γλώσσα</string>
     <string name="settings_navigation_bar_titles_visible">Εμφάνιση τίτλων γραμμής πλοήγησης</string>
     <string name="settings_open_url_external">Άνοιγμα URL σε εξωτερικό πρόγραμμα περιήγησης</string>
+    <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Διάταξη ανάρτησης</string>
     <string name="settings_post_layout_card">Κάρτα</string>
     <string name="settings_post_layout_compact">Συμπαγής</string>
@@ -216,4 +217,5 @@
     </string>
     <string name="settings_zombie_mode_interval">Διάρκεια του διαστήματος της λειτουργίας ζόμπι
     </string>
+    <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
 </resources>

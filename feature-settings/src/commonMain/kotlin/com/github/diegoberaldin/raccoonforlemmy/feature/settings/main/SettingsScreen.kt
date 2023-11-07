@@ -37,6 +37,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
@@ -58,6 +60,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontScaleBo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
@@ -67,6 +70,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
@@ -87,6 +91,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 import kotlin.time.Duration
 
 class SettingsScreen : Screen {
@@ -244,13 +249,19 @@ class SettingsScreen : Screen {
                 {
                     (it as? Duration)?.also { value ->
                         model.reduce(
-                            SettingsMviModel.Intent.ChangeZombieModeInterval(
-                                value,
-                            )
+                            SettingsMviModel.Intent.ChangeZombieModeInterval(value)
                         )
                     }
-                },
-                key, NotificationCenterContractKeys.ChangeZombieInterval
+                }, key, NotificationCenterContractKeys.ChangeZombieInterval
+            )
+            notificationCenter.addObserver(
+                {
+                    (it as? Float)?.also { value ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeZombieModeScrollAmount(value)
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeZombieScrollAmount
             )
         }
 
@@ -258,8 +269,11 @@ class SettingsScreen : Screen {
             return
         }
 
+        var screenWidth by remember { mutableStateOf(0f) }
         Scaffold(
-            modifier = Modifier.padding(Spacing.xxs),
+            modifier = Modifier.onGloballyPositioned {
+                screenWidth = it.size.toSize().width
+            }.padding(Spacing.xxs),
             topBar = {
                 val title by remember(lang) {
                     mutableStateOf(staticString(MR.strings.navigation_settings.desc()))
@@ -291,14 +305,11 @@ class SettingsScreen : Screen {
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier
-                    .padding(paddingValues)
+                modifier = Modifier.padding(paddingValues)
                     .nestedScroll(scrollBehavior.nestedScrollConnection),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollState),
+                    modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     SettingsHeader(
@@ -328,8 +339,7 @@ class SettingsScreen : Screen {
 
                     // dynamic colors
                     if (uiState.supportsDynamicColors) {
-                        SettingsSwitchRow(
-                            title = stringResource(MR.strings.settings_dynamic_colors),
+                        SettingsSwitchRow(title = stringResource(MR.strings.settings_dynamic_colors),
                             value = uiState.dynamicColors,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
@@ -337,8 +347,7 @@ class SettingsScreen : Screen {
                                         value
                                     )
                                 )
-                            }
-                        )
+                            })
                     }
 
                     val colorSchemeProvider = remember { getColorSchemeProvider() }
@@ -414,8 +423,7 @@ class SettingsScreen : Screen {
                     )
 
                     // separate upvotes and downvotes
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_separate_up_and_downvotes),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_separate_up_and_downvotes),
                         value = uiState.separateUpAndDownVotes,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -423,12 +431,10 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        }
-                    )
+                        })
 
                     // full height images
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_full_height_images),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_full_height_images),
                         value = uiState.fullHeightImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -436,12 +442,10 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        }
-                    )
+                        })
 
                     // navigation bar titles
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_navigation_bar_titles_visible),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_navigation_bar_titles_visible),
                         value = uiState.navBarTitlesVisible,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -449,8 +453,7 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        }
-                    )
+                        })
 
                     SettingsHeader(
                         icon = Icons.Default.Tune,
@@ -520,9 +523,26 @@ class SettingsScreen : Screen {
                         },
                     )
 
+                    // zombie scroll amount
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_zombie_mode_scroll_amount),
+                        value = buildString {
+                            val pt = uiState.zombieModeScrollAmount.toLocalDp().value.roundToInt()
+                            append(pt)
+                            append(stringResource(MR.strings.settings_points_short))
+                        },
+                        onTap = rememberCallback {
+                            val sheet = SliderBottomSheet(
+                                min = 0f,
+                                max = screenWidth,
+                                initial = uiState.zombieModeScrollAmount,
+                            )
+                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                        },
+                    )
+
                     // swipe actions
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_enable_swipe_actions),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_enable_swipe_actions),
                         value = uiState.enableSwipeActions,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -530,12 +550,10 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        }
-                    )
+                        })
 
                     // bottom navigation hiding
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_hide_navigation_bar),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_hide_navigation_bar),
                         value = uiState.hideNavigationBarWhileScrolling,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -543,12 +561,10 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        }
-                    )
+                        })
 
                     // URL open
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_open_url_external),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_open_url_external),
                         value = uiState.openUrlsInExternalBrowser,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -556,12 +572,10 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        }
-                    )
+                        })
 
                     // auto-expand comments
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_auto_expand_comments),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_auto_expand_comments),
                         value = uiState.autoExpandComments,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -569,12 +583,10 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        }
-                    )
+                        })
 
                     // image loading
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_auto_load_images),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_auto_load_images),
                         value = uiState.autoLoadImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -582,8 +594,7 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        }
-                    )
+                        })
 
                     SettingsHeader(
                         icon = Icons.Default.Shield,
@@ -591,20 +602,16 @@ class SettingsScreen : Screen {
                     )
 
                     // NSFW options
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_include_nsfw),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_include_nsfw),
                         value = uiState.includeNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))
-                        }
-                    )
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_blur_nsfw),
+                        })
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_blur_nsfw),
                         value = uiState.blurNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeBlurNsfw(value))
-                        }
-                    )
+                        })
 
                     SettingsHeader(
                         icon = Icons.Default.BugReport,
@@ -612,13 +619,11 @@ class SettingsScreen : Screen {
                     )
 
                     // enable crash report
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_enable_crash_report),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_enable_crash_report),
                         value = uiState.crashReportEnabled,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeCrashReportEnabled(value))
-                        }
-                    )
+                        })
 
                     // about
                     SettingsRow(

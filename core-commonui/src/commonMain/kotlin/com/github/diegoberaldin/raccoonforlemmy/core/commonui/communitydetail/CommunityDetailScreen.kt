@@ -5,6 +5,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -200,7 +201,7 @@ class CommunityDetailScreen(
 
                     is CommunityDetailMviModel.Effect.ZombieModeTick -> {
                         if (effect.index >= 0) {
-                            lazyListState.scrollToItem(effect.index)
+                            lazyListState.animateScrollBy(settings.zombieModeScrollAmount)
                         }
                     }
                 }
@@ -303,11 +304,8 @@ class CommunityDetailScreen(
                                     icon = Icons.Default.Sync,
                                     text = stringResource(MR.strings.action_activate_zombie_mode),
                                     onSelected = rememberCallback(model) {
-                                        val idx = lazyListState.firstVisibleItemIndex
                                         model.reduce(
-                                            CommunityDetailMviModel.Intent.StartZombieMode(
-                                                idx + 1// header
-                                            )
+                                            CommunityDetailMviModel.Intent.StartZombieMode(-1)
                                         )
                                     },
                                 )

@@ -30,4 +30,5 @@ data class SettingsModel(
     val autoExpandComments: Boolean = true,
     val hideNavigationBarWhileScrolling: Boolean = true,
     val zombieModeInterval: Duration = 2.5.seconds,
+    val zombieModeScrollAmount: Float = 100f,
 ) : JavaSerializable

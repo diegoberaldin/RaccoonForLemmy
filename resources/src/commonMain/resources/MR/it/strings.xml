@@ -193,6 +193,7 @@
     <string name="settings_navigation_bar_titles_visible">Mostra titoli barra di navigazione
     </string>
     <string name="settings_open_url_external">Apri URL su browser esterno</string>
+    <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Layout post</string>
     <string name="settings_post_layout_card">Scheda</string>
     <string name="settings_post_layout_compact">Compatto</string>
@@ -213,4 +214,5 @@
     <string name="settings_hide_navigation_bar">Nascondi barra di navigazione durante lo scroll
     </string>
     <string name="settings_zombie_mode_interval">Durata intevallo modalità zombie</string>
+    <string name="settings_zombie_mode_scroll_amount">Ampiezza scroll modalità zombie</string>
 </resources>

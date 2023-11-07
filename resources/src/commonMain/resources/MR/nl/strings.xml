@@ -200,6 +200,7 @@
     <string name="settings_language">Taal</string>
     <string name="settings_navigation_bar_titles_visible">Navigatiebalktitels weergeven</string>
     <string name="settings_open_url_external">Openen in externe browser</string>
+    <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Bericht lay-out</string>
     <string name="settings_post_layout_card">Kaart</string>
     <string name="settings_post_layout_compact">Compact</string>
@@ -220,4 +221,5 @@
     <string name="settings_hide_navigation_bar">Verberg de navigatiebalk tijdens het scrollen
     </string>
     <string name="settings_zombie_mode_interval">Intervalduur zombiemodus</string>
+    <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
 </resources>

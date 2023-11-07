@@ -194,6 +194,7 @@
         navegación
     </string>
     <string name="settings_open_url_external">Abrir URL en navegador externo</string>
+    <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Disposición publicaciones</string>
     <string name="settings_post_layout_card">Tarjetas</string>
     <string name="settings_post_layout_compact">Compacto</string>
@@ -215,4 +216,5 @@
     <string name="settings_hide_navigation_bar">Ocultar la barra de navegación al desplazarse
     </string>
     <string name="settings_zombie_mode_interval">Duración del intervalo modo zombie</string>
+    <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
 </resources>

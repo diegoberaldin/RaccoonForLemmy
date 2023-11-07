@@ -113,6 +113,8 @@ class SettingsViewModel(
                 autoExpandComments = settings.autoExpandComments,
                 fullHeightImages = settings.fullHeightImages,
                 hideNavigationBarWhileScrolling = settings.hideNavigationBarWhileScrolling,
+                zombieModeInterval = settings.zombieModeInterval,
+                zombieModeScrollAmount = settings.zombieModeScrollAmount,
             )
         }
     }
@@ -198,6 +200,10 @@ class SettingsViewModel(
             )
 
             is SettingsMviModel.Intent.ChangeZombieModeInterval -> changeZombieModeInterval(
+                intent.value
+            )
+
+            is SettingsMviModel.Intent.ChangeZombieModeScrollAmount -> changeZombieModeScrollAmount(
                 intent.value
             )
         }
@@ -451,6 +457,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 zombieModeInterval = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeZombieModeScrollAmount(value: Float) {
+        mvi.updateState { it.copy(zombieModeScrollAmount = value) }
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                zombieModeScrollAmount = value
             )
             saveSettings(settings)
         }

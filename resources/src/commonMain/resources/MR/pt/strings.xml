@@ -191,6 +191,7 @@
     <string name="settings_navigation_bar_titles_visible">Mostrar títulos da barra de navegação
     </string>
     <string name="settings_open_url_external">Abrir URLs em navegador externo</string>
+    <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Layout publicações</string>
     <string name="settings_post_layout_card">Ficha</string>
     <string name="settings_post_layout_compact">Compacto</string>
@@ -210,4 +211,5 @@
     <string name="settings_upvote_color">Cor votos positivos</string>
     <string name="settings_hide_navigation_bar">Ocultar a barra de navegação ao rolar</string>
     <string name="settings_zombie_mode_interval">Duração do intervalo do modo zumbi</string>
+    <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
 </resources>

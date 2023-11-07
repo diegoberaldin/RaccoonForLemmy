@@ -192,6 +192,7 @@
     <string name="settings_language">Langue</string>
     <string name="settings_navigation_bar_titles_visible">Afficher la barre de navigation</string>
     <string name="settings_open_url_external">Ouvrir URL dans le navigateur externe</string>
+    <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Présentation des publications</string>
     <string name="settings_post_layout_card">Fiche</string>
     <string name="settings_post_layout_compact">Compacte</string>
@@ -213,4 +214,5 @@
     <string name="settings_hide_navigation_bar">Masquer la barre de navigation lors du défilement
     </string>
     <string name="settings_zombie_mode_interval">Durée de l\'intervalle du mode zombie</string>
+    <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
 </resources>

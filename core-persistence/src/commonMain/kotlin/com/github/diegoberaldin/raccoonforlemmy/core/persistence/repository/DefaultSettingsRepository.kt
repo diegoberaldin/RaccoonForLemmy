@@ -35,6 +35,7 @@ private object KeyStoreKeys {
     const val DownVoteColor = "downVoteColor"
     const val HideNavigationBarWhileScrolling = "hideNavigationBarWhileScrolling"
     const val ZombieModeInterval = "zombieModeInterval"
+    const val ZombieModeScrollAmount = "zombieModeScrollAmount"
 }
 
 internal class DefaultSettingsRepository(
@@ -74,8 +75,8 @@ internal class DefaultSettingsRepository(
                 downvoteColor = settings.downvoteColor?.toLong(),
                 hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1 else 0,
                 zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
-
-                )
+                zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
+            )
         }
 
     override suspend fun getSettings(accountId: Long?): SettingsModel =
@@ -109,6 +110,7 @@ internal class DefaultSettingsRepository(
                     downvoteColor = if (!keyStore.containsKey(KeyStoreKeys.DownVoteColor)) null else keyStore[KeyStoreKeys.DownVoteColor, 0],
                     hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HideNavigationBarWhileScrolling, true],
                     zombieModeInterval = keyStore[KeyStoreKeys.ZombieModeInterval, 2500].milliseconds,
+                    zombieModeScrollAmount = keyStore[KeyStoreKeys.ZombieModeScrollAmount, 100f],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -174,6 +176,10 @@ internal class DefaultSettingsRepository(
                     KeyStoreKeys.ZombieModeInterval,
                     settings.zombieModeInterval.inWholeMilliseconds,
                 )
+                keyStore.save(
+                    KeyStoreKeys.ZombieModeScrollAmount,
+                    settings.zombieModeScrollAmount,
+                )
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -201,6 +207,7 @@ internal class DefaultSettingsRepository(
                     downvoteColor = settings.downvoteColor?.toLong(),
                     hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1L else 0L,
                     zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
+                    zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
                 )
             }
         }
@@ -236,4 +243,5 @@ private fun GetBy.toModel() = SettingsModel(
     downvoteColor = downvoteColor?.toInt(),
     hideNavigationBarWhileScrolling = hideNavigationBarWhileScrolling != 0L,
     zombieModeInterval = zombieModeInterval.milliseconds,
+    zombieModeScrollAmount = zombieModeScrollAmount.toFloat(),
 )

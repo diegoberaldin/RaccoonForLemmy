@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -139,7 +140,7 @@ class PostListScreen : Screen {
 
                     is PostListMviModel.Effect.ZombieModeTick -> {
                         if (effect.index >= 0) {
-                            lazyListState.scrollToItem(effect.index)
+                            lazyListState.animateScrollBy(settings.zombieModeScrollAmount)
                         }
                     }
                 }
@@ -231,8 +232,7 @@ class PostListScreen : Screen {
                                     icon = Icons.Default.Sync,
                                     text = stringResource(MR.strings.action_activate_zombie_mode),
                                     onSelected = rememberCallback(model) {
-                                        val idx = lazyListState.firstVisibleItemIndex
-                                        model.reduce(PostListMviModel.Intent.StartZombieMode(idx))
+                                        model.reduce(PostListMviModel.Intent.StartZombieMode(-1))
                                     },
                                 )
                             }
