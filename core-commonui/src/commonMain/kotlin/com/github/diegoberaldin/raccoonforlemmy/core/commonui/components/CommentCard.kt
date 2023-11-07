@@ -28,6 +28,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 
+private val barWidth = 1.25.dp
+private const val INDENT_AMOUNT = 3
+
 @Composable
 fun CommentCard(
     comment: CommentModel,
@@ -53,7 +56,6 @@ fun CommentCard(
         modifier = modifier
     ) {
         var commentHeight by remember { mutableStateOf(0f) }
-        val barWidth = 2.dp
         val barColor = themeRepository.getCommentBarColor(
             depth = comment.depth,
             maxDepth = CommentRepository.MAX_COMMENT_DEPTH,
@@ -64,7 +66,7 @@ fun CommentCard(
             modifier = Modifier.onClick(rememberCallback {
                 onClick?.invoke()
             }).padding(
-                start = if (hideIndent) 0.dp else (10 * comment.depth).dp
+                start = if (hideIndent) 0.dp else (INDENT_AMOUNT * comment.depth).dp
             ),
         ) {
             Column(

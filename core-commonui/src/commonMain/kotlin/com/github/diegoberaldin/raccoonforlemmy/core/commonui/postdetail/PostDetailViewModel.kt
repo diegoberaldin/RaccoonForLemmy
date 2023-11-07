@@ -163,30 +163,45 @@ class PostDetailViewModel(
             PostDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is PostDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
 
-            is PostDetailMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                comment = uiState.value.comments.first { it.id == intent.commentId },
-                feedback = intent.feedback,
-            )
+            is PostDetailMviModel.Intent.DownVoteComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                    ?.also { comment ->
+                        toggleDownVoteComment(
+                            comment = comment,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
 
             is PostDetailMviModel.Intent.DownVotePost -> toggleDownVotePost(
                 post = uiState.value.post,
                 feedback = intent.feedback,
             )
 
-            is PostDetailMviModel.Intent.SaveComment -> toggleSaveComment(
-                comment = uiState.value.comments.first { it.id == intent.commentId },
-                feedback = intent.feedback,
-            )
+            is PostDetailMviModel.Intent.SaveComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                    ?.also { comment ->
+                        toggleSaveComment(
+                            comment = comment,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
 
             is PostDetailMviModel.Intent.SavePost -> toggleSavePost(
                 post = intent.post,
                 feedback = intent.feedback,
             )
 
-            is PostDetailMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                comment = uiState.value.comments.first { it.id == intent.commentId },
-                feedback = intent.feedback,
-            )
+            is PostDetailMviModel.Intent.UpVoteComment -> {
+                uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                    ?.also { comment ->
+                        toggleUpVoteComment(
+                            comment = comment,
+                            feedback = intent.feedback,
+                        )
+                    }
+            }
 
             is PostDetailMviModel.Intent.UpVotePost -> toggleUpVotePost(
                 post = uiState.value.post,
@@ -204,8 +219,10 @@ class PostDetailViewModel(
             )
 
             is PostDetailMviModel.Intent.ToggleExpandComment -> {
-                val comment = uiState.value.comments.first { it.id == intent.commentId }
-                toggleExpanded(comment)
+                uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                    ?.also { comment ->
+                        toggleExpanded(comment)
+                    }
             }
         }
     }
@@ -615,29 +632,34 @@ class PostDetailViewModel(
     }
 
     private fun toggleExpanded(comment: CommentModel) {
-        val commentId = comment.id
-        val newExpanded = !comment.expanded
-        mvi.updateState {
-            val newComments = it.comments.map { c ->
-                if (c.id == commentId) {
-                    c.copy(expanded = newExpanded)
-                } else {
-                    c
-                }
-            }.map { c ->
-                if (c.path.contains(".$commentId.") && c.depth > comment.depth) {
-                    // if expanded, make all childern visible and expanded
-                    // otherwise, make all children not visible (doesn't matter expanded)
-                    if (newExpanded) {
-                        c.copy(visible = true, expanded = true)
-                    } else {
-                        c.copy(visible = false, expanded = false)
+        mvi.scope?.launch {
+            val commentId = comment.id
+            val newExpanded = !comment.expanded
+            mvi.updateState {
+                val newComments = it.comments.map { c ->
+                    when {
+                        c.id == commentId -> {
+                            // change expanded state of comment itself
+                            c.copy(expanded = newExpanded)
+                        }
+
+                        c.path.contains(".$commentId.") && c.depth > comment.depth -> {
+                            // if expanded, make all childern visible and expanded
+                            // otherwise, make all children not visible (doesn't matter expanded)
+                            if (newExpanded) {
+                                c.copy(visible = true, expanded = true)
+                            } else {
+                                c.copy(visible = false, expanded = true)
+                            }
+                        }
+
+                        else -> {
+                            c
+                        }
                     }
-                } else {
-                    c
                 }
+                it.copy(comments = newComments)
             }
-            it.copy(comments = newComments)
         }
     }
 }
