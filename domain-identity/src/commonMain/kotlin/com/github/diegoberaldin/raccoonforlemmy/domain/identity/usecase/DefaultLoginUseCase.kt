@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase
 
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
-import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.Log
@@ -47,9 +46,13 @@ internal class DefaultLoginUseCase(
                 )
                 val existingId = accountRepository.getBy(username, instance)?.id
                 val id = existingId ?: run {
-                    // new account
+                    // new account with a copy of the anonymous settings
                     val res = accountRepository.createAccount(account)
-                    settingsRepository.createSettings(settings = SettingsModel(), accountId = res)
+                    val anonymousSettings = settingsRepository.getSettings(null)
+                    settingsRepository.createSettings(
+                        settings = anonymousSettings,
+                        accountId = res
+                    )
                     res
                 }
                 val oldActiveAccountId = accountRepository.getActive()?.id
