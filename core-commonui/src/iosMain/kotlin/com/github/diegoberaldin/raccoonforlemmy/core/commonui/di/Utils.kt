@@ -19,6 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.Navigat
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -71,10 +72,9 @@ actual fun getCreateCommentViewModel(
     CommonUiViewModelHelper.getCreateCommentModel(postId, parentId, editedCommentId)
 
 actual fun getCreatePostViewModel(
-    communityId: Int?,
     editedPostId: Int?,
 ): CreatePostMviModel =
-    CommonUiViewModelHelper.getCreatePostModel(communityId, editedPostId)
+    CommonUiViewModelHelper.getCreatePostModel(editedPostId)
 
 actual fun getZoomableImageViewModel(): ZoomableImageMviModel =
     CommonUiViewModelHelper.zoomableImageModel
@@ -93,6 +93,9 @@ actual fun getCreateReportViewModel(
     commentId: Int?,
 ): CreateReportMviModel = CommonUiViewModelHelper.getCreateReportModel(postId, commentId)
 
+actual fun getSelectCommunityViewModel(): SelectCommunityMviModel =
+    CommonUiViewModelHelper.selectCommunityViewModel
+
 object CommonUiViewModelHelper : KoinComponent {
 
     val navigationCoordinator: NavigationCoordinator by inject()
@@ -101,6 +104,7 @@ object CommonUiViewModelHelper : KoinComponent {
     val zoomableImageModel: ZoomableImageMviModel by inject()
     val savedItemsViewModel: SavedItemsMviModel by inject()
     val modalDrawerViewModel: ModalDrawerMviModel by inject()
+    val selectCommunityViewModel: SelectCommunityMviModel by inject()
 
     fun getPostDetailModel(
         post: PostModel,
@@ -155,9 +159,9 @@ object CommonUiViewModelHelper : KoinComponent {
         return model
     }
 
-    fun getCreatePostModel(communityId: Int?, editedPostId: Int?): CreatePostMviModel {
+    fun getCreatePostModel(editedPostId: Int?): CreatePostMviModel {
         val model: CreatePostMviModel by inject(
-            parameters = { parametersOf(communityId, editedPostId) }
+            parameters = { parametersOf(editedPostId) }
         )
         return model
     }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import dev.icerock.moko.resources.desc.StringDesc
 
 @Stable
@@ -12,6 +13,7 @@ interface CreatePostMviModel :
     ScreenModel {
 
     sealed interface Intent {
+        data class SetCommunity(val value: CommunityModel) : Intent
         data class SetTitle(val value: String) : Intent
         data class SetUrl(val value: String) : Intent
         data class ChangeNsfw(val value: Boolean) : Intent
@@ -54,6 +56,9 @@ interface CreatePostMviModel :
     }
 
     data class UiState(
+        val communityInfo: String = "",
+        val communityId: Int? = null,
+        val communityError: StringDesc? = null,
         val title: String = "",
         val titleError: StringDesc? = null,
         val bodyError: StringDesc? = null,

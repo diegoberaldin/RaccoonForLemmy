@@ -247,6 +247,7 @@ class PostListScreen : Screen {
                                     }
                                 },
                             )
+                            // TODO: only if logged
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ClearAll,
                                 text = stringResource(MR.strings.action_clear_read),
@@ -404,8 +405,12 @@ class PostListScreen : Screen {
                                         },
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
+                                            // TODO: only if logged
                                             add(stringResource(MR.strings.post_action_hide))
                                             add(stringResource(MR.strings.post_action_see_raw))
+                                            // TODO: only if logged
+                                            add(stringResource(MR.strings.post_action_cross_post))
+                                            // TODO: only if logged
                                             add(stringResource(MR.strings.post_action_report))
                                             if (post.creator?.id == uiState.currentUserId) {
                                                 add(stringResource(MR.strings.post_action_edit))
@@ -414,21 +419,28 @@ class PostListScreen : Screen {
                                         },
                                         onOptionSelected = rememberCallbackArgs(model) { optionIdx ->
                                             when (optionIdx) {
-                                                5 -> model.reduce(
+                                                6 -> model.reduce(
                                                     PostListMviModel.Intent.DeletePost(post.id)
                                                 )
 
-                                                4 -> {
+                                                5 -> {
                                                     navigationCoordinator.getBottomNavigator()
                                                         ?.show(
                                                             CreatePostScreen(editedPost = post)
                                                         )
                                                 }
 
-                                                3 -> {
+                                                4 -> {
                                                     navigationCoordinator.getBottomNavigator()
                                                         ?.show(
                                                             CreateReportScreen(postId = post.id)
+                                                        )
+                                                }
+
+                                                3 -> {
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreatePostScreen(crossPost = post)
                                                         )
                                                 }
 

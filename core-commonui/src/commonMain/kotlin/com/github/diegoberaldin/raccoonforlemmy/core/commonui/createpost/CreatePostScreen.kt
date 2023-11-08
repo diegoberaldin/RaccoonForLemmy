@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +28,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -60,12 +62,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.stringResource
@@ -75,15 +81,13 @@ import kotlinx.coroutines.flow.onEach
 class CreatePostScreen(
     private val communityId: Int? = null,
     private val editedPost: PostModel? = null,
+    private val crossPost: PostModel? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val model = rememberScreenModel {
-            getCreatePostViewModel(
-                communityId = communityId,
-                editedPostId = editedPost?.id,
-            )
+            getCreatePostViewModel(editedPostId = editedPost?.id)
         }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
@@ -91,17 +95,63 @@ class CreatePostScreen(
         val genericError = stringResource(MR.strings.message_generic_error)
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
+        val crossPostText = stringResource(MR.strings.create_post_cross_post_text)
         var bodyTextFieldValue by remember {
-            mutableStateOf(TextFieldValue(text = editedPost?.text.orEmpty()))
+            val text = when {
+                crossPost != null -> buildString {
+                    append(crossPostText)
+                    append(" ")
+                    append(crossPost.shareUrl)
+                }
+
+                editedPost != null -> {
+                    editedPost.text
+                }
+
+                else -> ""
+            }
+            mutableStateOf(TextFieldValue(text = text))
         }
         val bodyFocusRequester = remember { FocusRequester() }
         val urlFocusRequester = remember { FocusRequester() }
         val focusManager = LocalFocusManager.current
         val navigationCoordinator = remember { getNavigationCoordinator() }
+        var openImagePicker by remember { mutableStateOf(false) }
+        var openImagePickerInBody by remember { mutableStateOf(false) }
+        if (openImagePicker) {
+            galleryHelper.getImageFromGallery { bytes ->
+                openImagePicker = false
+                model.reduce(CreatePostMviModel.Intent.ImageSelected(bytes))
+            }
+        }
+        if (openImagePickerInBody) {
+            galleryHelper.getImageFromGallery { bytes ->
+                openImagePickerInBody = false
+                model.reduce(CreatePostMviModel.Intent.InsertImageInBody(bytes))
+            }
+        }
+        var openSelectCommunity by remember { mutableStateOf(false) }
+        val keyboardScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(
+                    available: Offset,
+                    source: NestedScrollSource,
+                ): Offset {
+                    focusManager.clearFocus()
+                    return Offset.Zero
+                }
+            }
+        }
 
         LaunchedEffect(model) {
-            model.reduce(CreatePostMviModel.Intent.SetTitle(editedPost?.title.orEmpty()))
-            model.reduce(CreatePostMviModel.Intent.SetUrl(editedPost?.url.orEmpty()))
+            val referencePost = editedPost ?: crossPost
+            model.reduce(CreatePostMviModel.Intent.SetTitle(referencePost?.title.orEmpty()))
+            model.reduce(CreatePostMviModel.Intent.SetUrl(referencePost?.url.orEmpty()))
+            if (communityId != null) {
+                model.reduce(
+                    CreatePostMviModel.Intent.SetCommunity(CommunityModel(id = communityId))
+                )
+            }
 
             model.effects.onEach { effect ->
                 when (effect) {
@@ -123,15 +173,26 @@ class CreatePostScreen(
                 }
             }.launchIn(this)
         }
-        val keyboardScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(
-                    available: Offset,
-                    source: NestedScrollSource,
-                ): Offset {
-                    focusManager.clearFocus()
-                    return Offset.Zero
-                }
+        DisposableEffect(key) {
+            notificationCenter.addObserver(
+                {
+                    (it as CommunityModel)?.also { community ->
+                        model.reduce(CreatePostMviModel.Intent.SetCommunity(community))
+                        focusManager.clearFocus()
+                    }
+                }, key, NotificationCenterContractKeys.SelectCommunity
+            )
+
+            notificationCenter.addObserver(
+                {
+                    if (openSelectCommunity) {
+                        openSelectCommunity = false
+                    }
+                }, key, NotificationCenterContractKeys.CloseDialog
+            )
+
+            onDispose {
+                notificationCenter.removeObserver(key)
             }
         }
 
@@ -147,7 +208,10 @@ class CreatePostScreen(
                         ) {
                             BottomSheetHandle()
                             Text(
-                                text = stringResource(MR.strings.create_post_title),
+                                text = when {
+                                    else ->
+                                        stringResource(MR.strings.create_post_title)
+                                },
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
@@ -164,8 +228,52 @@ class CreatePostScreen(
                     .padding(padding)
                     .verticalScroll(rememberScrollState()),
             ) {
+                // community
+                if (crossPost != null) {
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onFocusChanged(
+                                rememberCallbackArgs {
+                                    if (it.hasFocus) {
+                                        openSelectCommunity = true
+                                    }
+                                },
+                            ),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                        ),
+                        label = {
+                            Text(text = stringResource(MR.strings.create_post_community))
+                        },
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Groups,
+                                contentDescription = null,
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.bodyMedium,
+                        value = uiState.communityInfo,
+                        readOnly = true,
+                        singleLine = true,
+                        onValueChange = {},
+                        isError = uiState.communityError != null,
+                        supportingText = {
+                            if (uiState.communityError != null) {
+                                Text(
+                                    text = uiState.communityError?.localized().orEmpty(),
+                                    color = MaterialTheme.colorScheme.error,
+                                )
+                            }
+                        },
+                    )
+                }
+
+                // title
                 TextField(
-                    modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
@@ -199,21 +307,7 @@ class CreatePostScreen(
                     },
                 )
 
-                var openImagePicker by remember { mutableStateOf(false) }
-                var openImagePickerInBody by remember { mutableStateOf(false) }
-                if (openImagePicker) {
-                    galleryHelper.getImageFromGallery { bytes ->
-                        openImagePicker = false
-                        model.reduce(CreatePostMviModel.Intent.ImageSelected(bytes))
-                    }
-                }
-                if (openImagePickerInBody) {
-                    galleryHelper.getImageFromGallery { bytes ->
-                        openImagePickerInBody = false
-                        model.reduce(CreatePostMviModel.Intent.InsertImageInBody(bytes))
-                    }
-                }
-
+                // image
                 TextField(
                     modifier = Modifier.fillMaxWidth().focusRequester(urlFocusRequester),
                     colors = TextFieldDefaults.colors(
@@ -262,6 +356,7 @@ class CreatePostScreen(
                     },
                 )
 
+                // NSFW
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(
                         vertical = Spacing.s, horizontal = Spacing.m
@@ -376,6 +471,10 @@ class CreatePostScreen(
 
         if (uiState.loading) {
             ProgressHud()
+        }
+
+        if (openSelectCommunity) {
+            SelectCommunityDialog().Content()
         }
     }
 }

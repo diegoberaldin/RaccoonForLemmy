@@ -76,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
@@ -484,16 +485,26 @@ class UserDetailScreen(
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
                                             add(stringResource(MR.strings.post_action_see_raw))
+                                            // TODO: only if logged
+                                            add(stringResource(MR.strings.post_action_cross_post))
+                                            // TODO: only if logged
                                             add(stringResource(MR.strings.post_action_report))
                                         },
                                         onOptionSelected = rememberCallbackArgs { optionIdx ->
                                             when (optionIdx) {
-                                                2 -> {
+                                                3 -> {
                                                     navigationCoordinator.getBottomNavigator()
                                                         ?.show(
                                                             CreateReportScreen(
                                                                 postId = post.id
                                                             )
+                                                        )
+                                                }
+
+                                                2 -> {
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreatePostScreen(crossPost = post)
                                                         )
                                                 }
 

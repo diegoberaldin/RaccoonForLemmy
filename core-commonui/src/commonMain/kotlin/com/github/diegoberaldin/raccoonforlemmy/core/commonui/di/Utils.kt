@@ -16,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.Navigat
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -61,7 +62,6 @@ expect fun getCreateCommentViewModel(
 ): CreateCommentMviModel
 
 expect fun getCreatePostViewModel(
-    communityId: Int?,
     editedPostId: Int?,
 ): CreatePostMviModel
 
@@ -82,3 +82,5 @@ expect fun getCreateReportViewModel(
 expect fun getCustomTextToolbar(
     onSearch: () -> Unit,
 ): TextToolbar
+
+expect fun getSelectCommunityViewModel(): SelectCommunityMviModel

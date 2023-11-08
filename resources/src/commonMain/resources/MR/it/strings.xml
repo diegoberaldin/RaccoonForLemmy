@@ -26,6 +26,8 @@
     <string name="create_comment_body">Testo commento</string>
     <string name="create_comment_title">Nuovo commento</string>
     <string name="create_post_body">Testo post</string>
+    <string name="create_post_community">Comunità</string>
+    <string name="create_post_cross_post_text">Cross-post da:</string>
     <string name="create_post_name">Titolo post</string>
     <string name="create_post_nsfw">NSFW</string>
     <string name="create_post_tab_editor">Editor</string>
@@ -40,6 +42,7 @@
     <string name="dialog_raw_content_url">URL</string>
     <string name="dialog_title_change_instance">Cambia istanza</string>
     <string name="dialog_title_raw_content">Contenuto grezzo</string>
+    <string name="dialog_title_select_community">Seleziona comunità</string>
     <string name="explore_result_type_all">Tutti</string>
     <string name="explore_result_type_comments">Commenti</string>
     <string name="explore_result_type_communities">Comunità</string>
@@ -124,7 +127,8 @@
     <string name="navigation_profile">Profilo</string>
     <string name="navigation_search">Esplora</string>
     <string name="navigation_settings">Impostazioni</string>
-    <string name="post_action_edit">Modifica</string>
+    <string name="post_action_cross_post">Cross-post…</string>
+    <string name="post_action_edit">Modifica…</string>
     <string name="post_action_hide">Nascondi</string>
     <string name="post_action_report">Segnala…</string>
     <string name="post_action_see_raw">Vedi raw…</string>

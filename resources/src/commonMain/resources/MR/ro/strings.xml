@@ -26,6 +26,8 @@
     <string name="create_comment_body">Text comentariului</string>
     <string name="create_comment_title">Nou comentariu</string>
     <string name="create_post_body">Text postării</string>
+    <string name="create_post_community">Community</string>
+    <string name="create_post_cross_post_text">Postare încrucișată din:</string>
     <string name="create_post_name">Titlu postării</string>
     <string name="create_post_nsfw">NSFW</string>
     <string name="create_post_tab_editor">Editor</string>
@@ -40,6 +42,7 @@
     <string name="dialog_raw_content_url">URL</string>
     <string name="dialog_title_change_instance">Schimbă instanță</string>
     <string name="dialog_title_raw_content">Conținut brut</string>
+    <string name="dialog_title_select_community">Selectează comunitate</string>
     <string name="explore_result_type_all">Toate</string>
     <string name="explore_result_type_comments">Comentarii</string>
     <string name="explore_result_type_communities">Comunități</string>
@@ -123,10 +126,11 @@
     <string name="navigation_profile">Profil</string>
     <string name="navigation_search">Exploră</string>
     <string name="navigation_settings">Setări</string>
-    <string name="post_action_edit">Editează</string>
+    <string name="post_action_cross_post">Postare încrucișată…</string>
+    <string name="post_action_edit">Editează…</string>
     <string name="post_action_hide">Ascunde</string>
     <string name="post_action_report">Reportează…</string>
-    <string name="post_action_see_raw">Vizualizare bruta…</string>
+    <string name="post_action_see_raw">Vizualizare brută…</string>
     <string name="post_action_share">Partajează…</string>
     <string name="post_detail_cross_posts">postat și în:</string>
     <string name="post_detail_load_more_comments">Încărcă mai multe comentări…</string>

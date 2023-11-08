@@ -321,6 +321,7 @@ class CommunityDetailScreen(
                                     }
                                 },
                             )
+                            // TODO: only if logged
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ClearAll,
                                 text = stringResource(MR.strings.action_clear_read),
@@ -545,8 +546,12 @@ class CommunityDetailScreen(
                                         },
                                         options = buildList {
                                             add(stringResource(MR.strings.post_action_share))
+                                            // TODO: only if logged
                                             add(stringResource(MR.strings.post_action_hide))
                                             add(stringResource(MR.strings.post_action_see_raw))
+                                            // TODO: only if logged
+                                            add(stringResource(MR.strings.post_action_cross_post))
+                                            // TODO: only if logged
                                             add(stringResource(MR.strings.post_action_report))
                                             if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                                 add(stringResource(MR.strings.post_action_edit))
@@ -555,27 +560,28 @@ class CommunityDetailScreen(
                                         },
                                         onOptionSelected = rememberCallbackArgs(model) { optionIdx ->
                                             when (optionIdx) {
-                                                5 -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.DeletePost(
-                                                        post.id
-                                                    )
+                                                6 -> model.reduce(
+                                                    CommunityDetailMviModel.Intent.DeletePost(post.id)
                                                 )
+
+                                                5 -> {
+                                                    navigationCoordinator.getBottomNavigator()
+                                                        ?.show(
+                                                            CreatePostScreen(editedPost = post)
+                                                        )
+                                                }
 
                                                 4 -> {
                                                     navigationCoordinator.getBottomNavigator()
                                                         ?.show(
-                                                            CreatePostScreen(
-                                                                editedPost = post,
-                                                            )
+                                                            CreateReportScreen(postId = post.id)
                                                         )
                                                 }
 
                                                 3 -> {
                                                     navigationCoordinator.getBottomNavigator()
                                                         ?.show(
-                                                            CreateReportScreen(
-                                                                postId = post.id
-                                                            )
+                                                            CreatePostScreen(crossPost = post)
                                                         )
                                                 }
 
@@ -584,9 +590,7 @@ class CommunityDetailScreen(
                                                 }
 
                                                 1 -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.Hide(
-                                                        post.id
-                                                    )
+                                                    CommunityDetailMviModel.Intent.Hide(post.id)
                                                 )
 
                                                 else -> model.reduce(

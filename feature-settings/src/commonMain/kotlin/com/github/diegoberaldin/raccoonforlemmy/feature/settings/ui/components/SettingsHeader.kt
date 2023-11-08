@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 
 @Composable
@@ -32,7 +32,7 @@ internal fun SettingsHeader(
     ) {
         if (icon != null) {
             Icon(
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(IconSize.m),
                 imageVector = icon,
                 contentDescription = null,
             )

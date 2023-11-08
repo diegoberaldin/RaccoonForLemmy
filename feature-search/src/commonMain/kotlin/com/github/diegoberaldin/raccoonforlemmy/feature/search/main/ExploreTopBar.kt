@@ -17,7 +17,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
@@ -69,7 +69,7 @@ internal fun ExploreTopBar(
                 }
 
                 else -> {
-                    Box(modifier = Modifier.size(24.dp))
+                    Box(modifier = Modifier.size(IconSize.m))
                 }
             }
         },

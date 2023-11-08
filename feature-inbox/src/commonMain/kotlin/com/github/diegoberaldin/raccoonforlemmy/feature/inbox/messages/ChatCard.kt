@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
@@ -118,7 +119,7 @@ internal fun ChatCard(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    val buttonModifier = Modifier.size(24.dp).padding(3.25.dp)
+                    val buttonModifier = Modifier.size(IconSize.m).padding(3.25.dp)
                     Icon(
                         modifier = buttonModifier.padding(1.dp),
                         imageVector = Icons.Default.Schedule,

@@ -22,4 +22,5 @@ object NotificationCenterContractKeys {
     const val MultiCommunityCreated = "multiCommunityCreated"
     const val ResetContents = "resetContents"
     const val CloseDialog = "closeDialog"
+    const val SelectCommunity = "selectCommunity"
 }

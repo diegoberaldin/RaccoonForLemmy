@@ -29,6 +29,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateRepor
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
@@ -134,8 +136,7 @@ val commonUiModule = module {
     factory<CreatePostMviModel> { params ->
         CreatePostViewModel(
             mvi = DefaultMviModel(CreatePostMviModel.UiState()),
-            communityId = params[0],
-            editedPostId = params[1],
+            editedPostId = params[0],
             identityRepository = get(),
             postRepository = get(),
             themeRepository = get(),
@@ -197,6 +198,15 @@ val commonUiModule = module {
             identityRepository = get(),
             postRepository = get(),
             commentRepository = get(),
+        )
+    }
+    factory<SelectCommunityMviModel> {
+        SelectCommunityViewModel(
+            mvi = DefaultMviModel(SelectCommunityMviModel.UiState()),
+            identityRepository = get(),
+            communityRepository = get(),
+            settingsRepository = get(),
+            notificationCenter = get(),
         )
     }
 }

@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class CreatePostViewModel(
-    private val communityId: Int?,
     private val editedPostId: Int?,
     private val mvi: DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>,
     private val identityRepository: IdentityRepository,
@@ -47,6 +46,20 @@ class CreatePostViewModel(
 
     override fun reduce(intent: CreatePostMviModel.Intent) {
         when (intent) {
+            is CreatePostMviModel.Intent.SetCommunity -> {
+                val community = intent.value
+                mvi.updateState {
+                    it.copy(
+                        communityId = community.id,
+                        communityInfo = buildString {
+                            append(community.name)
+                            append("@")
+                            append(community.host)
+                        },
+                    )
+                }
+            }
+
             is CreatePostMviModel.Intent.SetTitle -> {
                 mvi.updateState {
                     it.copy(title = intent.value)
@@ -132,6 +145,8 @@ class CreatePostViewModel(
                 bodyError = null,
             )
         }
+
+        val communityId = uiState.value.communityId
         val title = uiState.value.title
         val url = uiState.value.url
         val nsfw = uiState.value.nsfw
@@ -160,6 +175,15 @@ class CreatePostViewModel(
             }
             valid = false
         }
+        if (communityId == null) {
+            mvi.updateState {
+                it.copy(
+                    communityError = message_missing_field.desc(),
+                )
+            }
+            valid = false
+        }
+
         if (!valid) {
             return
         }
@@ -169,9 +193,9 @@ class CreatePostViewModel(
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 when {
-                    communityId != null -> {
-                        postRepository.create(
-                            communityId = communityId,
+                    editedPostId != null -> {
+                        postRepository.edit(
+                            postId = editedPostId,
                             title = title,
                             body = body,
                             url = url,
@@ -180,9 +204,9 @@ class CreatePostViewModel(
                         )
                     }
 
-                    editedPostId != null -> {
-                        postRepository.edit(
-                            postId = editedPostId,
+                    communityId != null -> {
+                        postRepository.create(
+                            communityId = communityId,
                             title = title,
                             body = body,
                             url = url,

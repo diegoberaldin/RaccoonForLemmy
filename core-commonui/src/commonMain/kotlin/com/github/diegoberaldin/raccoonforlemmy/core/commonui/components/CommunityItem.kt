@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 
@@ -28,7 +28,7 @@ fun CommunityItem(
     val communityName = community.name
     val communityIcon = community.icon.orEmpty()
     val communityHost = community.host
-    val iconSize = if (small) 24.dp else 30.dp
+    val iconSize = if (small) IconSize.m else IconSize.l
     Row(
         modifier = modifier.padding(
             vertical = Spacing.xs,
@@ -62,6 +62,7 @@ fun CommunityItem(
                         append(title)
                     },
                     style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 Text(
                     text = buildString {

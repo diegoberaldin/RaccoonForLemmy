@@ -409,6 +409,9 @@ class PostDetailScreen(
                                 options = buildList {
                                     add(stringResource(MR.strings.post_action_share))
                                     add(stringResource(MR.strings.post_action_see_raw))
+                                    // TODO: only if logged
+                                    add(stringResource(MR.strings.post_action_cross_post))
+                                    // TODO: only if logged
                                     add(stringResource(MR.strings.post_action_report))
                                     if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                         add(stringResource(MR.strings.post_action_edit))
@@ -417,19 +420,23 @@ class PostDetailScreen(
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { idx ->
                                     when (idx) {
-                                        4 -> model.reduce(PostDetailMviModel.Intent.DeletePost)
+                                        5 -> model.reduce(PostDetailMviModel.Intent.DeletePost)
+
+                                        4 -> {
+                                            navigationCoordinator.getBottomNavigator()?.show(
+                                                CreatePostScreen(editedPost = uiState.post)
+                                            )
+                                        }
 
                                         3 -> {
                                             navigationCoordinator.getBottomNavigator()?.show(
-                                                CreatePostScreen(
-                                                    editedPost = uiState.post,
-                                                )
+                                                CreateReportScreen(postId = uiState.post.id)
                                             )
                                         }
 
                                         2 -> {
                                             navigationCoordinator.getBottomNavigator()?.show(
-                                                CreateReportScreen(postId = uiState.post.id)
+                                                CreatePostScreen(crossPost = uiState.post)
                                             )
                                         }
 

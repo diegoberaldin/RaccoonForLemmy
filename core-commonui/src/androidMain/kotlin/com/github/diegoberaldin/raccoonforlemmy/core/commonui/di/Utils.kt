@@ -20,6 +20,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.Navigat
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -108,9 +109,9 @@ actual fun getCreateCommentViewModel(
     return res
 }
 
-actual fun getCreatePostViewModel(communityId: Int?, editedPostId: Int?): CreatePostMviModel {
+actual fun getCreatePostViewModel(editedPostId: Int?): CreatePostMviModel {
     val res: CreatePostMviModel by inject(clazz = CreatePostMviModel::class.java,
-        parameters = { parametersOf(communityId, editedPostId) })
+        parameters = { parametersOf(editedPostId) })
     return res
 }
 
@@ -148,6 +149,11 @@ actual fun getCreateReportViewModel(
     val res: CreateReportMviModel by inject(CreateReportMviModel::class.java, parameters = {
         parametersOf(postId, commentId)
     })
+    return res
+}
+
+actual fun getSelectCommunityViewModel(): SelectCommunityMviModel {
+    val res: SelectCommunityMviModel by inject(SelectCommunityMviModel::class.java)
     return res
 }
 
