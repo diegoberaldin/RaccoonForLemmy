@@ -166,9 +166,7 @@ class SettingsScreen : Screen {
                 { result ->
                     (result as? UiFontFamily)?.also { value ->
                         model.reduce(
-                            SettingsMviModel.Intent.ChangeUiFontFamily(
-                                value
-                            )
+                            SettingsMviModel.Intent.ChangeUiFontFamily(value)
                         )
                     }
                 }, key, NotificationCenterContractKeys.ChangeFontFamily
@@ -177,31 +175,34 @@ class SettingsScreen : Screen {
                 { result ->
                     (result as? Float)?.also { value ->
                         model.reduce(
-                            SettingsMviModel.Intent.ChangeUiFontSize(
-                                value
-                            )
+                            SettingsMviModel.Intent.ChangeContentFontSize(value)
                         )
                     }
-                }, key, NotificationCenterContractKeys.ChangeFontSize
+                }, key, NotificationCenterContractKeys.ChangeContentFontSize
             )
             notificationCenter.addObserver(
                 { result ->
                     (result as? Float)?.also { value ->
                         model.reduce(
-                            SettingsMviModel.Intent.ChangeContentFontSize(
-                                value
-                            )
+                            SettingsMviModel.Intent.ChangeUiFontSize(value)
                         )
                     }
-                }, key, NotificationCenterContractKeys.ChangeFontSize
+                }, key, NotificationCenterContractKeys.ChangeUiFontSize
+            )
+            notificationCenter.addObserver(
+                { result ->
+                    (result as? Float)?.also { value ->
+                        model.reduce(
+                            SettingsMviModel.Intent.ChangeContentFontSize(value)
+                        )
+                    }
+                }, key, NotificationCenterContractKeys.ChangeContentFontSize
             )
             notificationCenter.addObserver(
                 { result ->
                     (result as? PostLayout)?.also { value ->
                         model.reduce(
-                            SettingsMviModel.Intent.ChangePostLayout(
-                                value
-                            )
+                            SettingsMviModel.Intent.ChangePostLayout(value)
                         )
                     }
                 }, key, NotificationCenterContractKeys.ChangePostLayout
@@ -210,9 +211,7 @@ class SettingsScreen : Screen {
                 { result ->
                     (result as? ListingType)?.also {
                         model.reduce(
-                            SettingsMviModel.Intent.ChangeDefaultListingType(
-                                it
-                            )
+                            SettingsMviModel.Intent.ChangeDefaultListingType(it)
                         )
                     }
                 }, key, NotificationCenterContractKeys.ChangeFeedType
@@ -221,9 +220,7 @@ class SettingsScreen : Screen {
                 {
                     (it as? SortType)?.also { sortType ->
                         model.reduce(
-                            SettingsMviModel.Intent.ChangeDefaultPostSortType(
-                                sortType
-                            )
+                            SettingsMviModel.Intent.ChangeDefaultPostSortType(sortType)
                         )
                     }
                 }, key, NotificationCenterContractKeys.ChangeSortType
@@ -232,9 +229,7 @@ class SettingsScreen : Screen {
                 {
                     (it as? SortType)?.also { sortType ->
                         model.reduce(
-                            SettingsMviModel.Intent.ChangeDefaultCommentSortType(
-                                sortType
-                            )
+                            SettingsMviModel.Intent.ChangeDefaultCommentSortType(sortType)
                         )
                     }
                 }, key, NotificationCenterContractKeys.ChangeCommentSortType
@@ -399,6 +394,7 @@ class SettingsScreen : Screen {
                                     FontScale.Normal,
                                     FontScale.Small,
                                 ),
+                                contract = NotificationCenterContractKeys.ChangeUiFontSize
                             )
                             navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
@@ -407,7 +403,9 @@ class SettingsScreen : Screen {
                         title = stringResource(MR.strings.settings_content_font_scale),
                         value = uiState.contentFontScale.toReadableName(),
                         onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet()
+                            val sheet = FontScaleBottomSheet(
+                                contract = NotificationCenterContractKeys.ChangeContentFontSize,
+                            )
                             navigationCoordinator.getBottomNavigator()?.show(sheet)
                         },
                     )

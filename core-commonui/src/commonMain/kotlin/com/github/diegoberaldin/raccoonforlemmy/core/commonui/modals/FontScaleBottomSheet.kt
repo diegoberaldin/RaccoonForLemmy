@@ -20,7 +20,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableN
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
@@ -37,6 +36,7 @@ class FontScaleBottomSheet(
         FontScale.Smaller,
         FontScale.Smallest,
     ),
+    private val contract: String,
 ) : Screen {
 
     @Composable
@@ -76,12 +76,9 @@ class FontScaleBottomSheet(
                                 .fillMaxWidth()
                                 .onClick(
                                     rememberCallback {
-                                        notificationCenter.getObserver(
-                                            NotificationCenterContractKeys.ChangeFontSize
-                                        )
-                                            ?.also {
-                                                it.invoke(value.scaleFactor)
-                                            }
+                                        notificationCenter.getObserver(contract)?.also {
+                                            it.invoke(value.scaleFactor)
+                                        }
                                         navigationCoordinator.getBottomNavigator()?.hide()
                                     },
                                 ),
