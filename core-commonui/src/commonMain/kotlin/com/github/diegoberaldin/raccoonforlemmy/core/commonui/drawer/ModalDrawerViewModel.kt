@@ -12,6 +12,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepo
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
@@ -34,6 +35,7 @@ class ModalDrawerViewModel(
 ) : ModalDrawerMviModel,
     MviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect> by mvi {
 
+    @OptIn(FlowPreview::class)
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch(Dispatchers.Main) {

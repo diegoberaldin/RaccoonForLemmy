@@ -85,7 +85,7 @@ fun App() {
         val currentSettings = settingsRepository.getSettings(accountId)
         settingsRepository.changeCurrentSettings(currentSettings)
         val lastActiveAccount = accountRepository.getActive()
-        val lastInstance = lastActiveAccount?.instance
+        val lastInstance = lastActiveAccount?.instance?.takeIf { it.isNotEmpty() }
         if (lastInstance != null) {
             apiConfigurationRepository.changeInstance(lastInstance)
         }
@@ -134,41 +134,39 @@ fun App() {
     val uiFontScale by themeRepository.uiFontScale.collectAsState()
     val navigationCoordinator = remember { getNavigationCoordinator() }
     LaunchedEffect(navigationCoordinator) {
-        navigationCoordinator.deepLinkUrl
-            .debounce(750)
-            .onEach { url ->
-                val community = getCommunityFromUrl(url)
-                val user = getUserFromUrl(url)
-                val postAndInstance = getPostFromUrl(url)
-                val newScreen = when {
-                    community != null -> {
-                        CommunityDetailScreen(
-                            community = community,
-                            otherInstance = community.host,
-                        )
-                    }
-
-                    user != null -> {
-                        UserDetailScreen(
-                            user = user,
-                            otherInstance = user.host,
-                        )
-                    }
-
-                    postAndInstance != null -> {
-                        val (post, otherInstance) = postAndInstance
-                        PostDetailScreen(
-                            post = post,
-                            otherInstance = otherInstance,
-                        )
-                    }
-
-                    else -> null
+        navigationCoordinator.deepLinkUrl.debounce(750).onEach { url ->
+            val community = getCommunityFromUrl(url)
+            val user = getUserFromUrl(url)
+            val postAndInstance = getPostFromUrl(url)
+            val newScreen = when {
+                community != null -> {
+                    CommunityDetailScreen(
+                        community = community,
+                        otherInstance = community.host,
+                    )
                 }
-                if (newScreen != null) {
-                    navigationCoordinator.getRootNavigator()?.push(newScreen)
+
+                user != null -> {
+                    UserDetailScreen(
+                        user = user,
+                        otherInstance = user.host,
+                    )
                 }
-            }.launchIn(this)
+
+                postAndInstance != null -> {
+                    val (post, otherInstance) = postAndInstance
+                    PostDetailScreen(
+                        post = post,
+                        otherInstance = otherInstance,
+                    )
+                }
+
+                else -> null
+            }
+            if (newScreen != null) {
+                navigationCoordinator.getRootNavigator()?.push(newScreen)
+            }
+        }.launchIn(this)
     }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -224,8 +222,7 @@ fun App() {
         ) {
             BottomSheetNavigator(
                 sheetShape = RoundedCornerShape(
-                    topStart = CornerSize.xl,
-                    topEnd = CornerSize.xl
+                    topStart = CornerSize.xl, topEnd = CornerSize.xl
                 ),
                 sheetBackgroundColor = MaterialTheme.colorScheme.background,
             ) { bottomNavigator ->
@@ -240,13 +237,10 @@ fun App() {
                         }
                     },
                 ) {
-                    Navigator(
-                        screen = MainScreen,
-                        onBackPressed = {
-                            val callback = navigationCoordinator.getCanGoBackCallback()
-                            callback?.let { it() } ?: true
-                        }
-                    ) { navigator ->
+                    Navigator(screen = MainScreen, onBackPressed = {
+                        val callback = navigationCoordinator.getCanGoBackCallback()
+                        callback?.let { it() } ?: true
+                    }) { navigator ->
                         LaunchedEffect(Unit) {
                             navigationCoordinator.setRootNavigator(navigator)
                         }

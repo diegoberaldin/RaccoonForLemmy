@@ -27,6 +27,7 @@ val profileTabModule = module {
             identityRepository = get(),
             siteRepository = get(),
             communityRepository = get(),
+            apiConfigurationRepository = get(),
         )
     }
     factory<ProfileLoggedMviModel> {

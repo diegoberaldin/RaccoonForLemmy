@@ -18,6 +18,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Bookmarks
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -131,7 +132,13 @@ object ModalDrawerContent : Tab {
                 user = uiState.user,
                 instance = uiState.instance,
                 autoLoadImages = uiState.autoLoadImages,
-                onOpenChangeInstance = {
+                onOpenChangeInstance = rememberCallback(model) {
+                    // suggests current instance
+                    model.reduce(
+                        ModalDrawerMviModel.Intent.ChangeInstanceName(
+                            uiState.instance.orEmpty()
+                        )
+                    )
                     changeInstanceDialogOpen = true
                 },
             )
@@ -429,6 +436,19 @@ private fun ChangeInstanceDialog(
                         Text(
                             text = instanceNameError.localized(),
                             color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+                },
+                trailingIcon = {
+                    if (instanceName.isNotEmpty()) {
+                        Icon(
+                            modifier = Modifier.onClick(
+                                rememberCallback {
+                                    onChangeInstanceName?.invoke("")
+                                },
+                            ),
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = null,
                         )
                     }
                 },

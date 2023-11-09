@@ -62,8 +62,10 @@ internal class DefaultServiceProvider : ServiceProvider {
     }
 
     override fun changeInstance(value: String) {
-        currentInstance = value
-        reinitialize()
+        if (currentInstance != value) {
+            currentInstance = value
+            reinitialize()
+        }
     }
 
     private fun reinitialize() {

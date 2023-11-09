@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -53,6 +54,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getLoginBottomSheetViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.localized
@@ -145,6 +147,7 @@ class LoginBottomSheet : Screen {
                 val passwordFocusRequester = remember { FocusRequester() }
                 val tokenFocusRequester = remember { FocusRequester() }
 
+                // instance name
                 TextField(
                     modifier = Modifier.focusRequester(instanceFocusRequester),
                     label = {
@@ -163,7 +166,7 @@ class LoginBottomSheet : Screen {
                         autoCorrect = false,
                         imeAction = ImeAction.Next,
                     ),
-                    onValueChange = { value ->
+                    onValueChange = rememberCallbackArgs(model) { value ->
                         model.reduce(LoginBottomSheetMviModel.Intent.SetInstanceName(value))
                     },
                     supportingText = {
@@ -174,8 +177,24 @@ class LoginBottomSheet : Screen {
                             )
                         }
                     },
+                    trailingIcon = {
+                        if (uiState.instanceName.isNotEmpty()) {
+                            Icon(
+                                modifier = Modifier.onClick(
+                                    rememberCallback(model) {
+                                        model.reduce(
+                                            LoginBottomSheetMviModel.Intent.SetInstanceName("")
+                                        )
+                                    },
+                                ),
+                                imageVector = Icons.Default.Clear,
+                                contentDescription = null,
+                            )
+                        }
+                    },
                 )
 
+                // user name
                 TextField(
                     modifier = Modifier.focusRequester(usernameFocusRequester),
                     label = {
@@ -194,7 +213,7 @@ class LoginBottomSheet : Screen {
                         autoCorrect = false,
                         imeAction = ImeAction.Next,
                     ),
-                    onValueChange = { value ->
+                    onValueChange = rememberCallbackArgs(model) { value ->
                         model.reduce(LoginBottomSheetMviModel.Intent.SetUsername(value))
                     },
                     supportingText = {
@@ -207,6 +226,7 @@ class LoginBottomSheet : Screen {
                     },
                 )
 
+                // password
                 var transformation: VisualTransformation by remember {
                     mutableStateOf(PasswordVisualTransformation())
                 }
@@ -227,7 +247,7 @@ class LoginBottomSheet : Screen {
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Next,
                     ),
-                    onValueChange = { value ->
+                    onValueChange = rememberCallbackArgs(model) { value ->
                         model.reduce(LoginBottomSheetMviModel.Intent.SetPassword(value))
                     },
                     visualTransformation = transformation,
@@ -262,6 +282,7 @@ class LoginBottomSheet : Screen {
                     },
                 )
 
+                // TOTP 2FA token
                 TextField(
                     modifier = Modifier.focusRequester(tokenFocusRequester),
                     label = {
@@ -282,7 +303,7 @@ class LoginBottomSheet : Screen {
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Done,
                     ),
-                    onValueChange = { value ->
+                    onValueChange = rememberCallbackArgs(model) { value ->
                         model.reduce(LoginBottomSheetMviModel.Intent.SetTotp2faToken(value))
                     },
                     visualTransformation = PasswordVisualTransformation(),
@@ -290,7 +311,7 @@ class LoginBottomSheet : Screen {
                 Spacer(modifier = Modifier.height(Spacing.m))
                 Button(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    onClick = {
+                    onClick = rememberCallback(model) {
                         model.reduce(LoginBottomSheetMviModel.Intent.Confirm)
                     },
                 ) {

@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.profile.login
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LoginUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
@@ -17,12 +18,21 @@ import kotlinx.coroutines.launch
 class LoginBottomSheetViewModel(
     private val mvi: DefaultMviModel<LoginBottomSheetMviModel.Intent, LoginBottomSheetMviModel.UiState, LoginBottomSheetMviModel.Effect>,
     private val login: LoginUseCase,
+    private val apiConfigurationRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
     private val accountRepository: AccountRepository,
     private val siteRepository: SiteRepository,
     private val communityRepository: CommunityRepository,
 ) : LoginBottomSheetMviModel,
     MviModel<LoginBottomSheetMviModel.Intent, LoginBottomSheetMviModel.UiState, LoginBottomSheetMviModel.Effect> by mvi {
+
+    override fun onStarted() {
+        mvi.onStarted()
+        val instance = apiConfigurationRepository.instance.value
+        mvi.updateState {
+            it.copy(instanceName = instance)
+        }
+    }
 
     override fun reduce(intent: LoginBottomSheetMviModel.Intent) {
         when (intent) {
