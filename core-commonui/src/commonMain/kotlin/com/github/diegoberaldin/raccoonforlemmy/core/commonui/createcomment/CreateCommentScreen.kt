@@ -49,6 +49,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
@@ -170,7 +172,12 @@ class CreateCommentScreen(
                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                 autoLoadImages = uiState.autoLoadImages,
                                 options = buildList {
-                                    add(stringResource(MR.strings.post_action_see_raw))
+                                    add(
+                                        Option(
+                                            OptionId.SeeRaw,
+                                            stringResource(MR.strings.post_action_see_raw)
+                                        )
+                                    )
                                 },
                                 onOptionSelected = {
                                     rawContent = originalComment
@@ -192,7 +199,12 @@ class CreateCommentScreen(
                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                 autoLoadImages = uiState.autoLoadImages,
                                 options = buildList {
-                                    add(stringResource(MR.strings.post_action_see_raw))
+                                    add(
+                                        Option(
+                                            OptionId.SeeRaw,
+                                            stringResource(MR.strings.post_action_see_raw)
+                                        )
+                                    )
                                 },
                                 onOptionSelected = {
                                     rawContent = originalPost

@@ -54,12 +54,12 @@ fun PostCardFooter(
     saved: Boolean = false,
     upVoted: Boolean = false,
     downVoted: Boolean = false,
-    options: List<String> = emptyList(),
+    options: List<Option> = emptyList(),
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
-    onOptionSelected: ((Int) -> Unit)? = null,
+    onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
@@ -232,7 +232,7 @@ fun PostCardFooter(
                 y = optionsOffset.y.toLocalDp(),
             ),
         ) {
-            options.forEachIndexed { idx, text ->
+            options.forEach { option ->
                 Text(
                     modifier = Modifier.padding(
                         horizontal = Spacing.m,
@@ -240,10 +240,10 @@ fun PostCardFooter(
                     ).onClick(
                         rememberCallback {
                             optionsExpanded = false
-                            onOptionSelected?.invoke(idx)
+                            onOptionSelected?.invoke(option.id)
                         },
                     ),
-                    text = text,
+                    text = option.text,
                 )
             }
         }

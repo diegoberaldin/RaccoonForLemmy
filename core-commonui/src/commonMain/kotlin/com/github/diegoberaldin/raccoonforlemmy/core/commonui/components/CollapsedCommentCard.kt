@@ -31,13 +31,13 @@ fun CollapsedCommentCard(
     modifier: Modifier = Modifier,
     separateUpAndDownVotes: Boolean = false,
     autoLoadImages: Boolean = true,
-    options: List<String> = emptyList(),
+    options: List<Option> = emptyList(),
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
-    onOptionSelected: ((Int) -> Unit)? = null,
+    onOptionSelected: ((OptionId) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }

@@ -61,6 +61,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
@@ -375,13 +377,30 @@ class MultiCommunityScreen(
                                         )
                                     },
                                     options = buildList {
-                                        add(stringResource(MR.strings.post_action_share))
-                                        add(stringResource(MR.strings.post_action_hide))
-                                        add(stringResource(MR.strings.post_action_report))
+                                        add(
+                                            Option(
+                                                OptionId.Share,
+                                                stringResource(MR.strings.post_action_share)
+                                            )
+                                        )
+                                        // TODO: only if logged
+                                        add(
+                                            Option(
+                                                OptionId.Hide,
+                                                stringResource(MR.strings.post_action_hide)
+                                            )
+                                        )
+                                        // TODO: only if logged
+                                        add(
+                                            Option(
+                                                OptionId.Report,
+                                                stringResource(MR.strings.post_action_report)
+                                            )
+                                        )
                                     },
-                                    onOptionSelected = { optionIdx ->
-                                        when (optionIdx) {
-                                            2 -> {
+                                    onOptionSelected = { optionId ->
+                                        when (optionId) {
+                                            OptionId.Report -> {
                                                 navigationCoordinator.getBottomNavigator()?.show(
                                                     CreateReportScreen(
                                                         postId = post.id
@@ -389,15 +408,17 @@ class MultiCommunityScreen(
                                                 )
                                             }
 
-                                            1 -> model.reduce(
+                                            OptionId.Hide -> model.reduce(
                                                 MultiCommunityMviModel.Intent.Hide(
                                                     post.id
                                                 )
                                             )
 
-                                            else -> model.reduce(
+                                            OptionId.Share -> model.reduce(
                                                 MultiCommunityMviModel.Intent.SharePost(post.id)
                                             )
+
+                                            else -> Unit
                                         }
                                     }
                                 )

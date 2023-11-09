@@ -42,6 +42,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
@@ -230,18 +232,38 @@ internal object ProfileLoggedScreen : Tab {
                                         )
                                     },
                                     options = buildList {
-                                        add(stringResource(MR.strings.post_action_share))
-                                        add(stringResource(MR.strings.post_action_see_raw))
-                                        add(stringResource(MR.strings.post_action_edit))
-                                        add(stringResource(MR.strings.comment_action_delete))
+                                        add(
+                                            Option(
+                                                OptionId.Share,
+                                                stringResource(MR.strings.post_action_share)
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.SeeRaw,
+                                                stringResource(MR.strings.post_action_see_raw)
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.Edit,
+                                                stringResource(MR.strings.post_action_edit)
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.Delete,
+                                                stringResource(MR.strings.comment_action_delete)
+                                            )
+                                        )
                                     },
-                                    onOptionSelected = rememberCallbackArgs(model) { optionIdx ->
-                                        when (optionIdx) {
-                                            3 -> model.reduce(
+                                    onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                        when (optionId) {
+                                            OptionId.Delete -> model.reduce(
                                                 ProfileLoggedMviModel.Intent.DeletePost(post.id)
                                             )
 
-                                            2 -> {
+                                            OptionId.Edit -> {
                                                 navigationCoordinator.getBottomNavigator()?.show(
                                                     CreatePostScreen(
                                                         editedPost = post,
@@ -249,13 +271,15 @@ internal object ProfileLoggedScreen : Tab {
                                                 )
                                             }
 
-                                            1 -> {
+                                            OptionId.SeeRaw -> {
                                                 rawContent = post
                                             }
 
-                                            else -> model.reduce(
+                                            OptionId.Share -> model.reduce(
                                                 ProfileLoggedMviModel.Intent.SharePost(post.id)
                                             )
+
+                                            else -> Unit
                                         }
                                     },
                                 )
@@ -330,13 +354,28 @@ internal object ProfileLoggedScreen : Tab {
                                         )
                                     },
                                     options = buildList {
-                                        add(stringResource(MR.strings.post_action_see_raw))
-                                        add(stringResource(MR.strings.post_action_edit))
-                                        add(stringResource(MR.strings.comment_action_delete))
+                                        add(
+                                            Option(
+                                                OptionId.SeeRaw,
+                                                stringResource(MR.strings.post_action_see_raw)
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.Edit,
+                                                stringResource(MR.strings.post_action_edit)
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.Delete,
+                                                stringResource(MR.strings.comment_action_delete)
+                                            )
+                                        )
                                     },
-                                    onOptionSelected = rememberCallbackArgs(model) { optionIdx ->
-                                        when (optionIdx) {
-                                            2 -> {
+                                    onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                        when (optionId) {
+                                            OptionId.Delete -> {
                                                 model.reduce(
                                                     ProfileLoggedMviModel.Intent.DeleteComment(
                                                         comment.id
@@ -344,7 +383,7 @@ internal object ProfileLoggedScreen : Tab {
                                                 )
                                             }
 
-                                            1 -> {
+                                            OptionId.Edit -> {
                                                 navigationCoordinator.getBottomNavigator()?.show(
                                                     CreateCommentScreen(
                                                         editedComment = comment,
@@ -352,9 +391,11 @@ internal object ProfileLoggedScreen : Tab {
                                                 )
                                             }
 
-                                            else -> {
+                                            OptionId.SeeRaw -> {
                                                 rawContent = comment
                                             }
+
+                                            else -> Unit
                                         }
                                     }
                                 )

@@ -53,7 +53,7 @@ fun PostCard(
     fullHeightImage: Boolean = true,
     limitBodyHeight: Boolean = false,
     blurNsfw: Boolean = true,
-    options: List<String> = emptyList(),
+    options: List<Option> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
@@ -61,7 +61,7 @@ fun PostCard(
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
-    onOptionSelected: ((Int) -> Unit)? = null,
+    onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
     Box(
@@ -132,7 +132,7 @@ private fun CompactPost(
     hideAuthor: Boolean,
     blurNsfw: Boolean,
     separateUpAndDownVotes: Boolean,
-    options: List<String> = emptyList(),
+    options: List<Option> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
@@ -140,7 +140,7 @@ private fun CompactPost(
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
-    onOptionSelected: ((Int) -> Unit)? = null,
+    onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
     Column(
@@ -215,7 +215,7 @@ private fun ExtendedPost(
     fullHeightImage: Boolean = true,
     roundedCornerImage: Boolean = true,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
-    options: List<String> = emptyList(),
+    options: List<Option> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
@@ -223,7 +223,7 @@ private fun ExtendedPost(
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
-    onOptionSelected: ((Int) -> Unit)? = null,
+    onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
     Column(

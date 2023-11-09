@@ -60,6 +60,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
@@ -404,55 +406,96 @@ class PostListScreen : Screen {
                                             )
                                         },
                                         options = buildList {
-                                            add(stringResource(MR.strings.post_action_share))
+                                            add(
+                                                Option(
+                                                    OptionId.Share,
+                                                    stringResource(MR.strings.post_action_share)
+                                                )
+                                            )
                                             // TODO: only if logged
-                                            add(stringResource(MR.strings.post_action_hide))
-                                            add(stringResource(MR.strings.post_action_see_raw))
+                                            add(
+                                                Option(
+                                                    OptionId.Hide,
+                                                    stringResource(MR.strings.post_action_hide)
+                                                )
+                                            )
+                                            add(
+                                                Option(
+                                                    OptionId.SeeRaw,
+                                                    stringResource(MR.strings.post_action_see_raw)
+                                                )
+                                            )
                                             // TODO: only if logged
-                                            add(stringResource(MR.strings.post_action_cross_post))
+                                            add(
+                                                Option(
+                                                    OptionId.CrossPost,
+                                                    stringResource(MR.strings.post_action_cross_post)
+                                                )
+                                            )
                                             // TODO: only if logged
-                                            add(stringResource(MR.strings.post_action_report))
+                                            add(
+                                                Option(
+                                                    OptionId.Report,
+                                                    stringResource(MR.strings.post_action_report)
+                                                )
+                                            )
                                             if (post.creator?.id == uiState.currentUserId) {
-                                                add(stringResource(MR.strings.post_action_edit))
-                                                add(stringResource(MR.strings.comment_action_delete))
+                                                add(
+                                                    Option(
+                                                        OptionId.Edit,
+                                                        stringResource(MR.strings.post_action_edit)
+                                                    )
+                                                )
+                                                add(
+                                                    Option(
+                                                        OptionId.Delete,
+                                                        stringResource(MR.strings.comment_action_delete)
+                                                    )
+                                                )
                                             }
                                         },
-                                        onOptionSelected = rememberCallbackArgs(model) { optionIdx ->
-                                            when (optionIdx) {
-                                                6 -> model.reduce(
+                                        onOptionSelected = rememberCallbackArgs(model) { optinId ->
+                                            when (optinId) {
+                                                OptionId.Delete -> model.reduce(
                                                     PostListMviModel.Intent.DeletePost(post.id)
                                                 )
 
-                                                5 -> {
+                                                OptionId.Edit -> {
                                                     navigationCoordinator.getBottomNavigator()
                                                         ?.show(
                                                             CreatePostScreen(editedPost = post)
                                                         )
                                                 }
 
-                                                4 -> {
+                                                OptionId.Report -> {
                                                     navigationCoordinator.getBottomNavigator()
                                                         ?.show(
                                                             CreateReportScreen(postId = post.id)
                                                         )
                                                 }
 
-                                                3 -> {
+                                                OptionId.CrossPost -> {
                                                     navigationCoordinator.getBottomNavigator()
                                                         ?.show(
                                                             CreatePostScreen(crossPost = post)
                                                         )
                                                 }
 
-                                                2 -> {
+                                                OptionId.SeeRaw -> {
                                                     rawContent = post
                                                 }
 
-                                                1 -> model.reduce(PostListMviModel.Intent.Hide(post.id))
+                                                OptionId.Hide -> model.reduce(
+                                                    PostListMviModel.Intent.Hide(
+                                                        post.id
+                                                    )
+                                                )
 
-                                                else -> model.reduce(
+                                                OptionId.Share -> model.reduce(
                                                     PostListMviModel.Intent.SharePost(post.id)
                                                 )
+
+                                                else -> Unit
                                             }
                                         }
                                     )

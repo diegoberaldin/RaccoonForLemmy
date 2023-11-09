@@ -40,7 +40,7 @@ fun CommentCard(
     hideCommunity: Boolean = true,
     hideIndent: Boolean = false,
     autoLoadImages: Boolean = true,
-    options: List<String> = emptyList(),
+    options: List<Option> = emptyList(),
     onClick: (() -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
@@ -48,7 +48,7 @@ fun CommentCard(
     onReply: (() -> Unit)? = null,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
-    onOptionSelected: ((Int) -> Unit)? = null,
+    onOptionSelected: ((OptionId) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }

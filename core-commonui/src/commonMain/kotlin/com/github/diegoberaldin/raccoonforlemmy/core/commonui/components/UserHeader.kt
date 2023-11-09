@@ -55,8 +55,8 @@ fun UserHeader(
     user: UserModel,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
-    options: List<String> = emptyList(),
-    onOptionSelected: ((Int) -> Unit)? = null,
+    options: List<Option> = emptyList(),
+    onOptionSelected: ((OptionId) -> Unit)? = null,
     onOpenImage: ((String) -> Unit)? = null,
 ) {
     Box(
@@ -117,7 +117,7 @@ fun UserHeader(
                         y = optionsOffset.y.toLocalDp(),
                     ),
                 ) {
-                    options.forEachIndexed { idx, option ->
+                    options.forEach { option ->
                         Text(
                             modifier = Modifier.padding(
                                 horizontal = Spacing.m,
@@ -125,10 +125,10 @@ fun UserHeader(
                             ).onClick(
                                 rememberCallback {
                                     optionsExpanded = false
-                                    onOptionSelected?.invoke(idx)
+                                    onOptionSelected?.invoke(option.id)
                                 },
                             ),
-                            text = option,
+                            text = option.text,
                         )
                     }
                 }

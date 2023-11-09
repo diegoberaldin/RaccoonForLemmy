@@ -55,6 +55,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
@@ -299,13 +301,28 @@ class SavedItemsScreen : Screen {
                                         )
                                     },
                                     options = buildList {
-                                        add(stringResource(MR.strings.post_action_share))
-                                        add(stringResource(MR.strings.post_action_see_raw))
-                                        add(stringResource(MR.strings.post_action_report))
+                                        add(
+                                            Option(
+                                                OptionId.Share,
+                                                stringResource(MR.strings.post_action_share)
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.SeeRaw,
+                                                stringResource(MR.strings.post_action_see_raw)
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.Report,
+                                                stringResource(MR.strings.post_action_report)
+                                            )
+                                        )
                                     },
                                     onOptionSelected = { optionIndex ->
                                         when (optionIndex) {
-                                            2 -> {
+                                            OptionId.Report -> {
                                                 navigatorCoordinator.getBottomNavigator()?.show(
                                                     CreateReportScreen(
                                                         postId = post.id
@@ -313,17 +330,19 @@ class SavedItemsScreen : Screen {
                                                 )
                                             }
 
-                                            1 -> {
+                                            OptionId.SeeRaw -> {
                                                 rawContent = post
                                             }
 
-                                            else -> {
+                                            OptionId.Share -> {
                                                 model.reduce(
                                                     SavedItemsMviModel.Intent.SharePost(
                                                         post.id
                                                     )
                                                 )
                                             }
+
+                                            else -> Unit
                                         }
                                     },
                                 )
@@ -393,12 +412,22 @@ class SavedItemsScreen : Screen {
                                         navigatorCoordinator.getBottomNavigator()?.show(screen)
                                     },
                                     options = buildList {
-                                        add(stringResource(MR.strings.post_action_see_raw))
-                                        add(stringResource(MR.strings.post_action_report))
+                                        add(
+                                            Option(
+                                                OptionId.SeeRaw,
+                                                stringResource(MR.strings.post_action_see_raw)
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.Report,
+                                                stringResource(MR.strings.post_action_report)
+                                            )
+                                        )
                                     },
                                     onOptionSelected = { optionIndex ->
                                         when (optionIndex) {
-                                            1 -> {
+                                            OptionId.Report -> {
                                                 navigatorCoordinator.getBottomNavigator()?.show(
                                                     CreateReportScreen(
                                                         commentId = comment.id
@@ -406,9 +435,11 @@ class SavedItemsScreen : Screen {
                                                 )
                                             }
 
-                                            else -> {
+                                            OptionId.SeeRaw -> {
                                                 rawContent = comment
                                             }
+
+                                            else -> Unit
                                         }
                                     },
                                 )

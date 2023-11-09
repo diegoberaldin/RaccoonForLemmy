@@ -51,8 +51,8 @@ fun CommunityHeader(
     community: CommunityModel,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
-    options: List<String> = emptyList(),
-    onOptionSelected: ((Int) -> Unit)? = null,
+    options: List<Option> = emptyList(),
+    onOptionSelected: ((OptionId) -> Unit)? = null,
     onOpenImage: ((String) -> Unit)? = null,
 ) {
     Box(
@@ -114,7 +114,7 @@ fun CommunityHeader(
                         // y = (-50).dp,
                     ),
                 ) {
-                    options.forEachIndexed { idx, option ->
+                    options.forEach { option ->
                         Text(
                             modifier = Modifier.padding(
                                 horizontal = Spacing.m,
@@ -122,10 +122,10 @@ fun CommunityHeader(
                             ).onClick(
                                 rememberCallback {
                                     optionsExpanded = false
-                                    onOptionSelected?.invoke(idx)
+                                    onOptionSelected?.invoke(option.id)
                                 },
                             ),
-                            text = option,
+                            text = option.text,
                         )
                     }
                 }
