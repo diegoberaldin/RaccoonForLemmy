@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
 
+private const val KEY_LAST_INSTANCE = "lastInstance"
+
 internal class DefaultApiConfigurationRepository(
     private val serviceProvider: ServiceProvider,
     private val keyStore: TemporaryKeyStore,
@@ -19,7 +21,7 @@ internal class DefaultApiConfigurationRepository(
     private val scope = CoroutineScope(SupervisorJob())
 
     init {
-        val instance = keyStore["lastInstance", ""]
+        val instance = keyStore[KEY_LAST_INSTANCE, ""]
             .takeIf { it.isNotEmpty() } ?: serviceProvider.currentInstance
         changeInstance(instance)
     }
@@ -38,6 +40,6 @@ internal class DefaultApiConfigurationRepository(
 
     override fun changeInstance(value: String) {
         serviceProvider.changeInstance(value)
-        keyStore.save("lastInstance", value)
+        keyStore.save(KEY_LAST_INSTANCE, value)
     }
 }
