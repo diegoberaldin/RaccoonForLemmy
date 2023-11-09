@@ -202,7 +202,12 @@ class CreatePostScreen(
                 TopAppBar(
                     title = {
                         Column(
-                            modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    top = Spacing.s,
+                                    start = Spacing.l,
+                                ),
                             verticalArrangement = Arrangement.spacedBy(Spacing.s),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -217,6 +222,19 @@ class CreatePostScreen(
                             )
                         }
                     },
+                    actions = {
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.Send,
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = rememberCallback(model) {
+                                model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
+                            },
+                        )
+                    }
                 )
             },
             snackbarHost = {
@@ -435,19 +453,6 @@ class CreatePostScreen(
                                 )
                             }
                         },
-                        trailingIcon = {
-                            IconButton(
-                                content = {
-                                    Icon(
-                                        imageVector = Icons.Default.Send,
-                                        contentDescription = null,
-                                    )
-                                },
-                                onClick = {
-                                    model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
-                                },
-                            )
-                        }
                     )
                 } else {
                     val post = PostModel(

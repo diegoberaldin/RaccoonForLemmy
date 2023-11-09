@@ -86,20 +86,38 @@ class CreateReportScreen(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Column(
+                Box(
                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    BottomSheetHandle()
-                    val title = when {
-                        commentId != null -> stringResource(MR.strings.create_report_title_comment)
-                        else -> stringResource(MR.strings.create_report_title_post)
+                    Column(
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        BottomSheetHandle()
+                        val title = when {
+                            commentId != null -> stringResource(MR.strings.create_report_title_comment)
+                            else -> stringResource(MR.strings.create_report_title_post)
+                        }
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+
                     }
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
+                    IconButton(
+                        modifier = Modifier.align(Alignment.TopEnd),
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.Send,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground,
+                            )
+                        },
+                        onClick = {
+                            model.reduce(CreateReportMviModel.Intent.Send)
+                        },
                     )
                 }
 
@@ -135,19 +153,7 @@ class CreateReportScreen(
                             )
                         }
                     },
-                    trailingIcon = {
-                        IconButton(
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.Send,
-                                    contentDescription = null,
-                                )
-                            },
-                            onClick = {
-                                model.reduce(CreateReportMviModel.Intent.Send)
-                            },
-                        )
-                    })
+                )
                 Spacer(Modifier.height(Spacing.xxl))
             }
 

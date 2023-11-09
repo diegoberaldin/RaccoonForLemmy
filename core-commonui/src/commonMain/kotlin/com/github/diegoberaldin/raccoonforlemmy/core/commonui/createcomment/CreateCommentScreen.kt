@@ -140,7 +140,12 @@ class CreateCommentScreen(
                 TopAppBar(
                     title = {
                         Column(
-                            modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    top = Spacing.s,
+                                    start = Spacing.l,
+                                ),
                             verticalArrangement = Arrangement.spacedBy(Spacing.s),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -152,7 +157,105 @@ class CreateCommentScreen(
                             )
                         }
                     },
+                    actions = {
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.Send,
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = {
+                                model.reduce(
+                                    CreateCommentMviModel.Intent.Send(
+                                        textFieldValue.text
+                                    )
+                                )
+                            },
+                        )
+                    }
                 )
+            },
+            bottomBar = {
+                Column {
+                    SectionSelector(
+                        titles = listOf(
+                            stringResource(MR.strings.create_post_tab_editor),
+                            stringResource(MR.strings.create_post_tab_preview),
+                        ),
+                        currentSection = when (uiState.section) {
+                            CreatePostSection.Preview -> 1
+                            else -> 0
+                        },
+                        onSectionSelected = {
+                            val section = when (it) {
+                                1 -> CreatePostSection.Preview
+                                else -> CreatePostSection.Edit
+                            }
+                            model.reduce(CreateCommentMviModel.Intent.ChangeSection(section))
+                        }
+                    )
+
+                    if (uiState.section == CreatePostSection.Edit) {
+                        TextField(
+                            modifier = Modifier
+                                .focusRequester(commentFocusRequester)
+                                .heightIn(min = 300.dp, max = 500.dp)
+                                .fillMaxWidth(),
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                            ),
+                            label = {
+                                Text(text = stringResource(MR.strings.create_comment_body))
+                            },
+                            textStyle = MaterialTheme.typography.bodyMedium,
+                            value = textFieldValue,
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                autoCorrect = true,
+                            ),
+                            onValueChange = { value ->
+                                textFieldValue = value
+                            },
+                            isError = uiState.textError != null,
+                            supportingText = {
+                                Column {
+                                    if (uiState.textError != null) {
+                                        Text(
+                                            text = uiState.textError?.localized().orEmpty(),
+                                            color = MaterialTheme.colorScheme.error,
+                                        )
+                                    }
+                                    TextFormattingBar(
+                                        textFieldValue = textFieldValue,
+                                        onTextFieldValueChanged = {
+                                            textFieldValue = it
+                                        },
+                                        onSelectImage = {
+                                            openImagePicker = true
+                                        }
+                                    )
+                                }
+                            },
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .heightIn(min = 300.dp, max = 500.dp)
+                                .fillMaxWidth()
+                        ) {
+                            PostCardBody(
+                                modifier = Modifier
+                                    .padding(Spacing.s)
+                                    .verticalScroll(rememberScrollState()),
+                                text = textFieldValue.text,
+                                autoLoadImages = uiState.autoLoadImages,
+                            )
+                        }
+                    }
+                }
             },
         ) { padding ->
             LazyColumn(
@@ -211,105 +314,6 @@ class CreateCommentScreen(
                                 },
                             )
                             Divider()
-                        }
-                    }
-                }
-
-                item {
-                    Column {
-                        SectionSelector(
-                            titles = listOf(
-                                stringResource(MR.strings.create_post_tab_editor),
-                                stringResource(MR.strings.create_post_tab_preview),
-                            ),
-                            currentSection = when (uiState.section) {
-                                CreatePostSection.Preview -> 1
-                                else -> 0
-                            },
-                            onSectionSelected = {
-                                val section = when (it) {
-                                    1 -> CreatePostSection.Preview
-                                    else -> CreatePostSection.Edit
-                                }
-                                model.reduce(CreateCommentMviModel.Intent.ChangeSection(section))
-                            }
-                        )
-
-                        if (uiState.section == CreatePostSection.Edit) {
-                            TextField(
-                                modifier = Modifier
-                                    .focusRequester(commentFocusRequester)
-                                    .heightIn(min = 300.dp, max = 500.dp)
-                                    .fillMaxWidth(),
-                                colors = TextFieldDefaults.colors(
-                                    focusedContainerColor = Color.Transparent,
-                                    unfocusedContainerColor = Color.Transparent,
-                                    disabledContainerColor = Color.Transparent,
-                                ),
-                                label = {
-                                    Text(text = stringResource(MR.strings.create_comment_body))
-                                },
-                                textStyle = MaterialTheme.typography.bodyMedium,
-                                value = textFieldValue,
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    autoCorrect = true,
-                                ),
-                                onValueChange = { value ->
-                                    textFieldValue = value
-                                },
-                                isError = uiState.textError != null,
-                                supportingText = {
-                                    Column {
-                                        if (uiState.textError != null) {
-                                            Text(
-                                                text = uiState.textError?.localized().orEmpty(),
-                                                color = MaterialTheme.colorScheme.error,
-                                            )
-                                        }
-                                        TextFormattingBar(
-                                            textFieldValue = textFieldValue,
-                                            onTextFieldValueChanged = {
-                                                textFieldValue = it
-                                            },
-                                            onSelectImage = {
-                                                openImagePicker = true
-                                            }
-                                        )
-                                    }
-                                },
-                                trailingIcon = {
-                                    IconButton(
-                                        content = {
-                                            Icon(
-                                                imageVector = Icons.Default.Send,
-                                                contentDescription = null,
-                                            )
-                                        },
-                                        onClick = {
-                                            model.reduce(
-                                                CreateCommentMviModel.Intent.Send(
-                                                    textFieldValue.text
-                                                )
-                                            )
-                                        },
-                                    )
-                                }
-                            )
-                        } else {
-                            Box(
-                                modifier = Modifier
-                                    .heightIn(min = 300.dp, max = 500.dp)
-                                    .fillMaxWidth()
-                            ) {
-                                PostCardBody(
-                                    modifier = Modifier
-                                        .padding(Spacing.s)
-                                        .verticalScroll(rememberScrollState()),
-                                    text = textFieldValue.text,
-                                    autoLoadImages = uiState.autoLoadImages,
-                                )
-                            }
                         }
                     }
                 }
