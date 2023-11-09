@@ -4,33 +4,37 @@ import androidx.compose.runtime.Composable
 
 sealed interface UiFontFamily {
     data object TitilliumWeb : UiFontFamily
-    data object Ubuntu : UiFontFamily
+    data object Dosis : UiFontFamily
     data object CormorantGaramond : UiFontFamily
     data object NotoSans : UiFontFamily
-    data object CrimsonText : UiFontFamily
+    data object Prociono : UiFontFamily
+    data object Fondamento : UiFontFamily
 }
 
 fun Int.toUiFontFamily() = when (this) {
-    4 -> UiFontFamily.CrimsonText
+    5 -> UiFontFamily.Fondamento
+    4 -> UiFontFamily.Prociono
     3 -> UiFontFamily.NotoSans
     2 -> UiFontFamily.CormorantGaramond
-    1 -> UiFontFamily.Ubuntu
+    1 -> UiFontFamily.Dosis
     else -> UiFontFamily.TitilliumWeb
 }
 
 fun UiFontFamily.toInt() = when (this) {
-    UiFontFamily.CrimsonText -> 4
+    UiFontFamily.Fondamento -> 5
+    UiFontFamily.Prociono -> 4
     UiFontFamily.NotoSans -> 3
     UiFontFamily.CormorantGaramond -> 2
-    UiFontFamily.Ubuntu -> 1
+    UiFontFamily.Dosis -> 1
     else -> 0
 }
 
 @Composable
 fun UiFontFamily.toReadableName() = when (this) {
-    UiFontFamily.CrimsonText -> "Crimson Text"
+    UiFontFamily.Fondamento -> "Fondamento"
+    UiFontFamily.Prociono -> "Prociono"
     UiFontFamily.NotoSans -> "Noto Sans"
     UiFontFamily.CormorantGaramond -> "Cormorant Garamond"
-    UiFontFamily.Ubuntu -> "Ubuntu"
+    UiFontFamily.Dosis -> "Dosis"
     else -> "Titillium Web"
 }

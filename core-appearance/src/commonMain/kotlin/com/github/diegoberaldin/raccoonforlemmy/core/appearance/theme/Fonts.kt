@@ -14,10 +14,11 @@ internal fun getTypography(
     fontFamily: UiFontFamily = UiFontFamily.TitilliumWeb,
 ): Typography {
     val fontFamily = when (fontFamily) {
-        UiFontFamily.CrimsonText -> fontFamilyResource(MR.fonts.CrimsonText.regular)
+        UiFontFamily.Prociono -> fontFamilyResource(MR.fonts.Prociono.regular)
         UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
         UiFontFamily.CormorantGaramond -> fontFamilyResource(MR.fonts.CormorantGaramond.regular)
-        UiFontFamily.Ubuntu -> fontFamilyResource(MR.fonts.Ubuntu.regular)
+        UiFontFamily.Dosis -> fontFamilyResource(MR.fonts.Dosis.regular)
+        UiFontFamily.Fondamento -> fontFamilyResource(MR.fonts.Fondamento.regular)
         else -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
     }
     return Typography(
