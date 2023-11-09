@@ -251,19 +251,21 @@ private fun ExtendedPost(
         }
 
         PostCardImage(
-            modifier = Modifier.let {
-                if (roundedCornerImage) {
-                    it.clip(RoundedCornerShape(CornerSize.xl))
-                } else {
-                    it
-                }
-            }.let {
-                if (fullHeightImage) {
-                    it
-                } else {
-                    it.heightIn(max = 200.dp)
-                }
-            },
+            modifier = Modifier
+                .padding(vertical = Spacing.xxs)
+                .let {
+                    if (roundedCornerImage) {
+                        it.clip(RoundedCornerShape(CornerSize.xl))
+                    } else {
+                        it
+                    }
+                }.let {
+                    if (fullHeightImage) {
+                        it
+                    } else {
+                        it.heightIn(max = 200.dp)
+                    }
+                },
             imageUrl = post.imageUrl,
             blurred = blurNsfw && post.nsfw,
             onImageClick = onImageClick,
