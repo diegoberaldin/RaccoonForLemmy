@@ -249,17 +249,18 @@ class PostListScreen : Screen {
                                     }
                                 },
                             )
-                            // TODO: only if logged
-                            this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.ClearAll,
-                                text = stringResource(MR.strings.action_clear_read),
-                                onSelected = rememberCallback {
-                                    model.reduce(PostListMviModel.Intent.ClearRead)
-                                    scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                    }
-                                },
-                            )
+                            if (uiState.currentUserId != null) {
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.Default.ClearAll,
+                                    text = stringResource(MR.strings.action_clear_read),
+                                    onSelected = rememberCallback {
+                                        model.reduce(PostListMviModel.Intent.ClearRead)
+                                        scope.launch {
+                                            lazyListState.scrollToItem(0)
+                                        }
+                                    },
+                                )
+                            }
                         }
                     )
                 }
@@ -412,33 +413,34 @@ class PostListScreen : Screen {
                                                     stringResource(MR.strings.post_action_share)
                                                 )
                                             )
-                                            // TODO: only if logged
-                                            add(
-                                                Option(
-                                                    OptionId.Hide,
-                                                    stringResource(MR.strings.post_action_hide)
+                                            if (uiState.currentUserId != null) {
+                                                add(
+                                                    Option(
+                                                        OptionId.Hide,
+                                                        stringResource(MR.strings.post_action_hide)
+                                                    )
                                                 )
-                                            )
+                                            }
                                             add(
                                                 Option(
                                                     OptionId.SeeRaw,
                                                     stringResource(MR.strings.post_action_see_raw)
                                                 )
                                             )
-                                            // TODO: only if logged
-                                            add(
-                                                Option(
-                                                    OptionId.CrossPost,
-                                                    stringResource(MR.strings.post_action_cross_post)
+                                            if (uiState.currentUserId != null) {
+                                                add(
+                                                    Option(
+                                                        OptionId.CrossPost,
+                                                        stringResource(MR.strings.post_action_cross_post)
+                                                    )
                                                 )
-                                            )
-                                            // TODO: only if logged
-                                            add(
-                                                Option(
-                                                    OptionId.Report,
-                                                    stringResource(MR.strings.post_action_report)
+                                                add(
+                                                    Option(
+                                                        OptionId.Report,
+                                                        stringResource(MR.strings.post_action_report)
+                                                    )
                                                 )
-                                            )
+                                            }
                                             if (post.creator?.id == uiState.currentUserId) {
                                                 add(
                                                     Option(

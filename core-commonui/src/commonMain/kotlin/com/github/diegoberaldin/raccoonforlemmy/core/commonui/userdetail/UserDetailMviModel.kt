@@ -32,6 +32,7 @@ interface UserDetailMviModel :
     }
 
     data class UiState(
+        val currentUserId: Int? = null,
         val section: UserDetailSection = UserDetailSection.Posts,
         val sortType: SortType = SortType.Active,
         val refreshing: Boolean = false,

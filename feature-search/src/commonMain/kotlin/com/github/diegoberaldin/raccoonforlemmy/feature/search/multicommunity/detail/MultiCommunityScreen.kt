@@ -383,20 +383,20 @@ class MultiCommunityScreen(
                                                 stringResource(MR.strings.post_action_share)
                                             )
                                         )
-                                        // TODO: only if logged
-                                        add(
-                                            Option(
-                                                OptionId.Hide,
-                                                stringResource(MR.strings.post_action_hide)
+                                        if (uiState.currentUserId != null) {
+                                            add(
+                                                Option(
+                                                    OptionId.Hide,
+                                                    stringResource(MR.strings.post_action_hide)
+                                                )
                                             )
-                                        )
-                                        // TODO: only if logged
-                                        add(
-                                            Option(
-                                                OptionId.Report,
-                                                stringResource(MR.strings.post_action_report)
+                                            add(
+                                                Option(
+                                                    OptionId.Report,
+                                                    stringResource(MR.strings.post_action_report)
+                                                )
                                             )
-                                        )
+                                        }
                                     },
                                     onOptionSelected = { optionId ->
                                         when (optionId) {

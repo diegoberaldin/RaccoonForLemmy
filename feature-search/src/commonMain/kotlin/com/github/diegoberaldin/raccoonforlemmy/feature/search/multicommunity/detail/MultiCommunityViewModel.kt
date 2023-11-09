@@ -17,6 +17,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.utils.MultiCommunityPaginator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -29,6 +30,7 @@ class MultiCommunityViewModel(
     private val community: MultiCommunityModel,
     private val postRepository: PostRepository,
     private val identityRepository: IdentityRepository,
+    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val shareHelper: ShareHelper,
     private val settingsRepository: SettingsRepository,
@@ -72,6 +74,11 @@ class MultiCommunityViewModel(
                     )
                 }
             }.launchIn(this)
+            if (uiState.value.currentUserId == null) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val user = siteRepository.getCurrentUser(auth)
+                mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
+            }
         }
 
         mvi.scope?.launch(Dispatchers.IO) {

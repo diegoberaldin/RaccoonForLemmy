@@ -86,6 +86,11 @@ class UserDetailViewModel(
                     )
                 }
             }.launchIn(this)
+            if (uiState.value.currentUserId == null) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val user = siteRepository.getCurrentUser(auth)
+                mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
+            }
         }
         if (uiState.value.posts.isEmpty()) {
             refresh(initial = true)

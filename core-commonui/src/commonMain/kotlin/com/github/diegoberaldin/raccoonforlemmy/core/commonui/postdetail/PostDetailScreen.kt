@@ -421,20 +421,20 @@ class PostDetailScreen(
                                             stringResource(MR.strings.post_action_see_raw)
                                         )
                                     )
-                                    // TODO: only if logged
-                                    add(
-                                        Option(
-                                            OptionId.CrossPost,
-                                            stringResource(MR.strings.post_action_cross_post)
+                                    if (uiState.currentUserId != null) {
+                                        add(
+                                            Option(
+                                                OptionId.CrossPost,
+                                                stringResource(MR.strings.post_action_cross_post)
+                                            )
                                         )
-                                    )
-                                    // TODO: only if logged
-                                    add(
-                                        Option(
-                                            OptionId.Report,
-                                            stringResource(MR.strings.post_action_report)
+                                        add(
+                                            Option(
+                                                OptionId.Report,
+                                                stringResource(MR.strings.post_action_report)
+                                            )
                                         )
-                                    )
+                                    }
                                     if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                         add(
                                             Option(
