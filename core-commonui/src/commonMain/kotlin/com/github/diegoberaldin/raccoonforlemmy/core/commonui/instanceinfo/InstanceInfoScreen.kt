@@ -70,7 +70,8 @@ class InstanceInfoScreen(
         val settings by settingsRepository.currentSettings.collectAsState()
 
         Scaffold(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
@@ -116,12 +117,13 @@ class InstanceInfoScreen(
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(Spacing.m),
+                    modifier = Modifier.padding(top = Spacing.m),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     item {
                         ScaledContent {
                             Column(
+                                modifier = Modifier.padding(horizontal = Spacing.s),
                                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
