@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,24 +32,25 @@ fun CommunityItemPlaceholder() {
     ) {
         Box(
             modifier = Modifier
-                .height(IconSize.m)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(CornerSize.s))
-                .shimmerEffect()
+                .padding(Spacing.xxxs)
+                .size(IconSize.l)
+                .clip(CircleShape)
+                .shimmerEffect(),
         )
         Column(
             modifier = Modifier.padding(start = Spacing.xs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Box(
                 modifier = Modifier
-                    .height(50.dp)
+                    .height(40.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(CornerSize.s))
                     .shimmerEffect()
             )
             Box(
                 modifier = Modifier
-                    .height(30.dp)
+                    .height(20.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(CornerSize.s))
                     .shimmerEffect()

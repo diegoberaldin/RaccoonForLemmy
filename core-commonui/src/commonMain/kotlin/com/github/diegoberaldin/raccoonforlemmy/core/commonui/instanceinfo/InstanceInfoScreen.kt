@@ -43,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Communi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.CommunityItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
@@ -148,6 +149,11 @@ class InstanceInfoScreen(
                             }
                         }
                     }
+                    if (uiState.loading && uiState.communities.isEmpty()) {
+                        items(5) {
+                            CommunityItemPlaceholder()
+                        }
+                    }
                     items(uiState.communities) {
                         CommunityItem(
                             modifier = Modifier.onClick(
@@ -162,6 +168,7 @@ class InstanceInfoScreen(
                             ),
                             community = it,
                             autoLoadImages = uiState.autoLoadImages,
+                            showSubscribers = true,
                         )
                     }
                     item {

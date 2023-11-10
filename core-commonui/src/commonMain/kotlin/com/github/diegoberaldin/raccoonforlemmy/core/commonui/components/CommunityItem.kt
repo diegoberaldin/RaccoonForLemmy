@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -23,6 +27,7 @@ fun CommunityItem(
     modifier: Modifier = Modifier,
     small: Boolean = false,
     autoLoadImages: Boolean = true,
+    showSubscribers: Boolean = false,
 ) {
     val title = community.title.replace("&amp;", "&")
     val communityName = community.name
@@ -54,27 +59,51 @@ fun CommunityItem(
             )
         }
         ScaledContent {
-            Column(
-                modifier = Modifier.padding(start = Spacing.xs),
+            Row(
+                modifier = Modifier.padding(horizontal = Spacing.xs)
             ) {
-                Text(
-                    text = buildString {
-                        append(title)
-                    },
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Text(
-                    text = buildString {
-                        append("!")
-                        append(communityName)
-                        if (communityHost.isNotEmpty()) {
-                            append("@$communityHost")
-                        }
-                    },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = buildString {
+                            append(title)
+                        },
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        text = buildString {
+                            append("!")
+                            append(communityName)
+                            if (communityHost.isNotEmpty()) {
+                                append("@$communityHost")
+                            }
+                        },
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+                if (showSubscribers) {
+                    Row(
+                        modifier = Modifier.padding(start = Spacing.xxs),
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = community.subscribers.toString(),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Icon(
+                            imageVector = Icons.Default.Group,
+                            contentDescription = "",
+                            tint = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+                }
             }
         }
     }
