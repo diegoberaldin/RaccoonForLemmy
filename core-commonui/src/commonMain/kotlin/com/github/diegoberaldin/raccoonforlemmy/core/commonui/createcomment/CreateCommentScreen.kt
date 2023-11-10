@@ -23,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -100,6 +102,19 @@ class CreateCommentScreen(
         }
         val commentFocusRequester = remember { FocusRequester() }
         val focusManager = LocalFocusManager.current
+        val keyboardScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(
+                    available: Offset,
+                    source: NestedScrollSource,
+                ): Offset {
+                    focusManager.clearFocus()
+                    return Offset.Zero
+                }
+            }
+        }
+        val topAppBarState = rememberTopAppBarState()
+        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -122,22 +137,12 @@ class CreateCommentScreen(
                 }
             }.launchIn(this)
         }
-        val keyboardScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(
-                    available: Offset,
-                    source: NestedScrollSource,
-                ): Offset {
-                    focusManager.clearFocus()
-                    return Offset.Zero
-                }
-            }
-        }
 
         Scaffold(
             modifier = Modifier.nestedScroll(keyboardScrollConnection),
             topBar = {
                 TopAppBar(
+                    scrollBehavior = scrollBehavior,
                     title = {
                         Column(
                             modifier = Modifier

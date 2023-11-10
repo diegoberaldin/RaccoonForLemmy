@@ -395,9 +395,7 @@ class PostListScreen : Screen {
                                             )
                                         },
                                         onReply = rememberCallback(model) {
-                                            val screen = CreateCommentScreen(
-                                                originalPost = post,
-                                            )
+                                            val screen = CreateCommentScreen(originalPost = post)
                                             navigationCoordinator.getBottomNavigator()?.show(screen)
                                         },
                                         onImageClick = rememberCallbackArgs(model, post) { url ->

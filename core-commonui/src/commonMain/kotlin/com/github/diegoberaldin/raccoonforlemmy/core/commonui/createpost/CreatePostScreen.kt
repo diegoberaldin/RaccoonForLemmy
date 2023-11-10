@@ -27,6 +27,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -142,6 +144,8 @@ class CreatePostScreen(
                 }
             }
         }
+        val topAppBarState = rememberTopAppBarState()
+        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
 
         LaunchedEffect(model) {
             val referencePost = editedPost ?: crossPost
@@ -200,6 +204,7 @@ class CreatePostScreen(
             modifier = Modifier.nestedScroll(keyboardScrollConnection),
             topBar = {
                 TopAppBar(
+                    scrollBehavior = scrollBehavior,
                     title = {
                         Column(
                             modifier = Modifier
