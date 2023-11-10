@@ -236,7 +236,7 @@ fun PostCardFooter(
                 Text(
                     modifier = Modifier.padding(
                         horizontal = Spacing.m,
-                        vertical = Spacing.xs,
+                        vertical = Spacing.s,
                     ).onClick(
                         rememberCallback {
                             optionsExpanded = false

@@ -106,10 +106,14 @@ fun FloatingActionButtonMenu(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
                     ) {
                         Text(
-                            modifier = Modifier.background(
-                                color = MaterialTheme.colorScheme.background,
-                                shape = RoundedCornerShape(CornerSize.s),
-                            ).padding(vertical = Spacing.xs, horizontal = Spacing.s),
+                            modifier = Modifier
+                                .background(
+                                    color = MaterialTheme.colorScheme.background,
+                                    shape = RoundedCornerShape(CornerSize.s),
+                                ).padding(
+                                    vertical = Spacing.s,
+                                    horizontal = Spacing.s
+                                ),
                             text = item.text,
                             style = MaterialTheme.typography.bodyMedium,
                         )
