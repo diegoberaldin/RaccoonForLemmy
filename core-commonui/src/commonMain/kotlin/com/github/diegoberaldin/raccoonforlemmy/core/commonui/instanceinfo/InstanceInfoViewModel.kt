@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +56,7 @@ class InstanceInfoViewModel(
         when (intent) {
             InstanceInfoMviModel.Intent.LoadNextPage -> loadNextPage()
             InstanceInfoMviModel.Intent.Refresh -> refresh()
+            is InstanceInfoMviModel.Intent.ChangeSortType -> changeSortType(intent.value)
         }
     }
 
@@ -82,6 +84,7 @@ class InstanceInfoViewModel(
                 page = currentPage,
                 limit = 50,
                 listingType = ListingType.Local,
+                sortType = currentState.sortType,
                 resultType = SearchResultType.Communities,
             )?.filterIsInstance<CommunityModel>()
             if (!itemList.isNullOrEmpty()) {
@@ -100,6 +103,14 @@ class InstanceInfoViewModel(
                     refreshing = false,
                 )
             }
+        }
+    }
+
+    private fun changeSortType(value: SortType) {
+        mvi.updateState { it.copy(sortType = value) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            mvi.emitEffect(InstanceInfoMviModel.Effect.BackToTop)
+            refresh()
         }
     }
 }

@@ -12,10 +12,11 @@ import androidx.compose.material.icons.filled.Thunderstorm
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
-sealed interface SortType {
+sealed interface SortType : JavaSerializable {
     data object Active : SortType
     data object Hot : SortType
     data object New : SortType
@@ -105,4 +106,16 @@ fun SortType.toReadableName(): String = when (this) {
     SortType.Controversial -> stringResource(MR.strings.home_sort_type_controversial)
     SortType.Scaled -> stringResource(MR.strings.home_sort_type_scaled)
     else -> stringResource(MR.strings.home_sort_type_top)
+}
+
+@Composable
+fun SortType?.getAdditionalLabel(): String = when (this) {
+    SortType.Top.Day -> stringResource(MR.strings.home_sort_type_top_day_short)
+    SortType.Top.Month -> stringResource(MR.strings.home_sort_type_top_month_short)
+    SortType.Top.Past12Hours -> stringResource(MR.strings.home_sort_type_top_12_hours_short)
+    SortType.Top.Past6Hours -> stringResource(MR.strings.home_sort_type_top_6_hours_short)
+    SortType.Top.PastHour -> stringResource(MR.strings.home_sort_type_top_hour_short)
+    SortType.Top.Week -> stringResource(MR.strings.home_sort_type_top_week_short)
+    SortType.Top.Year -> stringResource(MR.strings.home_sort_type_top_year_short)
+    else -> ""
 }

@@ -5,13 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -26,6 +29,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -43,12 +48,20 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Communi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.CommunityItemPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class InstanceInfoScreen(
     private val url: String,
@@ -68,6 +81,31 @@ class InstanceInfoScreen(
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        val notificationCenter = remember { getNotificationCenter() }
+        val listState = rememberLazyListState()
+
+        DisposableEffect(key) {
+            notificationCenter.addObserver(
+                {
+                    (it as? SortType)?.also { sortType ->
+                        model.reduce(InstanceInfoMviModel.Intent.ChangeSortType(sortType))
+                    }
+                },
+                key, NotificationCenterContractKeys.ChangeSortType,
+            )
+            onDispose {
+                notificationCenter.removeObserver(key)
+            }
+        }
+        LaunchedEffect(model) {
+            model.effects.onEach { effect ->
+                when (effect) {
+                    InstanceInfoMviModel.Effect.BackToTop -> {
+                        listState.scrollToItem(0)
+                    }
+                }
+            }.launchIn(this)
+        }
 
         Scaffold(
             modifier = Modifier
@@ -95,6 +133,42 @@ class InstanceInfoScreen(
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     },
+                    actions = {
+                        Row {
+                            val additionalLabel = uiState.sortType.getAdditionalLabel()
+                            if (additionalLabel.isNotEmpty()) {
+                                Text(
+                                    text = buildString {
+                                        append("(")
+                                        append(additionalLabel)
+                                        append(")")
+                                    }
+                                )
+                                Spacer(modifier = Modifier.width(Spacing.s))
+                            }
+                            Image(
+                                modifier = Modifier.onClick(
+                                    rememberCallback {
+                                        val sheet = SortBottomSheet(
+                                            values = listOf(
+                                                SortType.Active,
+                                                SortType.Hot,
+                                                SortType.New,
+                                                SortType.NewComments,
+                                                SortType.MostComments,
+                                                SortType.Top.Generic,
+                                            ),
+                                            expandTop = true,
+                                        )
+                                        navigationCoordinator.getBottomNavigator()?.show(sheet)
+                                    },
+                                ),
+                                imageVector = uiState.sortType.toIcon(),
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+                        }
+                    }
                 )
             },
         ) { paddingValues ->
@@ -118,6 +192,7 @@ class InstanceInfoScreen(
             ) {
                 LazyColumn(
                     modifier = Modifier.padding(top = Spacing.m),
+                    state = listState,
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     item {

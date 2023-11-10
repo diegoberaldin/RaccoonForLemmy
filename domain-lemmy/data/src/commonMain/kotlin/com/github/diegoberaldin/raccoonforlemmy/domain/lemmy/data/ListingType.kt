@@ -5,10 +5,11 @@ import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Cottage
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
-sealed interface ListingType {
+sealed interface ListingType : JavaSerializable {
     data object All : ListingType
     data object Subscribed : ListingType
     data object Local : ListingType

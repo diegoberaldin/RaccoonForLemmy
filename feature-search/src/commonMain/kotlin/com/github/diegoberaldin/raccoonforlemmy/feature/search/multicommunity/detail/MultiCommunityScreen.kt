@@ -82,6 +82,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getMultiCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -169,16 +170,7 @@ class MultiCommunityScreen(
                     },
                     actions = {
                         Row {
-                            val additionalLabel = when (sortType) {
-                                SortType.Top.Day -> stringResource(MR.strings.home_sort_type_top_day_short)
-                                SortType.Top.Month -> stringResource(MR.strings.home_sort_type_top_month_short)
-                                SortType.Top.Past12Hours -> stringResource(MR.strings.home_sort_type_top_12_hours_short)
-                                SortType.Top.Past6Hours -> stringResource(MR.strings.home_sort_type_top_6_hours_short)
-                                SortType.Top.PastHour -> stringResource(MR.strings.home_sort_type_top_hour_short)
-                                SortType.Top.Week -> stringResource(MR.strings.home_sort_type_top_week_short)
-                                SortType.Top.Year -> stringResource(MR.strings.home_sort_type_top_year_short)
-                                else -> ""
-                            }
+                            val additionalLabel = sortType.getAdditionalLabel()
                             if (additionalLabel.isNotEmpty()) {
                                 Text(
                                     text = buildString {
@@ -193,9 +185,7 @@ class MultiCommunityScreen(
                                 Image(
                                     modifier = Modifier.onClick(
                                         rememberCallback {
-                                            val sheet = SortBottomSheet(
-                                                expandTop = true,
-                                            )
+                                            val sheet = SortBottomSheet(expandTop = true)
                                             navigationCoordinator.getBottomNavigator()?.show(sheet)
                                         },
                                     ),
