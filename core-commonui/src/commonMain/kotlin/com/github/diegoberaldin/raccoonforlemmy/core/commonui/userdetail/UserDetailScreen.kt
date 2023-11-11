@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -51,11 +52,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -67,6 +72,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatScre
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
@@ -94,6 +100,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -217,6 +224,7 @@ class UserDetailScreen(
                         )
                     },
                     actions = {
+                        // sort button
                         Image(
                             modifier = Modifier.onClick(
                                 rememberCallback {
@@ -230,6 +238,69 @@ class UserDetailScreen(
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
+
+                        // options menu
+                        Box {
+                            val options = listOf(
+                                Option(
+                                    OptionId.Block,
+                                    stringResource(MR.strings.community_detail_block)
+                                ),
+                                Option(
+                                    OptionId.BlockInstance,
+                                    stringResource(MR.strings.community_detail_block_instance)
+                                ),
+                            )
+                            var optionsExpanded by remember { mutableStateOf(false) }
+                            var optionsOffset by remember { mutableStateOf(Offset.Zero) }
+                            Image(
+                                modifier = Modifier.onGloballyPositioned {
+                                    optionsOffset = it.positionInParent()
+                                }.padding(start = Spacing.s).onClick(
+                                    rememberCallback {
+                                        optionsExpanded = true
+                                    },
+                                ),
+                                imageVector = Icons.Default.MoreVert,
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+                            CustomDropDown(
+                                expanded = optionsExpanded,
+                                onDismiss = {
+                                    optionsExpanded = false
+                                },
+                                offset = DpOffset(
+                                    x = optionsOffset.x.toLocalDp(),
+                                    y = optionsOffset.y.toLocalDp(),
+                                ),
+                            ) {
+                                options.forEach { option ->
+                                    Text(
+                                        modifier = Modifier.padding(
+                                            horizontal = Spacing.m,
+                                            vertical = Spacing.s,
+                                        ).onClick(
+                                            rememberCallback {
+                                                optionsExpanded = false
+                                                when (option.id) {
+                                                    OptionId.BlockInstance -> model.reduce(
+                                                        UserDetailMviModel.Intent.BlockInstance
+                                                    )
+
+                                                    OptionId.Block -> model.reduce(
+                                                        UserDetailMviModel.Intent.Block
+                                                    )
+
+                                                    else -> Unit
+                                                }
+                                            },
+                                        ),
+                                        text = option.text,
+                                    )
+                                }
+                            }
+                        }
                     },
                     navigationIcon = {
                         val navigator = navigationCoordinator.getRootNavigator()
@@ -319,26 +390,9 @@ class UserDetailScreen(
                             UserHeader(
                                 user = uiState.user,
                                 autoLoadImages = uiState.autoLoadImages,
-                                options = listOf(
-                                    Option(
-                                        OptionId.Block,
-                                        stringResource(MR.strings.community_detail_block)
-                                    ),
-                                    Option(
-                                        OptionId.BlockInstance,
-                                        stringResource(MR.strings.community_detail_block_instance)
-                                    ),
-                                ),
                                 onOpenImage = rememberCallbackArgs { url ->
                                     navigationCoordinator.getRootNavigator()
                                         ?.push(ZoomableImageScreen(url))
-                                },
-                                onOptionSelected = rememberCallbackArgs { optionId ->
-                                    when (optionId) {
-                                        OptionId.BlockInstance -> model.reduce(UserDetailMviModel.Intent.BlockInstance)
-                                        OptionId.Block -> model.reduce(UserDetailMviModel.Intent.Block)
-                                        else -> Unit
-                                    }
                                 },
                             )
                             SectionSelector(

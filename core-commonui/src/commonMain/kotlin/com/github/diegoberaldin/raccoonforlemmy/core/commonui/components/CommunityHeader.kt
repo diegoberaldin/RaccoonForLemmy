@@ -14,34 +14,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarViewMonth
 import androidx.compose.material.icons.filled.Group
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -51,8 +41,6 @@ fun CommunityHeader(
     community: CommunityModel,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
-    options: List<Option> = emptyList(),
-    onOptionSelected: ((OptionId) -> Unit)? = null,
     onOpenImage: ((String) -> Unit)? = null,
 ) {
     Box(
@@ -85,53 +73,6 @@ fun CommunityHeader(
                 )
             }
         }
-
-        Row(
-            modifier = Modifier.padding(top = Spacing.xs, end = Spacing.s).align(Alignment.TopEnd)
-        ) {
-            if (options.isNotEmpty()) {
-                var optionsExpanded by remember { mutableStateOf(false) }
-                var optionsOffset by remember { mutableStateOf(Offset.Zero) }
-                Icon(
-                    modifier = Modifier.onGloballyPositioned {
-                        optionsOffset = it.positionInParent()
-                    }.onClick(
-                        rememberCallback {
-                            optionsExpanded = true
-                        },
-                    ),
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = null,
-                )
-                CustomDropDown(
-                    expanded = optionsExpanded,
-                    onDismiss = {
-                        optionsExpanded = false
-                    },
-                    offset = DpOffset(
-                        x = optionsOffset.x.toLocalDp(),
-                        y = optionsOffset.y.toLocalDp(),
-                        // y = (-50).dp,
-                    ),
-                ) {
-                    options.forEach { option ->
-                        Text(
-                            modifier = Modifier.padding(
-                                horizontal = Spacing.m,
-                                vertical = Spacing.s,
-                            ).onClick(
-                                rememberCallback {
-                                    optionsExpanded = false
-                                    onOptionSelected?.invoke(option.id)
-                                },
-                            ),
-                            text = option.text,
-                        )
-                    }
-                }
-            }
-        }
-
 
         Row(
             modifier = Modifier.fillMaxWidth().padding(Spacing.s).align(Alignment.Center),
