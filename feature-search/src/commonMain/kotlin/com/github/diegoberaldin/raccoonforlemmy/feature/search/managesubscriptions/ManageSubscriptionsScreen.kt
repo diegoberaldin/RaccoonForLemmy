@@ -61,6 +61,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Swipeab
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.CommunityItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallbackArgs
@@ -256,6 +257,11 @@ class ManageSubscriptionsScreen : Screen {
                             )
                         }
                     }
+                    if (uiState.initial) {
+                        items(5) {
+                            CommunityItemPlaceholder()
+                        }
+                    }
                     items(uiState.communities) { community ->
                         val endColor = MaterialTheme.colorScheme.secondary
                         SwipeableCard(
@@ -301,9 +307,9 @@ class ManageSubscriptionsScreen : Screen {
                         )
                     }
 
-                    if (uiState.multiCommunities.isEmpty() && uiState.communities.isEmpty()) {
+                    if (uiState.multiCommunities.isEmpty() && uiState.communities.isEmpty() && !uiState.initial) {
                         item {
-                            androidx.compose.material.Text(
+                            Text(
                                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                 textAlign = TextAlign.Center,
                                 text = stringResource(MR.strings.message_empty_list),
@@ -314,13 +320,15 @@ class ManageSubscriptionsScreen : Screen {
                     }
                 }
 
-                PullRefreshIndicator(
-                    refreshing = uiState.refreshing,
-                    state = pullRefreshState,
-                    modifier = Modifier.align(Alignment.TopCenter),
-                    backgroundColor = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.onBackground,
-                )
+                if (!uiState.initial) {
+                    PullRefreshIndicator(
+                        refreshing = uiState.refreshing,
+                        state = pullRefreshState,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        backgroundColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
             }
         }
     }

@@ -82,22 +82,30 @@ class InstanceInfoViewModel(
                 auth = auth,
                 instance = instance,
                 page = currentPage,
-                limit = 50,
                 listingType = ListingType.Local,
                 sortType = currentState.sortType,
                 resultType = SearchResultType.Communities,
+                limit = 50,
             )?.filterIsInstance<CommunityModel>()
+                ?.let {
+                    if (refreshing) {
+                        it
+                    } else {
+                        // prevents accidental duplication
+                        it.filter { c1 -> currentState.communities.none { c2 -> c1.id == c2.id } }
+                    }
+                }
             if (!itemList.isNullOrEmpty()) {
                 currentPage++
             }
+            val itemsToAdd = itemList.orEmpty().filter { e -> e.instanceUrl == url }
             mvi.updateState {
-                val newItems = if (refreshing) {
-                    itemList?.filter { e -> e.instanceUrl == url }.orEmpty()
-                } else {
-                    it.communities + itemList?.filter { e -> e.instanceUrl == url }.orEmpty()
-                }
                 it.copy(
-                    communities = newItems,
+                    communities = if (refreshing) {
+                        itemsToAdd
+                    } else {
+                        it.communities + itemsToAdd
+                    },
                     loading = false,
                     canFetchMore = itemList?.isEmpty() != true,
                     refreshing = false,

@@ -122,7 +122,8 @@ class SavedItemsViewModel(
         currentPage = 1
         mvi.updateState {
             it.copy(
-                canFetchMore = true, refreshing = true
+                canFetchMore = true,
+                refreshing = true,
             )
         }
         loadNextPage()

@@ -16,6 +16,7 @@ interface ManageSubscriptionsMviModel :
     }
 
     data class UiState(
+        val initial: Boolean = true,
         val refreshing: Boolean = false,
         val multiCommunities: List<MultiCommunityModel> = emptyList(),
         val communities: List<CommunityModel> = emptyList(),

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,7 +20,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -38,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -73,11 +70,11 @@ class InstanceInfoScreen(
     )
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getInstanceInfoViewModel(url) }
+        val instanceName = url.replace("https://", "")
+        val model = rememberScreenModel(instanceName) { getInstanceInfoViewModel(url) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val instanceName = url.replace("https://", "")
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
@@ -156,6 +153,7 @@ class InstanceInfoScreen(
                                                 SortType.New,
                                                 SortType.NewComments,
                                                 SortType.MostComments,
+                                                SortType.Old,
                                                 SortType.Top.Generic,
                                             ),
                                             expandTop = true,
@@ -226,7 +224,7 @@ class InstanceInfoScreen(
                             }
                         }
                     }
-                    if (uiState.loading && uiState.communities.isEmpty()) {
+                    if (uiState.communities.isEmpty()) {
                         items(5) {
                             CommunityItemPlaceholder()
                         }
@@ -251,17 +249,6 @@ class InstanceInfoScreen(
                     item {
                         if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
                             model.reduce(InstanceInfoMviModel.Intent.LoadNextPage)
-                        }
-                        if (uiState.loading && !uiState.refreshing) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth().padding(Spacing.xs),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(25.dp),
-                                    color = MaterialTheme.colorScheme.primary,
-                                )
-                            }
                         }
                     }
                 }

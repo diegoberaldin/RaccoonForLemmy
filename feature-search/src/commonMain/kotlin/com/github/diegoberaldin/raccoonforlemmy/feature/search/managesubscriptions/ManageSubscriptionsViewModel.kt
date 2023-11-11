@@ -88,6 +88,7 @@ class ManageSubscriptionsViewModel(
             mvi.updateState {
                 it.copy(
                     refreshing = false,
+                    initial = false,
                     communities = communities,
                     multiCommunities = multiCommunitites,
                 )
