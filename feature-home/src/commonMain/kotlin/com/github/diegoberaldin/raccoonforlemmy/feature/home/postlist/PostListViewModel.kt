@@ -206,7 +206,10 @@ class PostListViewModel(
 
             is PostListMviModel.Intent.StartZombieMode -> {
                 mvi.updateState { it.copy(zombieModeActive = true) }
-                zombieModeHelper.start(intent.index)
+                zombieModeHelper.start(
+                    initialValue = intent.index,
+                    interval = settingsRepository.currentSettings.value.zombieModeInterval,
+                )
             }
         }
     }

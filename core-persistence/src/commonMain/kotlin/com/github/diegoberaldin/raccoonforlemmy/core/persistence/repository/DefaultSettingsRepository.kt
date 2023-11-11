@@ -109,7 +109,7 @@ internal class DefaultSettingsRepository(
                     upvoteColor = if (!keyStore.containsKey(KeyStoreKeys.UpvoteColor)) null else keyStore[KeyStoreKeys.UpvoteColor, 0],
                     downvoteColor = if (!keyStore.containsKey(KeyStoreKeys.DownVoteColor)) null else keyStore[KeyStoreKeys.DownVoteColor, 0],
                     hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HideNavigationBarWhileScrolling, true],
-                    zombieModeInterval = keyStore[KeyStoreKeys.ZombieModeInterval, 2500].milliseconds,
+                    zombieModeInterval = keyStore[KeyStoreKeys.ZombieModeInterval, 2000].milliseconds,
                     zombieModeScrollAmount = keyStore[KeyStoreKeys.ZombieModeScrollAmount, 100f],
                 )
             } else {

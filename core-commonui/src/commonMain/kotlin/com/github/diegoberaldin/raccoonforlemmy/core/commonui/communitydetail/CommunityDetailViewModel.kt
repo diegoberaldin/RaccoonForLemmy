@@ -153,7 +153,10 @@ class CommunityDetailViewModel(
 
             is CommunityDetailMviModel.Intent.StartZombieMode -> {
                 mvi.updateState { it.copy(zombieModeActive = true) }
-                zombieModeHelper.start(intent.index)
+                zombieModeHelper.start(
+                    initialValue = intent.index,
+                    interval = settingsRepository.currentSettings.value.zombieModeInterval,
+                )
             }
         }
     }

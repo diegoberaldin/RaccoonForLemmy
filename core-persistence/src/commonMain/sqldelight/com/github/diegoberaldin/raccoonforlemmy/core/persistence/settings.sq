@@ -23,7 +23,7 @@ CREATE TABLE SettingsEntity (
     upvoteColor INTEGER DEFAULT NULL,
     downvoteColor INTEGER DEFAULT NULL,
     hideNavigationBarWhileScrolling INTEGER  NOT NULL DEFAULT 1,
-    zombieModeInterval INTEGER NOT NULL DEFAULT 2500,
+    zombieModeInterval INTEGER NOT NULL DEFAULT 2000,
     zombieModeScrollAmount REAL NOT NULL DEFAULT 100,
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
