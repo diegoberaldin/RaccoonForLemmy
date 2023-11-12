@@ -43,6 +43,8 @@
     <string name="dialog_title_change_instance">Zmiana instancji</string>
     <string name="dialog_title_raw_content">Surowa zawartość</string>
     <string name="dialog_title_select_community">Wybierz społeczność</string>
+    <string name="edit_comment_title">Edytuj komentarz</string>
+    <string name="edit_post_title">Edytuj post</string>
     <string name="explore_result_type_all">Wszystkie</string>
     <string name="explore_result_type_comments">Komentarze</string>
     <string name="explore_result_type_communities">Społeczności</string>

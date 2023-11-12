@@ -44,6 +44,8 @@
     <string name="dialog_title_raw_content">Contenido raw</string>
     <string name="dialog_title_select_community">Seleccionar una comunidad</string>
     <string name="explore_result_type_all">Todos</string>
+    <string name="edit_comment_title">Modificar comentario</string>
+    <string name="edit_post_title">Modificar publicación</string>
     <string name="explore_result_type_comments">Comentarios</string>
     <string name="explore_result_type_communities">Comunidades</string>
     <string name="explore_result_type_posts">Publicaciones</string>

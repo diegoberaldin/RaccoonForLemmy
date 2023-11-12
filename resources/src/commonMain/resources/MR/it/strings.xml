@@ -43,6 +43,8 @@
     <string name="dialog_title_change_instance">Cambia istanza</string>
     <string name="dialog_title_raw_content">Contenuto grezzo</string>
     <string name="dialog_title_select_community">Seleziona comunità</string>
+    <string name="edit_comment_title">Modifica commento</string>
+    <string name="edit_post_title">Modifica post</string>
     <string name="explore_result_type_all">Tutti</string>
     <string name="explore_result_type_comments">Commenti</string>
     <string name="explore_result_type_communities">Comunità</string>

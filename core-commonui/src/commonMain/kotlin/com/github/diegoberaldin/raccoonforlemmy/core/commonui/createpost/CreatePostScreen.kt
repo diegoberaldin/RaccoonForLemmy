@@ -219,6 +219,9 @@ class CreatePostScreen(
                             BottomSheetHandle()
                             Text(
                                 text = when {
+                                    editedPost != null ->
+                                        stringResource(MR.strings.edit_post_title)
+
                                     else ->
                                         stringResource(MR.strings.create_post_title)
                                 },

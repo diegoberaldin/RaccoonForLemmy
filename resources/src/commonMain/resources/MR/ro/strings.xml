@@ -43,6 +43,8 @@
     <string name="dialog_title_change_instance">Schimbă instanță</string>
     <string name="dialog_title_raw_content">Conținut brut</string>
     <string name="dialog_title_select_community">Selectează comunitate</string>
+    <string name="edit_comment_title">Editează comentariul</string>
+    <string name="edit_post_title">Editează postarea</string>
     <string name="explore_result_type_all">Toate</string>
     <string name="explore_result_type_comments">Comentarii</string>
     <string name="explore_result_type_communities">Comunități</string>

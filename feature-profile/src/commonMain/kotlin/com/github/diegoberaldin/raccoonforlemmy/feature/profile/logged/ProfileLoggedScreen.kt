@@ -385,9 +385,7 @@ internal object ProfileLoggedScreen : Tab {
 
                                             OptionId.Edit -> {
                                                 navigationCoordinator.getBottomNavigator()?.show(
-                                                    CreateCommentScreen(
-                                                        editedComment = comment,
-                                                    )
+                                                    CreateCommentScreen(editedComment = comment)
                                                 )
                                             }
 

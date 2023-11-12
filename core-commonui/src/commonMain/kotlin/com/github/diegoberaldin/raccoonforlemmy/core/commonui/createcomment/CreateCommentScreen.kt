@@ -156,7 +156,15 @@ class CreateCommentScreen(
                         ) {
                             BottomSheetHandle()
                             Text(
-                                text = stringResource(MR.strings.create_comment_title),
+                                text = when {
+                                    editedComment != null -> {
+                                        stringResource(MR.strings.edit_comment_title)
+                                    }
+
+                                    else -> {
+                                        stringResource(MR.strings.create_comment_title)
+                                    }
+                                },
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )

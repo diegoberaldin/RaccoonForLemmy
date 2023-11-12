@@ -43,6 +43,8 @@
     <string name="dialog_title_change_instance">Change instance</string>
     <string name="dialog_title_raw_content">Raw content</string>
     <string name="dialog_title_select_community">Select a community</string>
+    <string name="edit_comment_title">Edit comment</string>
+    <string name="edit_post_title">Edit post</string>
     <string name="explore_result_type_all">All</string>
     <string name="explore_result_type_comments">Comments</string>
     <string name="explore_result_type_communities">Communities</string>

@@ -43,6 +43,8 @@
     <string name="dialog_title_change_instance">Mudar instância</string>
     <string name="dialog_title_raw_content">Conteúdo bruto</string>
     <string name="dialog_title_select_community">Selecionar uma comunidade</string>
+    <string name="edit_comment_title">Editar comentário</string>
+    <string name="edit_post_title">Editar publicação</string>
     <string name="explore_result_type_all">Todos</string>
     <string name="explore_result_type_comments">Comentários</string>
     <string name="explore_result_type_communities">Comunidades</string>

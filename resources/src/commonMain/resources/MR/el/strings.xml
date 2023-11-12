@@ -43,6 +43,8 @@
     <string name="dialog_title_change_instance">Αλλαγή παραδείγματος</string>
     <string name="dialog_title_raw_content">Ακατέργαστο περιεχόμενο</string>
     <string name="dialog_title_select_community">Επιλέξε μια κοινότητα</string>
+    <string name="edit_comment_title">Επεξεργασία σχολίου</string>
+    <string name="edit_post_title">Επεξεργασία ανάρτησης</string>
     <string name="explore_result_type_all">Όλα</string>
     <string name="explore_result_type_comments">Σχόλια</string>
     <string name="explore_result_type_communities">Κοινότητες</string>

@@ -676,9 +676,7 @@ class PostDetailScreen(
                                                                 originalComment = comment,
                                                             )
                                                             navigationCoordinator.getBottomNavigator()
-                                                                ?.show(
-                                                                    screen
-                                                                )
+                                                                ?.show(screen)
                                                         }
                                                     },
                                                     onOpenCreator = rememberCallbackArgs {

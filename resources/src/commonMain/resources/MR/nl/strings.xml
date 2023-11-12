@@ -43,6 +43,8 @@
     <string name="dialog_title_change_instance">Instantie wijzigen</string>
     <string name="dialog_title_raw_content">Content</string>
     <string name="dialog_title_select_community">Selecteer een gemeenschap</string>
+    <string name="edit_comment_title">Opmerking bewerken</string>
+    <string name="edit_post_title">Bewerk bericht</string>
     <string name="explore_result_type_all">Alle</string>
     <string name="explore_result_type_comments">Opmerkingen</string>
     <string name="explore_result_type_communities">Samenleving</string>

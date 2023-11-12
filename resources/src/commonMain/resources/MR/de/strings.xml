@@ -43,6 +43,8 @@
     <string name="dialog_title_change_instance">Instanz ändern</string>
     <string name="dialog_title_raw_content">Rohinhalt</string>
     <string name="dialog_title_select_community">Wählen Sie eine Community aus</string>
+    <string name="edit_comment_title">Kommentar bearbeiten</string>
+    <string name="edit_post_title">Beitrag bearbeiten</string>
     <string name="explore_result_type_all">Alle</string>
     <string name="explore_result_type_comments">Kommentare</string>
     <string name="explore_result_type_communities">Communitys</string>
