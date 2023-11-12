@@ -3,11 +3,11 @@ package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose
 import android.content.Context
 import android.graphics.Typeface
 import android.util.TypedValue
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.IdRes
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -30,6 +30,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownColo
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownPadding
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.ReferenceLinkHandlerImpl
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.DateTime
 import io.noties.markwon.image.AsyncDrawableSpan
 import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
 
@@ -50,6 +52,7 @@ actual fun CustomMarkdown(
     autoLoadImages: Boolean,
     onOpenImage: ((String) -> Unit)?,
     onClick: (() -> Unit)?,
+    onDoubleClick: (() -> Unit)?,
 ) {
     CompositionLocalProvider(
         LocalReferenceLinkHandler provides ReferenceLinkHandlerImpl(),
@@ -64,10 +67,10 @@ actual fun CustomMarkdown(
             )
         }
         BoxWithConstraints(
-            modifier = modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) { onClick?.invoke() }
+            modifier = modifier.onClick(
+                onClick = onClick ?: {},
+                onDoubleClick = onDoubleClick ?: {},
+            )
         ) {
             val style = LocalMarkdownTypography.current.text
             val fontScale = LocalDensity.current.fontScale * 1.25f
@@ -93,9 +96,35 @@ actual fun CustomMarkdown(
                         typeface = typeface,
                         fontSize = style.fontSize * fontScale,
                     ).apply {
-                        setOnClickListener {
-                            onClick?.invoke()
-                        }
+                        val gestureDetector =
+                            GestureDetector(
+                                ctx,
+                                object : GestureDetector.SimpleOnGestureListener() {
+
+                                    private var lastClickTime = 0L
+
+                                    override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                                        val currentTime = DateTime.epochMillis()
+                                        if ((currentTime - lastClickTime) < 300) return false
+                                        lastClickTime = currentTime
+                                        onClick?.invoke()
+                                        return true
+                                    }
+
+                                    override fun onDoubleTap(e: MotionEvent): Boolean {
+                                        val currentTime = DateTime.epochMillis()
+                                        if ((currentTime - lastClickTime) < 300) return false
+                                        lastClickTime = currentTime
+                                        onDoubleClick?.invoke()
+                                        return true
+                                    }
+
+                                    override fun onDown(e: MotionEvent): Boolean {
+                                        return true
+                                    }
+                                }
+                            )
+                        setOnTouchListener { _, evt -> gestureDetector.onTouchEvent(evt) }
                     }
                 },
                 update = { textView ->

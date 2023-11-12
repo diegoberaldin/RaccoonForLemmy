@@ -230,7 +230,7 @@ class PostDetailScreen(
             model.effects.onEach { evt ->
                 when (evt) {
                     PostDetailMviModel.Effect.Close -> {
-                        navigationCoordinator.getRootNavigator()?.pop()
+                        navigationCoordinator.popScreen()
                     }
 
                     is PostDetailMviModel.Effect.ScrollToComment -> {
@@ -263,7 +263,7 @@ class PostDetailScreen(
                     actions = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
                                         values = listOf(
                                             SortType.Hot,
@@ -273,7 +273,7 @@ class PostDetailScreen(
                                             SortType.Controversial,
                                         ),
                                     )
-                                    navigationCoordinator.getBottomNavigator()?.show(sheet)
+                                    navigationCoordinator.showBottomSheet(sheet)
                                 },
                             ),
                             imageVector = uiState.sortType.toIcon(),
@@ -282,12 +282,11 @@ class PostDetailScreen(
                         )
                     },
                     navigationIcon = {
-                        val navigator = navigationCoordinator.getRootNavigator()
-                        if (navigator?.canPop == true) {
+                        if (navigationCoordinator.canPop) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
-                                        navigator.pop()
+                                    onClick = rememberCallback {
+                                        navigationCoordinator.popScreen()
                                     },
                                 ),
                                 imageVector = Icons.Default.ArrowBack,
@@ -328,7 +327,7 @@ class PostDetailScreen(
                                     val screen = CreateCommentScreen(
                                         originalPost = uiState.post,
                                     )
-                                    navigationCoordinator.getBottomNavigator()?.show(screen)
+                                    navigationCoordinator.showBottomSheet(screen)
                                 },
                             )
                         }
@@ -365,12 +364,12 @@ class PostDetailScreen(
                                 autoLoadImages = uiState.autoLoadImages,
                                 blurNsfw = false,
                                 onOpenCommunity = rememberCallbackArgs { community ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         CommunityDetailScreen(community = community)
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         UserDetailScreen(user = user)
                                     )
                                 },
@@ -405,7 +404,7 @@ class PostDetailScreen(
                                         val screen = CreateCommentScreen(
                                             originalPost = uiState.post,
                                         )
-                                        navigationCoordinator.getBottomNavigator()?.show(screen)
+                                        navigationCoordinator.showBottomSheet(screen)
                                     }
                                 },
                                 options = buildList {
@@ -455,19 +454,19 @@ class PostDetailScreen(
                                         OptionId.Delete -> model.reduce(PostDetailMviModel.Intent.DeletePost)
 
                                         OptionId.Edit -> {
-                                            navigationCoordinator.getBottomNavigator()?.show(
+                                            navigationCoordinator.showBottomSheet(
                                                 CreatePostScreen(editedPost = uiState.post)
                                             )
                                         }
 
                                         OptionId.Report -> {
-                                            navigationCoordinator.getBottomNavigator()?.show(
+                                            navigationCoordinator.showBottomSheet(
                                                 CreateReportScreen(postId = uiState.post.id)
                                             )
                                         }
 
                                         OptionId.CrossPost -> {
-                                            navigationCoordinator.getBottomNavigator()?.show(
+                                            navigationCoordinator.showBottomSheet(
                                                 CreatePostScreen(crossPost = uiState.post)
                                             )
                                         }
@@ -482,7 +481,7 @@ class PostDetailScreen(
                                     }
                                 },
                                 onImageClick = rememberCallbackArgs { url ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         ZoomableImageScreen(url),
                                     )
                                 },
@@ -523,15 +522,14 @@ class PostDetailScreen(
                                             }
                                             Text(
                                                 modifier = Modifier.onClick(
-                                                    rememberCallback {
+                                                    onClick = rememberCallback {
                                                         val post = PostModel(
                                                             id = crossPost.id,
                                                             community = community,
                                                         )
-                                                        navigationCoordinator.getRootNavigator()
-                                                            ?.push(
-                                                                PostDetailScreen(post)
-                                                            )
+                                                        navigationCoordinator.pushScreen(
+                                                            PostDetailScreen(post)
+                                                        )
                                                     },
                                                 ),
                                                 text = string,
@@ -639,6 +637,18 @@ class PostDetailScreen(
                                                             )
                                                         )
                                                     },
+                                                    onDoubleClick = if (!uiState.doubleTapActionEnabled) {
+                                                        null
+                                                    } else {
+                                                        rememberCallback(model) {
+                                                            model.reduce(
+                                                                PostDetailMviModel.Intent.UpVoteComment(
+                                                                    commentId = comment.id,
+                                                                    feedback = true,
+                                                                ),
+                                                            )
+                                                        }
+                                                    },
                                                     onUpVote = rememberCallback(model) {
                                                         if (uiState.isLogged && !isOnOtherInstance) {
                                                             model.reduce(
@@ -675,32 +685,31 @@ class PostDetailScreen(
                                                                 originalPost = uiState.post,
                                                                 originalComment = comment,
                                                             )
-                                                            navigationCoordinator.getBottomNavigator()
-                                                                ?.show(screen)
+                                                            navigationCoordinator.showBottomSheet(
+                                                                screen
+                                                            )
                                                         }
                                                     },
                                                     onOpenCreator = rememberCallbackArgs {
                                                         val user = comment.creator
                                                         if (user != null) {
-                                                            navigationCoordinator.getRootNavigator()
-                                                                ?.push(
-                                                                    UserDetailScreen(
-                                                                        user = user,
-                                                                        otherInstance = otherInstanceName,
-                                                                    ),
-                                                                )
+                                                            navigationCoordinator.pushScreen(
+                                                                UserDetailScreen(
+                                                                    user = user,
+                                                                    otherInstance = otherInstanceName,
+                                                                ),
+                                                            )
                                                         }
                                                     },
                                                     onOpenCommunity = rememberCallbackArgs {
                                                         val community = comment.community
                                                         if (community != null) {
-                                                            navigationCoordinator.getRootNavigator()
-                                                                ?.push(
-                                                                    CommunityDetailScreen(
-                                                                        community = community,
-                                                                        otherInstance = otherInstanceName,
-                                                                    ),
-                                                                )
+                                                            navigationCoordinator.pushScreen(
+                                                                CommunityDetailScreen(
+                                                                    community = community,
+                                                                    otherInstance = otherInstanceName,
+                                                                ),
+                                                            )
                                                         }
                                                     },
                                                     options = buildList {
@@ -742,21 +751,19 @@ class PostDetailScreen(
                                                             )
 
                                                             OptionId.Edit -> {
-                                                                navigationCoordinator.getBottomNavigator()
-                                                                    ?.show(
-                                                                        CreateCommentScreen(
-                                                                            editedComment = comment,
-                                                                        )
+                                                                navigationCoordinator.showBottomSheet(
+                                                                    CreateCommentScreen(
+                                                                        editedComment = comment,
                                                                     )
+                                                                )
                                                             }
 
                                                             OptionId.Report -> {
-                                                                navigationCoordinator.getBottomNavigator()
-                                                                    ?.show(
-                                                                        CreateReportScreen(
-                                                                            commentId = comment.id
-                                                                        )
+                                                                navigationCoordinator.showBottomSheet(
+                                                                    CreateReportScreen(
+                                                                        commentId = comment.id
                                                                     )
+                                                                )
                                                             }
 
                                                             OptionId.SeeRaw -> {
@@ -815,14 +822,13 @@ class PostDetailScreen(
                                                         originalPost = uiState.post,
                                                         originalComment = comment,
                                                     )
-                                                    navigationCoordinator.getBottomNavigator()
-                                                        ?.show(screen)
+                                                    navigationCoordinator.showBottomSheet(screen)
                                                 }
                                             },
                                             onOpenCreator = rememberCallbackArgs {
                                                 val user = comment.creator
                                                 if (user != null) {
-                                                    navigationCoordinator.getRootNavigator()?.push(
+                                                    navigationCoordinator.pushScreen(
                                                         UserDetailScreen(
                                                             user = user,
                                                             otherInstance = otherInstanceName,
@@ -867,21 +873,19 @@ class PostDetailScreen(
                                                     )
 
                                                     OptionId.Edit -> {
-                                                        navigationCoordinator.getBottomNavigator()
-                                                            ?.show(
-                                                                CreateCommentScreen(
-                                                                    editedComment = comment,
-                                                                )
+                                                        navigationCoordinator.showBottomSheet(
+                                                            CreateCommentScreen(
+                                                                editedComment = comment,
                                                             )
+                                                        )
                                                     }
 
                                                     OptionId.Report -> {
-                                                        navigationCoordinator.getBottomNavigator()
-                                                            ?.show(
-                                                                CreateReportScreen(
-                                                                    commentId = comment.id
-                                                                )
+                                                        navigationCoordinator.showBottomSheet(
+                                                            CreateReportScreen(
+                                                                commentId = comment.id
                                                             )
+                                                        )
                                                     }
 
                                                     OptionId.SeeRaw -> {

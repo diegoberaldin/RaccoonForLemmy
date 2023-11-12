@@ -109,6 +109,7 @@ class SettingsViewModel(
                 supportsDynamicColors = colorSchemeProvider.supportsDynamicColors,
                 openUrlsInExternalBrowser = settings.openUrlsInExternalBrowser,
                 enableSwipeActions = settings.enableSwipeActions,
+                enableDoubleTapAction = settings.enableDoubleTapAction,
                 crashReportEnabled = crashReportConfiguration.isEnabled(),
                 separateUpAndDownVotes = settings.separateUpAndDownVotes,
                 autoLoadImages = settings.autoLoadImages,
@@ -177,6 +178,10 @@ class SettingsViewModel(
 
             is SettingsMviModel.Intent.ChangeEnableSwipeActions -> {
                 changeEnableSwipeActions(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeEnableDoubleTapAction -> {
+                changeEnableDoubleTapAction(intent.value)
             }
 
             is SettingsMviModel.Intent.ChangeCustomSeedColor -> changeCustomSeedColor(
@@ -384,6 +389,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 enableSwipeActions = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeEnableDoubleTapAction(value: Boolean) {
+        mvi.updateState { it.copy(enableDoubleTapAction = value) }
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                enableDoubleTapAction = value
             )
             saveSettings(settings)
         }

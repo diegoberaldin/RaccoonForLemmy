@@ -15,6 +15,7 @@ fun PostCardBody(
     text: String,
     autoLoadImages: Boolean = true,
     onClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -27,17 +28,17 @@ fun PostCardBody(
             inlineImages = false,
             autoLoadImages = autoLoadImages,
             onOpenUrl = { url ->
-                handleUrl(
+                navigationCoordinator.handleUrl(
                     url = url,
                     openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
                     uriHandler = uriHandler,
-                    navigator = navigationCoordinator.getRootNavigator()
                 )
             },
             onOpenImage = { url ->
-                navigationCoordinator.getRootNavigator()?.push(ZoomableImageScreen(url))
+                navigationCoordinator.pushScreen(ZoomableImageScreen(url))
             },
             onClick = onClick,
+            onDoubleClick = onDoubleClick,
         )
     }
 }

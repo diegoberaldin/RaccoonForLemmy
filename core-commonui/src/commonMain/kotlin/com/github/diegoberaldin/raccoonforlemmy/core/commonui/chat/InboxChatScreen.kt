@@ -111,8 +111,8 @@ class InboxChatScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
-                                    navigationCoordinator.getRootNavigator()?.pop()
+                                onClick = rememberCallback {
+                                    navigationCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,

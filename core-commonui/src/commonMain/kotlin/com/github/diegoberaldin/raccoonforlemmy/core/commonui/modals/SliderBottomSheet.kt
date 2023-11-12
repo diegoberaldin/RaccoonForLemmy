@@ -76,7 +76,7 @@ class SliderBottomSheet(
                             ?.also {
                                 it.invoke(value)
                             }
-                        navigationCoordinator.getBottomNavigator()?.hide()
+                        navigationCoordinator.hideBottomSheet()
                     },
                 ) {
                     Text(text = stringResource(MR.strings.button_confirm))

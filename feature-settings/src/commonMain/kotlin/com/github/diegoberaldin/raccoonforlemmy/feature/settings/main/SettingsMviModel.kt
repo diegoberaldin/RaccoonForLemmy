@@ -32,6 +32,7 @@ interface SettingsMviModel :
         data class ChangeBlurNsfw(val value: Boolean) : Intent
         data class ChangeOpenUrlsInExternalBrowser(val value: Boolean) : Intent
         data class ChangeEnableSwipeActions(val value: Boolean) : Intent
+        data class ChangeEnableDoubleTapAction(val value: Boolean) : Intent
         data class ChangeCustomSeedColor(val value: Color?) : Intent
         data class ChangeUpvoteColor(val value: Color?) : Intent
         data class ChangeDownvoteColor(val value: Color?) : Intent
@@ -66,6 +67,7 @@ interface SettingsMviModel :
         val blurNsfw: Boolean = true,
         val openUrlsInExternalBrowser: Boolean = false,
         val enableSwipeActions: Boolean = true,
+        val enableDoubleTapAction: Boolean = true,
         val crashReportEnabled: Boolean = false,
         val separateUpAndDownVotes: Boolean = false,
         val autoLoadImages: Boolean = false,

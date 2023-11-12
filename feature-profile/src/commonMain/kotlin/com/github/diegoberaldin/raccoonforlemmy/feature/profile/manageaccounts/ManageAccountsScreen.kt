@@ -64,7 +64,7 @@ class ManageAccountsScreen : Screen {
             model.effects.onEach { effect ->
                 when (effect) {
                     ManageAccountsMviModel.Effect.Close -> {
-                        navigationCoordinator.getBottomNavigator()?.hide()
+                        navigationCoordinator.hideBottomSheet()
                     }
                 }
             }.launchIn(this)
@@ -104,7 +104,7 @@ class ManageAccountsScreen : Screen {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         model.reduce(ManageAccountsMviModel.Intent.SwitchAccount(idx))
                                     },
                                 )
@@ -151,7 +151,7 @@ class ManageAccountsScreen : Screen {
                         Spacer(modifier = Modifier.height(Spacing.m))
                         Button(
                             onClick = {
-                                navigationCoordinator.getBottomNavigator()?.show(LoginBottomSheet())
+                                navigationCoordinator.showBottomSheet(LoginBottomSheet())
                             },
                         ) {
                             Row(

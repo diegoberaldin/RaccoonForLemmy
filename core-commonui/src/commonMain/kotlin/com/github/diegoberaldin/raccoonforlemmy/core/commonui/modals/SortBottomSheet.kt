@@ -109,14 +109,14 @@ internal class SortBottomSheetMain(
                         )
                             .fillMaxWidth()
                             .onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     if (value == SortType.Top.Generic && expandTop) {
                                         navigator.push(SortBottomSheetTop(contract = contract))
                                     } else {
                                         notificationCenter.getAllObservers(contract).forEach {
                                             it.invoke(value)
                                         }
-                                        navigationCoordinator.getBottomNavigator()?.hide()
+                                        navigationCoordinator.hideBottomSheet()
                                     }
                                 },
                             ),
@@ -172,7 +172,7 @@ internal class SortBottomSheetTop(
             ) {
                 Icon(
                     modifier = Modifier.onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             navigator.pop()
                         },
                     ),
@@ -199,13 +199,13 @@ internal class SortBottomSheetTop(
                         )
                             .fillMaxWidth()
                             .onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     notificationCenter.getAllObservers(
                                         contract,
                                     ).forEach {
                                         it.invoke(value)
                                     }
-                                    navigationCoordinator.getBottomNavigator()?.hide()
+                                    navigationCoordinator.hideBottomSheet()
                                 },
                             ),
                     ) {

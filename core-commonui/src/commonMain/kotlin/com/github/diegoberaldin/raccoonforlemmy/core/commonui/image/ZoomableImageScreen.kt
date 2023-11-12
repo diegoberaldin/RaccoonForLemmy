@@ -81,8 +81,8 @@ class ZoomableImageScreen(
                     navigationIcon = {
                         Icon(
                             modifier = Modifier.onClick(
-                                rememberCallback {
-                                    navigationCoordinator.getRootNavigator()?.pop()
+                                onClick = rememberCallback {
+                                    navigationCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -93,7 +93,7 @@ class ZoomableImageScreen(
                     actions = {
                         Icon(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     model.reduce(ZoomableImageMviModel.Intent.SaveToGallery(url))
                                 },
                             ),
@@ -104,7 +104,7 @@ class ZoomableImageScreen(
                         Spacer(Modifier.width(Spacing.s))
                         Icon(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     model.reduce(ZoomableImageMviModel.Intent.Share(url))
                                 },
                             ),

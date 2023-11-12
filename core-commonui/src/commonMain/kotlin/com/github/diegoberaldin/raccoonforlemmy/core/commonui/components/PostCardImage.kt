@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -33,6 +32,7 @@ fun PostCardImage(
     maxHeight: Dp = Dp.Unspecified,
     blurred: Boolean = false,
     onImageClick: ((String) -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
 ) {
     if (imageUrl.isNotEmpty()) {
         CustomImage(
@@ -40,9 +40,8 @@ fun PostCardImage(
                 .heightIn(min = minHeight, max = maxHeight)
                 .blur(radius = if (blurred) 60.dp else 0.dp)
                 .onClick(
-                    rememberCallback {
-                        onImageClick?.invoke(imageUrl)
-                    },
+                    onClick = { onImageClick?.invoke(imageUrl) },
+                    onDoubleClick = onDoubleClick ?: {},
                 ),
             url = imageUrl,
             quality = FilterQuality.Low,

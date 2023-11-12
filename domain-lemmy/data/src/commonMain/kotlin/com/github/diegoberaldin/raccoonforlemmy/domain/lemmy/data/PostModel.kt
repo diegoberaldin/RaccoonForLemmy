@@ -35,6 +35,6 @@ val PostModel.shareUrl: String
     }
 
 val PostModel.imageUrl: String
-    get() = thumbnailUrl?.takeIf { it.isNotEmpty() } ?: run {
-        url?.takeIf { it.looksLikeAnImage }
+    get() = url?.takeIf { it.looksLikeAnImage }?.takeIf { it.isNotEmpty() } ?: run {
+        thumbnailUrl
     }.orEmpty()

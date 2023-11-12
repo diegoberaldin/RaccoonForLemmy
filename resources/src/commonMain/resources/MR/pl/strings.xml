@@ -87,6 +87,8 @@
     <string name="inbox_listing_type_all">Wszystkie</string>
     <string name="inbox_listing_type_title">Typ skrzynki</string>
     <string name="inbox_listing_type_unread">Nieprzeczytany</string>
+    <string name="inbox_action_mark_read">Oznacz jako przeczytane</string>
+    <string name="inbox_action_mark_unread">Oznacz jako nieprzeczytane</string>
     <string name="inbox_not_logged_message">Obecnie nie jesteś zalogowany.\nDodaj konto na ekranie
         profilu, aby zobaczyć swoją skrzynkę odbiorczą."
     </string>
@@ -191,6 +193,7 @@
     <string name="settings_downvote_color">Kolor głosów negatywnych</string>
     <string name="settings_dynamic_colors">Używaj dynamicznych kolorów</string>
     <string name="settings_enable_crash_report">Włącz raportowanie awarii</string>
+    <string name="settings_enable_double_tap">Włącz akcje podwójnego dotknięcia</string>
     <string name="settings_enable_swipe_actions">Włącz akcje przesuwania</string>
     <string name="settings_full_height_images">Obrazy o pełnej wysokości</string>
     <string name="settings_hide_navigation_bar">Ukryj pasek nawigacji podczas przewijania</string>

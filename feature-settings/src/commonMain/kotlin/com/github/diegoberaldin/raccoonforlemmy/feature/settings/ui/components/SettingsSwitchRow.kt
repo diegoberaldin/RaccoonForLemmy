@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -16,19 +17,31 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 internal fun SettingsSwitchRow(
     title: String,
     value: Boolean,
+    subtitle: String? = null,
     onValueChanged: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier.padding(horizontal = Spacing.m),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        Column {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (subtitle != null) {
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
         Spacer(modifier = Modifier.weight(1f))
         Switch(
             checked = value,

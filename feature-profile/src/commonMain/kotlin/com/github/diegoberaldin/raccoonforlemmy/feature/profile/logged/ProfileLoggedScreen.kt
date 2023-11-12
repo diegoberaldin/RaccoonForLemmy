@@ -142,8 +142,7 @@ internal object ProfileLoggedScreen : Tab {
                                     user = user,
                                     autoLoadImages = uiState.autoLoadImages,
                                     onOpenImage = rememberCallbackArgs { url ->
-                                        navigationCoordinator.getRootNavigator()
-                                            ?.push(ZoomableImageScreen(url))
+                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                     },
                                 )
                                 SectionSelector(
@@ -193,17 +192,17 @@ internal object ProfileLoggedScreen : Tab {
                                     hideAuthor = true,
                                     blurNsfw = false,
                                     onClick = rememberCallback {
-                                        navigationCoordinator.getRootNavigator()?.push(
+                                        navigationCoordinator.pushScreen(
                                             PostDetailScreen(post),
                                         )
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community ->
-                                        navigationCoordinator.getRootNavigator()?.push(
+                                        navigationCoordinator.pushScreen(
                                             CommunityDetailScreen(community),
                                         )
                                     },
                                     onImageClick = rememberCallbackArgs { url ->
-                                        navigationCoordinator.getRootNavigator()?.push(
+                                        navigationCoordinator.pushScreen(
                                             ZoomableImageScreen(url),
                                         )
                                     },
@@ -264,7 +263,7 @@ internal object ProfileLoggedScreen : Tab {
                                             )
 
                                             OptionId.Edit -> {
-                                                navigationCoordinator.getBottomNavigator()?.show(
+                                                navigationCoordinator.showBottomSheet(
                                                     CreatePostScreen(
                                                         editedPost = post,
                                                     )
@@ -324,7 +323,7 @@ internal object ProfileLoggedScreen : Tab {
                                     hideAuthor = true,
                                     hideIndent = true,
                                     onClick = rememberCallback {
-                                        navigationCoordinator.getRootNavigator()?.push(
+                                        navigationCoordinator.pushScreen(
                                             PostDetailScreen(
                                                 post = PostModel(id = comment.postId),
                                                 highlightCommentId = comment.id,
@@ -386,7 +385,7 @@ internal object ProfileLoggedScreen : Tab {
                                             }
 
                                             OptionId.Edit -> {
-                                                navigationCoordinator.getBottomNavigator()?.show(
+                                                navigationCoordinator.showBottomSheet(
                                                     CreateCommentScreen(editedComment = comment)
                                                 )
                                             }

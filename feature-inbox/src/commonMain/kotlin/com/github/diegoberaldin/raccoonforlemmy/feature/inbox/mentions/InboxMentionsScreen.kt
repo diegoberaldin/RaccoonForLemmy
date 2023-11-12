@@ -46,6 +46,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCardType
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
@@ -181,7 +183,7 @@ class InboxMentionsScreen : Tab {
                                 autoLoadImages = uiState.autoLoadImages,
                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                 onOpenPost = rememberCallbackArgs { post ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         PostDetailScreen(
                                             post = post,
                                             highlightCommentId = mention.comment.id,
@@ -189,12 +191,12 @@ class InboxMentionsScreen : Tab {
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         UserDetailScreen(user),
                                     )
                                 },
                                 onOpenCommunity = rememberCallbackArgs { community ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         CommunityDetailScreen(community),
                                     )
                                 },
@@ -208,6 +210,39 @@ class InboxMentionsScreen : Tab {
                                         )
                                     )
                                 },
+                                options = buildList {
+                                    add(
+                                        Option(
+                                            OptionId.MarkRead,
+                                            stringResource(MR.strings.inbox_action_mark_read)
+                                        )
+                                    )
+                                    add(
+                                        Option(
+                                            OptionId.MarkUnread,
+                                            stringResource(MR.strings.inbox_action_mark_unread)
+                                        )
+                                    )
+                                },
+                                onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                    when (optionId) {
+                                        OptionId.MarkRead -> model.reduce(
+                                            InboxMentionsMviModel.Intent.MarkAsRead(
+                                                read = true,
+                                                id = mention.id,
+                                            ),
+                                        )
+
+                                        OptionId.MarkUnread -> model.reduce(
+                                            InboxMentionsMviModel.Intent.MarkAsRead(
+                                                read = false,
+                                                id = mention.id,
+                                            ),
+                                        )
+
+                                        else -> Unit
+                                    }
+                                }
                             )
                         },
                     )

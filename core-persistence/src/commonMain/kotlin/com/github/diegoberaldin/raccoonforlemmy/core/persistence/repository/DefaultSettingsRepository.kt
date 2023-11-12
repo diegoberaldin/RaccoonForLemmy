@@ -25,6 +25,7 @@ private object KeyStoreKeys {
     const val DynamicColors = "dynamicColors"
     const val OpenUrlsInExternalBrowser = "openUrlsInExternalBrowser"
     const val EnableSwipeActions = "enableSwipeActions"
+    const val EnableDoubleTapAction = "enableDoubleTapAction"
     const val CustomSeedColor = "customPrimaryColor"
     const val PostLayout = "postLayout"
     const val SeparateUpAndDownVotes = "separateUpAndDownVotes"
@@ -64,6 +65,7 @@ internal class DefaultSettingsRepository(
                 dynamicColors = if (settings.dynamicColors) 1L else 0L,
                 openUrlsInExternalBrowser = if (settings.openUrlsInExternalBrowser) 1L else 0L,
                 enableSwipeActions = if (settings.enableSwipeActions) 1L else 0L,
+                enableDoubleTapAction = if (settings.enableDoubleTapAction) 1L else 0L,
                 customSeedColor = settings.customSeedColor?.toLong(),
                 account_id = accountId,
                 postLayout = settings.postLayout.toLong(),
@@ -100,6 +102,7 @@ internal class DefaultSettingsRepository(
                     dynamicColors = keyStore[KeyStoreKeys.DynamicColors, false],
                     openUrlsInExternalBrowser = keyStore[KeyStoreKeys.OpenUrlsInExternalBrowser, false],
                     enableSwipeActions = keyStore[KeyStoreKeys.EnableSwipeActions, true],
+                    enableDoubleTapAction = keyStore[KeyStoreKeys.EnableDoubleTapAction, false],
                     customSeedColor = if (!keyStore.containsKey(KeyStoreKeys.CustomSeedColor)) null else keyStore[KeyStoreKeys.CustomSeedColor, 0],
                     postLayout = keyStore[KeyStoreKeys.PostLayout, 0],
                     separateUpAndDownVotes = keyStore[KeyStoreKeys.SeparateUpAndDownVotes, false],
@@ -148,6 +151,7 @@ internal class DefaultSettingsRepository(
                     value = settings.openUrlsInExternalBrowser
                 )
                 keyStore.save(KeyStoreKeys.EnableSwipeActions, settings.enableSwipeActions)
+                keyStore.save(KeyStoreKeys.EnableDoubleTapAction, settings.enableDoubleTapAction)
                 if (settings.customSeedColor != null) {
                     keyStore.save(KeyStoreKeys.CustomSeedColor, settings.customSeedColor)
                 } else {
@@ -196,6 +200,7 @@ internal class DefaultSettingsRepository(
                     dynamicColors = if (settings.dynamicColors) 1L else 0L,
                     openUrlsInExternalBrowser = if (settings.openUrlsInExternalBrowser) 1L else 0L,
                     enableSwipeActions = if (settings.enableSwipeActions) 1L else 0L,
+                    enableDoubleTapAction = if (settings.enableDoubleTapAction) 1L else 0L,
                     customSeedColor = settings.customSeedColor?.toLong(),
                     postLayout = settings.postLayout.toLong(),
                     separateUpAndDownVotes = if (settings.separateUpAndDownVotes) 1L else 0L,
@@ -233,6 +238,7 @@ private fun GetBy.toModel() = SettingsModel(
     dynamicColors = dynamicColors != 0L,
     openUrlsInExternalBrowser = openUrlsInExternalBrowser != 0L,
     enableSwipeActions = enableSwipeActions != 0L,
+    enableDoubleTapAction = enableDoubleTapAction != 0L,
     customSeedColor = customSeedColor?.toInt(),
     postLayout = postLayout.toInt(),
     separateUpAndDownVotes = separateUpAndDownVotes != 0L,

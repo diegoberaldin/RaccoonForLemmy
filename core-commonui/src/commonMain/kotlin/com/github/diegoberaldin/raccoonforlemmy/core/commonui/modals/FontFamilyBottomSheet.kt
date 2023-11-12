@@ -74,14 +74,14 @@ class FontFamilyBottomSheet(
                             )
                                 .fillMaxWidth()
                                 .onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         notificationCenter.getObserver(
                                             NotificationCenterContractKeys.ChangeFontFamily
                                         )
                                             ?.also {
                                                 it.invoke(value)
                                             }
-                                        navigationCoordinator.getBottomNavigator()?.hide()
+                                        navigationCoordinator.hideBottomSheet()
                                     },
                                 ),
                         ) {

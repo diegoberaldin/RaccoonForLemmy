@@ -237,7 +237,7 @@ class CommunityDetailScreen(
                         if (!isOnOtherInstance && uiState.isLogged) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         when (uiState.community.subscribed) {
                                             true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
                                             false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
@@ -259,11 +259,11 @@ class CommunityDetailScreen(
                         // sort button
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
                                         expandTop = true,
                                     )
-                                    navigationCoordinator.getBottomNavigator()?.show(sheet)
+                                    navigationCoordinator.showBottomSheet(sheet)
                                 },
                             ),
                             imageVector = uiState.sortType.toIcon(),
@@ -297,7 +297,7 @@ class CommunityDetailScreen(
                                 modifier = Modifier.onGloballyPositioned {
                                     optionsOffset = it.positionInParent()
                                 }.padding(start = Spacing.s).onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         optionsExpanded = true
                                     },
                                 ),
@@ -321,7 +321,7 @@ class CommunityDetailScreen(
                                             horizontal = Spacing.m,
                                             vertical = Spacing.s,
                                         ).onClick(
-                                            rememberCallback {
+                                            onClick = rememberCallback {
                                                 optionsExpanded = false
                                                 when (option.id) {
                                                     OptionId.BlockInstance -> model.reduce(
@@ -333,19 +333,17 @@ class CommunityDetailScreen(
                                                     )
 
                                                     OptionId.InfoInstance -> {
-                                                        navigationCoordinator.getRootNavigator()
-                                                            ?.push(
-                                                                InstanceInfoScreen(
-                                                                    url = uiState.community.instanceUrl,
-                                                                ),
-                                                            )
+                                                        navigationCoordinator.pushScreen(
+                                                            InstanceInfoScreen(
+                                                                url = uiState.community.instanceUrl,
+                                                            ),
+                                                        )
                                                     }
 
                                                     OptionId.Info -> {
-                                                        navigationCoordinator.getBottomNavigator()
-                                                            ?.show(
-                                                                CommunityInfoScreen(uiState.community),
-                                                            )
+                                                        navigationCoordinator.showBottomSheet(
+                                                            CommunityInfoScreen(uiState.community),
+                                                        )
                                                     }
 
                                                     else -> Unit
@@ -359,12 +357,11 @@ class CommunityDetailScreen(
                         }
                     },
                     navigationIcon = {
-                        val navigator = navigationCoordinator.getRootNavigator()
-                        if (navigator?.canPop == true) {
+                        if (navigationCoordinator.canPop) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
-                                        navigator.pop()
+                                    onClick = rememberCallback {
+                                        navigationCoordinator.popScreen()
                                     },
                                 ),
                                 imageVector = Icons.Default.ArrowBack,
@@ -437,7 +434,7 @@ class CommunityDetailScreen(
                                         val screen = CreatePostScreen(
                                             communityId = uiState.community.id,
                                         )
-                                        navigationCoordinator.getBottomNavigator()?.show(screen)
+                                        navigationCoordinator.showBottomSheet(screen)
                                     },
                                 )
                             }
@@ -476,8 +473,7 @@ class CommunityDetailScreen(
                                     community = uiState.community,
                                     autoLoadImages = uiState.autoLoadImages,
                                     onOpenImage = rememberCallbackArgs { url ->
-                                        navigationCoordinator.getRootNavigator()
-                                            ?.push(ZoomableImageScreen(url))
+                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                     },
                                 )
                                 Spacer(modifier = Modifier.height(Spacing.m))
@@ -559,15 +555,27 @@ class CommunityDetailScreen(
                                                     post.id
                                                 )
                                             )
-                                            navigationCoordinator.getRootNavigator()?.push(
+                                            navigationCoordinator.pushScreen(
                                                 PostDetailScreen(
                                                     post = post,
                                                     otherInstance = otherInstanceName,
                                                 ),
                                             )
                                         },
+                                        onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged || isOnOtherInstance) {
+                                            null
+                                        } else {
+                                            rememberCallback(model) {
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.UpVotePost(
+                                                        id = post.id,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
+                                        },
                                         onOpenCreator = rememberCallbackArgs { user ->
-                                            navigationCoordinator.getRootNavigator()?.push(
+                                            navigationCoordinator.pushScreen(
                                                 UserDetailScreen(
                                                     user = user,
                                                     otherInstance = otherInstanceName,
@@ -609,8 +617,7 @@ class CommunityDetailScreen(
                                                 val screen = CreateCommentScreen(
                                                     originalPost = post,
                                                 )
-                                                navigationCoordinator.getBottomNavigator()
-                                                    ?.show(screen)
+                                                navigationCoordinator.showBottomSheet(screen)
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs(model) { url ->
@@ -619,7 +626,7 @@ class CommunityDetailScreen(
                                                     post.id
                                                 )
                                             )
-                                            navigationCoordinator.getRootNavigator()?.push(
+                                            navigationCoordinator.pushScreen(
                                                 ZoomableImageScreen(url),
                                             )
                                         },
@@ -680,24 +687,21 @@ class CommunityDetailScreen(
                                                 )
 
                                                 OptionId.Edit -> {
-                                                    navigationCoordinator.getBottomNavigator()
-                                                        ?.show(
-                                                            CreatePostScreen(editedPost = post)
-                                                        )
+                                                    navigationCoordinator.showBottomSheet(
+                                                        CreatePostScreen(editedPost = post)
+                                                    )
                                                 }
 
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.getBottomNavigator()
-                                                        ?.show(
-                                                            CreateReportScreen(postId = post.id)
-                                                        )
+                                                    navigationCoordinator.showBottomSheet(
+                                                        CreateReportScreen(postId = post.id)
+                                                    )
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    navigationCoordinator.getBottomNavigator()
-                                                        ?.show(
-                                                            CreatePostScreen(crossPost = post)
-                                                        )
+                                                    navigationCoordinator.showBottomSheet(
+                                                        CreatePostScreen(crossPost = post)
+                                                    )
                                                 }
 
                                                 OptionId.SeeRaw -> {

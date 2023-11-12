@@ -97,7 +97,7 @@ class SelectCommunityDialog : Screen {
                     trailingIcon = {
                         Icon(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     if (uiState.searchText.isNotEmpty()) {
                                         model.reduce(SelectCommunityMviModel.Intent.SetSearch(""))
                                     }
@@ -127,16 +127,18 @@ class SelectCommunityDialog : Screen {
                             CommunityItem(
                                 modifier = Modifier.fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.background)
-                                    .onClick(rememberCallback {
-                                        notificationCenter.getObserver(
-                                            NotificationCenterContractKeys.SelectCommunity
-                                        )
-                                            ?.invoke(community)
-                                        notificationCenter.getObserver(
-                                            NotificationCenterContractKeys.CloseDialog
-                                        )
-                                            ?.invoke(Unit)
-                                    }),
+                                    .onClick(
+                                        onClick = rememberCallback {
+                                            notificationCenter.getObserver(
+                                                NotificationCenterContractKeys.SelectCommunity
+                                            )
+                                                ?.invoke(community)
+                                            notificationCenter.getObserver(
+                                                NotificationCenterContractKeys.CloseDialog
+                                            )
+                                                ?.invoke(Unit)
+                                        },
+                                    ),
                                 autoLoadImages = uiState.autoLoadImages,
                                 community = community,
                             )

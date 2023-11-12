@@ -79,6 +79,7 @@ class UserDetailViewModel(
                     it.copy(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
+                        doubleTapActionEnabled = settings.enableDoubleTapAction,
                         sortType = settings.defaultPostSortType.toSortType(),
                         separateUpAndDownVotes = settings.separateUpAndDownVotes,
                         autoLoadImages = settings.autoLoadImages,

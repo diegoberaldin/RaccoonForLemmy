@@ -86,7 +86,7 @@ internal object ProfileMainScreen : Tab {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     scope.launch {
                                         drawerCoordinator.toggleDrawer()
                                     }
@@ -108,9 +108,8 @@ internal object ProfileMainScreen : Tab {
                         if (uiState.logged == true) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
-                                        navigationCoordinator.getBottomNavigator()
-                                            ?.show(ManageAccountsScreen())
+                                    onClick = rememberCallback {
+                                        navigationCoordinator.showBottomSheet(ManageAccountsScreen())
                                     },
                                 ),
                                 imageVector = Icons.Default.ManageAccounts,
@@ -122,7 +121,7 @@ internal object ProfileMainScreen : Tab {
 
                             Image(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         model.reduce(ProfileMainMviModel.Intent.Logout)
                                     },
                                 ),

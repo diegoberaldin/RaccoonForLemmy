@@ -1,8 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
 
 import androidx.compose.ui.platform.UriHandler
-import cafe.adriel.voyager.navigator.Navigator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -39,18 +39,17 @@ fun getPostFromUrl(url: String?): Pair<PostModel, String>? {
     }
 }
 
-fun handleUrl(
+fun NavigationCoordinator.handleUrl(
     url: String,
     openExternal: Boolean,
     uriHandler: UriHandler,
-    navigator: Navigator? = null,
 ) {
     val community = getCommunityFromUrl(url)
     val user = getUserFromUrl(url)
 
     when {
-        community != null && navigator != null -> {
-            navigator.push(
+        community != null -> {
+            pushScreen(
                 CommunityDetailScreen(
                     community = community,
                     otherInstance = community.host
@@ -58,8 +57,8 @@ fun handleUrl(
             )
         }
 
-        user != null && navigator != null -> {
-            navigator.push(
+        user != null -> {
+            pushScreen(
                 UserDetailScreen(
                     user = user,
                     otherInstance = user.host
@@ -71,11 +70,7 @@ fun handleUrl(
             uriHandler.openUri(url)
         }
 
-        navigator != null -> {
-            navigator.push(WebViewScreen(url))
-        }
-
-        else -> Unit
+        else -> pushScreen(WebViewScreen(url))
     }
 }
 

@@ -73,7 +73,7 @@ class CreateReportScreen(
                     }
 
                     CreateReportMviModel.Effect.Success -> {
-                        navigationCoordinator.getBottomNavigator()?.hide()
+                        navigationCoordinator.hideBottomSheet()
                     }
                 }
             }.launchIn(this)

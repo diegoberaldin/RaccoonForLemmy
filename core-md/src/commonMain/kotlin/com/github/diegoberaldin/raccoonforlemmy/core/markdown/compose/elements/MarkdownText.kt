@@ -4,9 +4,7 @@ import androidx.compose.animation.core.InfiniteRepeatableSpec
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -40,6 +38,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalMarkd
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalReferenceLinkHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.utils.TAG_IMAGE_URL
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.utils.TAG_URL
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -121,12 +120,9 @@ internal fun MarkdownText(
                             CustomImage(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable(
-                                        interactionSource = remember { MutableInteractionSource() },
-                                        indication = null
-                                    ) {
-                                        onOpenImage?.invoke(imageUrl)
-                                    },
+                                    .onClick(
+                                        onClick = { onOpenImage?.invoke(imageUrl) },
+                                    ),
                                 url = link,
                                 autoload = autoLoadImages,
                                 quality = FilterQuality.Low,
@@ -175,12 +171,10 @@ internal fun MarkdownText(
                     // TODO: improve fixed values
                     .heightIn(min = 200.dp, max = Dp.Unspecified)
                     .clip(RoundedCornerShape(20.dp))
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) {
-                        onOpenImage?.invoke(imageUrl)
-                    },
+                    .onClick(
+                        onClick = { onOpenImage?.invoke(imageUrl) },
+                        onDoubleClick = {},
+                    ),
                 url = imageUrl,
                 autoload = autoLoadImages,
                 quality = FilterQuality.Low,

@@ -95,13 +95,13 @@ class ColorBottomSheet : Screen {
                             horizontal = Spacing.s,
                             vertical = Spacing.s,
                         ).fillMaxWidth().onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 if (!isChooseCustom) {
                                     notificationCenter.getObserver(NotificationCenterContractKeys.ChangeColor)
                                         ?.also {
                                             it.invoke(value.first ?: Unit)
                                         }
-                                    navigationCoordinator.getBottomNavigator()?.hide()
+                                    navigationCoordinator.hideBottomSheet()
                                 } else {
                                     customPickerDialogOpened = true
                                 }
@@ -149,7 +149,7 @@ class ColorBottomSheet : Screen {
                         ?.also {
                             it.invoke(color)
                         }
-                    navigationCoordinator.getBottomNavigator()?.hide()
+                    navigationCoordinator.hideBottomSheet()
                 }
             )
         }

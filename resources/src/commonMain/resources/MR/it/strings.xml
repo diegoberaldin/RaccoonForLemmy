@@ -87,6 +87,8 @@
     <string name="inbox_listing_type_all">Tutti</string>
     <string name="inbox_listing_type_title">Tipo inbox</string>
     <string name="inbox_listing_type_unread">Non letti</string>
+    <string name="inbox_action_mark_read">Segna come letto</string>
+    <string name="inbox_action_mark_unread">Segna come non letto</string>
     <string name="inbox_not_logged_message">Login non effettuato.\nAggiungi un account dalla
         schermata Profilo per accedere alla inbox.
     </string>
@@ -192,6 +194,7 @@
     <string name="settings_downvote_color">Colore voti negativi</string>
     <string name="settings_dynamic_colors">Usa colori dinamici</string>
     <string name="settings_enable_crash_report">Abilitare segnalazioni di crash</string>
+    <string name="settings_enable_double_tap">Abilita azione doppio tap</string>
     <string name="settings_enable_swipe_actions">Consenti azioni allo swipe</string>
     <string name="settings_full_height_images">Altezza completa immagini</string>
     <string name="settings_include_nsfw">Includi contenuti NSFW</string>

@@ -90,7 +90,7 @@ fun UserHeader(
                         .size(IconSize.xxl)
                         .clip(RoundedCornerShape(IconSize.xxl / 2))
                         .onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onOpenImage?.invoke(userAvatar)
                             },
                         ),

@@ -38,4 +38,5 @@ expect fun CustomMarkdown(
     autoLoadImages: Boolean = true,
     onOpenImage: ((String) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
 )

@@ -46,6 +46,7 @@ interface CommunityDetailMviModel :
         val blurNsfw: Boolean = true,
         val currentUserId: Int? = null,
         val swipeActionsEnabled: Boolean = true,
+        val doubleTapActionEnabled: Boolean = false,
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
         val separateUpAndDownVotes: Boolean = false,

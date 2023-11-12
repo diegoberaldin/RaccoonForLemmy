@@ -79,7 +79,7 @@ fun PostCardFooter(
                 Image(
                     modifier = buttonModifier.padding(1.dp)
                         .onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onReply?.invoke()
                             },
                         ),
@@ -110,11 +110,12 @@ fun PostCardFooter(
             if (options.isNotEmpty()) {
                 Icon(
                     modifier = buttonModifier
+                        .padding(top = Spacing.xxs)
                         .onGloballyPositioned {
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 optionsExpanded = true
                             },
                         ),
@@ -125,7 +126,7 @@ fun PostCardFooter(
             Spacer(modifier = Modifier.weight(1f))
             Image(
                 modifier = buttonModifier.onClick(
-                    rememberCallback {
+                    onClick = rememberCallback {
                         onSave?.invoke()
                     },
                 ),
@@ -146,7 +147,7 @@ fun PostCardFooter(
             Image(
                 modifier = buttonModifier
                     .onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             onUpVote?.invoke()
                         },
                     ),
@@ -206,7 +207,7 @@ fun PostCardFooter(
             Image(
                 modifier = buttonModifier
                     .onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             onDownVote?.invoke()
                         },
                     ),
@@ -238,7 +239,7 @@ fun PostCardFooter(
                         horizontal = Spacing.m,
                         vertical = Spacing.s,
                     ).onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             optionsExpanded = false
                             onOptionSelected?.invoke(option.id)
                         },

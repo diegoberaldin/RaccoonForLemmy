@@ -42,7 +42,7 @@ internal object ProfileNotLoggedScreen : Tab {
             Button(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = {
-                    navigationCoordinator.getBottomNavigator()?.show(
+                    navigationCoordinator.showBottomSheet(
                         LoginBottomSheet(),
                     )
                 },

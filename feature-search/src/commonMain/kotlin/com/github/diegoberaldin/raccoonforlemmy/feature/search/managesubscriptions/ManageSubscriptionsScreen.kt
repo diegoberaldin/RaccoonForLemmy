@@ -108,8 +108,8 @@ class ManageSubscriptionsScreen : Screen {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
-                                    navigatorCoordinator.getRootNavigator()?.pop()
+                                onClick = rememberCallback {
+                                    navigatorCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -178,8 +178,8 @@ class ManageSubscriptionsScreen : Screen {
                             Spacer(modifier = Modifier.weight(1f))
                             Icon(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
-                                        navigatorCoordinator.getRootNavigator()?.push(
+                                    onClick = rememberCallback {
+                                        navigatorCoordinator.pushScreen(
                                             MultiCommunityEditorScreen()
                                         )
                                     },
@@ -206,7 +206,7 @@ class ManageSubscriptionsScreen : Screen {
                                 model.reduce(ManageSubscriptionsMviModel.Intent.HapticIndication)
                             },
                             onDismissToStart = rememberCallback {
-                                navigatorCoordinator.getRootNavigator()?.push(
+                                navigatorCoordinator.pushScreen(
                                     MultiCommunityEditorScreen(community),
                                 )
                             },
@@ -233,8 +233,8 @@ class ManageSubscriptionsScreen : Screen {
                                 MultiCommunityItem(
                                     modifier = Modifier.fillMaxWidth()
                                         .background(MaterialTheme.colorScheme.background).onClick(
-                                            rememberCallback {
-                                                navigatorCoordinator.getRootNavigator()?.push(
+                                            onClick = rememberCallback {
+                                                navigatorCoordinator.pushScreen(
                                                     MultiCommunityScreen(community),
                                                 )
                                             },
@@ -294,8 +294,8 @@ class ManageSubscriptionsScreen : Screen {
                                     modifier = Modifier.fillMaxWidth()
                                         .background(MaterialTheme.colorScheme.background)
                                         .onClick(
-                                            rememberCallback {
-                                                navigatorCoordinator.getRootNavigator()?.push(
+                                            onClick = rememberCallback {
+                                                navigatorCoordinator.pushScreen(
                                                     CommunityDetailScreen(community),
                                                 )
                                             },

@@ -73,13 +73,13 @@ class DurationBottomSheet(
                             horizontal = Spacing.s,
                             vertical = Spacing.s,
                         ).fillMaxWidth().onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 notificationCenter.getObserver(
                                     NotificationCenterContractKeys.ChangeZombieInterval
                                 )?.also {
                                     it.invoke(value)
                                 }
-                                navigationCoordinator.getBottomNavigator()?.hide()
+                                navigationCoordinator.hideBottomSheet()
                             },
                         ),
                     ) {

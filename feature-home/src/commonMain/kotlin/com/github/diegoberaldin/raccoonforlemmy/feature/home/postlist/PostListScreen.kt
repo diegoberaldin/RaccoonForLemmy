@@ -198,13 +198,13 @@ class PostListScreen : Screen {
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
                         )
-                        navigationCoordinator.getBottomNavigator()?.show(sheet)
+                        navigationCoordinator.showBottomSheet(sheet)
                     },
                     onSelectSortType = rememberCallback {
                         val sheet = SortBottomSheet(
                             expandTop = true,
                         )
-                        navigationCoordinator.getBottomNavigator()?.show(sheet)
+                        navigationCoordinator.showBottomSheet(sheet)
                     },
                 )
             },
@@ -315,6 +315,14 @@ class PostListScreen : Screen {
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
+                                directions = if (!uiState.isLogged) {
+                                    emptySet()
+                                } else {
+                                    setOf(
+                                        DismissDirection.StartToEnd,
+                                        DismissDirection.EndToStart,
+                                    )
+                                },
                                 backgroundColor = rememberCallbackArgs {
                                     when (it) {
                                         DismissValue.DismissedToStart -> upvoteColor
@@ -356,51 +364,72 @@ class PostListScreen : Screen {
                                         blurNsfw = uiState.blurNsfw,
                                         onClick = rememberCallback(model) {
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
-                                            navigationCoordinator.getRootNavigator()?.push(
+                                            navigationCoordinator.pushScreen(
                                                 PostDetailScreen(post),
                                             )
                                         },
+                                        onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged) {
+                                            null
+                                        } else {
+                                            rememberCallback(model) {
+                                                model.reduce(
+                                                    PostListMviModel.Intent.UpVotePost(
+                                                        id = post.id,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
+                                        },
                                         onOpenCommunity = rememberCallbackArgs { community ->
-                                            navigationCoordinator.getRootNavigator()?.push(
+                                            navigationCoordinator.pushScreen(
                                                 CommunityDetailScreen(community),
                                             )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user ->
-                                            navigationCoordinator.getRootNavigator()?.push(
+                                            navigationCoordinator.pushScreen(
                                                 UserDetailScreen(user),
                                             )
                                         },
                                         onUpVote = rememberCallback(model) {
-                                            model.reduce(
-                                                PostListMviModel.Intent.UpVotePost(
-                                                    id = post.id,
-                                                    feedback = true,
-                                                ),
-                                            )
+                                            if (uiState.isLogged) {
+                                                model.reduce(
+                                                    PostListMviModel.Intent.UpVotePost(
+                                                        id = post.id,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
                                         },
                                         onDownVote = rememberCallback(model) {
-                                            model.reduce(
-                                                PostListMviModel.Intent.DownVotePost(
-                                                    id = post.id,
-                                                    feedback = true,
-                                                ),
-                                            )
+                                            if (uiState.isLogged) {
+                                                model.reduce(
+                                                    PostListMviModel.Intent.DownVotePost(
+                                                        id = post.id,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
                                         },
                                         onSave = rememberCallback(model) {
-                                            model.reduce(
-                                                PostListMviModel.Intent.SavePost(
-                                                    id = post.id,
-                                                    feedback = true,
-                                                ),
-                                            )
+                                            if (uiState.isLogged) {
+                                                model.reduce(
+                                                    PostListMviModel.Intent.SavePost(
+                                                        id = post.id,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
                                         },
                                         onReply = rememberCallback(model) {
-                                            val screen = CreateCommentScreen(originalPost = post)
-                                            navigationCoordinator.getBottomNavigator()?.show(screen)
+                                            if (uiState.isLogged) {
+                                                val screen =
+                                                    CreateCommentScreen(originalPost = post)
+                                                navigationCoordinator.showBottomSheet(screen)
+                                            }
                                         },
                                         onImageClick = rememberCallbackArgs(model, post) { url ->
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
-                                            navigationCoordinator.getRootNavigator()?.push(
+                                            navigationCoordinator.pushScreen(
                                                 ZoomableImageScreen(url)
                                             )
                                         },
@@ -411,7 +440,7 @@ class PostListScreen : Screen {
                                                     stringResource(MR.strings.post_action_share)
                                                 )
                                             )
-                                            if (uiState.currentUserId != null) {
+                                            if (uiState.isLogged) {
                                                 add(
                                                     Option(
                                                         OptionId.Hide,
@@ -425,7 +454,7 @@ class PostListScreen : Screen {
                                                     stringResource(MR.strings.post_action_see_raw)
                                                 )
                                             )
-                                            if (uiState.currentUserId != null) {
+                                            if (uiState.isLogged) {
                                                 add(
                                                     Option(
                                                         OptionId.CrossPost,
@@ -461,24 +490,21 @@ class PostListScreen : Screen {
                                                 )
 
                                                 OptionId.Edit -> {
-                                                    navigationCoordinator.getBottomNavigator()
-                                                        ?.show(
-                                                            CreatePostScreen(editedPost = post)
-                                                        )
+                                                    navigationCoordinator.showBottomSheet(
+                                                        CreatePostScreen(editedPost = post)
+                                                    )
                                                 }
 
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.getBottomNavigator()
-                                                        ?.show(
-                                                            CreateReportScreen(postId = post.id)
-                                                        )
+                                                    navigationCoordinator.showBottomSheet(
+                                                        CreateReportScreen(postId = post.id)
+                                                    )
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    navigationCoordinator.getBottomNavigator()
-                                                        ?.show(
-                                                            CreatePostScreen(crossPost = post)
-                                                        )
+                                                    navigationCoordinator.showBottomSheet(
+                                                        CreatePostScreen(crossPost = post)
+                                                    )
                                                 }
 
                                                 OptionId.SeeRaw -> {

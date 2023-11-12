@@ -75,14 +75,14 @@ class LanguageBottomSheet : Screen {
                             )
                                 .fillMaxWidth()
                                 .onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         notificationCenter.getObserver(
                                             NotificationCenterContractKeys.ChangeLanguage
                                         )
                                             ?.also {
                                                 it.invoke(value)
                                             }
-                                        navigationCoordinator.getBottomNavigator()?.hide()
+                                        navigationCoordinator.hideBottomSheet()
                                     },
                                 ),
                         ) {

@@ -26,14 +26,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -63,6 +66,7 @@ fun PostCard(
     onImageClick: ((String) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
 ) {
     Box(
         modifier = modifier.let {
@@ -74,7 +78,10 @@ fun PostCard(
             } else {
                 it
             }
-        }.onClick(rememberCallback { onClick?.invoke() }),
+        }.onClick(
+            onClick = onClick ?: {},
+            onDoubleClick = onDoubleClick ?: {},
+        ),
     ) {
         if (postLayout != PostLayout.Compact) {
             ExtendedPost(
@@ -101,6 +108,7 @@ fun PostCard(
                 onImageClick = onImageClick,
                 onOptionSelected = onOptionSelected,
                 onClick = onClick,
+                onDoubleClick = onDoubleClick,
             )
         } else {
             CompactPost(
@@ -119,6 +127,7 @@ fun PostCard(
                 onImageClick = onImageClick,
                 onOptionSelected = onOptionSelected,
                 onClick = onClick,
+                onDoubleClick = onDoubleClick,
             )
         }
     }
@@ -142,6 +151,7 @@ private fun CompactPost(
     onImageClick: ((String) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
@@ -153,6 +163,7 @@ private fun CompactPost(
             onOpenCommunity = onOpenCommunity,
             onOpenCreator = onOpenCreator,
             autoLoadImages = autoLoadImages,
+            onDoubleClick = onDoubleClick,
         )
         Row(
             modifier = Modifier.padding(horizontal = Spacing.s),
@@ -165,6 +176,7 @@ private fun CompactPost(
                     text = post.title,
                     autoLoadImages = autoLoadImages,
                     onClick = onClick,
+                    onDoubleClick = onDoubleClick,
                 )
             }
             PostCardImage(
@@ -180,6 +192,7 @@ private fun CompactPost(
                 },
                 blurred = blurNsfw && post.nsfw,
                 onImageClick = onImageClick,
+                onDoubleClick = onDoubleClick,
             )
         }
         PostCardFooter(
@@ -225,6 +238,7 @@ private fun ExtendedPost(
     onImageClick: ((String) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier.background(backgroundColor),
@@ -237,6 +251,7 @@ private fun ExtendedPost(
             onOpenCommunity = onOpenCommunity,
             onOpenCreator = onOpenCreator,
             autoLoadImages = autoLoadImages,
+            onDoubleClick = onDoubleClick,
         )
         ScaledContent {
             PostCardTitle(
@@ -247,6 +262,7 @@ private fun ExtendedPost(
                 text = post.title,
                 autoLoadImages = autoLoadImages,
                 onClick = onClick,
+                onDoubleClick = onDoubleClick,
             )
         }
 
@@ -269,6 +285,7 @@ private fun ExtendedPost(
             imageUrl = post.imageUrl,
             blurred = blurNsfw && post.nsfw,
             onImageClick = onImageClick,
+            onDoubleClick = onDoubleClick,
             autoLoadImages = autoLoadImages,
         )
         if (showBody) {
@@ -290,6 +307,7 @@ private fun ExtendedPost(
                         text = post.text,
                         autoLoadImages = autoLoadImages,
                         onClick = onClick,
+                        onDoubleClick = onDoubleClick,
                     )
                     if (limitBodyHeight && textHeightPx >= maxHeightPx) {
                         Box(
@@ -307,9 +325,25 @@ private fun ExtendedPost(
                 }
             }
         }
-        if (post.url != post.imageUrl) {
+        if (post.url != post.imageUrl && !post.url.isNullOrEmpty()) {
+            val url = post.url.orEmpty()
+            val settingsRepository = remember { getSettingsRepository() }
+            val uriHandler = LocalUriHandler.current
+            val navigationCoordinator = remember { getNavigationCoordinator() }
+
             PostLinkBanner(
-                modifier = Modifier.padding(vertical = Spacing.xs),
+                modifier = Modifier
+                    .padding(vertical = Spacing.xs)
+                    .onClick(
+                        onClick = {
+                            if (settingsRepository.currentSettings.value.openUrlsInExternalBrowser) {
+                                uriHandler.openUri(url)
+                            } else {
+                                navigationCoordinator.pushScreen(WebViewScreen(url))
+                            }
+                        },
+                        onDoubleClick = onDoubleClick ?: {},
+                    ),
                 url = post.url?.takeIf { !it.looksLikeAnImage }.orEmpty(),
             )
         }

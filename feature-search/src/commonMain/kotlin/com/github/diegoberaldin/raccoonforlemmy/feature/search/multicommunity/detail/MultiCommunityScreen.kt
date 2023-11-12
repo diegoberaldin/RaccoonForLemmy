@@ -159,8 +159,8 @@ class MultiCommunityScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
-                                    navigationCoordinator.getRootNavigator()?.pop()
+                                onClick = rememberCallback {
+                                    navigationCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -184,9 +184,9 @@ class MultiCommunityScreen(
                             if (sortType != null) {
                                 Image(
                                     modifier = Modifier.onClick(
-                                        rememberCallback {
+                                        onClick = rememberCallback {
                                             val sheet = SortBottomSheet(expandTop = true)
-                                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                                            navigationCoordinator.showBottomSheet(sheet)
                                         },
                                     ),
                                     imageVector = sortType.toIcon(),
@@ -316,17 +316,29 @@ class MultiCommunityScreen(
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
-                                        navigationCoordinator.getRootNavigator()?.push(
+                                        navigationCoordinator.pushScreen(
                                             PostDetailScreen(post),
                                         )
                                     },
+                                    onDoubleClick = if (uiState.swipeActionsEnabled) {
+                                        null
+                                    } else {
+                                        rememberCallback(model) {
+                                            model.reduce(
+                                                MultiCommunityMviModel.Intent.UpVotePost(
+                                                    id = post.id,
+                                                    feedback = true,
+                                                ),
+                                            )
+                                        }
+                                    },
                                     onOpenCommunity = { community ->
-                                        navigationCoordinator.getRootNavigator()?.push(
+                                        navigationCoordinator.pushScreen(
                                             CommunityDetailScreen(community),
                                         )
                                     },
                                     onOpenCreator = { user ->
-                                        navigationCoordinator.getRootNavigator()?.push(
+                                        navigationCoordinator.pushScreen(
                                             UserDetailScreen(user),
                                         )
                                     },
@@ -358,11 +370,11 @@ class MultiCommunityScreen(
                                         val screen = CreateCommentScreen(
                                             originalPost = post,
                                         )
-                                        navigationCoordinator.getBottomNavigator()?.show(screen)
+                                        navigationCoordinator.showBottomSheet(screen)
                                     },
                                     onImageClick = { url ->
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
-                                        navigationCoordinator.getRootNavigator()?.push(
+                                        navigationCoordinator.pushScreen(
                                             ZoomableImageScreen(url),
                                         )
                                     },
@@ -391,7 +403,7 @@ class MultiCommunityScreen(
                                     onOptionSelected = { optionId ->
                                         when (optionId) {
                                             OptionId.Report -> {
-                                                navigationCoordinator.getBottomNavigator()?.show(
+                                                navigationCoordinator.showBottomSheet(
                                                     CreateReportScreen(
                                                         postId = post.id
                                                     )

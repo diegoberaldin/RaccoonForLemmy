@@ -75,7 +75,7 @@ class AboutDialog : Screen {
             viewModel.effects.onEach { effect ->
                 when (effect) {
                     is AboutDialogMviModel.Effect.OpenCommunity -> {
-                        navigationCoordinator.getRootNavigator()?.push(
+                        navigationCoordinator.pushScreen(
                             CommunityDetailScreen(
                                 community = effect.community,
                                 otherInstance = effect.instance,
@@ -122,11 +122,10 @@ class AboutDialog : Screen {
                             vector = Icons.Default.OpenInBrowser,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
-                                handleUrl(
+                                navigationCoordinator.handleUrl(
                                     url = CHANGELOG_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
-                                    navigator = navigationCoordinator.getRootNavigator(),
                                 )
                             }
                         )
@@ -134,11 +133,10 @@ class AboutDialog : Screen {
                     item {
                         Button(
                             onClick = {
-                                handleUrl(
+                                navigationCoordinator.handleUrl(
                                     url = REPORT_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
-                                    navigator = navigationCoordinator.getRootNavigator(),
                                 )
                             },
                         ) {
@@ -166,11 +164,10 @@ class AboutDialog : Screen {
                             text = stringResource(MR.strings.settings_about_view_github),
                             textDecoration = TextDecoration.Underline,
                             onClick = {
-                                handleUrl(
+                                navigationCoordinator.handleUrl(
                                     url = WEBSITE_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
-                                    navigator = navigationCoordinator.getRootNavigator(),
                                 )
                             },
                         )
@@ -212,7 +209,7 @@ class AboutDialog : Screen {
                 horizontal = Spacing.xs,
                 vertical = Spacing.s,
             ).onClick(
-                rememberCallback {
+                onClick = rememberCallback {
                     onClick?.invoke()
                 },
             ),

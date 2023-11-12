@@ -87,6 +87,8 @@
     <string name="inbox_listing_type_all">Toate</string>
     <string name="inbox_listing_type_title">Tip de inbox</string>
     <string name="inbox_listing_type_unread">Necitit</string>
+    <string name="inbox_action_mark_read">Marchează ca citit</string>
+    <string name="inbox_action_mark_unread">Marchează ca necitit</string>
     <string name="inbox_not_logged_message">Momentan nu sunteți autentificat.\nVă rugăm să adăugați
         un cont din ecranul de profil pentru a vedea mesajele.
     </string>
@@ -191,6 +193,7 @@
     <string name="settings_downvote_color">Culoare voturilor negative</string>
     <string name="settings_dynamic_colors">Folosește culori dinamice</string>
     <string name="settings_enable_crash_report">Activează raporturi erorilor</string>
+    <string name="settings_enable_double_tap">Activează acțiunea de dublă atingere</string>
     <string name="settings_enable_swipe_actions">Activează acțiunile de glisare</string>
     <string name="settings_full_height_images">Imagini pe toată înălțimea</string>
     <string name="settings_include_nsfw">Include conținuturile NSFW</string>

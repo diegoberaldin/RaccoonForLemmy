@@ -44,3 +44,4 @@ internal fun List<ASTNode>.innerList(): List<ASTNode> = this.subList(1, this.siz
 internal fun List<ASTNode>.filterNonListTypes(): List<ASTNode> = this.filter { n ->
     n.type != MarkdownElementTypes.ORDERED_LIST && n.type != MarkdownElementTypes.UNORDERED_LIST && n.type != MarkdownTokenTypes.EOL
 }
+

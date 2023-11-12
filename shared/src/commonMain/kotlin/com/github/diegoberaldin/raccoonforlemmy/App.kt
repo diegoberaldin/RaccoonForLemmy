@@ -172,7 +172,7 @@ fun App() {
                 else -> null
             }
             if (newScreen != null) {
-                navigationCoordinator.getRootNavigator()?.push(newScreen)
+                navigationCoordinator.pushScreen(newScreen)
             }
         }.launchIn(this)
     }
@@ -182,7 +182,6 @@ fun App() {
     val drawerGestureEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
     LaunchedEffect(drawerCoordinator) {
         drawerCoordinator.toggleEvents.onEach { evt ->
-            val navigator = navigationCoordinator.getRootNavigator()
             when (evt) {
                 DrawerEvent.Toggled -> {
                     drawerState.apply {
@@ -197,19 +196,19 @@ fun App() {
                 }
 
                 is DrawerEvent.OpenCommunity -> {
-                    navigator?.push(CommunityDetailScreen(evt.community))
+                    navigationCoordinator.pushScreen(CommunityDetailScreen(evt.community))
                 }
 
                 is DrawerEvent.OpenMultiCommunity -> {
-                    navigator?.push(MultiCommunityScreen(evt.community))
+                    navigationCoordinator.pushScreen(MultiCommunityScreen(evt.community))
                 }
 
                 DrawerEvent.ManageSubscriptions -> {
-                    navigator?.push(ManageSubscriptionsScreen())
+                    navigationCoordinator.pushScreen(ManageSubscriptionsScreen())
                 }
 
                 DrawerEvent.OpenBookmarks -> {
-                    navigator?.push(SavedItemsScreen())
+                    navigationCoordinator.pushScreen(SavedItemsScreen())
                 }
             }
         }.launchIn(this)

@@ -87,6 +87,8 @@
     <string name="inbox_listing_type_all">Alle</string>
     <string name="inbox_listing_type_title">Posteingangstyp</string>
     <string name="inbox_listing_type_unread">Ungelesen</string>
+    <string name="inbox_action_mark_read">Als gelesen markieren</string>
+    <string name="inbox_action_mark_unread">Als ungelesen markieren</string>
     <string name="inbox_not_logged_message">Sie sind derzeit nicht angemeldet.\nBitte fügen Sie über
         den Profilbildschirm ein Konto hinzu, um Ihren Posteingang anzuzeigen.
     </string>
@@ -193,6 +195,7 @@
     <string name="settings_downvote_color">Farbe für Downvotes</string>
     <string name="settings_dynamic_colors">Verwenden Sie dynamische Farben</string>
     <string name="settings_enable_crash_report">Absturzberichte aktivieren</string>
+    <string name="settings_enable_double_tap">Doppeltipp-Aktion aktivieren</string>
     <string name="settings_enable_swipe_actions">Wischaktionen aktivieren</string>
     <string name="settings_full_height_images">Bilder in voller Höhe</string>
     <string name="settings_include_nsfw">NSFW-Inhalte einbeziehen</string>

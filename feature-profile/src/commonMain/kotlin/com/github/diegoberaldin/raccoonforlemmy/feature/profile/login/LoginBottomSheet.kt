@@ -87,7 +87,7 @@ class LoginBottomSheet : Screen {
                     }
 
                     LoginBottomSheetMviModel.Effect.LoginSuccess -> {
-                        navigationCoordinator.getBottomNavigator()?.hide()
+                        navigationCoordinator.hideBottomSheet()
                     }
                 }
             }.launchIn(this)
@@ -125,12 +125,11 @@ class LoginBottomSheet : Screen {
                     IconButton(
                         modifier = Modifier.align(Alignment.TopEnd),
                         onClick = {
-                            navigationCoordinator.getBottomNavigator()?.hide()
-                            handleUrl(
+                            navigationCoordinator.hideBottomSheet()
+                            navigationCoordinator.handleUrl(
                                 url = HELP_URL,
                                 openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
                                 uriHandler = uriHandler,
-                                navigator = navigationCoordinator.getRootNavigator(),
                             )
                         },
                     ) {
@@ -181,7 +180,7 @@ class LoginBottomSheet : Screen {
                         if (uiState.instanceName.isNotEmpty()) {
                             Icon(
                                 modifier = Modifier.onClick(
-                                    rememberCallback(model) {
+                                    onClick = rememberCallback(model) {
                                         model.reduce(
                                             LoginBottomSheetMviModel.Intent.SetInstanceName("")
                                         )
@@ -254,7 +253,7 @@ class LoginBottomSheet : Screen {
                     trailingIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     transformation =
                                         if (transformation == VisualTransformation.None) {
                                             PasswordVisualTransformation()

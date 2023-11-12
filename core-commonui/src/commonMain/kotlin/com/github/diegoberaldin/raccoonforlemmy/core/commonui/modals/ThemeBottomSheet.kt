@@ -75,12 +75,12 @@ class ThemeBottomSheet : Screen {
                         )
                             .fillMaxWidth()
                             .onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     notificationCenter.getObserver(NotificationCenterContractKeys.ChangeTheme)
                                         ?.also {
                                             it.invoke(value)
                                         }
-                                    navigationCoordinator.getBottomNavigator()?.hide()
+                                    navigationCoordinator.hideBottomSheet()
                                 },
                             ),
                     ) {

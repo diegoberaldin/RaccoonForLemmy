@@ -21,7 +21,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -42,6 +41,7 @@ fun CommentCard(
     autoLoadImages: Boolean = true,
     options: List<Option> = emptyList(),
     onClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
@@ -63,9 +63,10 @@ fun CommentCard(
             endColor = MaterialTheme.colorScheme.background,
         )
         Box(
-            modifier = Modifier.onClick(rememberCallback {
-                onClick?.invoke()
-            }).padding(
+            modifier = Modifier.onClick(
+                onClick = onClick ?: {},
+                onDoubleClick = onDoubleClick ?: {}
+            ).padding(
                 start = if (hideIndent) 0.dp else (INDENT_AMOUNT * comment.depth).dp
             ),
         ) {
@@ -96,6 +97,7 @@ fun CommentCard(
                         text = comment.text,
                         autoLoadImages = autoLoadImages,
                         onClick = onClick,
+                        onDoubleClick = onDoubleClick,
                     )
                 }
                 PostCardFooter(

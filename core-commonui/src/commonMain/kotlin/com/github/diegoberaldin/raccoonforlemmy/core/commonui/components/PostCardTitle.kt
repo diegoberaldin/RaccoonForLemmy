@@ -15,6 +15,7 @@ fun PostCardTitle(
     autoLoadImages: Boolean = true,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -25,16 +26,16 @@ fun PostCardTitle(
         content = text,
         autoLoadImages = autoLoadImages,
         onOpenUrl = { url ->
-            handleUrl(
+            navigationCoordinator.handleUrl(
                 url = url,
                 openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
                 uriHandler = uriHandler,
-                navigator = navigationCoordinator.getRootNavigator(),
             )
         },
         onOpenImage = { url ->
-            navigationCoordinator.getRootNavigator()?.push(ZoomableImageScreen(url))
+            navigationCoordinator.pushScreen(ZoomableImageScreen(url))
         },
         onClick = onClick,
+        onDoubleClick = onDoubleClick,
     )
 }

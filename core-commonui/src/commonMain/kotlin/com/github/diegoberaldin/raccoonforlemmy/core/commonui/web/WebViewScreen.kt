@@ -35,7 +35,7 @@ class WebViewScreen(
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-        var shareHelper = remember { getShareHelper() }
+        val shareHelper = remember { getShareHelper() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
 
         DisposableEffect(key) {
@@ -53,8 +53,8 @@ class WebViewScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
-                                    navigationCoordinator.getRootNavigator()?.pop()
+                                onClick = rememberCallback {
+                                    navigationCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -65,7 +65,7 @@ class WebViewScreen(
                     actions = {
                         Icon(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     shareHelper.share(url, "text/plain")
                                 },
                             ),
@@ -80,7 +80,6 @@ class WebViewScreen(
             Box(
                 modifier = Modifier.padding(paddingValues)
             ) {
-                val navigationCoordinator = remember { getNavigationCoordinator() }
                 val webNavigator = rememberWebViewNavigator()
 
                 DisposableEffect(key) {

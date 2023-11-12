@@ -190,7 +190,7 @@ object ModalDrawerContent : Tab {
                     items(uiState.multiCommunities) { community ->
                         MultiCommunityItem(
                             modifier = Modifier.fillMaxWidth().onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     scope.launch {
                                         coordinator.toggleDrawer()
                                         coordinator.sendEvent(
@@ -207,7 +207,7 @@ object ModalDrawerContent : Tab {
                     items(uiState.communities) { community ->
                         CommunityItem(
                             modifier = Modifier.fillMaxWidth().onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     scope.launch {
                                         coordinator.toggleDrawer()
                                         coordinator.sendEvent(
@@ -338,7 +338,7 @@ private fun DrawerHeader(
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
                         modifier = Modifier.onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onOpenChangeInstance?.invoke()
                             },
                         ),
@@ -362,7 +362,7 @@ private fun DrawerShortcut(
             horizontal = Spacing.s,
             vertical = Spacing.xs,
         ).onClick(
-            rememberCallback {
+            onClick = rememberCallback {
                 onSelected?.invoke()
             },
         ),
@@ -443,7 +443,7 @@ private fun ChangeInstanceDialog(
                     if (instanceName.isNotEmpty()) {
                         Icon(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     onChangeInstanceName?.invoke("")
                                 },
                             ),

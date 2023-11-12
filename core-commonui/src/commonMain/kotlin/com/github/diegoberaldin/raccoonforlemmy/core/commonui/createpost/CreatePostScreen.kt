@@ -176,7 +176,7 @@ class CreatePostScreen(
                     CreatePostMviModel.Effect.Success -> {
                         notificationCenter.getObserver(NotificationCenterContractKeys.PostCreated)
                             ?.also { o -> o.invoke(Unit) }
-                        navigationCoordinator.getBottomNavigator()?.hide()
+                        navigationCoordinator.hideBottomSheet()
                     }
 
                     is CreatePostMviModel.Effect.AddImageToBody -> {
@@ -190,7 +190,7 @@ class CreatePostScreen(
         DisposableEffect(key) {
             notificationCenter.addObserver(
                 {
-                    (it as CommunityModel)?.also { community ->
+                    (it as? CommunityModel)?.also { community ->
                         model.reduce(CreatePostMviModel.Intent.SetCommunity(community))
                         focusManager.clearFocus()
                     }
@@ -357,7 +357,7 @@ class CreatePostScreen(
                     trailingIcon = {
                         Icon(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     openImagePicker = true
                                 },
                             ),

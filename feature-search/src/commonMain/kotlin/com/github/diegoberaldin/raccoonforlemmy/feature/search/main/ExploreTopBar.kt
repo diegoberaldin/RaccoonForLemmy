@@ -46,7 +46,7 @@ internal fun ExploreTopBar(
                 onHamburgerTapped != null -> {
                     Image(
                         modifier = Modifier.onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onHamburgerTapped()
                             },
                         ),
@@ -59,7 +59,7 @@ internal fun ExploreTopBar(
                 listingType != null -> {
                     Image(
                         modifier = Modifier.onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onSelectListingType?.invoke()
                             },
                         ),
@@ -79,7 +79,7 @@ internal fun ExploreTopBar(
                 modifier = Modifier
                     .padding(horizontal = Spacing.s)
                     .onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             onSelectListingType?.invoke()
                         },
                     ),
@@ -109,7 +109,7 @@ internal fun ExploreTopBar(
 
             Image(
                 modifier = Modifier.onClick(
-                    rememberCallback {
+                    onClick = rememberCallback {
                         onSelectSortType?.invoke()
                     },
                 ),

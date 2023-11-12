@@ -18,6 +18,7 @@ interface ExploreMviModel :
         data class SetListingType(val value: ListingType) : Intent
         data class SetSortType(val value: SortType) : Intent
         data class SetResultType(val value: SearchResultType) : Intent
+        data object HapticIndication : Intent
         data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
@@ -31,6 +32,8 @@ interface ExploreMviModel :
         val loading: Boolean = false,
         val canFetchMore: Boolean = true,
         val isLogged: Boolean = false,
+        val swipeActionsEnabled: Boolean = false,
+        val doubleTapActionEnabled: Boolean = false,
         val blurNsfw: Boolean = true,
         val instance: String = "",
         val searchText: String = "",

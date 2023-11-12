@@ -138,7 +138,7 @@ class SavedItemsScreen : Screen {
                     actions = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
                                         values = listOf(
                                             SortType.Hot,
@@ -146,7 +146,7 @@ class SavedItemsScreen : Screen {
                                             SortType.Old,
                                         ),
                                     )
-                                    navigatorCoordinator.getBottomNavigator()?.show(sheet)
+                                    navigatorCoordinator.showBottomSheet(sheet)
                                 },
                             ),
                             imageVector = uiState.sortType.toIcon(),
@@ -157,8 +157,8 @@ class SavedItemsScreen : Screen {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
-                                    navigatorCoordinator.getRootNavigator()?.pop()
+                                onClick = rememberCallback {
+                                    navigatorCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -250,19 +250,18 @@ class SavedItemsScreen : Screen {
                                     autoLoadImages = uiState.autoLoadImages,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = {
-                                        navigatorCoordinator.getRootNavigator()?.push(
+                                        navigatorCoordinator.pushScreen(
                                             PostDetailScreen(post),
                                         )
                                     },
                                     onOpenCommunity = { community ->
-                                        navigatorCoordinator.getRootNavigator()?.push(
+                                        navigatorCoordinator.pushScreen(
                                             CommunityDetailScreen(community),
                                         )
                                     },
                                     onOpenCreator = { u ->
                                         if (u.id != uiState.user?.id) {
-                                            navigatorCoordinator.getRootNavigator()
-                                                ?.push(UserDetailScreen(u))
+                                            navigatorCoordinator.pushScreen(UserDetailScreen(u))
                                         }
                                     },
                                     onUpVote = {
@@ -293,10 +292,10 @@ class SavedItemsScreen : Screen {
                                         val screen = CreateCommentScreen(
                                             originalPost = post,
                                         )
-                                        navigatorCoordinator.getBottomNavigator()?.show(screen)
+                                        navigatorCoordinator.showBottomSheet(screen)
                                     },
                                     onImageClick = { url ->
-                                        navigatorCoordinator.getRootNavigator()?.push(
+                                        navigatorCoordinator.pushScreen(
                                             ZoomableImageScreen(url),
                                         )
                                     },
@@ -323,7 +322,7 @@ class SavedItemsScreen : Screen {
                                     onOptionSelected = { optionIndex ->
                                         when (optionIndex) {
                                             OptionId.Report -> {
-                                                navigatorCoordinator.getBottomNavigator()?.show(
+                                                navigatorCoordinator.showBottomSheet(
                                                     CreateReportScreen(
                                                         postId = post.id
                                                     )
@@ -373,7 +372,7 @@ class SavedItemsScreen : Screen {
                                     autoLoadImages = uiState.autoLoadImages,
                                     hideIndent = true,
                                     onClick = {
-                                        navigatorCoordinator.getRootNavigator()?.push(
+                                        navigatorCoordinator.pushScreen(
                                             PostDetailScreen(
                                                 post = PostModel(id = comment.postId),
                                                 highlightCommentId = comment.id,
@@ -409,7 +408,7 @@ class SavedItemsScreen : Screen {
                                             originalPost = PostModel(id = comment.postId),
                                             originalComment = comment,
                                         )
-                                        navigatorCoordinator.getBottomNavigator()?.show(screen)
+                                        navigatorCoordinator.showBottomSheet(screen)
                                     },
                                     options = buildList {
                                         add(
@@ -428,7 +427,7 @@ class SavedItemsScreen : Screen {
                                     onOptionSelected = { optionIndex ->
                                         when (optionIndex) {
                                             OptionId.Report -> {
-                                                navigatorCoordinator.getBottomNavigator()?.show(
+                                                navigatorCoordinator.showBottomSheet(
                                                     CreateReportScreen(
                                                         commentId = comment.id
                                                     )

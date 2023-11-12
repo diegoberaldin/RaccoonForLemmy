@@ -105,7 +105,7 @@ object InboxScreen : Tab {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     scope.launch {
                                         drawerCoordinator.toggleDrawer()
                                     }
@@ -128,9 +128,9 @@ object InboxScreen : Tab {
                             }
                             Text(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         val sheet = InboxTypeSheet()
-                                        navigationCoordinator.getBottomNavigator()?.show(sheet)
+                                        navigationCoordinator.showBottomSheet(sheet)
                                     },
                                 ),
                                 text = text,
@@ -142,7 +142,7 @@ object InboxScreen : Tab {
                         if (uiState.isLogged == true) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         model.reduce(InboxMviModel.Intent.ReadAll)
                                     },
                                 ),

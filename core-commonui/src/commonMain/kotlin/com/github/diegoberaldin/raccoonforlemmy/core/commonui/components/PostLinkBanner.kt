@@ -29,24 +29,12 @@ fun PostLinkBanner(
     modifier: Modifier = Modifier,
     url: String,
 ) {
-    val uriHandler = LocalUriHandler.current
-    val navigationCoordinator = remember { getNavigationCoordinator() }
-    val settingsRepository = remember { getSettingsRepository() }
-
     if (url.isNotEmpty()) {
         Row(
             modifier = modifier
                 .background(
                     color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.1f),
                     shape = RoundedCornerShape(CornerSize.l),
-                ).onClick(
-                    rememberCallback {
-                        if (settingsRepository.currentSettings.value.openUrlsInExternalBrowser) {
-                            uriHandler.openUri(url)
-                        } else {
-                            navigationCoordinator.getRootNavigator()?.push(WebViewScreen(url))
-                        }
-                    },
                 ).padding(
                     horizontal = Spacing.m,
                     vertical = Spacing.s,

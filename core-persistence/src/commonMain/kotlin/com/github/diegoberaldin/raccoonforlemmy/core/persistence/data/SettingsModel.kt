@@ -20,6 +20,7 @@ data class SettingsModel(
     val dynamicColors: Boolean = false,
     val openUrlsInExternalBrowser: Boolean = false,
     val enableSwipeActions: Boolean = true,
+    val enableDoubleTapAction: Boolean = false,
     val customSeedColor: Int? = null,
     val upvoteColor: Int? = null,
     val downvoteColor: Int? = null,

@@ -87,6 +87,8 @@
     <string name="inbox_listing_type_all">Tous</string>
     <string name="inbox_listing_type_title">Type de boîte de réception</string>
     <string name="inbox_listing_type_unread">Non lus</string>
+    <string name="inbox_action_mark_read">Marquer comme lu</string>
+    <string name="inbox_action_mark_unread">Marquer comme non lu</string>
     <string name="inbox_not_logged_message">Vous n\'êtes pas connecté.\nVeuillez ajouter un compte à
         partir de l\'écran de profil pour voir votre boîte de réception.
     </string>
@@ -192,6 +194,7 @@
     <string name="settings_downvote_color">Couleur votes négatifs</string>
     <string name="settings_dynamic_colors">Utiliser couleur dynamique</string>
     <string name="settings_enable_crash_report">Activer les rapports d\'accidents</string>
+    <string name="settings_enable_double_tap">Activer l\'action double tap</string>
     <string name="settings_enable_swipe_actions">Activer les actions de glissement</string>
     <string name="settings_full_height_images">Images en pleine hauteur</string>
     <string name="settings_include_nsfw">Inclure contenus NSFW</string>

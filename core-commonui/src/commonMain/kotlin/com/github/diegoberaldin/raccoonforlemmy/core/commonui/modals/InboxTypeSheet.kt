@@ -61,12 +61,12 @@ class InboxTypeSheet : Screen {
                         )
                             .fillMaxWidth()
                             .onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     notificationCenter.getObserver(NotificationCenterContractKeys.ChangeInboxType)
                                         ?.also {
                                             it.invoke(true)
                                         }
-                                    navigationCoordinator.getBottomNavigator()?.hide()
+                                    navigationCoordinator.hideBottomSheet()
                                 },
                             ),
                     ) {
@@ -83,12 +83,12 @@ class InboxTypeSheet : Screen {
                                 horizontal = Spacing.s,
                                 vertical = Spacing.m,
                             ).onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     notificationCenter.getObserver(NotificationCenterContractKeys.ChangeInboxType)
                                         ?.also {
                                             it.invoke(false)
                                         }
-                                    navigationCoordinator.getBottomNavigator()?.hide()
+                                    navigationCoordinator.hideBottomSheet()
                                 },
                             ),
                     ) {

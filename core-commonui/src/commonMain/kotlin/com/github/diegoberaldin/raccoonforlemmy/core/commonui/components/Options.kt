@@ -17,4 +17,6 @@ sealed class OptionId(val value: Int) {
     data object InfoInstance : OptionId(8)
     data object Block : OptionId(9)
     data object BlockInstance : OptionId(10)
+    data object MarkRead : OptionId(11)
+    data object MarkUnread : OptionId(12)
 }

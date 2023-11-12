@@ -89,6 +89,8 @@ class ExploreViewModel(
                         separateUpAndDownVotes = settings.separateUpAndDownVotes,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
+                        swipeActionsEnabled = settings.enableSwipeActions,
+                        doubleTapActionEnabled = settings.enableDoubleTapAction,
                     )
                 }
             }.launchIn(this)
@@ -126,6 +128,7 @@ class ExploreViewModel(
                 }
             }
 
+            ExploreMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is ExploreMviModel.Intent.SetSearch -> setSearch(intent.value)
             is ExploreMviModel.Intent.SetListingType -> changeListingType(intent.value)
             is ExploreMviModel.Intent.SetSortType -> changeSortType(intent.value)

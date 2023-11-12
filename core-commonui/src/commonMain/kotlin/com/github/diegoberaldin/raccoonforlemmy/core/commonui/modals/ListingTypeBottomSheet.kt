@@ -77,13 +77,13 @@ class ListingTypeBottomSheet(
                             )
                                 .fillMaxWidth()
                                 .onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         notificationCenter.getAllObservers(
                                             NotificationCenterContractKeys.ChangeFeedType
                                         ).forEach {
                                             it.invoke(value)
                                         }
-                                        navigationCoordinator.getBottomNavigator()?.hide()
+                                        navigationCoordinator.hideBottomSheet()
                                     },
                                 ),
                         ) {

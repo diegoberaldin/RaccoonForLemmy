@@ -67,12 +67,12 @@ class PostLayoutBottomSheet : Screen {
                                 horizontal = Spacing.s,
                                 vertical = Spacing.m,
                             ).fillMaxWidth().onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     notificationCenter.getObserver(NotificationCenterContractKeys.ChangePostLayout)
                                         ?.also {
                                             it.invoke(value)
                                         }
-                                    navigationCoordinator.getBottomNavigator()?.hide()
+                                    navigationCoordinator.hideBottomSheet()
                                 },
                             ),
                         ) {

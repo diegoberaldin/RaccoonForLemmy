@@ -46,6 +46,7 @@ kotlin {
 
                 api(libs.markdown)
                 implementation(projects.coreCommonui.components)
+                implementation(projects.coreUtils)
                 implementation(projects.resources)
             }
         }

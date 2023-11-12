@@ -47,7 +47,7 @@ internal fun PostsTopBar(
                 onHamburgerTapped != null -> {
                     Image(
                         modifier = Modifier.onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onHamburgerTapped()
                             },
                         ),
@@ -60,7 +60,7 @@ internal fun PostsTopBar(
                 listingType != null -> {
                     Image(
                         modifier = Modifier.onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onSelectListingType?.invoke()
                             },
                         ),
@@ -80,7 +80,7 @@ internal fun PostsTopBar(
                 modifier = Modifier
                     .padding(horizontal = Spacing.s)
                     .onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             onSelectListingType?.invoke()
                         },
                     ),
@@ -115,7 +115,7 @@ internal fun PostsTopBar(
             if (sortType != null) {
                 Image(
                     modifier = Modifier.onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             onSelectSortType?.invoke()
                         },
                     ),

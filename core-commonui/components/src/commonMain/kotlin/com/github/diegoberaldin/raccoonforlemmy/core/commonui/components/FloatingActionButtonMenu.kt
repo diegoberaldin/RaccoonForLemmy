@@ -97,7 +97,7 @@ fun FloatingActionButtonMenu(
                 ) {
                     Row(
                         modifier = Modifier.onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 fabExpanded = false
                                 item.onSelected?.invoke()
                             },

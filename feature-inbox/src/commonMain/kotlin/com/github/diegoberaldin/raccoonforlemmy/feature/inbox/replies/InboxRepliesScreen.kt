@@ -46,6 +46,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCardType
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
@@ -180,7 +182,7 @@ class InboxRepliesScreen : Tab {
                                 autoLoadImages = uiState.autoLoadImages,
                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                 onOpenPost = rememberCallbackArgs { post ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         PostDetailScreen(
                                             post = post,
                                             highlightCommentId = reply.comment.id,
@@ -188,12 +190,12 @@ class InboxRepliesScreen : Tab {
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         UserDetailScreen(user),
                                     )
                                 },
                                 onOpenCommunity = rememberCallbackArgs { community ->
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                    navigationCoordinator.pushScreen(
                                         CommunityDetailScreen(community),
                                     )
                                 },
@@ -203,6 +205,39 @@ class InboxRepliesScreen : Tab {
                                 onDownVote = rememberCallbackArgs(model) {
                                     model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
                                 },
+                                options = buildList {
+                                    add(
+                                        Option(
+                                            OptionId.MarkRead,
+                                            stringResource(MR.strings.inbox_action_mark_read)
+                                        )
+                                    )
+                                    add(
+                                        Option(
+                                            OptionId.MarkUnread,
+                                            stringResource(MR.strings.inbox_action_mark_unread)
+                                        )
+                                    )
+                                },
+                                onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                    when (optionId) {
+                                        OptionId.MarkRead -> model.reduce(
+                                            InboxRepliesMviModel.Intent.MarkAsRead(
+                                                read = true,
+                                                id = reply.id,
+                                            ),
+                                        )
+
+                                        OptionId.MarkUnread -> model.reduce(
+                                            InboxRepliesMviModel.Intent.MarkAsRead(
+                                                read = false,
+                                                id = reply.id,
+                                            ),
+                                        )
+
+                                        else -> Unit
+                                    }
+                                }
                             )
                         },
                     )

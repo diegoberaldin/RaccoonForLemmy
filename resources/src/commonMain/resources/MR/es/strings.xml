@@ -84,6 +84,8 @@
     <string name="inbox_item_mention">te ha mencionado en</string>
     <string name="inbox_item_reply_comment">ha contestado a tu comentario en</string>
     <string name="inbox_item_reply_post">ha contestado a tu publicación en</string>
+    <string name="inbox_action_mark_read">mMrcar como leído</string>
+    <string name="inbox_action_mark_unread">Marcar como no leído</string>
     <string name="inbox_listing_type_all">Todos</string>
     <string name="inbox_listing_type_title">Tipo de mensajes</string>
     <string name="inbox_listing_type_unread">No leídos</string>
@@ -192,6 +194,7 @@
     <string name="settings_downvote_color">Color votos negativos</string>
     <string name="settings_dynamic_colors">Utilizar colores dinámicos</string>
     <string name="settings_enable_crash_report">Activar notificación de accidentes</string>
+    <string name="settings_enable_double_tap">Activar la acción de doble toque</string>
     <string name="settings_enable_swipe_actions">Activar acciones de deslizamiento</string>
     <string name="settings_full_height_images">Altura completa imágenes</string>
     <string name="settings_include_nsfw">Incluir contenidos NSFW</string>

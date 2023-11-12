@@ -1,13 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.elements.MarkdownBlockQuote
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.elements.MarkdownBulletList
@@ -22,6 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownColo
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownPadding
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.ReferenceLinkHandlerImpl
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownElementTypes.ATX_1
 import org.intellij.markdown.MarkdownElementTypes.ATX_2
@@ -62,6 +60,7 @@ actual fun CustomMarkdown(
     autoLoadImages: Boolean,
     onOpenImage: ((String) -> Unit)?,
     onClick: (() -> Unit)?,
+    onDoubleClick: (() -> Unit)?,
 ) {
     val matches = Regex("::: spoiler (?<title>.*?)\\n(?<content>.*?)\\n:::\\n").findAll(content)
     val mangledContent = buildString {
@@ -97,10 +96,12 @@ actual fun CustomMarkdown(
         LocalMarkdownColors provides colors,
         LocalMarkdownTypography provides typography,
     ) {
-        Column(modifier.clickable(
-            interactionSource = remember { MutableInteractionSource() },
-            indication = null
-        ) { onClick?.invoke() }) {
+        Column(
+            modifier = modifier.onClick(
+                onClick = onClick ?: {},
+                onDoubleClick = onDoubleClick ?: {},
+            )
+        ) {
             val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(mangledContent)
             parsedTree.children.forEach { node ->
                 if (!node.handleElement(

@@ -118,18 +118,18 @@ class InboxMessagesScreen : Tab {
                         lastMessage = chat.content.orEmpty(),
                         lastMessageDate = chat.publishDate,
                         onOpenUser = rememberCallbackArgs { user ->
-                            navigationCoordinator.getRootNavigator()?.push(
+                            navigationCoordinator.pushScreen(
                                 UserDetailScreen(user)
                             )
                         },
                         onOpen = rememberCallback {
                             val userId = otherUser?.id
                             if (userId != null) {
-                                navigationCoordinator.getRootNavigator()?.push(
+                                navigationCoordinator.pushScreen(
                                     InboxChatScreen(userId)
                                 )
                             }
-                        }
+                        },
                     )
                 }
                 item {

@@ -75,11 +75,11 @@ class FontScaleBottomSheet(
                             )
                                 .fillMaxWidth()
                                 .onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         notificationCenter.getObserver(contract)?.also {
                                             it.invoke(value.scaleFactor)
                                         }
-                                        navigationCoordinator.getBottomNavigator()?.hide()
+                                        navigationCoordinator.hideBottomSheet()
                                     },
                                 ),
                         ) {

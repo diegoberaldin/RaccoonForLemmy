@@ -80,6 +80,8 @@
     <string name="home_sort_type_top_week_short">week</string>
     <string name="home_sort_type_top_year">Top year</string>
     <string name="home_sort_type_top_year_short">year</string>
+    <string name="inbox_action_mark_read">Mark as read</string>
+    <string name="inbox_action_mark_unread">Mark as unread</string>
     <string name="inbox_chat_message">Message</string>
     <string name="inbox_item_mention">mentioned you in</string>
     <string name="inbox_item_reply_comment">replied to your comment in</string>
@@ -200,6 +202,7 @@
     <string name="settings_downvote_color">Downvote color</string>
     <string name="settings_dynamic_colors">Use dynamic colors</string>
     <string name="settings_enable_crash_report">Enable crash reporting</string>
+    <string name="settings_enable_double_tap">Enable double tap action</string>
     <string name="settings_enable_swipe_actions">Enable swipe actions</string>
     <string name="settings_full_height_images">Full height images</string>
     <string name="settings_include_nsfw">Include NSFW contents</string>

@@ -145,7 +145,7 @@ fun TextFormattingBar(
         )
         Icon(
             modifier = Modifier.onClick(
-                rememberCallback {
+                onClick = rememberCallback {
                     onSelectImage()
                 },
             ),

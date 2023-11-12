@@ -87,6 +87,8 @@
     <string name="inbox_listing_type_all">Όλα</string>
     <string name="inbox_listing_type_title">Τύπος εισερχομένων</string>
     <string name="inbox_listing_type_unread">Μη αναγνωσμένα</string>
+    <string name="inbox_action_mark_read">Σημειώσε ως αναγνωσμένο</string>
+    <string name="inbox_action_mark_unread">Σημειώστε ως αδιάβαστο</string>
     <string name="inbox_not_logged_message">Προς το παρόν, δεν έχετε συνδεθεί.\nΠαρακαλούμε
         προσθέστε έναν λογαριασμό από την οθόνη προφίλ για να δείτε τα εισερχόμενά σας.
     </string>
@@ -194,6 +196,7 @@
     <string name="settings_downvote_color">Χρώμα ψήφου κατώτερου</string>
     <string name="settings_dynamic_colors">Χρήση δυναμικών χρωμάτων</string>
     <string name="settings_enable_crash_report">Ενεργοποίηση αναφοράς καταρρεύσεων</string>
+    <string name="settings_enable_double_tap">Ενεργοποίηση της δράσης διπλού πατήματος</string>
     <string name="settings_enable_swipe_actions">Ενεργοποίηση κινήσεων σαρώσεων</string>
     <string name="settings_full_height_images">Εικόνες πλήρους ύψους</string>
     <string name="settings_include_nsfw">Συμπερίληψη περιεχομένων NSFW</string>

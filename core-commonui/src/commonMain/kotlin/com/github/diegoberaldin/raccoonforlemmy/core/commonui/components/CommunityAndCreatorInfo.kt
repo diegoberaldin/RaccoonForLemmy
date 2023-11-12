@@ -38,6 +38,7 @@ fun CommunityAndCreatorInfo(
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
 ) {
     val communityName = community?.name.orEmpty()
     val communityIcon = community?.icon.orEmpty()
@@ -56,11 +57,12 @@ fun CommunityAndCreatorInfo(
                 CustomImage(
                     modifier = Modifier
                         .onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 if (community != null) {
                                     onOpenCommunity?.invoke(community)
                                 }
                             },
+                            onDoubleClick = onDoubleClick ?: {},
                         )
                         .padding(Spacing.xxxs)
                         .size(iconSize)
@@ -73,11 +75,12 @@ fun CommunityAndCreatorInfo(
             } else {
                 PlaceholderImage(
                     modifier = Modifier.onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             if (community != null) {
                                 onOpenCommunity?.invoke(community)
                             }
                         },
+                        onDoubleClick = onDoubleClick ?: {},
                     ),
                     size = IconSize.l,
                     title = communityName,
@@ -88,11 +91,12 @@ fun CommunityAndCreatorInfo(
                 CustomImage(
                     modifier = Modifier
                         .onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 if (creator != null) {
                                     onOpenCreator?.invoke(creator)
                                 }
                             },
+                            onDoubleClick = onDoubleClick ?: {},
                         )
                         .padding(Spacing.xxxs)
                         .size(iconSize)
@@ -105,11 +109,12 @@ fun CommunityAndCreatorInfo(
             } else {
                 PlaceholderImage(
                     modifier = Modifier.onClick(
-                        rememberCallback {
+                        onClick = rememberCallback {
                             if (creator != null) {
                                 onOpenCreator?.invoke(creator)
                             }
                         },
+                        onDoubleClick = onDoubleClick ?: {},
                     ),
                     size = iconSize,
                     title = creatorName,
@@ -123,9 +128,10 @@ fun CommunityAndCreatorInfo(
                 Text(
                     modifier = Modifier
                         .onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onOpenCommunity?.invoke(community)
                             },
+                            onDoubleClick = onDoubleClick ?: {},
                         ),
                     text = buildString {
                         append(communityName)
@@ -141,9 +147,10 @@ fun CommunityAndCreatorInfo(
                 Text(
                     modifier = Modifier
                         .onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onOpenCreator?.invoke(creator)
                             },
+                            onDoubleClick = onDoubleClick ?: {},
                         ),
                     text = buildString {
                         append(creatorName)
@@ -161,7 +168,7 @@ fun CommunityAndCreatorInfo(
             val expandedModifier = Modifier
                 .padding(end = Spacing.xs)
                 .onClick(
-                    rememberCallback {
+                    onClick = rememberCallback {
                         onToggleExpanded?.invoke()
                     },
                 )

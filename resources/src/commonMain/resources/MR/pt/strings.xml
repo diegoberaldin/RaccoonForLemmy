@@ -87,6 +87,8 @@
     <string name="inbox_listing_type_all">Todas</string>
     <string name="inbox_listing_type_title">Tipo de caixa</string>
     <string name="inbox_listing_type_unread">Não lidas</string>
+    <string name="inbox_action_mark_read">Marcar como lido</string>
+    <string name="inbox_action_mark_unread">Marcar como não lido</string>
     <string name="inbox_not_logged_message">Atualmente, não tem sessão iniciada.\nAdicione uma conta
         a partir do ecrã de perfil para ver a sua caixa de entrada.
     </string>
@@ -190,6 +192,7 @@
     <string name="settings_downvote_color">Cor votos negativos</string>
     <string name="settings_dynamic_colors">Usar cores dinâmicas</string>
     <string name="settings_enable_crash_report">Ativar relatórios de falhas</string>
+    <string name="settings_enable_double_tap">Ativar a ação de duplo toque</string>
     <string name="settings_enable_swipe_actions">Ativar ações de deslizar</string>
     <string name="settings_full_height_images">Imagens de altura natural</string>
     <string name="settings_include_nsfw">Incluir conteúdo NSFW</string>

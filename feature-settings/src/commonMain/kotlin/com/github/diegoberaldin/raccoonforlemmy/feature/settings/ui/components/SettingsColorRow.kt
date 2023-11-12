@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -24,25 +25,37 @@ internal fun SettingsColorRow(
     title: String,
     value: Color,
     modifier: Modifier = Modifier,
+    subtitle: String? = null,
     onTap: (() -> Unit)? = null,
 ) {
     Row(
         modifier = modifier
             .padding(vertical = Spacing.s, horizontal = Spacing.m)
             .onClick(
-                rememberCallback {
+                onClick = rememberCallback {
                     onTap?.invoke()
                 },
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        Column {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (subtitle != null) {
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier

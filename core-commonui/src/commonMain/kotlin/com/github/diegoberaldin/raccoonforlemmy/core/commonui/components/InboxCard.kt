@@ -34,11 +34,13 @@ fun InboxCard(
     autoLoadImages: Boolean = true,
     separateUpAndDownVotes: Boolean = true,
     postLayout: PostLayout = PostLayout.Card,
+    options: List<Option> = emptyList(),
     onOpenPost: (PostModel) -> Unit,
     onOpenCreator: (UserModel) -> Unit,
     onOpenCommunity: (CommunityModel) -> Unit,
     onUpVote: ((CommentModel) -> Unit)? = null,
     onDownVote: ((CommentModel) -> Unit)? = null,
+    onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     Box(
         modifier = Modifier.let {
@@ -52,7 +54,7 @@ fun InboxCard(
                 it.background(MaterialTheme.colorScheme.background)
             }
         }.onClick(
-            rememberCallback {
+            onClick = rememberCallback {
                 onOpenPost(mention.post)
             },
         ),
@@ -92,6 +94,7 @@ fun InboxCard(
                 separateUpAndDownVotes = separateUpAndDownVotes,
                 upVoted = mention.myVote > 0,
                 downVoted = mention.myVote < 0,
+                options = options,
                 onOpenCommunity = onOpenCommunity,
                 onOpenCreator = { user ->
                     onOpenCreator(user)
@@ -102,6 +105,7 @@ fun InboxCard(
                 onDownVote = {
                     onDownVote?.invoke(mention.comment)
                 },
+                onOptionSelected = onOptionSelected,
             )
         }
     }

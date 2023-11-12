@@ -126,7 +126,7 @@ class CreateCommentScreen(
                     CreateCommentMviModel.Effect.Success -> {
                         notificationCenter.getObserver(NotificationCenterContractKeys.CommentCreated)
                             ?.also { o -> o.invoke(Unit) }
-                        navigationCoordinator.getBottomNavigator()?.hide()
+                        navigationCoordinator.hideBottomSheet()
                     }
 
                     is CreateCommentMviModel.Effect.AddImageToText -> {

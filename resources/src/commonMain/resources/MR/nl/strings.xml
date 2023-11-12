@@ -87,6 +87,8 @@
     <string name="inbox_listing_type_all">Alle</string>
     <string name="inbox_listing_type_title">Type inbox</string>
     <string name="inbox_listing_type_unread">Ongelezen</string>
+    <string name="inbox_action_mark_read">Markeren als gelezen</string>
+    <string name="inbox_action_mark_unread">Markeren als ongelezen</string>
     <string name="inbox_not_logged_message">U bent momenteel niet ingelogd.\nVoeg een account toe
         vanuit het profielscherm om je inbox te zien.
     </string>
@@ -200,6 +202,7 @@
     <string name="settings_downvote_color">Kleur voor downvote</string>
     <string name="settings_dynamic_colors">Dynamische kleuren gebruiken</string>
     <string name="settings_enable_crash_report">Crashrapportage inschakelen</string>
+    <string name="settings_enable_double_tap">Dubbele tik actie inschakelen</string>
     <string name="settings_enable_swipe_actions">Veegacties inschakelen</string>
     <string name="settings_full_height_images">Afbeeldingen op volledige hoogte</string>
     <string name="settings_include_nsfw">NSFW-inhoud opnemen</string>

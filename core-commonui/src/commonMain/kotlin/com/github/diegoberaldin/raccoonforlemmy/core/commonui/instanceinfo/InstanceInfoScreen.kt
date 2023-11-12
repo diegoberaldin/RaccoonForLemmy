@@ -114,8 +114,8 @@ class InstanceInfoScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
-                                    navigationCoordinator.getRootNavigator()?.pop()
+                                onClick = rememberCallback {
+                                    navigationCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.ArrowBack,
@@ -145,7 +145,7 @@ class InstanceInfoScreen(
                             }
                             Image(
                                 modifier = Modifier.onClick(
-                                    rememberCallback {
+                                    onClick = rememberCallback {
                                         val sheet = SortBottomSheet(
                                             values = listOf(
                                                 SortType.Active,
@@ -158,7 +158,7 @@ class InstanceInfoScreen(
                                             ),
                                             expandTop = true,
                                         )
-                                        navigationCoordinator.getBottomNavigator()?.show(sheet)
+                                        navigationCoordinator.showBottomSheet(sheet)
                                     },
                                 ),
                                 imageVector = uiState.sortType.toIcon(),
@@ -232,8 +232,8 @@ class InstanceInfoScreen(
                     items(uiState.communities) {
                         CommunityItem(
                             modifier = Modifier.onClick(
-                                rememberCallback {
-                                    navigationCoordinator.getRootNavigator()?.push(
+                                onClick = rememberCallback {
+                                    navigationCoordinator.pushScreen(
                                         CommunityDetailScreen(
                                             community = it,
                                             otherInstance = instanceName,

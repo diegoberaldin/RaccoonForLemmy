@@ -15,12 +15,16 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowCircleDown
+import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -42,6 +46,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -52,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
@@ -59,6 +65,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Comment
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
@@ -114,6 +121,12 @@ class ExploreScreen : Screen {
         }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        val themeRepository = remember { getThemeRepository() }
+        val upvoteColor by themeRepository.upvoteColor.collectAsState()
+        val downvoteColor by themeRepository.downvoteColor.collectAsState()
+        val defaultUpvoteColor = MaterialTheme.colorScheme.primary
+        val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
+
         DisposableEffect(key) {
             onDispose {
                 notificationCenter.removeObserver(key)
@@ -176,14 +189,14 @@ class ExploreScreen : Screen {
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
                         )
-                        navigationCoordinator.getBottomNavigator()?.show(sheet)
+                        navigationCoordinator.showBottomSheet(sheet)
                     },
                     onSelectSortType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = SortBottomSheet(
                             expandTop = true,
                         )
-                        navigationCoordinator.getBottomNavigator()?.show(sheet)
+                        navigationCoordinator.showBottomSheet(sheet)
                     },
                     onHamburgerTapped = rememberCallback {
                         scope.launch {
@@ -217,7 +230,7 @@ class ExploreScreen : Screen {
                     trailingIcon = {
                         Icon(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     if (uiState.searchText.isNotEmpty()) {
                                         model.reduce(ExploreMviModel.Intent.SetSearch(""))
                                     }
@@ -308,8 +321,8 @@ class ExploreScreen : Screen {
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .onClick(
-                                                rememberCallback {
-                                                    navigationCoordinator.getRootNavigator()?.push(
+                                                onClick = rememberCallback {
+                                                    navigationCoordinator.pushScreen(
                                                         CommunityDetailScreen(result),
                                                     )
                                                 },
@@ -320,61 +333,110 @@ class ExploreScreen : Screen {
                                 }
 
                                 is PostModel -> {
-                                    PostCard(
-                                        post = result,
-                                        postLayout = uiState.postLayout,
-                                        fullHeightImage = uiState.fullHeightImages,
-                                        separateUpAndDownVotes = uiState.separateUpAndDownVotes,
-                                        autoLoadImages = uiState.autoLoadImages,
-                                        blurNsfw = uiState.blurNsfw,
-                                        onClick = rememberCallback {
-                                            navigationCoordinator.getRootNavigator()?.push(
-                                                PostDetailScreen(result),
+                                    SwipeableCard(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        enabled = uiState.swipeActionsEnabled,
+                                        backgroundColor = rememberCallbackArgs {
+                                            when (it) {
+                                                DismissValue.DismissedToStart -> upvoteColor
+                                                    ?: defaultUpvoteColor
+
+                                                DismissValue.DismissedToEnd -> downvoteColor
+                                                    ?: defaultDownVoteColor
+
+                                                DismissValue.Default -> Color.Transparent
+                                            }
+                                        },
+                                        onGestureBegin = {
+                                            model.reduce(ExploreMviModel.Intent.HapticIndication)
+                                        },
+                                        onDismissToStart = rememberCallback(model) {
+                                            model.reduce(ExploreMviModel.Intent.UpVotePost(result.id))
+                                        },
+                                        onDismissToEnd = rememberCallback(model) {
+                                            model.reduce(ExploreMviModel.Intent.DownVotePost(result.id))
+                                        },
+                                        swipeContent = { direction ->
+                                            val icon = when (direction) {
+                                                DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
+                                                DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
+                                            }
+                                            androidx.compose.material.Icon(
+                                                imageVector = icon,
+                                                contentDescription = null,
+                                                tint = Color.White,
                                             )
                                         },
-                                        onOpenCommunity = rememberCallbackArgs { community ->
-                                            navigationCoordinator.getRootNavigator()?.push(
-                                                CommunityDetailScreen(community),
-                                            )
-                                        },
-                                        onOpenCreator = rememberCallbackArgs { user ->
-                                            navigationCoordinator.getRootNavigator()?.push(
-                                                UserDetailScreen(user),
-                                            )
-                                        },
-                                        onUpVote = rememberCallback(model) {
-                                            model.reduce(
-                                                ExploreMviModel.Intent.UpVotePost(
-                                                    id = result.id,
-                                                    feedback = true,
-                                                ),
-                                            )
-                                        },
-                                        onDownVote = rememberCallback(model) {
-                                            model.reduce(
-                                                ExploreMviModel.Intent.DownVotePost(
-                                                    id = result.id,
-                                                    feedback = true,
-                                                ),
-                                            )
-                                        },
-                                        onSave = rememberCallback(model) {
-                                            model.reduce(
-                                                ExploreMviModel.Intent.SavePost(
-                                                    id = result.id,
-                                                    feedback = true,
-                                                ),
-                                            )
-                                        },
-                                        onReply = rememberCallback {
-                                            val screen = CreateCommentScreen(
-                                                originalPost = result,
-                                            )
-                                            navigationCoordinator.getBottomNavigator()?.show(screen)
-                                        },
-                                        onImageClick = rememberCallbackArgs { url ->
-                                            navigationCoordinator.getRootNavigator()?.push(
-                                                ZoomableImageScreen(url),
+                                        content = {
+                                            PostCard(
+                                                post = result,
+                                                postLayout = uiState.postLayout,
+                                                fullHeightImage = uiState.fullHeightImages,
+                                                separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                                autoLoadImages = uiState.autoLoadImages,
+                                                blurNsfw = uiState.blurNsfw,
+                                                onClick = rememberCallback {
+                                                    navigationCoordinator.pushScreen(
+                                                        PostDetailScreen(result),
+                                                    )
+                                                },
+                                                onDoubleClick = if (!uiState.doubleTapActionEnabled) {
+                                                    null
+                                                } else {
+                                                    rememberCallback(model) {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.UpVotePost(
+                                                                id = result.id,
+                                                                feedback = true,
+                                                            ),
+                                                        )
+                                                    }
+                                                },
+                                                onOpenCommunity = rememberCallbackArgs { community ->
+                                                    navigationCoordinator.pushScreen(
+                                                        CommunityDetailScreen(community),
+                                                    )
+                                                },
+                                                onOpenCreator = rememberCallbackArgs { user ->
+                                                    navigationCoordinator.pushScreen(
+                                                        UserDetailScreen(user),
+                                                    )
+                                                },
+                                                onUpVote = rememberCallback(model) {
+                                                    model.reduce(
+                                                        ExploreMviModel.Intent.UpVotePost(
+                                                            id = result.id,
+                                                            feedback = true,
+                                                        ),
+                                                    )
+                                                },
+                                                onDownVote = rememberCallback(model) {
+                                                    model.reduce(
+                                                        ExploreMviModel.Intent.DownVotePost(
+                                                            id = result.id,
+                                                            feedback = true,
+                                                        ),
+                                                    )
+                                                },
+                                                onSave = rememberCallback(model) {
+                                                    model.reduce(
+                                                        ExploreMviModel.Intent.SavePost(
+                                                            id = result.id,
+                                                            feedback = true,
+                                                        ),
+                                                    )
+                                                },
+                                                onReply = rememberCallback {
+                                                    val screen = CreateCommentScreen(
+                                                        originalPost = result,
+                                                    )
+                                                    navigationCoordinator.showBottomSheet(screen)
+                                                },
+                                                onImageClick = rememberCallbackArgs { url ->
+                                                    navigationCoordinator.pushScreen(
+                                                        ZoomableImageScreen(url),
+                                                    )
+                                                },
                                             )
                                         },
                                     )
@@ -386,59 +448,124 @@ class ExploreScreen : Screen {
                                 }
 
                                 is CommentModel -> {
-                                    CommentCard(
-                                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
-                                        comment = result,
-                                        separateUpAndDownVotes = uiState.separateUpAndDownVotes,
-                                        autoLoadImages = uiState.autoLoadImages,
-                                        hideIndent = true,
-                                        onClick = rememberCallback {
-                                            navigationCoordinator.getRootNavigator()?.push(
-                                                PostDetailScreen(
-                                                    post = PostModel(id = result.postId),
-                                                    highlightCommentId = result.id,
-                                                ),
+                                    SwipeableCard(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        enabled = uiState.swipeActionsEnabled,
+                                        directions = if (!uiState.isLogged) {
+                                            emptySet()
+                                        } else {
+                                            setOf(
+                                                DismissDirection.StartToEnd,
+                                                DismissDirection.EndToStart,
                                             )
                                         },
-                                        onUpVote = rememberCallback(model) {
+                                        backgroundColor = rememberCallbackArgs {
+                                            when (it) {
+                                                DismissValue.DismissedToStart -> upvoteColor
+                                                    ?: defaultUpvoteColor
+
+                                                DismissValue.DismissedToEnd -> downvoteColor
+                                                    ?: defaultDownVoteColor
+
+                                                DismissValue.Default -> Color.Transparent
+                                            }
+                                        },
+                                        onGestureBegin = rememberCallback(model) {
+                                            model.reduce(ExploreMviModel.Intent.HapticIndication)
+                                        },
+                                        onDismissToStart = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.UpVoteComment(
-                                                    id = result.id,
-                                                    feedback = true,
+                                                    id = result.id
                                                 ),
                                             )
                                         },
-                                        onDownVote = rememberCallback(model) {
+                                        onDismissToEnd = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.DownVoteComment(
-                                                    id = result.id,
-                                                    feedback = true,
+                                                    id = result.id
                                                 ),
                                             )
                                         },
-                                        onSave = rememberCallback(model) {
-                                            model.reduce(
-                                                ExploreMviModel.Intent.SaveComment(
-                                                    id = result.id,
-                                                    feedback = true,
-                                                ),
+                                        swipeContent = { direction ->
+                                            val icon = when (direction) {
+                                                DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
+                                                DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
+                                            }
+                                            androidx.compose.material.Icon(
+                                                imageVector = icon,
+                                                contentDescription = null,
+                                                tint = Color.White,
                                             )
                                         },
-                                        onReply = rememberCallback {
-                                            val screen = CreateCommentScreen(
-                                                originalPost = PostModel(id = result.postId),
-                                                originalComment = result,
-                                            )
-                                            navigationCoordinator.getBottomNavigator()?.show(screen)
-                                        },
-                                        onOpenCommunity = rememberCallbackArgs {
-                                            navigationCoordinator.getRootNavigator()?.push(
-                                                CommunityDetailScreen(it)
-                                            )
-                                        },
-                                        onOpenCreator = rememberCallbackArgs {
-                                            navigationCoordinator.getRootNavigator()?.push(
-                                                UserDetailScreen(it)
+                                        content = {
+                                            CommentCard(
+                                                modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                                                comment = result,
+                                                separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                                autoLoadImages = uiState.autoLoadImages,
+                                                hideIndent = true,
+                                                onClick = rememberCallback {
+                                                    navigationCoordinator.pushScreen(
+                                                        PostDetailScreen(
+                                                            post = PostModel(id = result.postId),
+                                                            highlightCommentId = result.id,
+                                                        ),
+                                                    )
+                                                },
+                                                onDoubleClick = if (!uiState.doubleTapActionEnabled) {
+                                                    null
+                                                } else {
+                                                    rememberCallback(model) {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.UpVoteComment(
+                                                                id = result.id,
+                                                                feedback = true,
+                                                            ),
+                                                        )
+                                                    }
+                                                },
+                                                onUpVote = rememberCallback(model) {
+                                                    model.reduce(
+                                                        ExploreMviModel.Intent.UpVoteComment(
+                                                            id = result.id,
+                                                            feedback = true,
+                                                        ),
+                                                    )
+                                                },
+                                                onDownVote = rememberCallback(model) {
+                                                    model.reduce(
+                                                        ExploreMviModel.Intent.DownVoteComment(
+                                                            id = result.id,
+                                                            feedback = true,
+                                                        ),
+                                                    )
+                                                },
+                                                onSave = rememberCallback(model) {
+                                                    model.reduce(
+                                                        ExploreMviModel.Intent.SaveComment(
+                                                            id = result.id,
+                                                            feedback = true,
+                                                        ),
+                                                    )
+                                                },
+                                                onReply = rememberCallback {
+                                                    val screen = CreateCommentScreen(
+                                                        originalPost = PostModel(id = result.postId),
+                                                        originalComment = result,
+                                                    )
+                                                    navigationCoordinator.showBottomSheet(screen)
+                                                },
+                                                onOpenCommunity = rememberCallbackArgs {
+                                                    navigationCoordinator.pushScreen(
+                                                        CommunityDetailScreen(it)
+                                                    )
+                                                },
+                                                onOpenCreator = rememberCallbackArgs {
+                                                    navigationCoordinator.pushScreen(
+                                                        UserDetailScreen(it)
+                                                    )
+                                                },
                                             )
                                         },
                                     )
@@ -453,8 +580,8 @@ class ExploreScreen : Screen {
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .onClick(
-                                                rememberCallback {
-                                                    navigationCoordinator.getRootNavigator()?.push(
+                                                onClick = rememberCallback {
+                                                    navigationCoordinator.pushScreen(
                                                         UserDetailScreen(result),
                                                     )
                                                 },

@@ -65,10 +65,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDuration
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDuration
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -278,7 +278,7 @@ class SettingsScreen : Screen {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                rememberCallback {
+                                onClick = rememberCallback {
                                     scope.launch {
                                         drawerCoordinator.toggleDrawer()
                                     }
@@ -318,7 +318,7 @@ class SettingsScreen : Screen {
                         value = uiState.lang.toLanguageName(),
                         onTap = rememberCallback {
                             val sheet = LanguageBottomSheet()
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
@@ -328,13 +328,14 @@ class SettingsScreen : Screen {
                         value = uiState.uiTheme.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = ThemeBottomSheet()
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
                     // dynamic colors
                     if (uiState.supportsDynamicColors) {
-                        SettingsSwitchRow(title = stringResource(MR.strings.settings_dynamic_colors),
+                        SettingsSwitchRow(
+                            title = stringResource(MR.strings.settings_dynamic_colors),
                             value = uiState.dynamicColors,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
@@ -342,7 +343,8 @@ class SettingsScreen : Screen {
                                         value
                                     )
                                 )
-                            })
+                            },
+                        )
                     }
 
                     val colorSchemeProvider = remember { getColorSchemeProvider() }
@@ -355,7 +357,7 @@ class SettingsScreen : Screen {
                         ).primary,
                         onTap = rememberCallback {
                             val sheet = ColorBottomSheet()
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
                     // upvote and downvote colors
@@ -380,7 +382,7 @@ class SettingsScreen : Screen {
                         value = uiState.uiFontFamily.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = FontFamilyBottomSheet()
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
                     // font scale
@@ -396,7 +398,7 @@ class SettingsScreen : Screen {
                                 ),
                                 contract = NotificationCenterContractKeys.ChangeUiFontSize
                             )
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
                     SettingsRow(
@@ -406,7 +408,7 @@ class SettingsScreen : Screen {
                             val sheet = FontScaleBottomSheet(
                                 contract = NotificationCenterContractKeys.ChangeContentFontSize,
                             )
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
@@ -416,12 +418,13 @@ class SettingsScreen : Screen {
                         value = uiState.postLayout.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = PostLayoutBottomSheet()
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
                     // separate upvotes and downvotes
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_separate_up_and_downvotes),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_separate_up_and_downvotes),
                         value = uiState.separateUpAndDownVotes,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -429,10 +432,12 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        })
+                        },
+                    )
 
                     // full height images
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_full_height_images),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_full_height_images),
                         value = uiState.fullHeightImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -440,10 +445,12 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        })
+                        },
+                    )
 
                     // navigation bar titles
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_navigation_bar_titles_visible),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_navigation_bar_titles_visible),
                         value = uiState.navBarTitlesVisible,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -451,7 +458,8 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        })
+                        },
+                    )
 
                     SettingsHeader(
                         icon = Icons.Default.Tune,
@@ -466,7 +474,7 @@ class SettingsScreen : Screen {
                             val sheet = ListingTypeBottomSheet(
                                 isLogged = uiState.isLogged,
                             )
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
@@ -479,7 +487,7 @@ class SettingsScreen : Screen {
                                 expandTop = true,
                                 contract = NotificationCenterContractKeys.ChangeSortType,
                             )
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
@@ -498,7 +506,7 @@ class SettingsScreen : Screen {
                                     SortType.Controversial,
                                 ),
                             )
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
@@ -517,7 +525,7 @@ class SettingsScreen : Screen {
                         ),
                         onTap = rememberCallback {
                             val sheet = DurationBottomSheet()
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
@@ -535,12 +543,13 @@ class SettingsScreen : Screen {
                                 max = screenWidth,
                                 initial = uiState.zombieModeScrollAmount,
                             )
-                            navigationCoordinator.getBottomNavigator()?.show(sheet)
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
                     // swipe actions
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_enable_swipe_actions),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_enable_swipe_actions),
                         value = uiState.enableSwipeActions,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -548,10 +557,25 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        })
+                        },
+                    )
+
+                    // double tap
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_enable_double_tap),
+                        value = uiState.enableDoubleTapAction,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeEnableDoubleTapAction(
+                                    value
+                                )
+                            )
+                        },
+                    )
 
                     // bottom navigation hiding
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_hide_navigation_bar),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_hide_navigation_bar),
                         value = uiState.hideNavigationBarWhileScrolling,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -559,10 +583,12 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        })
+                        },
+                    )
 
                     // URL open
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_open_url_external),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_open_url_external),
                         value = uiState.openUrlsInExternalBrowser,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -570,10 +596,12 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        })
+                        },
+                    )
 
                     // auto-expand comments
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_auto_expand_comments),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_auto_expand_comments),
                         value = uiState.autoExpandComments,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -581,10 +609,12 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        })
+                        },
+                    )
 
                     // image loading
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_auto_load_images),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_auto_load_images),
                         value = uiState.autoLoadImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -592,7 +622,8 @@ class SettingsScreen : Screen {
                                     value
                                 )
                             )
-                        })
+                        },
+                    )
 
                     SettingsHeader(
                         icon = Icons.Default.Shield,
@@ -600,16 +631,19 @@ class SettingsScreen : Screen {
                     )
 
                     // NSFW options
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_include_nsfw),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_include_nsfw),
                         value = uiState.includeNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))
                         })
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_blur_nsfw),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_blur_nsfw),
                         value = uiState.blurNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeBlurNsfw(value))
-                        })
+                        },
+                    )
 
                     SettingsHeader(
                         icon = Icons.Default.BugReport,
@@ -617,11 +651,13 @@ class SettingsScreen : Screen {
                     )
 
                     // enable crash report
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_enable_crash_report),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_enable_crash_report),
                         value = uiState.crashReportEnabled,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeCrashReportEnabled(value))
-                        })
+                        },
+                    )
 
                     // about
                     SettingsRow(

@@ -92,7 +92,7 @@ fun CommunityHeader(
                         .size(IconSize.xxl)
                         .clip(RoundedCornerShape(IconSize.xxl / 2))
                         .onClick(
-                            rememberCallback {
+                            onClick = rememberCallback {
                                 onOpenImage?.invoke(communityIcon)
                             },
                         ),
