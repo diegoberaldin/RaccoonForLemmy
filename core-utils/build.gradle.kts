@@ -31,6 +31,7 @@ kotlin {
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.activity)
                 implementation(libs.ktor.android)
+                implementation(libs.firebase.crashlytics)
             }
         }
         val commonMain by getting {
@@ -43,6 +44,8 @@ kotlin {
 
                 implementation(libs.koin.core)
                 implementation(libs.ktor.cio)
+                implementation(libs.crashkios)
+
                 implementation(projects.resources)
             }
         }

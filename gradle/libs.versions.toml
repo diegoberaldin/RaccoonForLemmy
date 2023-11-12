@@ -5,6 +5,10 @@ android_gradle = "8.1.1"
 coil = "2.5.0"
 compose = "1.5.10"
 compose_compiler = "1.5.3"
+crashkios = "0.8.5"
+crashlytics = "18.4.1"
+crashlytics_gradle = "2.9.9"
+gms_gradle = "4.3.15"
 kamel = "0.8.2"
 koin = "3.5.0"
 kotlin = "1.9.20"
@@ -35,6 +39,9 @@ androidx_security_crypto = { module = "androidx.security:security-crypto", versi
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil_compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
+firebase_crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "crashlytics" }
+crashkios = { module = "co.touchlab.crashkios:crashlytics", version.ref = "crashkios" }
 
 markdown = { module = "org.jetbrains:markdown", version.ref = "markdown" }
 markwon_core = { module = "io.noties.markwon:core", version.ref = "markwon" }
@@ -92,3 +99,5 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit.gradle" }
 moko_resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko.resources" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics.gradle" }
+gms = { id = "com.google.gms.google-services", version.ref = "gms.gradle" }

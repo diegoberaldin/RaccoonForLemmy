@@ -19,6 +19,7 @@ val settingsTabModule = module {
             colorSchemeProvider = get(),
             notificationCenter = get(),
             crashReportConfiguration = get(),
+            crashReportSender = get(),
         )
     }
     factory<AboutDialogMviModel> {

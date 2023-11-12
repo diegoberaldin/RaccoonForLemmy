@@ -17,6 +17,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsMo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportConfiguration
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportSender
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -40,6 +41,7 @@ class SettingsViewModel(
     private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
     private val crashReportConfiguration: CrashReportConfiguration,
+    private val crashReportSender: CrashReportSender,
 ) : SettingsMviModel,
     MviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect> by mvi {
 
@@ -399,6 +401,7 @@ class SettingsViewModel(
 
     private fun changeCrashReportEnabled(value: Boolean) {
         crashReportConfiguration.setEnabled(value)
+        crashReportSender.setEnabled(value)
         mvi.updateState { it.copy(crashReportEnabled = value) }
     }
 

@@ -59,6 +59,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedIt
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.getCrashReportConfiguration
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.getCrashReportSender
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.managesubscriptions.ManageSubscriptionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.detail.MultiCommunityScreen
@@ -81,8 +83,10 @@ fun App() {
     val settings by settingsRepository.currentSettings.collectAsState()
     var hasBeenInitialized by remember { mutableStateOf(false) }
     val apiConfigurationRepository = remember { getApiConfigurationRepository() }
+    val crashReportSender = remember { getCrashReportSender() }
+    val crashReportConfiguration = remember { getCrashReportConfiguration() }
 
-    LaunchedEffect(accountRepository) {
+    LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
         val currentSettings = settingsRepository.getSettings(accountId)
         settingsRepository.changeCurrentSettings(currentSettings)
@@ -91,6 +95,8 @@ fun App() {
         if (lastInstance != null) {
             apiConfigurationRepository.changeInstance(lastInstance)
         }
+        crashReportSender.initialize()
+        crashReportSender.setEnabled(crashReportConfiguration.isEnabled())
         hasBeenInitialized = true
     }
 
