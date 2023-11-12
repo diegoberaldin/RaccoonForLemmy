@@ -15,6 +15,7 @@ data class CommentModel(
     val myVote: Int = 0,
     val saved: Boolean = false,
     val publishDate: String? = null,
+    val updateDate: String? = null,
     val comments: Int? = null,
     val path: String = "",
     @Transient

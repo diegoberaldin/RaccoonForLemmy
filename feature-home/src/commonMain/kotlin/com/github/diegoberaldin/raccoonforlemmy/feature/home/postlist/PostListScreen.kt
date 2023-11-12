@@ -311,7 +311,7 @@ class PostListScreen : Screen {
                                 }
                             }
                         }
-                        items(uiState.posts, key = { it.id }) { post ->
+                        items(uiState.posts, key = { it.id.toString() + it.updateDate }) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,

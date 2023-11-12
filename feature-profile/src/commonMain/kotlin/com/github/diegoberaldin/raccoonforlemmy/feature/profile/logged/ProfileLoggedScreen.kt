@@ -183,7 +183,7 @@ internal object ProfileLoggedScreen : Tab {
                                     }
                                 }
                             }
-                            items(uiState.posts, { it.id }) { post ->
+                            items(uiState.posts, { it.id.toString() + it.updateDate }) { post ->
                                 PostCard(
                                     post = post,
                                     postLayout = uiState.postLayout,
@@ -312,7 +312,9 @@ internal object ProfileLoggedScreen : Tab {
                                     )
                                 }
                             }
-                            items(uiState.comments, { it.id }) { comment ->
+                            items(
+                                uiState.comments,
+                                { it.id.toString() + it.updateDate }) { comment ->
                                 CommentCard(
                                     modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,

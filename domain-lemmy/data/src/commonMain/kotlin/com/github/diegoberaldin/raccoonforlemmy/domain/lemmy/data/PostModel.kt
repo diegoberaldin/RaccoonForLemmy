@@ -19,6 +19,7 @@ data class PostModel(
     val saved: Boolean = false,
     val myVote: Int = 0,
     val publishDate: String? = null,
+    val updateDate: String? = null,
     val nsfw: Boolean = false,
     val read: Boolean = false,
     val crossPosts: List<PostModel> = emptyList(),
