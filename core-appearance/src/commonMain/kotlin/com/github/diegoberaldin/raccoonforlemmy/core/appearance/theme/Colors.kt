@@ -77,4 +77,5 @@ val md_theme_black_onSecondaryContainer = Color(0xFFFFFFFF)
 val md_theme_black_tertiaryContainer = Color(0xFF262626)
 val md_theme_black_onTertiaryContainer = Color(0xFFFFFFFF)
 
-val seed = Color(0xFF6345CB)
+//val seed = Color(0xFF6345CB)
+val ic_launcher_background = Color(0xFFBCC5FF)
