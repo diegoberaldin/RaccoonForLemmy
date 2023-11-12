@@ -8,7 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.service.PrivateMessageS
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.SearchService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.SiteService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.UserService
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.provideHttpClientEngineFactory
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.network.provideHttpClientEngineFactory
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout

@@ -23,9 +23,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomW
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.rememberWebViewNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.getShareHelper
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.getShareHelper
 
 class WebViewScreen(
     private val url: String,

@@ -18,7 +18,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.shimmerEffect
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 
 @Composable
 fun InboxCardPlaceholder(

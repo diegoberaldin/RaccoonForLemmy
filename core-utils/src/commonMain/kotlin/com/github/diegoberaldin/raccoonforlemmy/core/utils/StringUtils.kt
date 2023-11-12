@@ -4,3 +4,9 @@ expect object StringUtils {
     fun String.isValidUrl(): Boolean
     fun Int.toHexDigit(): String
 }
+
+val String.looksLikeAnImage: Boolean
+    get() {
+        val imageExtensions = listOf(".jpeg", ".jpg", ".png", ".webp")
+        return imageExtensions.any { this.endsWith(it) }
+    }

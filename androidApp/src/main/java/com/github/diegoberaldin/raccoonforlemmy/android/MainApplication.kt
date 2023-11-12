@@ -1,9 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy.android
 
 import android.app.Application
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.AppInfo
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.CrashReportConfiguration
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.CrashReportWriter
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportConfiguration
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportWriter
 import com.github.diegoberaldin.raccoonforlemmy.di.sharedHelperModule
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext

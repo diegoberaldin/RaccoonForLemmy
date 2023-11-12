@@ -3,10 +3,10 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.image
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.DateTime
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.GalleryHelper
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.download
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.DateTime
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.GalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.download
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn

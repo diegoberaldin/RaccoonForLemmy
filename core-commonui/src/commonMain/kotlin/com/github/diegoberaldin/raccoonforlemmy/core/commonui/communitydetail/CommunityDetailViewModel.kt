@@ -5,9 +5,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.HapticFeedback
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.ShareHelper
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.ZombieModeHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.zombiemode.ZombieModeHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel

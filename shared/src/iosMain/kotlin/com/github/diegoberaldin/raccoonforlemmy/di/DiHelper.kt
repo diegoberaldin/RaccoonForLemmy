@@ -5,11 +5,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.coreAppearanc
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.coreNotificationModule
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.corePersistenceModule
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.corePreferencesModule
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.AppInfo
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.crashReportModule
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.galleryHelperModule
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.hapticFeedbackModule
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.shareHelperModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.crashReportModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.galleryHelperModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.shareHelperModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.hapticFeedbackModule
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.coreIdentityModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.homeTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.inboxTabModule
