@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 
-private const val NAVIGATION_DELAY = 250L
-private const val BOTTOM_NAVIGATION_DELAY = 150L
+private const val NAVIGATION_DELAY = 100L
+private const val BOTTOM_NAVIGATION_DELAY = 100L
 private const val DEEP_LINK_DELAY = 500L
 
 internal class DefaultNavigationCoordinator : NavigationCoordinator {
