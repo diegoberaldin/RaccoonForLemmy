@@ -62,7 +62,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreateP
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateCommentViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
@@ -124,8 +124,7 @@ class CreateCommentScreen(
                     }
 
                     CreateCommentMviModel.Effect.Success -> {
-                        notificationCenter.getObserver(NotificationCenterContractKeys.CommentCreated)
-                            ?.also { o -> o.invoke(Unit) }
+                        notificationCenter.send(NotificationCenterEvent.CommentCreated)
                         navigationCoordinator.hideBottomSheet()
                     }
 

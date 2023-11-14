@@ -19,7 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableN
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -75,12 +75,9 @@ class FontFamilyBottomSheet(
                                 .fillMaxWidth()
                                 .onClick(
                                     onClick = rememberCallback {
-                                        notificationCenter.getObserver(
-                                            NotificationCenterContractKeys.ChangeFontFamily
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeFontFamily(value)
                                         )
-                                            ?.also {
-                                                it.invoke(value)
-                                            }
                                         navigationCoordinator.hideBottomSheet()
                                     },
                                 ),

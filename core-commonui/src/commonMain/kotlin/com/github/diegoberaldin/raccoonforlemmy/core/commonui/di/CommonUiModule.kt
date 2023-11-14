@@ -83,6 +83,7 @@ val commonUiModule = module {
             hapticFeedback = get(),
             zombieModeHelper = get(),
             imagePreloadManager = get(),
+            notificationCenter = get(),
         )
     }
     factory<CommunityInfoMviModel> { params ->

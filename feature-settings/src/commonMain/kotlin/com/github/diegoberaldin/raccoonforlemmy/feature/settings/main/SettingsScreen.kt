@@ -25,7 +25,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -42,9 +40,6 @@ import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
@@ -63,15 +58,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutB
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDuration
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.getSettingsViewModel
@@ -92,7 +87,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
-import kotlin.time.Duration
 
 class SettingsScreen : Screen {
 
@@ -133,131 +127,67 @@ class SettingsScreen : Screen {
                 }
             }.launchIn(this)
         }
-        DisposableEffect(key) {
-            onDispose {
-                notificationCenter.removeObserver(key)
-            }
-        }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? String)?.also { lang ->
-                        model.reduce(SettingsMviModel.Intent.ChangeLanguage(lang))
-                    }
-                }, key, NotificationCenterContractKeys.ChangeLanguage
-            )
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? UiTheme)?.also { value ->
-                        model.reduce(SettingsMviModel.Intent.ChangeUiTheme(value))
-                    }
-                }, key, NotificationCenterContractKeys.ChangeTheme
-            )
-            notificationCenter.addObserver(
-                { result ->
-                    model.reduce(
-                        SettingsMviModel.Intent.ChangeCustomSeedColor(
-                            result as? Color?
-                        )
-                    )
-                }, key, NotificationCenterContractKeys.ChangeColor
-            )
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? UiFontFamily)?.also { value ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeUiFontFamily(value)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeFontFamily
-            )
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? Float)?.also { value ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeContentFontSize(value)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeContentFontSize
-            )
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? Float)?.also { value ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeUiFontSize(value)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeUiFontSize
-            )
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? Float)?.also { value ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeContentFontSize(value)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeContentFontSize
-            )
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? PostLayout)?.also { value ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangePostLayout(value)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangePostLayout
-            )
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? ListingType)?.also {
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeDefaultListingType(it)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeFeedType
-            )
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeDefaultPostSortType(sortType)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeSortType
-            )
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeDefaultCommentSortType(sortType)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeCommentSortType
-            )
-            notificationCenter.addObserver(
-                {
-                    infoDialogOpened = false
-                },
-                key, NotificationCenterContractKeys.CloseDialog,
-            )
-            notificationCenter.addObserver(
-                {
-                    (it as? Duration)?.also { value ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeZombieModeInterval(value)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeZombieInterval
-            )
-            notificationCenter.addObserver(
-                {
-                    (it as? Float)?.also { value ->
-                        model.reduce(
-                            SettingsMviModel.Intent.ChangeZombieModeScrollAmount(value)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeZombieScrollAmount
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeLanguage>().onEach { evt ->
+                model.reduce(SettingsMviModel.Intent.ChangeLanguage(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeTheme>().onEach { evt ->
+                model.reduce(SettingsMviModel.Intent.ChangeUiTheme(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeColor>().onEach { evt ->
+                model.reduce(SettingsMviModel.Intent.ChangeCustomSeedColor(evt.color))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeFontFamily>().onEach { evt ->
+                model.reduce(SettingsMviModel.Intent.ChangeUiFontFamily(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeContentFontSize>()
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeContentFontSize(evt.value))
+                }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeUiFontSize>().onEach { evt ->
+                model.reduce(SettingsMviModel.Intent.ChangeUiFontSize(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeContentFontSize>()
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeContentFontSize(evt.value))
+                }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangePostLayout>().onEach { evt ->
+                model.reduce(SettingsMviModel.Intent.ChangePostLayout(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeFeedType>().onEach { evt ->
+                model.reduce(SettingsMviModel.Intent.ChangeDefaultListingType(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
+                model.reduce(SettingsMviModel.Intent.ChangeDefaultPostSortType(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeCommentSortType>()
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeDefaultCommentSortType(evt.value))
+                }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.CloseDialog>().onEach {
+                infoDialogOpened = false
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeZombieInterval>()
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeZombieModeInterval(evt.value))
+                }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeZombieScrollAmount>()
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeZombieModeScrollAmount(evt.value))
+                }.launchIn(this)
         }
 
         if (!uiFontSizeWorkaround) {
@@ -396,7 +326,7 @@ class SettingsScreen : Screen {
                                     FontScale.Normal,
                                     FontScale.Small,
                                 ),
-                                contract = NotificationCenterContractKeys.ChangeUiFontSize
+                                content = false,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
@@ -405,9 +335,7 @@ class SettingsScreen : Screen {
                         title = stringResource(MR.strings.settings_content_font_scale),
                         value = uiState.contentFontScale.toReadableName(),
                         onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet(
-                                contract = NotificationCenterContractKeys.ChangeContentFontSize,
-                            )
+                            val sheet = FontScaleBottomSheet(content = true)
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
@@ -485,7 +413,7 @@ class SettingsScreen : Screen {
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
                                 expandTop = true,
-                                contract = NotificationCenterContractKeys.ChangeSortType,
+                                comments = false,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
@@ -497,7 +425,7 @@ class SettingsScreen : Screen {
                         value = uiState.defaultCommentSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
-                                contract = NotificationCenterContractKeys.ChangeCommentSortType,
+                                comments = true,
                                 values = listOf(
                                     SortType.Hot,
                                     SortType.Top.Generic,

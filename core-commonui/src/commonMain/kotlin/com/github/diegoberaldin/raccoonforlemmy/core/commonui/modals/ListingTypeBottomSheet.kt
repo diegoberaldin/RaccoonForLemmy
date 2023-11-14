@@ -20,7 +20,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -78,11 +78,9 @@ class ListingTypeBottomSheet(
                                 .fillMaxWidth()
                                 .onClick(
                                     onClick = rememberCallback {
-                                        notificationCenter.getAllObservers(
-                                            NotificationCenterContractKeys.ChangeFeedType
-                                        ).forEach {
-                                            it.invoke(value)
-                                        }
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeFeedType(value)
+                                        )
                                         navigationCoordinator.hideBottomSheet()
                                     },
                                 ),

@@ -4,7 +4,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Theme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -18,6 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
@@ -45,27 +47,7 @@ class ProfileLoggedViewModel(
 
     private var currentPage = 1
 
-    init {
-        notificationCenter.addObserver(
-            {
-                (it as? PostModel)?.also { post ->
-                    handlePostUpdate(post)
-                }
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
-        )
-        notificationCenter.addObserver(
-            {
-                (it as? PostModel)?.also { post ->
-                    handlePostDelete(post.id)
-                }
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
+    @OptIn(FlowPreview::class)
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch(Dispatchers.IO) {
@@ -93,6 +75,12 @@ class ProfileLoggedViewModel(
                         fullHeightImages = settings.fullHeightImages,
                     )
                 }
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+                handlePostUpdate(evt.model)
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.PostDeleted>().onEach { evt ->
+                handlePostDelete(evt.model.id)
             }.launchIn(this)
 
             if (uiState.value.posts.isEmpty()) {

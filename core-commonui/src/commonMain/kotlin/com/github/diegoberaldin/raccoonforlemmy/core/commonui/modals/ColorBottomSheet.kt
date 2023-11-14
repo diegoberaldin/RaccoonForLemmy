@@ -31,7 +31,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -97,10 +97,11 @@ class ColorBottomSheet : Screen {
                         ).fillMaxWidth().onClick(
                             onClick = rememberCallback {
                                 if (!isChooseCustom) {
-                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeColor)
-                                        ?.also {
-                                            it.invoke(value.first ?: Unit)
-                                        }
+                                    notificationCenter.send(
+                                        NotificationCenterEvent.ChangeColor(
+                                            value.first
+                                        )
+                                    )
                                     navigationCoordinator.hideBottomSheet()
                                 } else {
                                     customPickerDialogOpened = true
@@ -145,10 +146,7 @@ class ColorBottomSheet : Screen {
                     customPickerDialogOpened = false
                 },
                 onSubmit = { color ->
-                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeColor)
-                        ?.also {
-                            it.invoke(color)
-                        }
+                    notificationCenter.send(NotificationCenterEvent.ChangeColor(color))
                     navigationCoordinator.hideBottomSheet()
                 }
             )

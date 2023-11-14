@@ -37,7 +37,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -75,18 +74,17 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getExploreViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
@@ -127,35 +125,18 @@ class ExploreScreen : Screen {
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
 
-        DisposableEffect(key) {
-            onDispose {
-                notificationCenter.removeObserver(key)
-            }
-        }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? ListingType)?.also {
-                        model.reduce(ExploreMviModel.Intent.SetListingType(it))
-                    }
-                }, key, NotificationCenterContractKeys.ChangeFeedType
-            )
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(
-                            ExploreMviModel.Intent.SetSortType(sortType)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeSortType
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(ExploreMviModel.Intent.Refresh)
-                },
-                key,
-                NotificationCenterContractKeys.CommentCreated
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeFeedType>().onEach { evt ->
+                model.reduce(ExploreMviModel.Intent.SetListingType(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
+                model.reduce(ExploreMviModel.Intent.SetSortType(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
+                model.reduce(ExploreMviModel.Intent.Refresh)
+            }.launchIn(this)
         }
         val lazyListState = rememberLazyListState()
         LaunchedEffect(Unit) {
@@ -194,6 +175,7 @@ class ExploreScreen : Screen {
                     onSelectSortType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = SortBottomSheet(
+                            comments = false,
                             expandTop = true,
                         )
                         navigationCoordinator.showBottomSheet(sheet)

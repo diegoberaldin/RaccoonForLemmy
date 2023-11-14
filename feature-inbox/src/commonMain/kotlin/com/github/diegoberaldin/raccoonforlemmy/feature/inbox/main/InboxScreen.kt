@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,8 +35,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -75,21 +75,12 @@ object InboxScreen : Tab {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
 
-        DisposableEffect(key) {
-            onDispose {
-                notificationCenter.removeObserver(key)
-            }
-        }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                {
-                    (it as? Boolean)?.also { value ->
-                        model.reduce(
-                            InboxMviModel.Intent.ChangeUnreadOnly(value)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeInboxType
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeInboxType>().onEach { evt ->
+                model.reduce(
+                    InboxMviModel.Intent.ChangeUnreadOnly(evt.unreadOnly)
+                )
+            }.launchIn(this)
         }
 
         Scaffold(

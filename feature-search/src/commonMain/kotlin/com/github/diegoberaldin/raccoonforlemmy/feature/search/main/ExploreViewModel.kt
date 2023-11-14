@@ -4,7 +4,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Theme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
@@ -48,24 +49,6 @@ class ExploreViewModel(
     private var debounceJob: Job? = null
     private var firstLoad = true
 
-    init {
-        notificationCenter.addObserver(
-            {
-                handleLogout()
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
-        )
-        notificationCenter.addObserver(
-            {
-                // apply new feed and sort type
-                firstLoad = true
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.ResetContents
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
     override fun onStarted() {
         mvi.onStarted()
         mvi.updateState {
@@ -93,6 +76,19 @@ class ExploreViewModel(
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
                     )
                 }
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.Logout>().onEach {
+                handleLogout()
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.ResetContents>().onEach {
+                // apply feed and sort type
+                firstLoad = true
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+                handlePostUpdate(evt.model)
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.CommentUpdated>().onEach { evt ->
+                handleCommentUpdate(evt.model)
             }.launchIn(this)
         }
 
@@ -299,6 +295,34 @@ class ExploreViewModel(
             it.copy(
                 listingType = ListingType.Local,
                 results = emptyList(),
+            )
+        }
+    }
+
+    private fun handlePostUpdate(post: PostModel) {
+        mvi.updateState {
+            it.copy(
+                results = it.results.map { r ->
+                    if (r is PostModel && r.id == post.id) {
+                        post
+                    } else {
+                        r
+                    }
+                },
+            )
+        }
+    }
+
+    private fun handleCommentUpdate(comment: CommentModel) {
+        mvi.updateState {
+            it.copy(
+                results = it.results.map { r ->
+                    if (r is CommentModel && r.id == comment.id) {
+                        comment
+                    } else {
+                        r
+                    }
+                },
             )
         }
     }

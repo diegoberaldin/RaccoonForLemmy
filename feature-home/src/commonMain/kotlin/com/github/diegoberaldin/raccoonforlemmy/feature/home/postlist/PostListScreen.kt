@@ -36,7 +36,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -77,14 +76,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.getHomeScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -119,11 +117,6 @@ class PostListScreen : Screen {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
 
-        DisposableEffect(key) {
-            onDispose {
-                notificationCenter.removeObserver(key)
-            }
-        }
         LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
                 if (tab == HomeTab) {
@@ -149,36 +142,21 @@ class PostListScreen : Screen {
             }.launchIn(this)
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                { result ->
-                    (result as? ListingType)?.also {
-                        model.reduce(PostListMviModel.Intent.ChangeListing(it))
-                    }
-                }, key, NotificationCenterContractKeys.ChangeFeedType
-            )
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(
-                            PostListMviModel.Intent.ChangeSort(sortType)
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeSortType
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(PostListMviModel.Intent.Refresh)
-                },
-                key,
-                NotificationCenterContractKeys.CommentCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(PostListMviModel.Intent.Refresh)
-                },
-                key,
-                NotificationCenterContractKeys.PostCreated
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeFeedType>().onEach { evt ->
+                model.reduce(PostListMviModel.Intent.ChangeListing(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
+                model.reduce(PostListMviModel.Intent.ChangeSort(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
+                model.reduce(PostListMviModel.Intent.Refresh)
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.PostCreated>().onEach {
+                model.reduce(PostListMviModel.Intent.Refresh)
+            }.launchIn(this)
         }
 
         Scaffold(
@@ -202,6 +180,7 @@ class PostListScreen : Screen {
                     },
                     onSelectSortType = rememberCallback {
                         val sheet = SortBottomSheet(
+                            comments = false,
                             expandTop = true,
                         )
                         navigationCoordinator.showBottomSheet(sheet)

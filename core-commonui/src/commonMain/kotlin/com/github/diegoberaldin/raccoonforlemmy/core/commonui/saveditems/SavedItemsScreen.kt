@@ -70,8 +70,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -81,6 +82,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SavedItemsScreen : Screen {
@@ -105,24 +108,17 @@ class SavedItemsScreen : Screen {
         val settings by settingsRepository.currentSettings.collectAsState()
 
         DisposableEffect(key) {
-            notificationCenter.removeObserver(key)
             drawerCoordinator.setGesturesEnabled(false)
             onDispose {
                 drawerCoordinator.setGesturesEnabled(true)
             }
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(
-                            SavedItemsMviModel.Intent.ChangeSort(
-                                sortType
-                            )
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeSortType
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
+                model.reduce(
+                    SavedItemsMviModel.Intent.ChangeSort(evt.value)
+                )
+            }.launchIn(this)
         }
 
         Scaffold(
@@ -140,6 +136,7 @@ class SavedItemsScreen : Screen {
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
+                                        comments = false,
                                         values = listOf(
                                             SortType.Hot,
                                             SortType.New,

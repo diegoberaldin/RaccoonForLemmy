@@ -94,8 +94,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -103,7 +104,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -150,36 +150,17 @@ class UserDetailScreen(
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
             onDispose {
-                notificationCenter.removeObserver(key)
                 drawerCoordinator.setGesturesEnabled(true)
             }
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(
-                            UserDetailMviModel.Intent.ChangeSort(
-                                sortType
-                            )
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeSortType
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(UserDetailMviModel.Intent.Refresh)
-                },
-                key,
-                NotificationCenterContractKeys.CommentCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(UserDetailMviModel.Intent.Refresh)
-                },
-                key,
-                NotificationCenterContractKeys.CommentCreated
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
+                model.reduce(UserDetailMviModel.Intent.ChangeSort(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
+                model.reduce(UserDetailMviModel.Intent.Refresh)
+            }.launchIn(this)
         }
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -229,6 +210,7 @@ class UserDetailScreen(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
+                                        comments = false,
                                         expandTop = true,
                                     )
                                     navigationCoordinator.showBottomSheet(sheet)

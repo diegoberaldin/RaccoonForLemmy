@@ -17,7 +17,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -74,11 +74,9 @@ class DurationBottomSheet(
                             vertical = Spacing.s,
                         ).fillMaxWidth().onClick(
                             onClick = rememberCallback {
-                                notificationCenter.getObserver(
-                                    NotificationCenterContractKeys.ChangeZombieInterval
-                                )?.also {
-                                    it.invoke(value)
-                                }
+                                notificationCenter.send(
+                                    NotificationCenterEvent.ChangeZombieInterval(value)
+                                )
                                 navigationCoordinator.hideBottomSheet()
                             },
                         ),

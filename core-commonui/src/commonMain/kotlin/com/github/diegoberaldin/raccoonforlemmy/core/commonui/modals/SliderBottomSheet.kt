@@ -21,7 +21,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -72,10 +72,9 @@ class SliderBottomSheet(
                 Spacer(modifier = Modifier.height(Spacing.s))
                 Button(
                     onClick = {
-                        notificationCenter.getObserver(NotificationCenterContractKeys.ChangeZombieScrollAmount)
-                            ?.also {
-                                it.invoke(value)
-                            }
+                        notificationCenter.send(
+                            NotificationCenterEvent.ChangeZombieScrollAmount(value)
+                        )
                         navigationCoordinator.hideBottomSheet()
                     },
                 ) {

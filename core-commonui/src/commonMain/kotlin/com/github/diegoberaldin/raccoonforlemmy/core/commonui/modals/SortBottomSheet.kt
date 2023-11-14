@@ -28,7 +28,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -39,7 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 class SortBottomSheet(
-    private val contract: String = NotificationCenterContractKeys.ChangeSortType,
+    private val comments: Boolean,
     private val values: List<SortType> = listOf(
         SortType.Active,
         SortType.Hot,
@@ -71,7 +71,7 @@ class SortBottomSheet(
                 SortBottomSheetMain(
                     values = values,
                     expandTop = expandTop,
-                    contract = contract,
+                    comments = comments,
                 )
             )
         }
@@ -79,7 +79,7 @@ class SortBottomSheet(
 }
 
 internal class SortBottomSheetMain(
-    private val contract: String,
+    private val comments: Boolean,
     private val values: List<SortType>,
     private val expandTop: Boolean = false,
 ) : Screen {
@@ -111,11 +111,15 @@ internal class SortBottomSheetMain(
                             .onClick(
                                 onClick = rememberCallback {
                                     if (value == SortType.Top.Generic && expandTop) {
-                                        navigator.push(SortBottomSheetTop(contract = contract))
+                                        navigator.push(SortBottomSheetTop(comments = comments))
                                     } else {
-                                        notificationCenter.getAllObservers(contract).forEach {
-                                            it.invoke(value)
-                                        }
+                                        notificationCenter.send(
+                                            if (comments) {
+                                                NotificationCenterEvent.ChangeCommentSortType(value)
+                                            } else {
+                                                NotificationCenterEvent.ChangeSortType(value)
+                                            }
+                                        )
                                         navigationCoordinator.hideBottomSheet()
                                     }
                                 },
@@ -148,7 +152,7 @@ internal class SortBottomSheetMain(
 }
 
 internal class SortBottomSheetTop(
-    private val contract: String,
+    private val comments: Boolean,
     private val values: List<SortType> = listOf(
         SortType.Top.PastHour,
         SortType.Top.Past6Hours,
@@ -200,11 +204,13 @@ internal class SortBottomSheetTop(
                             .fillMaxWidth()
                             .onClick(
                                 onClick = rememberCallback {
-                                    notificationCenter.getAllObservers(
-                                        contract,
-                                    ).forEach {
-                                        it.invoke(value)
-                                    }
+                                    notificationCenter.send(
+                                        if (comments) {
+                                            NotificationCenterEvent.ChangeCommentSortType(value)
+                                        } else {
+                                            NotificationCenterEvent.ChangeSortType(value)
+                                        }
+                                    )
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),

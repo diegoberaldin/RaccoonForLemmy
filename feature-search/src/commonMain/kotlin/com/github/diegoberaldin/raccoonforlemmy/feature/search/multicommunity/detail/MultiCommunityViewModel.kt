@@ -5,7 +5,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
@@ -43,18 +44,6 @@ class MultiCommunityViewModel(
 
     private var hideReadPosts = false
 
-    init {
-        notificationCenter.addObserver({
-            (it as? PostModel)?.also { post ->
-                handlePostUpdate(post)
-            }
-        }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated)
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
     override fun onStarted() {
         mvi.onStarted()
 
@@ -74,6 +63,10 @@ class MultiCommunityViewModel(
                     )
                 }
             }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+                handlePostUpdate(evt.model)
+            }.launchIn(this)
+
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)

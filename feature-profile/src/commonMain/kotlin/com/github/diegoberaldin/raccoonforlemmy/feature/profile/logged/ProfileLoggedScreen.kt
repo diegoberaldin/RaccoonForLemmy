@@ -22,7 +22,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -54,8 +53,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
@@ -93,26 +93,14 @@ internal object ProfileLoggedScreen : Tab {
                 }
             }.launchIn(this)
         }
-        DisposableEffect(key) {
-            onDispose {
-                notificationCenter.removeObserver(key)
-            }
-        }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                {
-                    model.reduce(ProfileLoggedMviModel.Intent.Refresh)
-                },
-                key,
-                NotificationCenterContractKeys.PostCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(ProfileLoggedMviModel.Intent.Refresh)
-                },
-                key,
-                NotificationCenterContractKeys.CommentCreated
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.PostCreated>().onEach {
+                model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
+                model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+            }.launchIn(this)
         }
 
         if (user != null) {

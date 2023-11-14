@@ -3,7 +3,8 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.search.managesubscripti
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
@@ -30,28 +31,16 @@ class ManageSubscriptionsViewModel(
 ) : ManageSubscriptionsMviModel,
     MviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect> by mvi {
 
-    init {
-        notificationCenter.addObserver(
-            { evt ->
-                (evt as? MultiCommunityModel)?.also {
-                    handleMultiCommunityCreated(it)
-                }
-            },
-            this::class.simpleName.orEmpty(),
-            NotificationCenterContractKeys.MultiCommunityCreated
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.MultiCommunityCreated>()
+                .onEach { evt ->
+                    handleMultiCommunityCreated(evt.model)
+                }.launchIn(this)
         }
         if (uiState.value.communities.isEmpty()) {
             refresh()

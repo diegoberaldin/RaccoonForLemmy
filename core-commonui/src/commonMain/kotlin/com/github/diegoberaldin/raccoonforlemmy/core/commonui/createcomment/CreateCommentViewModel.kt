@@ -4,7 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Theme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
@@ -118,9 +118,7 @@ class CreateCommentViewModel(
         val auth = identityRepository.authToken.value
         val newPost = postRepository.get(postId, auth)
         if (newPost != null) {
-            notificationCenter.getAllObservers(NotificationCenterContractKeys.PostUpdated).forEach {
-                it.invoke(newPost)
-            }
+            notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
         }
     }
 

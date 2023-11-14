@@ -4,7 +4,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Theme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -38,18 +39,6 @@ class InboxRepliesViewModel(
     private var currentPage: Int = 1
     private var currentUserId: Int? = null
 
-    init {
-        notificationCenter.addObserver(
-            {
-                handleLogout()
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
     override fun onStarted() {
         mvi.onStarted()
 
@@ -75,6 +64,9 @@ class InboxRepliesViewModel(
                         separateUpAndDownVotes = settings.separateUpAndDownVotes,
                     )
                 }
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.Logout>().onEach {
+                handleLogout()
             }.launchIn(this)
         }
     }

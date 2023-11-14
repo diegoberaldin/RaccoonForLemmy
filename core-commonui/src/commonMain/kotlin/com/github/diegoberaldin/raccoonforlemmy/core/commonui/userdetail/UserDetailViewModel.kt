@@ -5,7 +5,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -47,25 +48,14 @@ class UserDetailViewModel(
 
     private var currentPage = 1
 
-    init {
-        notificationCenter.addObserver(
-            {
-                (it as? PostModel)?.also { post ->
-                    handlePostUpdate(post)
-                }
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+                handlePostUpdate(evt.model)
             }.launchIn(this)
         }
         mvi.updateState {

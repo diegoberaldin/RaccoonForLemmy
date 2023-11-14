@@ -96,8 +96,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -160,71 +161,22 @@ class PostDetailScreen(
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
             onDispose {
-                notificationCenter.removeObserver(key)
                 drawerCoordinator.setGesturesEnabled(true)
             }
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(
-                            PostDetailMviModel.Intent.ChangeSort(
-                                sortType
-                            )
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeSortType
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(PostDetailMviModel.Intent.Refresh)
-                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                }, key, NotificationCenterContractKeys.CommentCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(PostDetailMviModel.Intent.Refresh)
-                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                }, key, NotificationCenterContractKeys.CommentCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                }, key, NotificationCenterContractKeys.PostCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(
-                        PostDetailMviModel.Intent.Refresh
-                    )
-                    model.reduce(
-                        PostDetailMviModel.Intent.RefreshPost
-                    )
-                }, key, NotificationCenterContractKeys.CommentCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(
-                        PostDetailMviModel.Intent.Refresh
-                    )
-                    model.reduce(
-                        PostDetailMviModel.Intent.RefreshPost
-                    )
-                }, key, NotificationCenterContractKeys.CommentCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(PostDetailMviModel.Intent.Refresh)
-                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                }, key, NotificationCenterContractKeys.CommentCreated
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(PostDetailMviModel.Intent.Refresh)
-                    model.reduce(PostDetailMviModel.Intent.RefreshPost)
-                }, key, NotificationCenterContractKeys.CommentCreated
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
+                model.reduce(PostDetailMviModel.Intent.ChangeSort(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
+                model.reduce(PostDetailMviModel.Intent.Refresh)
+                model.reduce(PostDetailMviModel.Intent.RefreshPost)
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach {
+                model.reduce(PostDetailMviModel.Intent.RefreshPost)
+            }.launchIn(this)
         }
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
@@ -265,6 +217,7 @@ class PostDetailScreen(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
+                                        comments = true,
                                         values = listOf(
                                             SortType.Hot,
                                             SortType.Top.Generic,

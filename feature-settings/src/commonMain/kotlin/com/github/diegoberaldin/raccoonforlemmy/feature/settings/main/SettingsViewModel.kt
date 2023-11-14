@@ -12,7 +12,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ColorSchem
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -44,18 +45,6 @@ class SettingsViewModel(
     private val crashReportSender: CrashReportSender,
 ) : SettingsMviModel,
     MviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect> by mvi {
-
-    init {
-        notificationCenter.addObserver(
-            { handleLogout() },
-            this::class.simpleName.orEmpty(),
-            NotificationCenterContractKeys.Logout
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
 
     override fun onStarted() {
         mvi.onStarted()
@@ -95,6 +84,10 @@ class SettingsViewModel(
             }.launchIn(this)
             identityRepository.authToken.onEach { auth ->
                 mvi.updateState { it.copy(isLogged = !auth.isNullOrEmpty()) }
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.Logout>().onEach {
+                handleLogout()
             }.launchIn(this)
         }
 
@@ -273,10 +266,7 @@ class SettingsViewModel(
                 defaultListingType = value.toInt()
             )
             saveSettings(settings)
-            notificationCenter.getAllObservers(NotificationCenterContractKeys.ResetContents)
-                .forEach {
-                    it.invoke(Unit)
-                }
+            notificationCenter.send(NotificationCenterEvent.ResetContents)
         }
     }
 
@@ -287,10 +277,8 @@ class SettingsViewModel(
                 defaultPostSortType = value.toInt()
             )
             saveSettings(settings)
-            notificationCenter.getAllObservers(NotificationCenterContractKeys.ResetContents)
-                .forEach {
-                    it.invoke(Unit)
-                }
+            notificationCenter.send(NotificationCenterEvent.ResetContents)
+
         }
     }
 

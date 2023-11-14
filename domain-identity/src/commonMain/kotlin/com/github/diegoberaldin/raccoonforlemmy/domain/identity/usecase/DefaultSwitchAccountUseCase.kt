@@ -2,7 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -26,9 +26,7 @@ internal class DefaultSwitchAccountUseCase(
         }
         accountRepository.setActive(accountId, true)
         identityRepository.clearToken()
-        notificationCenter.getAllObservers(NotificationCenterContractKeys.Logout).onEach {
-            it.invoke(Unit)
-        }
+        notificationCenter.send(NotificationCenterEvent.Logout)
         serviceProvider.changeInstance(instance)
         identityRepository.storeToken(jwt)
 

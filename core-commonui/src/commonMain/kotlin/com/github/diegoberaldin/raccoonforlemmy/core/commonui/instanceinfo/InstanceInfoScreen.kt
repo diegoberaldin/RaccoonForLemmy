@@ -27,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -47,8 +46,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInstanceInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.CommunityItemPlaceholder
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -81,18 +81,10 @@ class InstanceInfoScreen(
         val notificationCenter = remember { getNotificationCenter() }
         val listState = rememberLazyListState()
 
-        DisposableEffect(key) {
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(InstanceInfoMviModel.Intent.ChangeSortType(sortType))
-                    }
-                },
-                key, NotificationCenterContractKeys.ChangeSortType,
-            )
-            onDispose {
-                notificationCenter.removeObserver(key)
-            }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
+                model.reduce(InstanceInfoMviModel.Intent.ChangeSortType(evt.value))
+            }.launchIn(this)
         }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -147,6 +139,7 @@ class InstanceInfoScreen(
                                 modifier = Modifier.onClick(
                                     onClick = rememberCallback {
                                         val sheet = SortBottomSheet(
+                                            comments = false,
                                             values = listOf(
                                                 SortType.Active,
                                                 SortType.Hot,

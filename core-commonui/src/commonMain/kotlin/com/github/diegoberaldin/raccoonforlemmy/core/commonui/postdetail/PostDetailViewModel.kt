@@ -4,7 +4,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Theme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -44,24 +45,13 @@ class PostDetailViewModel(
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
 
-    init {
-        notificationCenter.addObserver(
-            {
-                (it as? PostModel)?.also { post ->
-                    handlePostUpdate(post)
-                }
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
     override fun onStarted() {
         mvi.onStarted()
 
         mvi.scope?.launch(Dispatchers.Main) {
+            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+                handlePostUpdate(evt.model)
+            }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -390,10 +380,7 @@ class PostDetailViewModel(
                     post = post,
                     voted = newValue,
                 )
-                notificationCenter.getAllObservers(NotificationCenterContractKeys.PostUpdated)
-                    .forEach {
-                        it.invoke(newPost)
-                    }
+                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState { it.copy(post = post) }
@@ -422,10 +409,7 @@ class PostDetailViewModel(
                     post = post,
                     downVoted = newValue,
                 )
-                notificationCenter.getAllObservers(NotificationCenterContractKeys.PostUpdated)
-                    .forEach {
-                        it.invoke(newPost)
-                    }
+                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState { it.copy(post = post) }
@@ -454,10 +438,7 @@ class PostDetailViewModel(
                     post = post,
                     saved = newValue,
                 )
-                notificationCenter.getAllObservers(NotificationCenterContractKeys.PostUpdated)
-                    .forEach {
-                        it.invoke(newPost)
-                    }
+                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState { it.copy(post = post) }
@@ -496,6 +477,7 @@ class PostDetailViewModel(
                     comment = comment,
                     voted = newValue,
                 )
+                notificationCenter.send(NotificationCenterEvent.CommentUpdated(newComment))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -541,6 +523,7 @@ class PostDetailViewModel(
                     comment = comment,
                     downVoted = newValue,
                 )
+                notificationCenter.send(NotificationCenterEvent.CommentUpdated(newComment))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -589,6 +572,7 @@ class PostDetailViewModel(
                     comment = comment,
                     saved = newValue,
                 )
+                notificationCenter.send(NotificationCenterEvent.CommentUpdated(newComment))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -619,9 +603,7 @@ class PostDetailViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = post.id, auth = auth)
-            notificationCenter.getObserver(NotificationCenterContractKeys.PostDeleted)?.also {
-                it.invoke(post)
-            }
+            notificationCenter.send(NotificationCenterEvent.PostDeleted(post))
             mvi.emitEffect(PostDetailMviModel.Effect.Close)
         }
     }

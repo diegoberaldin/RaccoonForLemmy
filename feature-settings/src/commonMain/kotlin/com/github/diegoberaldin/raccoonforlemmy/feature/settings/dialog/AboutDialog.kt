@@ -39,7 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.handleUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -88,8 +88,7 @@ class AboutDialog : Screen {
 
         AlertDialog(
             onDismissRequest = {
-                notificationCenter.getObserver(NotificationCenterContractKeys.CloseDialog)
-                    ?.invoke(Unit)
+                notificationCenter.send(NotificationCenterEvent.CloseDialog)
             },
         ) {
             Column(
@@ -185,8 +184,7 @@ class AboutDialog : Screen {
                 }
                 Button(
                     onClick = {
-                        notificationCenter.getObserver(NotificationCenterContractKeys.CloseDialog)
-                            ?.invoke(Unit)
+                        notificationCenter.send(NotificationCenterEvent.CloseDialog)
                     },
                 ) {
                     Text(text = stringResource(MR.strings.button_close))

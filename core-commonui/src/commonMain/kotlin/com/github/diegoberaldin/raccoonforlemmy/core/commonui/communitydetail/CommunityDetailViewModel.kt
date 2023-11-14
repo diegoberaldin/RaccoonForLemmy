@@ -4,6 +4,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Theme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -38,6 +41,7 @@ class CommunityDetailViewModel(
     private val hapticFeedback: HapticFeedback,
     private val zombieModeHelper: ZombieModeHelper,
     private val imagePreloadManager: ImagePreloadManager,
+    private val notificationCenter: NotificationCenter,
 ) : CommunityDetailMviModel,
     MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi {
 
@@ -77,6 +81,10 @@ class CommunityDetailViewModel(
 
             zombieModeHelper.index.onEach { index ->
                 mvi.emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+                handlePostUpdate(evt.model)
             }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
@@ -485,6 +493,20 @@ class CommunityDetailViewModel(
             if (community != null) {
                 mvi.updateState { it.copy(community = community) }
             }
+        }
+    }
+
+    private fun handlePostUpdate(post: PostModel) {
+        mvi.updateState {
+            it.copy(
+                posts = it.posts.map { p ->
+                    if (p.id == post.id) {
+                        post
+                    } else {
+                        p
+                    }
+                },
+            )
         }
     }
 

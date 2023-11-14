@@ -75,18 +75,20 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getMultiCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class MultiCommunityScreen(
@@ -119,29 +121,17 @@ class MultiCommunityScreen(
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
             onDispose {
-                notificationCenter.removeObserver(key)
                 drawerCoordinator.setGesturesEnabled(true)
             }
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.addObserver(
-                {
-                    (it as? SortType)?.also { sortType ->
-                        model.reduce(
-                            MultiCommunityMviModel.Intent.ChangeSort(
-                                sortType
-                            )
-                        )
-                    }
-                }, key, NotificationCenterContractKeys.ChangeSortType
-            )
-            notificationCenter.addObserver(
-                {
-                    model.reduce(MultiCommunityMviModel.Intent.Refresh)
-                },
-                key,
-                NotificationCenterContractKeys.CommentCreated
-            )
+            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
+                model.reduce(MultiCommunityMviModel.Intent.ChangeSort(evt.value))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
+                model.reduce(MultiCommunityMviModel.Intent.Refresh)
+            }.launchIn(this)
         }
 
         Scaffold(
@@ -185,7 +175,10 @@ class MultiCommunityScreen(
                                 Image(
                                     modifier = Modifier.onClick(
                                         onClick = rememberCallback {
-                                            val sheet = SortBottomSheet(expandTop = true)
+                                            val sheet = SortBottomSheet(
+                                                comments = false,
+                                                expandTop = true,
+                                            )
                                             navigationCoordinator.showBottomSheet(sheet)
                                         },
                                     ),

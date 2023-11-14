@@ -5,7 +5,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -49,38 +50,6 @@ class PostListViewModel(
     private var firstLoad = true
     private var hideReadPosts = false
 
-    init {
-        notificationCenter.addObserver(
-            {
-                (it as? PostModel)?.also { post ->
-                    handlePostUpdate(post)
-                }
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostUpdated
-        )
-        notificationCenter.addObserver(
-            {
-                (it as? PostModel)?.also { post ->
-                    handlePostDelete(post.id)
-                }
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.PostDeleted
-        )
-        notificationCenter.addObserver(
-            {
-                handleLogout()
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
-        )
-        notificationCenter.addObserver(
-            {
-                // apply new feed and sort type
-                firstLoad = true
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.ResetContents
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
     override fun onStarted() {
         mvi.onStarted()
 
@@ -113,9 +82,23 @@ class PostListViewModel(
                     )
                 }
             }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+                handlePostUpdate(evt.model)
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.PostDeleted>().onEach { evt ->
+                handlePostDelete(evt.model.id)
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.ResetContents>().onEach {
+                // apply new feed and sort type
+                firstLoad = true
+            }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
                 mvi.emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
+            }.launchIn(this)
+
+            notificationCenter.subscribe<NotificationCenterEvent.Logout>().onEach {
+                handleLogout()
             }.launchIn(this)
 
             val auth = identityRepository.authToken.value.orEmpty()

@@ -3,7 +3,8 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
@@ -30,18 +31,6 @@ class InboxChatViewModel(
 
     private var currentPage: Int = 1
 
-    init {
-        notificationCenter.addObserver(
-            {
-                handleLogout()
-            }, this::class.simpleName.orEmpty(), NotificationCenterContractKeys.Logout
-        )
-    }
-
-    fun finalize() {
-        notificationCenter.removeObserver(this::class.simpleName.orEmpty())
-    }
-
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch {
@@ -50,6 +39,9 @@ class InboxChatViewModel(
 
                 settingsRepository.currentSettings.onEach { settings ->
                     mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
+                }.launchIn(this)
+                notificationCenter.subscribe<NotificationCenterEvent.Logout>().onEach {
+                    handleLogout()
                 }.launchIn(this)
                 launch {
                     val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0

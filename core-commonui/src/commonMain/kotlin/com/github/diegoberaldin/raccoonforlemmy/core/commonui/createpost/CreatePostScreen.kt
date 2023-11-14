@@ -30,7 +30,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -65,8 +64,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.TextFor
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityDialog
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -174,8 +174,7 @@ class CreatePostScreen(
                     }
 
                     CreatePostMviModel.Effect.Success -> {
-                        notificationCenter.getObserver(NotificationCenterContractKeys.PostCreated)
-                            ?.also { o -> o.invoke(Unit) }
+                        notificationCenter.send(NotificationCenterEvent.PostCreated)
                         navigationCoordinator.hideBottomSheet()
                     }
 
@@ -187,27 +186,16 @@ class CreatePostScreen(
                 }
             }.launchIn(this)
         }
-        DisposableEffect(key) {
-            notificationCenter.addObserver(
-                {
-                    (it as? CommunityModel)?.also { community ->
-                        model.reduce(CreatePostMviModel.Intent.SetCommunity(community))
-                        focusManager.clearFocus()
-                    }
-                }, key, NotificationCenterContractKeys.SelectCommunity
-            )
-
-            notificationCenter.addObserver(
-                {
-                    if (openSelectCommunity) {
-                        openSelectCommunity = false
-                    }
-                }, key, NotificationCenterContractKeys.CloseDialog
-            )
-
-            onDispose {
-                notificationCenter.removeObserver(key)
-            }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.subscribe<NotificationCenterEvent.SelectCommunity>().onEach { evt ->
+                model.reduce(CreatePostMviModel.Intent.SetCommunity(evt.model))
+                focusManager.clearFocus()
+            }.launchIn(this)
+            notificationCenter.subscribe<NotificationCenterEvent.CloseDialog>().onEach {
+                if (openSelectCommunity) {
+                    openSelectCommunity = false
+                }
+            }.launchIn(this)
         }
 
         Scaffold(

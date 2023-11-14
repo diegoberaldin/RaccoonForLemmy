@@ -17,7 +17,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -62,10 +62,9 @@ class InboxTypeSheet : Screen {
                             .fillMaxWidth()
                             .onClick(
                                 onClick = rememberCallback {
-                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeInboxType)
-                                        ?.also {
-                                            it.invoke(true)
-                                        }
+                                    notificationCenter.send(
+                                        NotificationCenterEvent.ChangeInboxType(true)
+                                    )
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
@@ -84,10 +83,9 @@ class InboxTypeSheet : Screen {
                                 vertical = Spacing.m,
                             ).onClick(
                                 onClick = rememberCallback {
-                                    notificationCenter.getObserver(NotificationCenterContractKeys.ChangeInboxType)
-                                        ?.also {
-                                            it.invoke(false)
-                                        }
+                                    notificationCenter.send(
+                                        NotificationCenterEvent.ChangeInboxType(false)
+                                    )
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),

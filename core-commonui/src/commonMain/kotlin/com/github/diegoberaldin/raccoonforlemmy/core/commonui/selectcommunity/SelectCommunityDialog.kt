@@ -39,7 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getSelectCommunityViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterContractKeys
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -58,8 +58,7 @@ class SelectCommunityDialog : Screen {
         AlertDialog(
             onDismissRequest = rememberCallback {
                 model.reduce(SelectCommunityMviModel.Intent.SetSearch(""))
-                notificationCenter.getObserver(NotificationCenterContractKeys.CloseDialog)
-                    ?.invoke(Unit)
+                notificationCenter.send(NotificationCenterEvent.CloseDialog)
             },
         ) {
             Column(
@@ -129,14 +128,10 @@ class SelectCommunityDialog : Screen {
                                     .background(MaterialTheme.colorScheme.background)
                                     .onClick(
                                         onClick = rememberCallback {
-                                            notificationCenter.getObserver(
-                                                NotificationCenterContractKeys.SelectCommunity
+                                            notificationCenter.send(
+                                                NotificationCenterEvent.SelectCommunity(community)
                                             )
-                                                ?.invoke(community)
-                                            notificationCenter.getObserver(
-                                                NotificationCenterContractKeys.CloseDialog
-                                            )
-                                                ?.invoke(Unit)
+                                            notificationCenter.send(NotificationCenterEvent.CloseDialog)
                                         },
                                     ),
                                 autoLoadImages = uiState.autoLoadImages,
@@ -149,8 +144,7 @@ class SelectCommunityDialog : Screen {
                 Button(
                     onClick = {
                         model.reduce(SelectCommunityMviModel.Intent.SetSearch(""))
-                        notificationCenter.getObserver(NotificationCenterContractKeys.CloseDialog)
-                            ?.invoke(Unit)
+                        notificationCenter.send(NotificationCenterEvent.CloseDialog)
                     },
                 ) {
                     Text(text = stringResource(MR.strings.button_close))
