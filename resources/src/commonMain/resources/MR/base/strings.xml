@@ -99,6 +99,7 @@
     <string name="instance_detail_title">Instance: %1$s</string>
     <string name="lang">en</string>
     <string name="language_de" translatable="false">Deutsch</string>
+    <string name="language_dk" translatable="false">Dansk</string>
     <string name="language_el" translatable="false">Ελληνικά</string>
     <string name="language_en" translatable="false">English</string>
     <string name="language_es" translatable="false">Español</string>
