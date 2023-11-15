@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
 import androidx.compose.ui.platform.UriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -46,6 +47,7 @@ fun NavigationCoordinator.handleUrl(
 ) {
     val community = getCommunityFromUrl(url)
     val user = getUserFromUrl(url)
+    val (post, postInstance) = getPostFromUrl(url) ?: (null to null)
 
     when {
         community != null -> {
@@ -62,6 +64,15 @@ fun NavigationCoordinator.handleUrl(
                 UserDetailScreen(
                     user = user,
                     otherInstance = user.host
+                )
+            )
+        }
+
+        post != null -> {
+            pushScreen(
+                PostDetailScreen(
+                    post = post,
+                    otherInstance = postInstance.orEmpty(),
                 )
             )
         }
