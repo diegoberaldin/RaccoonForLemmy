@@ -123,7 +123,7 @@ class CommunityDetailScreen(
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel(community.id.toString()) {
+        val model = rememberScreenModel(community.id.toString() + community.name) {
             getCommunityDetailViewModel(
                 community = community,
                 otherInstance = otherInstance,

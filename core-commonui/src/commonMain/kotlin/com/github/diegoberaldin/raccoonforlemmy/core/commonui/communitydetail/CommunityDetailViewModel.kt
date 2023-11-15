@@ -315,6 +315,7 @@ class CommunityDetailViewModel(
                     voted = newValue,
                 )
                 markAsRead(newPost)
+                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -405,6 +406,7 @@ class CommunityDetailViewModel(
                     downVoted = newValue,
                 )
                 markAsRead(newPost)
+                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -454,6 +456,7 @@ class CommunityDetailViewModel(
                     saved = newValue,
                 )
                 markAsRead(newPost)
+                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
