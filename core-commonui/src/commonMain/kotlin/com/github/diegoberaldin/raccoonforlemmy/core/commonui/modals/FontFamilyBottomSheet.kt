@@ -30,11 +30,11 @@ import dev.icerock.moko.resources.compose.stringResource
 class FontFamilyBottomSheet(
     private val values: List<UiFontFamily> = listOf(
         UiFontFamily.TitilliumWeb,
-        UiFontFamily.Dosis,
         UiFontFamily.NotoSans,
-        UiFontFamily.CormorantGaramond,
+        UiFontFamily.Dosis,
+        UiFontFamily.Laila,
         UiFontFamily.Prociono,
-        UiFontFamily.Fondamento,
+        UiFontFamily.CormorantGaramond,
     ),
 ) : Screen {
 
@@ -87,7 +87,7 @@ class FontFamilyBottomSheet(
                                 UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
                                 UiFontFamily.CormorantGaramond -> fontFamilyResource(MR.fonts.CormorantGaramond.regular)
                                 UiFontFamily.Dosis -> fontFamilyResource(MR.fonts.Dosis.regular)
-                                UiFontFamily.Fondamento -> fontFamilyResource(MR.fonts.Fondamento.regular)
+                                UiFontFamily.Laila -> fontFamilyResource(MR.fonts.Laila.regular)
                                 else -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
                             }
                             Text(

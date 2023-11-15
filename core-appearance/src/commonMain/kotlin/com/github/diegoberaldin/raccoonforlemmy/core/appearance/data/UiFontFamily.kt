@@ -8,11 +8,11 @@ sealed interface UiFontFamily {
     data object CormorantGaramond : UiFontFamily
     data object NotoSans : UiFontFamily
     data object Prociono : UiFontFamily
-    data object Fondamento : UiFontFamily
+    data object Laila : UiFontFamily
 }
 
 fun Int.toUiFontFamily() = when (this) {
-    5 -> UiFontFamily.Fondamento
+    5 -> UiFontFamily.Laila
     4 -> UiFontFamily.Prociono
     3 -> UiFontFamily.NotoSans
     2 -> UiFontFamily.CormorantGaramond
@@ -21,7 +21,7 @@ fun Int.toUiFontFamily() = when (this) {
 }
 
 fun UiFontFamily.toInt() = when (this) {
-    UiFontFamily.Fondamento -> 5
+    UiFontFamily.Laila -> 5
     UiFontFamily.Prociono -> 4
     UiFontFamily.NotoSans -> 3
     UiFontFamily.CormorantGaramond -> 2
@@ -31,7 +31,7 @@ fun UiFontFamily.toInt() = when (this) {
 
 @Composable
 fun UiFontFamily.toReadableName() = when (this) {
-    UiFontFamily.Fondamento -> "Fondamento"
+    UiFontFamily.Laila -> "Laila"
     UiFontFamily.Prociono -> "Prociono"
     UiFontFamily.NotoSans -> "Noto Sans"
     UiFontFamily.CormorantGaramond -> "Cormorant Garamond"

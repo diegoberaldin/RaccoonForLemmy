@@ -18,7 +18,7 @@ internal fun getTypography(
         UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
         UiFontFamily.CormorantGaramond -> fontFamilyResource(MR.fonts.CormorantGaramond.regular)
         UiFontFamily.Dosis -> fontFamilyResource(MR.fonts.Dosis.regular)
-        UiFontFamily.Fondamento -> fontFamilyResource(MR.fonts.Fondamento.regular)
+        UiFontFamily.Laila -> fontFamilyResource(MR.fonts.Laila.regular)
         else -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
     }
     return Typography(
