@@ -67,7 +67,7 @@ class ZoomableImageScreen(
                 }
             }.launchIn(this)
         }
-        DisposableEffect(key) {
+        DisposableEffect(Unit) {
             drawerCoordinator.setGesturesEnabled(false)
             onDispose {
                 drawerCoordinator.setGesturesEnabled(true)
