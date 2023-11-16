@@ -93,7 +93,9 @@ class PostListViewModel(
             }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
-                mvi.emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
+                if (uiState.value.zombieModeActive) {
+                    mvi.emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {

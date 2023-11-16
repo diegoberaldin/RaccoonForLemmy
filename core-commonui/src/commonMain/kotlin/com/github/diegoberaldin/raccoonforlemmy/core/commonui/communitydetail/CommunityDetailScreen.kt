@@ -188,6 +188,8 @@ class CommunityDetailScreen(
 
                     CommunityDetailMviModel.Effect.BackToTop -> {
                         lazyListState.scrollToItem(0)
+                        topAppBarState.heightOffset = 0f
+                        topAppBarState.contentOffset = 0f
                     }
 
                     is CommunityDetailMviModel.Effect.ZombieModeTick -> {
@@ -406,6 +408,8 @@ class CommunityDetailScreen(
                                         model.reduce(CommunityDetailMviModel.Intent.ClearRead)
                                         scope.launch {
                                             lazyListState.scrollToItem(0)
+                                            topAppBarState.heightOffset = 0f
+                                            topAppBarState.contentOffset = 0f
                                         }
                                     },
                                 )

@@ -79,7 +79,9 @@ class CommunityDetailViewModel(
             }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
-                mvi.emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
+                if (mvi.uiState.value.zombieModeActive) {
+                    mvi.emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->

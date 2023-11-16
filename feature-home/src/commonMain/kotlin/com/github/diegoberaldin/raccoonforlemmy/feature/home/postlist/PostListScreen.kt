@@ -130,6 +130,8 @@ class PostListScreen : Screen {
                 when (effect) {
                     PostListMviModel.Effect.BackToTop -> {
                         lazyListState.scrollToItem(0)
+                        topAppBarState.heightOffset = 0f
+                        topAppBarState.contentOffset = 0f
                     }
 
                     is PostListMviModel.Effect.ZombieModeTick -> {
@@ -243,6 +245,8 @@ class PostListScreen : Screen {
                                         model.reduce(PostListMviModel.Intent.ClearRead)
                                         scope.launch {
                                             lazyListState.scrollToItem(0)
+                                            topAppBarState.heightOffset = 0f
+                                            topAppBarState.contentOffset = 0f
                                         }
                                     },
                                 )

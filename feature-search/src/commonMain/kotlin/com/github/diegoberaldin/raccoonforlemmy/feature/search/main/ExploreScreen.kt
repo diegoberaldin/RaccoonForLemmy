@@ -158,6 +158,8 @@ class ExploreScreen : Screen {
                 when (it) {
                     ExploreMviModel.Effect.BackToTop -> {
                         lazyListState.scrollToItem(0)
+                        topAppBarState.heightOffset = 0f
+                        topAppBarState.contentOffset = 0f
                     }
                 }
             }.launchIn(this)
