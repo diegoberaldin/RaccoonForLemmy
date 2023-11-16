@@ -156,14 +156,6 @@ class PostListScreen : Screen {
                         model.reduce(PostListMviModel.Intent.ChangeSort(evt.value))
                     }
                 }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
-                model.reduce(PostListMviModel.Intent.Refresh)
-            }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.PostCreated::class).onEach {
-                model.reduce(PostListMviModel.Intent.Refresh)
-            }.launchIn(this)
         }
 
         Scaffold(

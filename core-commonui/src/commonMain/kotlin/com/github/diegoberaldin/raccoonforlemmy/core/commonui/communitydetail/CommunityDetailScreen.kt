@@ -160,20 +160,13 @@ class CommunityDetailScreen(
             }
         }
         LaunchedEffect(notificationCenter) {
+            notificationCenter.resetCache()
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.key == key) {
                         CommunityDetailMviModel.Intent.ChangeSort(evt.value)
                     }
                 }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.PostCreated::class).onEach {
-                model.reduce(CommunityDetailMviModel.Intent.Refresh)
-            }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
-                model.reduce(CommunityDetailMviModel.Intent.Refresh)
-            }.launchIn(this)
         }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->

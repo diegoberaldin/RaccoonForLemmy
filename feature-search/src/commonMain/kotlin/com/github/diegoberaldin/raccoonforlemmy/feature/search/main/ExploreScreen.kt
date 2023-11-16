@@ -138,10 +138,6 @@ class ExploreScreen : Screen {
                         model.reduce(ExploreMviModel.Intent.SetSortType(evt.value))
                     }
                 }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
-                model.reduce(ExploreMviModel.Intent.Refresh)
-            }.launchIn(this)
         }
         val lazyListState = rememberLazyListState()
         LaunchedEffect(Unit) {

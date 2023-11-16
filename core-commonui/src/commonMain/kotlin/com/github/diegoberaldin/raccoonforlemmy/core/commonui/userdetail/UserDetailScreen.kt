@@ -153,16 +153,13 @@ class UserDetailScreen(
             }
         }
         LaunchedEffect(notificationCenter) {
+            notificationCenter.resetCache()
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.key == key) {
                         model.reduce(UserDetailMviModel.Intent.ChangeSort(evt.value))
                     }
                 }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
-                model.reduce(UserDetailMviModel.Intent.Refresh)
-            }.launchIn(this)
         }
         LaunchedEffect(model) {
             model.effects.onEach {

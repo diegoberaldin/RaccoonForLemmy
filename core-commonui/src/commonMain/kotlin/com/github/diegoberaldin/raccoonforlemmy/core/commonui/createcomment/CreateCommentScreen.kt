@@ -123,10 +123,23 @@ class CreateCommentScreen(
                         snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
 
-                    CreateCommentMviModel.Effect.Success -> {
+                    is CreateCommentMviModel.Effect.Success -> {
                         notificationCenter.send(
                             event = NotificationCenterEvent.CommentCreated,
                         )
+                        if (originalPost != null) {
+                            notificationCenter.send(
+                                event = NotificationCenterEvent.PostUpdated(
+                                    originalPost.copy(
+                                        comments = if (effect.new) {
+                                            originalPost.comments + 1
+                                        } else {
+                                            originalPost.comments
+                                        }
+                                    )
+                                ),
+                            )
+                        }
                         navigationCoordinator.hideBottomSheet()
                     }
 

@@ -15,6 +15,7 @@ internal class DefaultLogoutUseCase(
     override suspend operator fun invoke() {
         identityRepository.clearToken()
         notificationCenter.send(NotificationCenterEvent.Logout)
+        notificationCenter.send(NotificationCenterEvent.ResetContents)
         val oldAccountId = accountRepository.getActive()?.id
         if (oldAccountId != null) {
             accountRepository.setActive(oldAccountId, false)

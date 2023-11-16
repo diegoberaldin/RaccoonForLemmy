@@ -130,10 +130,6 @@ class MultiCommunityScreen(
                         model.reduce(MultiCommunityMviModel.Intent.ChangeSort(evt.value))
                     }
                 }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
-                model.reduce(MultiCommunityMviModel.Intent.Refresh)
-            }.launchIn(this)
         }
 
         Scaffold(

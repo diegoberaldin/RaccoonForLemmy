@@ -10,11 +10,15 @@ import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 import kotlin.reflect.safeCast
 
+private const val REPLAY_EVENT_COUNT = 5
+
 object DefaultNotificationCenter : NotificationCenter {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val events = MutableSharedFlow<NotificationCenterEvent>()
-    private val replayedEvents = MutableSharedFlow<NotificationCenterEvent>(replay = 10)
+    private val replayedEvents = MutableSharedFlow<NotificationCenterEvent>(
+        replay = REPLAY_EVENT_COUNT,
+    )
 
     override fun send(event: NotificationCenterEvent) {
         scope.launch(Dispatchers.Main) {
@@ -35,6 +39,10 @@ object DefaultNotificationCenter : NotificationCenter {
             events.mapNotNull { clazz.safeCast(it) }
         }
     }
+
+    override fun resetCache() {
+        replayedEvents.resetReplayCache()
+    }
 }
 
 private fun <T : NotificationCenterEvent> isReplayable(clazz: KClass<T>): Boolean {
@@ -43,7 +51,6 @@ private fun <T : NotificationCenterEvent> isReplayable(clazz: KClass<T>): Boolea
         NotificationCenterEvent.PostUpdated::class -> true
         NotificationCenterEvent.PostCreated::class -> true
         NotificationCenterEvent.PostDeleted::class -> true
-        NotificationCenterEvent.Logout::class -> true
         NotificationCenterEvent.ResetContents::class -> true
         NotificationCenterEvent.CommentCreated::class -> true
         else -> false

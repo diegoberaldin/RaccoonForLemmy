@@ -164,6 +164,7 @@ class PostDetailScreen(
             }
         }
         LaunchedEffect(notificationCenter) {
+            notificationCenter.resetCache()
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.key == key) {
@@ -173,7 +174,6 @@ class PostDetailScreen(
 
             notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
                 model.reduce(PostDetailMviModel.Intent.Refresh)
-                model.reduce(PostDetailMviModel.Intent.RefreshPost)
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach {

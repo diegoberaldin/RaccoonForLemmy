@@ -12,4 +12,6 @@ interface NotificationCenter {
     fun send(event: NotificationCenterEvent)
 
     fun <T : NotificationCenterEvent> subscribe(clazz: KClass<T>): Flow<T>
+
+    fun resetCache()
 }

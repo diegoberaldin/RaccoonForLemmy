@@ -103,7 +103,7 @@ class CreateCommentViewModel(
                 }
                 // the comment count has changed, emits update
                 emitPostUpdateNotification()
-                mvi.emitEffect(CreateCommentMviModel.Effect.Success)
+                mvi.emitEffect(CreateCommentMviModel.Effect.Success(new = editedCommentId == null))
             } catch (e: Throwable) {
                 val message = e.message
                 mvi.emitEffect(CreateCommentMviModel.Effect.Failure(message))

@@ -46,7 +46,7 @@ interface CreateCommentMviModel :
 
     sealed interface Effect {
         data class AddImageToText(val url: String) : Effect
-        data object Success : Effect
+        data class Success(val new: Boolean) : Effect
         data class Failure(val message: String?) : Effect
     }
 }
