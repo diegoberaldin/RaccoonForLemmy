@@ -115,9 +115,9 @@ class SavedItemsScreen : Screen {
         }
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                model.reduce(
-                    SavedItemsMviModel.Intent.ChangeSort(evt.value)
-                )
+                if (evt.key == key) {
+                    model.reduce(SavedItemsMviModel.Intent.ChangeSort(evt.value))
+                }
             }.launchIn(this)
         }
 
@@ -136,6 +136,7 @@ class SavedItemsScreen : Screen {
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
+                                        sheetKey = key,
                                         comments = false,
                                         values = listOf(
                                             SortType.Hot,

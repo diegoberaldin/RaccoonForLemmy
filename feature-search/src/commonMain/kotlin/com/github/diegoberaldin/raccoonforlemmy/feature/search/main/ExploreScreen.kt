@@ -127,11 +127,15 @@ class ExploreScreen : Screen {
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe<NotificationCenterEvent.ChangeFeedType>().onEach { evt ->
-                model.reduce(ExploreMviModel.Intent.SetListingType(evt.value))
+                if (evt.key == key) {
+                    model.reduce(ExploreMviModel.Intent.SetListingType(evt.value))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                model.reduce(ExploreMviModel.Intent.SetSortType(evt.value))
+                if (evt.key == key) {
+                    model.reduce(ExploreMviModel.Intent.SetSortType(evt.value))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
@@ -168,6 +172,7 @@ class ExploreScreen : Screen {
                     onSelectListingType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = ListingTypeBottomSheet(
+                            sheetKey = key,
                             isLogged = uiState.isLogged,
                         )
                         navigationCoordinator.showBottomSheet(sheet)
@@ -175,6 +180,7 @@ class ExploreScreen : Screen {
                     onSelectSortType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = SortBottomSheet(
+                            sheetKey = key,
                             comments = false,
                             expandTop = true,
                         )

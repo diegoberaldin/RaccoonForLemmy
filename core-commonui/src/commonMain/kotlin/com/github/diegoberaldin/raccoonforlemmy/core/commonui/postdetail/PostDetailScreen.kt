@@ -166,7 +166,9 @@ class PostDetailScreen(
         }
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                model.reduce(PostDetailMviModel.Intent.ChangeSort(evt.value))
+                if (evt.key == key) {
+                    model.reduce(PostDetailMviModel.Intent.ChangeSort(evt.value))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
@@ -217,6 +219,7 @@ class PostDetailScreen(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
+                                        sheetKey = key,
                                         comments = true,
                                         values = listOf(
                                             SortType.Hot,

@@ -162,7 +162,9 @@ class CommunityDetailScreen(
         }
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                CommunityDetailMviModel.Intent.ChangeSort(evt.value)
+                if (evt.key == key) {
+                    CommunityDetailMviModel.Intent.ChangeSort(evt.value)
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.PostCreated>().onEach {
@@ -241,6 +243,7 @@ class CommunityDetailScreen(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
+                                        sheetKey = key,
                                         comments = false,
                                         expandTop = true,
                                     )

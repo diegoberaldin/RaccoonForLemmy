@@ -143,11 +143,15 @@ class PostListScreen : Screen {
         }
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe<NotificationCenterEvent.ChangeFeedType>().onEach { evt ->
-                model.reduce(PostListMviModel.Intent.ChangeListing(evt.value))
+                if (evt.key == key) {
+                    model.reduce(PostListMviModel.Intent.ChangeListing(evt.value))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                model.reduce(PostListMviModel.Intent.ChangeSort(evt.value))
+                if (evt.key == key) {
+                    model.reduce(PostListMviModel.Intent.ChangeSort(evt.value))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
@@ -175,11 +179,13 @@ class PostListScreen : Screen {
                     onSelectListingType = rememberCallback {
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
+                            sheetKey = key,
                         )
                         navigationCoordinator.showBottomSheet(sheet)
                     },
                     onSelectSortType = rememberCallback {
                         val sheet = SortBottomSheet(
+                            sheetKey = key,
                             comments = false,
                             expandTop = true,
                         )

@@ -126,7 +126,9 @@ class MultiCommunityScreen(
         }
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                model.reduce(MultiCommunityMviModel.Intent.ChangeSort(evt.value))
+                if (evt.key == key) {
+                    model.reduce(MultiCommunityMviModel.Intent.ChangeSort(evt.value))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
@@ -176,6 +178,7 @@ class MultiCommunityScreen(
                                     modifier = Modifier.onClick(
                                         onClick = rememberCallback {
                                             val sheet = SortBottomSheet(
+                                                sheetKey = key,
                                                 comments = false,
                                                 expandTop = true,
                                             )

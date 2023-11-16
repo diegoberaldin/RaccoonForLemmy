@@ -31,6 +31,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 class ListingTypeBottomSheet(
+    private val sheetKey: String,
     private val isLogged: Boolean = false,
 ) : Screen {
     @Composable
@@ -79,7 +80,10 @@ class ListingTypeBottomSheet(
                                 .onClick(
                                     onClick = rememberCallback {
                                         notificationCenter.send(
-                                            NotificationCenterEvent.ChangeFeedType(value)
+                                            NotificationCenterEvent.ChangeFeedType(
+                                                value = value,
+                                                key = sheetKey,
+                                            )
                                         )
                                         navigationCoordinator.hideBottomSheet()
                                     },

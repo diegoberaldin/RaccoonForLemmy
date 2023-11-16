@@ -83,7 +83,9 @@ class InstanceInfoScreen(
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                model.reduce(InstanceInfoMviModel.Intent.ChangeSortType(evt.value))
+                if (evt.key == key) {
+                    model.reduce(InstanceInfoMviModel.Intent.ChangeSortType(evt.value))
+                }
             }.launchIn(this)
         }
         LaunchedEffect(model) {
@@ -139,6 +141,7 @@ class InstanceInfoScreen(
                                 modifier = Modifier.onClick(
                                     onClick = rememberCallback {
                                         val sheet = SortBottomSheet(
+                                            sheetKey = key,
                                             comments = false,
                                             values = listOf(
                                                 SortType.Active,

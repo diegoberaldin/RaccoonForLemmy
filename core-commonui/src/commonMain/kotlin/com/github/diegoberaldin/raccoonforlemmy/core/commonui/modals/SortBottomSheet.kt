@@ -39,6 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 class SortBottomSheet(
+    private val sheetKey: String,
     private val comments: Boolean,
     private val values: List<SortType> = listOf(
         SortType.Active,
@@ -72,6 +73,7 @@ class SortBottomSheet(
                     values = values,
                     expandTop = expandTop,
                     comments = comments,
+                    sheetKey = sheetKey,
                 )
             )
         }
@@ -79,6 +81,7 @@ class SortBottomSheet(
 }
 
 internal class SortBottomSheetMain(
+    private val sheetKey: String,
     private val comments: Boolean,
     private val values: List<SortType>,
     private val expandTop: Boolean = false,
@@ -111,13 +114,24 @@ internal class SortBottomSheetMain(
                             .onClick(
                                 onClick = rememberCallback {
                                     if (value == SortType.Top.Generic && expandTop) {
-                                        navigator.push(SortBottomSheetTop(comments = comments))
+                                        navigator.push(
+                                            SortBottomSheetTop(
+                                                comments = comments,
+                                                sheetKey = sheetKey,
+                                            )
+                                        )
                                     } else {
                                         notificationCenter.send(
                                             if (comments) {
-                                                NotificationCenterEvent.ChangeCommentSortType(value)
+                                                NotificationCenterEvent.ChangeCommentSortType(
+                                                    value = value,
+                                                    key = sheetKey,
+                                                )
                                             } else {
-                                                NotificationCenterEvent.ChangeSortType(value)
+                                                NotificationCenterEvent.ChangeSortType(
+                                                    value = value,
+                                                    key = sheetKey,
+                                                )
                                             }
                                         )
                                         navigationCoordinator.hideBottomSheet()
@@ -152,6 +166,7 @@ internal class SortBottomSheetMain(
 }
 
 internal class SortBottomSheetTop(
+    private val sheetKey: String,
     private val comments: Boolean,
     private val values: List<SortType> = listOf(
         SortType.Top.PastHour,
@@ -206,9 +221,15 @@ internal class SortBottomSheetTop(
                                 onClick = rememberCallback {
                                     notificationCenter.send(
                                         if (comments) {
-                                            NotificationCenterEvent.ChangeCommentSortType(value)
+                                            NotificationCenterEvent.ChangeCommentSortType(
+                                                value = value,
+                                                key = sheetKey,
+                                            )
                                         } else {
-                                            NotificationCenterEvent.ChangeSortType(value)
+                                            NotificationCenterEvent.ChangeSortType(
+                                                value = value,
+                                                key = sheetKey,
+                                            )
                                         }
                                     )
                                     navigationCoordinator.hideBottomSheet()

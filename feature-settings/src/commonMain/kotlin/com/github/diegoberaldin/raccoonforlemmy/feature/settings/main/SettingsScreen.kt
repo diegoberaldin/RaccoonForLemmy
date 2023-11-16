@@ -167,12 +167,16 @@ class SettingsScreen : Screen {
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                model.reduce(SettingsMviModel.Intent.ChangeDefaultPostSortType(evt.value))
+                if (evt.key == key) {
+                    model.reduce(SettingsMviModel.Intent.ChangeDefaultPostSortType(evt.value))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.ChangeCommentSortType>()
                 .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeDefaultCommentSortType(evt.value))
+                    if (evt.key == key) {
+                        model.reduce(SettingsMviModel.Intent.ChangeDefaultCommentSortType(evt.value))
+                    }
                 }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.CloseDialog>().onEach {
@@ -400,6 +404,7 @@ class SettingsScreen : Screen {
                         value = uiState.defaultListingType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = ListingTypeBottomSheet(
+                                sheetKey = key,
                                 isLogged = uiState.isLogged,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
@@ -412,6 +417,7 @@ class SettingsScreen : Screen {
                         value = uiState.defaultPostSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
+                                sheetKey = key,
                                 expandTop = true,
                                 comments = false,
                             )
@@ -425,6 +431,7 @@ class SettingsScreen : Screen {
                         value = uiState.defaultCommentSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
+                                sheetKey = key,
                                 comments = true,
                                 values = listOf(
                                     SortType.Hot,

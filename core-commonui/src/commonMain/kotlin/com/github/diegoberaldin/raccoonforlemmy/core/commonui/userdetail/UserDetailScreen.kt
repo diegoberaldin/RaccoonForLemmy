@@ -155,7 +155,9 @@ class UserDetailScreen(
         }
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                model.reduce(UserDetailMviModel.Intent.ChangeSort(evt.value))
+                if (evt.key == key) {
+                    model.reduce(UserDetailMviModel.Intent.ChangeSort(evt.value))
+                }
             }.launchIn(this)
 
             notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
@@ -210,6 +212,7 @@ class UserDetailScreen(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
+                                        sheetKey = key,
                                         comments = false,
                                         expandTop = true,
                                     )
