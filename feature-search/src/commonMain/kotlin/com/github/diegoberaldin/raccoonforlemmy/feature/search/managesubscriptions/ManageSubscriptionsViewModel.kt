@@ -4,7 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
@@ -37,7 +36,7 @@ class ManageSubscriptionsViewModel(
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)
-            notificationCenter.subscribe<NotificationCenterEvent.MultiCommunityCreated>()
+            notificationCenter.subscribe(NotificationCenterEvent.MultiCommunityCreated::class)
                 .onEach { evt ->
                     handleMultiCommunityCreated(evt.model)
                 }.launchIn(this)

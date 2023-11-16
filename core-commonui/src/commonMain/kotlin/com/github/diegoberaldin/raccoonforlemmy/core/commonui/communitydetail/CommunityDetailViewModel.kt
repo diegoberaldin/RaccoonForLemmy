@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -83,7 +82,7 @@ class CommunityDetailViewModel(
                 mvi.emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
             }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
 
@@ -315,7 +314,9 @@ class CommunityDetailViewModel(
                     voted = newValue,
                 )
                 markAsRead(newPost)
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -406,7 +407,9 @@ class CommunityDetailViewModel(
                     downVoted = newValue,
                 )
                 markAsRead(newPost)
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -456,7 +459,9 @@ class CommunityDetailViewModel(
                     saved = newValue,
                 )
                 markAsRead(newPost)
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {

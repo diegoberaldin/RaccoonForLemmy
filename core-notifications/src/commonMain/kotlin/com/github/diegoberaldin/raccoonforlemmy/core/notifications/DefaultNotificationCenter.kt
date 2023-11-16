@@ -3,17 +3,50 @@ package com.github.diegoberaldin.raccoonforlemmy.core.notifications
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
+import kotlin.reflect.KClass
+import kotlin.reflect.safeCast
 
 object DefaultNotificationCenter : NotificationCenter {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    override val events = MutableSharedFlow<NotificationCenterEvent>(replay = 10)
+    private val events = MutableSharedFlow<NotificationCenterEvent>()
+    private val replayedEvents = MutableSharedFlow<NotificationCenterEvent>(replay = 10)
 
     override fun send(event: NotificationCenterEvent) {
         scope.launch(Dispatchers.Main) {
-            events.emit(event)
+            if (isReplayable(event::class)) {
+                replayedEvents.emit(event)
+            } else {
+                events.emit(event)
+            }
+        }
+    }
+
+    override fun <T : NotificationCenterEvent> subscribe(
+        clazz: KClass<T>,
+    ): Flow<T> {
+        return if (isReplayable(clazz)) {
+            replayedEvents.mapNotNull { clazz.safeCast(it) }
+        } else {
+            events.mapNotNull { clazz.safeCast(it) }
         }
     }
 }
+
+private fun <T : NotificationCenterEvent> isReplayable(clazz: KClass<T>): Boolean {
+    return when (clazz) {
+        NotificationCenterEvent.MultiCommunityCreated::class -> true
+        NotificationCenterEvent.PostUpdated::class -> true
+        NotificationCenterEvent.PostCreated::class -> true
+        NotificationCenterEvent.PostDeleted::class -> true
+        NotificationCenterEvent.Logout::class -> true
+        NotificationCenterEvent.ResetContents::class -> true
+        NotificationCenterEvent.CommentCreated::class -> true
+        else -> false
+    }
+}
+

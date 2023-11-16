@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -82,13 +81,13 @@ class PostListViewModel(
                     )
                 }
             }.launchIn(this)
-            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
-            notificationCenter.subscribe<NotificationCenterEvent.PostDeleted>().onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class).onEach { evt ->
                 handlePostDelete(evt.model.id)
             }.launchIn(this)
-            notificationCenter.subscribe<NotificationCenterEvent.ResetContents>().onEach {
+            notificationCenter.subscribe(NotificationCenterEvent.ResetContents::class).onEach {
                 // apply new feed and sort type
                 firstLoad = true
             }.launchIn(this)
@@ -97,7 +96,7 @@ class PostListViewModel(
                 mvi.emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
             }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.Logout>().onEach {
+            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
             }.launchIn(this)
 

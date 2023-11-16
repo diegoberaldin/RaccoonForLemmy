@@ -60,7 +60,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -128,67 +127,73 @@ class SettingsScreen : Screen {
             }.launchIn(this)
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeLanguage>().onEach { evt ->
-                model.reduce(SettingsMviModel.Intent.ChangeLanguage(evt.value))
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeLanguage::class)
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeLanguage(evt.value))
+                }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeTheme>().onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeTheme::class).onEach { evt ->
                 model.reduce(SettingsMviModel.Intent.ChangeUiTheme(evt.value))
             }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeColor>().onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeColor::class).onEach { evt ->
                 model.reduce(SettingsMviModel.Intent.ChangeCustomSeedColor(evt.color))
             }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeFontFamily>().onEach { evt ->
-                model.reduce(SettingsMviModel.Intent.ChangeUiFontFamily(evt.value))
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFontFamily::class)
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeUiFontFamily(evt.value))
+                }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeContentFontSize>()
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
                 .onEach { evt ->
                     model.reduce(SettingsMviModel.Intent.ChangeContentFontSize(evt.value))
                 }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeUiFontSize>().onEach { evt ->
-                model.reduce(SettingsMviModel.Intent.ChangeUiFontSize(evt.value))
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeUiFontSize::class)
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeUiFontSize(evt.value))
+                }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeContentFontSize>()
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
                 .onEach { evt ->
                     model.reduce(SettingsMviModel.Intent.ChangeContentFontSize(evt.value))
                 }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangePostLayout>().onEach { evt ->
-                model.reduce(SettingsMviModel.Intent.ChangePostLayout(evt.value))
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangePostLayout::class)
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangePostLayout(evt.value))
+                }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeFeedType>().onEach { evt ->
-                model.reduce(SettingsMviModel.Intent.ChangeDefaultListingType(evt.value))
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeDefaultListingType(evt.value))
+                }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                if (evt.key == key) {
-                    model.reduce(SettingsMviModel.Intent.ChangeDefaultPostSortType(evt.value))
-                }
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    if (evt.key == key) {
+                        model.reduce(SettingsMviModel.Intent.ChangeDefaultPostSortType(evt.value))
+                    }
+                }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeCommentSortType>()
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
                 .onEach { evt ->
                     if (evt.key == key) {
                         model.reduce(SettingsMviModel.Intent.ChangeDefaultCommentSortType(evt.value))
                     }
                 }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.CloseDialog>().onEach {
+            notificationCenter.subscribe(NotificationCenterEvent.CloseDialog::class).onEach {
                 infoDialogOpened = false
             }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeZombieInterval>()
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class)
                 .onEach { evt ->
                     model.reduce(SettingsMviModel.Intent.ChangeZombieModeInterval(evt.value))
                 }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeZombieScrollAmount>()
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
                 .onEach { evt ->
                     model.reduce(SettingsMviModel.Intent.ChangeZombieModeScrollAmount(evt.value))
                 }.launchIn(this)

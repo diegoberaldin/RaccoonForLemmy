@@ -78,7 +78,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.report.CreateRepor
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -142,23 +141,25 @@ class PostListScreen : Screen {
             }.launchIn(this)
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeFeedType>().onEach { evt ->
-                if (evt.key == key) {
-                    model.reduce(PostListMviModel.Intent.ChangeListing(evt.value))
-                }
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    if (evt.key == key) {
+                        model.reduce(PostListMviModel.Intent.ChangeListing(evt.value))
+                    }
+                }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeSortType>().onEach { evt ->
-                if (evt.key == key) {
-                    model.reduce(PostListMviModel.Intent.ChangeSort(evt.value))
-                }
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    if (evt.key == key) {
+                        model.reduce(PostListMviModel.Intent.ChangeSort(evt.value))
+                    }
+                }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.CommentCreated>().onEach {
+            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
                 model.reduce(PostListMviModel.Intent.Refresh)
             }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.PostCreated>().onEach {
+            notificationCenter.subscribe(NotificationCenterEvent.PostCreated::class).onEach {
                 model.reduce(PostListMviModel.Intent.Refresh)
             }.launchIn(this)
         }

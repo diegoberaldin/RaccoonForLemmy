@@ -37,7 +37,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -76,11 +75,12 @@ object InboxScreen : Tab {
         val settings by settingsRepository.currentSettings.collectAsState()
 
         LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe<NotificationCenterEvent.ChangeInboxType>().onEach { evt ->
-                model.reduce(
-                    InboxMviModel.Intent.ChangeUnreadOnly(evt.unreadOnly)
-                )
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
+                .onEach { evt ->
+                    model.reduce(
+                        InboxMviModel.Intent.ChangeUnreadOnly(evt.unreadOnly)
+                    )
+                }.launchIn(this)
         }
 
         Scaffold(

@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -49,7 +48,7 @@ class PostDetailViewModel(
         mvi.onStarted()
 
         mvi.scope?.launch(Dispatchers.Main) {
-            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->
@@ -380,7 +379,9 @@ class PostDetailViewModel(
                     post = post,
                     voted = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState { it.copy(post = post) }
@@ -409,7 +410,9 @@ class PostDetailViewModel(
                     post = post,
                     downVoted = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState { it.copy(post = post) }
@@ -438,7 +441,9 @@ class PostDetailViewModel(
                     post = post,
                     saved = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState { it.copy(post = post) }
@@ -477,7 +482,9 @@ class PostDetailViewModel(
                     comment = comment,
                     voted = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.CommentUpdated(newComment))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.CommentUpdated(newComment),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -523,7 +530,9 @@ class PostDetailViewModel(
                     comment = comment,
                     downVoted = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.CommentUpdated(newComment))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.CommentUpdated(newComment),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -572,7 +581,9 @@ class PostDetailViewModel(
                     comment = comment,
                     saved = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.CommentUpdated(newComment))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.CommentUpdated(newComment),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -603,7 +614,9 @@ class PostDetailViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = post.id, auth = auth)
-            notificationCenter.send(NotificationCenterEvent.PostDeleted(post))
+            notificationCenter.send(
+                event = NotificationCenterEvent.PostDeleted(post),
+            )
             mvi.emitEffect(PostDetailMviModel.Effect.Close)
         }
     }

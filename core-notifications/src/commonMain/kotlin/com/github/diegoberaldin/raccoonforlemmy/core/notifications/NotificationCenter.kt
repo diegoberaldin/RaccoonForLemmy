@@ -2,8 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.notifications
 
 import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.filterIsInstance
+import kotlin.reflect.KClass
 
 /**
  * Utility to publish and subscribe for broadcast notifications.
@@ -12,7 +11,5 @@ import kotlinx.coroutines.flow.filterIsInstance
 interface NotificationCenter {
     fun send(event: NotificationCenterEvent)
 
-    val events: SharedFlow<NotificationCenterEvent>
+    fun <T : NotificationCenterEvent> subscribe(clazz: KClass<T>): Flow<T>
 }
-
-inline fun <reified T> NotificationCenter.subscribe(): Flow<T> = events.filterIsInstance()

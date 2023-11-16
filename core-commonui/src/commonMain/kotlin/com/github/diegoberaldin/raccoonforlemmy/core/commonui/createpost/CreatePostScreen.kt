@@ -66,7 +66,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -174,7 +173,9 @@ class CreatePostScreen(
                     }
 
                     CreatePostMviModel.Effect.Success -> {
-                        notificationCenter.send(NotificationCenterEvent.PostCreated)
+                        notificationCenter.send(
+                            event = NotificationCenterEvent.PostCreated,
+                        )
                         navigationCoordinator.hideBottomSheet()
                     }
 
@@ -187,11 +188,12 @@ class CreatePostScreen(
             }.launchIn(this)
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe<NotificationCenterEvent.SelectCommunity>().onEach { evt ->
-                model.reduce(CreatePostMviModel.Intent.SetCommunity(evt.model))
-                focusManager.clearFocus()
-            }.launchIn(this)
-            notificationCenter.subscribe<NotificationCenterEvent.CloseDialog>().onEach {
+            notificationCenter.subscribe(NotificationCenterEvent.SelectCommunity::class)
+                .onEach { evt ->
+                    model.reduce(CreatePostMviModel.Intent.SetCommunity(evt.model))
+                    focusManager.clearFocus()
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CloseDialog::class).onEach {
                 if (openSelectCommunity) {
                     openSelectCommunity = false
                 }

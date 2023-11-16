@@ -118,7 +118,9 @@ class CreateCommentViewModel(
         val auth = identityRepository.authToken.value
         val newPost = postRepository.get(postId, auth)
         if (newPost != null) {
-            notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+            notificationCenter.send(
+                event = NotificationCenterEvent.PostUpdated(newPost),
+            )
         }
     }
 

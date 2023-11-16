@@ -4,7 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
@@ -48,7 +47,7 @@ class InboxMessagesViewModel(
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)
-            notificationCenter.subscribe<NotificationCenterEvent.Logout>().onEach {
+            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
             }.launchIn(this)
             launch(Dispatchers.IO) {

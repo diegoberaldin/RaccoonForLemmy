@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -56,10 +55,10 @@ class SavedItemsViewModel(
                     )
                 }
             }.launchIn(this)
-            notificationCenter.subscribe<NotificationCenterEvent.PostUpdated>().onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
-            notificationCenter.subscribe<NotificationCenterEvent.PostDeleted>().onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class).onEach { evt ->
                 handlePostDelete(evt.model.id)
             }.launchIn(this)
         }
@@ -252,7 +251,9 @@ class SavedItemsViewModel(
                     post = post,
                     voted = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -301,7 +302,9 @@ class SavedItemsViewModel(
                     post = post,
                     downVoted = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {
@@ -350,7 +353,9 @@ class SavedItemsViewModel(
                     post = post,
                     saved = newValue,
                 )
-                notificationCenter.send(NotificationCenterEvent.PostUpdated(newPost))
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
                 mvi.updateState {

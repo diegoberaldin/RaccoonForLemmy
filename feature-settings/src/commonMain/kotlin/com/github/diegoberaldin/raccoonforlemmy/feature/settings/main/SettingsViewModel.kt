@@ -13,7 +13,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.subscribe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -86,7 +85,7 @@ class SettingsViewModel(
                 mvi.updateState { it.copy(isLogged = !auth.isNullOrEmpty()) }
             }.launchIn(this)
 
-            notificationCenter.subscribe<NotificationCenterEvent.Logout>().onEach {
+            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
             }.launchIn(this)
         }
@@ -266,7 +265,9 @@ class SettingsViewModel(
                 defaultListingType = value.toInt()
             )
             saveSettings(settings)
-            notificationCenter.send(NotificationCenterEvent.ResetContents)
+            notificationCenter.send(
+                event = NotificationCenterEvent.ResetContents,
+            )
         }
     }
 
@@ -277,7 +278,9 @@ class SettingsViewModel(
                 defaultPostSortType = value.toInt()
             )
             saveSettings(settings)
-            notificationCenter.send(NotificationCenterEvent.ResetContents)
+            notificationCenter.send(
+                event = NotificationCenterEvent.ResetContents,
+            )
 
         }
     }

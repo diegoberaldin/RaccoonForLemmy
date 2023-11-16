@@ -124,7 +124,9 @@ class CreateCommentScreen(
                     }
 
                     CreateCommentMviModel.Effect.Success -> {
-                        notificationCenter.send(NotificationCenterEvent.CommentCreated)
+                        notificationCenter.send(
+                            event = NotificationCenterEvent.CommentCreated,
+                        )
                         navigationCoordinator.hideBottomSheet()
                     }
 
