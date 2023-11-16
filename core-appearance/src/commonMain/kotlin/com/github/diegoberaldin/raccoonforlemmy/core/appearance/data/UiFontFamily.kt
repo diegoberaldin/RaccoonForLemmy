@@ -2,13 +2,13 @@ package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
 
-sealed interface UiFontFamily {
-    data object TitilliumWeb : UiFontFamily
-    data object Dosis : UiFontFamily
-    data object CormorantGaramond : UiFontFamily
-    data object NotoSans : UiFontFamily
-    data object Prociono : UiFontFamily
-    data object Laila : UiFontFamily
+enum class UiFontFamily {
+    TitilliumWeb,
+    Dosis,
+    CormorantGaramond,
+    NotoSans,
+    Prociono,
+    Laila,
 }
 
 fun Int.toUiFontFamily() = when (this) {
