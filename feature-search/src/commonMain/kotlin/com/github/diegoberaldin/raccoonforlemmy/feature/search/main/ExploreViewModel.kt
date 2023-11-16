@@ -29,6 +29,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlin.random.Random
 
 class ExploreViewModel(
     private val mvi: DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>,
@@ -616,10 +619,15 @@ class ExploreViewModel(
     }
 }
 
+@OptIn(ExperimentalEncodingApi::class)
 internal fun getItemKey(result: Any): String = when (result) {
     is PostModel -> "post" + result.id.toString() + result.updateDate
     is CommentModel -> "comment" + result.id.toString() + result.updateDate
     is UserModel -> "user" + result.id.toString()
     is CommunityModel -> "community" + result.id.toString()
-    else -> ""
+    else -> {
+        val key = ByteArray(64)
+        Random(0).nextBytes(key)
+        Base64.encode(key)
+    }
 }
