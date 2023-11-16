@@ -145,12 +145,8 @@ class InstanceInfoScreen(
                                             comments = false,
                                             values = listOf(
                                                 SortType.Active,
-                                                SortType.Hot,
                                                 SortType.New,
-                                                SortType.NewComments,
                                                 SortType.MostComments,
-                                                SortType.Old,
-                                                SortType.Top.Generic,
                                             ),
                                             expandTop = true,
                                         )
