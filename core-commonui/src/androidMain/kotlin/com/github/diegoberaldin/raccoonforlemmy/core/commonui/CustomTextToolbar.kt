@@ -7,13 +7,14 @@ import android.view.View
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.platform.TextToolbar
 import androidx.compose.ui.platform.TextToolbarStatus
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 
 private const val ACTION_ID_COPY = 0
 private const val ACTION_ID_SEARCH = 1
 
 class CustomTextToolbar(
     private val view: View,
-    private val onSearch: () -> Unit,
+    private val onShare: () -> Unit,
 ) : TextToolbar {
     private var actionMode: ActionMode? = null
 
@@ -41,9 +42,9 @@ class CustomTextToolbar(
                     onCopy = {
                         onCopyRequested?.invoke()
                     },
-                    onSearch = {
+                    onShare = {
                         onCopyRequested?.invoke()
-                        onSearch()
+                        onShare()
                     },
                 ),
                 ActionMode.TYPE_FLOATING,
@@ -58,7 +59,7 @@ class CustomTextToolbar(
 internal class CustomTextActionModeCallback(
     private val rect: Rect,
     private val onCopy: () -> Unit,
-    private val onSearch: () -> Unit,
+    private val onShare: () -> Unit,
 ) : ActionMode.Callback2() {
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -68,7 +69,7 @@ internal class CustomTextActionModeCallback(
                 groupId, ACTION_ID_COPY, 0, android.R.string.copy
             ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             add(
-                groupId, ACTION_ID_SEARCH, 1, android.R.string.search_go
+                groupId, ACTION_ID_SEARCH, 1, MR.strings.post_action_share.resourceId
             ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         }
         return true
@@ -84,7 +85,7 @@ internal class CustomTextActionModeCallback(
             }
 
             ACTION_ID_SEARCH -> {
-                onSearch()
+                onShare()
                 true
             }
 

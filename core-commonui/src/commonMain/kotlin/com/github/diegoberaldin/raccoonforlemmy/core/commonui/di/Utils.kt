@@ -80,7 +80,7 @@ expect fun getCreateReportViewModel(
 
 @Composable
 expect fun getCustomTextToolbar(
-    onSearch: () -> Unit,
+    onShare: () -> Unit,
 ): TextToolbar
 
 expect fun getSelectCommunityViewModel(): SelectCommunityMviModel

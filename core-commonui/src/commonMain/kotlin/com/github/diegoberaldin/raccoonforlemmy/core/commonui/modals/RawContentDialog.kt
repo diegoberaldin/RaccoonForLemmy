@@ -42,7 +42,7 @@ fun RawContentDialog(
 ) {
     val clipboardManager = LocalClipboardManager.current
     val shareHelper = remember { getShareHelper() }
-    val onSearchLambda = rememberCallback {
+    val onShareLambda = rememberCallback {
         val query = clipboardManager.getText()?.text.orEmpty()
         shareHelper.share(query, "text/plain")
     }
@@ -79,7 +79,7 @@ fun RawContentDialog(
                             )
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
-                                    onSearch = onSearchLambda,
+                                    onShare = onShareLambda,
                                 )
                             ) {
                                 SelectionContainer {
@@ -107,7 +107,7 @@ fun RawContentDialog(
                             )
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
-                                    onSearch = onSearchLambda,
+                                    onShare = onShareLambda,
                                 )
                             ) {
                                 SelectionContainer {
@@ -136,7 +136,7 @@ fun RawContentDialog(
 
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
-                                    onSearch = onSearchLambda,
+                                    onShare = onShareLambda,
                                 )
                             ) {
                                 SelectionContainer {
