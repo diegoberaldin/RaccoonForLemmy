@@ -13,6 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -29,9 +30,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
-import kotlin.random.Random
 
 class ExploreViewModel(
     private val mvi: DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>,
@@ -133,63 +132,69 @@ class ExploreViewModel(
             is ExploreMviModel.Intent.SetSortType -> changeSortType(intent.value)
             is ExploreMviModel.Intent.SetResultType -> changeResultType(intent.value)
             is ExploreMviModel.Intent.DownVotePost -> {
-                uiState.value.results.firstOrNull { (it as? PostModel)?.id == intent.id }
-                    ?.also { post ->
-                        toggleDownVote(
-                            post = post as PostModel,
-                            feedback = intent.feedback,
-                        )
-                    }
+                uiState.value.results.firstOrNull {
+                    it is SearchResult.Post && it.model.id == intent.id
+                }?.also { result ->
+                    toggleDownVote(
+                        post = (result as SearchResult.Post).model,
+                        feedback = intent.feedback,
+                    )
+                }
             }
 
             is ExploreMviModel.Intent.SavePost -> {
-                uiState.value.results.firstOrNull { (it as? PostModel)?.id == intent.id }
-                    ?.also { post ->
-                        toggleSave(
-                            post = post as PostModel,
-                            feedback = intent.feedback,
-                        )
-                    }
+                uiState.value.results.firstOrNull {
+                    it is SearchResult.Post && it.model.id == intent.id
+                }?.also { result ->
+                    toggleSave(
+                        post = (result as SearchResult.Post).model,
+                        feedback = intent.feedback,
+                    )
+                }
             }
 
             is ExploreMviModel.Intent.UpVotePost -> {
-                uiState.value.results.firstOrNull { (it as? PostModel)?.id == intent.id }
-                    ?.also { post ->
-                        toggleUpVote(
-                            post = post as PostModel,
-                            feedback = intent.feedback,
-                        )
-                    }
+                uiState.value.results.firstOrNull {
+                    it is SearchResult.Post && it.model.id == intent.id
+                }?.also { result ->
+                    toggleUpVote(
+                        post = (result as SearchResult.Post).model,
+                        feedback = intent.feedback,
+                    )
+                }
             }
 
             is ExploreMviModel.Intent.DownVoteComment -> {
-                uiState.value.results.firstOrNull { (it as? CommentModel)?.id == intent.id }
-                    ?.also { comment ->
-                        toggleDownVoteComment(
-                            comment = comment as CommentModel,
-                            feedback = intent.feedback,
-                        )
-                    }
+                uiState.value.results.firstOrNull {
+                    it is SearchResult.Comment && it.model.id == intent.id
+                }?.also { result ->
+                    toggleDownVoteComment(
+                        comment = (result as SearchResult.Comment).model,
+                        feedback = intent.feedback,
+                    )
+                }
             }
 
             is ExploreMviModel.Intent.SaveComment -> {
-                uiState.value.results.firstOrNull { (it as? CommentModel)?.id == intent.id }
-                    ?.also { comment ->
-                        toggleSaveComment(
-                            comment = comment as CommentModel,
-                            feedback = intent.feedback,
-                        )
-                    }
+                uiState.value.results.firstOrNull {
+                    it is SearchResult.Comment && it.model.id == intent.id
+                }?.also { result ->
+                    toggleSaveComment(
+                        comment = (result as SearchResult.Comment).model,
+                        feedback = intent.feedback,
+                    )
+                }
             }
 
             is ExploreMviModel.Intent.UpVoteComment -> {
-                uiState.value.results.firstOrNull { (it as? CommentModel)?.id == intent.id }
-                    ?.also { comment ->
-                        toggleUpVoteComment(
-                            comment = comment as CommentModel,
-                            feedback = intent.feedback,
-                        )
-                    }
+                uiState.value.results.firstOrNull {
+                    it is SearchResult.Comment && it.model.id == intent.id
+                }?.also { result ->
+                    toggleUpVoteComment(
+                        comment = (result as SearchResult.Comment).model,
+                        feedback = intent.feedback,
+                    )
+                }
             }
         }
     }
@@ -306,8 +311,8 @@ class ExploreViewModel(
         mvi.updateState {
             it.copy(
                 results = it.results.map { r ->
-                    if (r is PostModel && r.id == post.id) {
-                        post
+                    if (r is SearchResult.Post && r.model.id == post.id) {
+                        r.copy(model = post)
                     } else {
                         r
                     }
@@ -320,8 +325,8 @@ class ExploreViewModel(
         mvi.updateState {
             it.copy(
                 results = it.results.map { r ->
-                    if (r is CommentModel && r.id == comment.id) {
-                        comment
+                    if (r is SearchResult.Comment && r.model.id == comment.id) {
+                        r.copy(model = comment)
                     } else {
                         r
                     }
@@ -341,12 +346,12 @@ class ExploreViewModel(
         }
         mvi.updateState {
             it.copy(
-                results = it.results.map { p ->
-                    if (p !is PostModel) return@map p
-                    if (p.id == post.id) {
-                        newPost
+                results = it.results.map { res ->
+                    if (res !is SearchResult.Post) return@map res
+                    if (res.model.id == post.id) {
+                        res.copy(model = newPost)
                     } else {
-                        p
+                        res
                     }
                 },
             )
@@ -363,12 +368,12 @@ class ExploreViewModel(
                 e.printStackTrace()
                 mvi.updateState {
                     it.copy(
-                        results = it.results.map { p ->
-                            if (p !is PostModel) return@map p
-                            if (p.id == post.id) {
-                                post
+                        results = it.results.map { res ->
+                            if (res !is SearchResult.Post) return@map res
+                            if (res.model.id == post.id) {
+                                res.copy(model = post)
                             } else {
-                                p
+                                res
                             }
                         },
                     )
@@ -388,12 +393,12 @@ class ExploreViewModel(
         }
         mvi.updateState {
             it.copy(
-                results = it.results.map { p ->
-                    if (p !is PostModel) return@map p
-                    if (p.id == post.id) {
-                        newPost
+                results = it.results.map { res ->
+                    if (res !is SearchResult.Post) return@map res
+                    if (res.model.id == post.id) {
+                        res.copy(model = newPost)
                     } else {
-                        p
+                        res
                     }
                 },
             )
@@ -410,12 +415,12 @@ class ExploreViewModel(
                 e.printStackTrace()
                 mvi.updateState {
                     it.copy(
-                        results = it.results.map { p ->
-                            if (p !is PostModel) return@map p
-                            if (p.id == post.id) {
-                                post
+                        results = it.results.map { res ->
+                            if (res !is SearchResult.Post) return@map res
+                            if (res.model.id == post.id) {
+                                res.copy(model = post)
                             } else {
-                                p
+                                res
                             }
                         },
                     )
@@ -435,12 +440,12 @@ class ExploreViewModel(
         }
         mvi.updateState {
             it.copy(
-                results = it.results.map { p ->
-                    if (p !is PostModel) return@map p
-                    if (p.id == post.id) {
-                        newPost
+                results = it.results.map { res ->
+                    if (res !is SearchResult.Post) return@map res
+                    if (res.model.id == post.id) {
+                        res.copy(model = newPost)
                     } else {
-                        p
+                        res
                     }
                 },
             )
@@ -457,12 +462,12 @@ class ExploreViewModel(
                 e.printStackTrace()
                 mvi.updateState {
                     it.copy(
-                        results = it.results.map { p ->
-                            if (p !is PostModel) return@map p
-                            if (p.id == post.id) {
-                                post
+                        results = it.results.map { res ->
+                            if (res !is SearchResult.Post) return@map res
+                            if (res.model.id == post.id) {
+                                res.copy(model = post)
                             } else {
-                                p
+                                res
                             }
                         },
                     )
@@ -485,12 +490,12 @@ class ExploreViewModel(
         )
         mvi.updateState {
             it.copy(
-                results = it.results.map { c ->
-                    if (c !is CommentModel) return@map it
-                    if (c.id == comment.id) {
-                        newComment
+                results = it.results.map { res ->
+                    if (res !is SearchResult.Comment) return@map res
+                    if (res.model.id == comment.id) {
+                        res.copy(model = newComment)
                     } else {
-                        c
+                        res
                     }
                 },
             )
@@ -507,12 +512,12 @@ class ExploreViewModel(
                 e.printStackTrace()
                 mvi.updateState {
                     it.copy(
-                        results = it.results.map { c ->
-                            if (c !is CommentModel) return@map it
-                            if (c.id == comment.id) {
-                                comment
+                        results = it.results.map { res ->
+                            if (res !is SearchResult.Comment) return@map res
+                            if (res.model.id == comment.id) {
+                                res.copy(model = comment)
                             } else {
-                                c
+                                res
                             }
                         },
                     )
@@ -532,12 +537,12 @@ class ExploreViewModel(
         val newComment = commentRepository.asDownVoted(comment, newValue)
         mvi.updateState {
             it.copy(
-                results = it.results.map { c ->
-                    if (c !is CommentModel) return@map it
-                    if (c.id == comment.id) {
-                        newComment
+                results = it.results.map { res ->
+                    if (res !is SearchResult.Comment) return@map res
+                    if (res.model.id == comment.id) {
+                        res.copy(model = newComment)
                     } else {
-                        c
+                        res
                     }
                 },
             )
@@ -554,12 +559,12 @@ class ExploreViewModel(
                 e.printStackTrace()
                 mvi.updateState {
                     it.copy(
-                        results = it.results.map { c ->
-                            if (c !is CommentModel) return@map it
-                            if (c.id == comment.id) {
-                                comment
+                        results = it.results.map { res ->
+                            if (res !is SearchResult.Comment) return@map res
+                            if (res.model.id == comment.id) {
+                                res.copy(model = comment)
                             } else {
-                                c
+                                res
                             }
                         },
                     )
@@ -582,12 +587,12 @@ class ExploreViewModel(
         )
         mvi.updateState {
             it.copy(
-                results = it.results.map { c ->
-                    if (c !is CommentModel) return@map it
-                    if (c.id == comment.id) {
-                        newComment
+                results = it.results.map { res ->
+                    if (res !is SearchResult.Comment) return@map res
+                    if (res.model.id == comment.id) {
+                        res.copy(model = newComment)
                     } else {
-                        c
+                        res
                     }
                 },
             )
@@ -604,12 +609,12 @@ class ExploreViewModel(
                 e.printStackTrace()
                 mvi.updateState {
                     it.copy(
-                        results = it.results.map { c ->
-                            if (c !is CommentModel) return@map it
-                            if (c.id == comment.id) {
-                                comment
+                        results = it.results.map { res ->
+                            if (res !is SearchResult.Comment) return@map res
+                            if (res.model.id == comment.id) {
+                                res.copy(model = comment)
                             } else {
-                                c
+                                res
                             }
                         },
                     )
@@ -620,14 +625,9 @@ class ExploreViewModel(
 }
 
 @OptIn(ExperimentalEncodingApi::class)
-internal fun getItemKey(result: Any): String = when (result) {
-    is PostModel -> "post" + result.id.toString() + result.updateDate
-    is CommentModel -> "comment" + result.id.toString() + result.updateDate
-    is UserModel -> "user" + result.id.toString()
-    is CommunityModel -> "community" + result.id.toString()
-    else -> {
-        val key = ByteArray(64)
-        Random(0).nextBytes(key)
-        Base64.encode(key)
-    }
+internal fun getItemKey(result: SearchResult): String = when (result) {
+    is SearchResult.Post -> "post" + result.model.id.toString() + result.model.updateDate
+    is SearchResult.Comment -> "comment" + result.model.id.toString() + result.model.updateDate
+    is SearchResult.User -> "user" + result.model.id.toString()
+    is SearchResult.Community -> "community" + result.model.id.toString()
 }

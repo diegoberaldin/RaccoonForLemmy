@@ -80,11 +80,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getExploreViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -303,23 +301,23 @@ class ExploreScreen : Screen {
                         }
                         items(uiState.results, key = { getItemKey(it) }) { result ->
                             when (result) {
-                                is CommunityModel -> {
+                                is SearchResult.Community -> {
                                     CommunityItem(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .onClick(
                                                 onClick = rememberCallback {
                                                     navigationCoordinator.pushScreen(
-                                                        CommunityDetailScreen(result),
+                                                        CommunityDetailScreen(result.model),
                                                     )
                                                 },
                                             ),
-                                        community = result,
+                                        community = result.model,
                                         autoLoadImages = uiState.autoLoadImages,
                                     )
                                 }
 
-                                is PostModel -> {
+                                is SearchResult.Post -> {
                                     SwipeableCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         enabled = uiState.swipeActionsEnabled,
@@ -338,10 +336,10 @@ class ExploreScreen : Screen {
                                             model.reduce(ExploreMviModel.Intent.HapticIndication)
                                         },
                                         onDismissToStart = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.UpVotePost(result.id))
+                                            model.reduce(ExploreMviModel.Intent.UpVotePost(result.model.id))
                                         },
                                         onDismissToEnd = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.DownVotePost(result.id))
+                                            model.reduce(ExploreMviModel.Intent.DownVotePost(result.model.id))
                                         },
                                         swipeContent = { direction ->
                                             val icon = when (direction) {
@@ -356,7 +354,7 @@ class ExploreScreen : Screen {
                                         },
                                         content = {
                                             PostCard(
-                                                post = result,
+                                                post = result.model,
                                                 postLayout = uiState.postLayout,
                                                 fullHeightImage = uiState.fullHeightImages,
                                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
@@ -364,7 +362,7 @@ class ExploreScreen : Screen {
                                                 blurNsfw = uiState.blurNsfw,
                                                 onClick = rememberCallback {
                                                     navigationCoordinator.pushScreen(
-                                                        PostDetailScreen(result),
+                                                        PostDetailScreen(result.model),
                                                     )
                                                 },
                                                 onDoubleClick = if (!uiState.doubleTapActionEnabled) {
@@ -373,7 +371,7 @@ class ExploreScreen : Screen {
                                                     rememberCallback(model) {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.UpVotePost(
-                                                                id = result.id,
+                                                                id = result.model.id,
                                                                 feedback = true,
                                                             ),
                                                         )
@@ -392,7 +390,7 @@ class ExploreScreen : Screen {
                                                 onUpVote = rememberCallback(model) {
                                                     model.reduce(
                                                         ExploreMviModel.Intent.UpVotePost(
-                                                            id = result.id,
+                                                            id = result.model.id,
                                                             feedback = true,
                                                         ),
                                                     )
@@ -400,7 +398,7 @@ class ExploreScreen : Screen {
                                                 onDownVote = rememberCallback(model) {
                                                     model.reduce(
                                                         ExploreMviModel.Intent.DownVotePost(
-                                                            id = result.id,
+                                                            id = result.model.id,
                                                             feedback = true,
                                                         ),
                                                     )
@@ -408,14 +406,14 @@ class ExploreScreen : Screen {
                                                 onSave = rememberCallback(model) {
                                                     model.reduce(
                                                         ExploreMviModel.Intent.SavePost(
-                                                            id = result.id,
+                                                            id = result.model.id,
                                                             feedback = true,
                                                         ),
                                                     )
                                                 },
                                                 onReply = rememberCallback {
                                                     val screen = CreateCommentScreen(
-                                                        originalPost = result,
+                                                        originalPost = result.model,
                                                     )
                                                     navigationCoordinator.showBottomSheet(screen)
                                                 },
@@ -434,7 +432,7 @@ class ExploreScreen : Screen {
                                     }
                                 }
 
-                                is CommentModel -> {
+                                is SearchResult.Comment -> {
                                     SwipeableCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         enabled = uiState.swipeActionsEnabled,
@@ -463,14 +461,14 @@ class ExploreScreen : Screen {
                                         onDismissToStart = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.UpVoteComment(
-                                                    id = result.id
+                                                    id = result.model.id
                                                 ),
                                             )
                                         },
                                         onDismissToEnd = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.DownVoteComment(
-                                                    id = result.id
+                                                    id = result.model.id
                                                 ),
                                             )
                                         },
@@ -488,15 +486,15 @@ class ExploreScreen : Screen {
                                         content = {
                                             CommentCard(
                                                 modifier = Modifier.background(MaterialTheme.colorScheme.background),
-                                                comment = result,
+                                                comment = result.model,
                                                 separateUpAndDownVotes = uiState.separateUpAndDownVotes,
                                                 autoLoadImages = uiState.autoLoadImages,
                                                 hideIndent = true,
                                                 onClick = rememberCallback {
                                                     navigationCoordinator.pushScreen(
                                                         PostDetailScreen(
-                                                            post = PostModel(id = result.postId),
-                                                            highlightCommentId = result.id,
+                                                            post = PostModel(id = result.model.postId),
+                                                            highlightCommentId = result.model.id,
                                                         ),
                                                     )
                                                 },
@@ -506,7 +504,7 @@ class ExploreScreen : Screen {
                                                     rememberCallback(model) {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.UpVoteComment(
-                                                                id = result.id,
+                                                                id = result.model.id,
                                                                 feedback = true,
                                                             ),
                                                         )
@@ -515,7 +513,7 @@ class ExploreScreen : Screen {
                                                 onUpVote = rememberCallback(model) {
                                                     model.reduce(
                                                         ExploreMviModel.Intent.UpVoteComment(
-                                                            id = result.id,
+                                                            id = result.model.id,
                                                             feedback = true,
                                                         ),
                                                     )
@@ -523,7 +521,7 @@ class ExploreScreen : Screen {
                                                 onDownVote = rememberCallback(model) {
                                                     model.reduce(
                                                         ExploreMviModel.Intent.DownVoteComment(
-                                                            id = result.id,
+                                                            id = result.model.id,
                                                             feedback = true,
                                                         ),
                                                     )
@@ -531,15 +529,15 @@ class ExploreScreen : Screen {
                                                 onSave = rememberCallback(model) {
                                                     model.reduce(
                                                         ExploreMviModel.Intent.SaveComment(
-                                                            id = result.id,
+                                                            id = result.model.id,
                                                             feedback = true,
                                                         ),
                                                     )
                                                 },
                                                 onReply = rememberCallback {
                                                     val screen = CreateCommentScreen(
-                                                        originalPost = PostModel(id = result.postId),
-                                                        originalComment = result,
+                                                        originalPost = PostModel(id = result.model.postId),
+                                                        originalComment = result.model,
                                                     )
                                                     navigationCoordinator.showBottomSheet(screen)
                                                 },
@@ -562,18 +560,18 @@ class ExploreScreen : Screen {
                                     )
                                 }
 
-                                is UserModel -> {
+                                is SearchResult.User -> {
                                     UserItem(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .onClick(
                                                 onClick = rememberCallback {
                                                     navigationCoordinator.pushScreen(
-                                                        UserDetailScreen(result),
+                                                        UserDetailScreen(result.model),
                                                     )
                                                 },
                                             ),
-                                        user = result,
+                                        user = result.model,
                                     )
                                 }
                             }

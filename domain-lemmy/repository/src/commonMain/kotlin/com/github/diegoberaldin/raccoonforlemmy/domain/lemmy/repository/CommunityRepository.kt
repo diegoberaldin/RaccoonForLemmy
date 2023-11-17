@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SubscribedType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
@@ -31,7 +32,7 @@ class CommunityRepository(
         listingType: ListingType = ListingType.All,
         sortType: SortType = SortType.Active,
         resultType: SearchResultType = SearchResultType.All,
-    ): List<Any>? = runCatching {
+    ): List<SearchResult>? = runCatching {
         if (instance.isNullOrEmpty()) {
             val response = services.search.search(
                 authHeader = auth.toAuthHeader(),
@@ -48,7 +49,15 @@ class CommunityRepository(
             val communities = response?.communities?.map { it.toModel() }.orEmpty()
             val users = response?.users?.map { it.toModel() }.orEmpty()
             // returns everything
-            posts + comments + communities + users
+            posts.map {
+                SearchResult.Post(it)
+            } + comments.map {
+                SearchResult.Comment(it)
+            } + communities.map {
+                SearchResult.Community(it)
+            } + users.map {
+                SearchResult.User(it)
+            }
         } else {
             customServices.changeInstance(instance)
             val response = customServices.community.getAll(
@@ -56,7 +65,9 @@ class CommunityRepository(
                 limit = limit,
                 sort = sortType.toDto(),
             ).body()
-            response?.communities?.map { it.toModel() }.orEmpty()
+            response?.communities?.map {
+                SearchResult.Community(model = it.toModel())
+            }.orEmpty()
         }
     }.getOrNull()
 

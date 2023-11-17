@@ -4,8 +4,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
@@ -86,19 +86,23 @@ class InstanceInfoViewModel(
                 sortType = currentState.sortType,
                 resultType = SearchResultType.Communities,
                 limit = 50,
-            )?.filterIsInstance<CommunityModel>()
+            )?.filterIsInstance<SearchResult.Community>()
                 ?.let {
                     if (refreshing) {
                         it
                     } else {
                         // prevents accidental duplication
-                        it.filter { c1 -> currentState.communities.none { c2 -> c1.id == c2.id } }
+                        it.filter { c1 ->
+                            currentState.communities.none { c2 -> c1.model.id == c2.id }
+                        }
                     }
                 }
             if (!itemList.isNullOrEmpty()) {
                 currentPage++
             }
-            val itemsToAdd = itemList.orEmpty().filter { e -> e.instanceUrl == url }
+            val itemsToAdd = itemList.orEmpty().filter { e ->
+                e.model.instanceUrl == url
+            }.map { it.model }
             mvi.updateState {
                 it.copy(
                     communities = if (refreshing) {

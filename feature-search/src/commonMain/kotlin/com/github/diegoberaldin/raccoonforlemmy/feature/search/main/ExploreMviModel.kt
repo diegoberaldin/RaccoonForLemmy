@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
@@ -39,7 +40,7 @@ interface ExploreMviModel :
         val searchText: String = "",
         val listingType: ListingType = ListingType.Local,
         val sortType: SortType = SortType.Active,
-        val results: List<Any> = emptyList(),
+        val results: List<SearchResult> = emptyList(),
         val resultType: SearchResultType = SearchResultType.All,
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
