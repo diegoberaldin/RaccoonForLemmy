@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="action_back_to_top">Tilbake til toppen</string>
+    <string name="action_chat">Send melding</string>
+    <string name="action_clear_read">Fjern lesing</string>
+    <string name="action_create_post">Lag post</string>
+    <string name="action_reply">Svar</string>
+    <string name="action_activate_zombie_mode">Aktiver zombie-modus</string>
+    <string name="action_deactivate_zombie_mode">Deaktiver zombie-modus</string>
+    <string name="button_close">Lukk</string>
+    <string name="button_confirm">Bekreft</string>
+    <string name="button_load">Last</string>
+    <string name="button_reset">Tilbakestill</string>
+    <string name="button_retry">Prøv på nytt</string>
+    <string name="comment_action_delete">Slett</string>
+    <string name="community_detail_block">Blokk</string>
+    <string name="community_detail_block_instance">Blokker forekomst</string>
+    <string name="community_detail_info">Fellesskapsinfo</string>
+    <string name="community_detail_instance_info">Informasjon om instans</string>
+    <string name="community_info_comments">kommentarer</string>
+    <string name="community_info_daily_active_users">aktive brukere (dag)</string>
+    <string name="community_info_monthly_active_users">active users (month)</string>
+    <string name="community_info_posts">innlegg</string>
+    <string name="community_info_subscribers">abonnenter</string>
+    <string name="community_info_weekly_active_users">aktive brukarar (veke)</string>
+    <string name="create_comment_body">Kommentar brødtekst</string>
+    <string name="create_comment_title">Ny kommentar</string>
+    <string name="create_post_body">Hovedinnhold</string>
+    <string name="create_post_community">Fellesskap</string>
+    <string name="create_post_cross_post_text">Cross posted from:</string>
+    <string name="create_post_name">Post tittel</string>
+    <string name="create_post_nsfw">NSFW</string>
+    <string name="create_post_tab_editor">Redigeringsverktøy</string>
+    <string name="create_post_tab_preview">Forhåndsvisning</string>
+    <string name="create_post_title">Nytt innlegg</string>
+    <string name="create_post_url">URL</string>
+    <string name="create_report_placeholder">Rapporttekst (valgfritt)</string>
+    <string name="create_report_title_comment">Rapportkommentar</string>
+    <string name="create_report_title_post">Rapporter innlegg</string>
+    <string name="dialog_raw_content_text">Tekst</string>
+    <string name="dialog_raw_content_title">Title</string>
+    <string name="dialog_raw_content_url">URL</string>
+    <string name="dialog_title_change_instance">Endre instans</string>
+    <string name="dialog_title_raw_content">Rått innhold</string>
+    <string name="dialog_title_select_community">Velg fellesskap</string>
+    <string name="edit_comment_title">Rediger kommentar</string>
+    <string name="edit_post_title">Rediger innlegg</string>
+    <string name="explore_result_type_all">Alle</string>
+    <string name="explore_result_type_comments">Kommentarer</string>
+    <string name="explore_result_type_communities">Samfunn</string>
+    <string name="explore_result_type_posts">Nyheter</string>
+    <string name="explore_result_type_users">Brukere</string>
+    <string name="explore_search_placeholder">Søk</string>
+    <string name="home_instance_via">via%1$s</string>
+    <string name="home_listing_title">Feeder</string>
+    <string name="home_listing_type_all">Alle</string>
+    <string name="home_listing_type_local">Lokal</string>
+    <string name="home_listing_type_subscribed">Abonnert</string>
+    <string name="home_sort_title">Sortert etter</string>
+    <string name="home_sort_type_active">Aktiv</string>
+    <string name="home_sort_type_controversial">Kontroversiell</string>
+    <string name="home_sort_type_hot">Hot</string>
+    <string name="home_sort_type_most_comments">Flest kommentarer</string>
+    <string name="home_sort_type_new">Nye</string>
+    <string name="home_sort_type_new_comments">Nye kommentarer</string>
+    <string name="home_sort_type_old">Gammel</string>
+    <string name="home_sort_type_scaled">Skalert</string>
+    <string name="home_sort_type_top">Topp</string>
+    <string name="home_sort_type_top_12_hours">Topp 12 timar</string>
+    <string name="home_sort_type_top_12_hours_short">12 timer</string>
+    <string name="home_sort_type_top_6_hours">Topp 6 timar</string>
+    <string name="home_sort_type_top_6_hours_short">6 timer</string>
+    <string name="home_sort_type_top_day">Toppdag</string>
+    <string name="home_sort_type_top_day_short">dag</string>
+    <string name="home_sort_type_top_hour">Topp time</string>
+    <string name="home_sort_type_top_hour_short">1t</string>
+    <string name="home_sort_type_top_month">Topp-måned</string>
+    <string name="home_sort_type_top_month_short">måned</string>
+    <string name="home_sort_type_top_week">Top week</string>
+    <string name="home_sort_type_top_week_short">uke</string>
+    <string name="home_sort_type_top_year">Topp år</string>
+    <string name="home_sort_type_top_year_short">år</string>
+    <string name="inbox_action_mark_read">Merk som lest</string>
+    <string name="inbox_action_mark_unread">Markere som ulest</string>
+    <string name="inbox_chat_message">Melding</string>
+    <string name="inbox_item_mention">nævnte deg i</string>
+    <string name="inbox_item_reply_comment">svar på kommentaren din i</string>
+    <string name="inbox_item_reply_post">svar på posten din i</string>
+    <string name="inbox_listing_type_all">Alle</string>
+    <string name="inbox_listing_type_title">Innboks type</string>
+    <string name="inbox_listing_type_unread">Ulest</string>
+    <string name="inbox_not_logged_message">Du er ikke logget\n inn.Leggtil konto
+        på profilskjermen for å se innboksen din.
+    </string>
+    <string name="inbox_section_mentions">Omtaler</string>
+    <string name="inbox_section_messages">Meldinger</string>
+    <string name="inbox_section_replies">Svar</string>
+    <string name="instance_detail_communities">Samfunn</string>
+    <string name="instance_detail_title">Forekomst: %1$s</string>
+    <string name="lang">nn</string>
+    <string name="language_de" translatable="false">Deutsch</string>
+    <string name="language_dk" translatable="false">Dansk</string>
+    <string name="language_el" translatable="false">Ελληνικά</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_pl" translatable="false">Polski</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="login_field_instance_name">Instansnamn</string>
+    <string name="login_field_label_optional">(valgfritt)</string>
+    <string name="login_field_password">Passord</string>
+    <string name="login_field_token">TOTP 2FA-token</string>
+    <string name="login_field_user_name">Brukernavn eller epost</string>
+    <string name="manage_accounts_button_add">Legg til konto</string>
+    <string name="manage_accounts_title">Administrer kontoer</string>
+    <string name="manage_subscriptions_header_multicommunities">Multisamfunn</string>
+    <string name="manage_subscriptions_header_subscriptions">Abonnement</string>
+    <string name="message_empty_comments">Det er for stille der.\nVil du være den som skriver den
+        første kommentaren?
+    </string>
+    <string name="message_empty_list">Ingen elementer å vise</string>
+    <string name="message_error_loading_comments">Det oppstod en feil under lasting av
+        kommentarer.
+    </string>
+    <string name="message_generic_error">Allmenn feil</string>
+    <string name="message_image_loading_error">Bildeinnlastingsfeil</string>
+    <string name="message_invalid_field">Ugyldig felt</string>
+    <string name="message_missing_field">Manglende felt:</string>
+    <string name="message_operation_successful">Operasjonen fullført suksessfullt</string>
+    <string name="multi_community_editor_communities">Samfunn</string>
+    <string name="multi_community_editor_icon">Ikon</string>
+    <string name="multi_community_editor_name">Navn</string>
+    <string name="multi_community_editor_title">Multisamfunnsredaktør</string>
+    <string name="navigation_drawer_anonymous">Anonym</string>
+    <string name="navigation_drawer_title_bookmarks">Lagret</string>
+    <string name="navigation_drawer_title_subscriptions">Abonnement</string>
+    <string name="navigation_home">Nyheter</string>
+    <string name="navigation_inbox">Inbox</string>
+    <string name="navigation_profile">Profil</string>
+    <string name="navigation_search">Utforsk</string>
+    <string name="navigation_settings">Innstillinger</string>
+    <string name="post_action_cross_post">Cross-post…</string>
+    <string name="post_action_edit">Rediger</string>
+    <string name="post_action_hide">Skjul</string>
+    <string name="post_action_report">Rapporter</string>
+    <string name="post_action_see_raw">Se rådata</string>
+    <string name="post_action_share">Del</string>
+    <string name="post_detail_cross_posts">også postet på:</string>
+    <string name="post_detail_load_more_comments">last inn flere kommentarer</string>
+    <string name="post_hour_short">T</string>
+    <string name="post_minute_short">m</string>
+    <string name="post_second_short">s</string>
+    <string name="profile_button_login">Pålogging</string>
+    <string name="profile_day_short">d</string>
+    <string name="profile_million_short">m</string>
+    <string name="profile_month_short">m</string>
+    <string name="profile_not_logged_message">Du er ikke logget\n inn.Please addan
+        konto for å fortsette.
+    </string>
+    <string name="profile_section_comments">Kommentarer</string>
+    <string name="profile_section_posts">Nyheter</string>
+    <string name="profile_thousand_short">k</string>
+    <string name="profile_year_short">y</string>
+    <string name="settings_about">Om denne appen</string>
+    <string name="settings_about_app_version">Appversjon</string>
+    <string name="settings_about_changelog">Se full changelog</string>
+    <string name="settings_about_report_github">Rapportér feil (GitHub)</string>
+    <string name="settings_about_report_email">Rapporter en feil (e-post)</string>
+    <string name="settings_about_view_github">Vis på GitHub</string>
+    <string name="settings_about_view_lemmy">Lemmy-samfunnet</string>
+    <string name="settings_auto_expand_comments">Utvid kommentarer automatisk</string>
+    <string name="settings_auto_load_images">Automatisk lasting av bilete</string>
+    <string name="settings_blur_nsfw">Blur NSFW Bilder</string>
+    <string name="settings_color_aquamarine">🐬 Distrahert delfin</string>
+    <string name="settings_color_banana">🦔 Hilarious pinnsvin</string>
+    <string name="settings_color_blue">🐳 Hemmelighetsfull hval</string>
+    <string name="settings_color_custom">Tilpasset</string>
+    <string name="settings_color_dialog_alpha">A</string>
+    <string name="settings_color_dialog_blue">B</string>
+    <string name="settings_color_dialog_green">G</string>
+    <string name="settings_color_dialog_red">R</string>
+    <string name="settings_color_dialog_title">Velg en farge</string>
+    <string name="settings_color_gray">🦝 Ravenous vaskebjørn</string>
+    <string name="settings_color_green">🐸 Frolicsome frosk</string>
+    <string name="settings_color_orange">🦊 Fiery Fox</string>
+    <string name="settings_color_pink">🦄 Unik enhjørning</string>
+    <string name="settings_color_purple">🐙 Oseanisk blekksprut</string>
+    <string name="settings_color_red">🦀 Sprø krabbe</string>
+    <string name="settings_color_white">🐼 Bambling bjørn</string>
+    <string name="settings_content_font_large">Stor</string>
+    <string name="settings_content_font_larger">Ekstra stor</string>
+    <string name="settings_content_font_largest">Dobbel ekstra stor</string>
+    <string name="settings_content_font_normal">Normale</string>
+    <string name="settings_content_font_scale">Content text size</string>
+    <string name="settings_content_font_small">Små</string>
+    <string name="settings_content_font_smaller">Ekstra liten</string>
+    <string name="settings_content_font_smallest">Dobbel ekstra liten</string>
+    <string name="settings_custom_seed_color">Egendefinert temafarge</string>
+    <string name="settings_default_comment_sort_type">Standard sorteringstype for kommentarer
+    </string>
+    <string name="settings_default_listing_type">Standard innmatingstype</string>
+    <string name="settings_default_post_sort_type">Standard innleggstype:</string>
+    <string name="settings_downvote_color">Downvote farge</string>
+    <string name="settings_dynamic_colors">Bruk dynamiske farger</string>
+    <string name="settings_enable_crash_report">Skru på krasjrapportering</string>
+    <string name="settings_enable_double_tap">Aktiver dobbelttrykkshandling</string>
+    <string name="settings_enable_swipe_actions">Aktiver sveipehandlinger</string>
+    <string name="settings_full_height_images">Full height images</string>
+    <string name="settings_include_nsfw">Inkluder NSFW-innhold</string>
+    <string name="settings_language">Språk</string>
+    <string name="settings_navigation_bar_titles_visible">Vis navigasjonslinjetitler</string>
+    <string name="settings_open_url_external">Opna i ekstern nettlesar</string>
+    <string name="settings_points_short">pt</string>
+    <string name="settings_post_layout">Innleggsoppsett</string>
+    <string name="settings_post_layout_card">Kort</string>
+    <string name="settings_post_layout_compact">Kompakt</string>
+    <string name="settings_post_layout_full">Fullt</string>
+    <string name="settings_section_appearance">Utsjånad</string>
+    <string name="settings_section_behaviour">atferd</string>
+    <string name="settings_section_debug">Feilsøk</string>
+    <string name="settings_section_feed">Innlegg og merknader</string>
+    <string name="settings_section_nsfw">NSFW</string>
+    <string name="settings_separate_up_and_downvotes">Separate upvotes / downvotes</string>
+    <string name="settings_theme_black">Mørk (AMOLED)</string>
+    <string name="settings_theme_dark">Mørk</string>
+    <string name="settings_theme_light">Lys</string>
+    <string name="settings_ui_font_family">UI-skrifttype</string>
+    <string name="settings_ui_font_scale">UI-tekststørrelse</string>
+    <string name="settings_ui_theme">UI-tema</string>
+    <string name="settings_upvote_color">Upvote-farge</string>
+    <string name="settings_hide_navigation_bar">Skjul navigasjonsfeltet når du ruller</string>
+    <string name="settings_zombie_mode_interval">Zombie-modus intervallvarighet</string>
+    <string name="settings_zombie_mode_scroll_amount">Zombie-modus rullebeløp</string>
+</resources>

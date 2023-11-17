@@ -52,17 +52,22 @@ class LanguageBottomSheet : Screen {
                     color = MaterialTheme.colorScheme.onBackground,
                 )
                 val values = listOf(
+                    "cz",
                     "dk",
                     "de",
                     "el",
                     "en",
                     "es",
+                    "fi",
                     "fr",
                     "it",
+                    "no",
                     "nl",
                     "pl",
                     "pt",
                     "ro",
+                    "se",
+                    "sk",
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
