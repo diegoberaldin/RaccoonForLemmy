@@ -164,7 +164,7 @@ class CommunityDetailScreen(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.key == key) {
-                        CommunityDetailMviModel.Intent.ChangeSort(evt.value)
+                        model.reduce(CommunityDetailMviModel.Intent.ChangeSort(evt.value))
                     }
                 }.launchIn(this)
         }
