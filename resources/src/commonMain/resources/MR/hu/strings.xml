@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="action_back_to_top">Vissza az oldal tetejére</string>
+    <string name="action_chat">Üzenet küldése</string>
+    <string name="action_clear_read">Olvasás törlése</string>
+    <string name="action_create_post">Bejegyzés létrehozása</string>
+    <string name="action_reply">Válasz</string>
+    <string name="action_activate_zombie_mode">Zombi mód aktiválása</string>
+    <string name="action_deactivate_zombie_mode">Zombi mód deaktiválása</string>
+    <string name="button_close">Bezárás</string>
+    <string name="button_confirm">Megerősítés</string>
+    <string name="button_load">rak</string>
+    <string name="button_reset">Újraindítás</string>
+    <string name="button_retry">Újrapróbálás</string>
+    <string name="comment_action_delete">Törlés</string>
+    <string name="community_detail_block">Kivéd</string>
+    <string name="community_detail_block_instance">Példány blokkolása</string>
+    <string name="community_detail_info">Közösségi adatok</string>
+    <string name="community_detail_instance_info">A példány adatai</string>
+    <string name="community_info_comments">megjegyzések</string>
+    <string name="community_info_daily_active_users">aktív felhasználók (nap)</string>
+    <string name="community_info_monthly_active_users">aktív felhasználók (hónap)</string>
+    <string name="community_info_posts">bejegyzések</string>
+    <string name="community_info_subscribers">feliratkozók</string>
+    <string name="community_info_weekly_active_users">aktív felhasználók (hét)</string>
+    <string name="create_comment_body">Hozzászólás törzs</string>
+    <string name="create_comment_title">Új hozzászólás</string>
+    <string name="create_post_body">Postatörzs</string>
+    <string name="create_post_community">Közösség</string>
+    <string name="create_post_cross_post_text">Kereszt feladva innen:</string>
+    <string name="create_post_name">Bejegyzés címe</string>
+    <string name="create_post_nsfw">NSFW</string>
+    <string name="create_post_tab_editor">Szerkesztő</string>
+    <string name="create_post_tab_preview">Előnézet</string>
+    <string name="create_post_title">Új bejegyzés</string>
+    <string name="create_post_url">URL</string>
+    <string name="create_report_placeholder">Jelentés szövege (nem kötelező)</string>
+    <string name="create_report_title_comment">Megjegyzés a jelentéshez</string>
+    <string name="create_report_title_post">Bejegyzés jelentése</string>
+    <string name="dialog_raw_content_text">Szöveg</string>
+    <string name="dialog_raw_content_title">Cím</string>
+    <string name="dialog_raw_content_url">URL</string>
+    <string name="dialog_title_change_instance">Példány módosítása</string>
+    <string name="dialog_title_raw_content">Nyers tartalom</string>
+    <string name="dialog_title_select_community">Válassz egy közösséget</string>
+    <string name="edit_comment_title">Hozzászólás szerkesztése</string>
+    <string name="edit_post_title">Bejegyzés szerkesztése</string>
+    <string name="explore_result_type_all">Összes</string>
+    <string name="explore_result_type_comments">Hozzászólások</string>
+    <string name="explore_result_type_communities">Közösség</string>
+    <string name="explore_result_type_posts">Bejegyzések</string>
+    <string name="explore_result_type_users">Felhasználók</string>
+    <string name="explore_search_placeholder">Keresés</string>
+    <string name="home_instance_via">ezen keresztül: %1$s</string>
+    <string name="home_listing_title">Hírcsatornák</string>
+    <string name="home_listing_type_all">Összes</string>
+    <string name="home_listing_type_local">Helyi</string>
+    <string name="home_listing_type_subscribed">Feliratkozva</string>
+    <string name="home_sort_title">Rendezés</string>
+    <string name="home_sort_type_active">Aktív</string>
+    <string name="home_sort_type_controversial">Ellentmondásos</string>
+    <string name="home_sort_type_hot">Meleg</string>
+    <string name="home_sort_type_most_comments">Legtöbb hozzászólás</string>
+    <string name="home_sort_type_new">Új</string>
+    <string name="home_sort_type_new_comments">Új hozzászólások</string>
+    <string name="home_sort_type_old">Régi.</string>
+    <string name="home_sort_type_scaled">Méretezett</string>
+    <string name="home_sort_type_top">Felső</string>
+    <string name="home_sort_type_top_12_hours">12 óra</string>
+    <string name="home_sort_type_top_12_hours_short">12 óra</string>
+    <string name="home_sort_type_top_6_hours">Top 6 óra</string>
+    <string name="home_sort_type_top_6_hours_short">6 óra</string>
+    <string name="home_sort_type_top_day">Legjobb nap</string>
+    <string name="home_sort_type_top_day_short">nap</string>
+    <string name="home_sort_type_top_hour">Top óra</string>
+    <string name="home_sort_type_top_hour_short">1 óra</string>
+    <string name="home_sort_type_top_month">Legjobb hónap</string>
+    <string name="home_sort_type_top_month_short">hónap</string>
+    <string name="home_sort_type_top_week">Legjobb hét</string>
+    <string name="home_sort_type_top_week_short">hét</string>
+    <string name="home_sort_type_top_year">Legjobb év</string>
+    <string name="home_sort_type_top_year_short">év</string>
+    <string name="inbox_action_mark_read">Megjelölés olvasottként</string>
+    <string name="inbox_action_mark_unread">Megjelölés olvasatlanként</string>
+    <string name="inbox_chat_message">Üzenet</string>
+    <string name="inbox_item_mention">megemlített téged itt:</string>
+    <string name="inbox_item_reply_comment">válaszolt a hozzászólásodra</string>
+    <string name="inbox_item_reply_post">válaszolt a bejegyzésedre itt:</string>
+    <string name="inbox_listing_type_all">Összes</string>
+    <string name="inbox_listing_type_title">Postafiók típusa</string>
+    <string name="inbox_listing_type_unread">Olvasatlan</string>
+    <string name="inbox_not_logged_message">Jelenleg nem vagy\n bejelentkezve.Adj hozzá egy fiókot
+        a profilképernyőn a postafiókod megtekintéséhez.
+    </string>
+    <string name="inbox_section_mentions">Említések</string>
+    <string name="inbox_section_messages">Üzenetek</string>
+    <string name="inbox_section_replies">Válaszok</string>
+    <string name="instance_detail_communities">Közösség</string>
+    <string name="instance_detail_title">Példány: %1$s</string>
+    <string name="lang">hu</string>
+    <string name="language_cz" translatable="false">Čeština</string>
+    <string name="language_de" translatable="false">Deutsch</string>
+    <string name="language_dk" translatable="false">Dansk</string>
+    <string name="language_el" translatable="false">Ελληνικά</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_fi" translatable="false">Suomi</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_no" translatable="false">Norsk</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_pl" translatable="false">Polski</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="language_se" translatable="false">Svenska</string>
+    <string name="language_sk" translatable="false">Slovenčina</string>
+    <string name="login_field_instance_name">A példány neve:</string>
+    <string name="login_field_label_optional">(opcionális)</string>
+    <string name="login_field_password">Jelszó</string>
+    <string name="login_field_token">TOTP 2FA token</string>
+    <string name="login_field_user_name">Felhasználó név vagy email</string>
+    <string name="manage_accounts_button_add">Számla hozzáadása</string>
+    <string name="manage_accounts_title">Fiókok kezelése</string>
+    <string name="manage_subscriptions_header_multicommunities">Többközösségek</string>
+    <string name="manage_subscriptions_header_subscriptions">Feliratkozások</string>
+    <string name="message_empty_comments">Túl nagy ott a\n csend.Szeretnél te lenni az, aki
+        megírja az első hozzászólást?
+    </string>
+    <string name="message_empty_list">Nincs megjeleníthető elem</string>
+    <string name="message_error_loading_comments">Hiba történt a megjegyzések betöltésekor.</string>
+    <string name="message_generic_error">Általános hiba</string>
+    <string name="message_image_loading_error">Képbetöltési hiba</string>
+    <string name="message_invalid_field">Érvénytelen mező</string>
+    <string name="message_missing_field">Hiányzó mező</string>
+    <string name="message_operation_successful">A művelet sikeresen befejeződött</string>
+    <string name="multi_community_editor_communities">Közösség</string>
+    <string name="multi_community_editor_icon">Ikon</string>
+    <string name="multi_community_editor_name">Név</string>
+    <string name="multi_community_editor_title">Többközösségi szerkesztő</string>
+    <string name="navigation_drawer_anonymous">Névtelen</string>
+    <string name="navigation_drawer_title_bookmarks">Mentve</string>
+    <string name="navigation_drawer_title_subscriptions">Feliratkozások</string>
+    <string name="navigation_home">Bejegyzések</string>
+    <string name="navigation_inbox">Beérkezett üzenetek</string>
+    <string name="navigation_profile">Profil</string>
+    <string name="navigation_search">Nézz körül</string>
+    <string name="navigation_settings">Beállítások</string>
+    <string name="post_action_cross_post">postázás több hírcsoportba</string>
+    <string name="post_action_edit">Szerkesztés</string>
+    <string name="post_action_hide">elbújik</string>
+    <string name="post_action_report">Jelentés</string>
+    <string name="post_action_see_raw">Nyers megtekintése…</string>
+    <string name="post_action_share">Megosztás</string>
+    <string name="post_detail_cross_posts">szintén közzétéve:</string>
+    <string name="post_detail_load_more_comments">További hozzászólások betöltése</string>
+    <string name="post_hour_short">óra</string>
+    <string name="post_minute_short">m</string>
+    <string name="post_second_short">mp.</string>
+    <string name="profile_button_login">Bejelentkezés</string>
+    <string name="profile_day_short">nap</string>
+    <string name="profile_million_short">m</string>
+    <string name="profile_month_short">m</string>
+    <string name="profile_not_logged_message">Jelenleg nem vagy\n bejelentkezve.Adj meg egy
+        fiókot a folytatáshoz.
+    </string>
+    <string name="profile_section_comments">Hozzászólások</string>
+    <string name="profile_section_posts">Bejegyzések</string>
+    <string name="profile_thousand_short">k</string>
+    <string name="profile_year_short">i</string>
+    <string name="settings_about">Az alkalmazásról...</string>
+    <string name="settings_about_app_version">Alkalmazásverzió</string>
+    <string name="settings_about_changelog">Tekintse meg a teljes Változások listáját</string>
+    <string name="settings_about_report_github">Hiba bejelentése (GitHub)</string>
+    <string name="settings_about_report_email">Hiba bejelentése (e-mail)</string>
+    <string name="settings_about_view_github">Megtekintés a GitHubon</string>
+    <string name="settings_about_view_lemmy">Lemmy-közösség</string>
+    <string name="settings_auto_expand_comments">Hozzászólások automatikus kibontása</string>
+    <string name="settings_auto_load_images">Képek automatikus betöltése</string>
+    <string name="settings_blur_nsfw">NSFW képek elmosása</string>
+    <string name="settings_color_aquamarine">🐬 Zavart delfin</string>
+    <string name="settings_color_banana">🦔 Vidám sündisznó</string>
+    <string name="settings_color_blue">🐳 Szellemes bálna</string>
+    <string name="settings_color_custom">Egyedi</string>
+    <string name="settings_color_dialog_alpha">A</string>
+    <string name="settings_color_dialog_blue">B</string>
+    <string name="settings_color_dialog_green">G</string>
+    <string name="settings_color_dialog_red">R</string>
+    <string name="settings_color_dialog_title">Válasszon színt!</string>
+    <string name="settings_color_gray">🦝 Ravenous mosómedve</string>
+    <string name="settings_color_green">🐸 Frolicsome béka</string>
+    <string name="settings_color_orange">🦊 Tüzes róka</string>
+    <string name="settings_color_pink">🦄 Egyedi egyszarvú</string>
+    <string name="settings_color_purple">🐙 Óceáni polip</string>
+    <string name="settings_color_red">🦀 Ropogós rák</string>
+    <string name="settings_color_white">🐼 Csapkodó medve</string>
+    <string name="settings_content_font_large">Nagy</string>
+    <string name="settings_content_font_larger">Nagyon nagy</string>
+    <string name="settings_content_font_largest">Dupla extra nagy</string>
+    <string name="settings_content_font_normal">Átlagos</string>
+    <string name="settings_content_font_scale">Tartalom szövegének mérete</string>
+    <string name="settings_content_font_small">Kicsi</string>
+    <string name="settings_content_font_smaller">Extra kicsi</string>
+    <string name="settings_content_font_smallest">Dupla extra kicsi</string>
+    <string name="settings_custom_seed_color">Egyéni téma színe</string>
+    <string name="settings_default_comment_sort_type">Alapértelmezett megjegyzésrendezési típus
+    </string>
+    <string name="settings_default_listing_type">Alapértelmezett feed típus</string>
+    <string name="settings_default_post_sort_type">Érvénytelen bejegyzés típus:</string>
+    <string name="settings_downvote_color">Lemondó szavazat színe</string>
+    <string name="settings_dynamic_colors">Dinamikus színek használata</string>
+    <string name="settings_enable_crash_report">Balesetjelentés engedélyezése</string>
+    <string name="settings_enable_double_tap">Dupla koppintásos művelet engedélyezése</string>
+    <string name="settings_enable_swipe_actions">Pöccintési műveletek engedélyezése</string>
+    <string name="settings_full_height_images">Teljes magasságú képek</string>
+    <string name="settings_include_nsfw">NSFW-tartalom belefoglalása</string>
+    <string name="settings_language">Nyelv</string>
+    <string name="settings_navigation_bar_titles_visible">Navigációs sáv címeinek megjelenítése
+    </string>
+    <string name="settings_open_url_external">Megnyitás külső böngészőben</string>
+    <string name="settings_points_short">pt</string>
+    <string name="settings_post_layout">Bejegyzés elrendezés</string>
+    <string name="settings_post_layout_card">Kártya</string>
+    <string name="settings_post_layout_compact">Kompakt</string>
+    <string name="settings_post_layout_full">Teljes</string>
+    <string name="settings_section_appearance">nézd és érezd</string>
+    <string name="settings_section_behaviour">Viselkedés</string>
+    <string name="settings_section_debug">Hibaelhárítás</string>
+    <string name="settings_section_feed">Bejegyzések és megjegyzések</string>
+    <string name="settings_section_nsfw">NSFW</string>
+    <string name="settings_separate_up_and_downvotes">Különítse el a felfelé /lefelé szavazókat
+    </string>
+    <string name="settings_theme_black">Tiszta fekete</string>
+    <string name="settings_theme_dark">Sötét</string>
+    <string name="settings_theme_light">Enyhe</string>
+    <string name="settings_ui_font_family">Felhasználói felület betűtípusa</string>
+    <string name="settings_ui_font_scale">UI szövegméret</string>
+    <string name="settings_ui_theme">UI téma</string>
+    <string name="settings_upvote_color">Upvote color</string>
+    <string name="settings_hide_navigation_bar">Navigációs sáv elrejtése görgetés közben</string>
+    <string name="settings_zombie_mode_interval">Zombi üzemmód intervallum időtartama</string>
+    <string name="settings_zombie_mode_scroll_amount">Zombi mód görgetés mennyisége</string>
+</resources>
