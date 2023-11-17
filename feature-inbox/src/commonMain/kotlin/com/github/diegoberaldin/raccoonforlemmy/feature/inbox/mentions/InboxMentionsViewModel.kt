@@ -64,6 +64,10 @@ class InboxMentionsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
             }.launchIn(this)
+
+            if (uiState.value.mentions.isEmpty()) {
+                refresh(initial = true)
+            }
         }
     }
 

@@ -67,6 +67,10 @@ class InboxRepliesViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
             }.launchIn(this)
+
+            if (uiState.value.replies.isEmpty()) {
+                refresh(initial = true)
+            }
         }
     }
 
@@ -141,7 +145,9 @@ class InboxRepliesViewModel(
                 it.copy(isOwnPost = isOwnPost)
             }
 
-            currentPage++
+            if (!itemList.isNullOrEmpty()) {
+                currentPage++
+            }
             mvi.updateState {
                 val newItems = if (refreshing) {
                     itemList.orEmpty()

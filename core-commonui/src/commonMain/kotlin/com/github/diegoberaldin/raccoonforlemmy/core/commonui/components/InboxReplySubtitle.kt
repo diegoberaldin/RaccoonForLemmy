@@ -147,6 +147,7 @@ fun InboxReplySubtitle(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
                     ) {
+                        Spacer(modifier = Modifier.weight(1f))
                         if (communityIcon.isNotEmpty() && autoLoadImages) {
                             CustomImage(
                                 modifier = Modifier
