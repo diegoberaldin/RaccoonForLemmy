@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,7 +31,9 @@ internal fun SettingsRow(
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium,
@@ -45,13 +46,11 @@ internal fun SettingsRow(
                     text = subtitle,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onBackground,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
                 )
             }
         }
-        Spacer(modifier = Modifier.weight(1f))
         Text(
+            modifier = Modifier.padding(start = Spacing.xs),
             text = value,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground,
