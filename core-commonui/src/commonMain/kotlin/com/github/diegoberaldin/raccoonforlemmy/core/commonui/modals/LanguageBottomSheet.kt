@@ -61,6 +61,7 @@ class LanguageBottomSheet : Screen {
                     "fi",
                     "fr",
                     "hu",
+                    "hr",
                     "it",
                     "no",
                     "nl",

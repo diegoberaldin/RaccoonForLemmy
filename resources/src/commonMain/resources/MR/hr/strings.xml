@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="action_back_to_top">Povratak na vrh</string>
+    <string name="action_chat">Pošalji poruku</string>
+    <string name="action_clear_read">Izbriši pročitano</string>
+    <string name="action_create_post">Kreiraj objavu</string>
+    <string name="action_reply">Odgovori</string>
+    <string name="action_activate_zombie_mode">Aktivirajte zombi način rada</string>
+    <string name="action_deactivate_zombie_mode">Deaktiviraj zombi način rada</string>
+    <string name="button_close">Zatvori</string>
+    <string name="button_confirm">Potvrdi</string>
+    <string name="button_load">Učitaj</string>
+    <string name="button_reset">Reset</string>
+    <string name="button_retry">Pokušaj ponovno</string>
+    <string name="comment_action_delete">Obriši</string>
+    <string name="community_detail_block">Blokiraj</string>
+    <string name="community_detail_block_instance">Blokiraj instancu</string>
+    <string name="community_detail_info">Podaci o zajednici</string>
+    <string name="community_detail_instance_info">Podaci o instanci</string>
+    <string name="community_info_comments">komentari</string>
+    <string name="community_info_daily_active_users">aktivni korisnici (dan)</string>
+    <string name="community_info_monthly_active_users">aktivni korisnici (mjesec)</string>
+    <string name="community_info_posts">postovi</string>
+    <string name="community_info_subscribers">Pretplatnici</string>
+    <string name="community_info_weekly_active_users">aktivni korisnici (tjedan)</string>
+    <string name="create_comment_body">Tijelo komentara</string>
+    <string name="create_comment_title">Novi komentar</string>
+    <string name="create_post_body">Tijelo stupa</string>
+    <string name="create_post_community">Zajednica</string>
+    <string name="create_post_cross_post_text">Unakrsno objavljeno od:</string>
+    <string name="create_post_name">Naslov posta</string>
+    <string name="create_post_nsfw">NSFW</string>
+    <string name="create_post_tab_editor">Redaktor</string>
+    <string name="create_post_tab_preview">Pretpregled</string>
+    <string name="create_post_title">Nova objava</string>
+    <string name="create_post_url">URL</string>
+    <string name="create_report_placeholder">Tekst izvješća (neobavezno)</string>
+    <string name="create_report_title_comment">Prijavi komentar</string>
+    <string name="create_report_title_post">Prijavi objavu</string>
+    <string name="dialog_raw_content_text">Tekst</string>
+    <string name="dialog_raw_content_title">Naslov</string>
+    <string name="dialog_raw_content_url">URL</string>
+    <string name="dialog_title_change_instance">Promijeni instancu</string>
+    <string name="dialog_title_raw_content">Sirovi sadržaj</string>
+    <string name="dialog_title_select_community">Odaberite zajednicu</string>
+    <string name="edit_comment_title">Uredi komentar</string>
+    <string name="edit_post_title">Uredi objavu</string>
+    <string name="explore_result_type_all">Sve</string>
+    <string name="explore_result_type_comments">Komentari</string>
+    <string name="explore_result_type_communities">Zajednice</string>
+    <string name="explore_result_type_posts">Objave</string>
+    <string name="explore_result_type_users">Korisnici</string>
+    <string name="explore_search_placeholder">Traži</string>
+    <string name="home_instance_via">putem%1$s</string>
+    <string name="home_listing_title">Sažeci novosti</string>
+    <string name="home_listing_type_all">Sve</string>
+    <string name="home_listing_type_local">Lokalna</string>
+    <string name="home_listing_type_subscribed">Pretplaćeno</string>
+    <string name="home_sort_title">Razvrstaj po:</string>
+    <string name="home_sort_type_active">Aktivno</string>
+    <string name="home_sort_type_controversial">kontraverzan</string>
+    <string name="home_sort_type_hot">Vruće</string>
+    <string name="home_sort_type_most_comments">Najviše komentara</string>
+    <string name="home_sort_type_new">Novo</string>
+    <string name="home_sort_type_new_comments">Novi komentari</string>
+    <string name="home_sort_type_old">Stare</string>
+    <string name="home_sort_type_scaled">Prilagođeno</string>
+    <string name="home_sort_type_top">Gore</string>
+    <string name="home_sort_type_top_12_hours">Najboljih 12 sati</string>
+    <string name="home_sort_type_top_12_hours_short">12 h</string>
+    <string name="home_sort_type_top_6_hours">Najboljih 6 sati</string>
+    <string name="home_sort_type_top_6_hours_short">6 h</string>
+    <string name="home_sort_type_top_day">Vrhunski dan</string>
+    <string name="home_sort_type_top_day_short">dan</string>
+    <string name="home_sort_type_top_hour">Najpopularniji sati</string>
+    <string name="home_sort_type_top_hour_short">1h</string>
+    <string name="home_sort_type_top_month">Najpopularniji mjesec</string>
+    <string name="home_sort_type_top_month_short">mjesec</string>
+    <string name="home_sort_type_top_week">Najbolji tjedan</string>
+    <string name="home_sort_type_top_week_short">tjedan</string>
+    <string name="home_sort_type_top_year">Najbolja godina</string>
+    <string name="home_sort_type_top_year_short">godina</string>
+    <string name="inbox_action_mark_read">Označi kao pročitano</string>
+    <string name="inbox_action_mark_unread">Označi kao nepročitano</string>
+    <string name="inbox_chat_message">Poruka</string>
+    <string name="inbox_item_mention">spomenuo vas je u</string>
+    <string name="inbox_item_reply_comment">je odgovorio/la na vaš komentar u</string>
+    <string name="inbox_item_reply_post">odgovorio/la na vašu objavu u</string>
+    <string name="inbox_listing_type_all">Sve</string>
+    <string name="inbox_listing_type_title">Vrsta ulazne pošte</string>
+    <string name="inbox_listing_type_unread">Nepročitano</string>
+    <string name="inbox_not_logged_message">Trenutačno niste prijavljeni.Dodajte\n korisnički račun
+        na zaslonu profila za prikaz dolazne pošte.
+    </string>
+    <string name="inbox_section_mentions">spominjanja</string>
+    <string name="inbox_section_messages">Poruke</string>
+    <string name="inbox_section_replies">Odgovori</string>
+    <string name="instance_detail_communities">Zajednice</string>
+    <string name="instance_detail_title">Instanca: %1$s</string>
+    <string name="lang">hr</string>
+    <string name="language_cz" translatable="false">Čeština</string>
+    <string name="language_de" translatable="false">Deutsch</string>
+    <string name="language_dk" translatable="false">Dansk</string>
+    <string name="language_el" translatable="false">Ελληνικά</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_fi" translatable="false">Suomi</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_hu" translatable="false">Magyar</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_no" translatable="false">Norsk</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_pl" translatable="false">Polski</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="language_se" translatable="false">Svenska</string>
+    <string name="language_sk" translatable="false">Slovenčina</string>
+    <string name="login_field_instance_name">Naziv inastance</string>
+    <string name="login_field_label_optional">(neobvezno)</string>
+    <string name="login_field_password">Lozinka</string>
+    <string name="login_field_token">TOTP 2FA token</string>
+    <string name="login_field_user_name">Korisničko ime ili e-pošta</string>
+    <string name="manage_accounts_button_add">Dodaj račun</string>
+    <string name="manage_accounts_title">Upravljajte računima</string>
+    <string name="manage_subscriptions_header_multicommunities">Više zajednica</string>
+    <string name="manage_subscriptions_header_subscriptions">Pretplate</string>
+    <string name="message_empty_comments">Tamo je previše tiho.\nŽelite li biti onaj koji
+        piše prvi komentar?
+    </string>
+    <string name="message_empty_list">Nema stavki za prikaz</string>
+    <string name="message_error_loading_comments">Došlo je do pogreške pri učitavanju komentara.
+    </string>
+    <string name="message_generic_error">Generička pogreška</string>
+    <string name="message_image_loading_error">Pogreška pri učitavanju slike</string>
+    <string name="message_invalid_field">Nevažeće polje</string>
+    <string name="message_missing_field">Polje koje nedostaje</string>
+    <string name="message_operation_successful">Operacija je uspješno dovršena</string>
+    <string name="multi_community_editor_communities">Zajednice</string>
+    <string name="multi_community_editor_icon">Ikona</string>
+    <string name="multi_community_editor_name">Naziv</string>
+    <string name="multi_community_editor_title">Uređivač za više zajednica</string>
+    <string name="navigation_drawer_anonymous">Anonimno</string>
+    <string name="navigation_drawer_title_bookmarks">Spremljeno</string>
+    <string name="navigation_drawer_title_subscriptions">Pretplate</string>
+    <string name="navigation_home">Objave</string>
+    <string name="navigation_inbox">Ulazna pošta, ulazne poruke, ulazni spremnik</string>
+    <string name="navigation_profile">Profil</string>
+    <string name="navigation_search">Istražite</string>
+    <string name="navigation_settings">Postavke</string>
+    <string name="post_action_cross_post">cross-post</string>
+    <string name="post_action_edit">Uredi…</string>
+    <string name="post_action_hide">Sakrij</string>
+    <string name="post_action_report">Izvještaj</string>
+    <string name="post_action_see_raw">Prikaži neobrađeno</string>
+    <string name="post_action_share">Dijeli…</string>
+    <string name="post_detail_cross_posts">također objavljeno na:</string>
+    <string name="post_detail_load_more_comments">Učitaj više komentara</string>
+    <string name="post_hour_short">h</string>
+    <string name="post_minute_short">m</string>
+    <string name="post_second_short">s</string>
+    <string name="profile_button_login">Prijava</string>
+    <string name="profile_day_short">d</string>
+    <string name="profile_million_short">m</string>
+    <string name="profile_month_short">m</string>
+    <string name="profile_not_logged_message">Trenutačno niste prijavljeni.\nZa nastavakunesite
+        korisnički
+        račun.
+    </string>
+    <string name="profile_section_comments">Komentari</string>
+    <string name="profile_section_posts">Objave</string>
+    <string name="profile_thousand_short">k</string>
+    <string name="profile_year_short">y</string>
+    <string name="settings_about">O ovoj aplikaciji…</string>
+    <string name="settings_about_app_version">Inačica aplikacije</string>
+    <string name="settings_about_changelog">Pogledajte cjelovitu evidenciju promjena</string>
+    <string name="settings_about_report_github">Prijavite pogrešku (GitHub)</string>
+    <string name="settings_about_report_email">Prijavite pogrešku (e-mail)</string>
+    <string name="settings_about_view_github">Pogledaj na GitHubu</string>
+    <string name="settings_about_view_lemmy">Zajednica Lemmy</string>
+    <string name="settings_auto_expand_comments">Automatski proširi komentare</string>
+    <string name="settings_auto_load_images">Automatski učitavaj slike</string>
+    <string name="settings_blur_nsfw">Zamućenje NSFW slika</string>
+    <string name="settings_color_aquamarine">🐬 Ometeni dupin</string>
+    <string name="settings_color_banana">🦔 Urnebesni jež</string>
+    <string name="settings_color_blue">🐳 Duhoviti kit</string>
+    <string name="settings_color_custom">Analiza</string>
+    <string name="settings_color_dialog_alpha">A</string>
+    <string name="settings_color_dialog_blue">B</string>
+    <string name="settings_color_dialog_green">G</string>
+    <string name="settings_color_dialog_red">R</string>
+    <string name="settings_color_dialog_title">Odabir boje</string>
+    <string name="settings_color_gray">🦝 Proždrljivi rakun</string>
+    <string name="settings_color_green">🐸 Frolicsome žaba</string>
+    <string name="settings_color_orange">🦊 Vatrena lisica</string>
+    <string name="settings_color_pink">🦄 Jedinstveni jednorog</string>
+    <string name="settings_color_purple">🐙 Okeanska hobotnica</string>
+    <string name="settings_color_red">🦀 Hrskavi rak</string>
+    <string name="settings_color_white">🐼 Medvjed lutalica</string>
+    <string name="settings_content_font_large">Veliki</string>
+    <string name="settings_content_font_larger">Jako velika</string>
+    <string name="settings_content_font_largest">Dvostruko ekstra velika</string>
+    <string name="settings_content_font_normal">Normalno</string>
+    <string name="settings_content_font_scale">Veličina teksta sadržaja</string>
+    <string name="settings_content_font_small">Mali</string>
+    <string name="settings_content_font_smaller">jako malo</string>
+    <string name="settings_content_font_smallest">Dvostruko, vrlo malo</string>
+    <string name="settings_custom_seed_color">Prilagođena boja teme</string>
+    <string name="settings_default_comment_sort_type">Zadana vrsta sortiranja komentara</string>
+    <string name="settings_default_listing_type">Zadana vrsta feeda</string>
+    <string name="settings_default_post_sort_type">Zadana vrsta sortiranja posta</string>
+    <string name="settings_downvote_color">Boja donjeg glasa</string>
+    <string name="settings_dynamic_colors">Upotrijebite dinamične boje</string>
+    <string name="settings_enable_crash_report">Omogući izvješćivanje o sudaru</string>
+    <string name="settings_enable_double_tap">Omogućite radnju dvostrukog dodira</string>
+    <string name="settings_enable_swipe_actions">Omogući radnje povlačenja prstom</string>
+    <string name="settings_full_height_images">Slike pune visine</string>
+    <string name="settings_include_nsfw">Uključi sadržaj NSFW-a</string>
+    <string name="settings_language">Jezik</string>
+    <string name="settings_navigation_bar_titles_visible">Prikaži naslove navigacijske trake
+    </string>
+    <string name="settings_open_url_external">Otvori URL-ove u vanjskom pregledniku</string>
+    <string name="settings_points_short">pt</string>
+    <string name="settings_post_layout">Izgled objave</string>
+    <string name="settings_post_layout_card">Kartica</string>
+    <string name="settings_post_layout_compact">Kompaktno</string>
+    <string name="settings_post_layout_full">Puna baterija</string>
+    <string name="settings_section_appearance">izgled i osje�aj</string>
+    <string name="settings_section_behaviour">Ponašanje</string>
+    <string name="settings_section_debug">Debug</string>
+    <string name="settings_section_feed">Objave i komentari</string>
+    <string name="settings_section_nsfw">NSFW</string>
+    <string name="settings_separate_up_and_downvotes">Odvojeni glasovi za / protiv</string>
+    <string name="settings_theme_black">Čista crna</string>
+    <string name="settings_theme_dark">Tamni</string>
+    <string name="settings_theme_light">Lagano</string>
+    <string name="settings_ui_font_family">Font korisničkog sučelja</string>
+    <string name="settings_ui_font_scale">Veličina teksta korisničkog sučelja</string>
+    <string name="settings_ui_theme">Tema korisničkog sučelja</string>
+    <string name="settings_upvote_color">Boja za glasanje</string>
+    <string name="settings_hide_navigation_bar">Sakrij navigacijsku traku prilikom pomicanja
+    </string>
+    <string name="settings_zombie_mode_interval">Trajanje intervala zombi načina rada</string>
+    <string name="settings_zombie_mode_scroll_amount">Količina pomicanja u zombi načinu rada
+    </string>
+</resources>
