@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.search.main
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -43,6 +44,7 @@ class ExploreViewModel(
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
+    private val contentResetCoordinator: ContentResetCoordinator,
 ) : ExploreMviModel,
     MviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect> by mvi {
 
@@ -81,10 +83,6 @@ class ExploreViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ResetContents::class).onEach {
-                // apply feed and sort type
-                firstLoad = true
-            }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
@@ -94,6 +92,11 @@ class ExploreViewModel(
                 }.launchIn(this)
         }
 
+        if (contentResetCoordinator.resetExplore) {
+            contentResetCoordinator.resetExplore = false
+            // apply new feed and sort type
+            firstLoad = true
+        }
         if (firstLoad) {
             firstLoad = false
             val settings = settingsRepository.currentSettings.value
@@ -106,8 +109,8 @@ class ExploreViewModel(
                 )
             }
             mvi.scope?.launch(Dispatchers.IO) {
-                mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
                 refresh()
+                mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
             }
         }
     }

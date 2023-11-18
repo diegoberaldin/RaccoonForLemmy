@@ -39,7 +39,6 @@ sealed interface NotificationCenterEvent {
     data class ChangeColor(val color: Color?) : NotificationCenterEvent
     data class ChangeZombieScrollAmount(val value: Float) : NotificationCenterEvent
     data class MultiCommunityCreated(val model: MultiCommunityModel) : NotificationCenterEvent
-    data object ResetContents : NotificationCenterEvent
     data object CloseDialog : NotificationCenterEvent
     data class SelectCommunity(val model: CommunityModel) : NotificationCenterEvent
 }

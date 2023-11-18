@@ -4,6 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Theme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -41,6 +42,7 @@ class PostListViewModel(
     private val hapticFeedback: HapticFeedback,
     private val zombieModeHelper: ZombieModeHelper,
     private val imagePreloadManager: ImagePreloadManager,
+    private val contentResetCoordinator: ContentResetCoordinator,
 ) : PostListMviModel,
     MviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect> by mvi {
 
@@ -87,10 +89,6 @@ class PostListViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class).onEach { evt ->
                 handlePostDelete(evt.model.id)
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ResetContents::class).onEach {
-                // apply new feed and sort type
-                firstLoad = true
-            }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
                 if (uiState.value.zombieModeActive) {
@@ -107,6 +105,11 @@ class PostListViewModel(
             mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
         }
 
+        if (contentResetCoordinator.resetHome) {
+            contentResetCoordinator.resetHome = false
+            // apply new feed and sort type
+            firstLoad = true
+        }
         if (firstLoad) {
             firstLoad = false
             val settings = settingsRepository.currentSettings.value
@@ -117,8 +120,8 @@ class PostListViewModel(
                 )
             }
             mvi.scope?.launch(Dispatchers.IO) {
-                mvi.emitEffect(PostListMviModel.Effect.BackToTop)
                 refresh()
+                mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             }
         }
     }

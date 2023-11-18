@@ -47,6 +47,7 @@ val coreIdentityModule = module {
             accountRepository = get(),
             notificationCenter = get(),
             settingsRepository = get(),
+            contentResetCoordinator = get(),
         )
     }
     single<SwitchAccountUseCase> {

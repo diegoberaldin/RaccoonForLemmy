@@ -26,6 +26,7 @@ val homeTabModule = module {
             hapticFeedback = get(),
             zombieModeHelper = get(),
             imagePreloadManager = get(),
+            contentResetCoordinator = get(),
         )
     }
 }

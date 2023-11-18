@@ -20,6 +20,7 @@ val settingsTabModule = module {
             notificationCenter = get(),
             crashReportConfiguration = get(),
             crashReportSender = get(),
+            contentResetCoordinator = get(),
         )
     }
     factory<AboutDialogMviModel> {
