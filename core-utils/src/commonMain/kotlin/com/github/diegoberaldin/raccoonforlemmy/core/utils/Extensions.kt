@@ -9,6 +9,7 @@ import kotlin.math.round
 
 @Composable
 fun String.toLanguageName() = when (this) {
+    "bg" -> stringResource(MR.strings.language_bg)
     "cz" -> stringResource(MR.strings.language_cz)
     "dk" -> stringResource(MR.strings.language_dk)
     "de" -> stringResource(MR.strings.language_de)

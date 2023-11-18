@@ -98,6 +98,7 @@
     <string name="instance_detail_communities">Communities</string>
     <string name="instance_detail_title">Instance: %1$s</string>
     <string name="lang">en</string>
+    <string name="language_bg" translatable="false">български</string>
     <string name="language_cz" translatable="false">Čeština</string>
     <string name="language_de" translatable="false">Deutsch</string>
     <string name="language_dk" translatable="false">Dansk</string>
