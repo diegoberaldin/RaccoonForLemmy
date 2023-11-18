@@ -115,6 +115,7 @@
     <string name="language_ro" translatable="false">Română</string>
     <string name="language_se" translatable="false">Svenska</string>
     <string name="language_sk" translatable="false">Slovenčina</string>
+    <string name="language_sl" translatable="false">Slovenščina</string>
     <string name="login_field_instance_name">Instance name</string>
     <string name="login_field_label_optional">(optional)</string>
     <string name="login_field_password">Password</string>
