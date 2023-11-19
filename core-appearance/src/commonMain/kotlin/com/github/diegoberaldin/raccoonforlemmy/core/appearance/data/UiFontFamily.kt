@@ -9,9 +9,11 @@ enum class UiFontFamily {
     NotoSans,
     Prociono,
     Laila,
+    Poppins,
 }
 
 fun Int.toUiFontFamily() = when (this) {
+    6 -> UiFontFamily.Poppins
     5 -> UiFontFamily.Laila
     4 -> UiFontFamily.Prociono
     3 -> UiFontFamily.NotoSans
@@ -21,6 +23,7 @@ fun Int.toUiFontFamily() = when (this) {
 }
 
 fun UiFontFamily.toInt() = when (this) {
+    UiFontFamily.Poppins -> 6
     UiFontFamily.Laila -> 5
     UiFontFamily.Prociono -> 4
     UiFontFamily.NotoSans -> 3
@@ -31,6 +34,7 @@ fun UiFontFamily.toInt() = when (this) {
 
 @Composable
 fun UiFontFamily.toReadableName() = when (this) {
+    UiFontFamily.Poppins -> "Poppins"
     UiFontFamily.Laila -> "Laila"
     UiFontFamily.Prociono -> "Prociono"
     UiFontFamily.NotoSans -> "Noto Sans"

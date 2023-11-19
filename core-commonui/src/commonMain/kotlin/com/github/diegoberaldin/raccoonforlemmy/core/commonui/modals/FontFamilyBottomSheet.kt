@@ -31,6 +31,7 @@ class FontFamilyBottomSheet(
     private val values: List<UiFontFamily> = listOf(
         UiFontFamily.TitilliumWeb,
         UiFontFamily.NotoSans,
+        UiFontFamily.Poppins,
         UiFontFamily.Dosis,
         UiFontFamily.Laila,
         UiFontFamily.Prociono,
@@ -88,6 +89,7 @@ class FontFamilyBottomSheet(
                                 UiFontFamily.CormorantGaramond -> fontFamilyResource(MR.fonts.CormorantGaramond.regular)
                                 UiFontFamily.Dosis -> fontFamilyResource(MR.fonts.Dosis.regular)
                                 UiFontFamily.Laila -> fontFamilyResource(MR.fonts.Laila.regular)
+                                UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
                                 else -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
                             }
                             Text(
