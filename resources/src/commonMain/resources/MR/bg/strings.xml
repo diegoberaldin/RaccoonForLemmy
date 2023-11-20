@@ -234,7 +234,7 @@
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_separate_up_and_downvotes">Отделни положителни / отрицателни гласове
     </string>
-    <string name="settings_theme_black">Чисто черно</string>
+    <string name="settings_theme_black">Тъмно (AMOLED)</string>
     <string name="settings_theme_dark">Тъмно</string>
     <string name="settings_theme_light">Светло</string>
     <string name="settings_ui_font_family">Шрифт на потребителския интерфейс</string>

@@ -230,7 +230,7 @@
     <string name="settings_section_feed">Objave i komentari</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_separate_up_and_downvotes">Odvojeni glasovi za / protiv</string>
-    <string name="settings_theme_black">Čista crna</string>
+    <string name="settings_theme_black">Tamni (AMOLED)</string>
     <string name="settings_theme_dark">Tamni</string>
     <string name="settings_theme_light">Lagano</string>
     <string name="settings_ui_font_family">Font korisničkog sučelja</string>

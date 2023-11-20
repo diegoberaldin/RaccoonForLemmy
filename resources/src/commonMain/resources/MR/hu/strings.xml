@@ -229,7 +229,7 @@
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_separate_up_and_downvotes">Különítse el a felfelé /lefelé szavazókat
     </string>
-    <string name="settings_theme_black">Tiszta fekete</string>
+    <string name="settings_theme_black">Sötét (AMOLED)</string>
     <string name="settings_theme_dark">Sötét</string>
     <string name="settings_theme_light">Enyhe</string>
     <string name="settings_ui_font_family">Felhasználói felület betűtípusa</string>

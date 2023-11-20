@@ -228,7 +228,7 @@
     <string name="settings_section_feed">Objave in komentarji</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_separate_up_and_downvotes">Ločeni glasovi za/proti</string>
-    <string name="settings_theme_black">Čista črna</string>
+    <string name="settings_theme_black">Tema (AMOLED)</string>
     <string name="settings_theme_dark">Tema</string>
     <string name="settings_theme_light">Luč</string>
     <string name="settings_ui_font_family">Pisava uporabniškega vmesnika</string>

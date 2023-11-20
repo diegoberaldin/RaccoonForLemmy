@@ -211,7 +211,7 @@
     <string name="settings_section_feed">Indlæg og kommentarer</string>
     <string name="settings_section_nsfw">nsfw</string>
     <string name="settings_separate_up_and_downvotes">Separate upvotes/downvotes</string>
-    <string name="settings_theme_black">Ren sort</string>
+    <string name="settings_theme_black">Mørk (AMOLED)</string>
     <string name="settings_theme_dark">Mørk</string>
     <string name="settings_theme_light">Let</string>
     <string name="settings_ui_font_family">Brugergrænsefladeskriftty</string>
