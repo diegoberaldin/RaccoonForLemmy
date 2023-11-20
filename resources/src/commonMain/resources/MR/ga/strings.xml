@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="action_back_to_top">Ar ais go barr</string>
+    <string name="action_chat">Seol Teachtaireacht</string>
+    <string name="action_clear_read">Glan an léamh</string>
+    <string name="action_create_post">Cruthaigh postáil</string>
+    <string name="action_reply">Freagair</string>
+    <string name="action_activate_zombie_mode">Gníomhachtaigh an mód zombaí</string>
+    <string name="action_deactivate_zombie_mode">Díghníomhachtaigh an mód zombaí</string>
+    <string name="button_close">Dún</string>
+    <string name="button_confirm">Deimhnigh</string>
+    <string name="button_load">Ualach</string>
+    <string name="button_reset">Athshocraigh</string>
+    <string name="button_retry">Atriail</string>
+    <string name="comment_action_delete">Scrios</string>
+    <string name="community_detail_block">BlocThe shape of the cursor, similar to a capital I
+    </string>
+    <string name="community_detail_block_instance">Blocshampla</string>
+    <string name="community_detail_info">Eolas pobail</string>
+    <string name="community_detail_instance_info">Sonraí an cháis</string>
+    <string name="community_info_comments">Nótaí</string>
+    <string name="community_info_daily_active_users">úsáideoirí gníomhacha (lá)</string>
+    <string name="community_info_monthly_active_users">úsáideoirí gníomhacha (mí)</string>
+    <string name="community_info_posts">Postálacha</string>
+    <string name="community_info_subscribers">síntiúsóir</string>
+    <string name="community_info_weekly_active_users">úsáideoirí gníomhacha (seachtain)</string>
+    <string name="create_comment_body">Comhlacht nótaí</string>
+    <string name="create_comment_title">Nóta nua</string>
+    <string name="create_post_body">Comhlacht poist</string>
+    <string name="create_post_community">Pobal</string>
+    <string name="create_post_cross_post_text">Crosphostáilte ó:</string>
+    <string name="create_post_name">Teideal an phoist</string>
+    <string name="create_post_nsfw">NSFW</string>
+    <string name="create_post_tab_editor">Eagarthóir</string>
+    <string name="create_post_tab_preview">Réamhamharc</string>
+    <string name="create_post_title">Postáil nua</string>
+    <string name="create_post_url">URL</string>
+    <string name="create_report_placeholder">Tuairiscigh téacs (roghnach)</string>
+    <string name="create_report_title_comment">Tuairiscigh an nóta tráchta</string>
+    <string name="create_report_title_post">Postáil tuairisce</string>
+    <string name="dialog_raw_content_text">Téacs</string>
+    <string name="dialog_raw_content_title">Teideal</string>
+    <string name="dialog_raw_content_url">URL</string>
+    <string name="dialog_title_change_instance">Athraigh an cás</string>
+    <string name="dialog_title_raw_content">Cion amh</string>
+    <string name="dialog_title_select_community">Roghnaigh pobal</string>
+    <string name="edit_comment_title">Cuir trácht in eagar</string>
+    <string name="edit_post_title">Cuir an postáil in eagar</string>
+    <string name="explore_result_type_all">Gach</string>
+    <string name="explore_result_type_comments">Nótaí</string>
+    <string name="explore_result_type_communities">An Coimisiún Eorpach</string>
+    <string name="explore_result_type_posts">Postálacha</string>
+    <string name="explore_result_type_users">Úsáideoirí</string>
+    <string name="explore_search_placeholder">Cuardaigh</string>
+    <string name="home_instance_via">trí %1$s</string>
+    <string name="home_listing_title">Fothaí</string>
+    <string name="home_listing_type_all">Gach</string>
+    <string name="home_listing_type_local">Áitiúil</string>
+    <string name="home_listing_type_subscribed">Liostáilte</string>
+    <string name="home_sort_title">Sórtáil de réir:</string>
+    <string name="home_sort_type_active">Gníomhach</string>
+    <string name="home_sort_type_controversial">Conspóideach</string>
+    <string name="home_sort_type_hot">weather forecast</string>
+    <string name="home_sort_type_most_comments">An chuid is mó de na tuairimí</string>
+    <string name="home_sort_type_new">Nua</string>
+    <string name="home_sort_type_new_comments">Nótaí nua</string>
+    <string name="home_sort_type_old">Sean</string>
+    <string name="home_sort_type_scaled">Scálaithe</string>
+    <string name="home_sort_type_top">Barr</string>
+    <string name="home_sort_type_top_12_hours">Na 12 uair an chloig is fearr</string>
+    <string name="home_sort_type_top_12_hours_short">12h</string>
+    <string name="home_sort_type_top_6_hours">Na 6 uair an chloig is fearr</string>
+    <string name="home_sort_type_top_6_hours_short">6h</string>
+    <string name="home_sort_type_top_day">An lá is fearr</string>
+    <string name="home_sort_type_top_day_short">lá</string>
+    <string name="home_sort_type_top_hour">An uair is fearr</string>
+    <string name="home_sort_type_top_hour_short">1h</string>
+    <string name="home_sort_type_top_month">An mhí is fearr</string>
+    <string name="home_sort_type_top_month_short">sa mhí</string>
+    <string name="home_sort_type_top_week">An tseachtain is fearr</string>
+    <string name="home_sort_type_top_week_short">seachtain</string>
+    <string name="home_sort_type_top_year">An bhliain is fearr</string>
+    <string name="home_sort_type_top_year_short">bliain</string>
+    <string name="inbox_action_mark_read">Marcáil Mar Léite</string>
+    <string name="inbox_action_mark_unread">Marcáil Neamhléite</string>
+    <string name="inbox_chat_message">Teachtaireacht</string>
+    <string name="inbox_item_mention">a luadh tú i</string>
+    <string name="inbox_item_reply_comment">d\'fhreagair sé do bharúil i</string>
+    <string name="inbox_item_reply_post">d\'fhreagair sé do phostáil i</string>
+    <string name="inbox_listing_type_all">Gach</string>
+    <string name="inbox_listing_type_title">Cineál an bhosca isteach</string>
+    <string name="inbox_listing_type_unread">Gan Léamh@ title: column Column showing the total
+        number of messages
+    </string>
+    <string name="inbox_not_logged_message">Níl tú logáilte isteach faoi láthair.\nCuir cuntas leis,
+        le
+        do thoil ón scáileán próifíle chun do bhosca isteach a fheiceáil.
+    </string>
+    <string name="inbox_section_mentions">Luaigh</string>
+    <string name="inbox_section_messages">Teachtaireachtaí</string>
+    <string name="inbox_section_replies">Freagraí</string>
+    <string name="instance_detail_communities">An Coimisiún Eorpach</string>
+    <string name="instance_detail_title">Ásc: %1$s</string>
+    <string name="lang">ga</string>
+    <string name="language_bg" translatable="false">български</string>
+    <string name="language_cs" translatable="false">Čeština</string>
+    <string name="language_de" translatable="false">Deutsch</string>
+    <string name="language_da" translatable="false">Dansk</string>
+    <string name="language_el" translatable="false">Ελληνικά</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_et" translatable="false">Eesti</string>
+    <string name="language_fi" translatable="false">Suomi</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_hu" translatable="false">Magyar</string>
+    <string name="language_hr" translatable="false">Hrvatski</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_lv" translatable="false">Latviešu</string>
+    <string name="language_lt" translatable="false">Lietuvių</string>
+    <string name="language_no" translatable="false">Norsk</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_pl" translatable="false">Polski</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="language_se" translatable="false">Svenska</string>
+    <string name="language_sk" translatable="false">Slovenčina</string>
+    <string name="language_sl" translatable="false">Slovenščina</string>
+    <string name="login_field_instance_name">Ainm áisc:</string>
+    <string name="login_field_label_optional">(roghnach)</string>
+    <string name="login_field_password">Pasfhocal</string>
+    <string name="login_field_token">Comhartha TOTP 2FA</string>
+    <string name="login_field_user_name">Ainm úsáideora (nó ríomhphost)</string>
+    <string name="manage_accounts_button_add">Cuir cuntas leis</string>
+    <string name="manage_accounts_title">Cuntais a bhainistiú</string>
+    <string name="manage_subscriptions_header_multicommunities">Ilphobail</string>
+    <string name="manage_subscriptions_header_subscriptions">Suibscríobh</string>
+    <string name="message_empty_comments">Tásé ró - thost ann.\nAr mhaith leat a bheith ar an duine
+        a
+        scríobhann an chéad trácht?
+    </string>
+    <string name="message_empty_list">Níl aon earraí le taispeáint</string>
+    <string name="message_error_loading_comments">Tharla earráid agus tuairimí á luchtú.</string>
+    <string name="message_generic_error">Earráid ghinearálta</string>
+    <string name="message_image_loading_error">Earráid le luchtú íomhánna</string>
+    <string name="message_invalid_field">Réimse neamhbhailí</string>
+    <string name="message_missing_field">Réimse ar iarraidh</string>
+    <string name="message_operation_successful">Críochnaíodh an oibríocht go rathúil</string>
+    <string name="multi_community_editor_communities">An Coimisiún Eorpach</string>
+    <string name="multi_community_editor_icon">Deilbhín</string>
+    <string name="multi_community_editor_name">Ainm</string>
+    <string name="multi_community_editor_title">Eagarthóir ilphobail</string>
+    <string name="navigation_drawer_anonymous">Gan ainm</string>
+    <string name="navigation_drawer_title_bookmarks">Míreanna sábháilte</string>
+    <string name="navigation_drawer_title_subscriptions">Suibscríobh</string>
+    <string name="navigation_home">Postálacha</string>
+    <string name="navigation_inbox">Bosca Isteach</string>
+    <string name="navigation_profile">Próifíl</string>
+    <string name="navigation_search">Cuardach</string>
+    <string name="navigation_settings">Socruithe</string>
+    <string name="post_action_cross_post">Trasphost…</string>
+    <string name="post_action_edit">Eagar…</string>
+    <string name="post_action_hide">Folaigh</string>
+    <string name="post_action_report">Tuairiscigh</string>
+    <string name="post_action_see_raw">Féach RAW…</string>
+    <string name="post_action_share">Roinn</string>
+    <string name="post_detail_cross_posts">sa phost freisin chuig:</string>
+    <string name="post_detail_load_more_comments">Lódáil tuilleadh tuairimí…</string>
+    <string name="post_hour_short">h</string>
+    <string name="post_minute_short">m</string>
+    <string name="post_second_short">s</string>
+    <string name="profile_button_login">Logáil Isteach</string>
+    <string name="profile_day_short">d</string>
+    <string name="profile_million_short">m</string>
+    <string name="profile_month_short">m</string>
+    <string name="profile_not_logged_message">Níl tú logáilte isteach faoi láthair.\nCuir cuntas
+        leis,
+        le do thoil, chun leanúint ar aghaidh.
+    </string>
+    <string name="profile_section_comments">Nótaí</string>
+    <string name="profile_section_posts">Postálacha</string>
+    <string name="profile_thousand_short">k</string>
+    <string name="profile_year_short">y</string>
+    <string name="settings_about">Maidir leis an aip seo...</string>
+    <string name="settings_about_app_version">Leagan feidhmchláir</string>
+    <string name="settings_about_changelog">Féach ar an loga athraithe iomlán</string>
+    <string name="settings_about_report_github">Tuairiscigh fabht (GitHub)</string>
+    <string name="settings_about_report_email">Tuairiscigh fabht (ríomhphost)</string>
+    <string name="settings_about_view_github">Féach ar GitHub</string>
+    <string name="settings_about_view_lemmy">Pobal Lemmy</string>
+    <string name="settings_auto_expand_comments">Leathnaigh tuairimí go huathoibríoch</string>
+    <string name="settings_auto_load_images">Luchtaigh íomhánna go huathoibríoch</string>
+    <string name="settings_blur_nsfw">Doiléirigh íomhánna NSFW</string>
+    <string name="settings_color_aquamarine">🐬 Deilf dhealaithe</string>
+    <string name="settings_color_banana">🦔 Gráinneog ghreannmhar</string>
+    <string name="settings_color_blue">🐳 Míol mór geal</string>
+    <string name="settings_color_custom">Féindeánamh</string>
+    <string name="settings_color_dialog_alpha">A</string>
+    <string name="settings_color_dialog_blue">B</string>
+    <string name="settings_color_dialog_green">G</string>
+    <string name="settings_color_dialog_red">R</string>
+    <string name="settings_color_dialog_title">Roghnaigh dath</string>
+    <string name="settings_color_gray">🦝 Racún rábach</string>
+    <string name="settings_color_green">🐸 Frog rollraicómach</string>
+    <string name="settings_color_orange">🦊 Sionnach fíochmhar</string>
+    <string name="settings_color_pink">🦄 Aonbheannach uathúil</string>
+    <string name="settings_color_purple">🐙 Ochtapas aigéanach</string>
+    <string name="settings_color_red">🦀 Portán géarchúiseach</string>
+    <string name="settings_color_white">🐼 Béar bambú</string>
+    <string name="settings_content_font_large">Mór</string>
+    <string name="settings_content_font_larger">An - mhór</string>
+    <string name="settings_content_font_largest">An - mhór dúbailte</string>
+    <string name="settings_content_font_normal">Gnáth</string>
+    <string name="settings_content_font_scale">Méid an ábhair</string>
+    <string name="settings_content_font_small">Beag</string>
+    <string name="settings_content_font_smaller">An - bheag</string>
+    <string name="settings_content_font_smallest">Dhá oiread beag breise</string>
+    <string name="settings_custom_seed_color">Dath saincheaptha an téama</string>
+    <string name="settings_default_comment_sort_type">Cineál sórtála réamhshocraithe tráchta
+    </string>
+    <string name="settings_default_listing_type">Cineál fotha réamhshocraithe</string>
+    <string name="settings_default_post_sort_type">Cineál sórtála réamhshocraithe poist</string>
+    <string name="settings_downvote_color">Dath Downvote</string>
+    <string name="settings_dynamic_colors">Úsáid dathanna dinimiciúla</string>
+    <string name="settings_enable_crash_report">Cumasaigh tuairisciú tuairte</string>
+    <string name="settings_enable_double_tap">Cumasaigh gníomh dhá thapáil</string>
+    <string name="settings_enable_swipe_actions">Cumasaigh svaidhpeáil gníomhartha</string>
+    <string name="settings_full_height_images">Íomhánna lánairde</string>
+    <string name="settings_include_nsfw">Cuir ábhar NSFW san áireamh</string>
+    <string name="settings_language">Teangacha</string>
+    <string name="settings_navigation_bar_titles_visible">Taispeáin teidil an bharra nascleanúna
+    </string>
+    <string name="settings_open_url_external">Oscail i mBrabhsálaí Seachtrach</string>
+    <string name="settings_points_short">pt</string>
+    <string name="settings_post_layout">Leagan amach an phoist</string>
+    <string name="settings_post_layout_card">cárta</string>
+    <string name="settings_post_layout_compact">Dlúth</string>
+    <string name="settings_post_layout_full">Iomlán</string>
+    <string name="settings_section_appearance">Cuma</string>
+    <string name="settings_section_behaviour">Iompar</string>
+    <string name="settings_section_debug">Dífhabhtú</string>
+    <string name="settings_section_feed">Poist agus tuairimí</string>
+    <string name="settings_section_nsfw">NSFW</string>
+    <string name="settings_separate_up_and_downvotes">Suasvótaí/íosvótaí ar leith</string>
+    <string name="settings_theme_black">Íon - dubh</string>
+    <string name="settings_theme_dark">Dorcha</string>
+    <string name="settings_theme_light">Solas</string>
+    <string name="settings_ui_font_family">Cló an Chomhéadain</string>
+    <string name="settings_ui_font_scale">Méid théacs an chomhéadain</string>
+    <string name="settings_ui_theme">Téama an Chomhéadain</string>
+    <string name="settings_upvote_color">Dath uasvótála</string>
+    <string name="settings_hide_navigation_bar">Folaigh an barra nascleanúna agus tú ag scrollú
+    </string>
+    <string name="settings_zombie_mode_interval">Fad eatramh an mhóid Zombaí</string>
+    <string name="settings_zombie_mode_scroll_amount">Méid scrollaithe an mhóid Zombie</string>
+</resources>

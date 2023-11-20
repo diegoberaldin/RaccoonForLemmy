@@ -102,6 +102,7 @@
     <string name="language_cs" translatable="false">Čeština</string>
     <string name="language_de" translatable="false">Deutsch</string>
     <string name="language_da" translatable="false">Dansk</string>
+    <string name="language_ga" translatable="false">Gaeilge</string>
     <string name="language_el" translatable="false">Ελληνικά</string>
     <string name="language_en" translatable="false">English</string>
     <string name="language_es" translatable="false">Español</string>
