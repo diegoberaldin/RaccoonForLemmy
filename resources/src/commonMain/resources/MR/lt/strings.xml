@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="action_back_to_top">Atgal į viršų</string>
+    <string name="action_chat">Siųsti žinutę</string>
+    <string name="action_clear_read">Išvalyti skaitymą</string>
+    <string name="action_create_post">Sukurti įrašą</string>
+    <string name="action_reply">Atsakyti</string>
+    <string name="action_activate_zombie_mode">Suaktyvinti zombių režimą</string>
+    <string name="action_deactivate_zombie_mode">Išjungti zombių režimą</string>
+    <string name="button_close">Uždaryti</string>
+    <string name="button_confirm">Patvirtinti</string>
+    <string name="button_load">Apkrova</string>
+    <string name="button_reset">Atkurti numatytuosius nustatymus</string>
+    <string name="button_retry">Bandyti dar kartą</string>
+    <string name="comment_action_delete">Ištrinti</string>
+    <string name="community_detail_block">Blokas</string>
+    <string name="community_detail_block_instance">Blokuoti potyrį</string>
+    <string name="community_detail_info">Bendruomenės informacija</string>
+    <string name="community_detail_instance_info">Egzemplioriaus informacija</string>
+    <string name="community_info_comments">Komentarai</string>
+    <string name="community_info_daily_active_users">aktyvūs vartotojai (diena)</string>
+    <string name="community_info_monthly_active_users">aktyvūs vartotojai (mėnuo)</string>
+    <string name="community_info_posts">pranešimai</string>
+    <string name="community_info_subscribers">Prenumeruotojai</string>
+    <string name="community_info_weekly_active_users">aktyvūs vartotojai (savaitė)</string>
+    <string name="create_comment_body">Komentaro tekstas</string>
+    <string name="create_comment_title">Naujas komentaras</string>
+    <string name="create_post_body">Paskelbti tekstą</string>
+    <string name="create_post_community">Bendruomenė</string>
+    <string name="create_post_cross_post_text">Kryžminis pranešimas paskelbtas nuo:</string>
+    <string name="create_post_name">Antraštė</string>
+    <string name="create_post_nsfw">NSFW</string>
+    <string name="create_post_tab_editor">Rengyklė</string>
+    <string name="create_post_tab_preview">Peržiūra</string>
+    <string name="create_post_title">(naujos darbo vietos)</string>
+    <string name="create_post_url">URL</string>
+    <string name="create_report_placeholder">Ataskaitos tekstas (neprivaloma)</string>
+    <string name="create_report_title_comment">Pranešti apie komentarą</string>
+    <string name="create_report_title_post">- Rapport: Post</string>
+    <string name="dialog_raw_content_text">Tekstas:</string>
+    <string name="dialog_raw_content_title">Antraštė</string>
+    <string name="dialog_raw_content_url">URL</string>
+    <string name="dialog_title_change_instance">Keisti potyrį</string>
+    <string name="dialog_title_raw_content">Neapdorotas turinys</string>
+    <string name="dialog_title_select_community">Pasirinkti Bendruomenę</string>
+    <string name="edit_comment_title">Redaguoti komentarą</string>
+    <string name="edit_post_title">Redaguoti postą</string>
+    <string name="explore_result_type_all">Viskas</string>
+    <string name="explore_result_type_comments">komentarai</string>
+    <string name="explore_result_type_communities">Bendruomenės</string>
+    <string name="explore_result_type_posts">Postai</string>
+    <string name="explore_result_type_users">Naudotojai</string>
+    <string name="explore_search_placeholder">Ieškoti</string>
+    <string name="home_instance_via">per%1$s</string>
+    <string name="home_listing_title">Pašarai</string>
+    <string name="home_listing_type_all">Viskas</string>
+    <string name="home_listing_type_local">Vietinė</string>
+    <string name="home_listing_type_subscribed">Užprenumeruota</string>
+    <string name="home_sort_title">Rūšiuoti pagal</string>
+    <string name="home_sort_type_active">Aktyvu</string>
+    <string name="home_sort_type_controversial">Ginčytina</string>
+    <string name="home_sort_type_hot">Populiarus</string>
+    <string name="home_sort_type_most_comments">Daugiausiai komentuojami</string>
+    <string name="home_sort_type_new">Nauja</string>
+    <string name="home_sort_type_new_comments">Nauji komentarai</string>
+    <string name="home_sort_type_old">Senas</string>
+    <string name="home_sort_type_scaled">Ištemptas</string>
+    <string name="home_sort_type_top">Viršus</string>
+    <string name="home_sort_type_top_12_hours">Populiariausia 12 valandų viršuje</string>
+    <string name="home_sort_type_top_12_hours_short">12 val.</string>
+    <string name="home_sort_type_top_6_hours">6 val.</string>
+    <string name="home_sort_type_top_6_hours_short">6 val.</string>
+    <string name="home_sort_type_top_day">Populiariausia diena</string>
+    <string name="home_sort_type_top_day_short">diena</string>
+    <string name="home_sort_type_top_hour">Populiariausia valanda</string>
+    <string name="home_sort_type_top_hour_short">1 val.</string>
+    <string name="home_sort_type_top_month">Populiariausia mėnuo</string>
+    <string name="home_sort_type_top_month_short">mėnesis</string>
+    <string name="home_sort_type_top_week">Populiariausia savaitė</string>
+    <string name="home_sort_type_top_week_short">savaitė</string>
+    <string name="home_sort_type_top_year">Populiariausia metai</string>
+    <string name="home_sort_type_top_year_short">metai</string>
+    <string name="inbox_action_mark_read">Pažymėti kai perskaityta</string>
+    <string name="inbox_action_mark_unread">Pažymėti kai neskaityta</string>
+    <string name="inbox_chat_message">Pranešimas</string>
+    <string name="inbox_item_mention">paminėjo jus</string>
+    <string name="inbox_item_reply_comment">atsakė į jūsų komentarą</string>
+    <string name="inbox_item_reply_post">atsakė į jūsų įrašą</string>
+    <string name="inbox_listing_type_all">Viskas</string>
+    <string name="inbox_listing_type_title">Pašto dėžutės tipas</string>
+    <string name="inbox_listing_type_unread">Neperskaityta</string>
+    <string name="inbox_not_logged_message">Šiuo metu nesate prisijungę.Pridėkite\n paskyrą
+        profilio ekrane, kad pamatytumėte savo pašto dėžutę.
+    </string>
+    <string name="inbox_section_mentions">Paminėjimai</string>
+    <string name="inbox_section_messages">Žinutės</string>
+    <string name="inbox_section_replies">Atsakymai</string>
+    <string name="instance_detail_communities">Bendruomenės</string>
+    <string name="instance_detail_title">Egzempliorius: %1$s</string>
+    <string name="lang">lt</string>
+    <string name="language_bg" translatable="false">български</string>
+    <string name="language_cs" translatable="false">Čeština</string>
+    <string name="language_de" translatable="false">Deutsch</string>
+    <string name="language_da" translatable="false">Dansk</string>
+    <string name="language_el" translatable="false">Ελληνικά</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_fi" translatable="false">Suomi</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_hu" translatable="false">Magyar</string>
+    <string name="language_hr" translatable="false">Hrvatski</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_no" translatable="false">Norsk</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_pl" translatable="false">Polski</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="language_se" translatable="false">Svenska</string>
+    <string name="language_sk" translatable="false">Slovenčina</string>
+    <string name="language_sl" translatable="false">Slovenščina</string>
+    <string name="login_field_instance_name">Atvejo pavadinimas</string>
+    <string name="login_field_label_optional">(pildyti nebūtina)</string>
+    <string name="login_field_password">Slaptažodis</string>
+    <string name="login_field_token">TOTP 2FA atpažinimo ženklas</string>
+    <string name="login_field_user_name">Vartotojo vardas arba el.paštas</string>
+    <string name="manage_accounts_button_add">Pridėti paskyrą</string>
+    <string name="manage_accounts_title">Valdyti paskyras</string>
+    <string name="manage_subscriptions_header_multicommunities">Kelių bendruomenių</string>
+    <string name="manage_subscriptions_header_subscriptions">Prenumeratos</string>
+    <string name="message_empty_comments">Ten per daug\n tylu.Ar norėtum būti tas, kuris
+        parašo pirmąjį komentarą?
+    </string>
+    <string name="message_empty_list">Nėra rodytinų elementų</string>
+    <string name="message_error_loading_comments">Įkeliant komentarus įvyko klaida.</string>
+    <string name="message_generic_error">Bendroji klaida</string>
+    <string name="message_image_loading_error">Vaizdo įkėlimo klaida</string>
+    <string name="message_invalid_field">Netinkamas laukas</string>
+    <string name="message_missing_field">Trūksta lauko</string>
+    <string name="message_operation_successful">Operacija sėkmingai atlikta</string>
+    <string name="multi_community_editor_communities">Bendruomenės</string>
+    <string name="multi_community_editor_icon">Piktograma</string>
+    <string name="multi_community_editor_name">Vardas</string>
+    <string name="multi_community_editor_title">Kelių bendruomenių redaktorius</string>
+    <string name="navigation_drawer_anonymous">Anonimiškas</string>
+    <string name="navigation_drawer_title_bookmarks">Įrašyta</string>
+    <string name="navigation_drawer_title_subscriptions">Prenumeratos</string>
+    <string name="navigation_home">Postai</string>
+    <string name="navigation_inbox">Gautieji</string>
+    <string name="navigation_profile">Profilis</string>
+    <string name="navigation_search">Tyrinėti</string>
+    <string name="navigation_settings">Nustatymai</string>
+    <string name="post_action_cross_post">Skersinis stulpas…</string>
+    <string name="post_action_edit">Redaguoti</string>
+    <string name="post_action_hide">Slėpti</string>
+    <string name="post_action_report">Pranešti…</string>
+    <string name="post_action_see_raw">Peržiūrėti neapdorotą...</string>
+    <string name="post_action_share">Dalis</string>
+    <string name="post_detail_cross_posts">taip pat paskelbta:</string>
+    <string name="post_detail_load_more_comments">rodyti daugiau komentarų</string>
+    <string name="post_hour_short">h</string>
+    <string name="post_minute_short">m</string>
+    <string name="post_second_short">s</string>
+    <string name="profile_button_login">Prisijungti</string>
+    <string name="profile_day_short">d</string>
+    <string name="profile_million_short">m</string>
+    <string name="profile_month_short">m</string>
+    <string name="profile_not_logged_message">Šiuo metu nesate prisijungę\n .Pridėkite
+        paskyrą, kad galėtumėte tęsti.
+    </string>
+    <string name="profile_section_comments">komentarai</string>
+    <string name="profile_section_posts">Postai</string>
+    <string name="profile_thousand_short">.</string>
+    <string name="profile_year_short">y</string>
+    <string name="settings_about">Apie šią programėlę</string>
+    <string name="settings_about_app_version">Programėlės versija</string>
+    <string name="settings_about_changelog">Peržiūrėti visą pakeitimų žurnalą</string>
+    <string name="settings_about_report_github">Pranešti apie klaidą (GitHub)</string>
+    <string name="settings_about_report_email">Pranešti apie klaidą (el. paštu)</string>
+    <string name="settings_about_view_github">Peržiūrėti „GitHub“</string>
+    <string name="settings_about_view_lemmy">Lemmy bendruomenė</string>
+    <string name="settings_auto_expand_comments">Automatiškai išplėsti komentarus</string>
+    <string name="settings_auto_load_images">Automatiškai įkelti paveiksliukus</string>
+    <string name="settings_blur_nsfw">Sulieti NSFW vaizdus</string>
+    <string name="settings_color_aquamarine">🐬 Išsiblaškęs delfinas</string>
+    <string name="settings_color_banana">🦔 Linksmas ežys</string>
+    <string name="settings_color_blue">🐳 Šmaikštus banginis</string>
+    <string name="settings_color_custom">Pasirinktinė</string>
+    <string name="settings_color_dialog_alpha">A</string>
+    <string name="settings_color_dialog_blue">B</string>
+    <string name="settings_color_dialog_green">
+
+
+        G
+    </string>
+    <string name="settings_color_dialog_red">R</string>
+    <string name="settings_color_dialog_title">Pasirinkite spalvą</string>
+    <string name="settings_color_gray">🦝 Beprotis usūrinis iešmas</string>
+    <string name="settings_color_green">🐸 Froliksinė varlė</string>
+    <string name="settings_color_orange">🦊 Ugninė lapė</string>
+    <string name="settings_color_pink">🦄 Unikalus vienaragis</string>
+    <string name="settings_color_purple">🐙 Vandenyninis aštuonkojis</string>
+    <string name="settings_color_red">🦀 Traškūs krabai</string>
+    <string name="settings_color_white">🐼 Meškiukas</string>
+    <string name="settings_content_font_large">Didelis</string>
+    <string name="settings_content_font_larger">Εχτra large</string>
+    <string name="settings_content_font_largest">Dvivietis ypač didelis</string>
+    <string name="settings_content_font_normal">Normalus</string>
+    <string name="settings_content_font_scale">Turinio teksto dydis</string>
+    <string name="settings_content_font_small">Mažas</string>
+    <string name="settings_content_font_smaller">Itin mažas</string>
+    <string name="settings_content_font_smallest">Dvivietis itin mažas</string>
+    <string name="settings_custom_seed_color">Pasirinktinės temos spalva</string>
+    <string name="settings_default_comment_sort_type">Numatytasis komentarų rūšiavimo tipas</string>
+    <string name="settings_default_listing_type">Numatytasis informacijos santraukos tipas</string>
+    <string name="settings_default_post_sort_type">Numatytasis įrašo rūšiavimo tipas</string>
+    <string name="settings_downvote_color">Prastovos spalva</string>
+    <string name="settings_dynamic_colors">Naudoti dinamines spalvas</string>
+    <string name="settings_enable_crash_report">Įgalinti pranešimą apie avariją</string>
+    <string name="settings_enable_double_tap">Įjungti dvigubo bakstelėjimo veiksmą</string>
+    <string name="settings_enable_swipe_actions">Įgalinti perbraukimo veiksmus</string>
+    <string name="settings_full_height_images">Viso aukščio vaizdai</string>
+    <string name="settings_include_nsfw">Įtraukti NSFW turinį</string>
+    <string name="settings_language">Kalba</string>
+    <string name="settings_navigation_bar_titles_visible">Rodyti naršymo juostos pavadinimus
+    </string>
+    <string name="settings_open_url_external">@ info: progress operation</string>
+    <string name="settings_points_short">pt</string>
+    <string name="settings_post_layout">Įrašo maketas</string>
+    <string name="settings_post_layout_card">Kortelė</string>
+    <string name="settings_post_layout_compact">Kompaktiškas</string>
+    <string name="settings_post_layout_full">Visų funkcijų</string>
+    <string name="settings_section_appearance">Atrodykite ir jauskitės</string>
+    <string name="settings_section_behaviour">Elgesys</string>
+    <string name="settings_section_debug">Derinti</string>
+    <string name="settings_section_feed">Įrašai ir komentarai</string>
+    <string name="settings_section_nsfw">NSFW</string>
+    <string name="settings_separate_up_and_downvotes">Atskiri balsai už/ prieš</string>
+    <string name="settings_theme_black">Tamsus (AMOLED)</string>
+    <string name="settings_theme_dark">Tamsus</string>
+    <string name="settings_theme_light">Šviesiai</string>
+    <string name="settings_ui_font_family">Vartotojo sąsajos šriftas</string>
+    <string name="settings_ui_font_scale">Vartotojo sąsajos teksto dydis</string>
+    <string name="settings_ui_theme">Vartotojo sąsajos tema</string>
+    <string name="settings_upvote_color">Atnaujinti spalvą</string>
+    <string name="settings_hide_navigation_bar">Slenkant slėpti naršymo juostą</string>
+    <string name="settings_zombie_mode_interval">Zombių režimo intervalo trukmė</string>
+    <string name="settings_zombie_mode_scroll_amount">Zombių režimo slinkties kiekis</string>
+</resources>
