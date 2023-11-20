@@ -473,6 +473,11 @@ class CommunityDetailScreen(
                             }
                         }
                         items(uiState.posts, { it.id.toString() + it.updateDate }) { post ->
+                            LaunchedEffect(post.id) {
+                                if (settings.markAsReadWhileScrolling && !post.read) {
+                                    model.reduce(CommunityDetailMviModel.Intent.MarkAsRead(post.id))
+                                }
+                            }
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,

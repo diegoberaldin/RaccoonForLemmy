@@ -242,4 +242,7 @@
     <string name="settings_zombie_mode_interval">Trajanje intervala zombi načina rada</string>
     <string name="settings_zombie_mode_scroll_amount">Količina pomicanja u zombi načinu rada
     </string>
+    <string name="settings_mark_as_read_while_scrolling">Označite postove kao pročitane tijekom
+        pomicanja
+    </string>
 </resources>

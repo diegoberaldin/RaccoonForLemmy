@@ -32,4 +32,5 @@ data class SettingsModel(
     val hideNavigationBarWhileScrolling: Boolean = true,
     val zombieModeInterval: Duration = 2.seconds,
     val zombieModeScrollAmount: Float = 100f,
+    val markAsReadWhileScrolling: Boolean = false,
 ) : JavaSerializable

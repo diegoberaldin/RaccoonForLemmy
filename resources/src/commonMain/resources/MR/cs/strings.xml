@@ -231,4 +231,7 @@
     <string name="settings_hide_navigation_bar">Skrýt navigační panel při posouvání</string>
     <string name="settings_zombie_mode_interval">Trvání intervalu režimu Zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Množství posouvání v zombie režimu</string>
+    <string name="settings_mark_as_read_while_scrolling">Označte příspěvky jako přečtené při
+        rolování
+    </string>
 </resources>

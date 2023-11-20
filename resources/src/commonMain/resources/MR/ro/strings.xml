@@ -222,4 +222,6 @@
     <string name="settings_hide_navigation_bar">Ascunde bara de navigare la derulare</string>
     <string name="settings_zombie_mode_interval">Durată intervalului modului zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Extensia de derulare modului zombie</string>
+    <string name="settings_mark_as_read_while_scrolling">Marchează postările ca citite la derulare
+    </string>
 </resources>

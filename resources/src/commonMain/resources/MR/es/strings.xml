@@ -226,4 +226,7 @@
     </string>
     <string name="settings_zombie_mode_interval">Duración del intervalo modo zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
+    <string name="settings_mark_as_read_while_scrolling">Marcar publicaciones como leídas al
+        desplazarse
+    </string>
 </resources>

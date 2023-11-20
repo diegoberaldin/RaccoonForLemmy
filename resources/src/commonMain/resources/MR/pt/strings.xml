@@ -221,4 +221,7 @@
     <string name="settings_hide_navigation_bar">Ocultar a barra de navegação ao rolar</string>
     <string name="settings_zombie_mode_interval">Duração do intervalo do modo zumbi</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
+    <string name="settings_mark_as_read_while_scrolling">Marcar postagens como lidas durante ao
+        rolar
+    </string>
 </resources>

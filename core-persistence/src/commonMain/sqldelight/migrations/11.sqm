@@ -1,0 +1,2 @@
+ALTER TABLE SettingsEntity
+ADD COLUMN  markAsReadWhileScrolling INTEGER NOT NULL DEFAULT 0;

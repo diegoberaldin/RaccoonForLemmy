@@ -224,4 +224,6 @@
     </string>
     <string name="settings_zombie_mode_interval">Durata intevallo modalità zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Ampiezza scroll modalità zombie</string>
+    <string name="settings_mark_as_read_while_scrolling">Segna post come letti durante lo scroll
+    </string>
 </resources>

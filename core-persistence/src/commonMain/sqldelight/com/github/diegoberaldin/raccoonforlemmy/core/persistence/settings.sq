@@ -26,6 +26,7 @@ CREATE TABLE SettingsEntity (
     hideNavigationBarWhileScrolling INTEGER  NOT NULL DEFAULT 1,
     zombieModeInterval INTEGER NOT NULL DEFAULT 2000,
     zombieModeScrollAmount REAL NOT NULL DEFAULT 100,
+    markAsReadWhileScrolling INTEGER NOT NULL DEFAULT 0,
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
@@ -59,8 +60,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     hideNavigationBarWhileScrolling,
     zombieModeInterval,
     zombieModeScrollAmount,
+    markAsReadWhileScrolling,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -117,7 +120,8 @@ SET theme = ?,
     downvoteColor = ?,
     hideNavigationBarWhileScrolling = ?,
     zombieModeInterval = ?,
-    zombieModeScrollAmount = ?
+    zombieModeScrollAmount = ?,
+    markAsReadWhileScrolling = ?
 WHERE account_id = ?;
 
 getBy:
@@ -148,6 +152,7 @@ SELECT
     downvoteColor,
     hideNavigationBarWhileScrolling,
     zombieModeInterval,
-    zombieModeScrollAmount
+    zombieModeScrollAmount,
+    markAsReadWhileScrolling
 FROM SettingsEntity
 WHERE account_id = ?;

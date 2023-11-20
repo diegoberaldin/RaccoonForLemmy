@@ -240,4 +240,6 @@
     <string name="settings_hide_navigation_bar">Peida kerimisel navigeerimisriba</string>
     <string name="settings_zombie_mode_interval">Zombirežiimi intervalli kestus</string>
     <string name="settings_zombie_mode_scroll_amount">Zombirežiimi kerimise kogus</string>
+    <string name="settings_mark_as_read_while_scrolling">Märkige postitused kerimise ajal loetuks
+    </string>
 </resources>

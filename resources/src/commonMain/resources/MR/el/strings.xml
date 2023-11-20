@@ -228,4 +228,7 @@
     </string>
     <string name="settings_zombie_mode_scroll_amount">Ποσότητα της κύλισης της λειτουργίας ζόμπι
     </string>
+    <string name="settings_mark_as_read_while_scrolling">Επισήμανση αναρτήσεων ως αναγνωσμένων κατά
+        την κύλιση
+    </string>
 </resources>

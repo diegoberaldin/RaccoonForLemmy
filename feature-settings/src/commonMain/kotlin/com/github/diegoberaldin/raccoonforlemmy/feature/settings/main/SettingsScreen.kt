@@ -278,9 +278,7 @@ class SettingsScreen : Screen {
                             value = uiState.dynamicColors,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    SettingsMviModel.Intent.ChangeDynamicColors(
-                                        value
-                                    )
+                                    SettingsMviModel.Intent.ChangeDynamicColors(value)
                                 )
                             },
                         )
@@ -378,9 +376,7 @@ class SettingsScreen : Screen {
                         value = uiState.fullHeightImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                SettingsMviModel.Intent.ChangeFullHeightImages(
-                                    value
-                                )
+                                SettingsMviModel.Intent.ChangeFullHeightImages(value)
                             )
                         },
                     )
@@ -391,9 +387,7 @@ class SettingsScreen : Screen {
                         value = uiState.navBarTitlesVisible,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                SettingsMviModel.Intent.ChangeNavBarTitlesVisible(
-                                    value
-                                )
+                                SettingsMviModel.Intent.ChangeNavBarTitlesVisible(value)
                             )
                         },
                     )
@@ -455,6 +449,17 @@ class SettingsScreen : Screen {
                         title = stringResource(MR.strings.settings_section_behaviour),
                     )
 
+                    // mark as read while scrolling
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_mark_as_read_while_scrolling),
+                        value = uiState.markAsReadWhileScrolling,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling(value)
+                            )
+                        },
+                    )
+
                     // zombie mode interval
                     SettingsRow(
                         title = stringResource(MR.strings.settings_zombie_mode_interval),
@@ -493,9 +498,7 @@ class SettingsScreen : Screen {
                         value = uiState.enableSwipeActions,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                SettingsMviModel.Intent.ChangeEnableSwipeActions(
-                                    value
-                                )
+                                SettingsMviModel.Intent.ChangeEnableSwipeActions(value)
                             )
                         },
                     )
@@ -506,9 +509,7 @@ class SettingsScreen : Screen {
                         value = uiState.enableDoubleTapAction,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                SettingsMviModel.Intent.ChangeEnableDoubleTapAction(
-                                    value
-                                )
+                                SettingsMviModel.Intent.ChangeEnableDoubleTapAction(value)
                             )
                         },
                     )
@@ -519,9 +520,7 @@ class SettingsScreen : Screen {
                         value = uiState.hideNavigationBarWhileScrolling,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(
-                                    value
-                                )
+                                SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(value)
                             )
                         },
                     )
@@ -532,9 +531,7 @@ class SettingsScreen : Screen {
                         value = uiState.openUrlsInExternalBrowser,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser(
-                                    value
-                                )
+                                SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser(value)
                             )
                         },
                     )
@@ -545,9 +542,7 @@ class SettingsScreen : Screen {
                         value = uiState.autoExpandComments,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                SettingsMviModel.Intent.ChangeAutoExpandComments(
-                                    value
-                                )
+                                SettingsMviModel.Intent.ChangeAutoExpandComments(value)
                             )
                         },
                     )
@@ -558,9 +553,7 @@ class SettingsScreen : Screen {
                         value = uiState.autoLoadImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                SettingsMviModel.Intent.ChangeAutoLoadImages(
-                                    value
-                                )
+                                SettingsMviModel.Intent.ChangeAutoLoadImages(value)
                             )
                         },
                     )

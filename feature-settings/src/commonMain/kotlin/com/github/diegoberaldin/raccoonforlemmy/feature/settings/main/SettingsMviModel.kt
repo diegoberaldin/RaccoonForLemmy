@@ -44,6 +44,7 @@ interface SettingsMviModel :
         data class ChangeHideNavigationBarWhileScrolling(val value: Boolean) : Intent
         data class ChangeZombieModeInterval(val value: Duration) : Intent
         data class ChangeZombieModeScrollAmount(val value: Float) : Intent
+        data class ChangeMarkAsReadWhileScrolling(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -76,6 +77,7 @@ interface SettingsMviModel :
         val hideNavigationBarWhileScrolling: Boolean = true,
         val zombieModeInterval: Duration = 2.5.seconds,
         val zombieModeScrollAmount: Float = 100f,
+        val markAsReadWhileScrolling: Boolean = true,
     )
 
     sealed interface Effect

@@ -238,4 +238,6 @@
     <string name="settings_hide_navigation_bar">Med drsenjem skrij navigacijsko vrstico</string>
     <string name="settings_zombie_mode_interval">Trajanje intervala v zombi načinu</string>
     <string name="settings_zombie_mode_scroll_amount">Količina drsenja v zombi načinu</string>
+    <string name="settings_mark_as_read_while_scrolling">Med pomikanjem označi objave kot prebrane
+    </string>
 </resources>

@@ -221,4 +221,6 @@
     <string name="settings_hide_navigation_bar">Skjul navigationslinjen, når du ruller</string>
     <string name="settings_zombie_mode_interval">Varighed af Zombie-tilstandsinterval</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie-tilstand scroll beløb</string>
+    <string name="settings_mark_as_read_while_scrolling">Marker indlæg som læst, mens du ruller
+    </string>
 </resources>

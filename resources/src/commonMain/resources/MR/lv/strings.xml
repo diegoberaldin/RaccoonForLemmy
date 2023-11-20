@@ -243,4 +243,7 @@
     <string name="settings_hide_navigation_bar">Ritinot paslēpt navigācijas joslu</string>
     <string name="settings_zombie_mode_interval">Zombiju režīma intervāla ilgums</string>
     <string name="settings_zombie_mode_scroll_amount">Zombiju režīma ritināšanas apjoms</string>
+    <string name="settings_mark_as_read_while_scrolling">Atzīmējiet ziņas kā izlasītas ritināšanas
+        laikā
+    </string>
 </resources>

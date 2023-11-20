@@ -112,6 +112,7 @@ class SettingsViewModel(
                 hideNavigationBarWhileScrolling = settings.hideNavigationBarWhileScrolling,
                 zombieModeInterval = settings.zombieModeInterval,
                 zombieModeScrollAmount = settings.zombieModeScrollAmount,
+                markAsReadWhileScrolling = settings.markAsReadWhileScrolling,
             )
         }
     }
@@ -205,6 +206,10 @@ class SettingsViewModel(
             )
 
             is SettingsMviModel.Intent.ChangeZombieModeScrollAmount -> changeZombieModeScrollAmount(
+                intent.value
+            )
+
+            is SettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling -> changeMarkAsReadWhileScrolling(
                 intent.value
             )
         }
@@ -455,6 +460,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 hideNavigationBarWhileScrolling = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeMarkAsReadWhileScrolling(value: Boolean) {
+        mvi.updateState { it.copy(markAsReadWhileScrolling = value) }
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                markAsReadWhileScrolling = value
             )
             saveSettings(settings)
         }

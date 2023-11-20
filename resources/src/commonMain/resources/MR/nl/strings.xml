@@ -231,4 +231,7 @@
     </string>
     <string name="settings_zombie_mode_interval">Intervalduur zombiemodus</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
+    <string name="settings_mark_as_read_while_scrolling">Markeer berichten als gelezen tijdens het
+        scrollen
+    </string>
 </resources>

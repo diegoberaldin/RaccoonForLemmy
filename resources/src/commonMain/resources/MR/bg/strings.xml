@@ -245,4 +245,7 @@
     </string>
     <string name="settings_zombie_mode_interval">Продължителност на интервала в режим Зомби</string>
     <string name="settings_zombie_mode_scroll_amount">Сума за превъртане в режим на зомби</string>
+    <string name="settings_mark_as_read_while_scrolling">Маркирайте публикациите като прочетени,
+        докато превъртате
+    </string>
 </resources>

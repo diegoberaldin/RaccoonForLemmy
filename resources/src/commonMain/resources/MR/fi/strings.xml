@@ -231,4 +231,6 @@
     <string name="settings_hide_navigation_bar">Piilota navigointipalkki vieritettäessä</string>
     <string name="settings_zombie_mode_interval">Zombitilan aikavälin kesto</string>
     <string name="settings_zombie_mode_scroll_amount">Zombitilan vieritysmäärä</string>
+    <string name="settings_mark_as_read_while_scrolling">Merkitse viestit luetuiksi vierittäessäsi
+    </string>
 </resources>

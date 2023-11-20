@@ -239,4 +239,7 @@
     <string name="settings_hide_navigation_bar">Navigációs sáv elrejtése görgetés közben</string>
     <string name="settings_zombie_mode_interval">Zombi üzemmód intervallum időtartama</string>
     <string name="settings_zombie_mode_scroll_amount">Zombi mód görgetés mennyisége</string>
+    <string name="settings_mark_as_read_while_scrolling">Bejegyzések megjelölése olvasottként
+        görgetés közben
+    </string>
 </resources>

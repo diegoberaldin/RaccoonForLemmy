@@ -37,6 +37,7 @@ private object KeyStoreKeys {
     const val HideNavigationBarWhileScrolling = "hideNavigationBarWhileScrolling"
     const val ZombieModeInterval = "zombieModeInterval"
     const val ZombieModeScrollAmount = "zombieModeScrollAmount"
+    const val MarkAsReadWhileScrolling = "markAsReadWhileScrolling"
 }
 
 internal class DefaultSettingsRepository(
@@ -78,6 +79,7 @@ internal class DefaultSettingsRepository(
                 hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1 else 0,
                 zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
                 zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
+                markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1 else 0,
             )
         }
 
@@ -114,6 +116,7 @@ internal class DefaultSettingsRepository(
                     hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HideNavigationBarWhileScrolling, true],
                     zombieModeInterval = keyStore[KeyStoreKeys.ZombieModeInterval, 2000].milliseconds,
                     zombieModeScrollAmount = keyStore[KeyStoreKeys.ZombieModeScrollAmount, 100f],
+                    markAsReadWhileScrolling = keyStore[KeyStoreKeys.MarkAsReadWhileScrolling, false],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -184,6 +187,10 @@ internal class DefaultSettingsRepository(
                     KeyStoreKeys.ZombieModeScrollAmount,
                     settings.zombieModeScrollAmount,
                 )
+                keyStore.save(
+                    KeyStoreKeys.MarkAsReadWhileScrolling,
+                    settings.markAsReadWhileScrolling,
+                )
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -213,6 +220,7 @@ internal class DefaultSettingsRepository(
                     hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1L else 0L,
                     zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
                     zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
+                    markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1L else 0L,
                 )
             }
         }
@@ -250,4 +258,5 @@ private fun GetBy.toModel() = SettingsModel(
     hideNavigationBarWhileScrolling = hideNavigationBarWhileScrolling != 0L,
     zombieModeInterval = zombieModeInterval.milliseconds,
     zombieModeScrollAmount = zombieModeScrollAmount.toFloat(),
+    markAsReadWhileScrolling = markAsReadWhileScrolling != 0L,
 )

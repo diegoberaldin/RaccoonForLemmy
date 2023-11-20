@@ -222,4 +222,7 @@
     <string name="settings_upvote_color">Kolor głosów pozytywnych</string>
     <string name="settings_zombie_mode_interval">Czas trwania interwału trybu zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Ilość przewijania trybu zombie</string>
+    <string name="settings_mark_as_read_while_scrolling">Oznacz posty jako przeczytane podczas
+        przewijania
+    </string>
 </resources>

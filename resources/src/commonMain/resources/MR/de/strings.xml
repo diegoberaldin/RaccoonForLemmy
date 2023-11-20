@@ -224,4 +224,7 @@
     <string name="settings_hide_navigation_bar">Navigationsleiste beim Scrollen ausblenden</string>
     <string name="settings_zombie_mode_interval">Dauer des Intervalls des Zombie-Modus</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
+    <string name="settings_mark_as_read_while_scrolling">Markieren Sie Beiträge beim Scrollen als
+        gelesen
+    </string>
 </resources>

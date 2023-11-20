@@ -245,4 +245,7 @@
     <string name="settings_hide_navigation_bar">Slenkant slėpti naršymo juostą</string>
     <string name="settings_zombie_mode_interval">Zombių režimo intervalo trukmė</string>
     <string name="settings_zombie_mode_scroll_amount">Zombių režimo slinkties kiekis</string>
+    <string name="settings_mark_as_read_while_scrolling">Slinkdami pažymėkite įrašus kaip
+        skaitytus
+    </string>
 </resources>

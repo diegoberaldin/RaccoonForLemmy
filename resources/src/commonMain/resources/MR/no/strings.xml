@@ -234,4 +234,6 @@
     <string name="settings_hide_navigation_bar">Skjul navigasjonsfeltet når du ruller</string>
     <string name="settings_zombie_mode_interval">Zombie-modus intervallvarighet</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie-modus rullebeløp</string>
+    <string name="settings_mark_as_read_while_scrolling">Merk innlegg som lest mens du ruller
+    </string>
 </resources>

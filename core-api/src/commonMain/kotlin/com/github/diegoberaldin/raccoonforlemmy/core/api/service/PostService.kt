@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReplyResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostReportForm
@@ -83,7 +82,7 @@ interface PostService {
     suspend fun markAsRead(
         @Header("Authorization") authHeader: String? = null,
         @Body form: MarkPostAsReadForm,
-    ): Response<CommentReplyResponse>
+    ): Response<PostResponse>
 
     @POST("post/delete")
     @Headers("Content-Type: application/json")

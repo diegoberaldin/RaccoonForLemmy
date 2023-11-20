@@ -224,4 +224,7 @@
     </string>
     <string name="settings_zombie_mode_interval">Durée de l\'intervalle du mode zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
+    <string name="settings_mark_as_read_while_scrolling">Marquer les messages comme lus lors du
+        défilement
+    </string>
 </resources>
