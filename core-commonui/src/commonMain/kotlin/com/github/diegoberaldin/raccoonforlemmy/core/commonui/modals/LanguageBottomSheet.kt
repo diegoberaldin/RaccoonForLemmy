@@ -59,6 +59,7 @@ class LanguageBottomSheet : Screen {
                     "el",
                     "en",
                     "es",
+                    "et",
                     "fi",
                     "fr",
                     "hu",
