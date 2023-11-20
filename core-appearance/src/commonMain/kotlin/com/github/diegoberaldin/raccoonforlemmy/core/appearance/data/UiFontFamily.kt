@@ -5,29 +5,29 @@ import androidx.compose.runtime.Composable
 enum class UiFontFamily {
     TitilliumWeb,
     Dosis,
-    CormorantGaramond,
+    Quattrocento,
     NotoSans,
     Prociono,
-    Laila,
+    ComicNeue,
     Poppins,
 }
 
 fun Int.toUiFontFamily() = when (this) {
     6 -> UiFontFamily.Poppins
-    5 -> UiFontFamily.Laila
+    5 -> UiFontFamily.ComicNeue
     4 -> UiFontFamily.Prociono
     3 -> UiFontFamily.NotoSans
-    2 -> UiFontFamily.CormorantGaramond
+    2 -> UiFontFamily.Quattrocento
     1 -> UiFontFamily.Dosis
     else -> UiFontFamily.TitilliumWeb
 }
 
 fun UiFontFamily.toInt() = when (this) {
     UiFontFamily.Poppins -> 6
-    UiFontFamily.Laila -> 5
+    UiFontFamily.ComicNeue -> 5
     UiFontFamily.Prociono -> 4
     UiFontFamily.NotoSans -> 3
-    UiFontFamily.CormorantGaramond -> 2
+    UiFontFamily.Quattrocento -> 2
     UiFontFamily.Dosis -> 1
     else -> 0
 }
@@ -35,10 +35,10 @@ fun UiFontFamily.toInt() = when (this) {
 @Composable
 fun UiFontFamily.toReadableName() = when (this) {
     UiFontFamily.Poppins -> "Poppins"
-    UiFontFamily.Laila -> "Laila"
+    UiFontFamily.ComicNeue -> "Comic Neue"
     UiFontFamily.Prociono -> "Prociono"
     UiFontFamily.NotoSans -> "Noto Sans"
-    UiFontFamily.CormorantGaramond -> "Cormorant Garamond"
+    UiFontFamily.Quattrocento -> "Quattrocento"
     UiFontFamily.Dosis -> "Dosis"
     else -> "Titillium Web"
 }

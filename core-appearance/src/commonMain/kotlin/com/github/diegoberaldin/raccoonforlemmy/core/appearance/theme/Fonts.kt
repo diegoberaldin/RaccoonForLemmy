@@ -16,9 +16,9 @@ internal fun getTypography(
     val fontFamily = when (fontFamily) {
         UiFontFamily.Prociono -> fontFamilyResource(MR.fonts.Prociono.regular)
         UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
-        UiFontFamily.CormorantGaramond -> fontFamilyResource(MR.fonts.CormorantGaramond.regular)
+        UiFontFamily.Quattrocento -> fontFamilyResource(MR.fonts.Quattrocento.regular)
         UiFontFamily.Dosis -> fontFamilyResource(MR.fonts.Dosis.regular)
-        UiFontFamily.Laila -> fontFamilyResource(MR.fonts.Laila.regular)
+        UiFontFamily.ComicNeue -> fontFamilyResource(MR.fonts.ComicNeue.regular)
         UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
         else -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
     }
