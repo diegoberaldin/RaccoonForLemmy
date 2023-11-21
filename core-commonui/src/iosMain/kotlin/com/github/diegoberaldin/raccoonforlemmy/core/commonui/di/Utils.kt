@@ -47,8 +47,9 @@ actual fun getPostDetailViewModel(
     post: PostModel,
     otherInstance: String,
     highlightCommentId: Int?,
+    isModerator: Boolean,
 ): PostDetailMviModel =
-    CommonUiViewModelHelper.getPostDetailModel(post, otherInstance, highlightCommentId)
+    CommonUiViewModelHelper.getPostDetailModel(post, otherInstance, highlightCommentId, isModerator)
 
 actual fun getCommunityDetailViewModel(
     community: CommunityModel,
@@ -116,9 +117,10 @@ object CommonUiViewModelHelper : KoinComponent {
         post: PostModel,
         otherInstance: String,
         highlightCommentId: Int?,
+        isModerator: Boolean,
     ): PostDetailMviModel {
         val model: PostDetailMviModel by inject(
-            parameters = { parametersOf(post, otherInstance, highlightCommentId) },
+            parameters = { parametersOf(post, otherInstance, highlightCommentId, isModerator) },
         )
         return model
     }

@@ -36,6 +36,7 @@ expect fun getPostDetailViewModel(
     post: PostModel,
     otherInstance: String = "",
     highlightCommentId: Int? = null,
+    isModerator: Boolean = false,
 ): PostDetailMviModel
 
 expect fun getCommunityDetailViewModel(

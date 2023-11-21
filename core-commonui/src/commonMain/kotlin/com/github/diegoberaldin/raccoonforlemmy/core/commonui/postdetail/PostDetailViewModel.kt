@@ -27,6 +27,7 @@ class PostDetailViewModel(
     private val post: PostModel,
     private val otherInstance: String,
     private val highlightCommentId: Int?,
+    private val isModerator: Boolean,
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val postRepository: PostRepository,
@@ -67,6 +68,13 @@ class PostDetailViewModel(
                 }
             }.launchIn(this)
 
+            notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { evt ->
+                mvi.emitEffect(PostDetailMviModel.Effect.Close)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
+                .onEach { evt ->
+                    handleCommentDelete(evt.model.id)
+                }.launchIn(this)
         }
 
         mvi.scope?.launch(Dispatchers.IO) {
@@ -82,7 +90,10 @@ class PostDetailViewModel(
             }
 
             mvi.updateState {
-                it.copy(post = post)
+                it.copy(
+                    post = post,
+                    isModerator = isModerator,
+                )
             }
 
             val auth = identityRepository.authToken.value
@@ -104,6 +115,9 @@ class PostDetailViewModel(
                     instance = otherInstance,
                 )
                 highlightCommentPath = comment?.path
+            }
+            if (post.text.isEmpty() && post.title.isEmpty()) {
+                refreshPost()
             }
             if (mvi.uiState.value.comments.isEmpty()) {
                 refresh()
@@ -214,6 +228,13 @@ class PostDetailViewModel(
                         toggleExpanded(comment)
                     }
             }
+
+            PostDetailMviModel.Intent.ModFeaturePost -> feature(uiState.value.post)
+            PostDetailMviModel.Intent.ModLockPost -> lock(uiState.value.post)
+            is PostDetailMviModel.Intent.ModDistinguishComment -> uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                ?.also { comment ->
+                    distinguish(comment)
+                }
         }
     }
 
@@ -450,6 +471,20 @@ class PostDetailViewModel(
         }
     }
 
+    private fun handleCommentUpdate(comment: CommentModel) {
+        mvi.updateState {
+            it.copy(
+                comments = it.comments.map { c ->
+                    if (c.id == comment.id) {
+                        comment
+                    } else {
+                        c
+                    }
+                },
+            )
+        }
+    }
+
     private fun toggleUpVoteComment(
         comment: CommentModel,
         feedback: Boolean,
@@ -462,17 +497,7 @@ class PostDetailViewModel(
             comment = comment,
             voted = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                comments = it.comments.map { c ->
-                    if (c.id == comment.id) {
-                        newComment
-                    } else {
-                        c
-                    }
-                },
-            )
-        }
+        handleCommentUpdate(newComment)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -486,17 +511,7 @@ class PostDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        comments = it.comments.map { c ->
-                            if (c.id == comment.id) {
-                                comment
-                            } else {
-                                c
-                            }
-                        },
-                    )
-                }
+                handleCommentUpdate(comment)
             }
         }
     }
@@ -510,17 +525,7 @@ class PostDetailViewModel(
             hapticFeedback.vibrate()
         }
         val newComment = commentRepository.asDownVoted(comment, newValue)
-        mvi.updateState {
-            it.copy(
-                comments = it.comments.map { c ->
-                    if (c.id == comment.id) {
-                        newComment
-                    } else {
-                        c
-                    }
-                },
-            )
-        }
+        handleCommentUpdate(newComment)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -534,17 +539,7 @@ class PostDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        comments = it.comments.map { c ->
-                            if (c.id == comment.id) {
-                                comment
-                            } else {
-                                c
-                            }
-                        },
-                    )
-                }
+                handleCommentUpdate(comment)
             }
         }
     }
@@ -561,17 +556,7 @@ class PostDetailViewModel(
             comment = comment,
             saved = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                comments = it.comments.map { c ->
-                    if (c.id == comment.id) {
-                        newComment
-                    } else {
-                        c
-                    }
-                },
-            )
-        }
+        handleCommentUpdate(newComment)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -585,17 +570,7 @@ class PostDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        comments = it.comments.map { c ->
-                            if (c.id == comment.id) {
-                                comment
-                            } else {
-                                c
-                            }
-                        },
-                    )
-                }
+                handleCommentUpdate(comment)
             }
         }
     }
@@ -604,9 +579,13 @@ class PostDetailViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
-            refresh()
+            handleCommentDelete(id)
             refreshPost()
         }
+    }
+
+    private fun handleCommentDelete(id: Int) {
+        mvi.updateState { it.copy(comments = it.comments.filter { comment -> comment.id != id }) }
     }
 
     private fun deletePost() {
@@ -655,6 +634,48 @@ class PostDetailViewModel(
                     }
                 }
                 it.copy(comments = newComments)
+            }
+        }
+    }
+
+    private fun feature(post: PostModel) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost = postRepository.featureInCommunity(
+                postId = post.id,
+                auth = auth,
+                featured = !post.featuredCommunity
+            )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
+    }
+
+    private fun lock(post: PostModel) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost = postRepository.lock(
+                postId = post.id,
+                auth = auth,
+                locked = !post.locked,
+            )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
+    }
+
+    private fun distinguish(comment: CommentModel) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newComment = commentRepository.distinguish(
+                commentId = comment.id,
+                auth = auth,
+                distinguished = !comment.distinguished,
+            )
+            if (newComment != null) {
+                handleCommentUpdate(newComment)
             }
         }
     }

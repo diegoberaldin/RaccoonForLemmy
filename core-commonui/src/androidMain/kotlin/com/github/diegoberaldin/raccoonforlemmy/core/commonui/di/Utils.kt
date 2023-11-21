@@ -57,10 +57,11 @@ actual fun getPostDetailViewModel(
     post: PostModel,
     otherInstance: String,
     highlightCommentId: Int?,
+    isModerator: Boolean,
 ): PostDetailMviModel {
     val res: PostDetailMviModel by inject(
         clazz = PostDetailMviModel::class.java,
-        parameters = { parametersOf(post, otherInstance, highlightCommentId) },
+        parameters = { parametersOf(post, otherInstance, highlightCommentId, isModerator) },
     )
     return res
 }

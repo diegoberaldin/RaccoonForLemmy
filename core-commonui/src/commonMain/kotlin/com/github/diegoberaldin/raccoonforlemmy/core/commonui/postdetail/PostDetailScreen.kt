@@ -95,6 +95,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getPostDetailVi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -116,6 +117,7 @@ class PostDetailScreen(
     private val post: PostModel,
     private val otherInstance: String = "",
     private val highlightCommentId: Int? = null,
+    private val isMod: Boolean = false,
 ) : Screen {
 
     @OptIn(
@@ -132,6 +134,7 @@ class PostDetailScreen(
                 post = post,
                 highlightCommentId = highlightCommentId,
                 otherInstance = otherInstance,
+                isModerator = isMod,
             )
         }
         model.bindToLifecycle(key + post.id.toString())
@@ -404,6 +407,34 @@ class PostDetailScreen(
                                             )
                                         )
                                     }
+                                    if (uiState.isModerator) {
+                                        add(
+                                            Option(
+                                                OptionId.FeaturePost,
+                                                if (uiState.post.featuredCommunity) {
+                                                    stringResource(MR.strings.mod_action_unmark_as_featured)
+                                                } else {
+                                                    stringResource(MR.strings.mod_action_mark_as_featured)
+                                                }
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.LockPost,
+                                                if (uiState.post.locked) {
+                                                    stringResource(MR.strings.mod_action_unlock)
+                                                } else {
+                                                    stringResource(MR.strings.mod_action_lock)
+                                                }
+                                            )
+                                        )
+                                        add(
+                                            Option(
+                                                OptionId.Remove,
+                                                stringResource(MR.strings.mod_action_remove)
+                                            )
+                                        )
+                                    }
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { idx ->
                                     when (idx) {
@@ -432,6 +463,19 @@ class PostDetailScreen(
                                         }
 
                                         OptionId.Share -> model.reduce(PostDetailMviModel.Intent.SharePost)
+
+                                        OptionId.FeaturePost -> model.reduce(
+                                            PostDetailMviModel.Intent.ModFeaturePost
+                                        )
+
+                                        OptionId.LockPost -> model.reduce(
+                                            PostDetailMviModel.Intent.ModLockPost
+                                        )
+
+                                        OptionId.Remove -> {
+                                            val screen = RemoveScreen(postId = uiState.post.id)
+                                            navigationCoordinator.showBottomSheet(screen)
+                                        }
 
                                         else -> Unit
                                     }
@@ -507,7 +551,7 @@ class PostDetailScreen(
                         }
                         items(
                             uiState.comments.filter { it.visible },
-                            key = { c -> c.id }) { comment ->
+                            key = { c -> c.id.toString() + c.updateDate }) { comment ->
                             Column {
                                 AnimatedContent(
                                     targetState = comment.expanded,
@@ -672,26 +716,44 @@ class PostDetailScreen(
                                                         add(
                                                             Option(
                                                                 OptionId.SeeRaw,
-                                                                stringResource(MR.strings.post_action_see_raw)
+                                                                stringResource(MR.strings.post_action_see_raw),
                                                             )
                                                         )
                                                         add(
                                                             Option(
                                                                 OptionId.Report,
-                                                                stringResource(MR.strings.post_action_report)
+                                                                stringResource(MR.strings.post_action_report),
                                                             )
                                                         )
                                                         if (comment.creator?.id == uiState.currentUserId) {
                                                             add(
                                                                 Option(
                                                                     OptionId.Edit,
-                                                                    stringResource(MR.strings.post_action_edit)
+                                                                    stringResource(MR.strings.post_action_edit),
                                                                 )
                                                             )
                                                             add(
                                                                 Option(
                                                                     OptionId.Delete,
-                                                                    stringResource(MR.strings.comment_action_delete)
+                                                                    stringResource(MR.strings.comment_action_delete),
+                                                                )
+                                                            )
+                                                        }
+                                                        if (uiState.isModerator) {
+                                                            add(
+                                                                Option(
+                                                                    OptionId.DistinguishComment,
+                                                                    if (comment.distinguished) {
+                                                                        stringResource(MR.strings.mod_action_unmark_as_distinguished)
+                                                                    } else {
+                                                                        stringResource(MR.strings.mod_action_mark_as_distinguished)
+                                                                    },
+                                                                )
+                                                            )
+                                                            add(
+                                                                Option(
+                                                                    OptionId.Remove,
+                                                                    stringResource(MR.strings.mod_action_remove),
                                                                 )
                                                             )
                                                         }
@@ -724,6 +786,20 @@ class PostDetailScreen(
 
                                                             OptionId.SeeRaw -> {
                                                                 rawContent = comment
+                                                            }
+
+                                                            OptionId.DistinguishComment -> model.reduce(
+                                                                PostDetailMviModel.Intent.ModDistinguishComment(
+                                                                    comment.id
+                                                                )
+                                                            )
+
+                                                            OptionId.Remove -> {
+                                                                val screen =
+                                                                    RemoveScreen(commentId = comment.id)
+                                                                navigationCoordinator.showBottomSheet(
+                                                                    screen
+                                                                )
                                                             }
 
                                                             else -> Unit

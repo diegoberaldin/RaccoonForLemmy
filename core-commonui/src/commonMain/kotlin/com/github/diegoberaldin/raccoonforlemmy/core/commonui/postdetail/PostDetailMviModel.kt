@@ -30,10 +30,14 @@ interface PostDetailMviModel :
         data object DeletePost : Intent
         data object HapticIndication : Intent
         data object SharePost : Intent
+        data object ModFeaturePost : Intent
+        data object ModLockPost : Intent
+        data class ModDistinguishComment(val commentId: Int) : Intent
     }
 
     data class UiState(
         val post: PostModel = PostModel(),
+        val isModerator: Boolean = false,
         val isLogged: Boolean = false,
         val refreshing: Boolean = false,
         val loading: Boolean = false,

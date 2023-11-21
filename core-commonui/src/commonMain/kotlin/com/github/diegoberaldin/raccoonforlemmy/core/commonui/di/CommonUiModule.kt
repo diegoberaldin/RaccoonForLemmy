@@ -59,6 +59,7 @@ val commonUiModule = module {
             post = params[0],
             otherInstance = params[1],
             highlightCommentId = params[2],
+            isModerator = params[3],
             identityRepository = get(),
             siteRepository = get(),
             postRepository = get(),
