@@ -240,10 +240,12 @@
     <string name="settings_ui_font_scale">Lietotāja interfeisa teksta lielums</string>
     <string name="settings_ui_theme">UI tēmas</string>
     <string name="settings_upvote_color">Upvote krāsa</string>
-    <string name="settings_hide_navigation_bar">Ritinot paslēpt navigācijas joslu</string>
+    <string name="settings_hide_navigation_bar">Ritinot paslēpt navigācijas ritināšanas laikā
+    </string>
     <string name="settings_zombie_mode_interval">Zombiju režīma intervāla ilgums</string>
     <string name="settings_zombie_mode_scroll_amount">Zombiju režīma ritināšanas apjoms</string>
     <string name="settings_mark_as_read_while_scrolling">Atzīmējiet ziņas kā izlasītas ritināšanas
         laikā
     </string>
+    <string name="action_quote">Citāts…</string>
 </resources>

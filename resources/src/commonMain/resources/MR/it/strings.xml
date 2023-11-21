@@ -226,4 +226,5 @@
     <string name="settings_zombie_mode_scroll_amount">Ampiezza scroll modalità zombie</string>
     <string name="settings_mark_as_read_while_scrolling">Segna post come letti durante lo scroll
     </string>
+    <string name="action_quote">Cita…</string>
 </resources>

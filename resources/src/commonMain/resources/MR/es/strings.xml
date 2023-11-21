@@ -229,4 +229,5 @@
     <string name="settings_mark_as_read_while_scrolling">Marcar publicaciones como leídas al
         desplazarse
     </string>
+    <string name="action_quote">Citar…</string>
 </resources>

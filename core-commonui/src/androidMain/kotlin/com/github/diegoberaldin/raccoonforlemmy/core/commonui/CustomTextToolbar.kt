@@ -11,10 +11,12 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 
 private const val ACTION_ID_COPY = 0
 private const val ACTION_ID_SEARCH = 1
+private const val ACTION_ID_QUOTE = 2
 
 class CustomTextToolbar(
     private val view: View,
     private val onShare: () -> Unit,
+    private val onQuote: () -> Unit,
 ) : TextToolbar {
     private var actionMode: ActionMode? = null
 
@@ -46,6 +48,10 @@ class CustomTextToolbar(
                         onCopyRequested?.invoke()
                         onShare()
                     },
+                    onQuote = {
+                        onCopyRequested?.invoke()
+                        onQuote()
+                    }
                 ),
                 ActionMode.TYPE_FLOATING,
             )
@@ -60,6 +66,7 @@ internal class CustomTextActionModeCallback(
     private val rect: Rect,
     private val onCopy: () -> Unit,
     private val onShare: () -> Unit,
+    private val onQuote: () -> Unit,
 ) : ActionMode.Callback2() {
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -70,6 +77,9 @@ internal class CustomTextActionModeCallback(
             ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             add(
                 groupId, ACTION_ID_SEARCH, 1, MR.strings.post_action_share.resourceId
+            ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            add(
+                groupId, ACTION_ID_QUOTE, 2, MR.strings.action_quote.resourceId
             ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         }
         return true
@@ -86,6 +96,11 @@ internal class CustomTextActionModeCallback(
 
             ACTION_ID_SEARCH -> {
                 onShare()
+                true
+            }
+
+            ACTION_ID_QUOTE -> {
+                onQuote()
                 true
             }
 

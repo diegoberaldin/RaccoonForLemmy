@@ -228,10 +228,11 @@
     <string name="settings_ui_font_scale">Velikost textu uživatelského rozhraní</string>
     <string name="settings_ui_theme">Motiv uživatelského rozhraní</string>
     <string name="settings_upvote_color">Barva upvote</string>
-    <string name="settings_hide_navigation_bar">Skrýt navigační panel při posouvání</string>
+    <string name="settings_hide_navigation_bar">Skrýt navigační panel při rolování</string>
     <string name="settings_zombie_mode_interval">Trvání intervalu režimu Zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Množství posouvání v zombie režimu</string>
     <string name="settings_mark_as_read_while_scrolling">Označte příspěvky jako přečtené při
         rolování
     </string>
+    <string name="action_quote">Citát…</string>
 </resources>

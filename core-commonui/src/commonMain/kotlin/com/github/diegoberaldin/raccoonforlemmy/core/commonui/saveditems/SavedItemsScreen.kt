@@ -105,6 +105,7 @@ class SavedItemsScreen : Screen {
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        val navigationCoordinator = remember { getNavigationCoordinator() }
 
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
@@ -498,6 +499,21 @@ class SavedItemsScreen : Screen {
                         onDismiss = {
                             rawContent = null
                         },
+                        onQuote = { quotation ->
+                            rawContent = null
+                            if (quotation != null) {
+                                val screen =
+                                    CreateCommentScreen(
+                                        originalPost = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        }
+                                    )
+                                navigationCoordinator.showBottomSheet(screen)
+                            }
+                        }
                     )
                 }
 
@@ -507,6 +523,21 @@ class SavedItemsScreen : Screen {
                         onDismiss = {
                             rawContent = null
                         },
+                        onQuote = { quotation ->
+                            rawContent = null
+                            if (quotation != null) {
+                                val screen =
+                                    CreateCommentScreen(
+                                        originalComment = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        }
+                                    )
+                                navigationCoordinator.showBottomSheet(screen)
+                            }
+                        }
                     )
                 }
             }

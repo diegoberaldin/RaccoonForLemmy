@@ -237,7 +237,7 @@
     <string name="settings_ui_font_scale">Veličina teksta korisničkog sučelja</string>
     <string name="settings_ui_theme">Tema korisničkog sučelja</string>
     <string name="settings_upvote_color">Boja za glasanje</string>
-    <string name="settings_hide_navigation_bar">Sakrij navigacijsku traku prilikom pomicanja
+    <string name="settings_hide_navigation_bar">Sakrij navigacijsku traku tijekom pomicanja
     </string>
     <string name="settings_zombie_mode_interval">Trajanje intervala zombi načina rada</string>
     <string name="settings_zombie_mode_scroll_amount">Količina pomicanja u zombi načinu rada
@@ -245,4 +245,5 @@
     <string name="settings_mark_as_read_while_scrolling">Označite postove kao pročitane tijekom
         pomicanja
     </string>
+    <string name="action_quote">Citat…</string>
 </resources>

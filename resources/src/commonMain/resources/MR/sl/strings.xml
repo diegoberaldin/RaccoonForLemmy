@@ -235,9 +235,10 @@
     <string name="settings_ui_font_scale">Velikost besedila uporabniškega vmesnika</string>
     <string name="settings_ui_theme">Tema uporabniškega vmesnika</string>
     <string name="settings_upvote_color">Barva za glasovanje navzgor</string>
-    <string name="settings_hide_navigation_bar">Med drsenjem skrij navigacijsko vrstico</string>
+    <string name="settings_hide_navigation_bar">Med pomikanjem skrij navigacijsko vrstico</string>
     <string name="settings_zombie_mode_interval">Trajanje intervala v zombi načinu</string>
     <string name="settings_zombie_mode_scroll_amount">Količina drsenja v zombi načinu</string>
     <string name="settings_mark_as_read_while_scrolling">Med pomikanjem označi objave kot prebrane
     </string>
+    <string name="action_quote">Kvota…</string>
 </resources>

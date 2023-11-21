@@ -224,4 +224,5 @@
     <string name="settings_mark_as_read_while_scrolling">Marcar postagens como lidas durante ao
         rolar
     </string>
+    <string name="action_quote">Citar…</string>
 </resources>

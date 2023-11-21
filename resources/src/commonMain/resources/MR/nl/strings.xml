@@ -234,4 +234,5 @@
     <string name="settings_mark_as_read_while_scrolling">Markeer berichten als gelezen tijdens het
         scrollen
     </string>
+    <string name="action_quote">Citaat…</string>
 </resources>

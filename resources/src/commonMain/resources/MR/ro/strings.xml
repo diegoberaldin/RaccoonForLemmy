@@ -224,4 +224,5 @@
     <string name="settings_zombie_mode_scroll_amount">Extensia de derulare modului zombie</string>
     <string name="settings_mark_as_read_while_scrolling">Marchează postările ca citite la derulare
     </string>
+    <string name="action_quote">Citează…</string>
 </resources>

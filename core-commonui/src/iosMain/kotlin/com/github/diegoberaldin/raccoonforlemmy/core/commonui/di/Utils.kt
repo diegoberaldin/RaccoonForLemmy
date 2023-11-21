@@ -187,6 +187,7 @@ object CommonUiViewModelHelper : KoinComponent {
 @Composable
 actual fun getCustomTextToolbar(
     onShare: () -> Unit,
+    onQuote: () -> Unit,
 ): TextToolbar {
     return LocalTextToolbar.current
 }

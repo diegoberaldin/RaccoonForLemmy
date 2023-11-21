@@ -231,9 +231,10 @@
     <string name="settings_ui_font_scale">UI-tekststørrelse</string>
     <string name="settings_ui_theme">UI-tema</string>
     <string name="settings_upvote_color">Upvote-farge</string>
-    <string name="settings_hide_navigation_bar">Skjul navigasjonsfeltet når du ruller</string>
+    <string name="settings_hide_navigation_bar">Skjul navigasjonsfeltet mens du ruller</string>
     <string name="settings_zombie_mode_interval">Zombie-modus intervallvarighet</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie-modus rullebeløp</string>
     <string name="settings_mark_as_read_while_scrolling">Merk innlegg som lest mens du ruller
     </string>
+    <string name="action_quote">Sitat…</string>
 </resources>

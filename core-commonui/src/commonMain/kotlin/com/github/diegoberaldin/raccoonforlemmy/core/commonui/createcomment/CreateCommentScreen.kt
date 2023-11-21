@@ -77,6 +77,7 @@ class CreateCommentScreen(
     private val originalPost: PostModel? = null,
     private val originalComment: CommentModel? = null,
     private val editedComment: CommentModel? = null,
+    private val initialText: String? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -98,7 +99,11 @@ class CreateCommentScreen(
         var openImagePicker by remember { mutableStateOf(false) }
         var rawContent by remember { mutableStateOf<Any?>(null) }
         var textFieldValue by remember {
-            mutableStateOf(TextFieldValue(text = editedComment?.text.orEmpty()))
+            mutableStateOf(
+                TextFieldValue(
+                    text = (initialText ?: editedComment?.text).orEmpty()
+                )
+            )
         }
         val commentFocusRequester = remember { FocusRequester() }
         val focusManager = LocalFocusManager.current

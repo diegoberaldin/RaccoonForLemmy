@@ -218,9 +218,10 @@
     <string name="settings_ui_font_scale">UI-tekststørrelse</string>
     <string name="settings_ui_theme">UI tema</string>
     <string name="settings_upvote_color">Upvote farve</string>
-    <string name="settings_hide_navigation_bar">Skjul navigationslinjen, når du ruller</string>
+    <string name="settings_hide_navigation_bar">Skjul navigationslinjen, mens du ruller</string>
     <string name="settings_zombie_mode_interval">Varighed af Zombie-tilstandsinterval</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie-tilstand scroll beløb</string>
     <string name="settings_mark_as_read_while_scrolling">Marker indlæg som læst, mens du ruller
     </string>
+    <string name="action_quote">Citere…</string>
 </resources>

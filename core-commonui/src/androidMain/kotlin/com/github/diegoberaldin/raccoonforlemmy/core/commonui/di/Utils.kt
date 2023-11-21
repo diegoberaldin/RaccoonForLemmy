@@ -161,9 +161,11 @@ actual fun getSelectCommunityViewModel(): SelectCommunityMviModel {
 @Composable
 actual fun getCustomTextToolbar(
     onShare: () -> Unit,
+    onQuote: () -> Unit,
 ): TextToolbar {
     return CustomTextToolbar(
         view = LocalView.current,
         onShare = onShare,
+        onQuote = onQuote,
     )
 }

@@ -241,8 +241,9 @@
     <string name="settings_ui_font_scale">UI text size</string>
     <string name="settings_ui_theme">UI theme</string>
     <string name="settings_upvote_color">Upvote color</string>
-    <string name="settings_hide_navigation_bar">Hide navigation bar when scrolling</string>
+    <string name="settings_hide_navigation_bar">Hide navigation bar while scrolling</string>
     <string name="settings_zombie_mode_interval">Zombie mode interval duration</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
     <string name="settings_mark_as_read_while_scrolling">Mark posts as read while scrolling</string>
+    <string name="action_quote">Quote…</string>
 </resources>

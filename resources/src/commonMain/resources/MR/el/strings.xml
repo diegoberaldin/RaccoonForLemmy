@@ -231,4 +231,5 @@
     <string name="settings_mark_as_read_while_scrolling">Επισήμανση αναρτήσεων ως αναγνωσμένων κατά
         την κύλιση
     </string>
+    <string name="action_quote">Παράσου…</string>
 </resources>

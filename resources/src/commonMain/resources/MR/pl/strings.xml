@@ -225,4 +225,5 @@
     <string name="settings_mark_as_read_while_scrolling">Oznacz posty jako przeczytane podczas
         przewijania
     </string>
+    <string name="action_quote">Cytat…</string>
 </resources>

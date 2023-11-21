@@ -230,9 +230,10 @@
     <string name="settings_ui_font_scale">UI-textstorlek</string>
     <string name="settings_ui_theme">Användargränssnittstema</string>
     <string name="settings_upvote_color">Uppröstningsfärg</string>
-    <string name="settings_hide_navigation_bar">Dölj navigeringsfältet när du bläddrar</string>
+    <string name="settings_hide_navigation_bar">Dölj navigeringsfältet när du rullar</string>
     <string name="settings_zombie_mode_interval">Zombielägesintervallets varaktighet</string>
     <string name="settings_zombie_mode_scroll_amount">Zombieläge rullningsmängd</string>
     <string name="settings_mark_as_read_while_scrolling">Markera inlägg som lästa medan du rullar
     </string>
+    <string name="action_quote">Citat…</string>
 </resources>

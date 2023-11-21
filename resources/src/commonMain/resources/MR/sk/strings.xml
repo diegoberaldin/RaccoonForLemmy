@@ -230,10 +230,11 @@
     <string name="settings_ui_font_scale">Veľkosť textu používateľského rozhrania</string>
     <string name="settings_ui_theme">Téma používateľského rozhrania</string>
     <string name="settings_upvote_color">Upvote farba</string>
-    <string name="settings_hide_navigation_bar">Skryť navigačný panel pri posúvaní</string>
+    <string name="settings_hide_navigation_bar">Skryť navigačný panel pri rolovaní</string>
     <string name="settings_zombie_mode_interval">Trvanie intervalu režimu zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Množstvo posúvania v zombie režime</string>
     <string name="settings_mark_as_read_while_scrolling">Označte príspevky ako prečítané pri
         rolovaní
     </string>
+    <string name="action_quote">Citovať…</string>
 </resources>

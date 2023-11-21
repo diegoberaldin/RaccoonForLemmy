@@ -227,4 +227,5 @@
     <string name="settings_mark_as_read_while_scrolling">Marquer les messages comme lus lors du
         défilement
     </string>
+    <string name="action_quote">Citer…</string>
 </resources>

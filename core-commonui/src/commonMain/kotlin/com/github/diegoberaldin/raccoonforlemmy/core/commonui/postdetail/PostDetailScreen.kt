@@ -958,6 +958,21 @@ class PostDetailScreen(
                         onDismiss = {
                             rawContent = null
                         },
+                        onQuote = { quotation ->
+                            rawContent = null
+                            if (quotation != null) {
+                                val screen =
+                                    CreateCommentScreen(
+                                        originalPost = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        }
+                                    )
+                                navigationCoordinator.showBottomSheet(screen)
+                            }
+                        }
                     )
                 }
 
@@ -967,6 +982,21 @@ class PostDetailScreen(
                         onDismiss = {
                             rawContent = null
                         },
+                        onQuote = { quotation ->
+                            rawContent = null
+                            if (quotation != null) {
+                                val screen =
+                                    CreateCommentScreen(
+                                        originalComment = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        }
+                                    )
+                                navigationCoordinator.showBottomSheet(screen)
+                            }
+                        }
                     )
                 }
             }

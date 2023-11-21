@@ -252,7 +252,8 @@
     </string>
     <string name="settings_zombie_mode_interval">Fad eatramh an mhóid Zombaí</string>
     <string name="settings_zombie_mode_scroll_amount">Méid scrollaithe an mhóid Zombie</string>
-    <string name="settings_mark_as_read_while_scrolling">Marcáil postálacha mar léite agus iad ag
+    <string name="settings_mark_as_read_while_scrolling">Marcáil postálacha mar léite agus tú ag
         scrollú
     </string>
+    <string name="action_quote">Athfhriotail…</string>
 </resources>
