@@ -35,5 +35,6 @@ interface InboxMentionsMviModel :
 
     sealed interface Effect {
         data class UpdateUnreadItems(val value: Int) : Effect
+        data object BackToTop : Effect
     }
 }

@@ -60,12 +60,17 @@ class InboxMessagesViewModel(
 
     override fun reduce(intent: InboxMessagesMviModel.Intent) {
         when (intent) {
-            InboxMessagesMviModel.Intent.LoadNextPage -> loadNextPage()
-            InboxMessagesMviModel.Intent.Refresh -> refresh()
+            InboxMessagesMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+                loadNextPage()
+            }
+
+            InboxMessagesMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
         }
     }
 
-    private fun refresh(initial: Boolean = false) {
+    private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
         mvi.updateState {
             it.copy(
@@ -80,50 +85,51 @@ class InboxMessagesViewModel(
 
     private fun changeUnreadOnly(value: Boolean) {
         mvi.updateState { it.copy(unreadOnly = value) }
-        refresh(initial = true)
+        mvi.scope?.launch(Dispatchers.IO) {
+            refresh(initial = true)
+            mvi.emitEffect(InboxMessagesMviModel.Effect.BackToTop)
+        }
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val unreadOnly = currentState.unreadOnly
-            val itemList = messageRepository.getAll(
-                auth = auth,
-                page = currentPage,
-                unreadOnly = unreadOnly,
-            )?.groupBy {
-                val creatorId = it.creator?.id ?: 0
-                val recipientId = it.recipient?.id ?: 0
-                listOf(creatorId, recipientId).sorted().toString()
-            }?.mapNotNull {
-                val messages = it.value.sortedBy { m -> m.publishDate }
-                messages.lastOrNull()
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val unreadOnly = currentState.unreadOnly
+        val itemList = messageRepository.getAll(
+            auth = auth,
+            page = currentPage,
+            unreadOnly = unreadOnly,
+        )?.groupBy {
+            val creatorId = it.creator?.id ?: 0
+            val recipientId = it.recipient?.id ?: 0
+            listOf(creatorId, recipientId).sorted().toString()
+        }?.mapNotNull {
+            val messages = it.value.sortedBy { m -> m.publishDate }
+            messages.lastOrNull()
+        }
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
+        mvi.updateState {
+            val newItems = if (refreshing) {
+                itemList.orEmpty()
+            } else {
+                it.chats + itemList.orEmpty()
             }
-            if (!itemList.isNullOrEmpty()) {
-                currentPage++
-            }
-            mvi.updateState {
-                val newItems = if (refreshing) {
-                    itemList.orEmpty()
-                } else {
-                    it.chats + itemList.orEmpty()
-                }
-                it.copy(
-                    chats = newItems,
-                    loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
-                    refreshing = false,
-                    initial = false,
-                )
-            }
+            it.copy(
+                chats = newItems,
+                loading = false,
+                canFetchMore = itemList?.isEmpty() != true,
+                refreshing = false,
+                initial = false,
+            )
         }
     }
 

@@ -90,6 +90,10 @@ class InboxMentionsScreen : Tab {
                     is InboxMentionsMviModel.Effect.UpdateUnreadItems -> {
                         navigationCoordinator.setInboxUnread(effect.value)
                     }
+
+                    InboxMentionsMviModel.Effect.BackToTop -> {
+                        lazyListState.scrollToItem(0)
+                    }
                 }
             }.launchIn(this)
         }
@@ -131,7 +135,10 @@ class InboxMentionsScreen : Tab {
                         )
                     }
                 }
-                items(uiState.mentions) { mention ->
+                items(
+                    items = uiState.mentions,
+                    key = { it.id.toString() + uiState.unreadOnly },
+                ) { mention ->
                     val endColor = MaterialTheme.colorScheme.secondary
                     val startColor = MaterialTheme.colorScheme.tertiary
                     SwipeableCard(

@@ -89,6 +89,10 @@ class InboxRepliesScreen : Tab {
                     is InboxRepliesMviModel.Effect.UpdateUnreadItems -> {
                         navigationCoordinator.setInboxUnread(effect.value)
                     }
+
+                    InboxRepliesMviModel.Effect.BackToTop -> {
+                        lazyListState.scrollToItem(0)
+                    }
                 }
             }.launchIn(this)
         }
@@ -130,7 +134,10 @@ class InboxRepliesScreen : Tab {
                         )
                     }
                 }
-                items(uiState.replies) { reply ->
+                items(
+                    items = uiState.replies,
+                    key = { it.id.toString() + uiState.unreadOnly },
+                ) { reply ->
                     val endColor = MaterialTheme.colorScheme.secondary
                     val startColor = MaterialTheme.colorScheme.tertiary
                     SwipeableCard(

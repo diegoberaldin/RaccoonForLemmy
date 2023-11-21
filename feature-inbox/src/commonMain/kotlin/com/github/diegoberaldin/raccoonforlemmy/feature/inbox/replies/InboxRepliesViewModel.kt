@@ -76,8 +76,13 @@ class InboxRepliesViewModel(
 
     override fun reduce(intent: InboxRepliesMviModel.Intent) {
         when (intent) {
-            InboxRepliesMviModel.Intent.LoadNextPage -> loadNextPage()
-            InboxRepliesMviModel.Intent.Refresh -> refresh()
+            InboxRepliesMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+                loadNextPage()
+            }
+
+            InboxRepliesMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
 
             is InboxRepliesMviModel.Intent.MarkAsRead -> {
                 markAsRead(
@@ -100,7 +105,7 @@ class InboxRepliesViewModel(
         }
     }
 
-    private fun refresh(initial: Boolean = false) {
+    private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
         mvi.updateState {
             it.copy(
@@ -109,59 +114,58 @@ class InboxRepliesViewModel(
                 refreshing = true
             )
         }
-        mvi.scope?.launch {
-            val auth = identityRepository.authToken.value
-            val currentUser = siteRepository.getCurrentUser(auth.orEmpty())
-            currentUserId = currentUser?.id
-            loadNextPage()
-            updateUnreadItems()
-        }
+        val auth = identityRepository.authToken.value
+        val currentUser = siteRepository.getCurrentUser(auth.orEmpty())
+        currentUserId = currentUser?.id
+        loadNextPage()
+        updateUnreadItems()
     }
 
     private fun changeUnreadOnly(value: Boolean) {
         mvi.updateState { it.copy(unreadOnly = value) }
-        refresh(initial = true)
+        mvi.scope?.launch(Dispatchers.IO) {
+            refresh(initial = true)
+            mvi.emitEffect(InboxRepliesMviModel.Effect.BackToTop)
+        }
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val unreadOnly = currentState.unreadOnly
-            val itemList = userRepository.getReplies(
-                auth = auth,
-                page = currentPage,
-                unreadOnly = unreadOnly,
-                sort = SortType.New,
-            )?.map {
-                val isOwnPost = it.post.creator?.id == currentUserId
-                it.copy(isOwnPost = isOwnPost)
-            }
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val unreadOnly = currentState.unreadOnly
+        val itemList = userRepository.getReplies(
+            auth = auth,
+            page = currentPage,
+            unreadOnly = unreadOnly,
+            sort = SortType.New,
+        )?.map {
+            val isOwnPost = it.post.creator?.id == currentUserId
+            it.copy(isOwnPost = isOwnPost)
+        }
 
-            if (!itemList.isNullOrEmpty()) {
-                currentPage++
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
+        mvi.updateState {
+            val newItems = if (refreshing) {
+                itemList.orEmpty()
+            } else {
+                it.replies + itemList.orEmpty()
             }
-            mvi.updateState {
-                val newItems = if (refreshing) {
-                    itemList.orEmpty()
-                } else {
-                    it.replies + itemList.orEmpty()
-                }
-                it.copy(
-                    replies = newItems,
-                    loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
-                    refreshing = false,
-                    initial = false,
-                )
-            }
+            it.copy(
+                replies = newItems,
+                loading = false,
+                canFetchMore = itemList?.isEmpty() != true,
+                refreshing = false,
+                initial = false,
+            )
         }
     }
 

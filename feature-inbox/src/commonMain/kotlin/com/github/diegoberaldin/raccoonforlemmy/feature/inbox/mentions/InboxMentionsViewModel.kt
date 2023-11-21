@@ -73,8 +73,14 @@ class InboxMentionsViewModel(
 
     override fun reduce(intent: InboxMentionsMviModel.Intent) {
         when (intent) {
-            InboxMentionsMviModel.Intent.LoadNextPage -> loadNextPage()
-            InboxMentionsMviModel.Intent.Refresh -> refresh()
+            InboxMentionsMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+                loadNextPage()
+            }
+
+            InboxMentionsMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
+
             is InboxMentionsMviModel.Intent.MarkAsRead -> {
                 markAsRead(
                     read = intent.read,
@@ -95,7 +101,7 @@ class InboxMentionsViewModel(
         }
     }
 
-    private fun refresh(initial: Boolean = false) {
+    private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
         mvi.updateState {
             it.copy(
@@ -110,44 +116,46 @@ class InboxMentionsViewModel(
 
     private fun changeUnreadOnly(value: Boolean) {
         mvi.updateState { it.copy(unreadOnly = value) }
-        refresh(initial = true)
+        mvi.scope?.launch(Dispatchers.IO) {
+            refresh(initial = true)
+            mvi.emitEffect(InboxMentionsMviModel.Effect.BackToTop)
+        }
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val unreadOnly = currentState.unreadOnly
-            val itemList = userRepository.getMentions(
-                auth = auth,
-                page = currentPage,
-                unreadOnly = unreadOnly,
-                sort = SortType.New,
+
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val unreadOnly = currentState.unreadOnly
+        val itemList = userRepository.getMentions(
+            auth = auth,
+            page = currentPage,
+            unreadOnly = unreadOnly,
+            sort = SortType.New,
+        )
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
+        mvi.updateState {
+            val newItems = if (refreshing) {
+                itemList.orEmpty()
+            } else {
+                it.mentions + itemList.orEmpty()
+            }
+            it.copy(
+                mentions = newItems,
+                loading = false,
+                canFetchMore = itemList?.isEmpty() != true,
+                refreshing = false,
+                initial = false,
             )
-            if (!itemList.isNullOrEmpty()) {
-                currentPage++
-            }
-            mvi.updateState {
-                val newItems = if (refreshing) {
-                    itemList.orEmpty()
-                } else {
-                    it.mentions + itemList.orEmpty()
-                }
-                it.copy(
-                    mentions = newItems,
-                    loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
-                    refreshing = false,
-                    initial = false,
-                )
-            }
         }
     }
 

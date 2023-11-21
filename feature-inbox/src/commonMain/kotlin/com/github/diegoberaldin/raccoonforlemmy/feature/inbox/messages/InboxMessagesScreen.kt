@@ -72,6 +72,10 @@ class InboxMessagesScreen : Tab {
                     is InboxMessagesMviModel.Effect.UpdateUnreadItems -> {
                         navigationCoordinator.setInboxUnread(effect.value)
                     }
+
+                    InboxMessagesMviModel.Effect.BackToTop -> {
+                        lazyListState.scrollToItem(0)
+                    }
                 }
             }.launchIn(this)
         }
@@ -106,7 +110,10 @@ class InboxMessagesScreen : Tab {
                         )
                     }
                 }
-                items(uiState.chats) { chat ->
+                items(
+                    items = uiState.chats,
+                    key = { it.id.toString() + uiState.unreadOnly },
+                ) { chat ->
                     val otherUser = if (chat.creator?.id == uiState.currentUserId) {
                         chat.recipient
                     } else {
