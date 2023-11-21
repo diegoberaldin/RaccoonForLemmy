@@ -1,5 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityResponse
@@ -48,4 +50,11 @@ interface CommunityService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: BlockCommunityForm,
     ): Response<BlockCommunityResponse>
+
+    @POST("community/ban_user")
+    @Headers("Content-Type: application/json")
+    suspend fun ban(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: BanFromCommunityForm,
+    ): Response<BanFromCommunityResponse>
 }

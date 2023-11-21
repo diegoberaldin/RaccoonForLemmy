@@ -8,11 +8,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeleteCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DistinguishCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommentResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommentsResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListCommentReportsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkCommentAsReadForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemoveCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolveCommentReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveCommentForm
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
@@ -94,5 +98,37 @@ interface CommentService {
     suspend fun createReport(
         @Body form: CreateCommentReportForm,
         @Header("Authorization") authHeader: String? = null,
+    ): Response<CommentReportResponse>
+
+    @POST("comment/remove")
+    @Headers("Content-Type: application/json")
+    suspend fun remove(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: RemoveCommentForm,
+    ): Response<CommentResponse>
+
+    @POST("comment/distinguish")
+    @Headers("Content-Type: application/json")
+    suspend fun distinguish(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: DistinguishCommentForm,
+    ): Response<CommentResponse>
+
+    @GET("comment/report/list")
+    @Headers("Content-Type: application/json")
+    suspend fun listReports(
+        @Header("Authorization") authHeader: String? = null,
+        @Query("auth") auth: String? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("page") page: Int? = null,
+        @Query("unresolved_only") unresolvedOnly: Boolean? = null,
+        @Query("community_id") communityId: Int? = null,
+    ): Response<ListCommentReportsResponse>
+
+    @PUT("comment/report/resolve")
+    @Headers("Content-Type: application/json")
+    suspend fun resolveReport(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: ResolveCommentReportForm,
     ): Response<CommentReportResponse>
 }

@@ -4,8 +4,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateCommentReportForm(
+data class DistinguishCommentForm(
     @SerialName("comment_id") val commentId: CommentId,
-    @SerialName("reason") val reason: String?,
+    @SerialName("distinguished") val distinguished: Boolean,
     @SerialName("auth") val auth: String,
 )

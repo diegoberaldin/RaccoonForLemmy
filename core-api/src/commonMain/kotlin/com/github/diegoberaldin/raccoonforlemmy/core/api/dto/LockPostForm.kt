@@ -4,8 +4,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateCommentReportForm(
-    @SerialName("comment_id") val commentId: CommentId,
-    @SerialName("reason") val reason: String?,
+data class LockPostForm(
+    @SerialName("post_id") val postId: PostId,
+    @SerialName("locked") val locked: Boolean,
     @SerialName("auth") val auth: String,
 )

@@ -5,13 +5,18 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeletePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FeaturePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostsResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListPostReportsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LockPostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPostAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PictrsImages
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostReportResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemovePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolvePostReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
 import de.jensklingenberg.ktorfit.Response
@@ -104,5 +109,44 @@ interface PostService {
     suspend fun createReport(
         @Header("Authorization") authHeader: String? = null,
         @Body form: CreatePostReportForm,
+    ): Response<PostReportResponse>
+
+    @POST("post/feature")
+    @Headers("Content-Type: application/json")
+    suspend fun feature(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: FeaturePostForm,
+    ): Response<PostResponse>
+
+    @POST("post/remove")
+    @Headers("Content-Type: application/json")
+    suspend fun remove(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: RemovePostForm,
+    ): Response<PostResponse>
+
+    @POST("post/lock")
+    @Headers("Content-Type: application/json")
+    suspend fun lock(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: LockPostForm,
+    ): Response<PostResponse>
+
+    @GET("post/report/list")
+    @Headers("Content-Type: application/json")
+    suspend fun listReports(
+        @Header("Authorization") authHeader: String? = null,
+        @Query("auth") auth: String? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("page") page: Int? = null,
+        @Query("unresolved_only") unresolvedOnly: Boolean? = null,
+        @Query("community_id") communityId: Int? = null,
+    ): Response<ListPostReportsResponse>
+
+    @PUT("post/report/resolve")
+    @Headers("Content-Type: application/json")
+    suspend fun resolveReport(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: ResolvePostReportForm,
     ): Response<PostReportResponse>
 }
