@@ -4,10 +4,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeleteCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DistinguishCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemoveCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolveCommentReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -260,4 +264,77 @@ class CommentRepository(
             authHeader = auth.toAuthHeader(),
         )
     }
+
+    suspend fun remove(
+        commentId: Int,
+        auth: String,
+        removed: Boolean,
+        reason: String,
+    ): CommentModel? = runCatching {
+        val data = RemoveCommentForm(
+            commentId = commentId,
+            removed = removed,
+            reason = reason,
+            auth = auth,
+        )
+        val response = services.comment.remove(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        response.body()?.commentView?.toModel()
+    }.getOrNull()
+
+    suspend fun distinguish(
+        commentId: Int,
+        auth: String,
+        distinguished: Boolean,
+    ): CommentModel? = runCatching {
+        val data = DistinguishCommentForm(
+            commentId = commentId,
+            distinguished = distinguished,
+            auth = auth,
+        )
+        val response = services.comment.distinguish(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        response.body()?.commentView?.toModel()
+    }.getOrNull()
+
+    suspend fun getReports(
+        auth: String,
+        communityId: Int,
+        page: Int,
+        limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
+        unresolvedOnly: Boolean = true,
+    ): List<CommentReportModel>? = runCatching {
+        val response = services.comment.listReports(
+            authHeader = auth.toAuthHeader(),
+            auth = auth,
+            communityId = communityId,
+            page = page,
+            limit = limit,
+            unresolvedOnly = unresolvedOnly
+        )
+        response.body()?.commentReports?.map {
+            it.toModel()
+        }
+    }.getOrNull()
+
+    suspend fun resolveReport(
+        reportId: Int,
+        auth: String,
+        resolved: Boolean,
+    ): CommentReportModel? = runCatching {
+        val data = ResolveCommentReportForm(
+            reportId = reportId,
+            resolved = resolved,
+            auth = auth,
+        )
+        val response = services.comment.resolveReport(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        response.body()?.commentReportView?.toModel()
+    }.getOrNull()
 }

@@ -24,6 +24,9 @@ data class PostModel(
     val nsfw: Boolean = false,
     val read: Boolean = false,
     val crossPosts: List<PostModel> = emptyList(),
+    val featuredCommunity: Boolean = false,
+    val removed: Boolean = false,
+    val locked: Boolean = false,
 ) : JavaSerializable
 
 val PostModel.imageUrl: String

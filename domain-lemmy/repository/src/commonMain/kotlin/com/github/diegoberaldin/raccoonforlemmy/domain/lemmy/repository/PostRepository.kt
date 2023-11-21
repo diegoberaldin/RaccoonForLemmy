@@ -5,11 +5,17 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostLikeForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeletePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FeaturePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LockPostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPostAsReadForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostFeatureType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemovePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolvePostReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
@@ -259,4 +265,95 @@ class PostRepository(
             authHeader = auth.toAuthHeader(),
         )
     }
+
+    suspend fun featureInCommunity(
+        postId: Int,
+        auth: String,
+        featured: Boolean,
+    ): PostModel? = runCatching {
+        val data = FeaturePostForm(
+            postId = postId,
+            auth = auth,
+            featured = featured,
+            featureType = PostFeatureType.Community,
+        )
+        val response = services.post.feature(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        response.body()?.postView?.toModel()
+    }.getOrNull()
+
+    suspend fun lock(
+        postId: Int,
+        auth: String,
+        locked: Boolean,
+    ): PostModel? = runCatching {
+        val data = LockPostForm(
+            postId = postId,
+            auth = auth,
+            locked = locked,
+        )
+        val response = services.post.lock(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        response.body()?.postView?.toModel()
+    }.getOrNull()
+
+    suspend fun remove(
+        postId: Int,
+        auth: String,
+        reason: String,
+        removed: Boolean,
+    ): PostModel? = runCatching {
+        val data = RemovePostForm(
+            postId = postId,
+            auth = auth,
+            removed = removed,
+            reason = reason,
+        )
+        val response = services.post.remove(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        response.body()?.postView?.toModel()
+    }.getOrNull()
+
+    suspend fun getReports(
+        auth: String,
+        communityId: Int,
+        page: Int,
+        limit: Int = DEFAULT_PAGE_SIZE,
+        unresolvedOnly: Boolean = true,
+    ): List<PostReportModel>? = runCatching {
+        val response = services.post.listReports(
+            authHeader = auth.toAuthHeader(),
+            auth = auth,
+            communityId = communityId,
+            page = page,
+            limit = limit,
+            unresolvedOnly = unresolvedOnly
+        )
+        response.body()?.postReports?.map {
+            it.toModel()
+        }
+    }.getOrNull()
+
+    suspend fun resolveReport(
+        reportId: Int,
+        auth: String,
+        resolved: Boolean,
+    ): PostReportModel? = runCatching {
+        val data = ResolvePostReportForm(
+            reportId = reportId,
+            auth = auth,
+            resolved = resolved,
+        )
+        val response = services.post.resolveReport(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        response.body()?.postReportView?.toModel()
+    }.getOrNull()
 }

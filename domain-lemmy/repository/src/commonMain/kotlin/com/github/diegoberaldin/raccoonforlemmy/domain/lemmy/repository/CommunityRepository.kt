@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
@@ -100,6 +101,21 @@ class CommunityRepository(
         }
         response?.communityView?.toModel()
     }.getOrNull()
+
+    suspend fun getModerators(
+        auth: String? = null,
+        id: Int? = null,
+    ): List<UserModel> = runCatching {
+        val response = services.community.get(
+            authHeader = auth.toAuthHeader(),
+            auth = auth,
+            id = id,
+        ).body()
+        response?.moderators?.map {
+            it.moderator.toModel()
+        }.orEmpty()
+    }.getOrElse { emptyList() }
+
 
     suspend fun subscribe(
         auth: String? = null,

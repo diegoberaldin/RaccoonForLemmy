@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReplyView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReportView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentSortType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Community
@@ -12,6 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Person
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonAggregates
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostReportView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchType
@@ -31,10 +33,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopWeek
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopYear
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SubscribedType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -117,6 +121,9 @@ internal fun PostView.toModel() = PostModel(
     nsfw = post.nsfw,
     embedVideoUrl = post.embedVideoUrl,
     read = read,
+    featuredCommunity = post.featuredCommunity,
+    removed = post.removed,
+    locked = post.locked,
 )
 
 internal fun CommentView.toModel() = CommentModel(
@@ -134,6 +141,8 @@ internal fun CommentView.toModel() = CommentModel(
     postId = comment.postId,
     comments = counts.childCount,
     path = comment.path,
+    distinguished = comment.distinguished,
+    removed = comment.removed,
 )
 
 internal fun Community.toModel() = CommunityModel(
@@ -180,6 +189,9 @@ internal fun PersonMentionView.toModel() = PersonMentionModel(
         updateDate = post.updated,
         nsfw = post.nsfw,
         embedVideoUrl = post.embedVideoUrl,
+        featuredCommunity = post.featuredCommunity,
+        removed = post.removed,
+        locked = post.locked,
     ),
     comment = CommentModel(
         id = comment.id,
@@ -188,6 +200,8 @@ internal fun PersonMentionView.toModel() = PersonMentionModel(
         community = community.toModel(),
         publishDate = comment.published,
         updateDate = comment.updated,
+        distinguished = comment.distinguished,
+        removed = comment.removed,
     ),
     creator = creator.toModel(),
     community = community.toModel(),
@@ -218,7 +232,10 @@ internal fun CommentReplyView.toModel() = PersonMentionModel(
         publishDate = post.published,
         updateDate = post.updated,
         nsfw = post.nsfw,
-        embedVideoUrl = post.embedVideoUrl
+        embedVideoUrl = post.embedVideoUrl,
+        featuredCommunity = post.featuredCommunity,
+        removed = post.removed,
+        locked = post.locked,
     ),
     comment = CommentModel(
         id = comment.id,
@@ -227,6 +244,8 @@ internal fun CommentReplyView.toModel() = PersonMentionModel(
         community = community.toModel(),
         publishDate = comment.published,
         updateDate = comment.updated,
+        distinguished = comment.distinguished,
+        removed = comment.removed,
     ),
     creator = creator.toModel(),
     community = community.toModel(),
@@ -265,3 +284,31 @@ private fun String.communityToInstanceUrl(): String {
     }
     return this.substring(0, index)
 }
+
+internal fun PostReportView.toModel() = PostReportModel(
+    id = postReport.id,
+    postId = post.id,
+    reason = postReport.reason,
+    creator = creator.toModel(),
+    publishDate = postReport.published,
+    resolved = postReport.resolved,
+    resolver = resolver?.toModel(),
+    originalText = postReport.originalPostBody,
+    originalTitle = postReport.originalPostName,
+    originalUrl = postReport.originalPostUrl,
+    thumbnailUrl = post.thumbnailUrl,
+    updateDate = postReport.updated,
+)
+
+internal fun CommentReportView.toModel() = CommentReportModel(
+    id = commentReport.id,
+    postId = comment.postId,
+    commentId = comment.id,
+    reason = commentReport.reason,
+    creator = creator.toModel(),
+    publishDate = commentReport.published,
+    resolved = commentReport.resolved,
+    resolver = resolver?.toModel(),
+    originalText = commentReport.originalCommentText,
+    updateDate = commentReport.updated,
+)

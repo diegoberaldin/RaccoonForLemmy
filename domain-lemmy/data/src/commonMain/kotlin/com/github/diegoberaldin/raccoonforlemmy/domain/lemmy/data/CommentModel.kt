@@ -18,6 +18,8 @@ data class CommentModel(
     val updateDate: String? = null,
     val comments: Int? = null,
     val path: String = "",
+    val distinguished: Boolean = false,
+    val removed: Boolean = false,
     @Transient
     val expanded: Boolean = true,
     @Transient
