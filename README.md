@@ -156,6 +156,9 @@ rb_c, OverfedRaccoon, Jailbrick3d, everdred…
 - get it on [Obtainium](https://github.com/ImranR98/Obtainium/releases) by simply adding this
   repo `https://github.com/diegoberaldin/RaccoonForLemmy`
 
+On Obtaininum, you can enable the "Include prereleases" switch to get access to the releases that
+are not marked as stable.
+
 ## Want to leave your feedback or report a bug?
 
 - open an issue on this
