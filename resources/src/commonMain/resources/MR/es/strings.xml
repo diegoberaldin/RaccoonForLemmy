@@ -131,14 +131,14 @@
     <string name="navigation_profile">Perfil</string>
     <string name="navigation_search">Descubre</string>
     <string name="navigation_settings">Ajustes</string>
-    <string name="post_action_cross_post">Publicación cruzada…</string>
-    <string name="post_action_edit">Modificar…</string>
+    <string name="post_action_cross_post">Publicación cruzada</string>
+    <string name="post_action_edit">Modificar</string>
     <string name="post_action_hide">Esconder</string>
-    <string name="post_action_report">Crear informe…</string>
-    <string name="post_action_see_raw">Ver raw…</string>
-    <string name="post_action_share">Compartir…</string>
+    <string name="post_action_report">Crear informe</string>
+    <string name="post_action_see_raw">Ver raw</string>
+    <string name="post_action_share">Compartir</string>
     <string name="post_detail_cross_posts">también publicado en:</string>
-    <string name="post_detail_load_more_comments">Descarga más comentarios…</string>
+    <string name="post_detail_load_more_comments">Descarga más comentarios</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
@@ -153,7 +153,7 @@
     <string name="profile_section_posts">Publicaciones</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">a</string>
-    <string name="settings_about">Sobre esta app…</string>
+    <string name="settings_about">Sobre esta app</string>
     <string name="settings_about_app_version">Versión app</string>
     <string name="settings_about_changelog">Ver registro de cambios</string>
     <string name="settings_about_report_github">Reportar un error (GitHub)</string>
@@ -229,5 +229,5 @@
     <string name="settings_mark_as_read_while_scrolling">Marcar publicaciones como leídas al
         desplazarse
     </string>
-    <string name="action_quote">Citar…</string>
+    <string name="action_quote">Citar</string>
 </resources>

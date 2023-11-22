@@ -157,14 +157,14 @@
     <string name="navigation_profile">Próifíl</string>
     <string name="navigation_search">Cuardach</string>
     <string name="navigation_settings">Socruithe</string>
-    <string name="post_action_cross_post">Trasphost…</string>
-    <string name="post_action_edit">Eagar…</string>
+    <string name="post_action_cross_post">Trasphost</string>
+    <string name="post_action_edit">Eagar</string>
     <string name="post_action_hide">Folaigh</string>
     <string name="post_action_report">Tuairiscigh</string>
-    <string name="post_action_see_raw">Féach RAW…</string>
+    <string name="post_action_see_raw">Féach RAW</string>
     <string name="post_action_share">Roinn</string>
     <string name="post_detail_cross_posts">sa phost freisin chuig:</string>
-    <string name="post_detail_load_more_comments">Lódáil tuilleadh tuairimí…</string>
+    <string name="post_detail_load_more_comments">Lódáil tuilleadh tuairimí</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
@@ -180,7 +180,7 @@
     <string name="profile_section_posts">Postálacha</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">Maidir leis an aip seo...</string>
+    <string name="settings_about">Maidir leis an aip seo</string>
     <string name="settings_about_app_version">Leagan feidhmchláir</string>
     <string name="settings_about_changelog">Féach ar an loga athraithe iomlán</string>
     <string name="settings_about_report_github">Tuairiscigh fabht (GitHub)</string>
@@ -255,5 +255,5 @@
     <string name="settings_mark_as_read_while_scrolling">Marcáil postálacha mar léite agus tú ag
         scrollú
     </string>
-    <string name="action_quote">Athfhriotail…</string>
+    <string name="action_quote">Athfhriotail</string>
 </resources>

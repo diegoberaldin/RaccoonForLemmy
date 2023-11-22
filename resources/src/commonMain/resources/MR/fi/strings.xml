@@ -140,12 +140,12 @@
     <string name="navigation_profile">Profiili</string>
     <string name="navigation_search">Tutki</string>
     <string name="navigation_settings">Asetukset</string>
-    <string name="post_action_cross_post">Cross-post…</string>
-    <string name="post_action_edit">Muokkaa…</string>
+    <string name="post_action_cross_post">Cross-post</string>
+    <string name="post_action_edit">Muokkaa</string>
     <string name="post_action_hide">Piilota</string>
     <string name="post_action_report">Raportti</string>
-    <string name="post_action_see_raw">Näytä raakana...</string>
-    <string name="post_action_share">Jaa...</string>
+    <string name="post_action_see_raw">Näytä raakana</string>
+    <string name="post_action_share">Jaa</string>
     <string name="post_detail_cross_posts">julkaistu myös:</string>
     <string name="post_detail_load_more_comments">Lataa lisää kommentteja</string>
     <string name="post_hour_short">h</string>
@@ -162,7 +162,7 @@
     <string name="profile_section_posts">Viestit</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">k</string>
-    <string name="settings_about">Tietoja tästä sovelluksesta…</string>
+    <string name="settings_about">Tietoja tästä sovelluksesta</string>
     <string name="settings_about_app_version">Sovelluksen versio</string>
     <string name="settings_about_changelog">Näytä täydellinen muutosloki</string>
     <string name="settings_about_report_github">Ilmoita virheestä (GitHub)</string>
@@ -233,5 +233,5 @@
     <string name="settings_zombie_mode_scroll_amount">Zombitilan vieritysmäärä</string>
     <string name="settings_mark_as_read_while_scrolling">Merkitse viestit luetuiksi vieritettäessä
     </string>
-    <string name="action_quote">Lainata…</string>
+    <string name="action_quote">Lainata</string>
 </resources>

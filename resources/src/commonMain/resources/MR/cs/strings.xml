@@ -140,11 +140,11 @@
     <string name="navigation_profile">Profil</string>
     <string name="navigation_search">Prozkoumat</string>
     <string name="navigation_settings">Nastavení</string>
-    <string name="post_action_cross_post">Cross-post…</string>
+    <string name="post_action_cross_post">Cross-post</string>
     <string name="post_action_edit">Upravit</string>
     <string name="post_action_hide">Skrýt</string>
     <string name="post_action_report">Nahlásit</string>
-    <string name="post_action_see_raw">Zobrazit RAW...</string>
+    <string name="post_action_see_raw">Zobrazit RAW</string>
     <string name="post_action_share">Sdílet</string>
     <string name="post_detail_cross_posts">také zveřejněno na:</string>
     <string name="post_detail_load_more_comments">Načíst více komentářů</string>
@@ -162,7 +162,7 @@
     <string name="profile_section_posts">Příspěvky</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">O této aplikaci…</string>
+    <string name="settings_about">O této aplikaci</string>
     <string name="settings_about_app_version">Verze aplikace</string>
     <string name="settings_about_changelog">Zhlédnout novinky ve verzi</string>
     <string name="settings_about_report_github">Nahlásit chybu (GitHub)</string>
@@ -234,5 +234,5 @@
     <string name="settings_mark_as_read_while_scrolling">Označte příspěvky jako přečtené při
         rolování
     </string>
-    <string name="action_quote">Citát…</string>
+    <string name="action_quote">Citát</string>
 </resources>

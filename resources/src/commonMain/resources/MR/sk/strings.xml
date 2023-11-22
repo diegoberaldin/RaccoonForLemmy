@@ -141,11 +141,11 @@
     <string name="navigation_profile">Profil</string>
     <string name="navigation_search">Preskúmať</string>
     <string name="navigation_settings">Nastavenia</string>
-    <string name="post_action_cross_post">Cross-post…</string>
-    <string name="post_action_edit">Upraviť...</string>
+    <string name="post_action_cross_post">Cross-post</string>
+    <string name="post_action_edit">Upraviť</string>
     <string name="post_action_hide">Skryť</string>
     <string name="post_action_report">Správa</string>
-    <string name="post_action_see_raw">Zobraziť raw...</string>
+    <string name="post_action_see_raw">Zobraziť raw</string>
     <string name="post_action_share">Zdieľať</string>
     <string name="post_detail_cross_posts">tiež odoslané na:</string>
     <string name="post_detail_load_more_comments">Načítať ďalšie komentáre</string>
@@ -236,5 +236,5 @@
     <string name="settings_mark_as_read_while_scrolling">Označte príspevky ako prečítané pri
         rolovaní
     </string>
-    <string name="action_quote">Citovať…</string>
+    <string name="action_quote">Citovať</string>
 </resources>

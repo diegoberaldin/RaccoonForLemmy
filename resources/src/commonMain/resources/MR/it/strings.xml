@@ -131,14 +131,14 @@
     <string name="navigation_profile">Profilo</string>
     <string name="navigation_search">Esplora</string>
     <string name="navigation_settings">Impostazioni</string>
-    <string name="post_action_cross_post">Cross-post…</string>
-    <string name="post_action_edit">Modifica…</string>
+    <string name="post_action_cross_post">Cross-post</string>
+    <string name="post_action_edit">Modifica</string>
     <string name="post_action_hide">Nascondi</string>
-    <string name="post_action_report">Segnala…</string>
-    <string name="post_action_see_raw">Vedi raw…</string>
-    <string name="post_action_share">Condividi…</string>
+    <string name="post_action_report">Segnala</string>
+    <string name="post_action_see_raw">Vedi raw</string>
+    <string name="post_action_share">Condividi</string>
     <string name="post_detail_cross_posts">postato anche in:</string>
-    <string name="post_detail_load_more_comments">Carica altri commenti…</string>
+    <string name="post_detail_load_more_comments">Carica altri commenti</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
@@ -153,7 +153,7 @@
     <string name="profile_section_posts">Post</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">a</string>
-    <string name="settings_about">Informazioni app…</string>
+    <string name="settings_about">Informazioni app</string>
     <string name="settings_about_app_version">Versione app</string>
     <string name="settings_about_changelog">Visualizza changelog</string>
     <string name="settings_about_report_github">Segnala un bug (GitHub)</string>
@@ -226,5 +226,5 @@
     <string name="settings_zombie_mode_scroll_amount">Ampiezza scroll modalità zombie</string>
     <string name="settings_mark_as_read_while_scrolling">Segna post come letti durante lo scroll
     </string>
-    <string name="action_quote">Cita…</string>
+    <string name="action_quote">Cita</string>
 </resources>

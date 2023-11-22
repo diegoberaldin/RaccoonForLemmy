@@ -129,12 +129,12 @@
     <string name="navigation_profile">Perfil</string>
     <string name="navigation_search">Explorar</string>
     <string name="navigation_settings">Configurações</string>
-    <string name="post_action_cross_post">Publicação cruzada…</string>
-    <string name="post_action_edit">Modificar…</string>
+    <string name="post_action_cross_post">Publicação cruzada</string>
+    <string name="post_action_edit">Modificar</string>
     <string name="post_action_hide">Esconder</string>
-    <string name="post_action_report">Denunciar…</string>
+    <string name="post_action_report">Denunciar</string>
     <string name="post_action_see_raw">Ver conteúdo bruto</string>
-    <string name="post_action_share">Compartilhar…</string>
+    <string name="post_action_share">Compartilhar</string>
     <string name="post_detail_cross_posts">publicado também em</string>
     <string name="post_detail_load_more_comments">Carregar mais comentários</string>
     <string name="post_hour_short">h</string>
@@ -151,7 +151,7 @@
     <string name="profile_section_posts">Publicações</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">Sobre esta app…</string>
+    <string name="settings_about">Sobre esta app</string>
     <string name="settings_about_app_version">Versão da app</string>
     <string name="settings_about_changelog">Ver o registro de alterações</string>
     <string name="settings_about_report_github">Relatar um bug (GitHub)</string>
@@ -224,5 +224,5 @@
     <string name="settings_mark_as_read_while_scrolling">Marcar postagens como lidas durante ao
         rolar
     </string>
-    <string name="action_quote">Citar…</string>
+    <string name="action_quote">Citar</string>
 </resources>

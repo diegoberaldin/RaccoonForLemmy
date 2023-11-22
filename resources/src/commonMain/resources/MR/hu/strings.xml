@@ -149,7 +149,7 @@
     <string name="post_action_edit">Szerkesztés</string>
     <string name="post_action_hide">elbújik</string>
     <string name="post_action_report">Jelentés</string>
-    <string name="post_action_see_raw">Nyers megtekintése…</string>
+    <string name="post_action_see_raw">Nyers megtekintése</string>
     <string name="post_action_share">Megosztás</string>
     <string name="post_detail_cross_posts">szintén közzétéve:</string>
     <string name="post_detail_load_more_comments">További hozzászólások betöltése</string>
@@ -167,7 +167,7 @@
     <string name="profile_section_posts">Bejegyzések</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">i</string>
-    <string name="settings_about">Az alkalmazásról...</string>
+    <string name="settings_about">Az alkalmazásról</string>
     <string name="settings_about_app_version">Alkalmazásverzió</string>
     <string name="settings_about_changelog">Tekintse meg a teljes Változások listáját</string>
     <string name="settings_about_report_github">Hiba bejelentése (GitHub)</string>
@@ -242,5 +242,5 @@
     <string name="settings_mark_as_read_while_scrolling">Bejegyzések megjelölése olvasottként
         görgetés közben
     </string>
-    <string name="action_quote">Idézet…</string>
+    <string name="action_quote">Idézet</string>
 </resources>

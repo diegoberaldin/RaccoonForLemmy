@@ -149,11 +149,11 @@
     <string name="navigation_profile">Profilis</string>
     <string name="navigation_search">Tyrinėti</string>
     <string name="navigation_settings">Nustatymai</string>
-    <string name="post_action_cross_post">Skersinis stulpas…</string>
+    <string name="post_action_cross_post">Skersinis stulpas</string>
     <string name="post_action_edit">Redaguoti</string>
     <string name="post_action_hide">Slėpti</string>
-    <string name="post_action_report">Pranešti…</string>
-    <string name="post_action_see_raw">Peržiūrėti neapdorotą...</string>
+    <string name="post_action_report">Pranešti</string>
+    <string name="post_action_see_raw">Peržiūrėti neapdorotą</string>
     <string name="post_action_share">Dalis</string>
     <string name="post_detail_cross_posts">taip pat paskelbta:</string>
     <string name="post_detail_load_more_comments">rodyti daugiau komentarų</string>
@@ -248,5 +248,5 @@
     <string name="settings_mark_as_read_while_scrolling">Slinkdami pažymėkite įrašus kaip
         skaitytus
     </string>
-    <string name="action_quote">Citata…</string>
+    <string name="action_quote">Citata</string>
 </resources>

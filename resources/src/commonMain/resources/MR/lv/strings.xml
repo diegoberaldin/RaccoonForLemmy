@@ -150,14 +150,14 @@
     <string name="navigation_profile">Profils</string>
     <string name="navigation_search">Izpētiet</string>
     <string name="navigation_settings">Iestatījumi</string>
-    <string name="post_action_cross_post">Šķērsstabilitāte…</string>
+    <string name="post_action_cross_post">Šķērsstabilitāte</string>
     <string name="post_action_edit">Rediģēt</string>
     <string name="post_action_hide">Slēpt</string>
     <string name="post_action_report">Ziņojums</string>
-    <string name="post_action_see_raw">Skatīt neapstrādātu...</string>
+    <string name="post_action_see_raw">Skatīt neapstrādātu</string>
     <string name="post_action_share">Dalīties</string>
     <string name="post_detail_cross_posts">arī izlikts:</string>
-    <string name="post_detail_load_more_comments">Ielādēt vairāk komentāru...</string>
+    <string name="post_detail_load_more_comments">Ielādēt vairāk komentāru</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
@@ -247,5 +247,5 @@
     <string name="settings_mark_as_read_while_scrolling">Atzīmējiet ziņas kā izlasītas ritināšanas
         laikā
     </string>
-    <string name="action_quote">Citāts…</string>
+    <string name="action_quote">Citāts</string>
 </resources>

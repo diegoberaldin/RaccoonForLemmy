@@ -131,14 +131,14 @@
     <string name="navigation_profile">Προφίλ</string>
     <string name="navigation_search">Εξερεύνηση</string>
     <string name="navigation_settings">Ρυθμίσεις</string>
-    <string name="post_action_cross_post">Διασταύρωσε ανάρτηση…</string>
-    <string name="post_action_edit">Επεξεργασία…</string>
+    <string name="post_action_cross_post">Διασταύρωσε ανάρτηση</string>
+    <string name="post_action_edit">Επεξεργασία</string>
     <string name="post_action_hide">Απόκρυψε</string>
-    <string name="post_action_report">Αναφόρησε…</string>
-    <string name="post_action_see_raw">Προβολή ακατέργαστου…</string>
-    <string name="post_action_share">Κοινοποίησε…</string>
+    <string name="post_action_report">Αναφόρησε</string>
+    <string name="post_action_see_raw">Προβολή ακατέργαστου</string>
+    <string name="post_action_share">Κοινοποίησε</string>
     <string name="post_detail_cross_posts">επίσης αναρτήθηκε σε:</string>
-    <string name="post_detail_load_more_comments">Φόρτωση περισσότερων σχολίων…</string>
+    <string name="post_detail_load_more_comments">Φόρτωση περισσότερων σχολίων</string>
     <string name="post_hour_short">ώρ</string>
     <string name="post_minute_short">λ</string>
     <string name="post_second_short">δ</string>
@@ -153,7 +153,7 @@
     <string name="profile_section_posts">Αναρτήσεις</string>
     <string name="profile_thousand_short">χιλ</string>
     <string name="profile_year_short">χρ</string>
-    <string name="settings_about">Σχετικά με αυτήν την εφαρμογή...</string>
+    <string name="settings_about">Σχετικά με αυτήν την εφαρμογή</string>
     <string name="settings_about_app_version">Έκδοση εφαρμογής</string>
     <string name="settings_about_changelog">Προβολή πλήρους αρχείου αλλαγών</string>
     <string name="settings_about_report_github">Αναφορά σφάλματος (GitHub)</string>
@@ -231,5 +231,5 @@
     <string name="settings_mark_as_read_while_scrolling">Επισήμανση αναρτήσεων ως αναγνωσμένων κατά
         την κύλιση
     </string>
-    <string name="action_quote">Παράσου…</string>
+    <string name="action_quote">Παράσου</string>
 </resources>

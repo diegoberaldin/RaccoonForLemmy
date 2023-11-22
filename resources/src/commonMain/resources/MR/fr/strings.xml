@@ -131,14 +131,14 @@
     <string name="navigation_profile">Profil</string>
     <string name="navigation_search">Explorer</string>
     <string name="navigation_settings">Réglages</string>
-    <string name="post_action_cross_post">Publication croisée…</string>
-    <string name="post_action_edit">Éditer…</string>
+    <string name="post_action_cross_post">Publication croisée</string>
+    <string name="post_action_edit">Éditer</string>
     <string name="post_action_hide">Cacher</string>
     <string name="post_action_report">Signaler</string>
-    <string name="post_action_see_raw">Voir brut…</string>
-    <string name="post_action_share">Partager…</string>
+    <string name="post_action_see_raw">Voir brut</string>
+    <string name="post_action_share">Partager</string>
     <string name="post_detail_cross_posts">également publié dans:</string>
-    <string name="post_detail_load_more_comments">Charger plus de commentaires…</string>
+    <string name="post_detail_load_more_comments">Charger plus de commentaires</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
@@ -153,7 +153,7 @@
     <string name="profile_section_posts">Publications</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">a</string>
-    <string name="settings_about">À propos de cette application…</string>
+    <string name="settings_about">À propos de cette application</string>
     <string name="settings_about_app_version">Version de l\'application</string>
     <string name="settings_about_changelog">Voir le journal des modifications</string>
     <string name="settings_about_report_github">Signaler un bug (GitHub)</string>
@@ -227,5 +227,5 @@
     <string name="settings_mark_as_read_while_scrolling">Marquer les messages comme lus lors du
         défilement
     </string>
-    <string name="action_quote">Citer…</string>
+    <string name="action_quote">Citer</string>
 </resources>

@@ -132,13 +132,13 @@
     <string name="navigation_search">Erkunden</string>
     <string name="navigation_settings">Einstellungen</string>
     <string name="post_action_cross_post">Cross-post</string>
-    <string name="post_action_edit">Bearbeiten…</string>
+    <string name="post_action_edit">Bearbeiten</string>
     <string name="post_action_hide">Verstecken</string>
-    <string name="post_action_report">Bericht…</string>
-    <string name="post_action_see_raw">Roh ansehen…</string>
-    <string name="post_action_share">Teilen…</string>
+    <string name="post_action_report">Bericht</string>
+    <string name="post_action_see_raw">Roh ansehen</string>
+    <string name="post_action_share">Teilen</string>
     <string name="post_detail_cross_posts">auch gepostet</string>
-    <string name="post_detail_load_more_comments">Weitere Kommentare laden…</string>
+    <string name="post_detail_load_more_comments">Weitere Kommentare laden</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
@@ -153,7 +153,7 @@
     <string name="profile_section_posts">Beträge</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">Über diese App…</string>
+    <string name="settings_about">Über diese App</string>
     <string name="settings_about_app_version">App version</string>
     <string name="settings_about_changelog">Änderungsprotokoll anzeigen</string>
     <string name="settings_about_report_github">Melde einen technischen Fehler (GitHub)</string>
@@ -227,5 +227,5 @@
     <string name="settings_mark_as_read_while_scrolling">Markieren Sie Beiträge beim Scrollen als
         gelesen
     </string>
-    <string name="action_quote">Zitat…</string>
+    <string name="action_quote">Zitat</string>
 </resources>

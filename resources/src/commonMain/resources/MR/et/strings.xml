@@ -149,14 +149,14 @@
     <string name="navigation_profile">Profiil</string>
     <string name="navigation_search">Uuri</string>
     <string name="navigation_settings">Seaded</string>
-    <string name="post_action_cross_post">Ristpostitus…</string>
-    <string name="post_action_edit">Muuda…</string>
+    <string name="post_action_cross_post">Ristpostitus</string>
+    <string name="post_action_edit">Muuda</string>
     <string name="post_action_hide">Peida</string>
     <string name="post_action_report">Aruanne</string>
-    <string name="post_action_see_raw">Kuva RAW...</string>
+    <string name="post_action_see_raw">Kuva RAW</string>
     <string name="post_action_share">Jaga</string>
     <string name="post_detail_cross_posts">postitatud ka:</string>
-    <string name="post_detail_load_more_comments">Laadi veel kommentaare...</string>
+    <string name="post_detail_load_more_comments">Laadi veel kommentaare</string>
     <string name="post_hour_short">t</string>
     <string name="post_minute_short">k</string>
     <string name="post_second_short">s</string>
@@ -171,7 +171,7 @@
     <string name="profile_section_posts">Postid</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">Teave selle rakenduse kohta…</string>
+    <string name="settings_about">Teave selle rakenduse kohta</string>
     <string name="settings_about_app_version">Rakenduse versioon</string>
     <string name="settings_about_changelog">Vaata täielikku muudatuste logi</string>
     <string name="settings_about_report_github">Teata veast (GitHub)</string>
@@ -242,5 +242,5 @@
     <string name="settings_zombie_mode_scroll_amount">Zombirežiimi kerimise kogus</string>
     <string name="settings_mark_as_read_while_scrolling">Märkige postitused kerimise ajal loetuks
     </string>
-    <string name="action_quote">Tsiteeri…</string>
+    <string name="action_quote">Tsiteeri</string>
 </resources>

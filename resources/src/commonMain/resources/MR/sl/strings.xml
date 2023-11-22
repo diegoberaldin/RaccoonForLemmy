@@ -146,10 +146,10 @@
     <string name="navigation_search">Raziščite</string>
     <string name="navigation_settings">Nastavitve</string>
     <string name="post_action_cross_post">Navzkrižni steber</string>
-    <string name="post_action_edit">Uredi…</string>
+    <string name="post_action_edit">Uredi</string>
     <string name="post_action_hide">Skrij</string>
     <string name="post_action_report">Poročilo</string>
-    <string name="post_action_see_raw">Ogled surovega...</string>
+    <string name="post_action_see_raw">Ogled surovega</string>
     <string name="post_action_share">Deli</string>
     <string name="post_detail_cross_posts">objavljeno tudi na:</string>
     <string name="post_detail_load_more_comments">Naloži več komentarjev</string>
@@ -167,7 +167,7 @@
     <string name="profile_section_posts">Objave</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">O tej aplikaciji…</string>
+    <string name="settings_about">O tej aplikaciji</string>
     <string name="settings_about_app_version">Različica aplikacije</string>
     <string name="settings_about_changelog">Ogled celotnega dnevnika sprememb</string>
     <string name="settings_about_report_github">Prijavite napako (GitHub)</string>
@@ -240,5 +240,5 @@
     <string name="settings_zombie_mode_scroll_amount">Količina drsenja v zombi načinu</string>
     <string name="settings_mark_as_read_while_scrolling">Med pomikanjem označi objave kot prebrane
     </string>
-    <string name="action_quote">Kvota…</string>
+    <string name="action_quote">Kvota</string>
 </resources>

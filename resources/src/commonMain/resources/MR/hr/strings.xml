@@ -148,11 +148,11 @@
     <string name="navigation_search">Istražite</string>
     <string name="navigation_settings">Postavke</string>
     <string name="post_action_cross_post">cross-post</string>
-    <string name="post_action_edit">Uredi…</string>
+    <string name="post_action_edit">Uredi</string>
     <string name="post_action_hide">Sakrij</string>
     <string name="post_action_report">Izvještaj</string>
     <string name="post_action_see_raw">Prikaži neobrađeno</string>
-    <string name="post_action_share">Dijeli…</string>
+    <string name="post_action_share">Dijeli</string>
     <string name="post_detail_cross_posts">također objavljeno na:</string>
     <string name="post_detail_load_more_comments">Učitaj više komentara</string>
     <string name="post_hour_short">h</string>
@@ -170,7 +170,7 @@
     <string name="profile_section_posts">Objave</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">O ovoj aplikaciji…</string>
+    <string name="settings_about">O ovoj aplikaciji</string>
     <string name="settings_about_app_version">Inačica aplikacije</string>
     <string name="settings_about_changelog">Pogledajte cjelovitu evidenciju promjena</string>
     <string name="settings_about_report_github">Prijavite pogrešku (GitHub)</string>
@@ -245,5 +245,5 @@
     <string name="settings_mark_as_read_while_scrolling">Označite postove kao pročitane tijekom
         pomicanja
     </string>
-    <string name="action_quote">Citat…</string>
+    <string name="action_quote">Citat</string>
 </resources>

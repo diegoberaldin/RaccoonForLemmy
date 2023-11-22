@@ -147,11 +147,11 @@
     <string name="navigation_profile">Профил</string>
     <string name="navigation_search">Разглеждане</string>
     <string name="navigation_settings">Настройки</string>
-    <string name="post_action_cross_post">Кръстосана публикация...</string>
+    <string name="post_action_cross_post">Кръстосана публикация</string>
     <string name="post_action_edit">Редактирай</string>
     <string name="post_action_hide">Скриване</string>
     <string name="post_action_report">Доклад</string>
-    <string name="post_action_see_raw">Преглед на RAW...</string>
+    <string name="post_action_see_raw">Преглед на RAW</string>
     <string name="post_action_share">Сподели</string>
     <string name="post_detail_cross_posts">също така публикуван на:</string>
     <string name="post_detail_load_more_comments">Зареждане на още коментари</string>
@@ -169,7 +169,7 @@
     <string name="profile_section_posts">Публикации</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">yunit description in lists</string>
-    <string name="settings_about">Относно това приложение...</string>
+    <string name="settings_about">Относно това приложение</string>
     <string name="settings_about_app_version">Версия на приложението</string>
     <string name="settings_about_changelog">Преглед на пълния дневник на промените</string>
     <string name="settings_about_report_github">Подаване на сигнал за програмна грешка (GitHub)
@@ -248,5 +248,5 @@
     <string name="settings_mark_as_read_while_scrolling">Маркирайте публикациите като прочетени при
         превъртате
     </string>
-    <string name="action_quote">цитат…</string>
+    <string name="action_quote">цитат</string>
 </resources>

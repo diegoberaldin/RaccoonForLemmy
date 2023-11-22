@@ -142,7 +142,7 @@
     <string name="navigation_profile">Profil</string>
     <string name="navigation_search">Utforsk</string>
     <string name="navigation_settings">Innstillinger</string>
-    <string name="post_action_cross_post">Cross-post…</string>
+    <string name="post_action_cross_post">Cross-post</string>
     <string name="post_action_edit">Rediger</string>
     <string name="post_action_hide">Skjul</string>
     <string name="post_action_report">Rapporter</string>
@@ -236,5 +236,5 @@
     <string name="settings_zombie_mode_scroll_amount">Zombie-modus rullebeløp</string>
     <string name="settings_mark_as_read_while_scrolling">Merk innlegg som lest mens du ruller
     </string>
-    <string name="action_quote">Sitat…</string>
+    <string name="action_quote">Sitat</string>
 </resources>

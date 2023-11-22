@@ -130,14 +130,14 @@
     <string name="navigation_profile">Profil</string>
     <string name="navigation_search">Exploră</string>
     <string name="navigation_settings">Setări</string>
-    <string name="post_action_cross_post">Postare încrucișată…</string>
-    <string name="post_action_edit">Editează…</string>
+    <string name="post_action_cross_post">Postare încrucișată</string>
+    <string name="post_action_edit">Editează</string>
     <string name="post_action_hide">Ascunde</string>
-    <string name="post_action_report">Reportează…</string>
-    <string name="post_action_see_raw">Vizualizare brută…</string>
-    <string name="post_action_share">Partajează…</string>
+    <string name="post_action_report">Reportează</string>
+    <string name="post_action_see_raw">Vizualizare brută</string>
+    <string name="post_action_share">Partajează</string>
     <string name="post_detail_cross_posts">postată și în:</string>
-    <string name="post_detail_load_more_comments">Încărcă mai multe comentării…</string>
+    <string name="post_detail_load_more_comments">Încărcă mai multe comentării</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
@@ -152,7 +152,7 @@
     <string name="profile_section_posts">Postări</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">Despre această aplicație…</string>
+    <string name="settings_about">Despre această aplicație</string>
     <string name="settings_about_app_version">Versiunea aplicației</string>
     <string name="settings_about_changelog">Vizualizează jurnalul de modificări</string>
     <string name="settings_about_report_email">Raportează o eroare (email)</string>
@@ -224,5 +224,5 @@
     <string name="settings_zombie_mode_scroll_amount">Extensia de derulare modului zombie</string>
     <string name="settings_mark_as_read_while_scrolling">Marchează postările ca citite la derulare
     </string>
-    <string name="action_quote">Citează…</string>
+    <string name="action_quote">Citează</string>
 </resources>

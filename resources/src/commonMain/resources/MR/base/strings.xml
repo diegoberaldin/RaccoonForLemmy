@@ -153,14 +153,14 @@
     <string name="navigation_profile">Profile</string>
     <string name="navigation_search">Explore</string>
     <string name="navigation_settings">Settings</string>
-    <string name="post_action_cross_post">Cross-post…</string>
-    <string name="post_action_edit">Edit…</string>
+    <string name="post_action_cross_post">Cross-post</string>
+    <string name="post_action_edit">Edit</string>
     <string name="post_action_hide">Hide</string>
-    <string name="post_action_report">Report…</string>
-    <string name="post_action_see_raw">View raw…</string>
-    <string name="post_action_share">Share…</string>
+    <string name="post_action_report">Report</string>
+    <string name="post_action_see_raw">View raw</string>
+    <string name="post_action_share">Share</string>
     <string name="post_detail_cross_posts">also posted to:</string>
-    <string name="post_detail_load_more_comments">Load more comments…</string>
+    <string name="post_detail_load_more_comments">Load more comments</string>
     <string name="post_hour_short">h</string>
     <string name="post_minute_short">m</string>
     <string name="post_second_short">s</string>
@@ -175,7 +175,7 @@
     <string name="profile_section_posts">Posts</string>
     <string name="profile_thousand_short">k</string>
     <string name="profile_year_short">y</string>
-    <string name="settings_about">About this app…</string>
+    <string name="settings_about">About this app</string>
     <string name="settings_about_app_version">App version</string>
     <string name="settings_about_changelog">View full changelog</string>
     <string name="settings_about_report_github">Report a bug (GitHub)</string>
@@ -245,5 +245,5 @@
     <string name="settings_zombie_mode_interval">Zombie mode interval duration</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
     <string name="settings_mark_as_read_while_scrolling">Mark posts as read while scrolling</string>
-    <string name="action_quote">Quote…</string>
+    <string name="action_quote">Quote</string>
 </resources>
