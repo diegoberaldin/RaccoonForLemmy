@@ -441,6 +441,7 @@ internal object ProfileLoggedScreen : Tab {
                 is PostModel -> {
                     RawContentDialog(
                         title = content.title,
+                        date = content.publishDate,
                         url = content.url,
                         text = content.text,
                         onDismiss = {
@@ -467,6 +468,7 @@ internal object ProfileLoggedScreen : Tab {
                 is CommentModel -> {
                     RawContentDialog(
                         text = content.text,
+                        date = content.publishDate,
                         onDismiss = {
                             rawContent = null
                         },

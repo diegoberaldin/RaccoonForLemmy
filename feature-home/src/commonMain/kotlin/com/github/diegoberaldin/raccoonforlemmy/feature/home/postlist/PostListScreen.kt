@@ -568,6 +568,7 @@ class PostListScreen : Screen {
                 is PostModel -> {
                     RawContentDialog(
                         title = content.title,
+                        date = content.publishDate,
                         url = content.url,
                         text = content.text,
                         onDismiss = {
