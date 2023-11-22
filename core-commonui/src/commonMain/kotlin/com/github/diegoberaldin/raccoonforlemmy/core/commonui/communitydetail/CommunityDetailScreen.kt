@@ -96,6 +96,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.Insta
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -252,24 +254,31 @@ class CommunityDetailScreen(
 
                         // options menu
                         Box {
-                            val options = listOf(
-                                Option(
+                            val options = buildList {
+                                this += Option(
                                     OptionId.Info,
                                     stringResource(MR.strings.community_detail_info)
-                                ),
-                                Option(
+                                )
+                                this += Option(
                                     OptionId.InfoInstance,
                                     stringResource(MR.strings.community_detail_instance_info)
-                                ),
-                                Option(
+                                )
+                                this += Option(
                                     OptionId.Block,
                                     stringResource(MR.strings.community_detail_block)
-                                ),
-                                Option(
+                                )
+                                this += Option(
                                     OptionId.BlockInstance,
                                     stringResource(MR.strings.community_detail_block_instance)
-                                ),
-                            )
+                                )
+
+                                if (uiState.isModerator) {
+                                    this += Option(
+                                        OptionId.OpenReports,
+                                        stringResource(MR.strings.mod_action_open_reports)
+                                    )
+                                }
+                            }
                             var optionsExpanded by remember { mutableStateOf(false) }
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
                             Image(
@@ -323,6 +332,13 @@ class CommunityDetailScreen(
                                                         navigationCoordinator.showBottomSheet(
                                                             CommunityInfoScreen(uiState.community),
                                                         )
+                                                    }
+
+                                                    OptionId.OpenReports -> {
+                                                        val screen = ReportListScreen(
+                                                            communityId = uiState.community.id
+                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
                                                     }
 
                                                     else -> Unit
@@ -545,6 +561,7 @@ class CommunityDetailScreen(
                                                 PostDetailScreen(
                                                     post = post,
                                                     otherInstance = otherInstanceName,
+                                                    isMod = uiState.isModerator,
                                                 ),
                                             )
                                         },
@@ -617,52 +634,60 @@ class CommunityDetailScreen(
                                             )
                                         },
                                         options = buildList {
-                                            add(
-                                                Option(
-                                                    OptionId.Share,
-                                                    stringResource(MR.strings.post_action_share)
-                                                )
+                                            this += Option(
+                                                OptionId.Share,
+                                                stringResource(MR.strings.post_action_share),
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
-                                                add(
-                                                    Option(
-                                                        OptionId.Hide,
-                                                        stringResource(MR.strings.post_action_hide)
-                                                    )
+                                                this += Option(
+                                                    OptionId.Hide,
+                                                    stringResource(MR.strings.post_action_hide),
                                                 )
                                             }
-                                            add(
-                                                Option(
-                                                    OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw)
-                                                )
+                                            this += Option(
+                                                OptionId.SeeRaw,
+                                                stringResource(MR.strings.post_action_see_raw),
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
-                                                add(
-                                                    Option(
-                                                        OptionId.CrossPost,
-                                                        stringResource(MR.strings.post_action_cross_post)
-                                                    )
+                                                this += Option(
+                                                    OptionId.CrossPost,
+                                                    stringResource(MR.strings.post_action_cross_post)
                                                 )
-                                                add(
-                                                    Option(
-                                                        OptionId.Report,
-                                                        stringResource(MR.strings.post_action_report)
-                                                    )
+                                                this += Option(
+                                                    OptionId.Report,
+                                                    stringResource(MR.strings.post_action_report),
                                                 )
                                             }
                                             if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
-                                                add(
-                                                    Option(
-                                                        OptionId.Edit,
-                                                        stringResource(MR.strings.post_action_edit)
-                                                    )
+                                                this += Option(
+                                                    OptionId.Edit,
+                                                    stringResource(MR.strings.post_action_edit),
                                                 )
-                                                add(
-                                                    Option(
-                                                        OptionId.Delete,
-                                                        stringResource(MR.strings.comment_action_delete)
-                                                    )
+                                                this += Option(
+                                                    OptionId.Delete,
+                                                    stringResource(MR.strings.comment_action_delete),
+                                                )
+                                            }
+                                            if (uiState.isModerator) {
+                                                this += Option(
+                                                    OptionId.FeaturePost,
+                                                    if (post.featuredCommunity) {
+                                                        stringResource(MR.strings.mod_action_unmark_as_featured)
+                                                    } else {
+                                                        stringResource(MR.strings.mod_action_mark_as_featured)
+                                                    },
+                                                )
+                                                this += Option(
+                                                    OptionId.LockPost,
+                                                    if (post.locked) {
+                                                        stringResource(MR.strings.mod_action_unlock)
+                                                    } else {
+                                                        stringResource(MR.strings.mod_action_lock)
+                                                    },
+                                                )
+                                                this += Option(
+                                                    OptionId.Remove,
+                                                    stringResource(MR.strings.mod_action_remove),
                                                 )
                                             }
                                         },
@@ -701,6 +726,21 @@ class CommunityDetailScreen(
                                                 OptionId.Share -> model.reduce(
                                                     CommunityDetailMviModel.Intent.SharePost(post.id)
                                                 )
+
+                                                OptionId.FeaturePost -> model.reduce(
+                                                    CommunityDetailMviModel.Intent.ModFeaturePost(
+                                                        post.id
+                                                    )
+                                                )
+
+                                                OptionId.LockPost -> model.reduce(
+                                                    CommunityDetailMviModel.Intent.ModLockPost(post.id)
+                                                )
+
+                                                OptionId.Remove -> {
+                                                    val screen = RemoveScreen(postId = post.id)
+                                                    navigationCoordinator.showBottomSheet(screen)
+                                                }
 
                                                 else -> Unit
                                             }

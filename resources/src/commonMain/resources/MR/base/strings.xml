@@ -246,4 +246,13 @@
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
     <string name="settings_mark_as_read_while_scrolling">Mark posts as read while scrolling</string>
     <string name="action_quote">Quote</string>
+
+    <string name="mod_action_open_reports">Open reports</string>
+    <string name="mod_action_mark_as_featured">Mark as featured</string>
+    <string name="mod_action_unmark_as_featured">Unmark as featured</string>
+    <string name="mod_action_lock">Lock</string>
+    <string name="mod_action_unlock">Unlock</string>
+    <string name="mod_action_remove">Remove</string>
+    <string name="mod_action_mark_as_distinguished">Mark as distinguished</string>
+    <string name="mod_action_unmark_as_distinguished">Unmark as distinguished</string>
 </resources>

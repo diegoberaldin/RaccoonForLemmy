@@ -32,6 +32,8 @@ interface CommunityDetailMviModel :
         data object ClearRead : Intent
         data class StartZombieMode(val index: Int) : Intent
         data object PauseZombieMode : Intent
+        data class ModFeaturePost(val id: Int) : Intent
+        data class ModLockPost(val id: Int) : Intent
     }
 
     data class UiState(
@@ -52,6 +54,7 @@ interface CommunityDetailMviModel :
         val separateUpAndDownVotes: Boolean = false,
         val autoLoadImages: Boolean = true,
         val zombieModeActive: Boolean = false,
+        val isModerator: Boolean = false,
     )
 
     sealed interface Effect {

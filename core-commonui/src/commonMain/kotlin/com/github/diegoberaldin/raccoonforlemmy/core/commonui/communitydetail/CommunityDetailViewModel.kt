@@ -86,6 +86,17 @@ class CommunityDetailViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { evt ->
+                handlePostDelete(evt.model.id)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
+                .onEach { evt ->
+                    val postId = evt.model.postId
+                    uiState.value.posts.firstOrNull { it.id == postId }?.also {
+                        val newPost = it.copy(comments = (it.comments - 1).coerceAtLeast(0))
+                        handlePostUpdate(newPost)
+                    }
+                }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val user = siteRepository.getCurrentUser(auth)
@@ -167,6 +178,16 @@ class CommunityDetailViewModel(
                     interval = settingsRepository.currentSettings.value.zombieModeInterval,
                 )
             }
+
+            is CommunityDetailMviModel.Intent.ModFeaturePost -> uiState.value.posts.firstOrNull { it.id == intent.id }
+                ?.also { post ->
+                    feature(post = post)
+                }
+
+            is CommunityDetailMviModel.Intent.ModLockPost -> uiState.value.posts.firstOrNull { it.id == intent.id }
+                ?.also { post ->
+                    lock(post = post)
+                }
         }
     }
 
@@ -190,9 +211,19 @@ class CommunityDetailViewModel(
                     name = community.name,
                 )
             }
+            val isModerator = communityRepository.getModerators(
+                auth = auth,
+                id = community.id,
+            ).any { it.id == uiState.value.currentUserId }
             if (refreshedCommunity != null) {
-                mvi.updateState { it.copy(community = refreshedCommunity) }
+                mvi.updateState {
+                    it.copy(
+                        community = refreshedCommunity,
+                        isModerator = isModerator,
+                    )
+                }
             }
+
             loadNextPage()
         }
     }
@@ -580,5 +611,33 @@ class CommunityDetailViewModel(
             )
         }
         markAsRead(post)
+    }
+
+    private fun feature(post: PostModel) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost = postRepository.featureInCommunity(
+                postId = post.id,
+                auth = auth,
+                featured = !post.featuredCommunity
+            )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
+    }
+
+    private fun lock(post: PostModel) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost = postRepository.lock(
+                postId = post.id,
+                auth = auth,
+                locked = !post.locked,
+            )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
     }
 }
