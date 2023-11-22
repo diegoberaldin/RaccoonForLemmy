@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 
 data class PostModel(
     val id: Int = 0,
+    val originalUrl: String? = null,
     val title: String = "",
     val text: String = "",
     val score: Int = 0,
@@ -24,15 +25,6 @@ data class PostModel(
     val read: Boolean = false,
     val crossPosts: List<PostModel> = emptyList(),
 ) : JavaSerializable
-
-
-val PostModel.shareUrl: String
-    get() = buildString {
-        append("https://")
-        append(community?.host)
-        append("/post/")
-        append(id)
-    }
 
 val PostModel.imageUrl: String
     get() = url?.takeIf { it.looksLikeAnImage }?.takeIf { it.isNotEmpty() } ?: run {

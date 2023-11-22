@@ -72,7 +72,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.shareUrl
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.stringResource
@@ -102,7 +101,7 @@ class CreatePostScreen(
                 crossPost != null -> buildString {
                     append(crossPostText)
                     append(" ")
-                    append(crossPost.shareUrl)
+                    append(crossPost.originalUrl)
                 }
 
                 editedPost != null -> {
