@@ -19,6 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.Insta
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
@@ -102,6 +103,10 @@ actual fun getRemoveViewModel(
     postId: Int?,
     commentId: Int?,
 ): RemoveMviModel = CommonUiViewModelHelper.getRemoveModel(postId, commentId)
+
+actual fun getReportListViewModel(
+    communityId: Int,
+): ReportListMviModel = CommonUiViewModelHelper.getReportListViewModel(communityId)
 
 object CommonUiViewModelHelper : KoinComponent {
 
@@ -197,6 +202,15 @@ object CommonUiViewModelHelper : KoinComponent {
     ): RemoveMviModel {
         val model: RemoveMviModel by inject(
             parameters = { parametersOf(postId, commentId) }
+        )
+        return model
+    }
+
+    fun getReportListViewModel(
+        communityId: Int,
+    ): ReportListMviModel {
+        val model: ReportListMviModel by inject(
+            parameters = { parametersOf(communityId) }
         )
         return model
     }

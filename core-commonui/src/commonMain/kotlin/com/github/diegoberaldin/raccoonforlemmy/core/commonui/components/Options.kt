@@ -24,4 +24,5 @@ sealed class OptionId(val value: Int) {
     data object Remove : OptionId(15)
     data object DistinguishComment : OptionId(16)
     data object OpenReports : OptionId(17)
+    data object ResolveReport : OptionId(18)
 }

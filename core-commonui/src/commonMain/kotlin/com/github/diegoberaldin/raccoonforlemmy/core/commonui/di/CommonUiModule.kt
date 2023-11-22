@@ -29,6 +29,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
@@ -222,6 +224,18 @@ val commonUiModule = module {
             postRepository = get(),
             commentRepository = get(),
             notificationCenter = get(),
+        )
+    }
+    factory<ReportListMviModel> { params ->
+        ReportListViewModel(
+            communityId = params[0],
+            mvi = DefaultMviModel(ReportListMviModel.UiState()),
+            identityRepository = get(),
+            postRepository = get(),
+            commentRepository = get(),
+            themeRepository = get(),
+            settingsRepository = get(),
+            hapticFeedback = get(),
         )
     }
 }

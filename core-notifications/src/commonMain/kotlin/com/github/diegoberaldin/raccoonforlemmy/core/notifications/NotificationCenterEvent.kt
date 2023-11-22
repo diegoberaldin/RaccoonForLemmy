@@ -43,4 +43,5 @@ sealed interface NotificationCenterEvent {
     data class SelectCommunity(val model: CommunityModel) : NotificationCenterEvent
     data class PostRemoved(val model: PostModel) : NotificationCenterEvent
     data class CommentRemoved(val model: CommentModel) : NotificationCenterEvent
+    data class ChangeReportListType(val unresolvedOnly: Boolean) : NotificationCenterEvent
 }

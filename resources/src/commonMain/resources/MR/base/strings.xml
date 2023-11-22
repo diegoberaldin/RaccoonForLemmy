@@ -255,4 +255,12 @@
     <string name="mod_action_remove">Remove</string>
     <string name="mod_action_mark_as_distinguished">Mark as distinguished</string>
     <string name="mod_action_unmark_as_distinguished">Unmark as distinguished</string>
+    <string name="report_list_title">Report list</string>
+    <string name="report_list_type_title">Report list type</string>
+    <string name="report_list_type_all">All</string>
+    <string name="report_list_type_unresolved">Unresolved</string>
+    <string name="report_list_section_posts">Posts</string>
+    <string name="report_list_section_comments">Comments</string>
+    <string name="report_action_resolve">Resolve</string>
+    <string name="report_action_unresolve">Unresolve</string>
 </resources>
