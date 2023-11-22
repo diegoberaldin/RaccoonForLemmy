@@ -18,6 +18,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImag
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
@@ -95,6 +96,11 @@ actual fun getCreateReportViewModel(
 
 actual fun getSelectCommunityViewModel(): SelectCommunityMviModel =
     CommonUiViewModelHelper.selectCommunityViewModel
+
+actual fun getRemoveViewModel(
+    postId: Int?,
+    commentId: Int?,
+): RemoveMviModel = CommonUiViewModelHelper.getRemoveModel(postId, commentId)
 
 object CommonUiViewModelHelper : KoinComponent {
 
@@ -178,6 +184,16 @@ object CommonUiViewModelHelper : KoinComponent {
         commentId: Int?,
     ): CreateReportMviModel {
         val model: CreateReportMviModel by inject(
+            parameters = { parametersOf(postId, commentId) }
+        )
+        return model
+    }
+
+    fun getRemoveModel(
+        postId: Int?,
+        commentId: Int?,
+    ): RemoveMviModel {
+        val model: RemoveMviModel by inject(
             parameters = { parametersOf(postId, commentId) }
         )
         return model

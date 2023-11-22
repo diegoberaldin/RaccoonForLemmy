@@ -41,4 +41,6 @@ sealed interface NotificationCenterEvent {
     data class MultiCommunityCreated(val model: MultiCommunityModel) : NotificationCenterEvent
     data object CloseDialog : NotificationCenterEvent
     data class SelectCommunity(val model: CommunityModel) : NotificationCenterEvent
+    data class PostRemoved(val model: PostModel) : NotificationCenterEvent
+    data class CommentRemoved(val model: CommentModel) : NotificationCenterEvent
 }
