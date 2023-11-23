@@ -91,6 +91,7 @@ fun CommentCard(
                     onOpenCreator = onOpenCreator,
                     onOpenCommunity = onOpenCommunity,
                     onToggleExpanded = onToggleExpanded,
+                    distinguished = comment.distinguished,
                 )
                 ScaledContent {
                     PostCardBody(

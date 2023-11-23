@@ -10,6 +10,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PushPin
+import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -35,6 +39,9 @@ fun CommunityAndCreatorInfo(
     autoLoadImages: Boolean = true,
     community: CommunityModel? = null,
     creator: UserModel? = null,
+    distinguished: Boolean = false,
+    featured: Boolean = false,
+    locked: Boolean = false,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
@@ -163,8 +170,29 @@ fun CommunityAndCreatorInfo(
                 )
             }
         }
+        Spacer(modifier = Modifier.weight(1f))
+        val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
+        if (distinguished) {
+            Icon(
+                modifier = buttonModifier,
+                imageVector = Icons.Default.WorkspacePremium,
+                contentDescription = null,
+            )
+        } else if (featured) {
+            Icon(
+                modifier = buttonModifier,
+                imageVector = Icons.Default.PushPin,
+                contentDescription = null,
+            )
+        }
+        if (locked) {
+            Icon(
+                modifier = buttonModifier,
+                imageVector = Icons.Default.Lock,
+                contentDescription = null,
+            )
+        }
         if (indicatorExpanded != null) {
-            Spacer(modifier = Modifier.weight(1f))
             val expandedModifier = Modifier
                 .padding(end = Spacing.xs)
                 .onClick(

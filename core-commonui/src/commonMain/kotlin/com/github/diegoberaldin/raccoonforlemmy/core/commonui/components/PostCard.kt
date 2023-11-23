@@ -160,6 +160,7 @@ private fun CompactPost(
         CommunityAndCreatorInfo(
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
+            featured = post.featuredCommunity,
             onOpenCommunity = onOpenCommunity,
             onOpenCreator = onOpenCreator,
             autoLoadImages = autoLoadImages,
@@ -248,6 +249,8 @@ private fun ExtendedPost(
             modifier = Modifier.padding(horizontal = Spacing.xxs),
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
+            featured = post.featuredCommunity,
+            locked = post.locked,
             onOpenCommunity = onOpenCommunity,
             onOpenCreator = onOpenCreator,
             autoLoadImages = autoLoadImages,
