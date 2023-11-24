@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 enum class UiFontFamily {
     TitilliumWeb,
     Dosis,
-    Quattrocento,
+    EBGaramond,
     NotoSans,
     Prociono,
     ComicNeue,
@@ -17,7 +17,7 @@ fun Int.toUiFontFamily() = when (this) {
     5 -> UiFontFamily.ComicNeue
     4 -> UiFontFamily.Prociono
     3 -> UiFontFamily.NotoSans
-    2 -> UiFontFamily.Quattrocento
+    2 -> UiFontFamily.EBGaramond
     1 -> UiFontFamily.Dosis
     else -> UiFontFamily.TitilliumWeb
 }
@@ -27,7 +27,7 @@ fun UiFontFamily.toInt() = when (this) {
     UiFontFamily.ComicNeue -> 5
     UiFontFamily.Prociono -> 4
     UiFontFamily.NotoSans -> 3
-    UiFontFamily.Quattrocento -> 2
+    UiFontFamily.EBGaramond -> 2
     UiFontFamily.Dosis -> 1
     else -> 0
 }
@@ -38,7 +38,7 @@ fun UiFontFamily.toReadableName() = when (this) {
     UiFontFamily.ComicNeue -> "Comic Neue"
     UiFontFamily.Prociono -> "Prociono"
     UiFontFamily.NotoSans -> "Noto Sans"
-    UiFontFamily.Quattrocento -> "Quattrocento"
+    UiFontFamily.EBGaramond -> "EB Garamond"
     UiFontFamily.Dosis -> "Dosis"
     else -> "Titillium Web"
 }
