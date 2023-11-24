@@ -58,7 +58,7 @@ class UserDetailViewModel(
         }
         mvi.updateState {
             it.copy(
-                user = user,
+                user = it.user.takeIf { u -> u.id != 0 } ?: user,
             )
         }
         mvi.scope?.launch {

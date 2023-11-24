@@ -53,7 +53,7 @@ class CommunityDetailViewModel(
         val auth = identityRepository.authToken.value.orEmpty()
         mvi.updateState {
             it.copy(
-                community = community,
+                community = it.community.takeIf { c -> c.id != 0 } ?: community,
                 isLogged = auth.isNotEmpty(),
             )
         }
