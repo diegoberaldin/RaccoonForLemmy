@@ -137,17 +137,16 @@ class InboxMentionsScreen : Tab {
                 }
                 items(
                     items = uiState.mentions,
-                    key = { it.id.toString() + uiState.unreadOnly },
+                    key = { it.id.toString() + it.read + uiState.unreadOnly },
                 ) { mention ->
                     val endColor = MaterialTheme.colorScheme.secondary
-                    val startColor = MaterialTheme.colorScheme.tertiary
                     SwipeableCard(
                         modifier = Modifier.fillMaxWidth(),
+                        directions = setOf(DismissDirection.EndToStart),
                         enabled = uiState.swipeActionsEnabled,
                         backgroundColor = rememberCallbackArgs {
                             when (it) {
                                 DismissValue.DismissedToStart -> endColor
-                                DismissValue.DismissedToEnd -> startColor
                                 else -> Color.Transparent
                             }
                         },
@@ -157,23 +156,15 @@ class InboxMentionsScreen : Tab {
                         onDismissToStart = rememberCallback(model) {
                             model.reduce(
                                 InboxMentionsMviModel.Intent.MarkAsRead(
-                                    read = true,
+                                    read = !mention.read,
                                     id = mention.id,
                                 ),
                             )
                         },
-                        onDismissToEnd = rememberCallback(model) {
-                            model.reduce(
-                                InboxMentionsMviModel.Intent.MarkAsRead(
-                                    read = false,
-                                    id = mention.id,
-                                ),
-                            )
-                        },
-                        swipeContent = { direction ->
-                            val icon = when (direction) {
-                                DismissDirection.StartToEnd -> Icons.Default.MarkChatUnread
-                                DismissDirection.EndToStart -> Icons.Default.MarkChatRead
+                        swipeContent = { _ ->
+                            val icon = when {
+                                mention.read -> Icons.Default.MarkChatUnread
+                                else -> Icons.Default.MarkChatRead
                             }
                             Icon(
                                 modifier = Modifier.padding(Spacing.xs),
@@ -220,29 +211,20 @@ class InboxMentionsScreen : Tab {
                                 options = buildList {
                                     add(
                                         Option(
-                                            OptionId.MarkRead,
-                                            stringResource(MR.strings.inbox_action_mark_read)
-                                        )
-                                    )
-                                    add(
-                                        Option(
-                                            OptionId.MarkUnread,
-                                            stringResource(MR.strings.inbox_action_mark_unread)
+                                            OptionId.ToggleRead,
+                                            if (mention.read) {
+                                                stringResource(MR.strings.inbox_action_mark_unread)
+                                            } else {
+                                                stringResource(MR.strings.inbox_action_mark_read)
+                                            },
                                         )
                                     )
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                     when (optionId) {
-                                        OptionId.MarkRead -> model.reduce(
+                                        OptionId.ToggleRead -> model.reduce(
                                             InboxMentionsMviModel.Intent.MarkAsRead(
-                                                read = true,
-                                                id = mention.id,
-                                            ),
-                                        )
-
-                                        OptionId.MarkUnread -> model.reduce(
-                                            InboxMentionsMviModel.Intent.MarkAsRead(
-                                                read = false,
+                                                read = !mention.read,
                                                 id = mention.id,
                                             ),
                                         )

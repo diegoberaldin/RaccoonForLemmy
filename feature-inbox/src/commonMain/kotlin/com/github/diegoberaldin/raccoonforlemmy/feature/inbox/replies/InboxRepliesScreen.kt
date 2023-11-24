@@ -136,17 +136,16 @@ class InboxRepliesScreen : Tab {
                 }
                 items(
                     items = uiState.replies,
-                    key = { it.id.toString() + uiState.unreadOnly },
+                    key = { it.id.toString() + it.read + uiState.unreadOnly },
                 ) { reply ->
                     val endColor = MaterialTheme.colorScheme.secondary
-                    val startColor = MaterialTheme.colorScheme.tertiary
                     SwipeableCard(
                         modifier = Modifier.fillMaxWidth(),
+                        directions = setOf(DismissDirection.EndToStart),
                         enabled = uiState.swipeActionsEnabled,
                         backgroundColor = rememberCallbackArgs {
                             when (it) {
                                 DismissValue.DismissedToStart -> endColor
-                                DismissValue.DismissedToEnd -> startColor
                                 else -> Color.Transparent
                             }
                         },
@@ -156,23 +155,15 @@ class InboxRepliesScreen : Tab {
                         onDismissToStart = rememberCallback(model) {
                             model.reduce(
                                 InboxRepliesMviModel.Intent.MarkAsRead(
-                                    read = true,
+                                    read = !reply.read,
                                     id = reply.id,
                                 ),
                             )
                         },
-                        onDismissToEnd = rememberCallback(model) {
-                            model.reduce(
-                                InboxRepliesMviModel.Intent.MarkAsRead(
-                                    read = false,
-                                    id = reply.id,
-                                ),
-                            )
-                        },
-                        swipeContent = { direction ->
-                            val icon = when (direction) {
-                                DismissDirection.StartToEnd -> Icons.Default.MarkChatUnread
-                                DismissDirection.EndToStart -> Icons.Default.MarkChatRead
+                        swipeContent = { _ ->
+                            val icon = when {
+                                reply.read -> Icons.Default.MarkChatUnread
+                                else -> Icons.Default.MarkChatRead
                             }
                             Icon(
                                 modifier = Modifier.padding(Spacing.xs),
@@ -215,29 +206,20 @@ class InboxRepliesScreen : Tab {
                                 options = buildList {
                                     add(
                                         Option(
-                                            OptionId.MarkRead,
-                                            stringResource(MR.strings.inbox_action_mark_read)
-                                        )
-                                    )
-                                    add(
-                                        Option(
-                                            OptionId.MarkUnread,
-                                            stringResource(MR.strings.inbox_action_mark_unread)
+                                            OptionId.ToggleRead,
+                                            if (reply.read) {
+                                                stringResource(MR.strings.inbox_action_mark_unread)
+                                            } else {
+                                                stringResource(MR.strings.inbox_action_mark_read)
+                                            },
                                         )
                                     )
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                     when (optionId) {
-                                        OptionId.MarkRead -> model.reduce(
+                                        OptionId.ToggleRead -> model.reduce(
                                             InboxRepliesMviModel.Intent.MarkAsRead(
-                                                read = true,
-                                                id = reply.id,
-                                            ),
-                                        )
-
-                                        OptionId.MarkUnread -> model.reduce(
-                                            InboxRepliesMviModel.Intent.MarkAsRead(
-                                                read = false,
+                                                read = !reply.read,
                                                 id = reply.id,
                                             ),
                                         )

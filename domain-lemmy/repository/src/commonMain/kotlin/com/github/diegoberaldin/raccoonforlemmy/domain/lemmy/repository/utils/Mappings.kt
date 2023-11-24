@@ -171,6 +171,7 @@ internal fun CommunityView.toModel() = community.toModel().copy(
 
 internal fun PersonMentionView.toModel() = PersonMentionModel(
     id = personMention.id,
+    read = personMention.read,
     post = PostModel(
         id = post.id,
         originalUrl = post.apId,
@@ -215,6 +216,7 @@ internal fun PersonMentionView.toModel() = PersonMentionModel(
 
 internal fun CommentReplyView.toModel() = PersonMentionModel(
     id = commentReply.id,
+    read = commentReply.read,
     post = PostModel(
         id = post.id,
         originalUrl = post.apId,
