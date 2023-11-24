@@ -105,6 +105,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.rememberKeepScreenOn
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -154,6 +155,7 @@ class CommunityDetailScreen(
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        val keepScreenOn = rememberKeepScreenOn()
 
         DisposableEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
@@ -194,6 +196,13 @@ class CommunityDetailScreen(
                     }
                 }
             }.launchIn(this)
+        }
+        LaunchedEffect(uiState.zombieModeActive) {
+            if (uiState.zombieModeActive) {
+                keepScreenOn.activate()
+            } else {
+                keepScreenOn.deactivate()
+            }
         }
 
         Scaffold(

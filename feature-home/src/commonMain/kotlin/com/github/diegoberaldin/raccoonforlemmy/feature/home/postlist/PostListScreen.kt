@@ -81,6 +81,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.rememberKeepScreenOn
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.getHomeScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
@@ -115,6 +116,7 @@ class PostListScreen : Screen {
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        val keepScreenOn = rememberKeepScreenOn()
 
         LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
@@ -156,6 +158,13 @@ class PostListScreen : Screen {
                         model.reduce(PostListMviModel.Intent.ChangeSort(evt.value))
                     }
                 }.launchIn(this)
+        }
+        LaunchedEffect(uiState.zombieModeActive) {
+            if (uiState.zombieModeActive) {
+                keepScreenOn.activate()
+            } else {
+                keepScreenOn.deactivate()
+            }
         }
 
         Scaffold(
