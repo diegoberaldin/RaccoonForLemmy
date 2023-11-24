@@ -246,4 +246,18 @@
         pomicanja
     </string>
     <string name="action_quote">Citat</string>
+    <string name="mod_action_open_reports">Otvori izvješća</string>
+    <string name="mod_action_mark_as_featured">Označi kao istaknuto</string>
+    <string name="mod_action_unmark_as_featured">Ukloni oznaku kao istaknuto</string>
+    <string name="mod_action_lock">Zaključaj</string>
+    <string name="mod_action_unlock">Otključaj</string>
+    <string name="mod_action_remove">Ukloni</string>
+    <string name="mod_action_mark_as_distinguished">Označi kao istaknuto</string>
+    <string name="mod_action_unmark_as_distinguished">Ukloni oznaku kao istaknuto</string>
+    <string name="report_list_title">Popis izvješća</string>
+    <string name="report_list_type_title">Vrsta popisa izvješća</string>
+    <string name="report_list_type_all">Sve</string>
+    <string name="report_list_type_unresolved">Neriješeno</string>
+    <string name="report_action_resolve">Riješi</string>
+    <string name="report_action_unresolve">Poništi rješavanje</string>
 </resources>

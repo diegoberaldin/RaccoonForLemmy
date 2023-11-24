@@ -232,4 +232,19 @@
         την κύλιση
     </string>
     <string name="action_quote">Παράσου</string>
+    <string name="mod_action_open_reports">Άνοιγμα αναφορών</string>
+    <string name="mod_action_mark_as_featured">Επισήμανση ως επιλεγμένου</string>
+    <string name="mod_action_unmark_as_featured">Κατάργηση επισήμανσης ως επιλεγμένου</string>
+    <string name="mod_action_lock">Κλείδωμα</string>
+    <string name="mod_action_unlock">Ξεκλείδωμα</string>
+    <string name="mod_action_remove">Κατάργηση</string>
+    <string name="mod_action_mark_as_distinguished">Επισήμανση ως διακεκριμένου</string>
+    <string name="mod_action_unmark_as_distinguished">Κατάργηση επισήμανσης ως διακεκριμένου
+    </string>
+    <string name="report_list_title">Λίστα αναφορών</string>
+    <string name="report_list_type_title">Τύπος λίστας αναφοράς</string>
+    <string name="report_list_type_all">Όλα</string>
+    <string name="report_list_type_unresolved">Μη επιλύθηκε</string>
+    <string name="report_action_resolve">Επίλυση</string>
+    <string name="report_action_unresolve">Κατάργηση επίλυσης</string>
 </resources>

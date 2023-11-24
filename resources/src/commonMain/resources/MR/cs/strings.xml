@@ -235,4 +235,18 @@
         rolování
     </string>
     <string name="action_quote">Citát</string>
+    <string name="mod_action_open_reports">Otevřít přehledy</string>
+    <string name="mod_action_mark_as_featured">Označit jako doporučené</string>
+    <string name="mod_action_unmark_as_featured">Zrušit označení jako doporučené</string>
+    <string name="mod_action_lock">Zamknout</string>
+    <string name="mod_action_unlock">Odemknout</string>
+    <string name="mod_action_remove">Odebrat</string>
+    <string name="mod_action_mark_as_distinguished">Označit jako význačné</string>
+    <string name="mod_action_unmark_as_distinguished">Zrušit označení jako rozlišující</string>
+    <string name="report_list_title">Seznam přehledů</string>
+    <string name="report_list_type_title">Typ seznamu přehledů</string>
+    <string name="report_list_type_all">Vše</string>
+    <string name="report_list_type_unresolved">Nevyřešeno</string>
+    <string name="report_action_resolve">Vyřešit</string>
+    <string name="report_action_unresolve">Nevyřešit</string>
 </resources>

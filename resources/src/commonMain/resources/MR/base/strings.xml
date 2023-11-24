@@ -246,7 +246,6 @@
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
     <string name="settings_mark_as_read_while_scrolling">Mark posts as read while scrolling</string>
     <string name="action_quote">Quote</string>
-
     <string name="mod_action_open_reports">Open reports</string>
     <string name="mod_action_mark_as_featured">Mark as featured</string>
     <string name="mod_action_unmark_as_featured">Unmark as featured</string>
@@ -259,8 +258,6 @@
     <string name="report_list_type_title">Report list type</string>
     <string name="report_list_type_all">All</string>
     <string name="report_list_type_unresolved">Unresolved</string>
-    <string name="report_list_section_posts">Posts</string>
-    <string name="report_list_section_comments">Comments</string>
     <string name="report_action_resolve">Resolve</string>
     <string name="report_action_unresolve">Unresolve</string>
 </resources>

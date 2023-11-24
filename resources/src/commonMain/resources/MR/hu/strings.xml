@@ -243,4 +243,20 @@
         görgetés közben
     </string>
     <string name="action_quote">Idézet</string>
+    <string name="mod_action_open_reports">Jelentések megnyitása</string>
+    <string name="mod_action_mark_as_featured">Megjelölés kiemeltként</string>
+    <string name="mod_action_unmark_as_featured">Kiemeltként való megjelölés eltávolítása</string>
+    <string name="mod_action_lock">Zárolás</string>
+    <string name="mod_action_unlock">Feloldás</string>
+    <string name="mod_action_remove">Eltávolítás</string>
+    <string name="mod_action_mark_as_distinguished">Megjelölés megkülönböztetettként</string>
+    <string name="mod_action_unmark_as_distinguished">Megkülönböztetettként való megjelölés
+        eltávolítása
+    </string>
+    <string name="report_list_title">Jelentéslista</string>
+    <string name="report_list_type_title">Jelentéslista típusa</string>
+    <string name="report_list_type_all">Mind</string>
+    <string name="report_list_type_unresolved">Feloldatlan</string>
+    <string name="report_action_resolve">Megoldás</string>
+    <string name="report_action_unresolve">Feloldás megszüntetése</string>
 </resources>

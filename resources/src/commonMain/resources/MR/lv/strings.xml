@@ -248,4 +248,18 @@
         laikā
     </string>
     <string name="action_quote">Citāts</string>
+    <string name="mod_action_open_reports">Atvērt pārskatus</string>
+    <string name="mod_action_mark_as_featured">Atzīmēt kā piedāvātu</string>
+    <string name="mod_action_unmark_as_featured">Noņemiet atzīmi no piedāvātā</string>
+    <string name="mod_action_lock">Bloķēt</string>
+    <string name="mod_action_unlock">Atbloķēt</string>
+    <string name="mod_action_remove">Noņemt</string>
+    <string name="mod_action_mark_as_distinguished">Atzīmēt kā atšķirīgu</string>
+    <string name="mod_action_unmark_as_distinguished">Noņemt atzīmes kā atšķirīgu</string>
+    <string name="report_list_title">Pārskatu saraksts</string>
+    <string name="report_list_type_title">Pārskatu saraksta veids</string>
+    <string name="report_list_type_all">Visi</string>
+    <string name="report_list_type_unresolved">Neatrisināts</string>
+    <string name="report_action_resolve">Atrisināt</string>
+    <string name="report_action_unresolve">Neatrisināts</string>
 </resources>

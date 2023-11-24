@@ -230,4 +230,18 @@
         desplazarse
     </string>
     <string name="action_quote">Citar</string>
+    <string name="mod_action_open_reports">Ver informes</string>
+    <string name="mod_action_mark_as_featured">Marcar como destacado</string>
+    <string name="mod_action_unmark_as_featured">Marcar como no destacado</string>
+    <string name="mod_action_lock">Bloquear</string>
+    <string name="mod_action_unlock">Desbloquear</string>
+    <string name="mod_action_remove">Suprimir</string>
+    <string name="mod_action_mark_as_distinguished">Marcar como distinguido</string>
+    <string name="mod_action_unmark_as_distinguished">Marcar como no distinguido</string>
+    <string name="report_list_title">Lista de informes</string>
+    <string name="report_list_type_title">Tipo lista de informes</string>
+    <string name="report_list_type_all">Todos</string>
+    <string name="report_list_type_unresolved">No resueltos</string>
+    <string name="report_action_resolve">Marcar como resuelto</string>
+    <string name="report_action_unresolve">Marcar como no resuelto</string>
 </resources>

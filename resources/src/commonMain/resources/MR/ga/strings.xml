@@ -256,4 +256,18 @@
         scrollú
     </string>
     <string name="action_quote">Athfhriotail</string>
+    <string name="mod_action_open_reports">Oscail tuarascálacha</string>
+    <string name="mod_action_mark_as_featured">Marcáil mar atá i gceist</string>
+    <string name="mod_action_unmark_as_featured">Dímharc mar atá i gceist</string>
+    <string name="mod_action_lock">Glasáil</string>
+    <string name="mod_action_unlock">Díghlasáil</string>
+    <string name="mod_action_remove">Bain</string>
+    <string name="mod_action_mark_as_distinguished">Marcáil mar aitheanta</string>
+    <string name="mod_action_unmark_as_distinguished">Dímharcáil mar shainaitheanta</string>
+    <string name="report_list_title">Liosta tuairisce</string>
+    <string name="report_list_type_title">Cineál liosta tuairisce</string>
+    <string name="report_list_type_all">Gach</string>
+    <string name="report_list_type_unresolved">Gan réiteach</string>
+    <string name="report_action_resolve">Réitigh</string>
+    <string name="report_action_unresolve">Díréitigh</string>
 </resources>

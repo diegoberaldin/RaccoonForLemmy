@@ -241,4 +241,18 @@
     <string name="settings_mark_as_read_while_scrolling">Med pomikanjem označi objave kot prebrane
     </string>
     <string name="action_quote">Kvota</string>
+    <string name="mod_action_open_reports">Odpri poročila</string>
+    <string name="mod_action_mark_as_featured">Označi kot predstavljeno</string>
+    <string name="mod_action_unmark_as_featured">Odznači kot predstavljeno</string>
+    <string name="mod_action_lock">Zakleni</string>
+    <string name="mod_action_unlock">Odkleni</string>
+    <string name="mod_action_remove">Odstrani</string>
+    <string name="mod_action_mark_as_distinguished">Označi kot prepoznavno</string>
+    <string name="mod_action_unmark_as_distinguished">Odznači kot razločeno</string>
+    <string name="report_list_title">Seznam poročil</string>
+    <string name="report_list_type_title">Vrsta seznama poročil</string>
+    <string name="report_list_type_all">Vse</string>
+    <string name="report_list_type_unresolved">Nerazrešeno</string>
+    <string name="report_action_resolve">Reši</string>
+    <string name="report_action_unresolve">Prekliči razrešitev</string>
 </resources>

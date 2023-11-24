@@ -249,4 +249,18 @@
         skaitytus
     </string>
     <string name="action_quote">Citata</string>
+    <string name="mod_action_open_reports">Atidaryti ataskaitas</string>
+    <string name="mod_action_mark_as_featured">Pažymėti kaip siūlomą</string>
+    <string name="mod_action_unmark_as_featured">Panaikinti kaip siūlomo žymėjimą</string>
+    <string name="mod_action_lock">Užrakinti</string>
+    <string name="mod_action_unlock">Atrakinti</string>
+    <string name="mod_action_remove">Pašalinti</string>
+    <string name="mod_action_mark_as_distinguished">Pažymėti kaip išskirtinį</string>
+    <string name="mod_action_unmark_as_distinguished">Panaikinti išskirtinio žymėjimą</string>
+    <string name="report_list_title">Ataskaitų sąrašas</string>
+    <string name="report_list_type_title">Ataskaitų sąrašo tipas</string>
+    <string name="report_list_type_all">Visi</string>
+    <string name="report_list_type_unresolved">Neišspręsta</string>
+    <string name="report_action_resolve">Išspręsti</string>
+    <string name="report_action_unresolve">Neišspręsti</string>
 </resources>

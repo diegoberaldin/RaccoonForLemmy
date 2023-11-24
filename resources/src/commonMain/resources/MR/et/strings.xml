@@ -243,4 +243,18 @@
     <string name="settings_mark_as_read_while_scrolling">Märkige postitused kerimise ajal loetuks
     </string>
     <string name="action_quote">Tsiteeri</string>
+    <string name="mod_action_open_reports">Ava aruanded</string>
+    <string name="mod_action_mark_as_featured">Märkige esiletõstetuks</string>
+    <string name="mod_action_unmark_as_featured">Tühista esiletõstetud märkimine</string>
+    <string name="mod_action_lock">Lukusta</string>
+    <string name="mod_action_unlock">Ava lukust</string>
+    <string name="mod_action_remove">Eemalda</string>
+    <string name="mod_action_mark_as_distinguished">Märgi eristatuks</string>
+    <string name="mod_action_unmark_as_distinguished">Tühista eristatuks märgitud</string>
+    <string name="report_list_title">Aruannete loend</string>
+    <string name="report_list_type_title">Aruande loendi tüüp</string>
+    <string name="report_list_type_all">Kõik</string>
+    <string name="report_list_type_unresolved">Lahendamata</string>
+    <string name="report_action_resolve">Lahenda</string>
+    <string name="report_action_unresolve">Tühista lahendamine</string>
 </resources>

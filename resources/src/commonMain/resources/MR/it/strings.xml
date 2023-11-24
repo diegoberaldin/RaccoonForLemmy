@@ -227,4 +227,18 @@
     <string name="settings_mark_as_read_while_scrolling">Segna post come letti durante lo scroll
     </string>
     <string name="action_quote">Cita</string>
+    <string name="mod_action_open_reports">Apri segnalazioni</string>
+    <string name="mod_action_mark_as_featured">Segna come fissato</string>
+    <string name="mod_action_unmark_as_featured">Segna come non fissato</string>
+    <string name="mod_action_lock">Blocca</string>
+    <string name="mod_action_unlock">Sblocca</string>
+    <string name="mod_action_remove">Rimuovi</string>
+    <string name="mod_action_mark_as_distinguished">Segna come distinto</string>
+    <string name="mod_action_unmark_as_distinguished">Segna come non distinto</string>
+    <string name="report_list_title">Elenco segnalazioni</string>
+    <string name="report_list_type_title">Tipo elenco segnalazioni</string>
+    <string name="report_list_type_all">Tutte</string>
+    <string name="report_list_type_unresolved">Non risolte</string>
+    <string name="report_action_resolve">Segna come risolto</string>
+    <string name="report_action_unresolve">Segna come non risolto</string>
 </resources>

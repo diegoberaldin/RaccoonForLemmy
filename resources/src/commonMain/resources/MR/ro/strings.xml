@@ -225,4 +225,18 @@
     <string name="settings_mark_as_read_while_scrolling">Marchează postările ca citite la derulare
     </string>
     <string name="action_quote">Citează</string>
+    <string name="mod_action_open_reports">Deschide rapoarte</string>
+    <string name="mod_action_mark_as_featured">Marchează ca recomandat</string>
+    <string name="mod_action_unmark_as_featured">Anulează marcare ca recomandat</string>
+    <string name="mod_action_lock">Blochează</string>
+    <string name="mod_action_unlock">Deblochează</string>
+    <string name="mod_action_remove">Elimină</string>
+    <string name="mod_action_mark_as_distinguished">Marchează ca distins</string>
+    <string name="mod_action_unmark_as_distinguished">Anulează marcare ca distins</string>
+    <string name="report_list_title">Lista de rapoarte</string>
+    <string name="report_list_type_title">Tipul listei de rapoarte</string>
+    <string name="report_list_type_all">Toate</string>
+    <string name="report_list_type_unresolved">Nerezolvate</string>
+    <string name="report_action_resolve">Marchează ca rezolvat</string>
+    <string name="report_action_unresolve">Anulează marcare ca rezolvat</string>
 </resources>

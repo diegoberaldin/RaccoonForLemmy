@@ -236,4 +236,18 @@
     <string name="settings_mark_as_read_while_scrolling">Markera inlägg som lästa medan du rullar
     </string>
     <string name="action_quote">Citat</string>
+    <string name="mod_action_open_reports">Öppna rapporter</string>
+    <string name="mod_action_mark_as_featured">Markera som utvald</string>
+    <string name="mod_action_unmark_as_featured">Avmarkera som utvald</string>
+    <string name="mod_action_lock">Lås</string>
+    <string name="mod_action_unlock">Lås upp</string>
+    <string name="mod_action_remove">Ta bort</string>
+    <string name="mod_action_mark_as_distinguished">Markera som distinguished</string>
+    <string name="mod_action_unmark_as_distinguished">Avmarkera som distinguished</string>
+    <string name="report_list_title">Rapportlista</string>
+    <string name="report_list_type_title">Rapportlistatyp</string>
+    <string name="report_list_type_all">Alla</string>
+    <string name="report_list_type_unresolved">Olöst</string>
+    <string name="report_action_resolve">Lös</string>
+    <string name="report_action_unresolve">Avlös</string>
 </resources>

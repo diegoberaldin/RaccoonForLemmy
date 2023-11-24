@@ -228,4 +228,18 @@
         défilement
     </string>
     <string name="action_quote">Citer</string>
+    <string name="mod_action_open_reports">Ouvrir les rapports</string>
+    <string name="mod_action_mark_as_featured">Marquer comme présenté</string>
+    <string name="mod_action_unmark_as_featured">Ne plus marquer comme présenté</string>
+    <string name="mod_action_lock">Verrouiller</string>
+    <string name="mod_action_unlock">Déverrouiller</string>
+    <string name="mod_action_remove">Supprimer</string>
+    <string name="mod_action_mark_as_distinguished">Marquer comme distingué</string>
+    <string name="mod_action_unmark_as_distinguished">Ne plus marquer comme distingué</string>
+    <string name="report_list_title">Liste des rapports</string>
+    <string name="report_list_type_title">Type de liste de rapports</string>
+    <string name="report_list_type_all">Tous</string>
+    <string name="report_list_type_unresolved">Non résolu</string>
+    <string name="report_action_resolve">Résoudre</string>
+    <string name="report_action_unresolve">Ne pas résoudre</string>
 </resources>

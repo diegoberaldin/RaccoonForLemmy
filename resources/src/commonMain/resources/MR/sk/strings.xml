@@ -237,4 +237,18 @@
         rolovaní
     </string>
     <string name="action_quote">Citovať</string>
+    <string name="mod_action_open_reports">Otvoriť prehľady</string>
+    <string name="mod_action_mark_as_featured">Označiť ako odporúčané</string>
+    <string name="mod_action_unmark_as_featured">Zrušiť označenie ako odporúčané</string>
+    <string name="mod_action_lock">Uzamknúť</string>
+    <string name="mod_action_unlock">Odomknúť</string>
+    <string name="mod_action_remove">Odstrániť</string>
+    <string name="mod_action_mark_as_distinguished">Označiť ako odlíšené</string>
+    <string name="mod_action_unmark_as_distinguished">Zrušiť označenie ako odlíšené</string>
+    <string name="report_list_title">Zoznam prehľadov</string>
+    <string name="report_list_type_title">Typ zoznamu prehľadov</string>
+    <string name="report_list_type_all">Všetky</string>
+    <string name="report_list_type_unresolved">Nevyriešené</string>
+    <string name="report_action_resolve">Vyriešiť</string>
+    <string name="report_action_unresolve">Nevyriešiť</string>
 </resources>

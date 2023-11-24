@@ -249,4 +249,19 @@
         превъртате
     </string>
     <string name="action_quote">цитат</string>
+    <string name="mod_action_open_reports">Отваряне на отчети</string>
+    <string name="mod_action_mark_as_featured">Маркиране като представено</string>
+    <string name="mod_action_unmark_as_featured">Демаркиране като представено</string>
+    <string name="mod_action_lock">Заключване</string>
+    <string name="mod_action_unlock">Отключване</string>
+    <string name="mod_action_remove">Премахване</string>
+    <string name="mod_action_mark_as_distinguished">Маркиране като отличен</string>
+    <string name="mod_action_unmark_as_distinguished">Премахване на отметката като разграничен
+    </string>
+    <string name="report_list_title">Списък с отчети</string>
+    <string name="report_list_type_title">Тип списък на отчет</string>
+    <string name="report_list_type_all">Всички</string>
+    <string name="report_list_type_unresolved">Неразрешено</string>
+    <string name="report_action_resolve">Разрешаване</string>
+    <string name="report_action_unresolve">Отмяна на разрешаването</string>
 </resources>

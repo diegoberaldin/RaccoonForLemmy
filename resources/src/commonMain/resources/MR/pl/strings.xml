@@ -226,4 +226,18 @@
         przewijania
     </string>
     <string name="action_quote">Cytat</string>
+    <string name="mod_action_open_reports">Otwórz raporty</string>
+    <string name="mod_action_mark_as_featured">Oznacz jako polecane</string>
+    <string name="mod_action_unmark_as_featured">Odznacz jako polecane</string>
+    <string name="mod_action_lock">Zablokuj</string>
+    <string name="mod_action_unlock">Odblokuj</string>
+    <string name="mod_action_remove">Usuń</string>
+    <string name="mod_action_mark_as_distinguished">Oznacz jako wyróżnione</string>
+    <string name="mod_action_unmark_as_distinguished">Odznacz jako wyróżnione</string>
+    <string name="report_list_title">Lista raportów</string>
+    <string name="report_list_type_title">Typ listy raportów</string>
+    <string name="report_list_type_all">Wszystkie</string>
+    <string name="report_list_type_unresolved">Nierozwiązany</string>
+    <string name="report_action_resolve">Rozwiąż</string>
+    <string name="report_action_unresolve">Cofnij rozwiązanie</string>
 </resources>

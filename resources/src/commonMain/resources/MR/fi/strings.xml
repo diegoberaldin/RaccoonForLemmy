@@ -234,4 +234,18 @@
     <string name="settings_mark_as_read_while_scrolling">Merkitse viestit luetuiksi vieritettäessä
     </string>
     <string name="action_quote">Lainata</string>
+    <string name="mod_action_open_reports">Avaa raportit</string>
+    <string name="mod_action_mark_as_featured">Merkitse suositeltavaksi</string>
+    <string name="mod_action_unmark_as_featured">Poista suositellun merkintä</string>
+    <string name="mod_action_lock">Lukitse</string>
+    <string name="mod_action_unlock">Avaa lukitus</string>
+    <string name="mod_action_remove">Poista</string>
+    <string name="mod_action_mark_as_distinguished">Merkitse erotetuksi</string>
+    <string name="mod_action_unmark_as_distinguished">Poista erotetuksi</string>
+    <string name="report_list_title">Raporttiluettelo</string>
+    <string name="report_list_type_title">Raporttiluettelon tyyppi</string>
+    <string name="report_list_type_all">Kaikki</string>
+    <string name="report_list_type_unresolved">Ratkaisematon</string>
+    <string name="report_action_resolve">Ratkaise</string>
+    <string name="report_action_unresolve">Ei ratkaise</string>
 </resources>
