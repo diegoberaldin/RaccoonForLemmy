@@ -105,6 +105,7 @@
     <string name="language_ga" translatable="false">Gaeilge</string>
     <string name="language_el" translatable="false">Ελληνικά</string>
     <string name="language_en" translatable="false">English</string>
+    <string name="language_eo" translatable="false">Esperanto</string>
     <string name="language_es" translatable="false">Español</string>
     <string name="language_et" translatable="false">Eesti</string>
     <string name="language_fi" translatable="false">Suomi</string>

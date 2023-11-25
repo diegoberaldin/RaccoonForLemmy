@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="action_back_to_top">Reen al la supro</string>
+    <string name="action_chat">Sendi Mesaĝo:</string>
+    <string name="action_clear_read">Forviŝi legadon</string>
+    <string name="action_create_post">Krei afiŝon</string>
+    <string name="action_reply">Respondi</string>
+    <string name="action_activate_zombie_mode">Aktivigi zombian moduson</string>
+    <string name="action_deactivate_zombie_mode">Malaktivigi zombian moduson</string>
+    <string name="button_close">Fermi</string>
+    <string name="button_confirm">Konfirmi</string>
+    <string name="button_load">Ŝargi</string>
+    <string name="button_reset">Restarigi</string>
+    <string name="button_retry">Reprovi</string>
+    <string name="comment_action_delete">Forigi</string>
+    <string name="community_detail_block">Bloka</string>
+    <string name="community_detail_block_instance">Bloki nodon</string>
+    <string name="community_detail_info">Informo pri la komunumo</string>
+    <string name="community_detail_instance_info">Detaloj pri la nodo</string>
+    <string name="community_info_comments">komentoj</string>
+    <string name="community_info_daily_active_users">aktivaj uzantoj (tago)</string>
+    <string name="community_info_monthly_active_users">aktivaj uzantoj (monato)</string>
+    <string name="community_info_posts">afiŝoj</string>
+    <string name="community_info_subscribers">abonantoj</string>
+    <string name="community_info_weekly_active_users">aktivaj uzantoj (semajno)</string>
+    <string name="create_comment_body">Korpo de la komento</string>
+    <string name="create_comment_title">Nova komento</string>
+    <string name="create_post_body">Korpo de la afiŝo</string>
+    <string name="create_post_community">Komunumo</string>
+    <string name="create_post_cross_post_text">Kruco poŝtita de:</string>
+    <string name="create_post_name">Titolo de la afiŝo</string>
+    <string name="create_post_nsfw">NSFW</string>
+    <string name="create_post_tab_editor">Redaktilo</string>
+    <string name="create_post_tab_preview">Antaŭrigardo</string>
+    <string name="create_post_title">Nova afiŝo</string>
+    <string name="create_post_url">Retadreso:</string>
+    <string name="create_report_placeholder">Teksto de la raporto (nedeviga)</string>
+    <string name="create_report_title_comment">Raporti komenton</string>
+    <string name="create_report_title_post">Raporti afiŝon</string>
+    <string name="dialog_raw_content_text">Teksto</string>
+    <string name="dialog_raw_content_title">Titolo</string>
+    <string name="dialog_raw_content_url">Retadreso:</string>
+    <string name="dialog_title_change_instance">Ŝanĝi nodon</string>
+    <string name="dialog_title_raw_content">Kruda enhavo</string>
+    <string name="dialog_title_select_community">Elekti komunumon</string>
+    <string name="edit_comment_title">Redakti komenton</string>
+    <string name="edit_post_title">Redakti afiŝon</string>
+    <string name="explore_result_type_all">Ĉiuj</string>
+    <string name="explore_result_type_comments">Komentoj</string>
+    <string name="explore_result_type_communities">Komunumoj</string>
+    <string name="explore_result_type_posts">Afiŝoj</string>
+    <string name="explore_result_type_users">Uzantoj</string>
+    <string name="explore_search_placeholder">Serĉi</string>
+    <string name="home_instance_via">per %1$s</string>
+    <string name="home_listing_title">Listadoj</string>
+    <string name="home_listing_type_all">Ĉiuj</string>
+    <string name="home_listing_type_local">Lokaj</string>
+    <string name="home_listing_type_subscribed">Subskribitaj</string>
+    <string name="home_sort_title">Ordigi laŭ:</string>
+    <string name="home_sort_type_active">Aktivaj</string>
+    <string name="home_sort_type_controversial">Kontestataj</string>
+    <string name="home_sort_type_hot">Popularaj</string>
+    <string name="home_sort_type_most_comments">La plej multaj komentoj</string>
+    <string name="home_sort_type_new">Novaj</string>
+    <string name="home_sort_type_new_comments">Novaj komentoj</string>
+    <string name="home_sort_type_old">Maljunaj</string>
+    <string name="home_sort_type_scaled">Proporcie</string>
+    <string name="home_sort_type_top">Supre</string>
+    <string name="home_sort_type_top_12_hours">Supraj 12 horoj</string>
+    <string name="home_sort_type_top_12_hours_short">12h</string>
+    <string name="home_sort_type_top_6_hours">Supraj 6 horoj</string>
+    <string name="home_sort_type_top_6_hours_short">6h</string>
+    <string name="home_sort_type_top_day">Supraj de la tago</string>
+    <string name="home_sort_type_top_day_short">tago</string>
+    <string name="home_sort_type_top_hour">Supraj de la horo</string>
+    <string name="home_sort_type_top_hour_short">1h</string>
+    <string name="home_sort_type_top_month">Supraj de la monato</string>
+    <string name="home_sort_type_top_month_short">monato</string>
+    <string name="home_sort_type_top_week">Supraj de la semajno</string>
+    <string name="home_sort_type_top_week_short">Semajno</string>
+    <string name="home_sort_type_top_year">Supraj de la jaro</string>
+    <string name="home_sort_type_top_year_short">jaro</string>
+    <string name="inbox_action_mark_read">Marki kiel legita</string>
+    <string name="inbox_action_mark_unread">Marki kiel nelegita</string>
+    <string name="inbox_chat_message">Mesaĝo</string>
+    <string name="inbox_item_mention">menciis vin en</string>
+    <string name="inbox_item_reply_comment">respondis al via komento en</string>
+    <string name="inbox_item_reply_post">respondis al via afiŝo en</string>
+    <string name="inbox_listing_type_all">Ĉiuj</string>
+    <string name="inbox_listing_type_title">Tipo de leterkesto</string>
+    <string name="inbox_listing_type_unread">Nelegitai</string>
+    <string name="inbox_not_logged_message">Vi nun ne estas ensalutinta.\nBonvolu aldoni konton en
+        la profila ekrano por vidi vian enirkeston.
+    </string>
+    <string name="inbox_section_mentions">Mencioj</string>
+    <string name="inbox_section_messages">Mesaĝoj</string>
+    <string name="inbox_section_replies">Respondoj</string>
+    <string name="instance_detail_communities">Komunumoj</string>
+    <string name="instance_detail_title">Nodo: %1$s</string>
+    <string name="lang">eo</string>
+    <string name="language_bg" translatable="false">български</string>
+    <string name="language_cs" translatable="false">Čeština</string>
+    <string name="language_de" translatable="false">Deutsch</string>
+    <string name="language_da" translatable="false">Dansk</string>
+    <string name="language_ga" translatable="false">Gaeilge</string>
+    <string name="language_el" translatable="false">Ελληνικά</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_eo" translatable="false">Esperanto</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_et" translatable="false">Eesti</string>
+    <string name="language_fi" translatable="false">Suomi</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_hu" translatable="false">Magyar</string>
+    <string name="language_hr" translatable="false">Hrvatski</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_lv" translatable="false">Latviešu</string>
+    <string name="language_lt" translatable="false">Lietuvių</string>
+    <string name="language_no" translatable="false">Norsk</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_pl" translatable="false">Polski</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="language_se" translatable="false">Svenska</string>
+    <string name="language_sk" translatable="false">Slovenčina</string>
+    <string name="language_sl" translatable="false">Slovenščina</string>
+    <string name="login_field_instance_name">Nomo de la nodo</string>
+    <string name="login_field_label_optional">(nedeviga)</string>
+    <string name="login_field_password">Pasvorto</string>
+    <string name="login_field_token">Ĵetono TOTP- 2FA</string>
+    <string name="login_field_user_name">Salutnomo aŭ retpoŝta adreso:</string>
+    <string name="manage_accounts_button_add">Aldoni konton</string>
+    <string name="manage_accounts_title">Administri kontojn</string>
+    <string name="manage_subscriptions_header_multicommunities">Multi-komunumoj</string>
+    <string name="manage_subscriptions_header_subscriptions">Subskriboj</string>
+    <string name="message_empty_comments">Tie estas tro silente.\nĈu vi ŝatus esti tiu, kiu skribu
+        la unuan komenton.
+    </string>
+    <string name="message_empty_list">Neniuj eroj por montri</string>
+    <string name="message_error_loading_comments">Eraro okazis dum ŝarĝo de komentoj.</string>
+    <string name="message_generic_error">Ĝenerala eraro</string>
+    <string name="message_image_loading_error">Eraro ŝarĝante bildon</string>
+    <string name="message_invalid_field">Nevalida kampo</string>
+    <string name="message_missing_field">Mankanta kampo</string>
+    <string name="message_operation_successful">Operacio sukcese finiĝis</string>
+    <string name="multi_community_editor_communities">Komunumoj</string>
+    <string name="multi_community_editor_icon">Piktogramo</string>
+    <string name="multi_community_editor_name">Nomo</string>
+    <string name="multi_community_editor_title">Multi-komunuma redaktilo</string>
+    <string name="navigation_drawer_anonymous">Anonima</string>
+    <string name="navigation_drawer_title_bookmarks">Konservitajn erojn</string>
+    <string name="navigation_drawer_title_subscriptions">Subskriboj</string>
+    <string name="navigation_home">Afiŝoj</string>
+    <string name="navigation_inbox">Enirkesto</string>
+    <string name="navigation_profile">Profilo</string>
+    <string name="navigation_search">Esplori</string>
+    <string name="navigation_settings">Agordoj</string>
+    <string name="post_action_cross_post">Kruc-afiŝo</string>
+    <string name="post_action_edit">Redakti</string>
+    <string name="post_action_hide">Kaŝi</string>
+    <string name="post_action_report">Raporti</string>
+    <string name="post_action_see_raw">Vidi krudan</string>
+    <string name="post_action_share">Kunhavigi</string>
+    <string name="post_detail_cross_posts">ankaŭ poŝtita al:</string>
+    <string name="post_detail_load_more_comments">Ŝarĝi pliajn komentojn</string>
+    <string name="post_hour_short">h</string>
+    <string name="post_minute_short">m</string>
+    <string name="post_second_short">s</string>
+    <string name="profile_button_login">Ensaluti</string>
+    <string name="profile_day_short">d</string>
+    <string name="profile_million_short">m</string>
+    <string name="profile_month_short">m</string>
+    <string name="profile_not_logged_message">Vi nun ne estas ensalutinta.\nBonvolu aldoni konton
+        por daŭrigi.
+    </string>
+    <string name="profile_section_comments">Komentoj</string>
+    <string name="profile_section_posts">Afiŝoj</string>
+    <string name="profile_thousand_short">k</string>
+    <string name="profile_year_short">j</string>
+    <string name="settings_about">Pri ĉi tiu aplikaĵo</string>
+    <string name="settings_about_app_version">Programversio</string>
+    <string name="settings_about_changelog">Vidi plenan ŝanĝregistron</string>
+    <string name="settings_about_report_github">Raporti cimon (GitHub)</string>
+    <string name="settings_about_report_email">Raporti cimon (retpoŝto)</string>
+    <string name="settings_about_view_github">Vidi ĉe GitHub</string>
+    <string name="settings_about_view_lemmy">Lemmy komunumo</string>
+    <string name="settings_auto_expand_comments">Aŭtomate pligrandigi komentojn</string>
+    <string name="settings_auto_load_images">Aŭtomate montri bildojn</string>
+    <string name="settings_blur_nsfw">Malklarigi NSFW bildoj</string>
+    <string name="settings_color_aquamarine">🐬 Distrita delfeno</string>
+    <string name="settings_color_banana">🦔 Ridiga erinaco</string>
+    <string name="settings_color_blue">🐳 Humura baleno</string>
+    <string name="settings_color_custom">Propra</string>
+    <string name="settings_color_dialog_alpha">A</string>
+    <string name="settings_color_dialog_blue">B</string>
+    <string name="settings_color_dialog_green">G</string>
+    <string name="settings_color_dialog_red">R</string>
+    <string name="settings_color_dialog_title">Elekti koloron</string>
+    <string name="settings_color_gray">🦝 Ravenous lavurso</string>
+    <string name="settings_color_green">🐸 Petolema rano</string>
+    <string name="settings_color_orange">🦊 Fajra vulpo</string>
+    <string name="settings_color_pink">🦄 Unika unikorno</string>
+    <string name="settings_color_purple">🐙 Oceana polpo</string>
+    <string name="settings_color_red">🦀 Krokodila krabo</string>
+    <string name="settings_color_white">🐼 Babilada urso</string>
+    <string name="settings_content_font_large">Granda</string>
+    <string name="settings_content_font_larger">Pli granda</string>
+    <string name="settings_content_font_largest">Duoble pli granda</string>
+    <string name="settings_content_font_normal">Normala</string>
+    <string name="settings_content_font_scale">Enhava tekstograndeco</string>
+    <string name="settings_content_font_small">Malgranda</string>
+    <string name="settings_content_font_smaller">Pli malgranda</string>
+    <string name="settings_content_font_smallest">Duoble pli malgranda</string>
+    <string name="settings_custom_seed_color">Propra etosa koloro</string>
+    <string name="settings_default_comment_sort_type">Apriora komenta speco</string>
+    <string name="settings_default_listing_type">Apriora listada speco</string>
+    <string name="settings_default_post_sort_type">Apriora afiŝa speco</string>
+    <string name="settings_downvote_color">Koloro de la malfavoraj voĉdonoj</string>
+    <string name="settings_dynamic_colors">Uzi dinamikajn kolorojn</string>
+    <string name="settings_enable_crash_report">Enŝalti kraŝraportojn</string>
+    <string name="settings_enable_double_tap">Enŝalti duoblan frapan agon</string>
+    <string name="settings_enable_swipe_actions">Enŝalti svingagojn</string>
+    <string name="settings_full_height_images">Plenaj altobildoj</string>
+    <string name="settings_include_nsfw">Inkluzivi NSFW-enhavojn</string>
+    <string name="settings_language">Lingvo</string>
+    <string name="settings_navigation_bar_titles_visible">Montri navigadbretajn titolojn</string>
+    <string name="settings_open_url_external">Malfermu en ekstera retumilo</string>
+    <string name="settings_points_short">pt</string>
+    <string name="settings_post_layout">Poŝta aranĝo</string>
+    <string name="settings_post_layout_card">Karto</string>
+    <string name="settings_post_layout_compact">Kunpremita</string>
+    <string name="settings_post_layout_full">Plena</string>
+    <string name="settings_section_appearance">Rigardo kaj sento</string>
+    <string name="settings_section_behaviour">Konduto</string>
+    <string name="settings_section_debug">Sencimigi</string>
+    <string name="settings_section_feed">Afiŝoj kaj komentoj</string>
+    <string name="settings_section_nsfw">NSFW</string>
+    <string name="settings_separate_up_and_downvotes">Apartigi porvoĉojn / kontraŭvoĉojn</string>
+    <string name="settings_theme_black">Malhela (AMOLED)</string>
+    <string name="settings_theme_dark">Malhela</string>
+    <string name="settings_theme_light">Hela</string>
+    <string name="settings_ui_font_family">UI tiparo</string>
+    <string name="settings_ui_font_scale">UI tekstograndeco</string>
+    <string name="settings_ui_theme">UI etoso</string>
+    <string name="settings_upvote_color">Koloro de la porvoĉoj</string>
+    <string name="settings_hide_navigation_bar">Kaŝi navigobreton dum rulumado</string>
+    <string name="settings_zombie_mode_interval">Tempodaŭro de la zombia reĝimo</string>
+    <string name="settings_zombie_mode_scroll_amount">Rula kvanto de la zombia reĝimo</string>
+    <string name="settings_mark_as_read_while_scrolling">Marki afiŝojn kiel legitaj dum rulumado
+    </string>
+    <string name="action_quote">Citi</string>
+    <string name="mod_action_open_reports">Malfermi raportojn</string>
+    <string name="mod_action_mark_as_featured">Marki kiel prezentita</string>
+    <string name="mod_action_unmark_as_featured">Malmarki kiel prezentita</string>
+    <string name="mod_action_lock">Ŝlosi</string>
+    <string name="mod_action_unlock">Malŝlosi</string>
+    <string name="mod_action_remove">Forigi</string>
+    <string name="mod_action_mark_as_distinguished">Marki kiel distingita</string>
+    <string name="mod_action_unmark_as_distinguished">Malmarki kiel distingita</string>
+    <string name="report_list_title">Raportlisto</string>
+    <string name="report_list_type_title">Raportlista tipo</string>
+    <string name="report_list_type_all">Ĉiuj</string>
+    <string name="report_list_type_unresolved">Nesolvitaj</string>
+    <string name="report_action_resolve">Solvi</string>
+    <string name="report_action_unresolve">Nesolvi</string>
+</resources>
