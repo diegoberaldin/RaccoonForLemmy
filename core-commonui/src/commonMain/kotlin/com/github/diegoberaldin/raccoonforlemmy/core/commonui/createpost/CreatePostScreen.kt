@@ -41,11 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
@@ -131,17 +127,6 @@ class CreatePostScreen(
             }
         }
         var openSelectCommunity by remember { mutableStateOf(false) }
-        val keyboardScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(
-                    available: Offset,
-                    source: NestedScrollSource,
-                ): Offset {
-                    focusManager.clearFocus()
-                    return Offset.Zero
-                }
-            }
-        }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
 
@@ -200,7 +185,6 @@ class CreatePostScreen(
         }
 
         Scaffold(
-            modifier = Modifier.nestedScroll(keyboardScrollConnection),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
