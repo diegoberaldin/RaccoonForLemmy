@@ -46,6 +46,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.AppTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ic_launcher_background
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.md_theme_dark_onPrimary
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getPostFromUrl
@@ -81,10 +82,32 @@ fun App() {
     val accountRepository = remember { getAccountRepository() }
     val settingsRepository = remember { getSettingsRepository() }
     val settings by settingsRepository.currentSettings.collectAsState()
-    var hasBeenInitialized by remember { mutableStateOf(false) }
     val apiConfigurationRepository = remember { getApiConfigurationRepository() }
     val crashReportSender = remember { getCrashReportSender() }
     val crashReportConfiguration = remember { getCrashReportConfiguration() }
+    val themeRepository = remember { getThemeRepository() }
+    val defaultLocale = stringResource(MR.strings.lang)
+    val languageRepository = remember { getLanguageRepository() }
+    val locale by derivedStateOf { settings.locale }
+    val defaultTheme = if (isSystemInDarkTheme()) {
+        UiTheme.Dark.toInt()
+    } else {
+        UiTheme.Light.toInt()
+    }
+    val currentTheme by themeRepository.uiTheme.collectAsState()
+    val useDynamicColors by themeRepository.dynamicColors.collectAsState()
+    val fontScale by themeRepository.contentFontScale.collectAsState()
+    val uiFontScale by themeRepository.uiFontScale.collectAsState()
+    val navigationCoordinator = remember { getNavigationCoordinator() }
+    val scope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val drawerCoordinator = remember { getDrawerCoordinator() }
+    val drawerGestureEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
+    var isInitialized by remember { mutableStateOf(false) }
+
+    languageRepository.currentLanguage.onEach { lang ->
+        StringDesc.localeType = StringDesc.LocaleType.Custom(lang)
+    }.launchIn(scope)
 
     LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
@@ -95,52 +118,32 @@ fun App() {
         if (lastInstance != null) {
             apiConfigurationRepository.changeInstance(lastInstance)
         }
-        crashReportSender.initialize()
-        crashReportSender.setEnabled(crashReportConfiguration.isEnabled())
-        hasBeenInitialized = true
-    }
+        with(crashReportSender) {
+            initialize()
+            setEnabled(crashReportConfiguration.isEnabled())
+        }
 
-    val defaultTheme = if (isSystemInDarkTheme()) {
-        UiTheme.Dark.toInt()
-    } else {
-        UiTheme.Light.toInt()
-    }
+        with(themeRepository) {
+            changeUiTheme((currentSettings.theme ?: defaultTheme).toUiTheme())
+            changeNavItemTitles(currentSettings.navigationTitlesVisible)
+            changeDynamicColors(currentSettings.dynamicColors)
+            changeCustomSeedColor(currentSettings.customSeedColor?.let { Color(it) })
+            changePostLayout(currentSettings.postLayout.toPostLayout())
+            changeContentFontScale(currentSettings.contentFontScale)
+            changeUiFontScale(currentSettings.uiFontScale)
+            changeUiFontFamily(currentSettings.uiFontFamily.toUiFontFamily())
 
-    val defaultLocale = stringResource(MR.strings.lang)
-    val languageRepository = remember { getLanguageRepository() }
-    val locale by derivedStateOf { settings.locale }
+            with(themeRepository) {
+                changeUpvoteColor(currentSettings.upvoteColor?.let { Color(it) })
+                changeDownvoteColor(currentSettings.downvoteColor?.let { Color(it) })
+            }
+        }
+
+        isInitialized = true
+    }
     LaunchedEffect(locale) {
         languageRepository.changeLanguage(locale ?: defaultLocale)
     }
-    val scope = rememberCoroutineScope()
-    languageRepository.currentLanguage.onEach { lang ->
-        StringDesc.localeType = StringDesc.LocaleType.Custom(lang)
-    }.launchIn(scope)
-
-    val themeRepository = remember { getThemeRepository() }
-
-    LaunchedEffect(settings) {
-        with(themeRepository) {
-            changeUiTheme((settings.theme ?: defaultTheme).toUiTheme())
-            changeNavItemTitles(settings.navigationTitlesVisible)
-            changeDynamicColors(settings.dynamicColors)
-            changeCustomSeedColor(settings.customSeedColor?.let { Color(it) })
-            changePostLayout(settings.postLayout.toPostLayout())
-            changeContentFontScale(settings.contentFontScale)
-            changeUiFontScale(settings.uiFontScale)
-            changeUiFontFamily(settings.uiFontFamily.toUiFontFamily())
-
-            with(themeRepository) {
-                changeUpvoteColor(settings.upvoteColor?.let { Color(it) })
-                changeDownvoteColor(settings.downvoteColor?.let { Color(it) })
-            }
-        }
-    }
-    val currentTheme by themeRepository.uiTheme.collectAsState()
-    val useDynamicColors by themeRepository.dynamicColors.collectAsState()
-    val fontScale by themeRepository.contentFontScale.collectAsState()
-    val uiFontScale by themeRepository.uiFontScale.collectAsState()
-    val navigationCoordinator = remember { getNavigationCoordinator() }
     LaunchedEffect(navigationCoordinator) {
         navigationCoordinator.deepLinkUrl.debounce(750).onEach { url ->
             val community = getCommunityFromUrl(url)
@@ -176,10 +179,6 @@ fun App() {
             }
         }.launchIn(this)
     }
-
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val drawerCoordinator = remember { getDrawerCoordinator() }
-    val drawerGestureEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
     LaunchedEffect(drawerCoordinator) {
         drawerCoordinator.toggleEvents.onEach { evt ->
             when (evt) {
@@ -227,55 +226,57 @@ fun App() {
                 fontScale = uiFontScale,
             ),
         ) {
-            BottomSheetNavigator(
-                sheetShape = RoundedCornerShape(
-                    topStart = CornerSize.xl, topEnd = CornerSize.xl
-                ),
-                sheetBackgroundColor = MaterialTheme.colorScheme.background,
-            ) { bottomNavigator ->
-                navigationCoordinator.setBottomNavigator(bottomNavigator)
+            if (isInitialized) {
+                BottomSheetNavigator(
+                    sheetShape = RoundedCornerShape(
+                        topStart = CornerSize.xl, topEnd = CornerSize.xl
+                    ),
+                    sheetBackgroundColor = MaterialTheme.colorScheme.background,
+                ) { bottomNavigator ->
+                    navigationCoordinator.setBottomNavigator(bottomNavigator)
 
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    gesturesEnabled = drawerGestureEnabled,
-                    drawerContent = {
-                        ModalDrawerSheet {
-                            TabNavigator(ModalDrawerContent)
-                        }
-                    },
-                ) {
-                    Navigator(screen = MainScreen, onBackPressed = {
-                        val callback = navigationCoordinator.getCanGoBackCallback()
-                        callback?.let { it() } ?: true
-                    }) { navigator ->
-                        LaunchedEffect(Unit) {
-                            navigationCoordinator.setRootNavigator(navigator)
-                        }
-
-                        if (hasBeenInitialized) {
-                            CurrentScreen()
-                        } else {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(color = ic_launcher_background),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(top = 24.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                                ) {
-                                    Image(
-                                        painter = painterResource(MR.images.icon),
-                                        contentDescription = null,
-                                    )
-                                    CircularProgressIndicator(
-                                        color = MaterialTheme.colorScheme.onPrimary,
-                                    )
-                                }
+                    ModalNavigationDrawer(
+                        drawerState = drawerState,
+                        gesturesEnabled = drawerGestureEnabled,
+                        drawerContent = {
+                            ModalDrawerSheet {
+                                TabNavigator(ModalDrawerContent)
                             }
+                        },
+                    ) {
+                        Navigator(screen = MainScreen, onBackPressed = {
+                            val callback = navigationCoordinator.getCanGoBackCallback()
+                            callback?.let { it() } ?: true
+                        }) { navigator ->
+                            LaunchedEffect(Unit) {
+                                navigationCoordinator.setRootNavigator(navigator)
+                            }
+
+
+                            CurrentScreen()
+
                         }
+                    }
+                }
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = ic_launcher_background),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Column(
+                        modifier = Modifier.padding(top = 24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                    ) {
+                        Image(
+                            painter = painterResource(MR.images.icon),
+                            contentDescription = null,
+                        )
+                        CircularProgressIndicator(
+                            color = md_theme_dark_onPrimary,
+                        )
                     }
                 }
             }
