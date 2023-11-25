@@ -149,21 +149,21 @@ object ModalDrawerContent : Tab {
                     bottom = Spacing.s,
                 )
             )
-
-            val pullRefreshState = rememberPullRefreshState(
-                refreshing = uiState.refreshing,
-                onRefresh = rememberCallback(model) {
-                    model.reduce(ModalDrawerMviModel.Intent.Refresh)
-                },
-            )
-            Box(
-                modifier = Modifier.weight(1f).pullRefresh(pullRefreshState),
-            ) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxs),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+            if (uiState.user != null) {
+                val pullRefreshState = rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh = rememberCallback(model) {
+                        model.reduce(ModalDrawerMviModel.Intent.Refresh)
+                    },
+                )
+                Box(
+                    modifier = Modifier.weight(1f).pullRefresh(pullRefreshState),
                 ) {
-                    if (uiState.user != null) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxs),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                    ) {
+
                         item {
                             DrawerShortcut(
                                 title = stringResource(MR.strings.navigation_drawer_title_subscriptions),
@@ -185,50 +185,50 @@ object ModalDrawerContent : Tab {
                                     }
                                 })
                         }
-                    }
 
-                    items(uiState.multiCommunities) { community ->
-                        MultiCommunityItem(
-                            modifier = Modifier.fillMaxWidth().onClick(
-                                onClick = rememberCallback {
-                                    scope.launch {
-                                        coordinator.toggleDrawer()
-                                        coordinator.sendEvent(
-                                            DrawerEvent.OpenMultiCommunity(community),
-                                        )
-                                    }
-                                },
-                            ),
-                            community = community,
-                            small = true,
-                            autoLoadImages = uiState.autoLoadImages,
-                        )
+                        items(uiState.multiCommunities) { community ->
+                            MultiCommunityItem(
+                                modifier = Modifier.fillMaxWidth().onClick(
+                                    onClick = rememberCallback {
+                                        scope.launch {
+                                            coordinator.toggleDrawer()
+                                            coordinator.sendEvent(
+                                                DrawerEvent.OpenMultiCommunity(community),
+                                            )
+                                        }
+                                    },
+                                ),
+                                community = community,
+                                small = true,
+                                autoLoadImages = uiState.autoLoadImages,
+                            )
+                        }
+                        items(uiState.communities) { community ->
+                            CommunityItem(
+                                modifier = Modifier.fillMaxWidth().onClick(
+                                    onClick = rememberCallback {
+                                        scope.launch {
+                                            coordinator.toggleDrawer()
+                                            coordinator.sendEvent(
+                                                DrawerEvent.OpenCommunity(community),
+                                            )
+                                        }
+                                    },
+                                ),
+                                community = community,
+                                small = true,
+                                autoLoadImages = uiState.autoLoadImages,
+                            )
+                        }
                     }
-                    items(uiState.communities) { community ->
-                        CommunityItem(
-                            modifier = Modifier.fillMaxWidth().onClick(
-                                onClick = rememberCallback {
-                                    scope.launch {
-                                        coordinator.toggleDrawer()
-                                        coordinator.sendEvent(
-                                            DrawerEvent.OpenCommunity(community),
-                                        )
-                                    }
-                                },
-                            ),
-                            community = community,
-                            small = true,
-                            autoLoadImages = uiState.autoLoadImages,
-                        )
-                    }
+                    PullRefreshIndicator(
+                        refreshing = uiState.refreshing,
+                        state = pullRefreshState,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        backgroundColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.onBackground,
+                    )
                 }
-                PullRefreshIndicator(
-                    refreshing = uiState.refreshing,
-                    state = pullRefreshState,
-                    modifier = Modifier.align(Alignment.TopCenter),
-                    backgroundColor = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.onBackground,
-                )
             }
         }
 
