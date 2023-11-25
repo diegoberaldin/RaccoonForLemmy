@@ -168,7 +168,7 @@ class PostDetailScreen(
         }
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
                 .onEach { evt ->
                     if (evt.key == key) {
                         model.reduce(PostDetailMviModel.Intent.ChangeSort(evt.value))

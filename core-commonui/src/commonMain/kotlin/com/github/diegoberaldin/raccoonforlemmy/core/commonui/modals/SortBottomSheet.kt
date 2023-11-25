@@ -121,19 +121,18 @@ internal class SortBottomSheetMain(
                                             )
                                         )
                                     } else {
-                                        notificationCenter.send(
-                                            if (comments) {
-                                                NotificationCenterEvent.ChangeCommentSortType(
-                                                    value = value,
-                                                    key = sheetKey,
-                                                )
-                                            } else {
-                                                NotificationCenterEvent.ChangeSortType(
-                                                    value = value,
-                                                    key = sheetKey,
-                                                )
-                                            }
-                                        )
+                                        val event = if (comments) {
+                                            NotificationCenterEvent.ChangeCommentSortType(
+                                                value = value,
+                                                key = sheetKey,
+                                            )
+                                        } else {
+                                            NotificationCenterEvent.ChangeSortType(
+                                                value = value,
+                                                key = sheetKey,
+                                            )
+                                        }
+                                        notificationCenter.send(event)
                                         navigationCoordinator.hideBottomSheet()
                                     }
                                 },
@@ -219,19 +218,18 @@ internal class SortBottomSheetTop(
                             .fillMaxWidth()
                             .onClick(
                                 onClick = rememberCallback {
-                                    notificationCenter.send(
-                                        if (comments) {
-                                            NotificationCenterEvent.ChangeCommentSortType(
-                                                value = value,
-                                                key = sheetKey,
-                                            )
-                                        } else {
-                                            NotificationCenterEvent.ChangeSortType(
-                                                value = value,
-                                                key = sheetKey,
-                                            )
-                                        }
-                                    )
+                                    val event = if (comments) {
+                                        NotificationCenterEvent.ChangeCommentSortType(
+                                            value = value,
+                                            key = sheetKey,
+                                        )
+                                    } else {
+                                        NotificationCenterEvent.ChangeSortType(
+                                            value = value,
+                                            key = sheetKey,
+                                        )
+                                    }
+                                    notificationCenter.send(event)
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
