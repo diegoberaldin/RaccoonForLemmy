@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Kotlin-1.9.20-7f52ff?logo=kotlin" />
+  <img src="https://img.shields.io/badge/Kotlin-1.9.21-7f52ff?logo=kotlin" />
   <img src="https://img.shields.io/badge/Android-26+-green" />
-  <img src="https://img.shields.io/badge/Jetpack_Compose-1.5.10-3e7fea?logo=jetpackcompose" />
+  <img src="https://img.shields.io/badge/Jetpack_Compose-1.5.11-3e7fea?logo=jetpackcompose" />
   <img src="https://img.shields.io/github/license/diegoberaldin/RaccoonForLemmy" />
 </div>
 
