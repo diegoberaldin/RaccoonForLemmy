@@ -25,7 +25,7 @@ moko_resources = "0.23.0"
 multiplatform_settings = "1.1.0"
 sqlcipher = "4.5.4"
 sqldelight = "2.0.0"
-voyager = "1.0.0-rc09"
+voyager = "1.0.0-rc10"
 
 android_targetSdk = "34"
 android_minSdk = "26"
