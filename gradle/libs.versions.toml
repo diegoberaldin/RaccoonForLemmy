@@ -1,5 +1,5 @@
 [versions]
-androidx_activity = "1.8.0"
+androidx_activity = "1.8.1"
 androidx_crypto = "1.0.0"
 android_gradle = "8.1.1"
 coil = "2.5.0"
