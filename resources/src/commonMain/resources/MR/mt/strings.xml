@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="action_back_to_top">Lura għal Fuq</string>
+    <string name="action_chat">Ibgħat messaġġ</string>
+    <string name="action_clear_read">Neħħi l-qari</string>
+    <string name="action_create_post">Oħloq post</string>
+    <string name="action_reply">Irrispondi</string>
+    <string name="action_activate_zombie_mode">Attiva l-modalità zombie</string>
+    <string name="action_deactivate_zombie_mode">Iddiżattiva l-modalità zombie</string>
+    <string name="button_close">Agħlaq</string>
+    <string name="button_confirm">Ikkonferma</string>
+    <string name="button_load">Tagħbija</string>
+    <string name="button_reset">Irrisettja</string>
+    <string name="button_retry">Erġa\' pprova</string>
+    <string name="comment_action_delete">Ħassar</string>
+    <string name="community_detail_block">Imblokka</string>
+    <string name="community_detail_block_instance">Imblokka l-mument</string>
+    <string name="community_detail_info">Informazzjoni tal-komunità</string>
+    <string name="community_detail_instance_info">Dettalji tal-mument</string>
+    <string name="community_info_comments">Kummenti</string>
+    <string name="community_info_daily_active_users">utenti attivi (jum)</string>
+    <string name="community_info_monthly_active_users">utenti attivi (xahar)</string>
+    <string name="community_info_posts">Postijiet</string>
+    <string name="community_info_subscribers">abbonati</string>
+    <string name="community_info_weekly_active_users">utenti attivi (ġimgħa)</string>
+    <string name="create_comment_body">Korp tal-kummenti</string>
+    <string name="create_comment_title">Kumment ġdid</string>
+    <string name="create_post_body">Korp tal post</string>
+    <string name="create_post_community">Komunità</string>
+    <string name="create_post_cross_post_text">Cross ippubblikat minn:</string>
+    <string name="create_post_name">Titlu tal-post</string>
+    <string name="create_post_nsfw">NSFW</string>
+    <string name="create_post_tab_editor">Editur</string>
+    <string name="create_post_tab_preview">Preview</string>
+    <string name="create_post_title">Post ġdid</string>
+    <string name="create_post_url">URL</string>
+    <string name="create_report_placeholder">Test tar-rapport (mhux obbligatorju)</string>
+    <string name="create_report_title_comment">Irrapporta l-kumment</string>
+    <string name="create_report_title_post">Irrapporta l-post</string>
+    <string name="dialog_raw_content_text">Test</string>
+    <string name="dialog_raw_content_title">Titlu</string>
+    <string name="dialog_raw_content_url">URL</string>
+    <string name="dialog_title_change_instance">Ibdel il-mument</string>
+    <string name="dialog_title_raw_content">Kontenut mhux ipproċessat</string>
+    <string name="dialog_title_select_community">Agħżel komunità</string>
+    <string name="edit_comment_title">Editja l-kumment</string>
+    <string name="edit_post_title">Editja l-post</string>
+    <string name="explore_result_type_all">Kollha</string>
+    <string name="explore_result_type_comments">Kummenti</string>
+    <string name="explore_result_type_communities">Komunitajiet</string>
+    <string name="explore_result_type_posts">Postijet</string>
+    <string name="explore_result_type_users">Utenti</string>
+    <string name="explore_search_placeholder">Tfittxija</string>
+    <string name="home_instance_via">permezz%1$s</string>
+    <string name="home_listing_title">Għalf</string>
+    <string name="home_listing_type_all">Kollha</string>
+    <string name="home_listing_type_local">Lokali</string>
+    <string name="home_listing_type_subscribed">Abbonati</string>
+    <string name="home_sort_title">Irranġa skont:</string>
+    <string name="home_sort_type_active">Attivi</string>
+    <string name="home_sort_type_controversial">Kontroversjali</string>
+    <string name="home_sort_type_hot">Popolari</string>
+    <string name="home_sort_type_most_comments">Il-biċċa l-kbira tal-kumment</string>
+    <string name="home_sort_type_new">Ġdid</string>
+    <string name="home_sort_type_new_comments">Kummenti ġodda</string>
+    <string name="home_sort_type_old">Qadim</string>
+    <string name="home_sort_type_scaled">Imqassar</string>
+    <string name="home_sort_type_top">Fuq</string>
+    <string name="home_sort_type_top_12_hours">L-aqwa 12-il siegħa</string>
+    <string name="home_sort_type_top_12_hours_short">12h</string>
+    <string name="home_sort_type_top_6_hours">L-aqwa 6 sigħat</string>
+    <string name="home_sort_type_top_6_hours_short">6h</string>
+    <string name="home_sort_type_top_day">L-aqwa jum</string>
+    <string name="home_sort_type_top_day_short">jum</string>
+    <string name="home_sort_type_top_hour">L-aħjar siegħa</string>
+    <string name="home_sort_type_top_hour_short">siegħa</string>
+    <string name="home_sort_type_top_month">L-aqwa xahar</string>
+    <string name="home_sort_type_top_month_short">xahar</string>
+    <string name="home_sort_type_top_week">L-Aqwa ġimgħa</string>
+    <string name="home_sort_type_top_week_short">ġimgħa</string>
+    <string name="home_sort_type_top_year">L-aqwa sena</string>
+    <string name="home_sort_type_top_year_short">sena</string>
+    <string name="inbox_action_mark_read">Immarka bħala moqri</string>
+    <string name="inbox_action_mark_unread">Immarka bħala mhux moqri</string>
+    <string name="inbox_chat_message">Messaġġ</string>
+    <string name="inbox_item_mention">semmejt lilek fi</string>
+    <string name="inbox_item_reply_comment">wieġeb għall-kumment tiegħek fi</string>
+    <string name="inbox_item_reply_post">wieġeb għall-post tiegħek fi</string>
+    <string name="inbox_listing_type_all">Kollha</string>
+    <string name="inbox_listing_type_title">Tip ta\' Inbox</string>
+    <string name="inbox_listing_type_unread">Mhux moqri</string>
+    <string name="inbox_not_logged_message">Bħalissa m\' intix illoggjat.Jekk\n jogħġbok żid kont
+        mill-iskrin tal-profil biex tara l-inbox tiegħek.
+    </string>
+    <string name="inbox_section_mentions">Suġġerimenti</string>
+    <string name="inbox_section_messages">Messaġġi</string>
+    <string name="inbox_section_replies">Tweġibiet</string>
+    <string name="instance_detail_communities">Komunitajiet</string>
+    <string name="instance_detail_title">Mument: %1$s</string>
+    <string name="lang">mt</string>
+    <string name="language_bg" translatable="false">български</string>
+    <string name="language_cs" translatable="false">Čeština</string>
+    <string name="language_de" translatable="false">Deutsch</string>
+    <string name="language_da" translatable="false">Dansk</string>
+    <string name="language_ga" translatable="false">Gaeilge</string>
+    <string name="language_el" translatable="false">Ελληνικά</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_eo" translatable="false">Esperanto</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_et" translatable="false">Eesti</string>
+    <string name="language_fi" translatable="false">Suomi</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_hu" translatable="false">Magyar</string>
+    <string name="language_hr" translatable="false">Hrvatski</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_lv" translatable="false">Latviešu</string>
+    <string name="language_lt" translatable="false">Lietuvių</string>
+    <string name="language_no" translatable="false">Norsk</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_pl" translatable="false">Polski</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="language_se" translatable="false">Svenska</string>
+    <string name="language_sk" translatable="false">Slovenčina</string>
+    <string name="language_sl" translatable="false">Slovenščina</string>
+    <string name="login_field_instance_name">Isem il-mument</string>
+    <string name="login_field_label_optional">(fakultattiv)</string>
+    <string name="login_field_password">Password</string>
+    <string name="login_field_token">Token TOTP 2FA</string>
+    <string name="login_field_user_name">Isem tal-utent (jew email)</string>
+    <string name="manage_accounts_button_add">Żid kont</string>
+    <string name="manage_accounts_title">Immaniġġja l-kontijiet</string>
+    <string name="manage_subscriptions_header_multicommunities">Multi-komunitajiet</string>
+    <string name="manage_subscriptions_header_subscriptions">Sottoskrizzjonijiet</string>
+    <string name="message_empty_comments">Hija wisq siekta\n hemmhekk.Tixtieq tkun dik li
+        tikteb l-ewwel kumment?
+    </string>
+    <string name="message_empty_list">L-ebda oġġett biex jintwera</string>
+    <string name="message_error_loading_comments">Seħħ żball fit-tlugħ tal-kummenti.</string>
+    <string name="message_generic_error">Żball ġeneriku</string>
+    <string name="message_image_loading_error">Żball fit-tlugħ tal-immaġni</string>
+    <string name="message_invalid_field">Qasam mhux tajjeb</string>
+    <string name="message_missing_field">Qasam nieqes</string>
+    <string name="message_operation_successful">L-operazzjoni tlestiet b\' suċċess</string>
+    <string name="multi_community_editor_communities">Komunitajiet</string>
+    <string name="multi_community_editor_icon">Ikona</string>
+    <string name="multi_community_editor_name">Isem</string>
+    <string name="multi_community_editor_title">Editur multikomunitarju</string>
+    <string name="navigation_drawer_anonymous">Anonimu</string>
+    <string name="navigation_drawer_title_bookmarks">Issejvjati</string>
+    <string name="navigation_drawer_title_subscriptions">Sottoskrizzjonijiet</string>
+    <string name="navigation_home">Postijet</string>
+    <string name="navigation_inbox">Inbox</string>
+    <string name="navigation_profile">Profil</string>
+    <string name="navigation_search">Esplora</string>
+    <string name="navigation_settings">Issettjar</string>
+    <string name="post_action_cross_post">Cross-post</string>
+    <string name="post_action_edit">Biddel</string>
+    <string name="post_action_hide">Aħbi</string>
+    <string name="post_action_report">Irrapporta</string>
+    <string name="post_action_see_raw">Ara mhux ipproċessat</string>
+    <string name="post_action_share">Aqsam</string>
+    <string name="post_detail_cross_posts">imtella\' wkoll fuq:</string>
+    <string name="post_detail_load_more_comments">Tella\' iktar kummenti</string>
+    <string name="post_hour_short">h</string>
+    <string name="post_minute_short">m</string>
+    <string name="post_second_short">s</string>
+    <string name="profile_button_login">Idħol</string>
+    <string name="profile_day_short">d</string>
+    <string name="profile_million_short">m</string>
+    <string name="profile_month_short">m</string>
+    <string name="profile_not_logged_message">Bħalissa m\' intix illoggjat.Jekk\n jogħġbok żid
+        kont biex tkompli.
+    </string>
+    <string name="profile_section_comments">Kummenti</string>
+    <string name="profile_section_posts">Postijet</string>
+    <string name="profile_thousand_short">k</string>
+    <string name="profile_year_short">y</string>
+    <string name="settings_about">Dwar dil-app</string>
+    <string name="settings_about_app_version">Verżjoni tal-app</string>
+    <string name="settings_about_changelog">Ara r-reġistru sħiħ tal-bidliet</string>
+    <string name="settings_about_report_github">Irrapporta bug (GitHub)</string>
+    <string name="settings_about_report_email">Irrapporta bug (email)</string>
+    <string name="settings_about_view_github">Ara fuq GitHub</string>
+    <string name="settings_about_view_lemmy">Komunità ta\' Lemmy</string>
+    <string name="settings_auto_expand_comments">Espandi l-kummenti awtomatikament</string>
+    <string name="settings_auto_load_images">Tella\' l-istampi awtomatikament</string>
+    <string name="settings_blur_nsfw">Immaġini NSFW imċajpra</string>
+    <string name="settings_color_aquamarine">🐬 Dniefel distrutt</string>
+    <string name="settings_color_banana">🦔 Qanfud qażi</string>
+    <string name="settings_color_blue">🐳 Balena bizarre</string>
+    <string name="settings_color_custom">Personalizzat</string>
+    <string name="settings_color_dialog_alpha">A</string>
+    <string name="settings_color_dialog_blue">B</string>
+    <string name="settings_color_dialog_green">G</string>
+    <string name="settings_color_dialog_red">R</string>
+    <string name="settings_color_dialog_title">Agħżel kulur</string>
+    <string name="settings_color_gray">🦝 Ravenous raccoon</string>
+    <string name="settings_color_green">🐸 Żrinġ żgħażagħ</string>
+    <string name="settings_color_orange">🦊 Volpi verżjoni</string>
+    <string name="settings_color_pink">🦄 Unicorn uniku</string>
+    <string name="settings_color_purple">🐙 Qarnita qasir</string>
+    <string name="settings_color_red">🦀 Granċ għalab</string>
+    <string name="settings_color_white">🐼 Ors ottimu</string>
+    <string name="settings_content_font_large">Kbir</string>
+    <string name="settings_content_font_larger">Iktar kbir</string>
+    <string name="settings_content_font_largest">Kbir żejjed doppju</string>
+    <string name="settings_content_font_normal">Normali</string>
+    <string name="settings_content_font_scale">Daqs tat-test tal-kontenut</string>
+    <string name="settings_content_font_small">Żgħir</string>
+    <string name="settings_content_font_smaller">Iktar żgħir</string>
+    <string name="settings_content_font_smallest">Żgħir żejjed doppju</string>
+    <string name="settings_custom_seed_color">Kulur tat-tema personalizzat</string>
+    <string name="settings_default_comment_sort_type">Tip ta\' għażla ta\' kummenti prestabbiliti
+    </string>
+    <string name="settings_default_listing_type">Tip ta\' feed standard</string>
+    <string name="settings_default_post_sort_type">Tip ta\' tqassim ta\' postijiet standard</string>
+    <string name="settings_downvote_color">Kulur \'l isfel fil-vot</string>
+    <string name="settings_dynamic_colors">Uża kuluri dinamiċi</string>
+    <string name="settings_enable_crash_report">Ippermetti r-rappurtar tal-ħbit</string>
+    <string name="settings_enable_double_tap">Ippermetti azzjoni doppja</string>
+    <string name="settings_enable_swipe_actions">Ippermetti l-azzjonijiet ta\' swipe</string>
+    <string name="settings_full_height_images">Stampi b\' għoli sħiħ</string>
+    <string name="settings_include_nsfw">Inkludi l-kontenut tal-NSFW</string>
+    <string name="settings_language">Lingwa</string>
+    <string name="settings_navigation_bar_titles_visible">Uri l-ismijiet tal-bar tan-navigazzjoni
+    </string>
+    <string name="settings_open_url_external">Iftaħ il-URLs fil-brawżer estern</string>
+    <string name="settings_points_short">pt</string>
+    <string name="settings_post_layout">Tqassim tal-post</string>
+    <string name="settings_post_layout_card">Kard</string>
+    <string name="settings_post_layout_compact">Kumpatt</string>
+    <string name="settings_post_layout_full">Sħiħ</string>
+    <string name="settings_section_appearance">Ħares u ħoss</string>
+    <string name="settings_section_behaviour">Imġiba</string>
+    <string name="settings_section_debug">Debug</string>
+    <string name="settings_section_feed">Posts u kummenti</string>
+    <string name="settings_section_nsfw">NSFW</string>
+    <string name="settings_separate_up_and_downvotes">Voti upvotes / downvotes separati</string>
+    <string name="settings_theme_black">Skur (AMOLED)</string>
+    <string name="settings_theme_dark">Skur</string>
+    <string name="settings_theme_light">Ċar</string>
+    <string name="settings_ui_font_family">Tipa tal-UI</string>
+    <string name="settings_ui_font_scale">Daqs tat-test tal-UI</string>
+    <string name="settings_ui_theme">Tema tal-IU</string>
+    <string name="settings_upvote_color">Agħti l-vot bil-kulur</string>
+    <string name="settings_hide_navigation_bar">Aħbi l-bar tan-navigazzjoni waqt li tkun qed
+        tiskrollja
+    </string>
+    <string name="settings_zombie_mode_interval">Tul tal-intervall tal-modalità Zombie</string>
+    <string name="settings_zombie_mode_scroll_amount">Ammont ta\' skrolljar tal-modalità Zombie
+    </string>
+    <string name="settings_mark_as_read_while_scrolling">Immarka l-postijiet bħala moqrija waqt li
+        tkun qed tiskrollja
+    </string>
+    <string name="action_quote">Kwotazzjoni</string>
+    <string name="mod_action_open_reports">Iftaħ ir-rapporti</string>
+    <string name="mod_action_mark_as_featured">Immarka kif jidher</string>
+    <string name="mod_action_unmark_as_featured">Neħħi l-marka kif murija</string>
+    <string name="mod_action_lock">Issakkar</string>
+    <string name="mod_action_unlock">Nisfruttaw</string>
+    <string name="mod_action_remove">Neħħi</string>
+    <string name="mod_action_mark_as_distinguished">Immarka kif distint</string>
+    <string name="mod_action_unmark_as_distinguished">Neħħi l-marka kif distinta</string>
+    <string name="report_list_title">Lista ta\' rapporti</string>
+    <string name="report_list_type_title">Tip ta\' lista ta\' rapport</string>
+    <string name="report_list_type_all">Kollha</string>
+    <string name="report_list_type_unresolved">Mhux solvut</string>
+    <string name="report_action_resolve">Issolvi</string>
+    <string name="report_action_unresolve">Neħħi s-soluzzjoni</string>
+    <string name="sidebar_not_logged_message">Merħba f\' Raccoon for Lemmy!\n\nBil-modalità anonima,
+        uża l-buttuna drop-down (▼) t\' hawn fuq biex tibdel il-mument.\n\nTista\' tidħol
+        fl-intenzjoni tiegħek fuq fi kwalunkwe ħin\n\n mill-iskrintal-Profil.\n\nEnjoy Lemmy!
+    </string>
+</resources>

@@ -25,6 +25,7 @@ fun String.toLanguageName() = when (this) {
     "it" -> stringResource(MR.strings.language_it)
     "lt" -> stringResource(MR.strings.language_lt)
     "lv" -> stringResource(MR.strings.language_lv)
+    "mt" -> stringResource(MR.strings.language_mt)
     "no" -> stringResource(MR.strings.language_no)
     "nl" -> stringResource(MR.strings.language_nl)
     "pl" -> stringResource(MR.strings.language_pl)
