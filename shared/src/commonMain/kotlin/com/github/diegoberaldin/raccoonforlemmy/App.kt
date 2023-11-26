@@ -118,9 +118,11 @@ fun App() {
         if (lastInstance != null) {
             apiConfigurationRepository.changeInstance(lastInstance)
         }
-        with(crashReportSender) {
-            initialize()
-            setEnabled(crashReportConfiguration.isEnabled())
+        launch {
+            with(crashReportSender) {
+                initialize()
+                setEnabled(crashReportConfiguration.isEnabled())
+            }
         }
 
         with(themeRepository) {

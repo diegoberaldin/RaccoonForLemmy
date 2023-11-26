@@ -140,6 +140,21 @@ private fun extractCommunity(url: String): CommunityModel? = when {
 }
 
 private fun extractUser(url: String): UserModel? = when {
+    url.startsWith("@") -> {
+        val cleanString = url.substring(1)
+        if (url.count { it == '@' } == 1) {
+            val (name, host) = cleanString.split("@", limit = 2).let { l -> l[0] to l[1] }
+            UserModel(
+                name = name,
+                host = host,
+            )
+        } else {
+            UserModel(
+                name = cleanString,
+            )
+        }
+    }
+
     url.startsWith("/u/") -> {
         val cleanString = url.substring(3)
         if (url.count { it == '@' } == 1) {
