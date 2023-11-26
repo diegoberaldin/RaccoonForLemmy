@@ -71,6 +71,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -119,6 +120,9 @@ class PostDetailScreen(
     private val highlightCommentId: Int? = null,
     private val isMod: Boolean = false,
 ) : Screen {
+
+    override val key: ScreenKey
+        get() = super.key + post.id.toString()
 
     @OptIn(
         ExperimentalMaterial3Api::class,

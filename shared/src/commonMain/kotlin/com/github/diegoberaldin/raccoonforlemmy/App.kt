@@ -32,10 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import cafe.adriel.voyager.transitions.SlideTransition
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toPostLayout
@@ -246,7 +246,8 @@ fun App() {
         ) {
             BottomSheetNavigator(
                 sheetShape = RoundedCornerShape(
-                    topStart = CornerSize.xl, topEnd = CornerSize.xl
+                    topStart = CornerSize.xl,
+                    topEnd = CornerSize.xl
                 ),
                 sheetBackgroundColor = MaterialTheme.colorScheme.background,
             ) { bottomNavigator ->
@@ -261,16 +262,19 @@ fun App() {
                         }
                     },
                 ) {
-                    Navigator(screen = MainScreen, onBackPressed = {
-                        val callback = navigationCoordinator.getCanGoBackCallback()
-                        callback?.let { it() } ?: true
-                    }) { navigator ->
+                    Navigator(
+                        screen = MainScreen,
+                        onBackPressed = {
+                            val callback = navigationCoordinator.getCanGoBackCallback()
+                            callback?.let { it() } ?: true
+                        },
+                    ) { navigator ->
                         LaunchedEffect(Unit) {
                             navigationCoordinator.setRootNavigator(navigator)
                         }
 
                         if (hasBeenInitialized) {
-                            CurrentScreen()
+                            SlideTransition(navigator)
                         } else {
                             Box(
                                 modifier = Modifier
