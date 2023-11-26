@@ -181,26 +181,22 @@
     <string name="settings_auto_expand_comments">Automatiškai išplėsti komentarus</string>
     <string name="settings_auto_load_images">Automatiškai įkelti paveiksliukus</string>
     <string name="settings_blur_nsfw">Sulieti NSFW vaizdus</string>
-    <string name="settings_color_aquamarine">🐬 Išsiblaškęs delfinas</string>
-    <string name="settings_color_banana">🦔 Linksmas ežys</string>
-    <string name="settings_color_blue">🐳 Šmaikštus banginis</string>
+    <string name="settings_color_aquamarine">🐬 Durnas delfinas</string>
+    <string name="settings_color_banana">🦔 Ekscentriškas ežys</string>
+    <string name="settings_color_blue">🐳 Budrus banginis</string>
     <string name="settings_color_custom">Pasirinktinė</string>
     <string name="settings_color_dialog_alpha">A</string>
     <string name="settings_color_dialog_blue">B</string>
-    <string name="settings_color_dialog_green">
-
-
-        G
-    </string>
+    <string name="settings_color_dialog_green">G</string>
     <string name="settings_color_dialog_red">R</string>
     <string name="settings_color_dialog_title">Pasirinkite spalvą</string>
-    <string name="settings_color_gray">🦝 Beprotis usūrinis iešmas</string>
-    <string name="settings_color_green">🐸 Froliksinė varlė</string>
-    <string name="settings_color_orange">🦊 Ugninė lapė</string>
-    <string name="settings_color_pink">🦄 Unikalus vienaragis</string>
-    <string name="settings_color_purple">🐙 Vandenyninis aštuonkojis</string>
-    <string name="settings_color_red">🦀 Traškūs krabai</string>
-    <string name="settings_color_white">🐼 Meškiukas</string>
+    <string name="settings_color_gray">🦝 Malonuss meškėnas</string>
+    <string name="settings_color_green">🐸 Veiklus varlė</string>
+    <string name="settings_color_orange">🦊 Linksmas lapė</string>
+    <string name="settings_color_pink">🦄 Vaiduokliškas vienaragis</string>
+    <string name="settings_color_purple">🐙 Absurdiškas aštuonkojis</string>
+    <string name="settings_color_red">🦀 Kvakštas krabai</string>
+    <string name="settings_color_white">🐼 Meškos meška</string>
     <string name="settings_content_font_large">Didelis</string>
     <string name="settings_content_font_larger">Εχτra large</string>
     <string name="settings_content_font_largest">Dvivietis ypač didelis</string>

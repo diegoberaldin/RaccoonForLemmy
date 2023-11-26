@@ -192,7 +192,7 @@
     <string name="settings_blur_nsfw">Doiléirigh íomhánna NSFW</string>
     <string name="settings_color_aquamarine">🐬 Deilf dhealaithe</string>
     <string name="settings_color_banana">🦔 Gráinneog ghreannmhar</string>
-    <string name="settings_color_blue">🐳 Míol mór geal</string>
+    <string name="settings_color_blue">🐳 Míol mór mi-chliùmharaichte</string>
     <string name="settings_color_custom">Féindeánamh</string>
     <string name="settings_color_dialog_alpha">A</string>
     <string name="settings_color_dialog_blue">B</string>
@@ -200,12 +200,12 @@
     <string name="settings_color_dialog_red">R</string>
     <string name="settings_color_dialog_title">Roghnaigh dath</string>
     <string name="settings_color_gray">🦝 Racún rábach</string>
-    <string name="settings_color_green">🐸 Frog rollraicómach</string>
-    <string name="settings_color_orange">🦊 Sionnach fíochmhar</string>
-    <string name="settings_color_pink">🦄 Aonbheannach uathúil</string>
-    <string name="settings_color_purple">🐙 Ochtapas aigéanach</string>
-    <string name="settings_color_red">🦀 Portán géarchúiseach</string>
-    <string name="settings_color_white">🐼 Béar bambú</string>
+    <string name="settings_color_green">🐸 Frog fèin-fhàsach</string>
+    <string name="settings_color_orange">🦊 Sionnach smeòrachail</string>
+    <string name="settings_color_pink">🦄 Aonbheannach àlainn</string>
+    <string name="settings_color_purple">🐙 Ochtapas obair-chèile</string>
+    <string name="settings_color_red">🦀 Portán pròiseil</string>
+    <string name="settings_color_white">🐼 Béar brèagha</string>
     <string name="settings_content_font_large">Mór</string>
     <string name="settings_content_font_larger">An - mhór</string>
     <string name="settings_content_font_largest">An - mhór dúbailte</string>
