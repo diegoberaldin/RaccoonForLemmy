@@ -14,6 +14,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -78,10 +80,10 @@ internal class DefaultServiceProvider : ServiceProvider {
                 connectTimeoutMillis = 30_000
                 socketTimeoutMillis = 30_000
             }
-//            install(Logging) {
-//                logger = defaultLogger
-//                level = LogLevel.ALL
-//            }
+            install(Logging) {
+                logger = defaultLogger
+                level = LogLevel.ALL
+            }
             install(ContentNegotiation) {
                 json(Json { isLenient = true; ignoreUnknownKeys = true })
             }

@@ -245,6 +245,8 @@
         skaitytus
     </string>
     <string name="action_quote">Citata</string>
+    <string name="mod_action_allow">Leisti vartotojui dar kartą</string>
+    <string name="mod_action_ban">Uždrausti vartotoją</string>
     <string name="mod_action_open_reports">Atidaryti ataskaitas</string>
     <string name="mod_action_mark_as_featured">Pažymėti kaip siūlomą</string>
     <string name="mod_action_unmark_as_featured">Panaikinti kaip siūlomo žymėjimą</string>

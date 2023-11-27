@@ -243,6 +243,8 @@
         görgetés közben
     </string>
     <string name="action_quote">Idézet</string>
+    <string name="mod_action_allow">Engedélyezze újra a felhasználót</string>
+    <string name="mod_action_ban">Felhasználó kitiltása</string>
     <string name="mod_action_open_reports">Jelentések megnyitása</string>
     <string name="mod_action_mark_as_featured">Megjelölés kiemeltként</string>
     <string name="mod_action_unmark_as_featured">Kiemeltként való megjelölés eltávolítása</string>

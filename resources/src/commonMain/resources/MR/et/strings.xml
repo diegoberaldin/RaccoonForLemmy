@@ -243,6 +243,8 @@
     <string name="settings_mark_as_read_while_scrolling">Märkige postitused kerimise ajal loetuks
     </string>
     <string name="action_quote">Tsiteeri</string>
+    <string name="mod_action_allow">Luba kasutaja uuesti</string>
+    <string name="mod_action_ban">Keelata kasutaja</string>
     <string name="mod_action_open_reports">Ava aruanded</string>
     <string name="mod_action_mark_as_featured">Märkige esiletõstetuks</string>
     <string name="mod_action_unmark_as_featured">Tühista esiletõstetud märkimine</string>

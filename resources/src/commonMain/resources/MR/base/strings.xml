@@ -248,6 +248,8 @@
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
     <string name="settings_mark_as_read_while_scrolling">Mark posts as read while scrolling</string>
     <string name="action_quote">Quote</string>
+    <string name="mod_action_allow">Allow user again</string>
+    <string name="mod_action_ban">Ban user</string>
     <string name="mod_action_open_reports">Open reports</string>
     <string name="mod_action_mark_as_featured">Mark as featured</string>
     <string name="mod_action_unmark_as_featured">Unmark as featured</string>

@@ -227,6 +227,8 @@
     <string name="settings_mark_as_read_while_scrolling">Segna post come letti durante lo scroll
     </string>
     <string name="action_quote">Cita</string>
+    <string name="mod_action_allow">Riammetti utente</string>
+    <string name="mod_action_ban">Banna utente</string>
     <string name="mod_action_open_reports">Apri segnalazioni</string>
     <string name="mod_action_mark_as_featured">Segna come fissato</string>
     <string name="mod_action_unmark_as_featured">Segna come non fissato</string>

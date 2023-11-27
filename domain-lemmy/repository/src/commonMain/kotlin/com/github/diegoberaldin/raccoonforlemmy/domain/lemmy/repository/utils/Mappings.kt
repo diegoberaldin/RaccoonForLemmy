@@ -92,6 +92,8 @@ internal fun Person.toModel() = UserModel(
     avatar = avatar,
     host = actorId.toHost(),
     accountAge = published,
+    banned = banned,
+    updateDate = updated,
 )
 
 internal fun PersonView.toModel() = person.toModel()

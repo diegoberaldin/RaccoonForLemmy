@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,22 +37,28 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getBanUserViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getRemoveViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class RemoveScreen(
+class BanUserScreen(
+    private val userId: Int,
+    private val communityId: Int,
+    private val newValue: Boolean,
     private val postId: Int? = null,
     private val commentId: Int? = null,
 ) : Screen {
     @Composable
     override fun Content() {
         val model = rememberScreenModel {
-            getRemoveViewModel(
+            getBanUserViewModel(
+                userId = userId,
+                communityId = communityId,
+                newValue = newValue,
                 postId = postId,
                 commentId = commentId,
             )
@@ -66,11 +72,11 @@ class RemoveScreen(
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
-                    is RemoveMviModel.Effect.Failure -> {
+                    is BanUserMviModel.Effect.Failure -> {
                         snackbarHostState.showSnackbar(it.message ?: genericError)
                     }
 
-                    RemoveMviModel.Effect.Success -> {
+                    BanUserMviModel.Effect.Success -> {
                         navigationCoordinator.hideBottomSheet()
                     }
                 }
@@ -93,8 +99,13 @@ class RemoveScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         BottomSheetHandle()
+                        val title = if (newValue) {
+                            stringResource(MR.strings.mod_action_ban)
+                        } else {
+                            stringResource(MR.strings.mod_action_allow)
+                        }
                         Text(
-                            text = stringResource(MR.strings.mod_action_remove),
+                            text = title,
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -110,7 +121,7 @@ class RemoveScreen(
                             )
                         },
                         onClick = {
-                            model.reduce(RemoveMviModel.Intent.Submit)
+                            model.reduce(BanUserMviModel.Intent.Submit)
                         },
                     )
                 }
@@ -136,7 +147,7 @@ class RemoveScreen(
                         autoCorrect = true,
                     ),
                     onValueChange = { value ->
-                        model.reduce(RemoveMviModel.Intent.SetText(value))
+                        model.reduce(BanUserMviModel.Intent.SetText(value))
                     },
                     isError = uiState.textError != null,
                     supportingText = {

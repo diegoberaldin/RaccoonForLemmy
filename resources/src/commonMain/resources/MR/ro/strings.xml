@@ -225,6 +225,8 @@
     <string name="settings_mark_as_read_while_scrolling">Marchează postările ca citite la derulare
     </string>
     <string name="action_quote">Citează</string>
+    <string name="mod_action_allow">Permite utilizatorul din nou</string>
+    <string name="mod_action_ban">Interzice utilizatorul</string>
     <string name="mod_action_open_reports">Deschide rapoarte</string>
     <string name="mod_action_mark_as_featured">Marchează ca recomandat</string>
     <string name="mod_action_unmark_as_featured">Anulează marcare ca recomandat</string>

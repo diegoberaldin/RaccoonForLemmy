@@ -237,6 +237,8 @@
         rolovaní
     </string>
     <string name="action_quote">Citovať</string>
+    <string name="mod_action_allow">Znova povoliť používateľovi</string>
+    <string name="mod_action_ban">Zakázať používateľovi</string>
     <string name="mod_action_open_reports">Otvoriť prehľady</string>
     <string name="mod_action_mark_as_featured">Označiť ako odporúčané</string>
     <string name="mod_action_unmark_as_featured">Zrušiť označenie ako odporúčané</string>

@@ -74,6 +74,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommunityHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
@@ -702,6 +703,14 @@ class CommunityDetailScreen(
                                                     OptionId.Remove,
                                                     stringResource(MR.strings.mod_action_remove),
                                                 )
+                                                this += Option(
+                                                    OptionId.BanUser,
+                                                    if (post.creator?.banned == true) {
+                                                        stringResource(MR.strings.mod_action_allow)
+                                                    } else {
+                                                        stringResource(MR.strings.mod_action_ban)
+                                                    },
+                                                )
                                             }
                                         },
                                         onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -753,6 +762,18 @@ class CommunityDetailScreen(
                                                 OptionId.Remove -> {
                                                     val screen = RemoveScreen(postId = post.id)
                                                     navigationCoordinator.showBottomSheet(screen)
+                                                }
+
+                                                OptionId.BanUser -> {
+                                                    post.creator?.id?.also { userId ->
+                                                        val screen = BanUserScreen(
+                                                            userId = userId,
+                                                            communityId = uiState.community.id,
+                                                            newValue = post.creator?.banned != true,
+                                                            postId = post.id,
+                                                        )
+                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    }
                                                 }
 
                                                 else -> Unit

@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
@@ -236,6 +238,19 @@ val commonUiModule = module {
             themeRepository = get(),
             settingsRepository = get(),
             hapticFeedback = get(),
+        )
+    }
+    factory<BanUserMviModel> { params ->
+        BanUserViewModel(
+            userId = params[0],
+            communityId = params[1],
+            newValue = params[2],
+            postId = params[3],
+            commentId = params[4],
+            mvi = DefaultMviModel(BanUserMviModel.UiState()),
+            identityRepository = get(),
+            communityRepository = get(),
+            notificationCenter = get(),
         )
     }
 }

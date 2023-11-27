@@ -234,7 +234,9 @@
     <string name="settings_mark_as_read_while_scrolling">Označte příspěvky jako přečtené při
         rolování
     </string>
+    <string name="mod_action_allow">Znovu uživateli povolit</string>
     <string name="action_quote">Citát</string>
+    <string name="mod_action_ban">Zakázat uživatele</string>
     <string name="mod_action_open_reports">Otevřít přehledy</string>
     <string name="mod_action_mark_as_featured">Označit jako doporučené</string>
     <string name="mod_action_unmark_as_featured">Zrušit označení jako doporučené</string>

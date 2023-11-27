@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import kotlin.time.Duration
 
 sealed interface NotificationCenterEvent {
@@ -44,4 +45,6 @@ sealed interface NotificationCenterEvent {
     data class PostRemoved(val model: PostModel) : NotificationCenterEvent
     data class CommentRemoved(val model: CommentModel) : NotificationCenterEvent
     data class ChangeReportListType(val unresolvedOnly: Boolean) : NotificationCenterEvent
+    data class UserBannedPost(val postId: Int, val user: UserModel) : NotificationCenterEvent
+    data class UserBannedComment(val commentId: Int, val user: UserModel) : NotificationCenterEvent
 }

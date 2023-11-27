@@ -52,6 +52,8 @@ private fun <T : NotificationCenterEvent> isReplayable(clazz: KClass<T>): Boolea
         NotificationCenterEvent.PostCreated::class -> true
         NotificationCenterEvent.PostDeleted::class -> true
         NotificationCenterEvent.CommentCreated::class -> true
+        NotificationCenterEvent.UserBannedPost::class -> true
+        NotificationCenterEvent.UserBannedComment::class -> true
         else -> false
     }
 }

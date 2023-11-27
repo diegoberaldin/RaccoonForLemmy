@@ -235,6 +235,8 @@
         scrollen
     </string>
     <string name="action_quote">Citaat</string>
+    <string name="mod_action_allow">Laat de gebruiker opnieuw toe</string>
+    <string name="mod_action_ban">Verban gebruiker</string>
     <string name="mod_action_open_reports">Open rapporten</string>
     <string name="mod_action_mark_as_featured">Markeren als aanbevolen</string>
     <string name="mod_action_unmark_as_featured">Markeren als aanbevolen opheffen</string>

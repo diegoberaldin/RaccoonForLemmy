@@ -228,6 +228,8 @@
         défilement
     </string>
     <string name="action_quote">Citer</string>
+    <string name="mod_action_allow">Réautoriser l\'utilisateur</string>
+    <string name="mod_action_ban">Bannir l\'utilisateur</string>
     <string name="mod_action_open_reports">Ouvrir les rapports</string>
     <string name="mod_action_mark_as_featured">Marquer comme présenté</string>
     <string name="mod_action_unmark_as_featured">Ne plus marquer comme présenté</string>

@@ -231,7 +231,9 @@
     <string name="settings_mark_as_read_while_scrolling">Επισήμανση αναρτήσεων ως αναγνωσμένων κατά
         την κύλιση
     </string>
-    <string name="action_quote">Παράσου</string>
+    <string name="action_quote">Αναφορά</string>
+    <string name="mod_action_allow">Επιτρέψτε ξανά στον χρήστη</string>
+    <string name="mod_action_ban">Αποκλεισμός χρήστη</string>
     <string name="mod_action_open_reports">Άνοιγμα αναφορών</string>
     <string name="mod_action_mark_as_featured">Επισήμανση ως επιλεγμένου</string>
     <string name="mod_action_unmark_as_featured">Κατάργηση επισήμανσης ως επιλεγμένου</string>

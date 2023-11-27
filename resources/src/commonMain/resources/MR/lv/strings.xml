@@ -248,6 +248,8 @@
         laikā
     </string>
     <string name="action_quote">Citāts</string>
+    <string name="mod_action_allow">Ļaut lietotājam vēlreiz</string>
+    <string name="mod_action_ban">Aizliegt lietotāju</string>
     <string name="mod_action_open_reports">Atvērt pārskatus</string>
     <string name="mod_action_mark_as_featured">Atzīmēt kā piedāvātu</string>
     <string name="mod_action_unmark_as_featured">Noņemiet atzīmi no piedāvātā</string>

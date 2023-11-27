@@ -248,6 +248,8 @@
     <string name="settings_mark_as_read_while_scrolling">Marki afiŝojn kiel legitaj dum rulumado
     </string>
     <string name="action_quote">Citi</string>
+    <string name="mod_action_allow">Permesi al la uzanto denove</string>
+    <string name="mod_action_ban">Malpermesi uzanton</string>
     <string name="mod_action_open_reports">Malfermi raportojn</string>
     <string name="mod_action_mark_as_featured">Marki kiel prezentita</string>
     <string name="mod_action_unmark_as_featured">Malmarki kiel prezentita</string>

@@ -246,6 +246,8 @@
         pomicanja
     </string>
     <string name="action_quote">Citat</string>
+    <string name="mod_action_allow">Ponovo dopustiti korisniku</string>
+    <string name="mod_action_ban">Ban korisnika</string>
     <string name="mod_action_open_reports">Otvori izvješća</string>
     <string name="mod_action_mark_as_featured">Označi kao istaknuto</string>
     <string name="mod_action_unmark_as_featured">Ukloni oznaku kao istaknuto</string>

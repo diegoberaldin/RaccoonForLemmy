@@ -226,6 +226,8 @@
         przewijania
     </string>
     <string name="action_quote">Cytat</string>
+    <string name="mod_action_allow">Ponownie zezwolić użytkownikowi</string>
+    <string name="mod_action_ban">Zablokuj użytkownika</string>
     <string name="mod_action_open_reports">Otwórz raporty</string>
     <string name="mod_action_mark_as_featured">Oznacz jako polecane</string>
     <string name="mod_action_unmark_as_featured">Odznacz jako polecane</string>

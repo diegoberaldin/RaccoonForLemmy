@@ -234,6 +234,8 @@
     <string name="settings_mark_as_read_while_scrolling">Merkitse viestit luetuiksi vieritettäessä
     </string>
     <string name="action_quote">Lainata</string>
+    <string name="mod_action_allow">Salli käyttäjän uudelleen</string>
+    <string name="mod_action_ban">Kieltää käyttäjä</string>
     <string name="mod_action_open_reports">Avaa raportit</string>
     <string name="mod_action_mark_as_featured">Merkitse suositeltavaksi</string>
     <string name="mod_action_unmark_as_featured">Poista suositellun merkintä</string>

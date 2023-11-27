@@ -228,6 +228,8 @@
         gelesen
     </string>
     <string name="action_quote">Zitat</string>
+    <string name="mod_action_allow">Erlauben Sie dem Benutzer erneut</string>
+    <string name="mod_action_ban">Benutzer blocken</string>
     <string name="mod_action_open_reports">Berichte öffnen</string>
     <string name="mod_action_mark_as_featured">Als vorgestellt markieren</string>
     <string name="mod_action_unmark_as_featured">Markierung als hervorgehoben aufheben</string>

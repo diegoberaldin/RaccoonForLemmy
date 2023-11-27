@@ -256,6 +256,8 @@
         scrollú
     </string>
     <string name="action_quote">Athfhriotail</string>
+    <string name="mod_action_allow">Cead a thabhairt don úsáideoir arís</string>
+    <string name="mod_action_ban">Toirmeasc ar úsáideoir</string>
     <string name="mod_action_open_reports">Oscail tuarascálacha</string>
     <string name="mod_action_mark_as_featured">Marcáil mar atá i gceist</string>
     <string name="mod_action_unmark_as_featured">Dímharc mar atá i gceist</string>

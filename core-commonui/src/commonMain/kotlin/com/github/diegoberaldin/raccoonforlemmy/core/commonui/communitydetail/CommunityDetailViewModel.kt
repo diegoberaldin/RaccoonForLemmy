@@ -89,6 +89,25 @@ class CommunityDetailViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { evt ->
                 handlePostDelete(evt.model.id)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.UserBannedPost::class)
+                .onEach { evt ->
+                    val postId = evt.postId
+                    val newUser = evt.user
+                    mvi.updateState {
+                        it.copy(
+                            posts = it.posts.map { p ->
+                                if (p.id == postId) {
+                                    p.copy(
+                                        creator = newUser,
+                                        updateDate = newUser.updateDate,
+                                    )
+                                } else {
+                                    p
+                                }
+                            },
+                        )
+                    }
+                }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
                 .onEach { evt ->
                     val postId = evt.model.postId

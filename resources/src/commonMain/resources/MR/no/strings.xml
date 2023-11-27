@@ -237,6 +237,8 @@
     <string name="settings_mark_as_read_while_scrolling">Merk innlegg som lest mens du ruller
     </string>
     <string name="action_quote">Sitat</string>
+    <string name="mod_action_allow">Tillate brukeren igjen</string>
+    <string name="mod_action_ban">Utestenge bruker</string>
     <string name="mod_action_open_reports">Åpne rapporter</string>
     <string name="mod_action_mark_as_featured">Merk som fremhevet</string>
     <string name="mod_action_unmark_as_featured">Fjern merking som fremhevet</string>

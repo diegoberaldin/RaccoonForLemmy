@@ -254,6 +254,8 @@
         tkun qed tiskrollja
     </string>
     <string name="action_quote">Kwotazzjoni</string>
+    <string name="mod_action_allow">Jippermetti lill-utent mill-ġdid</string>
+    <string name="mod_action_ban">Tipprojbixxi l-utent</string>
     <string name="mod_action_open_reports">Iftaħ ir-rapporti</string>
     <string name="mod_action_mark_as_featured">Immarka kif jidher</string>
     <string name="mod_action_unmark_as_featured">Neħħi l-marka kif murija</string>

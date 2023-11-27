@@ -241,6 +241,8 @@
     <string name="settings_mark_as_read_while_scrolling">Med pomikanjem označi objave kot prebrane
     </string>
     <string name="action_quote">Kvota</string>
+    <string name="mod_action_allow">Znova dovoli uporabniku</string>
+    <string name="mod_action_ban">Izključi uporabnika</string>
     <string name="mod_action_open_reports">Odpri poročila</string>
     <string name="mod_action_mark_as_featured">Označi kot predstavljeno</string>
     <string name="mod_action_unmark_as_featured">Odznači kot predstavljeno</string>

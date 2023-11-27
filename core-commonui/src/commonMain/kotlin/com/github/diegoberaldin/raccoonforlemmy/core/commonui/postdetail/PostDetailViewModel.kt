@@ -51,6 +51,25 @@ class PostDetailViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.UserBannedComment::class)
+                .onEach { evt ->
+                    val commentId = evt.commentId
+                    val newUser = evt.user
+                    mvi.updateState {
+                        it.copy(
+                            comments = it.comments.map { c ->
+                                if (c.id == commentId) {
+                                    c.copy(
+                                        creator = newUser,
+                                        updateDate = newUser.updateDate,
+                                    )
+                                } else {
+                                    c
+                                }
+                            },
+                        )
+                    }
+                }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)

@@ -236,6 +236,8 @@
     <string name="settings_mark_as_read_while_scrolling">Markera inlägg som lästa medan du rullar
     </string>
     <string name="action_quote">Citat</string>
+    <string name="mod_action_allow">Tillåta användaren igen</string>
+    <string name="mod_action_ban">Stänga av användare</string>
     <string name="mod_action_open_reports">Öppna rapporter</string>
     <string name="mod_action_mark_as_featured">Markera som utvald</string>
     <string name="mod_action_unmark_as_featured">Avmarkera som utvald</string>

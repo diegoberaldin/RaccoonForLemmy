@@ -225,6 +225,8 @@
         rolar
     </string>
     <string name="action_quote">Citar</string>
+    <string name="mod_action_allow">Permitir usuário novamente</string>
+    <string name="mod_action_ban">Banir usuário</string>
     <string name="mod_action_open_reports">Abrir relatórios</string>
     <string name="mod_action_mark_as_featured">Marcar como destacado</string>
     <string name="mod_action_unmark_as_featured">Desmarcar como destacado</string>

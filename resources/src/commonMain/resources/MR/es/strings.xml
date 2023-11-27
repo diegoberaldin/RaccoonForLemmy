@@ -230,6 +230,8 @@
         desplazarse
     </string>
     <string name="action_quote">Citar</string>
+    <string name="mod_action_allow">Permitir al usuario de nuevo</string>
+    <string name="mod_action_ban">Prohibir usuario</string>
     <string name="mod_action_open_reports">Ver informes</string>
     <string name="mod_action_mark_as_featured">Marcar como destacado</string>
     <string name="mod_action_unmark_as_featured">Marcar como no destacado</string>

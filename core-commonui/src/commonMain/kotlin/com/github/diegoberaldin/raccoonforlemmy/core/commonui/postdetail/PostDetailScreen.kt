@@ -76,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CollapsedCommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
@@ -371,72 +372,54 @@ class PostDetailScreen(
                                     }
                                 },
                                 options = buildList {
-                                    add(
-                                        Option(
-                                            OptionId.Share,
-                                            stringResource(MR.strings.post_action_share)
-                                        )
+                                    this += Option(
+                                        OptionId.Share,
+                                        stringResource(MR.strings.post_action_share)
                                     )
-                                    add(
-                                        Option(
-                                            OptionId.SeeRaw,
-                                            stringResource(MR.strings.post_action_see_raw)
-                                        )
+                                    this += Option(
+                                        OptionId.SeeRaw,
+                                        stringResource(MR.strings.post_action_see_raw)
                                     )
                                     if (uiState.isLogged && !isOnOtherInstance) {
-                                        add(
-                                            Option(
-                                                OptionId.CrossPost,
-                                                stringResource(MR.strings.post_action_cross_post)
-                                            )
+                                        this += Option(
+                                            OptionId.CrossPost,
+                                            stringResource(MR.strings.post_action_cross_post)
                                         )
-                                        add(
-                                            Option(
-                                                OptionId.Report,
-                                                stringResource(MR.strings.post_action_report)
-                                            )
+                                        this += Option(
+                                            OptionId.Report,
+                                            stringResource(MR.strings.post_action_report)
                                         )
                                     }
                                     if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
-                                        add(
-                                            Option(
-                                                OptionId.Edit,
-                                                stringResource(MR.strings.post_action_edit)
-                                            )
+                                        this += Option(
+                                            OptionId.Edit,
+                                            stringResource(MR.strings.post_action_edit)
                                         )
-                                        add(
-                                            Option(
-                                                OptionId.Delete,
-                                                stringResource(MR.strings.comment_action_delete)
-                                            )
+                                        this += Option(
+                                            OptionId.Delete,
+                                            stringResource(MR.strings.comment_action_delete)
                                         )
                                     }
                                     if (uiState.isModerator) {
-                                        add(
-                                            Option(
-                                                OptionId.FeaturePost,
-                                                if (uiState.post.featuredCommunity) {
-                                                    stringResource(MR.strings.mod_action_unmark_as_featured)
-                                                } else {
-                                                    stringResource(MR.strings.mod_action_mark_as_featured)
-                                                }
-                                            )
+                                        this += Option(
+                                            OptionId.FeaturePost,
+                                            if (uiState.post.featuredCommunity) {
+                                                stringResource(MR.strings.mod_action_unmark_as_featured)
+                                            } else {
+                                                stringResource(MR.strings.mod_action_mark_as_featured)
+                                            }
                                         )
-                                        add(
-                                            Option(
-                                                OptionId.LockPost,
-                                                if (uiState.post.locked) {
-                                                    stringResource(MR.strings.mod_action_unlock)
-                                                } else {
-                                                    stringResource(MR.strings.mod_action_lock)
-                                                }
-                                            )
+                                        this += Option(
+                                            OptionId.LockPost,
+                                            if (uiState.post.locked) {
+                                                stringResource(MR.strings.mod_action_unlock)
+                                            } else {
+                                                stringResource(MR.strings.mod_action_lock)
+                                            }
                                         )
-                                        add(
-                                            Option(
-                                                OptionId.Remove,
-                                                stringResource(MR.strings.mod_action_remove)
-                                            )
+                                        this += Option(
+                                            OptionId.Remove,
+                                            stringResource(MR.strings.mod_action_remove)
                                         )
                                     }
                                 },
@@ -717,48 +700,44 @@ class PostDetailScreen(
                                                         }
                                                     },
                                                     options = buildList {
-                                                        add(
-                                                            Option(
-                                                                OptionId.SeeRaw,
-                                                                stringResource(MR.strings.post_action_see_raw),
-                                                            )
+                                                        this += Option(
+                                                            OptionId.SeeRaw,
+                                                            stringResource(MR.strings.post_action_see_raw),
                                                         )
-                                                        add(
-                                                            Option(
-                                                                OptionId.Report,
-                                                                stringResource(MR.strings.post_action_report),
-                                                            )
+                                                        this += Option(
+                                                            OptionId.Report,
+                                                            stringResource(MR.strings.post_action_report),
                                                         )
                                                         if (comment.creator?.id == uiState.currentUserId) {
-                                                            add(
-                                                                Option(
-                                                                    OptionId.Edit,
-                                                                    stringResource(MR.strings.post_action_edit),
-                                                                )
+                                                            this += Option(
+                                                                OptionId.Edit,
+                                                                stringResource(MR.strings.post_action_edit),
                                                             )
-                                                            add(
-                                                                Option(
-                                                                    OptionId.Delete,
-                                                                    stringResource(MR.strings.comment_action_delete),
-                                                                )
+                                                            this += Option(
+                                                                OptionId.Delete,
+                                                                stringResource(MR.strings.comment_action_delete),
                                                             )
                                                         }
                                                         if (uiState.isModerator) {
-                                                            add(
-                                                                Option(
-                                                                    OptionId.DistinguishComment,
-                                                                    if (comment.distinguished) {
-                                                                        stringResource(MR.strings.mod_action_unmark_as_distinguished)
-                                                                    } else {
-                                                                        stringResource(MR.strings.mod_action_mark_as_distinguished)
-                                                                    },
-                                                                )
+                                                            this += Option(
+                                                                OptionId.DistinguishComment,
+                                                                if (comment.distinguished) {
+                                                                    stringResource(MR.strings.mod_action_unmark_as_distinguished)
+                                                                } else {
+                                                                    stringResource(MR.strings.mod_action_mark_as_distinguished)
+                                                                },
                                                             )
-                                                            add(
-                                                                Option(
-                                                                    OptionId.Remove,
-                                                                    stringResource(MR.strings.mod_action_remove),
-                                                                )
+                                                            this += Option(
+                                                                OptionId.Remove,
+                                                                stringResource(MR.strings.mod_action_remove),
+                                                            )
+                                                            this += Option(
+                                                                OptionId.BanUser,
+                                                                if (comment.creator?.banned == true) {
+                                                                    stringResource(MR.strings.mod_action_allow)
+                                                                } else {
+                                                                    stringResource(MR.strings.mod_action_ban)
+                                                                },
                                                             )
                                                         }
                                                     },
@@ -804,6 +783,21 @@ class PostDetailScreen(
                                                                 navigationCoordinator.showBottomSheet(
                                                                     screen
                                                                 )
+                                                            }
+
+                                                            OptionId.BanUser -> {
+                                                                comment.creator?.id?.also { userId ->
+                                                                    val screen = BanUserScreen(
+                                                                        userId = userId,
+                                                                        communityId = uiState.post.community?.id
+                                                                            ?: 0,
+                                                                        newValue = comment.creator?.banned != true,
+                                                                        commentId = comment.id,
+                                                                    )
+                                                                    navigationCoordinator.showBottomSheet(
+                                                                        screen
+                                                                    )
+                                                                }
                                                             }
 
                                                             else -> Unit
@@ -873,30 +867,44 @@ class PostDetailScreen(
                                                 }
                                             },
                                             options = buildList {
-                                                add(
-                                                    Option(
-                                                        OptionId.SeeRaw,
-                                                        stringResource(MR.strings.post_action_see_raw)
-                                                    )
+                                                this += Option(
+                                                    OptionId.SeeRaw,
+                                                    stringResource(MR.strings.post_action_see_raw)
                                                 )
-                                                add(
-                                                    Option(
-                                                        OptionId.Report,
-                                                        stringResource(MR.strings.post_action_report)
-                                                    )
+                                                this += Option(
+                                                    OptionId.Report,
+                                                    stringResource(MR.strings.post_action_report)
                                                 )
                                                 if (comment.creator?.id == uiState.currentUserId) {
-                                                    add(
-                                                        Option(
-                                                            OptionId.Edit,
-                                                            stringResource(MR.strings.post_action_edit)
-                                                        )
+                                                    this += Option(
+                                                        OptionId.Edit,
+                                                        stringResource(MR.strings.post_action_edit)
                                                     )
-                                                    add(
-                                                        Option(
-                                                            OptionId.Delete,
-                                                            stringResource(MR.strings.comment_action_delete)
-                                                        )
+                                                    this += Option(
+                                                        OptionId.Delete,
+                                                        stringResource(MR.strings.comment_action_delete)
+                                                    )
+                                                }
+                                                if (uiState.isModerator) {
+                                                    this += Option(
+                                                        OptionId.DistinguishComment,
+                                                        if (comment.distinguished) {
+                                                            stringResource(MR.strings.mod_action_unmark_as_distinguished)
+                                                        } else {
+                                                            stringResource(MR.strings.mod_action_mark_as_distinguished)
+                                                        },
+                                                    )
+                                                    this += Option(
+                                                        OptionId.Remove,
+                                                        stringResource(MR.strings.mod_action_remove),
+                                                    )
+                                                    this += Option(
+                                                        OptionId.BanUser,
+                                                        if (comment.creator?.banned == true) {
+                                                            stringResource(MR.strings.mod_action_allow)
+                                                        } else {
+                                                            stringResource(MR.strings.mod_action_ban)
+                                                        },
                                                     )
                                                 }
                                             },
@@ -926,6 +934,35 @@ class PostDetailScreen(
 
                                                     OptionId.SeeRaw -> {
                                                         rawContent = comment
+                                                    }
+
+                                                    OptionId.DistinguishComment -> model.reduce(
+                                                        PostDetailMviModel.Intent.ModDistinguishComment(
+                                                            comment.id
+                                                        )
+                                                    )
+
+                                                    OptionId.Remove -> {
+                                                        val screen =
+                                                            RemoveScreen(commentId = comment.id)
+                                                        navigationCoordinator.showBottomSheet(
+                                                            screen
+                                                        )
+                                                    }
+
+                                                    OptionId.BanUser -> {
+                                                        comment.creator?.id?.also { userId ->
+                                                            val screen = BanUserScreen(
+                                                                userId = userId,
+                                                                communityId = uiState.post.community?.id
+                                                                    ?: 0,
+                                                                newValue = comment.creator?.banned != true,
+                                                                commentId = comment.id,
+                                                            )
+                                                            navigationCoordinator.showBottomSheet(
+                                                                screen
+                                                            )
+                                                        }
                                                     }
 
                                                     else -> Unit

@@ -249,6 +249,8 @@
         превъртате
     </string>
     <string name="action_quote">цитат</string>
+    <string name="mod_action_allow">Позволи на потребителя отново</string>
+    <string name="mod_action_ban">Бан потребител</string>
     <string name="mod_action_open_reports">Отваряне на отчети</string>
     <string name="mod_action_mark_as_featured">Маркиране като представено</string>
     <string name="mod_action_unmark_as_featured">Демаркиране като представено</string>
