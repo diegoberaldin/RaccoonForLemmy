@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getBarColorProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 
@@ -35,6 +36,9 @@ fun AppTheme(
 
     val fontFamily by repository.uiFontFamily.collectAsState()
     val typography = getTypography(fontFamily)
+
+    val barColorProvider = remember { getBarColorProvider() }
+    barColorProvider.setBarColorAccordingToTheme(theme)
 
     MaterialTheme(
         colorScheme = colorScheme,

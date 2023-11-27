@@ -26,6 +26,11 @@ kotlin {
     }
 
     sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.activity)
+            }
+        }
         val commonMain by getting {
             dependencies {
                 implementation(libs.koin.core)

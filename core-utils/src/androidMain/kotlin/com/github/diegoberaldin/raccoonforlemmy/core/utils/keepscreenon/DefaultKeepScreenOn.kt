@@ -21,7 +21,7 @@ class DefaultKeepScreenOn(
 }
 
 @Composable
-private inline fun <reified T> findFromContext(): T? {
+internal inline fun <reified T> findFromContext(): T? {
     var context = LocalContext.current
     while (context !is T) {
         context = (context as? ContextWrapper)?.baseContext ?: return null

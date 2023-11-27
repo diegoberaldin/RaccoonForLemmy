@@ -1,13 +1,8 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.appearance
+package com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.BlackColors
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ColorSchemeProvider
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.DarkColors
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.LightColors
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.blackify
 import com.materialkolor.dynamicColorScheme
 
 internal class DefaultColorSchemeProvider : ColorSchemeProvider {
