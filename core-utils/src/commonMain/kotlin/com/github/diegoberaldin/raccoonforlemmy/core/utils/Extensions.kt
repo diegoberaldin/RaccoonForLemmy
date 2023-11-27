@@ -2,8 +2,11 @@ package com.github.diegoberaldin.raccoonforlemmy.core.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.unit.Dp
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
 import kotlin.math.round
 
@@ -35,6 +38,42 @@ fun String.toLanguageName() = when (this) {
     "sk" -> stringResource(MR.strings.language_sk)
     "sl" -> stringResource(MR.strings.language_sl)
     else -> stringResource(MR.strings.language_en)
+}
+
+@Composable
+fun String.toLanguageFlag(): AnnotatedString = when (this) {
+    "bg" -> "🇧🇬"
+    "cs" -> "🇨🇿"
+    "da" -> "🇩🇰"
+    "de" -> "🇩🇪"
+    "el" -> "🇬🇷"
+    "en" -> "🇬🇧"
+    "eo" -> "🍀"
+    "es" -> "🇪🇸"
+    "et" -> "🇪🇪"
+    "ga" -> "🇮🇪"
+    "fi" -> "🇫🇮"
+    "fr" -> "🇫🇷"
+    "hu" -> "🇭🇺"
+    "hr" -> "🇭🇷"
+    "it" -> "🇮🇹"
+    "lt" -> "🇱🇹"
+    "lv" -> "🇱🇻"
+    "mt" -> "🇲🇹"
+    "no" -> "🇳🇴"
+    "nl" -> "🇳🇱"
+    "pl" -> "🇵🇱"
+    "pt" -> "🇵🇹"
+    "ro" -> "🇷🇴"
+    "se" -> "🇸🇪"
+    "sk" -> "🇸🇰"
+    "sl" -> "🇸🇮"
+    else -> ""
+}.let {
+    AnnotatedString(
+        text = it,
+        spanStyle = SpanStyle(fontFamily = fontFamilyResource(MR.fonts.TitilliumWeb.regular))
+    )
 }
 
 @Composable

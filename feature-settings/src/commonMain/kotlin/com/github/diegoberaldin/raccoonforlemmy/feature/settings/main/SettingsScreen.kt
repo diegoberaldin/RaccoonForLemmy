@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -64,6 +65,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDuration
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageFlag
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -254,7 +256,13 @@ class SettingsScreen : Screen {
                     // language
                     SettingsRow(
                         title = stringResource(MR.strings.settings_language),
-                        value = uiState.lang.toLanguageName(),
+                        annotatedValue = buildAnnotatedString {
+                            with(uiState.lang) {
+                                append(toLanguageFlag())
+                                append("  ")
+                                append(toLanguageName())
+                            }
+                        },
                         onTap = rememberCallback {
                             val sheet = LanguageBottomSheet()
                             navigationCoordinator.showBottomSheet(sheet)

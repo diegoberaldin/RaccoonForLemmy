@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -16,7 +17,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 @Composable
 internal fun SettingsRow(
     title: String,
-    value: String,
+    value: String = "",
+    annotatedValue: AnnotatedString = AnnotatedString(""),
     modifier: Modifier = Modifier,
     subtitle: String? = null,
     onTap: (() -> Unit)? = null,
@@ -47,13 +49,24 @@ internal fun SettingsRow(
                 )
             }
         }
-        Text(
-            modifier = Modifier.padding(start = Spacing.xs),
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        if (annotatedValue.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(start = Spacing.xs),
+                text = annotatedValue,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        } else {
+            Text(
+                modifier = Modifier.padding(start = Spacing.xs),
+                text = value,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
