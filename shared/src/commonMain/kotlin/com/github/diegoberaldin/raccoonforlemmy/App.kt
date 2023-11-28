@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
@@ -62,6 +63,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.getCrashReportConfiguration
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.getCrashReportSender
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageDirection
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.managesubscriptions.ManageSubscriptionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.detail.MultiCommunityScreen
@@ -243,6 +245,7 @@ fun App() {
                 density = LocalDensity.current.density,
                 fontScale = uiFontScale,
             ),
+            LocalLayoutDirection provides lang.toLanguageDirection(),
         ) {
             BottomSheetNavigator(
                 sheetShape = RoundedCornerShape(

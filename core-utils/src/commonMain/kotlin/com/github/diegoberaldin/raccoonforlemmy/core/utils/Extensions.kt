@@ -5,6 +5,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
@@ -14,6 +15,7 @@ import kotlin.math.round
 
 @Composable
 fun String.toLanguageName() = when (this) {
+    "ar" -> stringResource(MR.strings.language_ar)
     "bg" -> stringResource(MR.strings.language_bg)
     "cs" -> stringResource(MR.strings.language_cs)
     "da" -> stringResource(MR.strings.language_da)
@@ -44,6 +46,7 @@ fun String.toLanguageName() = when (this) {
 
 @Composable
 fun String.toLanguageFlag(): AnnotatedString = when (this) {
+    "ar" -> "🇸🇦"
     "bg" -> "🇧🇬"
     "cs" -> "🇨🇿"
     "da" -> "🇩🇰"
@@ -76,6 +79,11 @@ fun String.toLanguageFlag(): AnnotatedString = when (this) {
         text = it,
         spanStyle = SpanStyle(fontFamily = fontFamilyResource(MR.fonts.TitilliumWeb.regular))
     )
+}
+
+fun String.toLanguageDirection(): LayoutDirection = when (this) {
+    "ar" -> LayoutDirection.Rtl
+    else -> LayoutDirection.Ltr
 }
 
 @Composable
