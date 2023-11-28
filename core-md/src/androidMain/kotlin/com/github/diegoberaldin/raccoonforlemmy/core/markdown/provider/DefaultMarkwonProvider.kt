@@ -18,6 +18,7 @@ class DefaultMarkwonProvider(
     context: Context,
     onOpenUrl: ((String) -> Unit)?,
     onOpenImage: ((String) -> Unit)?,
+    onImageTriggerUpdate: (() -> Unit)?,
 ) : MarkwonProvider {
     override val markwon: Markwon
 
@@ -30,10 +31,15 @@ class DefaultMarkwonProvider(
             .usePlugin(HtmlPlugin.create())
             .usePlugin(CoilImagesPlugin.create(context))
             .usePlugin(MarkwonSpoilerPlugin.create(true))
-            .usePlugin(ClickableImagesPlugin.create(context) { url ->
-                onOpenImage?.invoke(url)
-            })
             .usePlugin(
+                ClickableImagesPlugin.create(
+                    context = context,
+                    onOpenImage = { url ->
+                        onOpenImage?.invoke(url)
+                    },
+                    onTriggerUpdate = onImageTriggerUpdate ?: {},
+                )
+            ).usePlugin(
                 object : AbstractMarkwonPlugin() {
                     override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
                         builder.linkResolver { view, link ->

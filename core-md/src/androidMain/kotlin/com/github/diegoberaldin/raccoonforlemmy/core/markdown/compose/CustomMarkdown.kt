@@ -11,7 +11,11 @@ import androidx.annotation.IdRes
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -60,10 +64,14 @@ actual fun CustomMarkdown(
         LocalMarkdownColors provides colors,
         LocalMarkdownTypography provides typography,
     ) {
+        var imageRecompositionTrigger by remember { mutableStateOf(false) }
         val markwonProvider = remember {
             getMarkwonProvider(
                 onOpenUrl = onOpenUrl,
                 onOpenImage = onOpenImage,
+                onImageTriggerUpdate = {
+                    imageRecompositionTrigger = !imageRecompositionTrigger
+                }
             )
         }
         BoxWithConstraints(
@@ -87,54 +95,56 @@ actual fun CustomMarkdown(
                 )
             }.value as Typeface
 
-            AndroidView(
-                factory = { ctx ->
-                    createTextView(
-                        context = ctx,
-                        textColor = defaultColor,
-                        style = style,
-                        typeface = typeface,
-                        fontSize = style.fontSize * fontScale,
-                    ).apply {
-                        val gestureDetector =
-                            GestureDetector(
-                                ctx,
-                                object : GestureDetector.SimpleOnGestureListener() {
+            key(imageRecompositionTrigger) {
+                AndroidView(
+                    factory = { ctx ->
+                        createTextView(
+                            context = ctx,
+                            textColor = defaultColor,
+                            style = style,
+                            typeface = typeface,
+                            fontSize = style.fontSize * fontScale,
+                        ).apply {
+                            val gestureDetector =
+                                GestureDetector(
+                                    ctx,
+                                    object : GestureDetector.SimpleOnGestureListener() {
 
-                                    private var lastClickTime = 0L
+                                        private var lastClickTime = 0L
 
-                                    override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                                        val currentTime = DateTime.epochMillis()
-                                        if ((currentTime - lastClickTime) < 300) return false
-                                        lastClickTime = currentTime
-                                        onClick?.invoke()
-                                        return true
+                                        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                                            val currentTime = DateTime.epochMillis()
+                                            if ((currentTime - lastClickTime) < 300) return false
+                                            lastClickTime = currentTime
+                                            onClick?.invoke()
+                                            return true
+                                        }
+
+                                        override fun onDoubleTap(e: MotionEvent): Boolean {
+                                            val currentTime = DateTime.epochMillis()
+                                            if ((currentTime - lastClickTime) < 300) return false
+                                            lastClickTime = currentTime
+                                            onDoubleClick?.invoke()
+                                            return true
+                                        }
+
+                                        override fun onDown(e: MotionEvent): Boolean {
+                                            return true
+                                        }
                                     }
-
-                                    override fun onDoubleTap(e: MotionEvent): Boolean {
-                                        val currentTime = DateTime.epochMillis()
-                                        if ((currentTime - lastClickTime) < 300) return false
-                                        lastClickTime = currentTime
-                                        onDoubleClick?.invoke()
-                                        return true
-                                    }
-
-                                    override fun onDown(e: MotionEvent): Boolean {
-                                        return true
-                                    }
-                                }
-                            )
-                        setOnTouchListener { _, evt -> gestureDetector.onTouchEvent(evt) }
-                    }
-                },
-                update = { textView ->
-                    val md = markwonProvider.markwon.toMarkdown(content)
-                    for (img in md.getSpans(0, md.length, AsyncDrawableSpan::class.java)) {
-                        img.drawable.initWithKnownDimensions(canvasWidthMaybe, textSizeMaybe)
-                    }
-                    markwonProvider.markwon.setParsedMarkdown(textView, md)
-                },
-            )
+                                )
+                            setOnTouchListener { _, evt -> gestureDetector.onTouchEvent(evt) }
+                        }
+                    },
+                    update = { textView ->
+                        val md = markwonProvider.markwon.toMarkdown(content)
+                        for (img in md.getSpans(0, md.length, AsyncDrawableSpan::class.java)) {
+                            img.drawable.initWithKnownDimensions(canvasWidthMaybe, textSizeMaybe)
+                        }
+                        markwonProvider.markwon.setParsedMarkdown(textView, md)
+                    },
+                )
+            }
         }
     }
 }
