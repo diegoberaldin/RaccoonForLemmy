@@ -357,7 +357,7 @@ class CommunityDetailScreen(
                         }
                     },
                     navigationIcon = {
-                        if (navigationCoordinator.canPop) {
+                        if (navigationCoordinator.canPop.value) {
                             Image(
                                 modifier = Modifier.onClick(
                                     onClick = rememberCallback {

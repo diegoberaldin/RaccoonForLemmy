@@ -15,7 +15,7 @@ interface NavigationCoordinator {
     val onDoubleTabSelection: Flow<Tab>
     val inboxUnread: StateFlow<Int>
     val deepLinkUrl: Flow<String?>
-    val canPop: Boolean
+    val canPop: StateFlow<Boolean>
 
     fun setCurrentSection(tab: Tab)
     fun submitDeeplink(url: String)

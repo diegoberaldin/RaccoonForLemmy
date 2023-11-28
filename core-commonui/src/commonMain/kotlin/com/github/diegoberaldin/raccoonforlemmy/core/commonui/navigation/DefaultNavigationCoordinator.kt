@@ -24,8 +24,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override val onDoubleTabSelection = MutableSharedFlow<Tab>()
     override val deepLinkUrl = MutableSharedFlow<String>()
     override val inboxUnread = MutableStateFlow(0)
-    override val canPop: Boolean
-        get() = navigator?.canPop == true
+    override val canPop = MutableStateFlow(false)
 
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
@@ -37,6 +36,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override fun setRootNavigator(value: Navigator?) {
         navigator = value
+        canPop.value = value?.canPop == true
     }
 
     override fun setBottomBarScrollConnection(value: NestedScrollConnection?) {
@@ -97,6 +97,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
             runCatching {
                 ensureActive()
                 navigator?.push(screen)
+                canPop.value = navigator?.canPop == true
             }
         }
     }
@@ -119,6 +120,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
             runCatching {
                 ensureActive()
                 navigator?.pop()
+                canPop.value = navigator?.canPop == true
             }
         }
     }

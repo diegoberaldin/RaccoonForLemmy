@@ -18,7 +18,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,7 +31,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ZoomableImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getZoomableImageViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -56,7 +54,6 @@ class ZoomableImageScreen(
         val snackbarHostState = remember { SnackbarHostState() }
         val successMessage = stringResource(MR.strings.message_operation_successful)
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val drawerCoordinator = remember { getDrawerCoordinator() }
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -66,12 +63,6 @@ class ZoomableImageScreen(
                     }
                 }
             }.launchIn(this)
-        }
-        DisposableEffect(Unit) {
-            drawerCoordinator.setGesturesEnabled(false)
-            onDispose {
-                drawerCoordinator.setGesturesEnabled(true)
-            }
         }
 
         Scaffold(
