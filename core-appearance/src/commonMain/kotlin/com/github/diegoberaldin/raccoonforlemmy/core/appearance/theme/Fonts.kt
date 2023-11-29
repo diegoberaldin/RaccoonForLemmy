@@ -93,12 +93,18 @@ internal fun getTypography(
             fontSize = 14.sp,
             letterSpacing = (0.25).sp,
         ),
+        labelMedium = TextStyle(
+            fontFamily = fontFamily,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
+            letterSpacing = (0.5).sp,
+        ),
         // button
         labelLarge = TextStyle(
             fontFamily = fontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 14.sp,
-            letterSpacing = (0.15).sp, // original: 1.25
+            letterSpacing = (0.1).sp,
         ),
         // caption
         bodySmall = TextStyle(
@@ -111,7 +117,7 @@ internal fun getTypography(
         labelSmall = TextStyle(
             fontFamily = fontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 10.sp,
+            fontSize = 11.sp,
             letterSpacing = (0.5).sp, // original: 1.5
         ),
     )

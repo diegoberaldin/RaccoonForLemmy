@@ -121,13 +121,13 @@ internal fun ChatCard(
                         append("@$creatorHost")
                     }
                 },
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )
             ScaledContent {
                 // last message text
                 PostCardTitle(
-                    modifier = Modifier.heightIn(max = 80.dp),
+                    modifier = Modifier.heightIn(max = 76.dp),
                     text = lastMessage,
                     autoLoadImages = autoLoadImages,
                     onClick = rememberCallback {
@@ -152,7 +152,7 @@ internal fun ChatCard(
                         )
                         Text(
                             text = lastMessageDate.prettifyDate(),
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
                         Spacer(modifier = Modifier.weight(1f))
