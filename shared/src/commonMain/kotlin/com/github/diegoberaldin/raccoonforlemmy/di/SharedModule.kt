@@ -11,6 +11,7 @@ internal val internalSharedModule = module {
             mvi = DefaultMviModel(MainScreenMviModel.UiState()),
             identityRepository = get(),
             userRepository = get(),
+            messageRepository = get(),
         )
     }
 }

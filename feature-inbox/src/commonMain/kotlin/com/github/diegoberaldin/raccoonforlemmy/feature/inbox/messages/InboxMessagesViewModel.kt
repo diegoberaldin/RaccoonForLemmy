@@ -146,7 +146,12 @@ class InboxMessagesViewModel(
                     userRepository.getMentions(auth, page = 1, limit = 50).orEmpty().count()
                 val replyCount =
                     userRepository.getReplies(auth, page = 1, limit = 50).orEmpty().count()
-                mentionCount + replyCount
+                val messageCount =
+                    messageRepository.getAll(auth, page = 1, limit = 50).orEmpty().groupBy {
+                        listOf(it.creator?.id ?: 0, it.recipient?.id ?: 0).sorted()
+                            .joinToString()
+                    }.count()
+                mentionCount + replyCount + messageCount
             } else {
                 0
             }

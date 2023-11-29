@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -15,6 +16,7 @@ class MainViewModel(
     private val mvi: DefaultMviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val userRepository: UserRepository,
+    private val messageRepository: PrivateMessageRepository,
 ) : MainScreenMviModel,
     MviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect> by mvi {
 
@@ -30,7 +32,12 @@ class MainViewModel(
                             userRepository.getMentions(auth, page = 1, limit = 50).orEmpty().count()
                         val replyCount =
                             userRepository.getReplies(auth, page = 1, limit = 50).orEmpty().count()
-                        mentionCount + replyCount
+                        val messageCount =
+                            messageRepository.getAll(auth, page = 1, limit = 50).orEmpty().groupBy {
+                                listOf(it.creator?.id ?: 0, it.recipient?.id ?: 0).sorted()
+                                    .joinToString()
+                            }.count()
+                        mentionCount + replyCount + messageCount
                     } else {
                         0
                     }
