@@ -60,8 +60,9 @@ class PostListViewModel(
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
-            apiConfigRepository.instance.drop(1).onEach { instance ->
+            apiConfigRepository.instance.drop(1).onEach { _ ->
                 refresh()
+                mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             }.launchIn(this)
 
             identityRepository.authToken.map { !it.isNullOrEmpty() }.onEach { isLogged ->
