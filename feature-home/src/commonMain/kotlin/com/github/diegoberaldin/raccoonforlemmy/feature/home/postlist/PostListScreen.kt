@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.gestures.animateScrollBy
@@ -138,7 +139,10 @@ class PostListScreen : Screen {
 
                     is PostListMviModel.Effect.ZombieModeTick -> {
                         if (effect.index >= 0) {
-                            lazyListState.animateScrollBy(settings.zombieModeScrollAmount)
+                            lazyListState.animateScrollBy(
+                                value = settings.zombieModeScrollAmount,
+                                animationSpec = tween(350),
+                            )
                         }
                     }
                 }
