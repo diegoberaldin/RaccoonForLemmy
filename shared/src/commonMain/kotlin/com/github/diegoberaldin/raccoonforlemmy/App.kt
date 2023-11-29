@@ -1,16 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -26,13 +18,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.TabNavigator
@@ -45,9 +34,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.AppTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ic_launcher_background
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.md_theme_dark_onPrimary
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getPostFromUrl
@@ -69,10 +55,10 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.search.managesubscriptio
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.detail.MultiCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
-import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -80,7 +66,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, FlowPreview::class)
 @Composable
-fun App() {
+fun App(onLoadingFinished: () -> Unit = {}) {
     val accountRepository = remember { getAccountRepository() }
     val settingsRepository = remember { getSettingsRepository() }
     val settings by settingsRepository.currentSettings.collectAsState()
@@ -135,6 +121,10 @@ fun App() {
         }
 
         hasBeenInitialized = true
+        launch {
+            delay(50)
+            onLoadingFinished()
+        }
     }
 
     LaunchedEffect(locale) {
@@ -277,27 +267,6 @@ fun App() {
                     ) {
                         if (hasBeenInitialized) {
                             SlideTransition(navigator)
-                        } else {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(color = ic_launcher_background),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(top = 24.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                                ) {
-                                    Image(
-                                        painter = painterResource(MR.images.icon),
-                                        contentDescription = null,
-                                    )
-                                    CircularProgressIndicator(
-                                        color = md_theme_dark_onPrimary,
-                                    )
-                                }
-                            }
                         }
                     }
                 }

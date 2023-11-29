@@ -1,12 +1,13 @@
 [versions]
 androidx_activity = "1.8.1"
 androidx_crypto = "1.0.0"
+androidx_splashscreen = "1.0.1"
 android_gradle = "8.1.4"
 coil = "2.5.0"
 compose = "1.5.11"
 compose_compiler = "1.5.4"
 crashkios = "0.8.5"
-crashlytics = "18.4.1"
+crashlytics = "18.6.0"
 crashlytics_gradle = "2.9.9"
 gms_gradle = "4.3.15"
 kamel = "0.9.0"
@@ -36,6 +37,7 @@ android_minSdk = "26"
 androidx_activity_compose = { module = "androidx.activity:activity-compose", version.ref = "androidx.activity" }
 androidx_activity = { module = "androidx.activity:activity", version.ref = "androidx.activity" }
 androidx_security_crypto = { module = "androidx.security:security-crypto", version.ref = "androidx.crypto" }
+androidx_splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx.splashscreen" }
 
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }

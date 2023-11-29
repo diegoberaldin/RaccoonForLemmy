@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="crash_notification_title">An error has occurred</string>
-    <string name="crash_notification_text">Please send an email to the developers to report the issue</string>
-</resources>
