@@ -22,7 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 
@@ -33,14 +35,14 @@ internal fun MessageCard(
     date: String = "",
 ) {
     val color = if (isMyMessage) {
-        MaterialTheme.colorScheme.tertiary
+        MaterialTheme.colorScheme.tertiaryContainer
     } else {
-        MaterialTheme.colorScheme.secondary
+        MaterialTheme.colorScheme.secondaryContainer
     }
     val textColor = if (isMyMessage) {
-        MaterialTheme.colorScheme.onTertiary
+        MaterialTheme.colorScheme.onTertiaryContainer
     } else {
-        MaterialTheme.colorScheme.onSecondary
+        MaterialTheme.colorScheme.onSecondaryContainer
     }
     val longDistance = Spacing.l
     val mediumDistance = Spacing.s
@@ -90,9 +92,8 @@ internal fun MessageCard(
         ) {
             ScaledContent {
                 Column {
-                    Text(
+                    PostCardBody(
                         text = content,
-                        color = textColor,
                     )
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxxs),
@@ -101,9 +102,9 @@ internal fun MessageCard(
                         Spacer(modifier = Modifier.weight(1f))
 
                         if (date.isNotEmpty()) {
-                            val buttonModifier = Modifier.size(22.dp).padding(3.dp)
+                            val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
                             Icon(
-                                modifier = buttonModifier.padding(1.dp),
+                                modifier = buttonModifier,
                                 imageVector = Icons.Default.Schedule,
                                 contentDescription = null,
                                 tint = textColor,
