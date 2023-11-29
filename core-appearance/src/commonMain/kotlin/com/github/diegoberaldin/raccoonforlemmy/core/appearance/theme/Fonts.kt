@@ -14,7 +14,7 @@ internal fun getTypography(
     fontFamily: UiFontFamily = UiFontFamily.TitilliumWeb,
 ): Typography {
     val fontFamily = when (fontFamily) {
-        UiFontFamily.Prociono -> fontFamilyResource(MR.fonts.Prociono.regular)
+        UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
         UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
         UiFontFamily.EBGaramond -> fontFamilyResource(MR.fonts.EBGaramond.regular)
         UiFontFamily.Dosis -> fontFamilyResource(MR.fonts.Dosis.regular)
