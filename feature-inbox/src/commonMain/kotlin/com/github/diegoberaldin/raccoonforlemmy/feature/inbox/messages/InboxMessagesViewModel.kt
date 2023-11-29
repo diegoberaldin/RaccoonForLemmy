@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
@@ -107,11 +108,9 @@ class InboxMessagesViewModel(
             page = currentPage,
             unreadOnly = unreadOnly,
         )?.groupBy {
-            val creatorId = it.creator?.id ?: 0
-            val recipientId = it.recipient?.id ?: 0
-            listOf(creatorId, recipientId).sorted().toString()
-        }?.mapNotNull {
-            val messages = it.value.sortedBy { m -> m.publishDate }
+            it.otherUser(currentState.currentUserId)?.id ?: 0
+        }?.mapNotNull { entry ->
+            val messages = entry.value.sortedBy { m -> m.publishDate }
             messages.lastOrNull()
         }
         if (!itemList.isNullOrEmpty()) {
@@ -121,7 +120,13 @@ class InboxMessagesViewModel(
             val newItems = if (refreshing) {
                 itemList.orEmpty()
             } else {
-                it.chats + itemList.orEmpty()
+                it.chats + itemList.orEmpty().filter { outerChat ->
+                    val outerOtherUser = outerChat.otherUser(currentState.currentUserId)
+                    currentState.chats.none { chat ->
+                        val otherUser = chat.otherUser(currentState.currentUserId)
+                        outerOtherUser == otherUser
+                    }
+                }
             }
             it.copy(
                 chats = newItems,

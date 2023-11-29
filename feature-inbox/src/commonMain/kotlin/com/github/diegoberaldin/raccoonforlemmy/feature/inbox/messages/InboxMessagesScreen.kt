@@ -37,6 +37,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxMessagesViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -95,7 +96,7 @@ class InboxMessagesScreen : Tab {
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 if (uiState.chats.isEmpty() && uiState.initial) {
-                    items(1) {
+                    items(3) {
                         ChatCardPlaceholder()
                     }
                 }
@@ -112,15 +113,12 @@ class InboxMessagesScreen : Tab {
                 }
                 items(
                     items = uiState.chats,
-                    key = { it.id.toString() + uiState.unreadOnly },
+                    key = {
+                        it.id.toString() + it.updateDate + uiState.unreadOnly
+                    },
                 ) { chat ->
-                    val otherUser = if (chat.creator?.id == uiState.currentUserId) {
-                        chat.recipient
-                    } else {
-                        chat.creator
-                    }
                     ChatCard(
-                        user = otherUser,
+                        user = chat.otherUser(uiState.currentUserId),
                         autoLoadImages = uiState.autoLoadImages,
                         lastMessage = chat.content.orEmpty(),
                         lastMessageDate = chat.publishDate,
@@ -130,7 +128,7 @@ class InboxMessagesScreen : Tab {
                             )
                         },
                         onOpen = rememberCallback {
-                            val userId = otherUser?.id
+                            val userId = chat.otherUser(uiState.currentUserId)?.id
                             if (userId != null) {
                                 navigationCoordinator.pushScreen(
                                     InboxChatScreen(userId)

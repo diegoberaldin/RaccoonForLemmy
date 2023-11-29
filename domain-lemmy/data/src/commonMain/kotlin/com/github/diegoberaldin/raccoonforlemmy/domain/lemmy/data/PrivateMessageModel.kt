@@ -11,3 +11,9 @@ data class PrivateMessageModel(
     val updateDate: String? = null,
     val read: Boolean = false,
 ) : JavaSerializable
+
+fun PrivateMessageModel.otherUser(currentUserId: Int): UserModel? = when (currentUserId) {
+    creator?.id -> recipient
+    recipient?.id -> creator
+    else -> null
+}
