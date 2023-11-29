@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SiteAggregates(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: Int? = null,
     @SerialName("site_id") val siteOd: SiteId,
     @SerialName("users") val users: Int,
     @SerialName("posts") val posts: Int,

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PostAggregates(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: Int? = null,
     @SerialName("post_id") val postId: PostId,
     @SerialName("comments") val comments: Int,
     @SerialName("score") val score: Int,
