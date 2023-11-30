@@ -106,6 +106,8 @@ object ModalDrawerContent : Tab {
                 when (evt) {
                     ModalDrawerMviModel.Effect.CloseChangeInstanceDialog -> {
                         changeInstanceDialogOpen = false
+                        // closes the navigation drawer after instance change
+                        coordinator.toggleDrawer()
                     }
                 }
             }.launchIn(this)
