@@ -29,9 +29,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +45,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -50,12 +54,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInboxChatViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class InboxChatScreen(
     private val otherUserId: Int,
@@ -68,6 +76,25 @@ class InboxChatScreen(
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val focusManager = LocalFocusManager.current
+        val galleryHelper = remember { getGalleryHelper() }
+        var openImagePicker by remember { mutableStateOf(false) }
+        var textFieldValue by remember {
+            mutableStateOf(
+                TextFieldValue(text = "")
+            )
+        }
+
+        LaunchedEffect(model) {
+            model.effects.onEach { effect ->
+                when (effect) {
+                    is InboxChatMviModel.Effect.AddImageToText -> {
+                        textFieldValue = textFieldValue.let {
+                            it.copy(text = it.text + "\n![](${effect.url})")
+                        }
+                    }
+                }
+            }.launchIn(this)
+        }
 
         Scaffold(
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
@@ -130,7 +157,12 @@ class InboxChatScreen(
                         trailingIcon = {
                             IconButton(
                                 onClick = {
-                                    model.reduce(InboxChatMviModel.Intent.SubmitNewMessage)
+                                    model.reduce(
+                                        InboxChatMviModel.Intent.SubmitNewMessage(
+                                            textFieldValue.text
+                                        )
+                                    )
+                                    textFieldValue = TextFieldValue(text = "")
                                     focusManager.clearFocus()
                                 },
                             ) {
@@ -141,17 +173,24 @@ class InboxChatScreen(
                             }
                         },
                         textStyle = MaterialTheme.typography.bodyMedium,
-                        value = uiState.newMessageContent,
+                        value = textFieldValue,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Ascii,
                             autoCorrect = true,
                             imeAction = ImeAction.Next,
                         ),
                         onValueChange = { value ->
-                            model.reduce(
-                                InboxChatMviModel.Intent.SetNewMessageContent(
-                                    value
-                                )
+                            textFieldValue = value
+                        },
+                        supportingText = {
+                            TextFormattingBar(
+                                textFieldValue = textFieldValue,
+                                onTextFieldValueChanged = {
+                                    textFieldValue = it
+                                },
+                                onSelectImage = {
+                                    openImagePicker = true
+                                }
                             )
                         },
                     )
@@ -200,6 +239,13 @@ class InboxChatScreen(
                             Spacer(modifier = Modifier.height(Spacing.xxxl))
                         }
                     }
+                }
+            }
+
+            if (openImagePicker) {
+                galleryHelper.getImageFromGallery { bytes ->
+                    openImagePicker = false
+                    model.reduce(InboxChatMviModel.Intent.ImageSelected(bytes))
                 }
             }
         }

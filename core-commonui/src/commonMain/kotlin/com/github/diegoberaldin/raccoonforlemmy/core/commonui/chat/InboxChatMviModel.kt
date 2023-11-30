@@ -7,12 +7,29 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessage
 
 @Stable
 interface InboxChatMviModel :
-    MviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.SideEffect>,
+    MviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.Effect>,
     ScreenModel {
     sealed interface Intent {
         data object LoadNextPage : Intent
-        data class SetNewMessageContent(val value: String) : Intent
-        data object SubmitNewMessage : Intent
+
+        data class ImageSelected(val value: ByteArray) : Intent {
+            override fun equals(other: Any?): Boolean {
+                if (this === other) return true
+                if (other == null || this::class != other::class) return false
+
+                other as ImageSelected
+
+                if (!value.contentEquals(other.value)) return false
+
+                return true
+            }
+
+            override fun hashCode(): Int {
+                return value.contentHashCode()
+            }
+        }
+
+        data class SubmitNewMessage(val value: String) : Intent
     }
 
     data class UiState(
@@ -23,9 +40,10 @@ interface InboxChatMviModel :
         val otherUserName: String = "",
         val otherUserAvatar: String? = null,
         val messages: List<PrivateMessageModel> = emptyList(),
-        val newMessageContent: String = "",
         val autoLoadImages: Boolean = true,
     )
 
-    sealed interface SideEffect
+    sealed interface Effect {
+        data class AddImageToText(val url: String) : Effect
+    }
 }

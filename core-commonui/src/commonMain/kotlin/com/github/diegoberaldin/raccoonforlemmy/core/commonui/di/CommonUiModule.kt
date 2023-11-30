@@ -167,6 +167,7 @@ val commonUiModule = module {
             siteRepository = get(),
             userRepository = get(),
             messageRepository = get(),
+            postRepository = get(),
             notificationCenter = get(),
             settingsRepository = get(),
         )

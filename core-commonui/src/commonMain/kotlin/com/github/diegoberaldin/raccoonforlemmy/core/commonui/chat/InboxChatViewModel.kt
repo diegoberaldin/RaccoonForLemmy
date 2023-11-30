@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
@@ -17,15 +18,16 @@ import kotlinx.coroutines.launch
 
 class InboxChatViewModel(
     private val otherUserId: Int,
-    private val mvi: DefaultMviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.SideEffect>,
+    private val mvi: DefaultMviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val messageRepository: PrivateMessageRepository,
     private val userRepository: UserRepository,
     private val settingsRepository: SettingsRepository,
+    private val postRepository: PostRepository,
     private val notificationCenter: NotificationCenter,
 ) : InboxChatMviModel,
-    MviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.SideEffect> by mvi {
+    MviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.Effect> by mvi {
 
 
     private var currentPage: Int = 1
@@ -65,8 +67,8 @@ class InboxChatViewModel(
     override fun reduce(intent: InboxChatMviModel.Intent) {
         when (intent) {
             InboxChatMviModel.Intent.LoadNextPage -> loadNextPage()
-            is InboxChatMviModel.Intent.SetNewMessageContent -> setNewMessageContent(intent.value)
-            InboxChatMviModel.Intent.SubmitNewMessage -> submitNewMessage()
+            is InboxChatMviModel.Intent.SubmitNewMessage -> submitNewMessage(intent.value)
+            is InboxChatMviModel.Intent.ImageSelected -> loadImageAndAppendUrlInBody(intent.value)
         }
     }
 
@@ -132,12 +134,26 @@ class InboxChatViewModel(
         }
     }
 
-    private fun setNewMessageContent(text: String) {
-        mvi.updateState { it.copy(newMessageContent = text) }
+    private fun loadImageAndAppendUrlInBody(bytes: ByteArray) {
+        if (bytes.isEmpty()) {
+            return
+        }
+        mvi.scope?.launch(Dispatchers.IO) {
+            mvi.updateState { it.copy(loading = true) }
+            val auth = identityRepository.authToken.value.orEmpty()
+            val url = postRepository.uploadImage(auth, bytes)
+            if (url != null) {
+                mvi.emitEffect(InboxChatMviModel.Effect.AddImageToText(url))
+            }
+            mvi.updateState {
+                it.copy(
+                    loading = false,
+                )
+            }
+        }
     }
 
-    private fun submitNewMessage() {
-        val text = uiState.value.newMessageContent
+    private fun submitNewMessage(text: String) {
         if (text.isNotEmpty()) {
             mvi.scope?.launch {
                 val auth = identityRepository.authToken.value
@@ -146,7 +162,6 @@ class InboxChatViewModel(
                     auth = auth,
                     recipiendId = otherUserId,
                 )
-                mvi.updateState { it.copy(newMessageContent = "") }
                 refresh()
             }
         }
