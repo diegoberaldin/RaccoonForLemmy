@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.text.style.TextOverflow
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
@@ -46,7 +47,6 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
         },
         selected = tabNavigator.current == tab,
         icon = {
-
             Column(
                 modifier = Modifier.padding(top = Spacing.xs),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -94,6 +94,8 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
                         text = tab.options.title,
                         style = MaterialTheme.typography.labelSmall,
                         color = color,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
