@@ -53,6 +53,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ColorPicker
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontFamilyBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontScaleBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutBottomSheet
@@ -198,6 +199,11 @@ class SettingsScreen : Screen {
             notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
                 .onEach { evt ->
                     model.reduce(SettingsMviModel.Intent.ChangeZombieModeScrollAmount(evt.value))
+                }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeDefaultInboxUnreadOnly(evt.unreadOnly))
                 }.launchIn(this)
         }
 
@@ -448,6 +454,20 @@ class SettingsScreen : Screen {
                                     SortType.Controversial,
                                 ),
                             )
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+
+                    // default inbox type
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_default_inbox_type),
+                        value = if (uiState.defaultInboxUnreadOnly) {
+                            stringResource(MR.strings.inbox_listing_type_unread)
+                        } else {
+                            stringResource(MR.strings.inbox_listing_type_all)
+                        },
+                        onTap = rememberCallback {
+                            val sheet = InboxTypeSheet()
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )

@@ -247,4 +247,5 @@
         gebruik de vervolgkeuzeknop (▼) hierboven om de instantie te wijzigen.\n\nU kunt inloggen op
         uw instantie op wanneer je maar wilt vanuit het profielscherm.\n\nGeniet van Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Standaardtype inbox</string>
 </resources>

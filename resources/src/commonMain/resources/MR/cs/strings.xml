@@ -244,4 +244,5 @@
         použijte rozbalovací tlačítko (▼) výše pro změnu instance.\n\nDo své intance se můžete
         přihlásit na kdykoli z obrazovky profilu.\n\nUžijte si Lemmyho!
     </string>
+    <string name="settings_default_inbox_type">Výchozí typ doručené pošty</string>
 </resources>

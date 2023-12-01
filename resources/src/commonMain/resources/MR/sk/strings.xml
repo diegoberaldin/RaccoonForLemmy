@@ -246,4 +246,5 @@
         použite rozbaľovacie tlačidlo (▼) vyššie na zmenu inštancie.\n\nDo svojej intancie sa môžete
         prihlásiť na kedykoľvek z obrazovky profilu.\n\nUžite si Lemmyho!
     </string>
+    <string name="settings_default_inbox_type">Predvolený typ doručenej pošty</string>
 </resources>

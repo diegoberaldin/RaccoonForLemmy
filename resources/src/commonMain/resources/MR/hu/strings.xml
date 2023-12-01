@@ -248,4 +248,5 @@
         módban, használja a fenti legördülő gombot (▼) a példány megváltoztatásához.\n\nA következő
         címen jelentkezhet be a példányába bármikor a Profil képernyőről.\n\nÉlvezze Lemmyt!
     </string>
+    <string name="settings_default_inbox_type">Alapértelmezett beérkező levelek típusa</string>
 </resources>

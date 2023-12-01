@@ -250,4 +250,5 @@
         use el botón desplegable (▼) arriba para cambiar la instancia.\n\nPuede iniciar sesión en su
         instancia en en cualquier momento desde la pantalla Perfil.\n\n¡Disfrute de Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Tipo de mensajes predefinido</string>
 </resources>

@@ -70,7 +70,7 @@ class InboxRepliesViewModel(
                 handleLogout()
             }.launchIn(this)
 
-            if (uiState.value.replies.isEmpty()) {
+            if (uiState.value.initial) {
                 refresh(initial = true)
             }
         }

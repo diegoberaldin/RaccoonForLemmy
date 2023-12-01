@@ -246,4 +246,5 @@
         instância em
         a qualquer momento na tela de perfil.\n\nAproveite o Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Tipo de caixa padrão</string>
 </resources>

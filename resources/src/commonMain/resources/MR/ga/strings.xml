@@ -252,4 +252,6 @@
         úsáid an cnaipe anuas (▼) thuas chun cás a athrú.\n\nIs féidir leat logáil isteach ag
         am ar bith ón scáileán Próifíl.\n\nBain sult as Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Cineál an bhosca isteach réamhshocraithe
+    </string>
 </resources>

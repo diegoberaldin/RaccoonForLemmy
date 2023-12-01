@@ -244,4 +244,5 @@
         brug rullemenuen (▼) ovenfor for at ændre forekomst.\n\nDu kan logge ind på din forekomst på
         når som helst fra profilskærmen.\n\nNyd Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Standard indbakketype</string>
 </resources>

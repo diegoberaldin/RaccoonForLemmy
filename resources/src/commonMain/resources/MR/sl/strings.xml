@@ -244,4 +244,5 @@
         načinu, uporabite spustni gumb (▼) zgoraj, da spremenite instanco.\n\nV svojo instanco se
         lahko prijavite na kadar koli na zaslonu profila.\n\nUživajte v Lemmyju!
     </string>
+    <string name="settings_default_inbox_type">privzeta vrsta mape Prejeto</string>
 </resources>

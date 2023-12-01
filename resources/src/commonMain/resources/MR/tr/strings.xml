@@ -247,4 +247,5 @@
         Profil ekranından istediğiniz zaman örneğinize ulaşabilirsiniz.\n\nLemmy\'nin tadını
         çıkarın!
     </string>
+    <string name="settings_default_inbox_type">Varsayılan gelen kutusu türü</string>
 </resources>

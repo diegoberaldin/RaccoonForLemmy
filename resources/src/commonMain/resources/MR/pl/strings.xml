@@ -247,4 +247,5 @@
         użyj przycisku rozwijanego (▼) powyżej, aby zmienić instancję.\n\nMożesz zalogować się do
         swojej instancji pod adresem w dowolnym momencie na ekranie profilu.\n\nCiesz się Lemmym!
     </string>
+    <string name="settings_default_inbox_type">Domyślny typ skrzynki odbiorczej</string>
 </resources>

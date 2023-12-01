@@ -13,6 +13,7 @@ data class SettingsModel(
     val locale: String? = null,
     val defaultListingType: Int = 0,
     val defaultPostSortType: Int = 0,
+    val defaultInboxType: Int = 0,
     val defaultCommentSortType: Int = 3,
     val includeNsfw: Boolean = true,
     val blurNsfw: Boolean = true,

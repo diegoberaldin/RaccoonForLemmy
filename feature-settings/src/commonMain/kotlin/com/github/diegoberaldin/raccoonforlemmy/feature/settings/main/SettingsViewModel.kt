@@ -19,6 +19,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Acco
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportConfiguration
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportSender
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxDefaultType
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -98,6 +100,7 @@ class SettingsViewModel(
                 defaultListingType = settings.defaultListingType.toListingType(),
                 defaultPostSortType = settings.defaultPostSortType.toSortType(),
                 defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
+                defaultInboxUnreadOnly = settings.defaultInboxType.toInboxUnreadOnly(),
                 includeNsfw = settings.includeNsfw,
                 blurNsfw = settings.blurNsfw,
                 supportsDynamicColors = colorSchemeProvider.supportsDynamicColors,
@@ -179,39 +182,61 @@ class SettingsViewModel(
                 changeEnableDoubleTapAction(intent.value)
             }
 
-            is SettingsMviModel.Intent.ChangeCustomSeedColor -> changeCustomSeedColor(
-                intent.value
-            )
+            is SettingsMviModel.Intent.ChangeCustomSeedColor -> {
+                changeCustomSeedColor(intent.value)
+            }
 
-            is SettingsMviModel.Intent.ChangePostLayout -> changePostLayout(intent.value)
+            is SettingsMviModel.Intent.ChangePostLayout -> {
+                changePostLayout(intent.value)
+            }
+
             is SettingsMviModel.Intent.ChangeCrashReportEnabled -> {
                 changeCrashReportEnabled(intent.value)
             }
 
-            is SettingsMviModel.Intent.ChangeSeparateUpAndDownVotes -> changeSeparateUpAndDownVotes(
-                intent.value
-            )
+            is SettingsMviModel.Intent.ChangeSeparateUpAndDownVotes -> {
+                changeSeparateUpAndDownVotes(intent.value)
+            }
 
-            is SettingsMviModel.Intent.ChangeAutoLoadImages -> changeAutoLoadImages(intent.value)
-            is SettingsMviModel.Intent.ChangeAutoExpandComments -> changeAutoExpandComments(intent.value)
-            is SettingsMviModel.Intent.ChangeFullHeightImages -> changeFullHeightImages(intent.value)
-            is SettingsMviModel.Intent.ChangeUpvoteColor -> changeUpvoteColor(intent.value)
-            is SettingsMviModel.Intent.ChangeDownvoteColor -> changeDownvoteColor(intent.value)
-            is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling -> changeHideNavigationBarWhileScrolling(
-                intent.value
-            )
+            is SettingsMviModel.Intent.ChangeAutoLoadImages -> {
+                changeAutoLoadImages(intent.value)
+            }
 
-            is SettingsMviModel.Intent.ChangeZombieModeInterval -> changeZombieModeInterval(
-                intent.value
-            )
+            is SettingsMviModel.Intent.ChangeAutoExpandComments -> {
+                changeAutoExpandComments(intent.value)
+            }
 
-            is SettingsMviModel.Intent.ChangeZombieModeScrollAmount -> changeZombieModeScrollAmount(
-                intent.value
-            )
+            is SettingsMviModel.Intent.ChangeFullHeightImages -> {
+                changeFullHeightImages(intent.value)
+            }
 
-            is SettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling -> changeMarkAsReadWhileScrolling(
-                intent.value
-            )
+            is SettingsMviModel.Intent.ChangeUpvoteColor -> {
+                changeUpvoteColor(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeDownvoteColor -> {
+                changeDownvoteColor(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling -> {
+                changeHideNavigationBarWhileScrolling(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeZombieModeInterval -> {
+                changeZombieModeInterval(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeZombieModeScrollAmount -> {
+                changeZombieModeScrollAmount(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling -> {
+                changeMarkAsReadWhileScrolling(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeDefaultInboxUnreadOnly -> {
+                changeDefaultInboxUnreadOnly(intent.value)
+            }
         }
     }
 
@@ -490,6 +515,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 zombieModeScrollAmount = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeDefaultInboxUnreadOnly(value: Boolean) {
+        mvi.updateState { it.copy(defaultInboxUnreadOnly = value) }
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                defaultInboxType = value.toInboxDefaultType(),
             )
             saveSettings(settings)
         }

@@ -246,4 +246,5 @@
         egzempliorių.\n\nPrisijungti galite adresu bet kuriuo metu iš profilio ekrano.\n\nMėgaukitės
         Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Numatytasis gautųjų tipas</string>
 </resources>

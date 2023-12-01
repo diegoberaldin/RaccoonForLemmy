@@ -248,4 +248,5 @@
         effettuare il login sulla tua istanza in qualsiasi momento dalla schermata
         Profilo.\n\nDivertiti su Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Tipo inbox predefinito</string>
 </resources>

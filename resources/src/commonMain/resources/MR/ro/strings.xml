@@ -245,4 +245,5 @@
         anonim, folosiți butonul drop-down (▼) de mai sus pentru a schimba instanța.\n\nPuteți să
         vă conectați la instanțele Dvs. oricând din ecranul Profil.\n\nBucurați-vă de Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Tipul implicit de inbox</string>
 </resources>

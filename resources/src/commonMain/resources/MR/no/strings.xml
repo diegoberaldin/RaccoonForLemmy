@@ -246,4 +246,5 @@
         bruk rullegardinknappen (▼) ovenfor for å endre forekomst.\n\nDu kan logge på forekomsten
         din på når som helst fra profilskjermen.\n\nNyt Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Standard innbokstype</string>
 </resources>

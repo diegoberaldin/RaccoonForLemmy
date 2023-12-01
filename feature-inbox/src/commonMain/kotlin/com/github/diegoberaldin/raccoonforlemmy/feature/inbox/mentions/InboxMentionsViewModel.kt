@@ -67,7 +67,7 @@ class InboxMentionsViewModel(
                 handleLogout()
             }.launchIn(this)
 
-            if (uiState.value.mentions.isEmpty()) {
+            if (uiState.value.initial) {
                 refresh(initial = true)
             }
         }

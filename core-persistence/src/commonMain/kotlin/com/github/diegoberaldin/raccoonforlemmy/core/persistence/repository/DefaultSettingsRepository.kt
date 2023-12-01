@@ -18,6 +18,7 @@ private object KeyStoreKeys {
     const val Locale = "locale"
     const val DefaultListingType = "defaultListingType"
     const val DefaultPostSortType = "defaultPostSortType"
+    const val DefaultInboxType = "defaultInboxType"
     const val DefaultCommentSortType = "defaultCommentSortType"
     const val IncludeNsfw = "includeNsfw"
     const val BlurNsfw = "blurNsfw"
@@ -60,6 +61,7 @@ internal class DefaultSettingsRepository(
                 defaultListingType = settings.defaultListingType.toLong(),
                 defaultPostSortType = settings.defaultPostSortType.toLong(),
                 defaultCommentSortType = settings.defaultCommentSortType.toLong(),
+                defaultInboxType = settings.defaultInboxType.toLong(),
                 includeNsfw = if (settings.includeNsfw) 1L else 0L,
                 blurNsfw = if (settings.blurNsfw) 1L else 0L,
                 navigationTitlesVisible = if (settings.navigationTitlesVisible) 1L else 0L,
@@ -98,6 +100,7 @@ internal class DefaultSettingsRepository(
                     defaultListingType = keyStore[KeyStoreKeys.DefaultListingType, 0],
                     defaultPostSortType = keyStore[KeyStoreKeys.DefaultPostSortType, 0],
                     defaultCommentSortType = keyStore[KeyStoreKeys.DefaultCommentSortType, 0],
+                    defaultInboxType = keyStore[KeyStoreKeys.DefaultInboxType, 0],
                     includeNsfw = keyStore[KeyStoreKeys.IncludeNsfw, true],
                     blurNsfw = keyStore[KeyStoreKeys.BlurNsfw, true],
                     navigationTitlesVisible = keyStore[KeyStoreKeys.NavItemTitlesVisible, true],
@@ -145,6 +148,7 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.DefaultListingType, settings.defaultListingType)
                 keyStore.save(KeyStoreKeys.DefaultPostSortType, settings.defaultPostSortType)
                 keyStore.save(KeyStoreKeys.DefaultCommentSortType, settings.defaultCommentSortType)
+                keyStore.save(KeyStoreKeys.DefaultInboxType, settings.defaultInboxType)
                 keyStore.save(KeyStoreKeys.IncludeNsfw, settings.includeNsfw)
                 keyStore.save(KeyStoreKeys.BlurNsfw, settings.blurNsfw)
                 keyStore.save(KeyStoreKeys.NavItemTitlesVisible, settings.navigationTitlesVisible)
@@ -201,6 +205,7 @@ internal class DefaultSettingsRepository(
                     defaultListingType = settings.defaultListingType.toLong(),
                     defaultPostSortType = settings.defaultPostSortType.toLong(),
                     defaultCommentSortType = settings.defaultCommentSortType.toLong(),
+                    defaultInboxType = settings.defaultInboxType.toLong(),
                     includeNsfw = if (settings.includeNsfw) 1L else 0L,
                     blurNsfw = if (settings.blurNsfw) 1L else 0L,
                     navigationTitlesVisible = if (settings.navigationTitlesVisible) 1L else 0L,
@@ -240,6 +245,7 @@ private fun GetBy.toModel() = SettingsModel(
     defaultListingType = defaultListingType.toInt(),
     defaultPostSortType = defaultPostSortType.toInt(),
     defaultCommentSortType = defaultCommentSortType.toInt(),
+    defaultInboxType = defaultInboxType.toInt(),
     includeNsfw = includeNsfw != 0L,
     blurNsfw = blurNsfw != 0L,
     navigationTitlesVisible = navigationTitlesVisible != 0L,

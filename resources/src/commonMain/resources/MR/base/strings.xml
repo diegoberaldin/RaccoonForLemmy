@@ -270,4 +270,5 @@
         use the drop down button (▼) above to change instance.\n\nYou can log in to your intance at
         any time from the Profile screen.\n\nEnjoy Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Default inbox type</string>
 </resources>

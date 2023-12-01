@@ -45,6 +45,7 @@ interface SettingsMviModel :
         data class ChangeZombieModeInterval(val value: Duration) : Intent
         data class ChangeZombieModeScrollAmount(val value: Float) : Intent
         data class ChangeMarkAsReadWhileScrolling(val value: Boolean) : Intent
+        data class ChangeDefaultInboxUnreadOnly(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -61,6 +62,7 @@ interface SettingsMviModel :
         val defaultListingType: ListingType = ListingType.Local,
         val defaultPostSortType: SortType = SortType.Active,
         val defaultCommentSortType: SortType = SortType.New,
+        val defaultInboxUnreadOnly: Boolean = true,
         val navBarTitlesVisible: Boolean = false,
         val supportsDynamicColors: Boolean = false,
         val dynamicColors: Boolean = false,

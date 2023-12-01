@@ -244,4 +244,5 @@
         kirjautua sisään tapahtumaasi osoitteessa milloin tahansa profiilinäytöstä.\n\nNauti
         Lemmystä!
     </string>
+    <string name="settings_default_inbox_type">Oletuspostilaatikon tyyppi</string>
 </resources>

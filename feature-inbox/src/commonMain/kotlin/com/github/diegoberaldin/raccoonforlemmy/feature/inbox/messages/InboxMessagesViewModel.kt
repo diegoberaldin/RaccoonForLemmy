@@ -51,6 +51,7 @@ class InboxMessagesViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
             }.launchIn(this)
+
             launch(Dispatchers.IO) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0

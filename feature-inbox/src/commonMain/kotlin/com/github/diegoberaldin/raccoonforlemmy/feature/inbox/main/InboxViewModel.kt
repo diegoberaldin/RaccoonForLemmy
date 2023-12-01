@@ -2,6 +2,9 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
@@ -17,6 +20,8 @@ class InboxViewModel(
     private val identityRepository: IdentityRepository,
     private val userRepository: UserRepository,
     private val coordinator: InboxCoordinator,
+    private val settingsRepository: SettingsRepository,
+    private val contentResetCoordinator: ContentResetCoordinator,
 ) : InboxMviModel,
     MviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect> by mvi {
 
@@ -26,6 +31,11 @@ class InboxViewModel(
             identityRepository.isLogged.stateIn(this).onEach { logged ->
                 mvi.updateState { it.copy(isLogged = logged) }
             }.launchIn(this)
+            val settingsUnreadOnly =
+                settingsRepository.currentSettings.value.defaultInboxType.toInboxUnreadOnly()
+            if (uiState.value.unreadOnly != settingsUnreadOnly) {
+                changeUnreadOnly(settingsUnreadOnly)
+            }
         }
     }
 

@@ -250,4 +250,5 @@
         sich unter bei Ihrer Instanz anmelden
         jederzeit über den Profilbildschirm.\n\nViel Spaß mit Lemmy!
     </string>
+    <string name="settings_default_inbox_type">Standard-Posteingangstyp</string>
 </resources>

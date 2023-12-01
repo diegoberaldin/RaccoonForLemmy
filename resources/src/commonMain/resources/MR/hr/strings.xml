@@ -249,4 +249,5 @@
         načinu rada, koristite padajući gumb (▼) iznad za promjenu instance.\n\nMožete se prijaviti
         na svoju instancu na bilo kada sa zaslona profila.\n\nUživajte u Lemmyju!
     </string>
+    <string name="settings_default_inbox_type">Zadana vrsta pristigle pošte</string>
 </resources>

@@ -138,3 +138,6 @@ fun String.md5(): String {
         it.toHexString()
     }
 }
+
+fun Int.toInboxUnreadOnly(): Boolean = this == 0
+fun Boolean.toInboxDefaultType(): Int = if (this) 0 else 1

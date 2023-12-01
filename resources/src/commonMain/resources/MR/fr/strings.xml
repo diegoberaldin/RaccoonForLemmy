@@ -248,4 +248,5 @@
         utilisez le bouton déroulant (▼) ci-dessus pour changer d\'instance.\n\nVous pouvez vous
         connecter à votre instance à tout moment depuis l\'écran Profil.\n\nProfitez de Lemmy !
     </string>
+    <string name="settings_default_inbox_type">Type de boîte par défaut</string>
 </resources>
