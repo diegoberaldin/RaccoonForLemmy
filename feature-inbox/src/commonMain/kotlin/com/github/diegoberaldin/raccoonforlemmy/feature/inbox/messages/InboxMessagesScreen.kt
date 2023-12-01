@@ -138,7 +138,7 @@ class InboxMessagesScreen : Tab {
                     )
                 }
                 item {
-                    if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
+                    if (!uiState.initial && !uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
                         model.reduce(InboxMessagesMviModel.Intent.LoadNextPage)
                     }
                     if (uiState.loading && !uiState.refreshing) {

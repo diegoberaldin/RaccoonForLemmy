@@ -56,6 +56,11 @@ class InboxMessagesViewModel(
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
                 mvi.updateState { it.copy(currentUserId = currentUserId) }
+
+                if (uiState.value.initial) {
+                    val value = coordinator.unreadOnly.value
+                    changeUnreadOnly(value)
+                }
             }
         }
     }
@@ -86,6 +91,9 @@ class InboxMessagesViewModel(
     }
 
     private fun changeUnreadOnly(value: Boolean) {
+        if (uiState.value.currentUserId == 0) {
+            return
+        }
         mvi.updateState { it.copy(unreadOnly = value) }
         mvi.scope?.launch(Dispatchers.IO) {
             refresh(initial = true)

@@ -10,10 +10,14 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.to
 class PrivateMessageRepository(
     private val services: ServiceProvider,
 ) {
+    companion object {
+        private const val DEFAULT_PAGE_SIZE = 50
+    }
+
     suspend fun getAll(
         auth: String? = null,
         page: Int,
-        limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
+        limit: Int = DEFAULT_PAGE_SIZE,
         unreadOnly: Boolean = true,
     ): List<PrivateMessageModel>? = runCatching {
         val response = services.privateMessages.getPrivateMessages(
