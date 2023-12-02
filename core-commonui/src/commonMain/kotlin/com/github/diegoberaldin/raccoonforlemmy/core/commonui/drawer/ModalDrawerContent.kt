@@ -233,8 +233,9 @@ object ModalDrawerContent : Tab {
                 }
             } else {
                 Text(
-                    modifier = Modifier.padding(horizontal = Spacing.m, vertical = Spacing.s),
+                    modifier = Modifier.padding(horizontal = Spacing.s, vertical = Spacing.s),
                     text = stringResource(MR.strings.sidebar_not_logged_message),
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
         }
