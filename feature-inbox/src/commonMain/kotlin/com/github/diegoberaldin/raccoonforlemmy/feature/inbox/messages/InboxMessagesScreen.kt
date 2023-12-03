@@ -114,13 +114,14 @@ class InboxMessagesScreen : Tab {
                 items(
                     items = uiState.chats,
                     key = {
-                        it.id.toString() + it.updateDate + uiState.unreadOnly
+                        it.id.toString() + it.updateDate + it.read + uiState.unreadOnly
                     },
                 ) { chat ->
                     ChatCard(
                         user = chat.otherUser(uiState.currentUserId),
                         autoLoadImages = uiState.autoLoadImages,
                         lastMessage = chat.content.orEmpty(),
+                        read = chat.read,
                         lastMessageDate = chat.publishDate,
                         onOpenUser = rememberCallbackArgs { user ->
                             navigationCoordinator.pushScreen(

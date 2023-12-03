@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Icon
@@ -49,6 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 internal fun ChatCard(
     user: UserModel?,
     autoLoadImages: Boolean = true,
+    read: Boolean = true,
     lastMessage: String,
     lastMessageDate: String? = null,
     modifier: Modifier = Modifier,
@@ -75,8 +77,6 @@ internal fun ChatCard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.m),
     ) {
-
-
         if (creatorAvatar.isNotEmpty()) {
             CustomImage(
                 modifier = Modifier
@@ -111,19 +111,33 @@ internal fun ChatCard(
         }
 
         Column(
+            modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
         ) {
-            // user name
-            Text(
-                text = buildString {
-                    append(creatorName)
-                    if (creatorHost.isNotEmpty()) {
-                        append("@$creatorHost")
-                    }
-                },
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
+            Row(
+                modifier = Modifier.padding(end = Spacing.m),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                // user name
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = buildString {
+                        append(creatorName)
+                        if (creatorHost.isNotEmpty()) {
+                            append("@$creatorHost")
+                        }
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                if (!read) {
+                    Icon(
+                        modifier = Modifier.size(IconSize.xs),
+                        imageVector = Icons.Filled.FiberManualRecord,
+                        contentDescription = null,
+                    )
+                }
+            }
             ScaledContent {
                 // last message text
                 PostCardTitle(

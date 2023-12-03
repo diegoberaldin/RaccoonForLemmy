@@ -23,6 +23,7 @@ object CornerSize {
 }
 
 object IconSize {
+    val xs = 10.dp
     val s = 20.dp
     val m = 26.dp
     val l = 30.dp

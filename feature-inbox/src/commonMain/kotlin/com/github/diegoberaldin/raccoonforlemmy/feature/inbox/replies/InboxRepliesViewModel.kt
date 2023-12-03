@@ -188,6 +188,18 @@ class InboxRepliesViewModel(
                         }
                     )
                 }
+            } else {
+                mvi.updateState {
+                    it.copy(
+                        replies = currentState.replies.map { r ->
+                            if (r.id == mention.id) {
+                                r.copy(read = read)
+                            } else {
+                                r
+                            }
+                        }
+                    )
+                }
             }
             updateUnreadItems()
         }

@@ -178,6 +178,18 @@ class InboxMentionsViewModel(
                         }
                     )
                 }
+            } else {
+                mvi.updateState {
+                    it.copy(
+                        mentions = currentState.mentions.map { m ->
+                            if (m.id == mention.id) {
+                                m.copy(read = read)
+                            } else {
+                                m
+                            }
+                        }
+                    )
+                }
             }
             updateUnreadItems()
         }
