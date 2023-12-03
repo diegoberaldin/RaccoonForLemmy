@@ -106,6 +106,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -412,6 +413,27 @@ class PostDetailScreen(
                                             OptionId.Remove,
                                             stringResource(MR.strings.mod_action_remove)
                                         )
+                                        this += Option(
+                                            OptionId.BanUser,
+                                            if (uiState.post.creator?.banned == true) {
+                                                stringResource(MR.strings.mod_action_allow)
+                                            } else {
+                                                stringResource(MR.strings.mod_action_ban)
+                                            },
+                                        )
+                                        uiState.post.creator?.id?.also { creatorId ->
+                                            if (uiState.currentUserId != creatorId) {
+                                                this += Option(
+                                                    OptionId.AddMod,
+                                                    if (uiState.moderators.containsId(creatorId)
+                                                    ) {
+                                                        stringResource(MR.strings.mod_action_remove_mod)
+                                                    } else {
+                                                        stringResource(MR.strings.mod_action_add_mod)
+                                                    },
+                                                )
+                                            }
+                                        }
                                     }
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { idx ->
@@ -453,6 +475,28 @@ class PostDetailScreen(
                                         OptionId.Remove -> {
                                             val screen = RemoveScreen(postId = uiState.post.id)
                                             navigationCoordinator.showBottomSheet(screen)
+                                        }
+
+                                        OptionId.BanUser -> {
+                                            uiState.post.creator?.id?.also { userId ->
+                                                val screen = BanUserScreen(
+                                                    userId = userId,
+                                                    communityId = uiState.post.community?.id ?: 0,
+                                                    newValue = post.creator?.banned != true,
+                                                    postId = post.id,
+                                                )
+                                                navigationCoordinator.showBottomSheet(screen)
+                                            }
+                                        }
+
+                                        OptionId.AddMod -> {
+                                            uiState.post.creator?.id?.also { userId ->
+                                                model.reduce(
+                                                    PostDetailMviModel.Intent.ModToggleModUser(
+                                                        userId
+                                                    )
+                                                )
+                                            }
                                         }
 
                                         else -> Unit
@@ -730,6 +774,21 @@ class PostDetailScreen(
                                                                     stringResource(MR.strings.mod_action_ban)
                                                                 },
                                                             )
+                                                            comment.creator?.id?.also { creatorId ->
+                                                                if (uiState.currentUserId != creatorId) {
+                                                                    this += Option(
+                                                                        OptionId.AddMod,
+                                                                        if (uiState.moderators.containsId(
+                                                                                creatorId
+                                                                            )
+                                                                        ) {
+                                                                            stringResource(MR.strings.mod_action_remove_mod)
+                                                                        } else {
+                                                                            stringResource(MR.strings.mod_action_add_mod)
+                                                                        },
+                                                                    )
+                                                                }
+                                                            }
                                                         }
                                                     },
                                                     onOptionSelected = rememberCallbackArgs(
@@ -787,6 +846,16 @@ class PostDetailScreen(
                                                                     )
                                                                     navigationCoordinator.showBottomSheet(
                                                                         screen
+                                                                    )
+                                                                }
+                                                            }
+
+                                                            OptionId.AddMod -> {
+                                                                comment.creator?.id?.also { userId ->
+                                                                    model.reduce(
+                                                                        PostDetailMviModel.Intent.ModToggleModUser(
+                                                                            userId
+                                                                        )
                                                                     )
                                                                 }
                                                             }
@@ -897,6 +966,21 @@ class PostDetailScreen(
                                                             stringResource(MR.strings.mod_action_ban)
                                                         },
                                                     )
+                                                    comment.creator?.id?.also { creatorId ->
+                                                        if (uiState.currentUserId != creatorId) {
+                                                            this += Option(
+                                                                OptionId.AddMod,
+                                                                if (uiState.moderators.containsId(
+                                                                        creatorId
+                                                                    )
+                                                                ) {
+                                                                    stringResource(MR.strings.mod_action_remove_mod)
+                                                                } else {
+                                                                    stringResource(MR.strings.mod_action_add_mod)
+                                                                },
+                                                            )
+                                                        }
+                                                    }
                                                 }
                                             },
                                             onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -952,6 +1036,16 @@ class PostDetailScreen(
                                                             )
                                                             navigationCoordinator.showBottomSheet(
                                                                 screen
+                                                            )
+                                                        }
+                                                    }
+
+                                                    OptionId.AddMod -> {
+                                                        comment.creator?.id?.also { userId ->
+                                                            model.reduce(
+                                                                PostDetailMviModel.Intent.ModToggleModUser(
+                                                                    userId
+                                                                )
                                                             )
                                                         }
                                                     }

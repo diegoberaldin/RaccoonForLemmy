@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 @Stable
 interface PostDetailMviModel :
@@ -33,6 +34,7 @@ interface PostDetailMviModel :
         data object ModFeaturePost : Intent
         data object ModLockPost : Intent
         data class ModDistinguishComment(val commentId: Int) : Intent
+        data class ModToggleModUser(val id: Int) : Intent
     }
 
     data class UiState(
@@ -52,6 +54,7 @@ interface PostDetailMviModel :
         val fullHeightImages: Boolean = true,
         val separateUpAndDownVotes: Boolean = false,
         val autoLoadImages: Boolean = true,
+        val moderators: List<UserModel> = emptyList(),
     )
 
     sealed interface Effect {

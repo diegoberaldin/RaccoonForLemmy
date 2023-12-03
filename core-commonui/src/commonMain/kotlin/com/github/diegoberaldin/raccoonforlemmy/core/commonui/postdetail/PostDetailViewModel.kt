@@ -12,8 +12,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +34,7 @@ class PostDetailViewModel(
     private val siteRepository: SiteRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
+    private val communityRepository: CommunityRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
@@ -134,6 +137,18 @@ class PostDetailViewModel(
                     instance = otherInstance,
                 )
                 highlightCommentPath = comment?.path
+            }
+            if (isModerator) {
+                post.community?.id?.also { communityId ->
+                    val moderators = communityRepository.getModerators(
+                        auth = auth,
+                        id = communityId
+                    )
+                    mvi.updateState {
+                        it.copy(moderators = moderators)
+                    }
+                }
+
             }
             if (post.text.isEmpty() && post.title.isEmpty()) {
                 refreshPost()
@@ -254,6 +269,8 @@ class PostDetailViewModel(
                 ?.also { comment ->
                     distinguish(comment)
                 }
+
+            is PostDetailMviModel.Intent.ModToggleModUser -> toggleModeratorStatus(intent.id)
         }
     }
 
@@ -695,6 +712,25 @@ class PostDetailViewModel(
             )
             if (newComment != null) {
                 handleCommentUpdate(newComment)
+            }
+        }
+    }
+
+    private fun toggleModeratorStatus(userId: Int) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val isModerator = uiState.value.moderators.containsId(userId)
+            val auth = identityRepository.authToken.value.orEmpty()
+            val communityId = post.community?.id
+            if (communityId != null) {
+                val newModerators = communityRepository.addModerator(
+                    auth = auth,
+                    communityId = communityId,
+                    added = !isModerator,
+                    userId = userId,
+                )
+                mvi.updateState {
+                    it.copy(moderators = newModerators)
+                }
             }
         }
     }
