@@ -48,6 +48,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 fun PostCard(
     modifier: Modifier = Modifier,
     post: PostModel,
+    isFromModerator: Boolean = false,
     autoLoadImages: Boolean = true,
     hideAuthor: Boolean = false,
     postLayout: PostLayout = PostLayout.Card,
@@ -86,6 +87,7 @@ fun PostCard(
         if (postLayout != PostLayout.Compact) {
             ExtendedPost(
                 post = post,
+                isFromModerator = isFromModerator,
                 hideAuthor = hideAuthor,
                 backgroundColor = when (postLayout) {
                     PostLayout.Card -> MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp)
@@ -113,6 +115,7 @@ fun PostCard(
         } else {
             CompactPost(
                 post = post,
+                isFromModerator = isFromModerator,
                 hideAuthor = hideAuthor,
                 blurNsfw = blurNsfw,
                 separateUpAndDownVotes = separateUpAndDownVotes,
@@ -137,6 +140,7 @@ fun PostCard(
 private fun CompactPost(
     modifier: Modifier = Modifier,
     post: PostModel,
+    isFromModerator: Boolean = false,
     autoLoadImages: Boolean = true,
     hideAuthor: Boolean,
     blurNsfw: Boolean,
@@ -161,6 +165,8 @@ private fun CompactPost(
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
             featured = post.featuredCommunity,
+            locked = post.locked,
+            isFromModerator = isFromModerator,
             onOpenCommunity = onOpenCommunity,
             onOpenCreator = onOpenCreator,
             autoLoadImages = autoLoadImages,
@@ -220,6 +226,7 @@ private fun CompactPost(
 private fun ExtendedPost(
     modifier: Modifier = Modifier,
     post: PostModel,
+    isFromModerator: Boolean = false,
     autoLoadImages: Boolean = true,
     hideAuthor: Boolean = false,
     blurNsfw: Boolean = true,
@@ -251,6 +258,7 @@ private fun ExtendedPost(
             creator = post.creator.takeIf { !hideAuthor },
             featured = post.featuredCommunity,
             locked = post.locked,
+            isFromModerator = isFromModerator,
             onOpenCommunity = onOpenCommunity,
             onOpenCreator = onOpenCreator,
             autoLoadImages = autoLoadImages,

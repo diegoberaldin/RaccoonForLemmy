@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.LocalPolice
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.filled.WorkspacePremium
@@ -42,6 +43,7 @@ fun CommunityAndCreatorInfo(
     distinguished: Boolean = false,
     featured: Boolean = false,
     locked: Boolean = false,
+    isFromModerator: Boolean = false,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
@@ -172,6 +174,13 @@ fun CommunityAndCreatorInfo(
         }
         Spacer(modifier = Modifier.weight(1f))
         val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
+        if (isFromModerator) {
+            Icon(
+                modifier = buttonModifier,
+                imageVector = Icons.Default.LocalPolice,
+                contentDescription = null,
+            )
+        }
         if (distinguished) {
             Icon(
                 modifier = buttonModifier,

@@ -230,15 +230,15 @@ class CommunityDetailViewModel(
                     name = community.name,
                 )
             }
-            val isModerator = communityRepository.getModerators(
+            val moderators = communityRepository.getModerators(
                 auth = auth,
                 id = community.id,
-            ).any { it.id == uiState.value.currentUserId }
+            )
             if (refreshedCommunity != null) {
                 mvi.updateState {
                     it.copy(
                         community = refreshedCommunity,
-                        isModerator = isModerator,
+                        moderators = moderators,
                     )
                 }
             }

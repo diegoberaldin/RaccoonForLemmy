@@ -15,3 +15,5 @@ data class UserModel(
     val banned: Boolean = false,
     val updateDate: String? = null,
 ) : JavaSerializable
+
+fun List<UserModel>.containsId(value: Int?): Boolean = any { it.id == value }

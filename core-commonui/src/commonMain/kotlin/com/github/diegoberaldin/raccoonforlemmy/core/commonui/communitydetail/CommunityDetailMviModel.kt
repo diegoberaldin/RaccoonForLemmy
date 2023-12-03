@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 @Stable
 interface CommunityDetailMviModel :
@@ -54,7 +55,7 @@ interface CommunityDetailMviModel :
         val separateUpAndDownVotes: Boolean = false,
         val autoLoadImages: Boolean = true,
         val zombieModeActive: Boolean = false,
-        val isModerator: Boolean = false,
+        val moderators: List<UserModel> = emptyList(),
     )
 
     sealed interface Effect {
