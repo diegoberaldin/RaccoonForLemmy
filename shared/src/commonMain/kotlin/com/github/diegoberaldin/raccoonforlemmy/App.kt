@@ -90,7 +90,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val drawerCoordinator = remember { getDrawerCoordinator() }
-    val rootNavigatorCanPop by navigationCoordinator.canPop.collectAsState()
+    val drawerGesturesEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
 
     LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
@@ -258,7 +258,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                     }
                     ModalNavigationDrawer(
                         drawerState = drawerState,
-                        gesturesEnabled = !rootNavigatorCanPop,
+                        gesturesEnabled = drawerGesturesEnabled,
                         drawerContent = {
                             ModalDrawerSheet {
                                 TabNavigator(ModalDrawerContent)

@@ -22,6 +22,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomWebView
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.rememberWebViewNavigator
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -41,6 +42,14 @@ class WebViewScreen(
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
         val shareHelper = remember { getShareHelper() }
+        val drawerCoordinator = remember { getDrawerCoordinator() }
+
+        DisposableEffect(key) {
+            drawerCoordinator.setGesturesEnabled(false)
+            onDispose {
+                drawerCoordinator.setGesturesEnabled(true)
+            }
+        }
 
         Scaffold(
             topBar = {
