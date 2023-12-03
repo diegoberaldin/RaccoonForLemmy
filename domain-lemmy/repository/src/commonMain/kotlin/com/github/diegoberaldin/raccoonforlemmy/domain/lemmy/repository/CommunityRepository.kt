@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AddModToCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
@@ -188,4 +189,25 @@ class CommunityRepository(
         )
         response.body()?.personView?.toModel()?.copy(banned = ban)
     }.getOrNull()
+
+    suspend fun addModerator(
+        auth: String? = null,
+        communityId: Int,
+        userId: Int,
+        added: Boolean,
+    ): List<UserModel> = runCatching {
+        val data = AddModToCommunityForm(
+            auth = auth.orEmpty(),
+            added = added,
+            personId = userId,
+            communityId = communityId,
+        )
+        val response = services.community.addMod(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        ).body()
+        response?.moderators?.map {
+            it.moderator.toModel()
+        }.orEmpty()
+    }.getOrElse { emptyList() }
 }

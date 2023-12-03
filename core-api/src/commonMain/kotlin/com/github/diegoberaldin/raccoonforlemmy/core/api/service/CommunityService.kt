@@ -1,5 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AddModToCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AddModToCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
@@ -57,4 +59,11 @@ interface CommunityService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: BanFromCommunityForm,
     ): Response<BanFromCommunityResponse>
+
+    @POST("community/mod")
+    @Headers("Content-Type: application/json")
+    suspend fun addMod(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: AddModToCommunityForm,
+    ): Response<AddModToCommunityResponse>
 }
