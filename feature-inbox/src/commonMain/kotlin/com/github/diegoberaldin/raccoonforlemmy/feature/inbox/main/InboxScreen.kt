@@ -20,7 +20,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -53,7 +52,6 @@ import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 object InboxScreen : Tab {
     override val options: TabOptions
@@ -71,7 +69,6 @@ object InboxScreen : Tab {
         val notificationCenter = remember { getNotificationCenter() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val scope = rememberCoroutineScope()
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
 
@@ -98,9 +95,7 @@ object InboxScreen : Tab {
                         Image(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
-                                    scope.launch {
-                                        drawerCoordinator.toggleDrawer()
-                                    }
+                                    drawerCoordinator.toggleDrawer()
                                 },
                             ),
                             imageVector = Icons.Default.Menu,

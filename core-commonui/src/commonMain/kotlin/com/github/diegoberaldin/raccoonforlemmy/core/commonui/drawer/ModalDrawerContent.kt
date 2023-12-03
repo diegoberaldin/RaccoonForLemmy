@@ -39,7 +39,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,7 +76,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 object ModalDrawerContent : Tab {
 
@@ -93,7 +91,6 @@ object ModalDrawerContent : Tab {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val coordinator = remember { getDrawerCoordinator() }
-        val scope = rememberCoroutineScope()
         var changeInstanceDialogOpen by remember {
             mutableStateOf(false)
         }
@@ -171,20 +168,16 @@ object ModalDrawerContent : Tab {
                                 title = stringResource(MR.strings.navigation_drawer_title_subscriptions),
                                 icon = Icons.Default.ManageAccounts,
                                 onSelected = {
-                                    scope.launch {
-                                        coordinator.toggleDrawer()
-                                        coordinator.sendEvent(DrawerEvent.ManageSubscriptions)
-                                    }
+                                    coordinator.toggleDrawer()
+                                    coordinator.sendEvent(DrawerEvent.ManageSubscriptions)
                                 })
                         }
                         item {
                             DrawerShortcut(title = stringResource(MR.strings.navigation_drawer_title_bookmarks),
                                 icon = Icons.Default.Bookmarks,
                                 onSelected = {
-                                    scope.launch {
-                                        coordinator.toggleDrawer()
-                                        coordinator.sendEvent(DrawerEvent.OpenBookmarks)
-                                    }
+                                    coordinator.toggleDrawer()
+                                    coordinator.sendEvent(DrawerEvent.OpenBookmarks)
                                 })
                         }
 
@@ -192,12 +185,10 @@ object ModalDrawerContent : Tab {
                             MultiCommunityItem(
                                 modifier = Modifier.fillMaxWidth().onClick(
                                     onClick = rememberCallback {
-                                        scope.launch {
-                                            coordinator.toggleDrawer()
-                                            coordinator.sendEvent(
-                                                DrawerEvent.OpenMultiCommunity(community),
-                                            )
-                                        }
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(
+                                            DrawerEvent.OpenMultiCommunity(community),
+                                        )
                                     },
                                 ),
                                 community = community,
@@ -209,12 +200,10 @@ object ModalDrawerContent : Tab {
                             CommunityItem(
                                 modifier = Modifier.fillMaxWidth().onClick(
                                     onClick = rememberCallback {
-                                        scope.launch {
-                                            coordinator.toggleDrawer()
-                                            coordinator.sendEvent(
-                                                DrawerEvent.OpenCommunity(community),
-                                            )
-                                        }
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(
+                                            DrawerEvent.OpenCommunity(community),
+                                        )
                                     },
                                 ),
                                 community = community,

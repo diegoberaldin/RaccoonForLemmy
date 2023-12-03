@@ -41,7 +41,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -89,7 +88,6 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 class ExploreScreen : Screen {
 
@@ -104,7 +102,6 @@ class ExploreScreen : Screen {
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val notificationCenter = remember { getNotificationCenter() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
-        val scope = rememberCoroutineScope()
         val focusManager = LocalFocusManager.current
         val keyboardScrollConnection = remember {
             object : NestedScrollConnection {
@@ -184,9 +181,7 @@ class ExploreScreen : Screen {
                         navigationCoordinator.showBottomSheet(sheet)
                     },
                     onHamburgerTapped = rememberCallback {
-                        scope.launch {
-                            drawerCoordinator.toggleDrawer()
-                        }
+                        drawerCoordinator.toggleDrawer()
                     }
                 )
             },

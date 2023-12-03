@@ -16,7 +16,6 @@ sealed interface DrawerEvent {
 @Stable
 interface DrawerCoordinator {
     val toggleEvents: SharedFlow<DrawerEvent>
-    suspend fun toggleDrawer()
-
-    suspend fun sendEvent(event: DrawerEvent)
+    fun toggleDrawer()
+    fun sendEvent(event: DrawerEvent)
 }

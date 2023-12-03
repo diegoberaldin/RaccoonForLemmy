@@ -30,7 +30,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -87,7 +86,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class SettingsScreen : Screen {
@@ -102,7 +100,6 @@ class SettingsScreen : Screen {
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val notificationCenter = remember { getNotificationCenter() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
-        val scope = rememberCoroutineScope()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scrollState = rememberScrollState()
         val languageRepository = remember { getLanguageRepository() }
@@ -226,9 +223,7 @@ class SettingsScreen : Screen {
                         Image(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
-                                    scope.launch {
-                                        drawerCoordinator.toggleDrawer()
-                                    }
+                                    drawerCoordinator.toggleDrawer()
                                 },
                             ),
                             imageVector = Icons.Default.Menu,

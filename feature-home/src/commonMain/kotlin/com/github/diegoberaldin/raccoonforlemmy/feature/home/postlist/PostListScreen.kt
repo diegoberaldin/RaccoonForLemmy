@@ -180,9 +180,7 @@ class PostListScreen : Screen {
                     sortType = uiState.sortType,
                     scrollBehavior = scrollBehavior,
                     onHamburgerTapped = rememberCallback {
-                        scope.launch {
-                            drawerCoordinator.toggleDrawer()
-                        }
+                        drawerCoordinator.toggleDrawer()
                     },
                     onSelectListingType = rememberCallback {
                         val sheet = ListingTypeBottomSheet(
