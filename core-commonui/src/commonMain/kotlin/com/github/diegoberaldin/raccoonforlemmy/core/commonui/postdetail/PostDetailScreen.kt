@@ -263,31 +263,33 @@ class PostDetailScreen(
                         targetOffsetY = { it * 2 },
                     ),
                 ) {
-                    FloatingActionButtonMenu(items = buildList {
-                        this += FloatingActionButtonMenuItem(
-                            icon = Icons.Default.ExpandLess,
-                            text = stringResource(MR.strings.action_back_to_top),
-                            onSelected = rememberCallback {
-                                scope.launch {
-                                    lazyListState.scrollToItem(0)
-                                    topAppBarState.heightOffset = 0f
-                                    topAppBarState.contentOffset = 0f
-                                }
-                            },
-                        )
-                        if (uiState.isLogged && !isOnOtherInstance) {
+                    FloatingActionButtonMenu(
+                        items = buildList {
                             this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.Reply,
-                                text = stringResource(MR.strings.action_reply),
+                                icon = Icons.Default.ExpandLess,
+                                text = stringResource(MR.strings.action_back_to_top),
                                 onSelected = rememberCallback {
-                                    val screen = CreateCommentScreen(
-                                        originalPost = uiState.post,
-                                    )
-                                    navigationCoordinator.showBottomSheet(screen)
+                                    scope.launch {
+                                        lazyListState.scrollToItem(0)
+                                        topAppBarState.heightOffset = 0f
+                                        topAppBarState.contentOffset = 0f
+                                    }
                                 },
                             )
-                        }
-                    })
+                            if (uiState.isLogged && !isOnOtherInstance) {
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.Default.Reply,
+                                    text = stringResource(MR.strings.action_reply),
+                                    onSelected = rememberCallback {
+                                        val screen = CreateCommentScreen(
+                                            originalPost = uiState.post,
+                                        )
+                                        navigationCoordinator.showBottomSheet(screen)
+                                    },
+                                )
+                            }
+                        },
+                    )
                 }
             },
         ) { padding ->
@@ -313,6 +315,9 @@ class PostDetailScreen(
                         item {
                             PostCard(
                                 post = uiState.post,
+                                isFromModerator = uiState.post.creator?.id.let { creatorId ->
+                                    uiState.isModerator && uiState.moderators.containsId(creatorId)
+                                },
                                 postLayout = uiState.postLayout,
                                 fullHeightImage = uiState.fullHeightImages,
                                 includeFullBody = true,
