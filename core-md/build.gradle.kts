@@ -32,9 +32,10 @@ kotlin {
                 implementation(libs.markwon.strikethrough)
                 implementation(libs.markwon.tables)
                 implementation(libs.markwon.html)
-                implementation(libs.markwon.coil)
+                implementation(libs.markwon.image)
                 implementation(libs.markwon.linkify)
-                implementation(libs.coil)
+
+                implementation(libs.android.gif.drawable)
             }
         }
         val commonMain by getting {

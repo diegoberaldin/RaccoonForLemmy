@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.androidx.splashscreen)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+    implementation(libs.coil)
+    implementation(libs.coil.gif)
 
     implementation(projects.shared)
     implementation(projects.coreUtils)

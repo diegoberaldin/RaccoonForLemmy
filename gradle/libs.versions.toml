@@ -2,6 +2,7 @@
 androidx_activity = "1.8.1"
 androidx_crypto = "1.0.0"
 androidx_splashscreen = "1.0.1"
+android_gif_drawable = "1.2.28"
 android_gradle = "8.1.4"
 coil = "2.5.0"
 compose = "1.5.11"
@@ -42,6 +43,8 @@ androidx_splashscreen = { module = "androidx.core:core-splashscreen", version.re
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil_compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil_gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
+android_gif_drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "android.gif.drawable" }
 
 firebase_crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "crashlytics" }
 crashkios = { module = "co.touchlab.crashkios:crashlytics", version.ref = "crashkios" }
@@ -51,8 +54,8 @@ markwon_core = { module = "io.noties.markwon:core", version.ref = "markwon" }
 markwon_strikethrough = { module = "io.noties.markwon:ext-strikethrough", version.ref = "markwon" }
 markwon_tables = { module = "io.noties.markwon:ext-tables", version.ref = "markwon" }
 markwon_html = { module = "io.noties.markwon:html", version.ref = "markwon" }
-markwon_coil = { module = "io.noties.markwon:image-coil", version.ref = "markwon" }
 markwon_linkify = { module = "io.noties.markwon:linkify", version.ref = "markwon" }
+markwon_image = { module = "io.noties.markwon:image", version.ref = "markwon" }
 
 multiplatform_settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform.settings" }
 

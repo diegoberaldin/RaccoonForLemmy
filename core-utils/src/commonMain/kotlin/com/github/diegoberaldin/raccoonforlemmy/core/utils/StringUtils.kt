@@ -7,6 +7,6 @@ expect object StringUtils {
 
 val String.looksLikeAnImage: Boolean
     get() {
-        val imageExtensions = listOf(".jpeg", ".jpg", ".png", ".webp")
+        val imageExtensions = listOf(".jpeg", ".jpg", ".png", ".webp", ".gif")
         return imageExtensions.any { this.endsWith(it) }
     }
