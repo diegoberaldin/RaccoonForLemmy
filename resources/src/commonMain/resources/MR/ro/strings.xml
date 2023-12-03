@@ -246,4 +246,6 @@
         vă conectați la instanțele Dvs. oricând din ecranul Profil.\n\nBucurați-vă de Lemmy!
     </string>
     <string name="settings_default_inbox_type">Tipul implicit de inbox</string>
+    <string name="mod_action_add_mod">Adaugă moderator</string>
+    <string name="mod_action_remove_mod">Elimină moderator</string>
 </resources>

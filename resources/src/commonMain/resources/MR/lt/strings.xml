@@ -247,4 +247,6 @@
         Lemmy!
     </string>
     <string name="settings_default_inbox_type">Numatytasis gautųjų tipas</string>
+    <string name="mod_action_add_mod">Pridėti moderatorių</string>
+    <string name="mod_action_remove_mod">Pašalinti moderatorių</string>
 </resources>

@@ -254,4 +254,6 @@
     </string>
     <string name="settings_default_inbox_type">Cineál an bhosca isteach réamhshocraithe
     </string>
+    <string name="mod_action_add_mod">Modhnóir a chur leis</string>
+    <string name="mod_action_remove_mod">Bain modhnóir</string>
 </resources>

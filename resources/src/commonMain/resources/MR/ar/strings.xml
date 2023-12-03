@@ -243,4 +243,6 @@
         وقت من شاشة ملف التعريف.\n\nاستمتع بليمي!
     </string>
     <string name="settings_default_inbox_type">نوع البريد الوارد الافتراضي</string>
+    <string name="mod_action_add_mod">إضافة مشرف</string>
+    <string name="mod_action_remove_mod">إزالة المشرف</string>
 </resources>

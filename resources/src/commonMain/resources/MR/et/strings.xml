@@ -245,4 +245,6 @@
         Lemmyt!
     </string>
     <string name="settings_default_inbox_type">Vaikepostkasti tüüp</string>
+    <string name="mod_action_add_mod">Lisa moderaator</string>
+    <string name="mod_action_remove_mod">Eemalda moderaator</string>
 </resources>

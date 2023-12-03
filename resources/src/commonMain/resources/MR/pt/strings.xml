@@ -247,4 +247,6 @@
         a qualquer momento na tela de perfil.\n\nAproveite o Lemmy!
     </string>
     <string name="settings_default_inbox_type">Tipo de caixa padrão</string>
+    <string name="mod_action_add_mod">Adicionar moderador</string>
+    <string name="mod_action_remove_mod">Remover moderador</string>
 </resources>

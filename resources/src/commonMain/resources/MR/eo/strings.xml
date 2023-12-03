@@ -244,4 +244,6 @@
         iam ajn de la Profila ekrano.\n\nĜuu Lemmy!
     </string>
     <string name="settings_default_inbox_type">Defaŭlta enirkesto tipo</string>
+    <string name="mod_action_add_mod">Aldoni moderigilon</string>
+    <string name="mod_action_remove_mod">Forigi moderigilon</string>
 </resources>

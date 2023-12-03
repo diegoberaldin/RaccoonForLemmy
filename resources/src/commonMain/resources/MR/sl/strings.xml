@@ -245,4 +245,6 @@
         lahko prijavite na kadar koli na zaslonu profila.\n\nUživajte v Lemmyju!
     </string>
     <string name="settings_default_inbox_type">privzeta vrsta mape Prejeto</string>
+    <string name="mod_action_add_mod">Dodaj moderatorja</string>
+    <string name="mod_action_remove_mod">Odstrani moderatorja</string>
 </resources>

@@ -251,4 +251,6 @@
         jederzeit über den Profilbildschirm.\n\nViel Spaß mit Lemmy!
     </string>
     <string name="settings_default_inbox_type">Standard-Posteingangstyp</string>
+    <string name="mod_action_add_mod">Moderator hinzufügen</string>
+    <string name="mod_action_remove_mod">Moderator entfernen</string>
 </resources>

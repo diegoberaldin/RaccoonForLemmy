@@ -250,4 +250,6 @@
         na svoju instancu na bilo kada sa zaslona profila.\n\nUživajte u Lemmyju!
     </string>
     <string name="settings_default_inbox_type">Zadana vrsta pristigle pošte</string>
+    <string name="mod_action_add_mod">Dodaj moderatora</string>
+    <string name="mod_action_remove_mod">Ukloniti moderatora</string>
 </resources>

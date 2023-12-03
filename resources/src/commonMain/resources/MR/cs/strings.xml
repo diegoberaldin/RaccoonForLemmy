@@ -245,4 +245,6 @@
         přihlásit na kdykoli z obrazovky profilu.\n\nUžijte si Lemmyho!
     </string>
     <string name="settings_default_inbox_type">Výchozí typ doručené pošty</string>
+    <string name="mod_action_add_mod">Přidat moderátora</string>
+    <string name="mod_action_remove_mod">Odstranit moderátora</string>
 </resources>

@@ -249,4 +249,6 @@
         címen jelentkezhet be a példányába bármikor a Profil képernyőről.\n\nÉlvezze Lemmyt!
     </string>
     <string name="settings_default_inbox_type">Alapértelmezett beérkező levelek típusa</string>
+    <string name="mod_action_add_mod">Moderátor hozzáadása</string>
+    <string name="mod_action_remove_mod">Moderátor eltávolítása</string>
 </resources>

@@ -272,4 +272,6 @@
         any time from the Profile screen.\n\nEnjoy Lemmy!
     </string>
     <string name="settings_default_inbox_type">Default inbox type</string>
+    <string name="mod_action_add_mod">Add moderator</string>
+    <string name="mod_action_remove_mod">Remove moderator</string>
 </resources>

@@ -254,4 +254,6 @@
         вашата инстанция на по всяко време от екрана на профила.\n\nНасладете се на Леми!
     </string>
     <string name="settings_default_inbox_type">Тип входяща кутия по подразбиране</string>
+    <string name="mod_action_add_mod">Добавете модератор</string>
+    <string name="mod_action_remove_mod">Премахване на модератора</string>
 </resources>

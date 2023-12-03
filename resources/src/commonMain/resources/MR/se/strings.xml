@@ -246,4 +246,6 @@
         förekomst på när som helst från profilskärmen.\n\nNjut av Lemmy!
     </string>
     <string name="settings_default_inbox_type">Standardtyp av inkorg</string>
+    <string name="mod_action_add_mod">Lägg till moderator</string>
+    <string name="mod_action_remove_mod">Ta bort moderator</string>
 </resources>

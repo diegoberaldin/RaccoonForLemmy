@@ -249,4 +249,6 @@
         Profilo.\n\nDivertiti su Lemmy!
     </string>
     <string name="settings_default_inbox_type">Tipo inbox predefinito</string>
+    <string name="mod_action_add_mod">Aggiungi moderatore</string>
+    <string name="mod_action_remove_mod">Rimuovi moderatore</string>
 </resources>

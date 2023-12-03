@@ -708,6 +708,21 @@ class CommunityDetailScreen(
                                                         stringResource(MR.strings.mod_action_ban)
                                                     },
                                                 )
+                                                post.creator?.id?.also { creatorId ->
+                                                    if (uiState.currentUserId != creatorId) {
+                                                        this += Option(
+                                                            OptionId.AddMod,
+                                                            if (uiState.moderators.containsId(
+                                                                    creatorId
+                                                                )
+                                                            ) {
+                                                                stringResource(MR.strings.mod_action_remove_mod)
+                                                            } else {
+                                                                stringResource(MR.strings.mod_action_add_mod)
+                                                            },
+                                                        )
+                                                    }
+                                                }
                                             }
                                         },
                                         onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -770,6 +785,16 @@ class CommunityDetailScreen(
                                                             postId = post.id,
                                                         )
                                                         navigationCoordinator.showBottomSheet(screen)
+                                                    }
+                                                }
+
+                                                OptionId.AddMod -> {
+                                                    post.creator?.id?.also { userId ->
+                                                        model.reduce(
+                                                            CommunityDetailMviModel.Intent.ModToggleModUser(
+                                                                userId
+                                                            )
+                                                        )
                                                     }
                                                 }
 

@@ -250,4 +250,6 @@
         instancia en cualquier momento desde la pestaña \'Perfil\'.\n\n¡Disfruta de Lemmy!
     </string>
     <string name="settings_default_inbox_type">Mensajes predefinidos</string>
+    <string name="mod_action_add_mod">Agregar moderador</string>
+    <string name="mod_action_remove_mod">Eliminar moderador</string>
 </resources>

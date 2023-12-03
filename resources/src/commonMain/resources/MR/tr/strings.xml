@@ -248,4 +248,6 @@
         çıkarın!
     </string>
     <string name="settings_default_inbox_type">Varsayılan gelen kutusu türü</string>
+    <string name="mod_action_add_mod">Moderatör ekleyin</string>
+    <string name="mod_action_remove_mod">Moderatörü kaldır</string>
 </resources>

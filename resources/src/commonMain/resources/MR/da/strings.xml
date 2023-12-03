@@ -245,4 +245,6 @@
         når som helst fra profilskærmen.\n\nNyd Lemmy!
     </string>
     <string name="settings_default_inbox_type">Standard indbakketype</string>
+    <string name="mod_action_add_mod">Tilføje moderator</string>
+    <string name="mod_action_remove_mod">Fjern moderator</string>
 </resources>

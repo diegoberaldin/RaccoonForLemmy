@@ -249,4 +249,6 @@
         pieteikties savā pieteikumā vietnē jebkurā laikā no profila ekrāna.\n\nIzbaudiet Lemiju!
     </string>
     <string name="settings_default_inbox_type">Noklusējuma iesūtnes veids</string>
+    <string name="mod_action_add_mod">Pievienot moderatoru</string>
+    <string name="mod_action_remove_mod">Noņemt moderatoru</string>
 </resources>

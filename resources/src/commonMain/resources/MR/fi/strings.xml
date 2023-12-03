@@ -245,4 +245,6 @@
         Lemmystä!
     </string>
     <string name="settings_default_inbox_type">Oletuspostilaatikon tyyppi</string>
+    <string name="mod_action_add_mod">Lisää moderaattori</string>
+    <string name="mod_action_remove_mod">Poista moderaattori</string>
 </resources>

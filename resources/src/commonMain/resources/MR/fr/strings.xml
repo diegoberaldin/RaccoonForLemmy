@@ -249,4 +249,6 @@
         connecter à votre instance à tout moment depuis l\'écran Profil.\n\nProfitez de Lemmy !
     </string>
     <string name="settings_default_inbox_type">Type de boîte par défaut</string>
+    <string name="mod_action_add_mod">Ajouter modérateur</string>
+    <string name="mod_action_remove_mod">Supprimer modérateur</string>
 </resources>

@@ -255,4 +255,6 @@
         Προφίλ.\n\nΑπολαύστε το Lemmy!
     </string>
     <string name="settings_default_inbox_type">Προεπιλεγμένος τύπος εισερχομένων</string>
+    <string name="mod_action_add_mod">Προσθήκη συντονιστή</string>
+    <string name="mod_action_remove_mod">Κατάργηση συντονιστή</string>
 </resources>

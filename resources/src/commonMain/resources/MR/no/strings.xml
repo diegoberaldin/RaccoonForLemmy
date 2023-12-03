@@ -247,4 +247,6 @@
         din på når som helst fra profilskjermen.\n\nNyt Lemmy!
     </string>
     <string name="settings_default_inbox_type">Standard innbokstype</string>
+    <string name="mod_action_add_mod">Legg til moderator</string>
+    <string name="mod_action_remove_mod">Fjern moderator</string>
 </resources>

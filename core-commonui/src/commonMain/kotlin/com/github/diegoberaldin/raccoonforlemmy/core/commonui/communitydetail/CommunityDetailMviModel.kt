@@ -35,6 +35,7 @@ interface CommunityDetailMviModel :
         data object PauseZombieMode : Intent
         data class ModFeaturePost(val id: Int) : Intent
         data class ModLockPost(val id: Int) : Intent
+        data class ModToggleModUser(val id: Int) : Intent
     }
 
     data class UiState(
