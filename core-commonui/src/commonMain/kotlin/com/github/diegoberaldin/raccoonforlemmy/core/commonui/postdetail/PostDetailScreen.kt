@@ -321,7 +321,7 @@ class PostDetailScreen(
                                 postLayout = uiState.postLayout,
                                 fullHeightImage = uiState.fullHeightImages,
                                 includeFullBody = true,
-                                separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                voteFormat = uiState.voteFormat,
                                 autoLoadImages = uiState.autoLoadImages,
                                 blurNsfw = false,
                                 onOpenCommunity = rememberCallbackArgs { community ->
@@ -655,7 +655,7 @@ class PostDetailScreen(
                                                             }
                                                         },
                                                     comment = comment,
-                                                    separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                                    voteFormat = uiState.voteFormat,
                                                     autoLoadImages = uiState.autoLoadImages,
                                                     onToggleExpanded = rememberCallback(model) {
                                                         model.reduce(

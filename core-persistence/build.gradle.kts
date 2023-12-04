@@ -47,6 +47,7 @@ kotlin {
 
                 implementation(libs.koin.core)
 
+                implementation(projects.coreAppearance)
                 implementation(projects.corePreferences)
                 implementation(projects.coreUtils)
             }

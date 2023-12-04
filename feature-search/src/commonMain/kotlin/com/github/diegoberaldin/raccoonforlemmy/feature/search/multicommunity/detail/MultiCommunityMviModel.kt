@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.d
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -36,7 +37,7 @@ interface MultiCommunityMviModel :
         val swipeActionsEnabled: Boolean = true,
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
-        val separateUpAndDownVotes: Boolean = false,
+        val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
     )
 

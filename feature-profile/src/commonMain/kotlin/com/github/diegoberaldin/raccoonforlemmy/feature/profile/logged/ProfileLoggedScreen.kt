@@ -174,7 +174,7 @@ internal object ProfileLoggedScreen : Tab {
                                     post = post,
                                     postLayout = uiState.postLayout,
                                     fullHeightImage = uiState.fullHeightImages,
-                                    separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                    voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
                                     hideAuthor = true,
                                     blurNsfw = false,
@@ -304,7 +304,7 @@ internal object ProfileLoggedScreen : Tab {
                                 CommentCard(
                                     modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,
-                                    separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                    voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
                                     hideCommunity = false,
                                     hideAuthor = true,

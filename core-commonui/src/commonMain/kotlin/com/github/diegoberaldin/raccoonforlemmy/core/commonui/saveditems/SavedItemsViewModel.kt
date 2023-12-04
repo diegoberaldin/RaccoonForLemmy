@@ -48,7 +48,7 @@ class SavedItemsViewModel(
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState {
                     it.copy(
-                        separateUpAndDownVotes = settings.separateUpAndDownVotes,
+                        voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
                     )

@@ -81,7 +81,7 @@ class PostListViewModel(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        separateUpAndDownVotes = settings.separateUpAndDownVotes,
+                        voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
                     )

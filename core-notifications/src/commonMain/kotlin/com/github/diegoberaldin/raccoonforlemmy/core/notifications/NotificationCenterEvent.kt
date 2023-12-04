@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -31,6 +32,7 @@ sealed interface NotificationCenterEvent {
     data class ChangeZombieInterval(val value: Duration) : NotificationCenterEvent
     data class ChangeLanguage(val value: String) : NotificationCenterEvent
     data class ChangePostLayout(val value: PostLayout) : NotificationCenterEvent
+    data class ChangeVoteFormat(val value: VoteFormat) : NotificationCenterEvent
     data object Logout : NotificationCenterEvent
     data object PostCreated : NotificationCenterEvent
     data object CommentCreated : NotificationCenterEvent

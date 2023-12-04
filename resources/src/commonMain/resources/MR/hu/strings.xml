@@ -211,7 +211,6 @@
     <string name="settings_section_debug">Hibaelhárítás</string>
     <string name="settings_section_feed">Bejegyzések és megjegyzések</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Külön pozitív és negatív szavazatokat</string>
     <string name="settings_theme_black">Sötét (AMOLED)</string>
     <string name="settings_theme_dark">Sötét</string>
     <string name="settings_theme_light">Enyhe</string>
@@ -251,4 +250,8 @@
     <string name="settings_default_inbox_type">Alapértelmezett beérkező levelek típusa</string>
     <string name="mod_action_add_mod">Moderátor hozzáadása</string>
     <string name="mod_action_remove_mod">Moderátor eltávolítása</string>
+    <string name="settings_vote_format">Szavazás formátuma</string>
+    <string name="settings_vote_format_aggregated">Összesített</string>
+    <string name="settings_vote_format_separated">Különálló</string>
+    <string name="settings_vote_format_percentage">Százalék</string>
 </resources>

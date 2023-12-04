@@ -211,7 +211,6 @@
     <string name="settings_section_debug">Debug</string>
     <string name="settings_section_feed">Príspevky a komentáre</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Oddeliť upvotes / downvotes</string>
     <string name="settings_theme_black">Tmavá (AMOLED)</string>
     <string name="settings_theme_dark">Tmavá</string>
     <string name="settings_theme_light">Svetlo</string>
@@ -249,4 +248,8 @@
     <string name="settings_default_inbox_type">Predvolený typ doručenej pošty</string>
     <string name="mod_action_add_mod">Pridať moderátora</string>
     <string name="mod_action_remove_mod">Odstrániť moderátora</string>
+    <string name="settings_vote_format">Formát hlasovania</string>
+    <string name="settings_vote_format_aggregated">Agregátne</string>
+    <string name="settings_vote_format_separated">Samostatné</string>
+    <string name="settings_vote_format_percentage">Percento</string>
 </resources>

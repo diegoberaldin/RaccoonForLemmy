@@ -556,7 +556,7 @@ class CommunityDetailScreen(
                                         isFromModerator = uiState.moderators.containsId(post.creator?.id),
                                         postLayout = uiState.postLayout,
                                         fullHeightImage = uiState.fullHeightImages,
-                                        separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                        voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
                                         blurNsfw = when {
                                             uiState.community.nsfw -> false

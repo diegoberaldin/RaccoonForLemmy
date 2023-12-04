@@ -458,7 +458,7 @@ class UserDetailScreen(
                                         postLayout = uiState.postLayout,
                                         fullHeightImage = uiState.fullHeightImages,
                                         blurNsfw = uiState.blurNsfw,
-                                        separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                        voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
                                         onClick = rememberCallback {
                                             navigationCoordinator.pushScreen(
@@ -669,7 +669,7 @@ class UserDetailScreen(
                                     CommentCard(
                                         modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                         comment = comment,
-                                        separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                        voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
                                         hideCommunity = false,
                                         hideAuthor = true,

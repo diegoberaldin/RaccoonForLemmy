@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.toArgb
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -108,7 +109,7 @@ class SettingsViewModel(
                 enableSwipeActions = settings.enableSwipeActions,
                 enableDoubleTapAction = settings.enableDoubleTapAction,
                 crashReportEnabled = crashReportConfiguration.isEnabled(),
-                separateUpAndDownVotes = settings.separateUpAndDownVotes,
+                voteFormat = settings.voteFormat,
                 autoLoadImages = settings.autoLoadImages,
                 autoExpandComments = settings.autoExpandComments,
                 fullHeightImages = settings.fullHeightImages,
@@ -194,8 +195,8 @@ class SettingsViewModel(
                 changeCrashReportEnabled(intent.value)
             }
 
-            is SettingsMviModel.Intent.ChangeSeparateUpAndDownVotes -> {
-                changeSeparateUpAndDownVotes(intent.value)
+            is SettingsMviModel.Intent.ChangeVoteFormat -> {
+                changeVoteFormat(intent.value)
             }
 
             is SettingsMviModel.Intent.ChangeAutoLoadImages -> {
@@ -440,11 +441,11 @@ class SettingsViewModel(
         mvi.updateState { it.copy(crashReportEnabled = value) }
     }
 
-    private fun changeSeparateUpAndDownVotes(value: Boolean) {
-        mvi.updateState { it.copy(separateUpAndDownVotes = value) }
+    private fun changeVoteFormat(value: VoteFormat) {
+        mvi.updateState { it.copy(voteFormat = value) }
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
-                separateUpAndDownVotes = value
+                voteFormat = value
             )
             saveSettings(settings)
         }

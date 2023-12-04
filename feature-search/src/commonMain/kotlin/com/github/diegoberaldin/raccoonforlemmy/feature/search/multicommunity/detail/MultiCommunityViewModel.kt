@@ -55,7 +55,7 @@ class MultiCommunityViewModel(
                     it.copy(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
-                        separateUpAndDownVotes = settings.separateUpAndDownVotes,
+                        voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
                     )

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
@@ -52,7 +53,7 @@ fun PostCard(
     autoLoadImages: Boolean = true,
     hideAuthor: Boolean = false,
     postLayout: PostLayout = PostLayout.Card,
-    separateUpAndDownVotes: Boolean = false,
+    voteFormat: VoteFormat = VoteFormat.Aggregated,
     includeFullBody: Boolean = false,
     fullHeightImage: Boolean = true,
     limitBodyHeight: Boolean = false,
@@ -95,7 +96,7 @@ fun PostCard(
                 },
                 showBody = includeFullBody || postLayout == PostLayout.Full,
                 limitBodyHeight = limitBodyHeight,
-                separateUpAndDownVotes = separateUpAndDownVotes,
+                voteFormat = voteFormat,
                 autoLoadImages = autoLoadImages,
                 roundedCornerImage = postLayout == PostLayout.Card,
                 fullHeightImage = fullHeightImage,
@@ -118,7 +119,7 @@ fun PostCard(
                 isFromModerator = isFromModerator,
                 hideAuthor = hideAuthor,
                 blurNsfw = blurNsfw,
-                separateUpAndDownVotes = separateUpAndDownVotes,
+                voteFormat = voteFormat,
                 autoLoadImages = autoLoadImages,
                 options = options,
                 onOpenCommunity = onOpenCommunity,
@@ -144,7 +145,7 @@ private fun CompactPost(
     autoLoadImages: Boolean = true,
     hideAuthor: Boolean,
     blurNsfw: Boolean,
-    separateUpAndDownVotes: Boolean,
+    voteFormat: VoteFormat = VoteFormat.Aggregated,
     options: List<Option> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
@@ -204,7 +205,7 @@ private fun CompactPost(
         }
         PostCardFooter(
             comments = post.comments,
-            separateUpAndDownVotes = separateUpAndDownVotes,
+            voteFormat = voteFormat,
             score = post.score,
             upvotes = post.upvotes,
             downvotes = post.downvotes,
@@ -230,7 +231,7 @@ private fun ExtendedPost(
     autoLoadImages: Boolean = true,
     hideAuthor: Boolean = false,
     blurNsfw: Boolean = true,
-    separateUpAndDownVotes: Boolean = false,
+    voteFormat: VoteFormat = VoteFormat.Aggregated,
     showBody: Boolean = false,
     limitBodyHeight: Boolean = false,
     fullHeightImage: Boolean = true,
@@ -361,7 +362,7 @@ private fun ExtendedPost(
         PostCardFooter(
             modifier = Modifier.padding(top = Spacing.xs),
             comments = post.comments,
-            separateUpAndDownVotes = separateUpAndDownVotes,
+            voteFormat = voteFormat,
             score = post.score,
             upvotes = post.upvotes,
             downvotes = post.downvotes,

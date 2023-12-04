@@ -1,5 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository
 
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toLong
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toVoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DatabaseProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.GetBy
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
@@ -72,7 +74,7 @@ internal class DefaultSettingsRepository(
                 customSeedColor = settings.customSeedColor?.toLong(),
                 account_id = accountId,
                 postLayout = settings.postLayout.toLong(),
-                separateUpAndDownVotes = if (settings.separateUpAndDownVotes) 1 else 0,
+                separateUpAndDownVotes = settings.voteFormat.toLong(),
                 autoLoadImages = if (settings.autoLoadImages) 1 else 0,
                 autoExpandComments = if (settings.autoExpandComments) 1 else 0,
                 fullHeightImages = if (settings.fullHeightImages) 1 else 0,
@@ -110,7 +112,7 @@ internal class DefaultSettingsRepository(
                     enableDoubleTapAction = keyStore[KeyStoreKeys.EnableDoubleTapAction, false],
                     customSeedColor = if (!keyStore.containsKey(KeyStoreKeys.CustomSeedColor)) null else keyStore[KeyStoreKeys.CustomSeedColor, 0],
                     postLayout = keyStore[KeyStoreKeys.PostLayout, 0],
-                    separateUpAndDownVotes = keyStore[KeyStoreKeys.SeparateUpAndDownVotes, false],
+                    voteFormat = keyStore[KeyStoreKeys.SeparateUpAndDownVotes, 0L].toVoteFormat(),
                     autoLoadImages = keyStore[KeyStoreKeys.AutoLoadImages, true],
                     autoExpandComments = keyStore[KeyStoreKeys.AutoExpandComments, true],
                     fullHeightImages = keyStore[KeyStoreKeys.FullHeightImages, true],
@@ -165,7 +167,7 @@ internal class DefaultSettingsRepository(
                     keyStore.remove(KeyStoreKeys.CustomSeedColor)
                 }
                 keyStore.save(KeyStoreKeys.PostLayout, settings.postLayout)
-                keyStore.save(KeyStoreKeys.SeparateUpAndDownVotes, settings.separateUpAndDownVotes)
+                keyStore.save(KeyStoreKeys.SeparateUpAndDownVotes, settings.voteFormat.toLong())
                 keyStore.save(KeyStoreKeys.AutoLoadImages, settings.autoLoadImages)
                 keyStore.save(KeyStoreKeys.AutoExpandComments, settings.autoExpandComments)
                 keyStore.save(KeyStoreKeys.FullHeightImages, settings.fullHeightImages)
@@ -215,7 +217,7 @@ internal class DefaultSettingsRepository(
                     enableDoubleTapAction = if (settings.enableDoubleTapAction) 1L else 0L,
                     customSeedColor = settings.customSeedColor?.toLong(),
                     postLayout = settings.postLayout.toLong(),
-                    separateUpAndDownVotes = if (settings.separateUpAndDownVotes) 1L else 0L,
+                    separateUpAndDownVotes = settings.voteFormat.toLong(),
                     autoLoadImages = if (settings.autoLoadImages) 1L else 0L,
                     autoExpandComments = if (settings.autoExpandComments) 1L else 0L,
                     fullHeightImages = if (settings.fullHeightImages) 1L else 0L,
@@ -255,7 +257,7 @@ private fun GetBy.toModel() = SettingsModel(
     enableDoubleTapAction = enableDoubleTapAction != 0L,
     customSeedColor = customSeedColor?.toInt(),
     postLayout = postLayout.toInt(),
-    separateUpAndDownVotes = separateUpAndDownVotes != 0L,
+    voteFormat = separateUpAndDownVotes.toVoteFormat(),
     autoLoadImages = autoLoadImages != 0L,
     autoExpandComments = autoExpandComments != 0L,
     fullHeightImages = fullHeightImages != 0L,

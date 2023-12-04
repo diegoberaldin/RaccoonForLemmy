@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.data
 
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -27,7 +28,7 @@ data class SettingsModel(
     val downvoteColor: Int? = null,
     val postLayout: Int = 0,
     val fullHeightImages: Boolean = true,
-    val separateUpAndDownVotes: Boolean = false,
+    val voteFormat: VoteFormat = VoteFormat.Aggregated,
     val autoLoadImages: Boolean = true,
     val autoExpandComments: Boolean = true,
     val hideNavigationBarWhileScrolling: Boolean = true,

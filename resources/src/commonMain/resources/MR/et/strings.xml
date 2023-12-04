@@ -209,7 +209,6 @@
     <string name="settings_section_debug">Silumine</string>
     <string name="settings_section_feed">Postitused ja kommentaarid</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Eraldi üles- / allahääled</string>
     <string name="settings_theme_black">Tume (AMOLED)</string>
     <string name="settings_theme_dark">Tume</string>
     <string name="settings_theme_light">Valgus</string>
@@ -247,4 +246,8 @@
     <string name="settings_default_inbox_type">Vaikepostkasti tüüp</string>
     <string name="mod_action_add_mod">Lisa moderaator</string>
     <string name="mod_action_remove_mod">Eemalda moderaator</string>
+    <string name="settings_vote_format">Hääletuse formaat</string>
+    <string name="settings_vote_format_aggregated">Agregaat</string>
+    <string name="settings_vote_format_separated">Eraldi</string>
+    <string name="settings_vote_format_percentage">Protsent</string>
 </resources>

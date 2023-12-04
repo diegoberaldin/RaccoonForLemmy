@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -32,7 +33,7 @@ fun InboxCard(
     mention: PersonMentionModel,
     type: InboxCardType,
     autoLoadImages: Boolean = true,
-    separateUpAndDownVotes: Boolean = true,
+    voteFormat: VoteFormat = VoteFormat.Aggregated,
     postLayout: PostLayout = PostLayout.Card,
     options: List<Option> = emptyList(),
     onOpenPost: (PostModel) -> Unit,
@@ -91,7 +92,7 @@ fun InboxCard(
                 score = mention.score,
                 upvotes = mention.upvotes,
                 downvotes = mention.downvotes,
-                separateUpAndDownVotes = separateUpAndDownVotes,
+                voteFormat = voteFormat,
                 upVoted = mention.myVote > 0,
                 downVoted = mention.myVote < 0,
                 options = options,

@@ -210,7 +210,6 @@
     <string name="settings_section_debug">Debug</string>
     <string name="settings_section_feed">Publicaçoes e comentários</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Separar votos positivos e negativos</string>
     <string name="settings_theme_black">Escuro (AMOLED)</string>
     <string name="settings_theme_dark">Escuro</string>
     <string name="settings_theme_light">Claro</string>
@@ -249,4 +248,8 @@
     <string name="settings_default_inbox_type">Tipo de caixa padrão</string>
     <string name="mod_action_add_mod">Adicionar moderador</string>
     <string name="mod_action_remove_mod">Remover moderador</string>
+    <string name="settings_vote_format">Formato votos</string>
+    <string name="settings_vote_format_aggregated">Agregado</string>
+    <string name="settings_vote_format_separated">Separado</string>
+    <string name="settings_vote_format_percentage">Percentagem</string>
 </resources>

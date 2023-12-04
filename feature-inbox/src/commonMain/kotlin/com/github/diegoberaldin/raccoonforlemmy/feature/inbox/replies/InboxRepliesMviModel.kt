@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 
@@ -30,7 +31,7 @@ interface InboxRepliesMviModel :
         val postLayout: PostLayout = PostLayout.Card,
         val swipeActionsEnabled: Boolean = true,
         val autoLoadImages: Boolean = true,
-        val separateUpAndDownVotes: Boolean = true,
+        val voteFormat: VoteFormat = VoteFormat.Aggregated,
     )
 
     sealed interface Effect {

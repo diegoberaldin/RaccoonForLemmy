@@ -458,7 +458,7 @@ class CreatePostScreen(
                         postLayout = uiState.postLayout,
                         fullHeightImage = uiState.fullHeightImages,
                         includeFullBody = true,
-                        separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                        voteFormat = uiState.voteFormat,
                         autoLoadImages = uiState.autoLoadImages,
                     )
                 }

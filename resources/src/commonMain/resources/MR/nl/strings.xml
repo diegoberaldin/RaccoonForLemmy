@@ -211,7 +211,6 @@
     <string name="settings_section_debug">Fouten opsporen</string>
     <string name="settings_section_feed">Berichten en reacties</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Aparte upvotes / downvotes</string>
     <string name="settings_theme_black">Pure Black</string>
     <string name="settings_theme_dark">Donker</string>
     <string name="settings_theme_light">Verlichting</string>
@@ -250,4 +249,8 @@
     <string name="settings_default_inbox_type">Standaardtype inbox</string>
     <string name="mod_action_add_mod">Moderator toevoegen</string>
     <string name="mod_action_remove_mod">Moderator verwijderen</string>
+    <string name="settings_vote_format">Stemformaat</string>
+    <string name="settings_vote_format_aggregated">Totaal</string>
+    <string name="settings_vote_format_separated">Verschillend</string>
+    <string name="settings_vote_format_percentage">Percentage</string>
 </resources>

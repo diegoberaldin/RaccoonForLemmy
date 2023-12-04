@@ -209,7 +209,6 @@
     <string name="settings_section_debug">Sencimigi</string>
     <string name="settings_section_feed">Afiŝoj kaj komentoj</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Apartigi porvoĉojn / kontraŭvoĉojn</string>
     <string name="settings_theme_black">Malhela (AMOLED)</string>
     <string name="settings_theme_dark">Malhela</string>
     <string name="settings_theme_light">Hela</string>
@@ -246,4 +245,8 @@
     <string name="settings_default_inbox_type">Defaŭlta enirkesto tipo</string>
     <string name="mod_action_add_mod">Aldoni moderigilon</string>
     <string name="mod_action_remove_mod">Forigi moderigilon</string>
+    <string name="settings_vote_format">Voĉdona formato</string>
+    <string name="settings_vote_format_aggregated">Entute</string>
+    <string name="settings_vote_format_separated">Apartigite</string>
+    <string name="settings_vote_format_percentage">Procento</string>
 </resources>

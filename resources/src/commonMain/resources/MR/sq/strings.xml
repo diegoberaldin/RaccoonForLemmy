@@ -241,8 +241,7 @@
     <string name="settings_section_debug">Korrigjo</string>
     <string name="settings_section_feed">Postime dhe komente</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Ndani votat e sipërme/të poshtme</string>
-    <string name="settings_theme_black">E zezë e pastër</string>
+    <string name="settings_theme_black">E errët (AMOLED)</string>
     <string name="settings_theme_dark">E errët</string>
     <string name="settings_theme_light">Drita</string>
     <string name="settings_ui_font_family">Shkronja e ndërfaqes së përdoruesit</string>
@@ -281,4 +280,8 @@
     <string name="settings_default_inbox_type">Lloji i paracaktuar i kutisë së mesazheve</string>
     <string name="mod_action_add_mod">Shtoni moderator</string>
     <string name="mod_action_remove_mod">Hiqni moderatorin</string>
+    <string name="settings_vote_format">Formati i votimit</string>
+    <string name="settings_vote_format_aggregated">Agregat</string>
+    <string name="settings_vote_format_separated">Të ndara</string>
+    <string name="settings_vote_format_percentage">Përqindje</string>
 </resources>

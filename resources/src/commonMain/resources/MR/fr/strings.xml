@@ -211,8 +211,6 @@
     <string name="settings_section_debug">Débogage</string>
     <string name="settings_section_feed">Publications et commentaires</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Séparer les votes positifs et négatifs
-    </string>
     <string name="settings_theme_black">Sombre (AMOLED)</string>
     <string name="settings_theme_dark">Sombre</string>
     <string name="settings_theme_light">Lumineux</string>
@@ -251,4 +249,8 @@
     <string name="settings_default_inbox_type">Type de boîte par défaut</string>
     <string name="mod_action_add_mod">Ajouter modérateur</string>
     <string name="mod_action_remove_mod">Supprimer modérateur</string>
+    <string name="settings_vote_format">Format du vote</string>
+    <string name="settings_vote_format_aggregated">Agrégat</string>
+    <string name="settings_vote_format_separated">Séparé</string>
+    <string name="settings_vote_format_percentage">Pourcentage</string>
 </resources>

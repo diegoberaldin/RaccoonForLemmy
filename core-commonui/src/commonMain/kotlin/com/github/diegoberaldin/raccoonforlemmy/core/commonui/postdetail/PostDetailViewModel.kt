@@ -83,7 +83,7 @@ class PostDetailViewModel(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
                         sortType = settings.defaultCommentSortType.toSortType(),
-                        separateUpAndDownVotes = settings.separateUpAndDownVotes,
+                        voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
                     )

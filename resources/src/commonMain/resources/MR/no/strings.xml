@@ -212,7 +212,6 @@
     <string name="settings_section_debug">Feilsøk</string>
     <string name="settings_section_feed">Innlegg og merknader</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Separate upvotes / downvotes</string>
     <string name="settings_theme_black">Mørk (AMOLED)</string>
     <string name="settings_theme_dark">Mørk</string>
     <string name="settings_theme_light">Lys</string>
@@ -249,4 +248,8 @@
     <string name="settings_default_inbox_type">Standard innbokstype</string>
     <string name="mod_action_add_mod">Legg til moderator</string>
     <string name="mod_action_remove_mod">Fjern moderator</string>
+    <string name="settings_vote_format">Stemmeformat</string>
+    <string name="settings_vote_format_aggregated">Samlet</string>
+    <string name="settings_vote_format_separated">Skille</string>
+    <string name="settings_vote_format_percentage">Prosentdel</string>
 </resources>

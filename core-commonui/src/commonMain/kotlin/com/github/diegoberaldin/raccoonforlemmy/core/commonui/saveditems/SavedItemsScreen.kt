@@ -236,7 +236,7 @@ class SavedItemsScreen : Screen {
                                     post = post,
                                     postLayout = uiState.postLayout,
                                     fullHeightImage = uiState.fullHeightImages,
-                                    separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                    voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = {
@@ -358,7 +358,7 @@ class SavedItemsScreen : Screen {
                             items(uiState.comments) { comment ->
                                 CommentCard(
                                     comment = comment,
-                                    separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                    voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
                                     hideIndent = true,
                                     onClick = {

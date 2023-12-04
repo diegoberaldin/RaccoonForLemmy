@@ -213,8 +213,6 @@
     <string name="settings_section_debug">Αποσφαλμάτωση</string>
     <string name="settings_section_feed">Αναρτήσεις και σχόλια</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Χωριστές ψήφοι ανοδικές / καταδικαστικές
-    </string>
     <string name="settings_theme_black">Σκοτεινό (AMOLED)</string>
     <string name="settings_theme_dark">Σκοτεινό</string>
     <string name="settings_theme_light">Φωτεινό</string>
@@ -257,4 +255,8 @@
     <string name="settings_default_inbox_type">Προεπιλεγμένος τύπος εισερχομένων</string>
     <string name="mod_action_add_mod">Προσθήκη συντονιστή</string>
     <string name="mod_action_remove_mod">Κατάργηση συντονιστή</string>
+    <string name="settings_vote_format">Μορφή ψηφοφορίας</string>
+    <string name="settings_vote_format_aggregated">Σύνολο</string>
+    <string name="settings_vote_format_separated">Ξεχωριστό</string>
+    <string name="settings_vote_format_percentage">Ποσοστό</string>
 </resources>

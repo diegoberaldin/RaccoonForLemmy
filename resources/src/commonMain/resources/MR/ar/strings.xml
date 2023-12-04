@@ -207,7 +207,6 @@
     <string name="settings_section_debug">تصحيح الأخطاء</string>
     <string name="settings_section_feed">المنشورات والتعليقات</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">أصوات مؤيدة/أصوات معارضة منفصلة</string>
     <string name="settings_theme_black">الظلام (أموليد)</string>
     <string name="settings_theme_dark">داكن</string>
     <string name="settings_theme_light">فاتح</string>
@@ -245,4 +244,8 @@
     <string name="settings_default_inbox_type">نوع البريد الوارد الافتراضي</string>
     <string name="mod_action_add_mod">إضافة مشرف</string>
     <string name="mod_action_remove_mod">إزالة المشرف</string>
+    <string name="settings_vote_format">تنسيق التصويت</string>
+    <string name="settings_vote_format_aggregated">إجمالي</string>
+    <string name="settings_vote_format_separated">متفرق</string>
+    <string name="settings_vote_format_percentage">نسبة مئوية</string>
 </resources>

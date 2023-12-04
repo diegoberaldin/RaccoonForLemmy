@@ -211,7 +211,6 @@
     <string name="settings_section_debug">Felsökning</string>
     <string name="settings_section_feed">Inlägg och kommentarer</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Separata uppröster / nedröster</string>
     <string name="settings_theme_black">Mörk (AMOLED)</string>
     <string name="settings_theme_dark">Mörk</string>
     <string name="settings_theme_light">Ljus</string>
@@ -248,4 +247,8 @@
     <string name="settings_default_inbox_type">Standardtyp av inkorg</string>
     <string name="mod_action_add_mod">Lägg till moderator</string>
     <string name="mod_action_remove_mod">Ta bort moderator</string>
+    <string name="settings_vote_format">Röstformat</string>
+    <string name="settings_vote_format_aggregated">Aggregat</string>
+    <string name="settings_vote_format_separated">Separat</string>
+    <string name="settings_vote_format_percentage">Procentsats</string>
 </resources>

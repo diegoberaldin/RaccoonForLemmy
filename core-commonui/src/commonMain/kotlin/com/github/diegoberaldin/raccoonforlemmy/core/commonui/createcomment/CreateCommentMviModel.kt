@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostSection
 import dev.icerock.moko.resources.desc.StringDesc
@@ -35,7 +36,7 @@ interface CreateCommentMviModel :
     data class UiState(
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
-        val separateUpAndDownVotes: Boolean = false,
+        val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val textError: StringDesc? = null,
         val loading: Boolean = false,
         val section: CreatePostSection = CreatePostSection.Edit,

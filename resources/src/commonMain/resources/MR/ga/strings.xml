@@ -216,7 +216,6 @@
     <string name="settings_section_debug">Dífhabhtú</string>
     <string name="settings_section_feed">Poist agus tuairimí</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Suasvótaí/íosvótaí ar leith</string>
     <string name="settings_theme_black">Íon - dubh</string>
     <string name="settings_theme_dark">Dorcha</string>
     <string name="settings_theme_light">Solas</string>
@@ -256,4 +255,8 @@
     </string>
     <string name="mod_action_add_mod">Modhnóir a chur leis</string>
     <string name="mod_action_remove_mod">Bain modhnóir</string>
+    <string name="settings_vote_format">Formáid vóta</string>
+    <string name="settings_vote_format_aggregated">Comhiomlán</string>
+    <string name="settings_vote_format_separated">Scartha</string>
+    <string name="settings_vote_format_percentage">Céatadán</string>
 </resources>

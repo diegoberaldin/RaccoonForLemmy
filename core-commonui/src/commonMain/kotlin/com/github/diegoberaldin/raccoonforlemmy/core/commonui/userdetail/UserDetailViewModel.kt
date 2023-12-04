@@ -69,7 +69,7 @@ class UserDetailViewModel(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
                         sortType = settings.defaultPostSortType.toSortType(),
-                        separateUpAndDownVotes = settings.separateUpAndDownVotes,
+                        voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
                     )

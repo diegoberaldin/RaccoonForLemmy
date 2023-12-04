@@ -210,7 +210,6 @@
     <string name="settings_section_debug">Derinti</string>
     <string name="settings_section_feed">Įrašai ir komentarai</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Atskiri balsai už/ prieš</string>
     <string name="settings_theme_black">Tamsus (AMOLED)</string>
     <string name="settings_theme_dark">Tamsus</string>
     <string name="settings_theme_light">Šviesiai</string>
@@ -249,4 +248,8 @@
     <string name="settings_default_inbox_type">Numatytasis gautųjų tipas</string>
     <string name="mod_action_add_mod">Pridėti moderatorių</string>
     <string name="mod_action_remove_mod">Pašalinti moderatorių</string>
+    <string name="settings_vote_format">Balsavimo formatas</string>
+    <string name="settings_vote_format_aggregated">Suvestinė</string>
+    <string name="settings_vote_format_separated">Atskirai</string>
+    <string name="settings_vote_format_percentage">Procentas</string>
 </resources>

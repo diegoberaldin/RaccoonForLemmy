@@ -299,7 +299,7 @@ class MultiCommunityScreen(
                                     post = post,
                                     postLayout = uiState.postLayout,
                                     fullHeightImage = uiState.fullHeightImages,
-                                    separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                    voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = {

@@ -30,10 +30,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.formatToReadableValue
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -45,7 +45,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 @Composable
 fun PostCardFooter(
     modifier: Modifier = Modifier,
-    separateUpAndDownVotes: Boolean = false,
+    voteFormat: VoteFormat = VoteFormat.Aggregated,
     comments: Int? = null,
     date: String? = null,
     score: Int = 0,
@@ -162,45 +162,16 @@ fun PostCardFooter(
                 ),
             )
             Text(
-                text = buildAnnotatedString {
-                    if (separateUpAndDownVotes) {
-                        val upvoteText = upvotes.toString()
-                        append(upvoteText)
-                        if (upVoted) {
-                            addStyle(
-                                style = SpanStyle(color = upvoteColor ?: defaultUpvoteColor),
-                                start = 0,
-                                end = upvoteText.length
-                            )
-                        }
-                        append(" / ")
-                        val downvoteText = downvotes.toString()
-                        append(downvoteText)
-                        if (downVoted) {
-                            addStyle(
-                                style = SpanStyle(color = downvoteColor ?: defaultDownVoteColor),
-                                start = upvoteText.length + 3,
-                                end = upvoteText.length + 3 + downvoteText.length
-                            )
-                        }
-                    } else {
-                        val text = score.toString()
-                        append(text)
-                        if (upVoted) {
-                            addStyle(
-                                style = SpanStyle(color = upvoteColor ?: defaultUpvoteColor),
-                                start = 0,
-                                end = text.length
-                            )
-                        } else if (downVoted) {
-                            addStyle(
-                                style = SpanStyle(color = downvoteColor ?: defaultDownVoteColor),
-                                start = 0,
-                                end = length
-                            )
-                        }
-                    }
-                },
+                text = formatToReadableValue(
+                    voteFormat = voteFormat,
+                    score = score,
+                    upvotes = upvotes,
+                    downvotes = downvotes,
+                    upvoteColor = upvoteColor ?: defaultUpvoteColor,
+                    downvoteColor = downvoteColor ?: defaultDownVoteColor,
+                    upVoted = upVoted,
+                    downVoted = downVoted,
+                ),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )

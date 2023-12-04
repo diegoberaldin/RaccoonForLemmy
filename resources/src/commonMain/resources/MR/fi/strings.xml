@@ -209,7 +209,6 @@
     <string name="settings_section_debug">Testaa</string>
     <string name="settings_section_feed">Julkaisut ja kommentit</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Erilliset ylä-/ alaäänet</string>
     <string name="settings_theme_black">Tumma (AMOLED)</string>
     <string name="settings_theme_dark">Tumma</string>
     <string name="settings_theme_light">Valo</string>
@@ -247,4 +246,8 @@
     <string name="settings_default_inbox_type">Oletuspostilaatikon tyyppi</string>
     <string name="mod_action_add_mod">Lisää moderaattori</string>
     <string name="mod_action_remove_mod">Poista moderaattori</string>
+    <string name="settings_vote_format">Äänestysmuoto</string>
+    <string name="settings_vote_format_aggregated">Aggregaatti</string>
+    <string name="settings_vote_format_separated">Erillinen</string>
+    <string name="settings_vote_format_percentage">Prosenttiosuus</string>
 </resources>

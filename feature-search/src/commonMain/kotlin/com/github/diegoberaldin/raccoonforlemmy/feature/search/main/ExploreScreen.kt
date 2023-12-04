@@ -352,7 +352,7 @@ class ExploreScreen : Screen {
                                                 post = result.model,
                                                 postLayout = uiState.postLayout,
                                                 fullHeightImage = uiState.fullHeightImages,
-                                                separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                                voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
                                                 blurNsfw = uiState.blurNsfw,
                                                 onClick = rememberCallback {
@@ -482,7 +482,7 @@ class ExploreScreen : Screen {
                                             CommentCard(
                                                 modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                                 comment = result.model,
-                                                separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                                voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
                                                 hideIndent = true,
                                                 onClick = rememberCallback {

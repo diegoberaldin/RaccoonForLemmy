@@ -72,7 +72,7 @@ class ExploreViewModel(
                 mvi.updateState {
                     it.copy(
                         blurNsfw = settings.blurNsfw,
-                        separateUpAndDownVotes = settings.separateUpAndDownVotes,
+                        voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
                         swipeActionsEnabled = settings.enableSwipeActions,

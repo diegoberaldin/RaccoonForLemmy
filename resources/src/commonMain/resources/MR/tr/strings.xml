@@ -210,7 +210,6 @@
     <string name="settings_section_debug">Hata ayıklama</string>
     <string name="settings_section_feed">Gönderiler ve yorumlar</string>
     <string name="settings_section_nsfw">Sakıncalı İçerik</string>
-    <string name="settings_separate_up_and_downvotes">Ayrı artı /eksi oylar</string>
     <string name="settings_theme_black">Saf siyah</string>
     <string name="settings_theme_dark">Karanlık</string>
     <string name="settings_theme_light">Işık</string>
@@ -250,4 +249,8 @@
     <string name="settings_default_inbox_type">Varsayılan gelen kutusu türü</string>
     <string name="mod_action_add_mod">Moderatör ekleyin</string>
     <string name="mod_action_remove_mod">Moderatörü kaldır</string>
+    <string name="settings_vote_format">Oy formatı</string>
+    <string name="settings_vote_format_aggregated">Agrega</string>
+    <string name="settings_vote_format_separated">Ayırmak</string>
+    <string name="settings_vote_format_percentage">Yüzde</string>
 </resources>

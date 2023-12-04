@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -38,7 +39,7 @@ interface ProfileLoggedMviModel :
         val comments: List<CommentModel> = emptyList(),
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
-        val separateUpAndDownVotes: Boolean = false,
+        val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
     )
 

@@ -72,7 +72,7 @@ class CommunityDetailViewModel(
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
                         sortType = settings.defaultPostSortType.toSortType(),
                         fullHeightImages = settings.fullHeightImages,
-                        separateUpAndDownVotes = settings.separateUpAndDownVotes,
+                        voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                     )
                 }

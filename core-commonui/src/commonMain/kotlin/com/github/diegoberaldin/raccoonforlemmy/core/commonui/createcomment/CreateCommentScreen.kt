@@ -286,7 +286,7 @@ class CreateCommentScreen(
                                 modifier = referenceModifier,
                                 comment = originalComment,
                                 hideIndent = true,
-                                separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                voteFormat = uiState.voteFormat,
                                 autoLoadImages = uiState.autoLoadImages,
                                 options = buildList {
                                     add(
@@ -313,7 +313,7 @@ class CreateCommentScreen(
                                 post = originalPost,
                                 limitBodyHeight = true,
                                 blurNsfw = false,
-                                separateUpAndDownVotes = uiState.separateUpAndDownVotes,
+                                voteFormat = uiState.voteFormat,
                                 autoLoadImages = uiState.autoLoadImages,
                                 options = buildList {
                                     add(

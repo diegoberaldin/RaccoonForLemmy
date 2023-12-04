@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -37,7 +38,7 @@ interface SettingsMviModel :
         data class ChangeUpvoteColor(val value: Color?) : Intent
         data class ChangeDownvoteColor(val value: Color?) : Intent
         data class ChangeCrashReportEnabled(val value: Boolean) : Intent
-        data class ChangeSeparateUpAndDownVotes(val value: Boolean) : Intent
+        data class ChangeVoteFormat(val value: VoteFormat) : Intent
         data class ChangeAutoLoadImages(val value: Boolean) : Intent
         data class ChangeAutoExpandComments(val value: Boolean) : Intent
         data class ChangeFullHeightImages(val value: Boolean) : Intent
@@ -72,7 +73,7 @@ interface SettingsMviModel :
         val enableSwipeActions: Boolean = true,
         val enableDoubleTapAction: Boolean = true,
         val crashReportEnabled: Boolean = false,
-        val separateUpAndDownVotes: Boolean = false,
+        val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = false,
         val autoExpandComments: Boolean = false,
         val fullHeightImages: Boolean = false,

@@ -59,6 +59,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutB
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -201,6 +202,10 @@ class SettingsScreen : Screen {
             notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
                 .onEach { evt ->
                     model.reduce(SettingsMviModel.Intent.ChangeDefaultInboxUnreadOnly(evt.unreadOnly))
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeVoteFormat::class)
+                .onEach { evt ->
+                    model.reduce(SettingsMviModel.Intent.ChangeVoteFormat(evt.value))
                 }.launchIn(this)
         }
 
@@ -366,16 +371,13 @@ class SettingsScreen : Screen {
                         },
                     )
 
-                    // separate upvotes and downvotes
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_separate_up_and_downvotes),
-                        value = uiState.separateUpAndDownVotes,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeSeparateUpAndDownVotes(
-                                    value
-                                )
-                            )
+                    // vote format
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_vote_format),
+                        value = uiState.voteFormat.toReadableName(),
+                        onTap = {
+                            val sheet = VoteFormatBottomSheet()
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 

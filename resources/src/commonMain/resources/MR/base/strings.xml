@@ -238,7 +238,6 @@
     <string name="settings_section_debug">Debug</string>
     <string name="settings_section_feed">Posts and comments</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_separate_up_and_downvotes">Separate upvotes / downvotes</string>
     <string name="settings_theme_black">Pure black</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_light">Light</string>
@@ -274,4 +273,8 @@
     <string name="settings_default_inbox_type">Default inbox type</string>
     <string name="mod_action_add_mod">Add moderator</string>
     <string name="mod_action_remove_mod">Remove moderator</string>
+    <string name="settings_vote_format">Vote format</string>
+    <string name="settings_vote_format_aggregated">Aggregate</string>
+    <string name="settings_vote_format_separated">Separate</string>
+    <string name="settings_vote_format_percentage">Percentage</string>
 </resources>

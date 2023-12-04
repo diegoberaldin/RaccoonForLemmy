@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -29,7 +30,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentR
 fun CollapsedCommentCard(
     comment: CommentModel,
     modifier: Modifier = Modifier,
-    separateUpAndDownVotes: Boolean = false,
+    voteFormat: VoteFormat = VoteFormat.Aggregated,
     autoLoadImages: Boolean = true,
     options: List<Option> = emptyList(),
     onOpenCreator: ((UserModel) -> Unit)? = null,
@@ -81,7 +82,7 @@ fun CollapsedCommentCard(
                 PostCardFooter(
                     modifier = Modifier.padding(top = Spacing.xs),
                     score = comment.score,
-                    separateUpAndDownVotes = separateUpAndDownVotes,
+                    voteFormat = voteFormat,
                     upvotes = comment.upvotes,
                     downvotes = comment.downvotes,
                     saved = comment.saved,
