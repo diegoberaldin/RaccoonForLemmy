@@ -10,7 +10,7 @@ enum class UiFontFamily {
     EBGaramond,
     NotoSans,
     CharisSIL,
-    ComicNeue,
+    AveriaSansLibre,
     Poppins,
     Default,
 }
@@ -18,7 +18,7 @@ enum class UiFontFamily {
 fun Int.toUiFontFamily() = when (this) {
     7 -> UiFontFamily.Default
     6 -> UiFontFamily.TitilliumWeb
-    5 -> UiFontFamily.ComicNeue
+    5 -> UiFontFamily.AveriaSansLibre
     4 -> UiFontFamily.CharisSIL
     3 -> UiFontFamily.NotoSans
     2 -> UiFontFamily.EBGaramond
@@ -28,7 +28,7 @@ fun Int.toUiFontFamily() = when (this) {
 
 fun UiFontFamily.toInt() = when (this) {
     UiFontFamily.Poppins -> 0
-    UiFontFamily.ComicNeue -> 5
+    UiFontFamily.AveriaSansLibre -> 5
     UiFontFamily.CharisSIL -> 4
     UiFontFamily.NotoSans -> 3
     UiFontFamily.EBGaramond -> 2
@@ -41,7 +41,7 @@ fun UiFontFamily.toInt() = when (this) {
 fun UiFontFamily.toReadableName() = when (this) {
     UiFontFamily.Default -> stringResource(MR.strings.settings_font_family_default)
     UiFontFamily.Poppins -> "Poppins"
-    UiFontFamily.ComicNeue -> "Comic Neue"
+    UiFontFamily.AveriaSansLibre -> "Averia Sans Libre"
     UiFontFamily.CharisSIL -> "Charis SIL"
     UiFontFamily.NotoSans -> "Noto Sans"
     UiFontFamily.EBGaramond -> "EB Garamond"
