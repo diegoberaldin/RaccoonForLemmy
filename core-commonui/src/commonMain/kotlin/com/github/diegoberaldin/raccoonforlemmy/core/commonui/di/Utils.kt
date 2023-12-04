@@ -10,11 +10,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FabNest
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.DrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
@@ -27,10 +25,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import org.koin.core.module.Module
 
 expect val imagePreloadModule: Module
-
-expect fun getNavigationCoordinator(): NavigationCoordinator
-
-expect fun getDrawerCoordinator(): DrawerCoordinator
 
 expect fun getFabNestedScrollConnection(): FabNestedScrollConnection
 

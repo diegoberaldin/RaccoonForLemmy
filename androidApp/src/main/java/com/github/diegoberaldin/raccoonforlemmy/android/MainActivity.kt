@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.github.diegoberaldin.raccoonforlemmy.MainView
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 

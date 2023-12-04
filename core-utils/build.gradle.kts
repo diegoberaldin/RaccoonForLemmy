@@ -26,14 +26,6 @@ kotlin {
     }
 
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.androidx.activity.compose)
-                implementation(libs.androidx.activity)
-                implementation(libs.ktor.android)
-                implementation(libs.firebase.crashlytics)
-            }
-        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -54,6 +46,15 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                dependsOn(commonMain)
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.androidx.activity)
+                implementation(libs.ktor.android)
+                implementation(libs.firebase.crashlytics)
             }
         }
     }

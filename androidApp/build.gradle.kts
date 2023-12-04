@@ -58,5 +58,5 @@ dependencies {
 
     implementation(projects.shared)
     implementation(projects.coreUtils)
-    implementation(projects.coreCommonui)
+    implementation(projects.coreNavigation)
 }

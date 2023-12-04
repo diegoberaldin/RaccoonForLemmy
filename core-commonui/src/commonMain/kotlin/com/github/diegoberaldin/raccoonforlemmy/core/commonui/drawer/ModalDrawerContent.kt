@@ -62,8 +62,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Communi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.MultiCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getModalDrawerViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel

@@ -45,6 +45,7 @@ kotlin {
                 implementation(projects.resources)
                 implementation(projects.coreArchitecture)
                 implementation(projects.coreAppearance)
+                implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreUtils)

@@ -55,8 +55,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCreateCommentViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper

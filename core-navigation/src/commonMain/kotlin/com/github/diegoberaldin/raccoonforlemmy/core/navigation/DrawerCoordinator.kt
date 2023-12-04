@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer
+package com.github.diegoberaldin.raccoonforlemmy.core.navigation
 
 import androidx.compose.runtime.Stable
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel

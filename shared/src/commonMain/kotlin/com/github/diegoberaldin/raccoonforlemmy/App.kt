@@ -38,13 +38,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getPostFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getUserFromUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getDrawerCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.getCrashReportConfiguration

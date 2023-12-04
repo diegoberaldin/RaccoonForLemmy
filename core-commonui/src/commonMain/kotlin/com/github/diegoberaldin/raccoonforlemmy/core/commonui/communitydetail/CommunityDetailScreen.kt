@@ -91,7 +91,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreateP
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
@@ -100,6 +99,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository

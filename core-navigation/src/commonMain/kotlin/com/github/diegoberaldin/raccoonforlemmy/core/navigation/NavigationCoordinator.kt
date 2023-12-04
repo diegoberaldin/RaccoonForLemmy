@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation
+package com.github.diegoberaldin.raccoonforlemmy.core.utils.navigation
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection

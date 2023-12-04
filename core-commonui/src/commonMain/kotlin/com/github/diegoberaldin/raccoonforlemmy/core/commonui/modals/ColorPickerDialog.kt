@@ -150,7 +150,7 @@ fun ColorPickerDialog(
                 if (onReset != null) {
                     Button(
                         onClick = {
-                            onReset?.invoke()
+                            onReset.invoke()
                         },
                     ) {
                         Text(text = stringResource(MR.strings.button_reset))

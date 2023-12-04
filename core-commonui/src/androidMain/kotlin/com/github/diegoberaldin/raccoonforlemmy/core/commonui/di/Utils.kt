@@ -13,12 +13,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FabNest
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.DrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
@@ -38,16 +36,6 @@ actual val imagePreloadModule = module {
             context = get(),
         )
     }
-}
-
-actual fun getNavigationCoordinator(): NavigationCoordinator {
-    val res: NavigationCoordinator by inject(NavigationCoordinator::class.java)
-    return res
-}
-
-actual fun getDrawerCoordinator(): DrawerCoordinator {
-    val res: DrawerCoordinator by inject(DrawerCoordinator::class.java)
-    return res
 }
 
 actual fun getFabNestedScrollConnection(): FabNestedScrollConnection {

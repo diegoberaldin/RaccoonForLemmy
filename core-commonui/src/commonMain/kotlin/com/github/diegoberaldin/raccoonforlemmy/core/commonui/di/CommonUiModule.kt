@@ -17,16 +17,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreateP
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.DefaultDrawerCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.DrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.DefaultNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
@@ -39,6 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.Se
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import org.koin.dsl.module
 
@@ -46,14 +43,9 @@ val commonUiModule = module {
     includes(
         utilsModule,
         imagePreloadModule,
+        navigationModule,
     )
 
-    single<NavigationCoordinator> {
-        DefaultNavigationCoordinator()
-    }
-    single<DrawerCoordinator> {
-        DefaultDrawerCoordinator()
-    }
     factory<FabNestedScrollConnection> {
         DefaultFabNestedScrollConnection()
     }

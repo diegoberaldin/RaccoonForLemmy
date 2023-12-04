@@ -47,6 +47,7 @@ kotlin {
                 implementation(projects.corePreferences)
                 implementation(projects.coreApi)
                 implementation(projects.coreMd)
+                implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui)
                 implementation(projects.coreNotifications)
                 implementation(projects.corePersistence)

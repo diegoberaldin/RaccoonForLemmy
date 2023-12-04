@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.navigation
+package com.github.diegoberaldin.raccoonforlemmy.core.utils.navigation
 
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import cafe.adriel.voyager.core.screen.Screen
@@ -14,11 +14,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-
-private const val NAVIGATION_DELAY = 100L
-private const val BOTTOM_NAVIGATION_DELAY = 100L
-private const val DEEP_LINK_DELAY = 500L
-
 internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override val onDoubleTabSelection = MutableSharedFlow<Tab>()
@@ -33,6 +28,12 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     private val scope = CoroutineScope(SupervisorJob())
     private var canGoBackCallback: (() -> Boolean)? = null
     private var job: Job? = null
+
+    companion object {
+        private const val NAVIGATION_DELAY = 100L
+        private const val BOTTOM_NAVIGATION_DELAY = 100L
+        private const val DEEP_LINK_DELAY = 500L
+    }
 
     override fun setRootNavigator(value: Navigator?) {
         navigator = value
