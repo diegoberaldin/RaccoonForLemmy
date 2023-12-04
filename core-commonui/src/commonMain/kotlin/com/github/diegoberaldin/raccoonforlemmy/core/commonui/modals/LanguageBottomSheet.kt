@@ -77,6 +77,7 @@ class LanguageBottomSheet : Screen {
                     "pl",
                     "pt",
                     "ro",
+                    "ru",
                     "sk",
                     "sl",
                     "sq",
