@@ -17,9 +17,9 @@ class SiteRepository(
             authHeader = auth.toAuthHeader(),
         ).body()
         dto?.myUser?.let {
-            val user = it.localUserView.person
-            val counts = it.localUserView.counts
-            user.toModel().copy(score = counts.toModel())
+            val user = it.localUserView?.person
+            val counts = it.localUserView?.counts
+            user?.toModel()?.copy(score = counts?.toModel())
         }
     }.getOrNull()
 

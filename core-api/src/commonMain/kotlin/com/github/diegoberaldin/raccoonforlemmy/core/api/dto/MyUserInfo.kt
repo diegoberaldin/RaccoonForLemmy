@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MyUserInfo(
-    @SerialName("local_user_view") val localUserView: LocalUserView,
-    @SerialName("follows") val follows: List<CommunityFollowerView>,
-    @SerialName("moderates") val moderates: List<CommunityModeratorView>,
-    @SerialName("community_blocks") val communityBlocks: List<CommunityBlockView>,
-    @SerialName("person_blocks") val personBlocks: List<PersonBlockView>,
-    @SerialName("discussion_languages") val discussionLanguages: List<LanguageId>,
+    @SerialName("local_user_view") val localUserView: LocalUserView? = null,
+    @SerialName("follows") val follows: List<CommunityFollowerView> = emptyList(),
+    @SerialName("moderates") val moderates: List<CommunityModeratorView> = emptyList(),
+    @SerialName("community_blocks") val communityBlocks: List<CommunityBlockView> = emptyList(),
+    @SerialName("person_blocks") val personBlocks: List<PersonBlockView> = emptyList(),
+    @SerialName("discussion_languages") val discussionLanguages: List<LanguageId> = emptyList(),
 )
