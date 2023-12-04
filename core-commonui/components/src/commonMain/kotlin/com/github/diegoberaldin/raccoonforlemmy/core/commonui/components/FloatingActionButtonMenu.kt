@@ -116,16 +116,18 @@ fun FloatingActionButtonMenu(
                                 ),
                             text = item.text,
                             style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                         Icon(
                             modifier = Modifier
                                 .size(IconSize.m)
                                 .background(
-                                    color = MaterialTheme.colorScheme.secondary,
+                                    color = MaterialTheme.colorScheme.primaryContainer,
                                     shape = CircleShape
                                 ).padding(6.dp),
                             imageVector = item.icon,
                             contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                 }
@@ -134,7 +136,8 @@ fun FloatingActionButtonMenu(
         }
         FloatingActionButton(
             shape = CircleShape,
-            backgroundColor = MaterialTheme.colorScheme.secondary,
+            backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = {
                 fabExpanded = !fabExpanded
             },
