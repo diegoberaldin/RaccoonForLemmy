@@ -248,4 +248,5 @@
     <string name="settings_vote_format_aggregated">إجمالي</string>
     <string name="settings_vote_format_separated">متفرق</string>
     <string name="settings_vote_format_percentage">نسبة مئوية</string>
+    <string name="settings_font_family_default">نظام</string>
 </resources>

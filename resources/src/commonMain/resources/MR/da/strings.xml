@@ -250,4 +250,5 @@
     <string name="settings_vote_format_aggregated">Samlet</string>
     <string name="settings_vote_format_separated">Adskille</string>
     <string name="settings_vote_format_percentage">Procent</string>
+    <string name="settings_font_family_default">System</string>
 </resources>

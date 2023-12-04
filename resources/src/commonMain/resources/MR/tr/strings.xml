@@ -253,4 +253,5 @@
     <string name="settings_vote_format_aggregated">Agrega</string>
     <string name="settings_vote_format_separated">Ayırmak</string>
     <string name="settings_vote_format_percentage">Yüzde</string>
+    <string name="settings_font_family_default">Sistem</string>
 </resources>

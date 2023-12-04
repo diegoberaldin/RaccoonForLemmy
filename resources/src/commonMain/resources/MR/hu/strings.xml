@@ -254,4 +254,5 @@
     <string name="settings_vote_format_aggregated">Összesített</string>
     <string name="settings_vote_format_separated">Különálló</string>
     <string name="settings_vote_format_percentage">Százalék</string>
+    <string name="settings_font_family_default">Rendszer</string>
 </resources>

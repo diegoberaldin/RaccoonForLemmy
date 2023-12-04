@@ -252,4 +252,5 @@
     <string name="settings_vote_format_aggregated">Agregátne</string>
     <string name="settings_vote_format_separated">Samostatné</string>
     <string name="settings_vote_format_percentage">Percento</string>
+    <string name="settings_font_family_default">Systém</string>
 </resources>

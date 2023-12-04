@@ -250,4 +250,5 @@
     <string name="settings_vote_format_aggregated">Agregat</string>
     <string name="settings_vote_format_separated">Ločeno</string>
     <string name="settings_vote_format_percentage">Odstotek</string>
+    <string name="settings_font_family_default">Sistem</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import dev.icerock.moko.resources.compose.stringResource
 
 enum class UiFontFamily {
     TitilliumWeb,
@@ -10,9 +12,11 @@ enum class UiFontFamily {
     CharisSIL,
     ComicNeue,
     Poppins,
+    Default,
 }
 
 fun Int.toUiFontFamily() = when (this) {
+    7 -> UiFontFamily.Default
     6 -> UiFontFamily.TitilliumWeb
     5 -> UiFontFamily.ComicNeue
     4 -> UiFontFamily.CharisSIL
@@ -30,10 +34,12 @@ fun UiFontFamily.toInt() = when (this) {
     UiFontFamily.EBGaramond -> 2
     UiFontFamily.Dosis -> 1
     UiFontFamily.TitilliumWeb -> 6
+    UiFontFamily.Default -> 7
 }
 
 @Composable
 fun UiFontFamily.toReadableName() = when (this) {
+    UiFontFamily.Default -> stringResource(MR.strings.settings_font_family_default)
     UiFontFamily.Poppins -> "Poppins"
     UiFontFamily.ComicNeue -> "Comic Neue"
     UiFontFamily.CharisSIL -> "Charis SIL"

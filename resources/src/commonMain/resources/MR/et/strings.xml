@@ -250,4 +250,5 @@
     <string name="settings_vote_format_aggregated">Agregaat</string>
     <string name="settings_vote_format_separated">Eraldi</string>
     <string name="settings_vote_format_percentage">Protsent</string>
+    <string name="settings_font_family_default">Süsteem</string>
 </resources>

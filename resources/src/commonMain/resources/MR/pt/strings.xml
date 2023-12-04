@@ -252,4 +252,5 @@
     <string name="settings_vote_format_aggregated">Agregado</string>
     <string name="settings_vote_format_separated">Separado</string>
     <string name="settings_vote_format_percentage">Percentagem</string>
+    <string name="settings_font_family_default">Sistema</string>
 </resources>

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
@@ -36,6 +37,7 @@ class FontFamilyBottomSheet(
         UiFontFamily.CharisSIL,
         UiFontFamily.EBGaramond,
         UiFontFamily.ComicNeue,
+        UiFontFamily.Default,
     ),
 ) : Screen {
 
@@ -90,7 +92,8 @@ class FontFamilyBottomSheet(
                                 UiFontFamily.Dosis -> fontFamilyResource(MR.fonts.Dosis.regular)
                                 UiFontFamily.ComicNeue -> fontFamilyResource(MR.fonts.ComicNeue.regular)
                                 UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
-                                else -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
+                                UiFontFamily.TitilliumWeb -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
+                                else -> FontFamily.Default
                             }
                             Text(
                                 text = value.toReadableName(),

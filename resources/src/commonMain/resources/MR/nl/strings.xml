@@ -253,4 +253,5 @@
     <string name="settings_vote_format_aggregated">Totaal</string>
     <string name="settings_vote_format_separated">Verschillend</string>
     <string name="settings_vote_format_percentage">Percentage</string>
+    <string name="settings_font_family_default">Systeem</string>
 </resources>

@@ -252,4 +252,5 @@
     <string name="settings_vote_format_aggregated">Samlet</string>
     <string name="settings_vote_format_separated">Skille</string>
     <string name="settings_vote_format_percentage">Prosentdel</string>
+    <string name="settings_font_family_default">System</string>
 </resources>

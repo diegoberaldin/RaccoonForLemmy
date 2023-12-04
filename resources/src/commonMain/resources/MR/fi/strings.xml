@@ -250,4 +250,5 @@
     <string name="settings_vote_format_aggregated">Aggregaatti</string>
     <string name="settings_vote_format_separated">Erillinen</string>
     <string name="settings_vote_format_percentage">Prosenttiosuus</string>
+    <string name="settings_font_family_default">Järjestelmä</string>
 </resources>

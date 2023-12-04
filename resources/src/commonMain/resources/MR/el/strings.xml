@@ -259,4 +259,5 @@
     <string name="settings_vote_format_aggregated">Σύνολο</string>
     <string name="settings_vote_format_separated">Ξεχωριστό</string>
     <string name="settings_vote_format_percentage">Ποσοστό</string>
+    <string name="settings_font_family_default">Σύστημα</string>
 </resources>
