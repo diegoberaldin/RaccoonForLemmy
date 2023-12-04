@@ -84,6 +84,7 @@ class LanguageBottomSheet : Screen {
                     "fi",
                     "se",
                     "tr",
+                    "uk",
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),

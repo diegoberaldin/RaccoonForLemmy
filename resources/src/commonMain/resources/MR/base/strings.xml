@@ -128,6 +128,7 @@
     <string name="language_sl" translatable="false">Slovenščina</string>
     <string name="language_sq" translatable="false">Shqip</string>
     <string name="language_tr" translatable="false">Türkçe</string>
+    <string name="language_uk" translatable="false">Українська</string>
     <string name="login_field_instance_name">Instance name</string>
     <string name="login_field_label_optional">(optional)</string>
     <string name="login_field_password">Password</string>

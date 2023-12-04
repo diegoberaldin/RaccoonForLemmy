@@ -44,6 +44,7 @@ fun String.toLanguageName() = when (this) {
     "sl" -> stringResource(MR.strings.language_sl)
     "sq" -> stringResource(MR.strings.language_sq)
     "tr" -> stringResource(MR.strings.language_tr)
+    "uk" -> stringResource(MR.strings.language_uk)
     else -> stringResource(MR.strings.language_en)
 }
 
@@ -79,6 +80,7 @@ fun String.toLanguageFlag(): AnnotatedString = when (this) {
     "sl" -> "🇸🇮"
     "sq" -> "🇦🇱"
     "tr" -> "🇹🇷"
+    "uk" -> "🇺🇦"
     else -> ""
 }.let {
     AnnotatedString(
