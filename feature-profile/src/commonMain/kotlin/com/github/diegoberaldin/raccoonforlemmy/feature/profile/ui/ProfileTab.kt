@@ -10,21 +10,24 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainScreen
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
+import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
+import dev.icerock.moko.resources.desc.desc
 
 object ProfileTab : Tab {
 
     override val options: TabOptions
         @Composable get() {
             val icon = rememberVectorPainter(Icons.Default.AccountCircle)
-            val apiConfigurationRepository = remember { getApiConfigurationRepository() }
-            val instance by apiConfigurationRepository.instance.collectAsState("")
-
-            return remember(instance) {
+            val languageRepository = remember { getLanguageRepository() }
+            val lang by languageRepository.currentLanguage.collectAsState()
+            return remember(lang) {
+                val title = staticString(MR.strings.navigation_profile.desc())
                 TabOptions(
                     index = 2u,
-                    title = instance,
+                    title = title,
                     icon = icon,
                 )
             }
