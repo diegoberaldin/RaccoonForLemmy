@@ -9,8 +9,9 @@ class DefaultCrashReportConfiguration(
         const val KEY = "crashReportEnabled"
     }
 
-    override fun isEnabled(): Boolean =
-        NSUserDefaults.standardUserDefaults.boolForKey(KEY)
+    override fun isEnabled(): Boolean {
+        return NSUserDefaults.standardUserDefaults.boolForKey(KEY)
+    }
 
     override fun setEnabled(value: Boolean) {
         NSUserDefaults.standardUserDefaults.setBool(value, KEY)
