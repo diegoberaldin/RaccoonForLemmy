@@ -100,13 +100,15 @@ class PostDetailViewModel(
         }
 
         mvi.scope?.launch(Dispatchers.IO) {
+            identityRepository.isLogged.onEach { logged ->
+                mvi.updateState { it.copy(isLogged = logged ?: false) }
+            }.launchIn(this)
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
                 mvi.updateState {
                     it.copy(
                         currentUserId = user?.id ?: 0,
-                        isLogged = auth.isNotEmpty(),
                     )
                 }
             }

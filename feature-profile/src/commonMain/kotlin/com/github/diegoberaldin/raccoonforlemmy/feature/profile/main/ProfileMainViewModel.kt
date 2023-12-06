@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LogoutUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ProfileMainViewModel(
@@ -20,7 +19,7 @@ class ProfileMainViewModel(
         mvi.onStarted()
 
         mvi.scope?.launch {
-            identityRepository.isLogged.stateIn(this).onEach { logged ->
+            identityRepository.isLogged.onEach { logged ->
                 mvi.updateState { it.copy(logged = logged) }
             }.launchIn(this)
         }

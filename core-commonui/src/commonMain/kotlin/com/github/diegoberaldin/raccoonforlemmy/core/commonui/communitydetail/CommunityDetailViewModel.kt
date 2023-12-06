@@ -51,17 +51,18 @@ class CommunityDetailViewModel(
     override fun onStarted() {
         mvi.onStarted()
 
-        val auth = identityRepository.authToken.value.orEmpty()
         mvi.updateState {
             it.copy(
                 community = it.community.takeIf { c -> c.id != 0 } ?: community,
-                isLogged = auth.isNotEmpty(),
             )
         }
 
         mvi.scope?.launch(Dispatchers.IO) {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
+            }.launchIn(this)
+            identityRepository.isLogged.onEach { logged ->
+                mvi.updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
 
             settingsRepository.currentSettings.onEach { settings ->
@@ -119,6 +120,7 @@ class CommunityDetailViewModel(
                 }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
+                val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
                 mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
             }

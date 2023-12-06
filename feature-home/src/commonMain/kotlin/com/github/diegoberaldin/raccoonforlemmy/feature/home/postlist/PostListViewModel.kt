@@ -25,7 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -65,9 +64,9 @@ class PostListViewModel(
                 mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             }.launchIn(this)
 
-            identityRepository.authToken.map { !it.isNullOrEmpty() }.onEach { isLogged ->
+            identityRepository.isLogged.onEach { logged ->
                 mvi.updateState {
-                    it.copy(isLogged = isLogged)
+                    it.copy(isLogged = logged ?: false)
                 }
             }.launchIn(this)
 

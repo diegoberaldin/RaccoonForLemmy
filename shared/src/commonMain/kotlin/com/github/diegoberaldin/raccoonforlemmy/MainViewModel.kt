@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -25,7 +24,7 @@ class MainViewModel(
 
         mvi.scope?.launch(Dispatchers.IO) {
             launch {
-                identityRepository.isLogged.stateIn(this).onEach { logged ->
+                identityRepository.isLogged.onEach { logged ->
                     val unreadCount = if (logged == true) {
                         val auth = identityRepository.authToken.value
                         val mentionCount =

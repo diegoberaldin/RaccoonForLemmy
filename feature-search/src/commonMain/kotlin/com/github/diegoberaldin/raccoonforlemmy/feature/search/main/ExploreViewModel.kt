@@ -28,7 +28,6 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -60,9 +59,9 @@ class ExploreViewModel(
             )
         }
         mvi.scope?.launch(Dispatchers.Main) {
-            identityRepository.authToken.map { !it.isNullOrEmpty() }.onEach { isLogged ->
+            identityRepository.isLogged.onEach { isLogged ->
                 mvi.updateState {
-                    it.copy(isLogged = isLogged)
+                    it.copy(isLogged = isLogged ?: false)
                 }
             }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->

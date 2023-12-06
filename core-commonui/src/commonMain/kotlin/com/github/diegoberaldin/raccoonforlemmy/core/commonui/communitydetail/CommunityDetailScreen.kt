@@ -432,8 +432,6 @@ class CommunityDetailScreen(
                                         }
                                     },
                                 )
-                            }
-                            if (uiState.isLogged && !isOnOtherInstance) {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.Create,
                                     text = stringResource(MR.strings.action_create_post),

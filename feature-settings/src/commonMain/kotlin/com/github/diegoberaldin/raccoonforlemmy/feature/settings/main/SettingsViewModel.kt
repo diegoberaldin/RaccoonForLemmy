@@ -86,8 +86,8 @@ class SettingsViewModel(
             languageRepository.currentLanguage.onEach { lang ->
                 mvi.updateState { it.copy(lang = lang) }
             }.launchIn(this)
-            identityRepository.authToken.onEach { auth ->
-                mvi.updateState { it.copy(isLogged = !auth.isNullOrEmpty()) }
+            identityRepository.isLogged.onEach { logged ->
+                mvi.updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
