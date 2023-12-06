@@ -212,15 +212,11 @@ class SavedItemsViewModel(
     }
 
     private fun changeSection(section: SavedItemsSection) {
-        currentPage = 1
         mvi.updateState {
             it.copy(
                 section = section,
-                canFetchMore = true,
-                refreshing = true,
             )
         }
-        loadNextPage()
     }
 
     private fun toggleUpVotePost(

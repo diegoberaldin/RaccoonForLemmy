@@ -82,14 +82,11 @@ class ReportListViewModel(
     }
 
     private fun changeSection(section: ReportListSection) {
-        currentPage = 1
         mvi.updateState {
             it.copy(
                 section = section,
-                canFetchMore = true,
             )
         }
-        refresh(initial = true)
     }
 
     private fun changeUnresolvedOnly(value: Boolean) {

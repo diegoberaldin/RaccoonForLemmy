@@ -196,15 +196,10 @@ class ProfileLoggedViewModel(
     }
 
     private fun changeSection(section: ProfileLoggedSection) {
-        currentPage = 1
         mvi.updateState {
             it.copy(
                 section = section,
             )
-        }
-
-        mvi.scope?.launch(Dispatchers.IO) {
-            refresh(initial = true)
         }
     }
 

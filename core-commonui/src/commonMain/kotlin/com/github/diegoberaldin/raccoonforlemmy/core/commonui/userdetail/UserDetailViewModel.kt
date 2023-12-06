@@ -177,14 +177,11 @@ class UserDetailViewModel(
     }
 
     private fun changeSection(section: UserDetailSection) {
-        currentPage = 1
         mvi.updateState {
             it.copy(
                 section = section,
-                canFetchMore = true,
             )
         }
-        refresh(initial = true)
     }
 
     private fun refresh(initial: Boolean = false) {
