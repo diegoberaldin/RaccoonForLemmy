@@ -240,7 +240,7 @@ class PostListScreen : Screen {
                                     }
                                 },
                             )
-                            if (uiState.currentUserId != null) {
+                            if (uiState.isLogged) {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.ClearAll,
                                     text = stringResource(MR.strings.action_clear_read),

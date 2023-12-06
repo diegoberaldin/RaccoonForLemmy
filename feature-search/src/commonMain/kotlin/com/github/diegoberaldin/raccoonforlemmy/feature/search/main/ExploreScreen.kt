@@ -316,6 +316,14 @@ class ExploreScreen : Screen {
                                     SwipeableCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         enabled = uiState.swipeActionsEnabled,
+                                        directions = if (!uiState.isLogged) {
+                                            emptySet()
+                                        } else {
+                                            setOf(
+                                                DismissDirection.StartToEnd,
+                                                DismissDirection.EndToStart,
+                                            )
+                                        },
                                         backgroundColor = rememberCallbackArgs {
                                             when (it) {
                                                 DismissValue.DismissedToStart -> upvoteColor
@@ -364,12 +372,14 @@ class ExploreScreen : Screen {
                                                     null
                                                 } else {
                                                     rememberCallback(model) {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.UpVotePost(
-                                                                id = result.model.id,
-                                                                feedback = true,
-                                                            ),
-                                                        )
+                                                        if (uiState.isLogged) {
+                                                            model.reduce(
+                                                                ExploreMviModel.Intent.UpVotePost(
+                                                                    id = result.model.id,
+                                                                    feedback = true,
+                                                                ),
+                                                            )
+                                                        }
                                                     }
                                                 },
                                                 onOpenCommunity = rememberCallbackArgs { community ->
@@ -383,34 +393,42 @@ class ExploreScreen : Screen {
                                                     )
                                                 },
                                                 onUpVote = rememberCallback(model) {
-                                                    model.reduce(
-                                                        ExploreMviModel.Intent.UpVotePost(
-                                                            id = result.model.id,
-                                                            feedback = true,
-                                                        ),
-                                                    )
+                                                    if (uiState.isLogged) {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.UpVotePost(
+                                                                id = result.model.id,
+                                                                feedback = true,
+                                                            ),
+                                                        )
+                                                    }
                                                 },
                                                 onDownVote = rememberCallback(model) {
-                                                    model.reduce(
-                                                        ExploreMviModel.Intent.DownVotePost(
-                                                            id = result.model.id,
-                                                            feedback = true,
-                                                        ),
-                                                    )
+                                                    if (uiState.isLogged) {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.DownVotePost(
+                                                                id = result.model.id,
+                                                                feedback = true,
+                                                            ),
+                                                        )
+                                                    }
                                                 },
                                                 onSave = rememberCallback(model) {
-                                                    model.reduce(
-                                                        ExploreMviModel.Intent.SavePost(
-                                                            id = result.model.id,
-                                                            feedback = true,
-                                                        ),
-                                                    )
+                                                    if (uiState.isLogged) {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.SavePost(
+                                                                id = result.model.id,
+                                                                feedback = true,
+                                                            ),
+                                                        )
+                                                    }
                                                 },
                                                 onReply = rememberCallback {
-                                                    val screen = CreateCommentScreen(
-                                                        originalPost = result.model,
-                                                    )
-                                                    navigationCoordinator.showBottomSheet(screen)
+                                                    if (uiState.isLogged) {
+                                                        val screen = CreateCommentScreen(
+                                                            originalPost = result.model,
+                                                        )
+                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    }
                                                 },
                                                 onImageClick = rememberCallbackArgs { url ->
                                                     navigationCoordinator.pushScreen(
@@ -497,6 +515,18 @@ class ExploreScreen : Screen {
                                                     null
                                                 } else {
                                                     rememberCallback(model) {
+                                                        if (uiState.isLogged) {
+                                                            model.reduce(
+                                                                ExploreMviModel.Intent.UpVoteComment(
+                                                                    id = result.model.id,
+                                                                    feedback = true,
+                                                                ),
+                                                            )
+                                                        }
+                                                    }
+                                                },
+                                                onUpVote = rememberCallback(model) {
+                                                    if (uiState.isLogged) {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.UpVoteComment(
                                                                 id = result.model.id,
@@ -505,36 +535,34 @@ class ExploreScreen : Screen {
                                                         )
                                                     }
                                                 },
-                                                onUpVote = rememberCallback(model) {
-                                                    model.reduce(
-                                                        ExploreMviModel.Intent.UpVoteComment(
-                                                            id = result.model.id,
-                                                            feedback = true,
-                                                        ),
-                                                    )
-                                                },
                                                 onDownVote = rememberCallback(model) {
-                                                    model.reduce(
-                                                        ExploreMviModel.Intent.DownVoteComment(
-                                                            id = result.model.id,
-                                                            feedback = true,
-                                                        ),
-                                                    )
+                                                    if (uiState.isLogged) {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.DownVoteComment(
+                                                                id = result.model.id,
+                                                                feedback = true,
+                                                            ),
+                                                        )
+                                                    }
                                                 },
                                                 onSave = rememberCallback(model) {
-                                                    model.reduce(
-                                                        ExploreMviModel.Intent.SaveComment(
-                                                            id = result.model.id,
-                                                            feedback = true,
-                                                        ),
-                                                    )
+                                                    if (uiState.isLogged) {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.SaveComment(
+                                                                id = result.model.id,
+                                                                feedback = true,
+                                                            ),
+                                                        )
+                                                    }
                                                 },
                                                 onReply = rememberCallback {
-                                                    val screen = CreateCommentScreen(
-                                                        originalPost = PostModel(id = result.model.postId),
-                                                        originalComment = result.model,
-                                                    )
-                                                    navigationCoordinator.showBottomSheet(screen)
+                                                    if (uiState.isLogged) {
+                                                        val screen = CreateCommentScreen(
+                                                            originalPost = PostModel(id = result.model.postId),
+                                                            originalComment = result.model,
+                                                        )
+                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    }
                                                 },
                                                 onOpenCommunity = rememberCallbackArgs {
                                                     navigationCoordinator.pushScreen(
