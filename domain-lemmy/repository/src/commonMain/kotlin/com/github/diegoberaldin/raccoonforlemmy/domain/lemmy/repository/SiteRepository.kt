@@ -23,6 +23,13 @@ class SiteRepository(
         }
     }.getOrNull()
 
+    suspend fun getSiteVersion(auth: String): String? = runCatching {
+        val dto = services.site.get(
+            authHeader = auth.toAuthHeader(),
+        ).body()
+        dto?.version.takeIf { !it.isNullOrEmpty() }
+    }.getOrNull()
+
     suspend fun block(id: Int, blocked: Boolean, auth: String? = null): Result<Unit> = runCatching {
         val data = BlockSiteForm(
             instanceId = id,
