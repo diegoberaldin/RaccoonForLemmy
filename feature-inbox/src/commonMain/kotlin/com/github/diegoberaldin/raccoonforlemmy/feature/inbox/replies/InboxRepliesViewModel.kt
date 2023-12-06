@@ -11,7 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
@@ -28,7 +27,6 @@ class InboxRepliesViewModel(
     private val userRepository: UserRepository,
     private val siteRepository: SiteRepository,
     private val commentRepository: CommentRepository,
-    private val messageRepository: PrivateMessageRepository,
     private val themeRepository: ThemeRepository,
     private val hapticFeedback: HapticFeedback,
     private val coordinator: InboxCoordinator,
@@ -302,21 +300,7 @@ class InboxRepliesViewModel(
     }
 
     private suspend fun updateUnreadItems() {
-        val auth = identityRepository.authToken.value
-        val unreadCount = if (!auth.isNullOrEmpty()) {
-            val mentionCount =
-                userRepository.getMentions(auth, page = 1, limit = 50).orEmpty().count()
-            val replyCount =
-                userRepository.getReplies(auth, page = 1, limit = 50).orEmpty().count()
-            val messageCount =
-                messageRepository.getAll(auth, page = 1, limit = 50).orEmpty().groupBy {
-                    listOf(it.creator?.id ?: 0, it.recipient?.id ?: 0).sorted()
-                        .joinToString()
-                }.count()
-            mentionCount + replyCount
-        } else {
-            0
-        }
+        val unreadCount = coordinator.updateUnreadCount()
         mvi.emitEffect(InboxRepliesMviModel.Effect.UpdateUnreadItems(unreadCount))
     }
 

@@ -16,6 +16,9 @@ interface InboxMviModel :
         val isLogged: Boolean? = null,
         val section: InboxSection = InboxSection.Replies,
         val unreadOnly: Boolean = true,
+        val unreadReplies: Int = 0,
+        val unreadMentions: Int = 0,
+        val unreadMessages: Int = 0,
     )
 
     sealed interface Effect {

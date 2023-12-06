@@ -9,7 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +22,6 @@ class InboxMessagesViewModel(
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val messageRepository: PrivateMessageRepository,
-    private val userRepository: UserRepository,
     private val settingsRepository: SettingsRepository,
     private val coordinator: InboxCoordinator,
     private val notificationCenter: NotificationCenter,
@@ -62,6 +60,8 @@ class InboxMessagesViewModel(
                     changeUnreadOnly(value)
                 }
             }
+
+            updateUnreadItems()
         }
     }
 
@@ -149,21 +149,7 @@ class InboxMessagesViewModel(
 
     private fun updateUnreadItems() {
         mvi.scope?.launch(Dispatchers.IO) {
-            val auth = identityRepository.authToken.value
-            val unreadCount = if (!auth.isNullOrEmpty()) {
-                val mentionCount =
-                    userRepository.getMentions(auth, page = 1, limit = 50).orEmpty().count()
-                val replyCount =
-                    userRepository.getReplies(auth, page = 1, limit = 50).orEmpty().count()
-                val messageCount =
-                    messageRepository.getAll(auth, page = 1, limit = 50).orEmpty().groupBy {
-                        listOf(it.creator?.id ?: 0, it.recipient?.id ?: 0).sorted()
-                            .joinToString()
-                    }.count()
-                mentionCount + replyCount + messageCount
-            } else {
-                0
-            }
+            val unreadCount = coordinator.updateUnreadCount()
             mvi.emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
         }
     }

@@ -11,11 +11,23 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.InboxMess
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.InboxMessagesViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies.InboxRepliesMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies.InboxRepliesViewModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.usecase.DefaultGetUnreadItemsUseCase
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.usecase.GetUnreadItemsUseCase
 import org.koin.dsl.module
 
 val inboxTabModule = module {
     single<InboxCoordinator> {
-        DefaultInboxCoordinator()
+        DefaultInboxCoordinator(
+            identityRepository = get(),
+            getUnreadItemsUseCase = get(),
+        )
+    }
+    single<GetUnreadItemsUseCase> {
+        DefaultGetUnreadItemsUseCase(
+            identityRepository = get(),
+            userRepository = get(),
+            messageRepository = get(),
+        )
     }
     factory<InboxMviModel> {
         InboxViewModel(
@@ -24,7 +36,6 @@ val inboxTabModule = module {
             userRepository = get(),
             coordinator = get(),
             settingsRepository = get(),
-            contentResetCoordinator = get(),
         )
     }
     factory<InboxRepliesMviModel> {
@@ -34,7 +45,6 @@ val inboxTabModule = module {
             identityRepository = get(),
             siteRepository = get(),
             commentRepository = get(),
-            messageRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
             hapticFeedback = get(),
@@ -48,7 +58,6 @@ val inboxTabModule = module {
             userRepository = get(),
             identityRepository = get(),
             commentRepository = get(),
-            messageRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
             hapticFeedback = get(),
@@ -64,7 +73,6 @@ val inboxTabModule = module {
             messageRepository = get(),
             coordinator = get(),
             notificationCenter = get(),
-            userRepository = get(),
             settingsRepository = get(),
         )
     }

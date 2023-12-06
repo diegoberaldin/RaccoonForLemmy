@@ -173,9 +173,30 @@ object InboxScreen : Tab {
                         SectionSelector(
                             modifier = Modifier.padding(vertical = Spacing.s),
                             titles = listOf(
-                                stringResource(MR.strings.inbox_section_replies),
-                                stringResource(MR.strings.inbox_section_mentions),
-                                stringResource(MR.strings.inbox_section_messages),
+                                buildString {
+                                    append(stringResource(MR.strings.inbox_section_replies))
+                                    if (uiState.unreadReplies > 0) {
+                                        append(" (")
+                                        append(uiState.unreadReplies)
+                                        append(")")
+                                    }
+                                },
+                                buildString {
+                                    append(stringResource(MR.strings.inbox_section_mentions))
+                                    if (uiState.unreadMentions > 0) {
+                                        append(" (")
+                                        append(uiState.unreadMentions)
+                                        append(")")
+                                    }
+                                },
+                                buildString {
+                                    append(stringResource(MR.strings.inbox_section_messages))
+                                    if (uiState.unreadMessages > 0) {
+                                        append(" (")
+                                        append(uiState.unreadMessages)
+                                        append(")")
+                                    }
+                                },
                             ),
                             currentSection = when (uiState.section) {
                                 InboxSection.Mentions -> 1

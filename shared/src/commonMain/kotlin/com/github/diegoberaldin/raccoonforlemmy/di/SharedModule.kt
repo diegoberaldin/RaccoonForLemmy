@@ -9,9 +9,7 @@ internal val internalSharedModule = module {
     factory<MainScreenMviModel> {
         MainViewModel(
             mvi = DefaultMviModel(MainScreenMviModel.UiState()),
-            identityRepository = get(),
-            userRepository = get(),
-            messageRepository = get(),
+            inboxCoordinator = get(),
         )
     }
 }
