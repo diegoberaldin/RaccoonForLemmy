@@ -666,6 +666,13 @@ class PostDetailScreen(
                                                             )
                                                         )
                                                     },
+                                                    onClick = rememberCallback(model) {
+                                                        model.reduce(
+                                                            PostDetailMviModel.Intent.ToggleExpandComment(
+                                                                comment.id
+                                                            )
+                                                        )
+                                                    },
                                                     onDoubleClick = if (!uiState.doubleTapActionEnabled) {
                                                         null
                                                     } else {
@@ -878,6 +885,14 @@ class PostDetailScreen(
                                             comment = comment,
                                             actionButtonsActive = uiState.isLogged,
                                             onToggleExpanded = rememberCallback(model) {
+                                                model.reduce(
+                                                    PostDetailMviModel.Intent.ToggleExpandComment(
+                                                        comment.id
+                                                    )
+
+                                                )
+                                            },
+                                            onClick = rememberCallback(model) {
                                                 model.reduce(
                                                     PostDetailMviModel.Intent.ToggleExpandComment(
                                                         comment.id

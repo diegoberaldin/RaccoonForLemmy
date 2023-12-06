@@ -21,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -34,6 +35,7 @@ fun CollapsedCommentCard(
     autoLoadImages: Boolean = true,
     actionButtonsActive: Boolean = true,
     options: List<Option> = emptyList(),
+    onClick: (() -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
@@ -52,7 +54,9 @@ fun CollapsedCommentCard(
         endColor = MaterialTheme.colorScheme.background,
     )
     Column(
-        modifier = modifier
+        modifier = modifier.onClick(
+            onClick = onClick ?: {},
+        )
     ) {
         Box(
             modifier = Modifier.padding(
