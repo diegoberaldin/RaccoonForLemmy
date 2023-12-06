@@ -79,6 +79,7 @@ class InboxMentionsViewModel(
 
             InboxMentionsMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
                 refresh()
+                mvi.emitEffect(InboxMentionsMviModel.Effect.BackToTop)
             }
 
             is InboxMentionsMviModel.Intent.MarkAsRead -> {

@@ -82,6 +82,7 @@ class InboxRepliesViewModel(
 
             InboxRepliesMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
                 refresh()
+                mvi.emitEffect(InboxRepliesMviModel.Effect.BackToTop)
             }
 
             is InboxRepliesMviModel.Intent.MarkAsRead -> {
