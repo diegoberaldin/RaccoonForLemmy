@@ -1,6 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.search.main
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.DraggableState
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +43,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -159,8 +164,7 @@ class ExploreScreen : Screen {
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
             topBar = {
-                ExploreTopBar(
-                    scrollBehavior = scrollBehavior,
+                ExploreTopBar(scrollBehavior = scrollBehavior,
                     listingType = uiState.listingType,
                     sortType = uiState.sortType,
                     onSelectListingType = rememberCallback {
@@ -182,13 +186,11 @@ class ExploreScreen : Screen {
                     },
                     onHamburgerTapped = rememberCallback {
                         drawerCoordinator.toggleDrawer()
-                    }
-                )
+                    })
             },
         ) { padding ->
             Column(
-                modifier = Modifier
-                    .padding(padding),
+                modifier = Modifier.padding(padding),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 TextField(
@@ -228,56 +230,70 @@ class ExploreScreen : Screen {
                     SearchResultType.Users -> 4
                     else -> 0
                 }
-                ScrollableTabRow(
-                    selectedTabIndex = currentSection,
-                    edgePadding = 0.dp,
-                    tabs = {
-                        listOf(
-                            stringResource(MR.strings.explore_result_type_all),
-                            stringResource(MR.strings.explore_result_type_posts),
-                            stringResource(MR.strings.explore_result_type_comments),
-                            stringResource(MR.strings.explore_result_type_communities),
-                            stringResource(MR.strings.explore_result_type_users),
-                        ).forEachIndexed { i, title ->
-                            Tab(
-                                selected = i == currentSection,
-                                text = {
-                                    Text(
-                                        text = title,
-                                        style = MaterialTheme.typography.titleSmall,
-                                        color = MaterialTheme.colorScheme.onBackground,
-                                    )
-                                },
-                                onClick = {
-                                    val section = when (i) {
-                                        1 -> SearchResultType.Posts
-                                        2 -> SearchResultType.Comments
-                                        3 -> SearchResultType.Communities
-                                        4 -> SearchResultType.Users
-                                        else -> SearchResultType.All
-                                    }
-                                    model.reduce(ExploreMviModel.Intent.SetResultType(section))
-                                },
-                            )
-                        }
+                var isTowardsStart by remember { mutableStateOf(false) }
+                val draggableState = remember {
+                    DraggableState { delta ->
+                        isTowardsStart = delta > 0
                     }
-                )
+                }
+                val onSectionSelected = { idx: Int ->
+                    val section = when (idx) {
+                        1 -> SearchResultType.Posts
+                        2 -> SearchResultType.Comments
+                        3 -> SearchResultType.Communities
+                        4 -> SearchResultType.Users
+                        else -> SearchResultType.All
+                    }
+                    model.reduce(ExploreMviModel.Intent.SetResultType(section))
+                }
+                ScrollableTabRow(selectedTabIndex = currentSection, edgePadding = 0.dp, tabs = {
+                    listOf(
+                        stringResource(MR.strings.explore_result_type_all),
+                        stringResource(MR.strings.explore_result_type_posts),
+                        stringResource(MR.strings.explore_result_type_comments),
+                        stringResource(MR.strings.explore_result_type_communities),
+                        stringResource(MR.strings.explore_result_type_users),
+                    ).forEachIndexed { i, title ->
+                        Tab(
+                            modifier = Modifier.draggable(state = draggableState,
+                                orientation = Orientation.Horizontal,
+                                onDragStopped = {
+                                    if (isTowardsStart) {
+                                        onSectionSelected((currentSection - 1).coerceAtLeast(0))
+                                    } else {
+                                        onSectionSelected(
+                                            (currentSection + 1).coerceAtMost(4)
+                                        )
+                                    }
+                                }
+                            ),
+                            selected = i == currentSection,
+                            text = {
+                                Text(
+                                    text = title,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
+                            },
+                            onClick = rememberCallback {
+                                onSectionSelected(i)
+                            },
+                        )
+                    }
+                })
 
                 val pullRefreshState = rememberPullRefreshState(
                     uiState.refreshing,
                     { model.reduce(ExploreMviModel.Intent.Refresh) },
                 )
                 Box(
-                    modifier = Modifier.padding(Spacing.xxs)
-                        .let {
-                            if (settings.hideNavigationBarWhileScrolling) {
-                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
-                            } else {
-                                it
-                            }
+                    modifier = Modifier.padding(Spacing.xxs).let {
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            it
                         }
-                        .nestedScroll(keyboardScrollConnection)
-                        .pullRefresh(pullRefreshState),
+                    }.nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState,
@@ -298,15 +314,13 @@ class ExploreScreen : Screen {
                             when (result) {
                                 is SearchResult.Community -> {
                                     CommunityItem(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .onClick(
-                                                onClick = rememberCallback {
-                                                    navigationCoordinator.pushScreen(
-                                                        CommunityDetailScreen(result.model),
-                                                    )
-                                                },
-                                            ),
+                                        modifier = Modifier.fillMaxWidth().onClick(
+                                            onClick = rememberCallback {
+                                                navigationCoordinator.pushScreen(
+                                                    CommunityDetailScreen(result.model),
+                                                )
+                                            },
+                                        ),
                                         community = result.model,
                                         autoLoadImages = uiState.autoLoadImages,
                                     )
@@ -586,15 +600,13 @@ class ExploreScreen : Screen {
 
                                 is SearchResult.User -> {
                                     UserItem(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .onClick(
-                                                onClick = rememberCallback {
-                                                    navigationCoordinator.pushScreen(
-                                                        UserDetailScreen(result.model),
-                                                    )
-                                                },
-                                            ),
+                                        modifier = Modifier.fillMaxWidth().onClick(
+                                            onClick = rememberCallback {
+                                                navigationCoordinator.pushScreen(
+                                                    UserDetailScreen(result.model),
+                                                )
+                                            },
+                                        ),
                                         user = result.model,
                                     )
                                 }
