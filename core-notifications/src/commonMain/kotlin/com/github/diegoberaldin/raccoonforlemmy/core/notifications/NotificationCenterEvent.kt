@@ -25,7 +25,7 @@ sealed interface NotificationCenterEvent {
         NotificationCenterEvent
 
     data class ChangeInboxType(val unreadOnly: Boolean) : NotificationCenterEvent
-    data class ChangeTheme(val value: UiTheme) : NotificationCenterEvent
+    data class ChangeTheme(val value: UiTheme?) : NotificationCenterEvent
     data class ChangeContentFontSize(val value: Float) : NotificationCenterEvent
     data class ChangeUiFontSize(val value: Float) : NotificationCenterEvent
     data class ChangeFontFamily(val value: UiFontFamily) : NotificationCenterEvent

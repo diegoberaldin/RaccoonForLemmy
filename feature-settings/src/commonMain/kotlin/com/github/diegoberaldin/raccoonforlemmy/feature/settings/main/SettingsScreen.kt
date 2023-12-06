@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.main
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
@@ -107,6 +109,12 @@ class SettingsScreen : Screen {
         val lang by languageRepository.currentLanguage.collectAsState()
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
         val themeRepository = remember { getThemeRepository() }
+        val colorSchemeProvider = remember { getColorSchemeProvider() }
+        val defaultTheme = if (isSystemInDarkTheme()) {
+            UiTheme.Dark
+        } else {
+            UiTheme.Light
+        }
         var upvoteColorDialogOpened by remember { mutableStateOf(false) }
         var downvoteColorDialogOpened by remember { mutableStateOf(false) }
         var infoDialogOpened by remember { mutableStateOf(false) }
@@ -298,12 +306,11 @@ class SettingsScreen : Screen {
                         )
                     }
 
-                    val colorSchemeProvider = remember { getColorSchemeProvider() }
                     // custom scheme seed color
                     SettingsColorRow(
                         title = stringResource(MR.strings.settings_custom_seed_color),
                         value = uiState.customSeedColor ?: colorSchemeProvider.getColorScheme(
-                            theme = uiState.uiTheme,
+                            theme = uiState.uiTheme ?: defaultTheme,
                             dynamic = uiState.dynamicColors,
                         ).primary,
                         onTap = rememberCallback {
@@ -645,7 +652,7 @@ class SettingsScreen : Screen {
                 onReset = rememberCallback(model) {
                     upvoteColorDialogOpened = false
                     val scheme = getColorSchemeProvider().getColorScheme(
-                        theme = uiState.uiTheme,
+                        theme = uiState.uiTheme ?: defaultTheme,
                         dynamic = uiState.dynamicColors,
                         customSeed = uiState.customSeedColor
                     )

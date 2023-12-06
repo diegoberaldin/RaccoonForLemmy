@@ -18,7 +18,7 @@ interface SettingsMviModel :
     ScreenModel {
 
     sealed interface Intent {
-        data class ChangeUiTheme(val value: UiTheme) : Intent
+        data class ChangeUiTheme(val value: UiTheme?) : Intent
         data class ChangeUiFontSize(val value: Float) : Intent
         data class ChangeUiFontFamily(val value: UiFontFamily) : Intent
         data class ChangeContentFontSize(val value: Float) : Intent
@@ -51,7 +51,7 @@ interface SettingsMviModel :
 
     data class UiState(
         val isLogged: Boolean = false,
-        val uiTheme: UiTheme = UiTheme.Light,
+        val uiTheme: UiTheme? = null,
         val uiFontFamily: UiFontFamily = UiFontFamily.TitilliumWeb,
         val customSeedColor: Color? = null,
         val upvoteColor: Color? = null,

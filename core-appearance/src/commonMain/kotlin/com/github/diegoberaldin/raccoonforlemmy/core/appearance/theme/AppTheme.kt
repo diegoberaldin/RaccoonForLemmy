@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -12,7 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 
 @Composable
 fun AppTheme(
-    theme: UiTheme,
+    theme: UiTheme?,
     contentFontScale: Float,
     useDynamicColors: Boolean,
     content: @Composable () -> Unit,
@@ -26,10 +27,15 @@ fun AppTheme(
 
     val themeState by repository.uiTheme.collectAsState()
     val customSeedColor by repository.customSeedColor.collectAsState()
+    val defaultTheme = if (isSystemInDarkTheme()) {
+        UiTheme.Dark
+    } else {
+        UiTheme.Light
+    }
 
     val colorSchemeProvider = remember { getColorSchemeProvider() }
     val colorScheme = colorSchemeProvider.getColorScheme(
-        theme = themeState,
+        theme = themeState ?: defaultTheme,
         dynamic = useDynamicColors,
         customSeed = customSeedColor,
     )
@@ -38,7 +44,7 @@ fun AppTheme(
     val typography = getTypography(fontFamily)
 
     val barColorProvider = remember { getBarColorProvider() }
-    barColorProvider.setBarColorAccordingToTheme(theme)
+    barColorProvider.setBarColorAccordingToTheme(theme ?: defaultTheme)
 
     MaterialTheme(
         colorScheme = colorScheme,

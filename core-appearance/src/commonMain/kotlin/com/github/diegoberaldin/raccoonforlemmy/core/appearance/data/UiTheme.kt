@@ -14,23 +14,26 @@ sealed interface UiTheme {
     data object Black : UiTheme
 }
 
-fun Int.toUiTheme() = when (this) {
+fun Int?.toUiTheme(): UiTheme? = when (this) {
     2 -> UiTheme.Black
     1 -> UiTheme.Dark
-    else -> UiTheme.Light
+    0 -> UiTheme.Light
+    else -> null
 }
 
-fun UiTheme.toInt() = when (this) {
+fun UiTheme?.toInt(): Int? = when (this) {
     UiTheme.Black -> 2
     UiTheme.Dark -> 1
     UiTheme.Light -> 0
+    else -> null
 }
 
 @Composable
-fun UiTheme.toReadableName() = when (this) {
+fun UiTheme?.toReadableName() = when (this) {
     UiTheme.Black -> stringResource(MR.strings.settings_theme_black)
     UiTheme.Dark -> stringResource(MR.strings.settings_theme_dark)
     UiTheme.Light -> stringResource(MR.strings.settings_theme_light)
+    else -> stringResource(MR.strings.settings_font_family_default)
 }
 
 fun UiTheme.toIcon() = when (this) {

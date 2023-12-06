@@ -62,6 +62,7 @@ class ThemeBottomSheet : Screen {
                 UiTheme.Light,
                 UiTheme.Dark,
                 UiTheme.Black,
+                null,
             )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
@@ -89,11 +90,13 @@ class ThemeBottomSheet : Screen {
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                         Spacer(modifier = Modifier.weight(1f))
-                        Image(
-                            imageVector = value.toIcon(),
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                        )
+                        if (value != null) {
+                            Image(
+                                imageVector = value.toIcon(),
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+                        }
                     }
                 }
             }

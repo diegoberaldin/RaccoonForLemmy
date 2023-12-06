@@ -241,11 +241,11 @@ class SettingsViewModel(
         }
     }
 
-    private fun changeTheme(value: UiTheme) {
+    private fun changeTheme(value: UiTheme?) {
         themeRepository.changeUiTheme(value)
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
-                theme = value.toInt()
+                theme = value?.toInt()
             )
             saveSettings(settings)
         }

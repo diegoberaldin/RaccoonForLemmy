@@ -76,10 +76,10 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val crashReportConfiguration = remember { getCrashReportConfiguration() }
     val themeRepository = remember { getThemeRepository() }
     val defaultTheme = if (isSystemInDarkTheme()) {
-        UiTheme.Dark.toInt()
+        UiTheme.Dark
     } else {
-        UiTheme.Light.toInt()
-    }
+        UiTheme.Light
+    }.toInt()
     val defaultLocale = stringResource(MR.strings.lang)
     val languageRepository = remember { getLanguageRepository() }
     val locale by derivedStateOf { settings.locale }
@@ -137,7 +137,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
 
     LaunchedEffect(settings) {
         with(themeRepository) {
-            changeUiTheme((settings.theme ?: defaultTheme).toUiTheme())
+            changeUiTheme(settings.theme.toUiTheme())
             changeNavItemTitles(settings.navigationTitlesVisible)
             changeDynamicColors(settings.dynamicColors)
             changeCustomSeedColor(settings.customSeedColor?.let { Color(it) })
