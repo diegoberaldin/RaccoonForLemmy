@@ -473,8 +473,8 @@ class PostDetailScreen(
                                                 val screen = BanUserScreen(
                                                     userId = userId,
                                                     communityId = uiState.post.community?.id ?: 0,
-                                                    newValue = post.creator?.banned != true,
-                                                    postId = post.id,
+                                                    newValue = uiState.post.creator?.banned != true,
+                                                    postId = uiState.post.id,
                                                 )
                                                 navigationCoordinator.showBottomSheet(screen)
                                             }
