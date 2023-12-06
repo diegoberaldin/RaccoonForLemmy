@@ -86,12 +86,23 @@ class PostListViewModel(
                     )
                 }
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class).onEach { evt ->
-                handlePostDelete(evt.model.id)
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class)
+                .onEach { evt ->
+                    handlePostUpdate(evt.model)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class)
+                .onEach { evt ->
+                    handlePostDelete(evt.model.id)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    applyListingType(evt.value)
+                }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    applySortType(evt.value)
+                }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
                 if (uiState.value.zombieModeActive) {

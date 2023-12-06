@@ -2,6 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -19,6 +21,7 @@ class InboxViewModel(
     private val userRepository: UserRepository,
     private val coordinator: InboxCoordinator,
     private val settingsRepository: SettingsRepository,
+    private val notificationCenter: NotificationCenter,
 ) : InboxMviModel,
     MviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect> by mvi {
 
@@ -38,6 +41,11 @@ class InboxViewModel(
             coordinator.unreadMessages.onEach { value ->
                 mvi.updateState { it.copy(unreadMessages = value) }
             }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
+                .onEach { evt ->
+                    changeUnreadOnly(evt.unreadOnly)
+                }.launchIn(this)
 
             val settingsUnreadOnly =
                 settingsRepository.currentSettings.value.defaultInboxType.toInboxUnreadOnly()

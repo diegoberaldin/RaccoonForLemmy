@@ -93,6 +93,60 @@ class SettingsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeLanguage::class)
+                .onEach { evt ->
+                    changeLanguage(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeTheme::class).onEach { evt ->
+                changeTheme(evt.value)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeColor::class).onEach { evt ->
+                changeCustomSeedColor(evt.color)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFontFamily::class)
+                .onEach { evt ->
+                    changeFontFamily(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
+                .onEach { evt ->
+                    changeContentFontScale(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeUiFontSize::class)
+                .onEach { evt ->
+                    changeUiFontScale(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangePostLayout::class)
+                .onEach { evt ->
+                    changePostLayout(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    changeDefaultListingType(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    changeDefaultPostSortType(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
+                .onEach { evt ->
+                    changeDefaultCommentSortType(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class)
+                .onEach { evt ->
+                    changeZombieModeInterval(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
+                .onEach { evt ->
+                    changeZombieModeScrollAmount(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
+                .onEach { evt ->
+                    changeDefaultInboxUnreadOnly(evt.unreadOnly)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeVoteFormat::class)
+                .onEach { evt ->
+                    changeVoteFormat(evt.value)
+                }.launchIn(this)
         }
 
         val settings = settingsRepository.currentSettings.value

@@ -78,8 +78,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -105,7 +103,6 @@ class ExploreScreen : Screen {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-        val notificationCenter = remember { getNotificationCenter() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val focusManager = LocalFocusManager.current
         val keyboardScrollConnection = remember {
@@ -124,21 +121,6 @@ class ExploreScreen : Screen {
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
 
-        LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(ExploreMviModel.Intent.SetListingType(evt.value))
-                    }
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(ExploreMviModel.Intent.SetSortType(evt.value))
-                    }
-                }.launchIn(this)
-        }
         val lazyListState = rememberLazyListState()
         LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->

@@ -136,85 +136,9 @@ class SettingsScreen : Screen {
             }.launchIn(this)
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeLanguage::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeLanguage(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeTheme::class).onEach { evt ->
-                model.reduce(SettingsMviModel.Intent.ChangeUiTheme(evt.value))
-            }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeColor::class).onEach { evt ->
-                model.reduce(SettingsMviModel.Intent.ChangeCustomSeedColor(evt.color))
-            }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFontFamily::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeUiFontFamily(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeContentFontSize(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeUiFontSize::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeUiFontSize(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeContentFontSize(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangePostLayout::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangePostLayout(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeDefaultListingType(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(SettingsMviModel.Intent.ChangeDefaultPostSortType(evt.value))
-                    }
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(SettingsMviModel.Intent.ChangeDefaultCommentSortType(evt.value))
-                    }
-                }.launchIn(this)
-
             notificationCenter.subscribe(NotificationCenterEvent.CloseDialog::class).onEach {
                 infoDialogOpened = false
             }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeZombieModeInterval(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeZombieModeScrollAmount(evt.value))
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeDefaultInboxUnreadOnly(evt.unreadOnly))
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeVoteFormat::class)
-                .onEach { evt ->
-                    model.reduce(SettingsMviModel.Intent.ChangeVoteFormat(evt.value))
-                }.launchIn(this)
         }
 
         if (!uiFontSizeWorkaround) {

@@ -97,6 +97,18 @@ class PostDetailViewModel(
                 .onEach { evt ->
                     handleCommentDelete(evt.model.id)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
+                .onEach { evt ->
+                    applySortType(evt.value)
+                }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
+                refresh()
+            }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach {
+                refreshPost()
+            }.launchIn(this)
         }
 
         mvi.scope?.launch(Dispatchers.IO) {

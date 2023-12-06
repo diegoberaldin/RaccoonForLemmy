@@ -36,6 +36,7 @@ val inboxTabModule = module {
             userRepository = get(),
             coordinator = get(),
             settingsRepository = get(),
+            notificationCenter = get(),
         )
     }
     factory<InboxRepliesMviModel> {

@@ -2,6 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -23,6 +25,7 @@ class InstanceInfoViewModel(
     private val communityRepository: CommunityRepository,
     private val identityRepository: IdentityRepository,
     private val settingsRepository: SettingsRepository,
+    private val notificationCenter: NotificationCenter,
 ) : InstanceInfoMviModel,
     MviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect> by mvi {
 
@@ -34,6 +37,10 @@ class InstanceInfoViewModel(
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    changeSortType(evt.value)
+                }.launchIn(this)
 
             val metadata = siteRepository.getMetadata(url)
             if (metadata != null) {

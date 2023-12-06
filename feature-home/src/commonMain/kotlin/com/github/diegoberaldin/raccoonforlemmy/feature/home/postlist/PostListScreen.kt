@@ -77,8 +77,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -105,7 +103,6 @@ class PostListScreen : Screen {
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val notificationCenter = remember { getNotificationCenter() }
         val themeRepository = remember { getThemeRepository() }
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
         val downvoteColor by themeRepository.downvoteColor.collectAsState()
@@ -147,21 +144,6 @@ class PostListScreen : Screen {
                     }
                 }
             }.launchIn(this)
-        }
-        LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(PostListMviModel.Intent.ChangeListing(evt.value))
-                    }
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(PostListMviModel.Intent.ChangeSort(evt.value))
-                    }
-                }.launchIn(this)
         }
         LaunchedEffect(uiState.zombieModeActive) {
             if (uiState.zombieModeActive) {

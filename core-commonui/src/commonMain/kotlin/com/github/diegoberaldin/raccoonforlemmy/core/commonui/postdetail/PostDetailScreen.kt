@@ -97,7 +97,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -165,20 +164,6 @@ class PostDetailScreen(
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(PostDetailMviModel.Intent.ChangeSort(evt.value))
-                    }
-                }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
-                model.reduce(PostDetailMviModel.Intent.Refresh)
-            }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach {
-                model.reduce(PostDetailMviModel.Intent.RefreshPost)
-            }.launchIn(this)
         }
         LaunchedEffect(model) {
             model.effects.onEach { evt ->

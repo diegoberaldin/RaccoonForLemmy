@@ -60,6 +60,10 @@ class SavedItemsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class).onEach { evt ->
                 handlePostDelete(evt.model.id)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    applySortType(evt.value)
+                }.launchIn(this)
         }
 
         if (mvi.uiState.value.posts.isEmpty()) {

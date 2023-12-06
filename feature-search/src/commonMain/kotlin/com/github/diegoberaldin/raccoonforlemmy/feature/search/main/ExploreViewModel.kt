@@ -89,6 +89,15 @@ class ExploreViewModel(
                 .onEach { evt ->
                     handleCommentUpdate(evt.model)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    changeListingType(evt.value)
+                }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    changeSortType(evt.value)
+                }.launchIn(this)
         }
 
         if (contentResetCoordinator.resetExplore) {

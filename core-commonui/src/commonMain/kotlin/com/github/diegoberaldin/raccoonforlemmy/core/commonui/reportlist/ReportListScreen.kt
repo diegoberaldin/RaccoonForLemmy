@@ -61,7 +61,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ReportListTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -100,14 +99,6 @@ class ReportListScreen(
             },
         )
 
-        LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeReportListType::class)
-                .onEach { evt ->
-                    model.reduce(
-                        ReportListMviModel.Intent.ChangeUnresolvedOnly(evt.unresolvedOnly)
-                    )
-                }.launchIn(this)
-        }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {

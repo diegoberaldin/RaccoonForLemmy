@@ -46,7 +46,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInstanceInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.CommunityItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -80,14 +79,6 @@ class InstanceInfoScreen(
         val notificationCenter = remember { getNotificationCenter() }
         val listState = rememberLazyListState()
 
-        LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(InstanceInfoMviModel.Intent.ChangeSortType(evt.value))
-                    }
-                }.launchIn(this)
-        }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {

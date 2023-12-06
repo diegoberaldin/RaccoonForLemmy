@@ -100,7 +100,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveScree
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -163,12 +162,6 @@ class CommunityDetailScreen(
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
-                .onEach { evt ->
-                    if (evt.key == key) {
-                        model.reduce(CommunityDetailMviModel.Intent.ChangeSort(evt.value))
-                    }
-                }.launchIn(this)
         }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->

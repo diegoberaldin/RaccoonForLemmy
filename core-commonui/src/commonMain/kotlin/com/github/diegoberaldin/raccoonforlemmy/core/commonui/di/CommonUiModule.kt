@@ -118,6 +118,7 @@ val commonUiModule = module {
             communityRepository = get(),
             identityRepository = get(),
             settingsRepository = get(),
+            notificationCenter = get(),
         )
     }
     factory<CreateCommentMviModel> { params ->
@@ -234,6 +235,7 @@ val commonUiModule = module {
             themeRepository = get(),
             settingsRepository = get(),
             hapticFeedback = get(),
+            notificationCenter = get(),
         )
     }
     factory<BanUserMviModel> { params ->

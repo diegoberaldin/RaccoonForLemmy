@@ -43,6 +43,7 @@ class CreatePostViewModel(
                     )
                 }
             }.launchIn(this)
+
             if (uiState.value.currentUser.isEmpty()) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUser = siteRepository.getCurrentUser(auth)
