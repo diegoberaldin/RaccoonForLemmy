@@ -32,6 +32,7 @@ fun CollapsedCommentCard(
     modifier: Modifier = Modifier,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     autoLoadImages: Boolean = true,
+    actionButtonsActive: Boolean = true,
     options: List<Option> = emptyList(),
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
@@ -94,6 +95,7 @@ fun CollapsedCommentCard(
                     onSave = onSave,
                     onReply = onReply,
                     date = comment.publishDate,
+                    actionButtonsActive = actionButtonsActive,
                     options = options,
                     onOptionSelected = onOptionSelected,
                 )

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Chat
@@ -54,6 +56,7 @@ fun PostCardFooter(
     saved: Boolean = false,
     upVoted: Boolean = false,
     downVoted: Boolean = false,
+    actionButtonsActive: Boolean = true,
     options: List<Option> = emptyList(),
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
@@ -124,26 +127,28 @@ fun PostCardFooter(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            Image(
-                modifier = buttonModifier.onClick(
-                    onClick = rememberCallback {
-                        onSave?.invoke()
-                    },
-                ),
-                imageVector = if (!saved) {
-                    Icons.Default.BookmarkBorder
-                } else {
-                    Icons.Default.Bookmark
-                },
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(
-                    color = if (saved) {
-                        MaterialTheme.colorScheme.secondary
+            if (actionButtonsActive) {
+                Image(
+                    modifier = buttonModifier.onClick(
+                        onClick = rememberCallback {
+                            onSave?.invoke()
+                        },
+                    ),
+                    imageVector = if (!saved) {
+                        Icons.Default.BookmarkBorder
                     } else {
-                        MaterialTheme.colorScheme.onBackground
+                        Icons.Default.Bookmark
                     },
-                ),
-            )
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(
+                        color = if (saved) {
+                            MaterialTheme.colorScheme.secondary
+                        } else {
+                            MaterialTheme.colorScheme.onBackground
+                        },
+                    ),
+                )
+            }
             Image(
                 modifier = buttonModifier
                     .onClick(
@@ -151,7 +156,11 @@ fun PostCardFooter(
                             onUpVote?.invoke()
                         },
                     ),
-                imageVector = Icons.Default.ArrowCircleUp,
+                imageVector = if (actionButtonsActive) {
+                    Icons.Default.ArrowCircleUp
+                } else {
+                    Icons.Default.ArrowUpward
+                },
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
                     color = if (upVoted) {
@@ -182,7 +191,11 @@ fun PostCardFooter(
                             onDownVote?.invoke()
                         },
                     ),
-                imageVector = Icons.Default.ArrowCircleDown,
+                imageVector = if (actionButtonsActive) {
+                    Icons.Default.ArrowCircleDown
+                } else {
+                    Icons.Default.ArrowDownward
+                },
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
                     color = if (downVoted) {

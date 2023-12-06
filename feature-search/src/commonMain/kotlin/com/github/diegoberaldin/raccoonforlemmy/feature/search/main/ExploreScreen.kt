@@ -363,6 +363,7 @@ class ExploreScreen : Screen {
                                                 voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
                                                 blurNsfw = uiState.blurNsfw,
+                                                actionButtonsActive = uiState.isLogged,
                                                 onClick = rememberCallback {
                                                     navigationCoordinator.pushScreen(
                                                         PostDetailScreen(result.model),
@@ -503,6 +504,7 @@ class ExploreScreen : Screen {
                                                 voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
                                                 hideIndent = true,
+                                                actionButtonsActive = uiState.isLogged,
                                                 onClick = rememberCallback {
                                                     navigationCoordinator.pushScreen(
                                                         PostDetailScreen(

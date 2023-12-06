@@ -58,6 +58,7 @@ fun PostCard(
     fullHeightImage: Boolean = true,
     limitBodyHeight: Boolean = false,
     blurNsfw: Boolean = true,
+    actionButtonsActive: Boolean = true,
     options: List<Option> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
@@ -101,6 +102,7 @@ fun PostCard(
                 roundedCornerImage = postLayout == PostLayout.Card,
                 fullHeightImage = fullHeightImage,
                 blurNsfw = blurNsfw,
+                actionButtonsActive = actionButtonsActive,
                 options = options,
                 onOpenCommunity = onOpenCommunity,
                 onOpenCreator = onOpenCreator,
@@ -121,6 +123,7 @@ fun PostCard(
                 blurNsfw = blurNsfw,
                 voteFormat = voteFormat,
                 autoLoadImages = autoLoadImages,
+                actionButtonsActive = actionButtonsActive,
                 options = options,
                 onOpenCommunity = onOpenCommunity,
                 onOpenCreator = onOpenCreator,
@@ -145,6 +148,7 @@ private fun CompactPost(
     autoLoadImages: Boolean = true,
     hideAuthor: Boolean,
     blurNsfw: Boolean,
+    actionButtonsActive: Boolean = true,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     options: List<Option> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
@@ -219,6 +223,7 @@ private fun CompactPost(
             date = post.publishDate,
             options = options,
             onOptionSelected = onOptionSelected,
+            actionButtonsActive = actionButtonsActive,
         )
     }
 }
@@ -236,6 +241,7 @@ private fun ExtendedPost(
     limitBodyHeight: Boolean = false,
     fullHeightImage: Boolean = true,
     roundedCornerImage: Boolean = true,
+    actionButtonsActive: Boolean = true,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     options: List<Option> = emptyList(),
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
@@ -376,6 +382,7 @@ private fun ExtendedPost(
             date = post.publishDate,
             options = options,
             onOptionSelected = onOptionSelected,
+            actionButtonsActive = actionButtonsActive,
         )
     }
 }

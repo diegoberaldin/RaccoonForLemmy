@@ -359,6 +359,7 @@ class PostListScreen : Screen {
                                         fullHeightImage = uiState.fullHeightImages,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        actionButtonsActive = uiState.isLogged,
                                         blurNsfw = uiState.blurNsfw,
                                         onClick = rememberCallback(model) {
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))

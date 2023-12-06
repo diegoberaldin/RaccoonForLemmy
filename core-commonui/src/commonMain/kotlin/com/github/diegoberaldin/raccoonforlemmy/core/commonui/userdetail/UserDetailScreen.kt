@@ -460,6 +460,7 @@ class UserDetailScreen(
                                         blurNsfw = uiState.blurNsfw,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        actionButtonsActive = uiState.isLogged,
                                         onClick = rememberCallback {
                                             navigationCoordinator.pushScreen(
                                                 PostDetailScreen(post = post),
@@ -674,6 +675,7 @@ class UserDetailScreen(
                                         hideCommunity = false,
                                         hideAuthor = true,
                                         hideIndent = true,
+                                        actionButtonsActive = uiState.isLogged,
                                         onClick = rememberCallback {
                                             navigationCoordinator.pushScreen(
                                                 PostDetailScreen(

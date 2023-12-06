@@ -323,6 +323,7 @@ class PostDetailScreen(
                                 includeFullBody = true,
                                 voteFormat = uiState.voteFormat,
                                 autoLoadImages = uiState.autoLoadImages,
+                                actionButtonsActive = uiState.isLogged,
                                 blurNsfw = false,
                                 onOpenCommunity = rememberCallbackArgs { community ->
                                     navigationCoordinator.pushScreen(
@@ -657,6 +658,7 @@ class PostDetailScreen(
                                                     comment = comment,
                                                     voteFormat = uiState.voteFormat,
                                                     autoLoadImages = uiState.autoLoadImages,
+                                                    actionButtonsActive = uiState.isLogged,
                                                     onToggleExpanded = rememberCallback(model) {
                                                         model.reduce(
                                                             PostDetailMviModel.Intent.ToggleExpandComment(
@@ -874,6 +876,7 @@ class PostDetailScreen(
                                     } else {
                                         CollapsedCommentCard(
                                             comment = comment,
+                                            actionButtonsActive = uiState.isLogged,
                                             onToggleExpanded = rememberCallback(model) {
                                                 model.reduce(
                                                     PostDetailMviModel.Intent.ToggleExpandComment(

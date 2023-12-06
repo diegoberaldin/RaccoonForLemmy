@@ -556,6 +556,7 @@ class CommunityDetailScreen(
                                         fullHeightImage = uiState.fullHeightImages,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        actionButtonsActive = uiState.isLogged,
                                         blurNsfw = when {
                                             uiState.community.nsfw -> false
                                             else -> uiState.blurNsfw
