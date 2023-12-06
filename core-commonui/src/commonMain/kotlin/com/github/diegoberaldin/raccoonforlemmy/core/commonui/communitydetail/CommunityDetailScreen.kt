@@ -625,12 +625,16 @@ class CommunityDetailScreen(
                                                 )
                                             }
                                         },
-                                        onReply = rememberCallback(model) {
+                                        onReply = rememberCallback {
                                             if (uiState.isLogged && !isOnOtherInstance) {
-                                                val screen = CreateCommentScreen(
-                                                    originalPost = post,
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.MarkAsRead(
+                                                        post.id
+                                                    )
                                                 )
-                                                navigationCoordinator.showBottomSheet(screen)
+                                                navigationCoordinator.pushScreen(
+                                                    PostDetailScreen(post),
+                                                )
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs(model) { url ->

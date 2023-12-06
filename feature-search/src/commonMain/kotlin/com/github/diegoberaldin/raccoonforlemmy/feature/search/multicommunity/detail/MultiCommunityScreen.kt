@@ -65,7 +65,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
@@ -79,6 +78,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommu
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getMultiCommunityViewModel
@@ -302,7 +302,7 @@ class MultiCommunityScreen(
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
                                     blurNsfw = uiState.blurNsfw,
-                                    onClick = {
+                                    onClick = rememberCallback {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
                                         navigationCoordinator.pushScreen(
                                             PostDetailScreen(post),
@@ -320,17 +320,17 @@ class MultiCommunityScreen(
                                             )
                                         }
                                     },
-                                    onOpenCommunity = { community ->
+                                    onOpenCommunity = rememberCallbackArgs { community ->
                                         navigationCoordinator.pushScreen(
                                             CommunityDetailScreen(community),
                                         )
                                     },
-                                    onOpenCreator = { user ->
+                                    onOpenCreator = rememberCallbackArgs { user ->
                                         navigationCoordinator.pushScreen(
                                             UserDetailScreen(user),
                                         )
                                     },
-                                    onUpVote = {
+                                    onUpVote = rememberCallback(model) {
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.UpVotePost(
                                                 id = post.id,
@@ -338,7 +338,7 @@ class MultiCommunityScreen(
                                             ),
                                         )
                                     },
-                                    onDownVote = {
+                                    onDownVote = rememberCallback(model) {
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.DownVotePost(
                                                 id = post.id,
@@ -346,7 +346,7 @@ class MultiCommunityScreen(
                                             ),
                                         )
                                     },
-                                    onSave = {
+                                    onSave = rememberCallback(model) {
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.SavePost(
                                                 id = post.id,
@@ -354,13 +354,12 @@ class MultiCommunityScreen(
                                             ),
                                         )
                                     },
-                                    onReply = {
-                                        val screen = CreateCommentScreen(
-                                            originalPost = post,
+                                    onReply = rememberCallback {
+                                        navigationCoordinator.pushScreen(
+                                            PostDetailScreen(post),
                                         )
-                                        navigationCoordinator.showBottomSheet(screen)
                                     },
-                                    onImageClick = { url ->
+                                    onImageClick = rememberCallbackArgs { url ->
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
                                         navigationCoordinator.pushScreen(
                                             ZoomableImageScreen(url),

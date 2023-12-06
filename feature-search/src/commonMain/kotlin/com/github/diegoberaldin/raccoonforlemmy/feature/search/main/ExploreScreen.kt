@@ -425,10 +425,9 @@ class ExploreScreen : Screen {
                                                 },
                                                 onReply = rememberCallback {
                                                     if (uiState.isLogged) {
-                                                        val screen = CreateCommentScreen(
-                                                            originalPost = result.model,
+                                                        navigationCoordinator.pushScreen(
+                                                            PostDetailScreen(result.model),
                                                         )
-                                                        navigationCoordinator.showBottomSheet(screen)
                                                     }
                                                 },
                                                 onImageClick = rememberCallbackArgs { url ->

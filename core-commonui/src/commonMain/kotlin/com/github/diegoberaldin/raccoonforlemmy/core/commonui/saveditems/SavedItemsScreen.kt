@@ -73,6 +73,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -168,34 +169,30 @@ class SavedItemsScreen : Screen {
                         targetOffsetY = { it * 2 },
                     ),
                 ) {
-                    FloatingActionButtonMenu(
-                        items = buildList {
-                            this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.ExpandLess,
-                                text = stringResource(MR.strings.action_back_to_top),
-                                onSelected = rememberCallback {
-                                    scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                        topAppBarState.heightOffset = 0f
-                                        topAppBarState.contentOffset = 0f
-                                    }
-                                },
-                            )
-                        }
-                    )
+                    FloatingActionButtonMenu(items = buildList {
+                        this += FloatingActionButtonMenuItem(
+                            icon = Icons.Default.ExpandLess,
+                            text = stringResource(MR.strings.action_back_to_top),
+                            onSelected = rememberCallback {
+                                scope.launch {
+                                    lazyListState.scrollToItem(0)
+                                    topAppBarState.heightOffset = 0f
+                                    topAppBarState.contentOffset = 0f
+                                }
+                            },
+                        )
+                    })
                 }
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier.padding(paddingValues)
-                    .let {
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            it
-                        }
+                modifier = Modifier.padding(paddingValues).let {
+                    if (settings.hideNavigationBarWhileScrolling) {
+                        it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                    } else {
+                        it
                     }
-                    .nestedScroll(fabNestedScrollConnection),
+                }.nestedScroll(fabNestedScrollConnection),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
@@ -223,8 +220,7 @@ class SavedItemsScreen : Screen {
                     },
                 )
                 Box(
-                    modifier = Modifier.fillMaxWidth()
-                        .pullRefresh(pullRefreshState),
+                    modifier = Modifier.fillMaxWidth().pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState,
@@ -239,22 +235,22 @@ class SavedItemsScreen : Screen {
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
                                     blurNsfw = uiState.blurNsfw,
-                                    onClick = {
+                                    onClick = rememberCallback {
                                         navigatorCoordinator.pushScreen(
                                             PostDetailScreen(post),
                                         )
                                     },
-                                    onOpenCommunity = { community ->
+                                    onOpenCommunity = rememberCallbackArgs { community ->
                                         navigatorCoordinator.pushScreen(
                                             CommunityDetailScreen(community),
                                         )
                                     },
-                                    onOpenCreator = { u ->
+                                    onOpenCreator = rememberCallbackArgs { u ->
                                         if (u.id != uiState.user?.id) {
                                             navigatorCoordinator.pushScreen(UserDetailScreen(u))
                                         }
                                     },
-                                    onUpVote = {
+                                    onUpVote = rememberCallback(model) {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.UpVotePost(
                                                 id = post.id,
@@ -262,7 +258,7 @@ class SavedItemsScreen : Screen {
                                             ),
                                         )
                                     },
-                                    onDownVote = {
+                                    onDownVote = rememberCallback(model) {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.DownVotePost(
                                                 id = post.id,
@@ -270,7 +266,7 @@ class SavedItemsScreen : Screen {
                                             ),
                                         )
                                     },
-                                    onSave = {
+                                    onSave = rememberCallback(model) {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.SavePost(
                                                 id = post.id,
@@ -278,13 +274,12 @@ class SavedItemsScreen : Screen {
                                             ),
                                         )
                                     },
-                                    onReply = {
-                                        val screen = CreateCommentScreen(
-                                            originalPost = post,
+                                    onReply = rememberCallback {
+                                        navigationCoordinator.pushScreen(
+                                            PostDetailScreen(post),
                                         )
-                                        navigatorCoordinator.showBottomSheet(screen)
                                     },
-                                    onImageClick = { url ->
+                                    onImageClick = rememberCallbackArgs { url ->
                                         navigatorCoordinator.pushScreen(
                                             ZoomableImageScreen(url),
                                         )
@@ -483,8 +478,7 @@ class SavedItemsScreen : Screen {
         if (rawContent != null) {
             when (val content = rawContent) {
                 is PostModel -> {
-                    RawContentDialog(
-                        title = content.title,
+                    RawContentDialog(title = content.title,
                         date = content.publishDate,
                         url = content.url,
                         text = content.text,
@@ -494,44 +488,32 @@ class SavedItemsScreen : Screen {
                         onQuote = { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                val screen =
-                                    CreateCommentScreen(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        }
-                                    )
+                                val screen = CreateCommentScreen(originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    })
                                 navigationCoordinator.showBottomSheet(screen)
                             }
-                        }
-                    )
+                        })
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(
-                        text = content.text,
-                        date = content.publishDate,
-                        onDismiss = {
-                            rawContent = null
-                        },
-                        onQuote = { quotation ->
-                            rawContent = null
-                            if (quotation != null) {
-                                val screen =
-                                    CreateCommentScreen(
-                                        originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        }
-                                    )
-                                navigationCoordinator.showBottomSheet(screen)
-                            }
+                    RawContentDialog(text = content.text, date = content.publishDate, onDismiss = {
+                        rawContent = null
+                    }, onQuote = { quotation ->
+                        rawContent = null
+                        if (quotation != null) {
+                            val screen = CreateCommentScreen(originalComment = content,
+                                initialText = buildString {
+                                    append("> ")
+                                    append(quotation)
+                                    append("\n\n")
+                                })
+                            navigationCoordinator.showBottomSheet(screen)
                         }
-                    )
+                    })
                 }
             }
         }

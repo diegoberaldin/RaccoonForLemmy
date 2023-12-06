@@ -217,6 +217,11 @@ internal object ProfileLoggedScreen : Tab {
                                             )
                                         )
                                     },
+                                    onReply = rememberCallback {
+                                        navigationCoordinator.pushScreen(
+                                            PostDetailScreen(post),
+                                        )
+                                    },
                                     options = buildList {
                                         add(
                                             Option(
@@ -339,6 +344,14 @@ internal object ProfileLoggedScreen : Tab {
                                                 id = comment.id,
                                                 feedback = true
                                             )
+                                        )
+                                    },
+                                    onReply = rememberCallback {
+                                        navigationCoordinator.pushScreen(
+                                            PostDetailScreen(
+                                                post = PostModel(id = comment.postId),
+                                                highlightCommentId = comment.id,
+                                            ),
                                         )
                                     },
                                     options = buildList {

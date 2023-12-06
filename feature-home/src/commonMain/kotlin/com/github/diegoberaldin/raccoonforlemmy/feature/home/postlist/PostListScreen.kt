@@ -421,9 +421,10 @@ class PostListScreen : Screen {
                                         },
                                         onReply = rememberCallback(model) {
                                             if (uiState.isLogged) {
-                                                val screen =
-                                                    CreateCommentScreen(originalPost = post)
-                                                navigationCoordinator.showBottomSheet(screen)
+                                                model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
+                                                navigationCoordinator.pushScreen(
+                                                    PostDetailScreen(post),
+                                                )
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs(model, post) { url ->

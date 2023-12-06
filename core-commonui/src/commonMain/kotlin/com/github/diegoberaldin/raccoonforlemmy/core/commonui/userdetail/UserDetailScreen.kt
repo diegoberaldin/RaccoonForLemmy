@@ -523,10 +523,9 @@ class UserDetailScreen(
                                             null
                                         } else {
                                             rememberCallback {
-                                                val screen = CreateCommentScreen(
-                                                    originalPost = post,
+                                                navigationCoordinator.pushScreen(
+                                                    PostDetailScreen(post),
                                                 )
-                                                navigationCoordinator.showBottomSheet(screen)
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs { url ->
