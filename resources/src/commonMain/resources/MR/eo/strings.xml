@@ -250,4 +250,5 @@
     <string name="settings_vote_format_separated">Apartigite</string>
     <string name="settings_vote_format_percentage">Procento</string>
     <string name="settings_font_family_default">Sistemo</string>
+    <string name="post_reply_source_account">de:</string>
 </resources>

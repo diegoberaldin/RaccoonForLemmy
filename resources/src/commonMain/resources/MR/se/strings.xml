@@ -252,4 +252,5 @@
     <string name="settings_vote_format_separated">Separat</string>
     <string name="settings_vote_format_percentage">Procentsats</string>
     <string name="settings_font_family_default">Systemet</string>
+    <string name="post_reply_source_account">förbi:</string>
 </resources>

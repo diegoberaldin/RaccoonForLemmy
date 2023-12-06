@@ -249,4 +249,5 @@
     <string name="settings_vote_format_separated">متفرق</string>
     <string name="settings_vote_format_percentage">نسبة مئوية</string>
     <string name="settings_font_family_default">نظام</string>
+    <string name="post_reply_source_account">بواسطة:</string>
 </resources>

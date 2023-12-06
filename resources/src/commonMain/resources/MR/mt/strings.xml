@@ -256,4 +256,5 @@
     <string name="settings_vote_format_separated">Separati</string>
     <string name="settings_vote_format_percentage">Persentaġġ</string>
     <string name="settings_font_family_default">Sistema</string>
+    <string name="post_reply_source_account">minn:</string>
 </resources>

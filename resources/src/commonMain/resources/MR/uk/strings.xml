@@ -253,4 +253,5 @@
     <string name="settings_vote_format_separated">Відокремлення</string>
     <string name="settings_vote_format_percentage">Відсотки</string>
     <string name="settings_font_family_default">Система</string>
+    <string name="post_reply_source_account">від:</string>
 </resources>

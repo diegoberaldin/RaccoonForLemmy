@@ -47,6 +47,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -461,6 +462,30 @@ class CreatePostScreen(
                         voteFormat = uiState.voteFormat,
                         autoLoadImages = uiState.autoLoadImages,
                     )
+                }
+
+                if (uiState.currentUser.isNotEmpty()) {
+                    Row(
+                        modifier = Modifier.padding(
+                            vertical = Spacing.xs,
+                            horizontal = Spacing.l,
+                        )
+                    ) {
+                        Text(
+                            text = buildString {
+                                append(stringResource(MR.strings.post_reply_source_account))
+                                append(" ")
+                                append(uiState.currentUser)
+                                if (uiState.currentInstance.isNotEmpty()) {
+                                    append("@")
+                                    append(uiState.currentInstance)
+                                }
+                            },
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.labelSmall,
+                            textDecoration = TextDecoration.Underline,
+                        )
+                    }
                 }
             }
         }

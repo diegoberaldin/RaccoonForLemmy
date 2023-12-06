@@ -256,4 +256,5 @@
     <string name="settings_vote_format_separated">Odvojeni</string>
     <string name="settings_vote_format_percentage">Postotak</string>
     <string name="settings_font_family_default">Sustav</string>
+    <string name="post_reply_source_account">po:</string>
 </resources>

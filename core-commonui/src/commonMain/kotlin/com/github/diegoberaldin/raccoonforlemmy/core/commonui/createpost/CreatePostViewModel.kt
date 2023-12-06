@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Sett
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.StringUtils.isValidUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR.strings.message_invalid_field
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR.strings.message_missing_field
 import dev.icerock.moko.resources.desc.desc
@@ -21,6 +22,7 @@ class CreatePostViewModel(
     private val mvi: DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
+    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
 ) : CreatePostMviModel,
@@ -41,6 +43,18 @@ class CreatePostViewModel(
                     )
                 }
             }.launchIn(this)
+            if (uiState.value.currentUser.isEmpty()) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val currentUser = siteRepository.getCurrentUser(auth)
+                if (currentUser != null) {
+                    mvi.updateState {
+                        it.copy(
+                            currentUser = currentUser.name,
+                            currentInstance = currentUser.host,
+                        )
+                    }
+                }
+            }
         }
     }
 

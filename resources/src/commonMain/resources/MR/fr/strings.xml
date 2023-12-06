@@ -254,4 +254,5 @@
     <string name="settings_vote_format_separated">Séparé</string>
     <string name="settings_vote_format_percentage">Pourcentage</string>
     <string name="settings_font_family_default">Système</string>
+    <string name="post_reply_source_account">par:</string>
 </resources>

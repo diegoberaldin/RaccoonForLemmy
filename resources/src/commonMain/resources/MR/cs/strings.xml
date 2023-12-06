@@ -251,4 +251,5 @@
     <string name="settings_vote_format_separated">Samostatný</string>
     <string name="settings_vote_format_percentage">Procento</string>
     <string name="settings_font_family_default">Systém</string>
+    <string name="post_reply_source_account">podle:</string>
 </resources>

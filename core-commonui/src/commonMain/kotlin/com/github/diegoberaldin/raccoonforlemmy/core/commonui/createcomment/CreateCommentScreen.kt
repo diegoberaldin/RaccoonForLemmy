@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -39,6 +40,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -269,19 +271,43 @@ class CreateCommentScreen(
                             )
                         }
                     }
+
+                    if (uiState.currentUser.isNotEmpty()) {
+                        Row(
+                            modifier = Modifier.padding(
+                                vertical = Spacing.xs,
+                                horizontal = Spacing.l,
+                            )
+                        ) {
+                            Text(
+                                text = buildString {
+                                    append(stringResource(MR.strings.post_reply_source_account))
+                                    append(" ")
+                                    append(uiState.currentUser)
+                                    if (uiState.currentInstance.isNotEmpty()) {
+                                        append("@")
+                                        append(uiState.currentInstance)
+                                    }
+                                },
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.labelSmall,
+                                textDecoration = TextDecoration.Underline,
+                            )
+                        }
+                    }
                 }
             },
         ) { padding ->
+            val referenceModifier = Modifier.padding(
+                horizontal = Spacing.s,
+                vertical = Spacing.xxs,
+            )
             LazyColumn(
                 modifier = Modifier.padding(padding),
             ) {
-                val referenceModifier = Modifier.padding(
-                    horizontal = Spacing.s,
-                    vertical = Spacing.xxs,
-                )
-                when {
-                    originalComment != null -> {
-                        item {
+                item {
+                    when {
+                        originalComment != null -> {
                             CommentCard(
                                 modifier = referenceModifier,
                                 comment = originalComment,
@@ -302,10 +328,8 @@ class CreateCommentScreen(
                             )
                             Divider()
                         }
-                    }
 
-                    originalPost != null -> {
-                        item {
+                        originalPost != null -> {
                             PostCard(
                                 modifier = referenceModifier,
                                 postLayout = uiState.postLayout,

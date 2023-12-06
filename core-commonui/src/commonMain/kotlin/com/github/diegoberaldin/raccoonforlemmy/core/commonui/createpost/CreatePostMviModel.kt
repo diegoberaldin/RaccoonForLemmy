@@ -68,6 +68,8 @@ interface CreatePostMviModel :
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
+        val currentInstance: String = "",
+        val currentUser: String = "",
     )
 
     sealed interface Effect {

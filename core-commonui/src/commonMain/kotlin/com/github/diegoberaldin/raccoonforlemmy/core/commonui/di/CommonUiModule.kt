@@ -129,6 +129,7 @@ val commonUiModule = module {
             identityRepository = get(),
             commentRepository = get(),
             postRepository = get(),
+            siteRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
             notificationCenter = get(),
@@ -140,6 +141,7 @@ val commonUiModule = module {
             editedPostId = params[0],
             identityRepository = get(),
             postRepository = get(),
+            siteRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
         )

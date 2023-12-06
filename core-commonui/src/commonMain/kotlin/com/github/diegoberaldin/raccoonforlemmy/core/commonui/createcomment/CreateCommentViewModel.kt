@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Sett
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR.strings.message_missing_field
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +26,7 @@ class CreateCommentViewModel(
     private val identityRepository: IdentityRepository,
     private val commentRepository: CommentRepository,
     private val postRepository: PostRepository,
+    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
@@ -37,6 +39,18 @@ class CreateCommentViewModel(
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
+            if (uiState.value.currentUser.isEmpty()) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val currentUser = siteRepository.getCurrentUser(auth)
+                if (currentUser != null) {
+                    mvi.updateState {
+                        it.copy(
+                            currentUser = currentUser.name,
+                            currentInstance = currentUser.host,
+                        )
+                    }
+                }
+            }
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState {
                     it.copy(

@@ -257,4 +257,5 @@
     <string name="settings_vote_format_separated">Të ndara</string>
     <string name="settings_vote_format_percentage">Përqindje</string>
     <string name="settings_font_family_default">Sistemi</string>
+    <string name="post_reply_source_account">nga:</string>
 </resources>

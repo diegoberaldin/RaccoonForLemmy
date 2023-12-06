@@ -252,4 +252,5 @@
     <string name="settings_vote_format_separated">Separat</string>
     <string name="settings_vote_format_percentage">Procent</string>
     <string name="settings_font_family_default">Sistem</string>
+    <string name="post_reply_source_account">de:</string>
 </resources>

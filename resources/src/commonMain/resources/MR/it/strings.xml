@@ -255,4 +255,5 @@
     <string name="settings_vote_format_separated">Separato</string>
     <string name="settings_vote_format_percentage">Percentuale</string>
     <string name="settings_font_family_default">Sistema</string>
+    <string name="post_reply_source_account">da:</string>
 </resources>

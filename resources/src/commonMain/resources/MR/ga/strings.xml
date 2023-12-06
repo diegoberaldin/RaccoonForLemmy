@@ -260,4 +260,5 @@
     <string name="settings_vote_format_separated">Scartha</string>
     <string name="settings_vote_format_percentage">Céatadán</string>
     <string name="settings_font_family_default">Córas</string>
+    <string name="post_reply_source_account">le:</string>
 </resources>

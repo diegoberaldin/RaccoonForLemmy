@@ -255,4 +255,5 @@
     <string name="settings_vote_format_separated">Atsevišķi</string>
     <string name="settings_vote_format_percentage">Procenti</string>
     <string name="settings_font_family_default">Sistēma</string>
+    <string name="post_reply_source_account">autors:</string>
 </resources>
