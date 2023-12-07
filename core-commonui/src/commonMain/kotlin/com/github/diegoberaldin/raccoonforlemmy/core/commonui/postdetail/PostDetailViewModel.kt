@@ -92,7 +92,7 @@ class PostDetailViewModel(
                 }
             }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { evt ->
+            notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { _ ->
                 mvi.emitEffect(PostDetailMviModel.Effect.Close)
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
@@ -178,7 +178,7 @@ class PostDetailViewModel(
         }
     }
 
-    private fun downloadUntilHighlight() {
+    private suspend fun downloadUntilHighlight() {
         val highlightPath = highlightCommentPath ?: return
 
         val indexOfHighlight = uiState.value.comments.indexOfFirst {
@@ -209,13 +209,16 @@ class PostDetailViewModel(
 
     override fun reduce(intent: PostDetailMviModel.Intent) {
         when (intent) {
-            PostDetailMviModel.Intent.LoadNextPage -> {
+            PostDetailMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
                 if (!uiState.value.initial) {
                     loadNextPage()
                 }
             }
 
-            PostDetailMviModel.Intent.Refresh -> refresh()
+            PostDetailMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
+
             PostDetailMviModel.Intent.RefreshPost -> refreshPost()
             PostDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is PostDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
@@ -307,13 +310,13 @@ class PostDetailViewModel(
         }
     }
 
-    private fun refresh() {
+    private suspend fun refresh() {
         currentPage = 1
         mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
@@ -321,66 +324,64 @@ class PostDetailViewModel(
         }
         val autoExpandComments = settingsRepository.currentSettings.value.autoExpandComments
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val sort = currentState.sortType
-            val itemList = commentRepository.getAll(
-                auth = auth,
-                postId = post.id,
-                instance = otherInstance,
-                page = currentPage,
-                sort = sort,
-            )?.processCommentsToGetNestedOrder(
-                ancestorId = null,
-            )?.populateLoadMoreComments()?.let { list ->
-                if (refreshing) {
-                    list
-                } else {
-                    list.filter { c1 ->
-                        // prevents accidental duplication
-                        currentState.comments.none { c2 -> c1.id == c2.id }
-                    }
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val sort = currentState.sortType
+        val itemList = commentRepository.getAll(
+            auth = auth,
+            postId = post.id,
+            instance = otherInstance,
+            page = currentPage,
+            sort = sort,
+        )?.processCommentsToGetNestedOrder(
+            ancestorId = null,
+        )?.populateLoadMoreComments()?.let { list ->
+            if (refreshing) {
+                list
+            } else {
+                list.filter { c1 ->
+                    // prevents accidental duplication
+                    currentState.comments.none { c2 -> c1.id == c2.id }
                 }
-            }?.map {
-                it.copy(
-                    expanded = autoExpandComments,
-                    // only first level are visible and can be expanded
-                    visible = autoExpandComments || it.depth == 0
-                )
             }
+        }?.map {
+            it.copy(
+                expanded = autoExpandComments,
+                // only first level are visible and can be expanded
+                visible = autoExpandComments || it.depth == 0
+            )
+        }
 
-            if (!itemList.isNullOrEmpty()) {
-                currentPage++
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
+        mvi.updateState {
+            val newcomments = if (refreshing) {
+                itemList.orEmpty()
+            } else {
+                it.comments + itemList.orEmpty()
             }
-            mvi.updateState {
-                val newcomments = if (refreshing) {
-                    itemList.orEmpty()
-                } else {
-                    it.comments + itemList.orEmpty()
-                }
-                it.copy(
-                    comments = newcomments,
-                    loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
-                    refreshing = false,
-                    initial = false,
-                )
+            it.copy(
+                comments = newcomments,
+                loading = false,
+                canFetchMore = itemList?.isEmpty() != true,
+                refreshing = false,
+                initial = false,
+            )
 
-            }
-            if (highlightCommentPath != null && !commentWasHighlighted) {
-                downloadUntilHighlight()
-            }
+        }
+        if (highlightCommentPath != null && !commentWasHighlighted) {
+            downloadUntilHighlight()
         }
     }
 
     private fun applySortType(value: SortType) {
         mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.emitEffect(PostDetailMviModel.Effect.BackToTop)
+            refresh()
         }
-        refresh()
     }
 
     private fun handlePostUpdate(post: PostModel) {

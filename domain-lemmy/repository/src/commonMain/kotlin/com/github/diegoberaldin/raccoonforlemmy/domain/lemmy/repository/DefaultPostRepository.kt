@@ -38,9 +38,10 @@ internal class DefaultPostRepository(
         type: ListingType,
         sort: SortType,
         communityId: Int?,
-        instance: String?,
+        communityName: String?,
+        otherInstance: String?,
     ): Pair<List<PostModel>, String?>? = runCatching {
-        val response = if (instance.isNullOrEmpty()) {
+        val response = if (otherInstance.isNullOrEmpty()) {
             services.post.getAll(
                 authHeader = auth.toAuthHeader(),
                 auth = auth,
@@ -52,9 +53,9 @@ internal class DefaultPostRepository(
                 sort = sort.toDto(),
             )
         } else {
-            customServices.changeInstance(instance)
+            customServices.changeInstance(otherInstance)
             customServices.post.getAll(
-                communityId = communityId,
+                communityName = communityName,
                 page = page,
                 pageCursor = pageCursor,
                 limit = limit,

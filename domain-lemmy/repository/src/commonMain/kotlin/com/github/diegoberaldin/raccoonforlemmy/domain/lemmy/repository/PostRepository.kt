@@ -21,7 +21,8 @@ interface PostRepository {
         type: ListingType = ListingType.Local,
         sort: SortType = SortType.Active,
         communityId: Int? = null,
-        instance: String? = null,
+        communityName: String? = null,
+        otherInstance: String? = null,
     ): Pair<List<PostModel>, String?>?
 
     suspend fun get(

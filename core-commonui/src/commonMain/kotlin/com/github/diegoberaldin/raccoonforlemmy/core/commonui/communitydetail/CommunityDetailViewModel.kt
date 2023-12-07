@@ -140,8 +140,13 @@ class CommunityDetailViewModel(
 
     override fun reduce(intent: CommunityDetailMviModel.Intent) {
         when (intent) {
-            CommunityDetailMviModel.Intent.LoadNextPage -> loadNextPage()
-            CommunityDetailMviModel.Intent.Refresh -> refresh()
+            CommunityDetailMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+                loadNextPage()
+            }
+
+            CommunityDetailMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
 
             is CommunityDetailMviModel.Intent.DownVotePost -> {
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
@@ -225,126 +230,113 @@ class CommunityDetailViewModel(
         }
     }
 
-    private fun refresh() {
+    private suspend fun refresh() {
         currentPage = 1
         pageCursor = null
         hideReadPosts = false
         mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
         val auth = identityRepository.authToken.value
-        mvi.scope?.launch(Dispatchers.IO) {
-            val refreshedCommunity = if (otherInstance.isNotEmpty()) {
-                communityRepository.get(
-                    auth = auth,
-                    name = community.name,
-                    instance = otherInstance,
-                )
-            } else {
-                communityRepository.get(
-                    auth = auth,
-                    id = community.id,
-                    name = community.name,
-                )
-            }
-            val moderators = communityRepository.getModerators(
+        val refreshedCommunity = if (otherInstance.isNotEmpty()) {
+            communityRepository.get(
+                auth = auth,
+                name = community.name,
+                instance = otherInstance,
+            )
+        } else {
+            communityRepository.get(
                 auth = auth,
                 id = community.id,
+                name = community.name,
             )
-            if (refreshedCommunity != null) {
-                mvi.updateState {
-                    it.copy(
-                        community = refreshedCommunity,
-                        moderators = moderators,
-                    )
-                }
-            }
-
-            loadNextPage()
         }
+        val moderators = communityRepository.getModerators(
+            auth = auth,
+            id = community.id,
+        )
+        if (refreshedCommunity != null) {
+            mvi.updateState {
+                it.copy(
+                    community = refreshedCommunity,
+                    moderators = moderators,
+                )
+            }
+        }
+
+        loadNextPage()
     }
 
     private fun applySortType(value: SortType) {
         mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+            refresh()
         }
-        refresh()
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
-
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val sort = currentState.sortType
-            val communityId = currentState.community.id
-            val (itemList, nextPage) = if (otherInstance.isNotEmpty()) {
-                postRepository.getAll(
-                    instance = otherInstance,
-                    communityId = communityId,
-                    page = currentPage,
-                    pageCursor = pageCursor,
-                    sort = sort,
-                )
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val sort = currentState.sortType
+        val communityId = currentState.community.id
+        val (itemList, nextPage) = postRepository.getAll(
+            auth = auth,
+            otherInstance = otherInstance,
+            communityId = communityId,
+            communityName = community.name,
+            page = currentPage,
+            pageCursor = pageCursor,
+            sort = sort,
+        )?.let {
+            if (refreshing) {
+                it
             } else {
-                postRepository.getAll(
-                    auth = auth,
-                    communityId = communityId,
-                    page = currentPage,
-                    pageCursor = pageCursor,
-                    sort = sort,
-                )
-            }?.let {
-                if (refreshing) {
-                    it
-                } else {
-                    // prevents accidental duplication
-                    val posts = it.first
-                    it.copy(
-                        first = posts.filter { p1 ->
-                            currentState.posts.none { p2 -> p2.id == p1.id }
-                        },
-                    )
-                }
-            } ?: (null to null)
-            if (!itemList.isNullOrEmpty()) {
-                currentPage++
-            }
-            if (nextPage != null) {
-                pageCursor = nextPage
-            }
-            val itemsToAdd = itemList.orEmpty().filter { post ->
-                if (hideReadPosts) {
-                    !post.read
-                } else {
-                    true
-                }
-            }
-            if (uiState.value.autoLoadImages) {
-                itemsToAdd.forEach { post ->
-                    post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
-                        imagePreloadManager.preload(url)
-                    }
-                }
-            }
-            mvi.updateState {
-                val newItems = if (refreshing) {
-                    itemsToAdd
-                } else {
-                    it.posts + itemsToAdd
-                }
+                // prevents accidental duplication
+                val posts = it.first
                 it.copy(
-                    posts = newItems,
-                    loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
-                    refreshing = false,
+                    first = posts.filter { p1 ->
+                        currentState.posts.none { p2 -> p2.id == p1.id }
+                    },
                 )
             }
+        } ?: (null to null)
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
+        if (nextPage != null) {
+            pageCursor = nextPage
+        }
+        val itemsToAdd = itemList.orEmpty().filter { post ->
+            if (hideReadPosts) {
+                !post.read
+            } else {
+                true
+            }
+        }
+        if (uiState.value.autoLoadImages) {
+            itemsToAdd.forEach { post ->
+                post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                    imagePreloadManager.preload(url)
+                }
+            }
+        }
+        mvi.updateState {
+            val newItems = if (refreshing) {
+                itemsToAdd
+            } else {
+                it.posts + itemsToAdd
+            }
+            it.copy(
+                posts = newItems,
+                loading = false,
+                canFetchMore = itemList?.isEmpty() != true,
+                refreshing = false,
+            )
         }
     }
 
