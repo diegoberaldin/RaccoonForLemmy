@@ -31,12 +31,12 @@ actual object DateTime {
         val delta = Period.between(date.toLocalDate(), now.toLocalDate())
         val years = delta.years
         val months = delta.months
-        val days = delta.days
         val nowSeconds = now.toEpochSecond()
         val dateSeconds = date.toEpochSecond()
         val diffSeconds = (nowSeconds - dateSeconds)
-        val hours = (diffSeconds % 86400) / 3600
-        val minutes = (diffSeconds % 3600) / 60
+        val days = diffSeconds / 86400
+        val hours = ((diffSeconds % 86400) / 3600) % 24
+        val minutes = ((diffSeconds % 3600) / 60) % 60
         val seconds = diffSeconds % 60
         return when {
             years >= 1 -> buildString {
