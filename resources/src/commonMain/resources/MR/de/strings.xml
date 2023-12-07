@@ -258,4 +258,9 @@
     <string name="settings_vote_format_percentage">Prozentsatz</string>
     <string name="settings_font_family_default">System</string>
     <string name="post_reply_source_account">von:</string>
+    <string name="settings_comment_bar_theme">Thema der Kommentarleiste</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ozean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Erdbeere</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Regenbogen</string>
 </resources>

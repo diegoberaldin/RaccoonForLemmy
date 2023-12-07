@@ -252,4 +252,9 @@
     <string name="settings_vote_format_percentage">Procento</string>
     <string name="settings_font_family_default">Systém</string>
     <string name="post_reply_source_account">podle:</string>
+    <string name="settings_comment_bar_theme">Motiv lišty komentářů</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Oceán</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokádo</string>
+    <string name="settings_comment_bar_theme_red">🍓 Jahoda</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Duha</string>
 </resources>

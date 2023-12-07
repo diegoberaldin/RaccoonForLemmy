@@ -281,4 +281,9 @@
     <string name="settings_vote_format_percentage">Percentage</string>
     <string name="settings_font_family_default">System</string>
     <string name="post_reply_source_account">by:</string>
+    <string name="settings_comment_bar_theme">Comment bar theme</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ocean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Strawberry</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Rainbow</string>
 </resources>

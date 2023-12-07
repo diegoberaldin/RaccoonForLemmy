@@ -253,4 +253,9 @@
     <string name="settings_vote_format_percentage">Procent</string>
     <string name="settings_font_family_default">Sistem</string>
     <string name="post_reply_source_account">de:</string>
+    <string name="settings_comment_bar_theme">Tema barei comentariilor</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ocean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Căpșună</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Curcubeu</string>
 </resources>

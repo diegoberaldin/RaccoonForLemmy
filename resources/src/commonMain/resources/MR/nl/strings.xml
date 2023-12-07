@@ -255,4 +255,9 @@
     <string name="settings_vote_format_percentage">Percentage</string>
     <string name="settings_font_family_default">Systeem</string>
     <string name="post_reply_source_account">door:</string>
+    <string name="settings_comment_bar_theme">Thema van de commentaarbalk</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Oceaan</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Aardbei</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Regenboog</string>
 </resources>

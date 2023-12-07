@@ -261,4 +261,9 @@
     <string name="settings_vote_format_percentage">Ποσοστό</string>
     <string name="settings_font_family_default">Σύστημα</string>
     <string name="post_reply_source_account">από:</string>
+    <string name="settings_comment_bar_theme">Θέμα γραμμής σχολίων</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ωκεανός</string>
+    <string name="settings_comment_bar_theme_green">🥑 Αβοκάντο</string>
+    <string name="settings_comment_bar_theme_red">🍓 Φράουλα</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Ουράνιο τόξο</string>
 </resources>

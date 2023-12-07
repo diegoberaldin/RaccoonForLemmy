@@ -252,4 +252,9 @@
     <string name="settings_vote_format_percentage">Odstotek</string>
     <string name="settings_font_family_default">Sistem</string>
     <string name="post_reply_source_account">avtor:</string>
+    <string name="settings_comment_bar_theme">Tema vrstice za komentarje</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ocean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Jagoda</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Mavrica</string>
 </resources>

@@ -257,4 +257,9 @@
     <string name="settings_vote_format_percentage">Persentaġġ</string>
     <string name="settings_font_family_default">Sistema</string>
     <string name="post_reply_source_account">minn:</string>
+    <string name="settings_comment_bar_theme">It-tema tal-bar tal-kumment</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Oċean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Frawli</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Qawsalla</string>
 </resources>

@@ -256,4 +256,9 @@
     <string name="settings_vote_format_percentage">Percentuale</string>
     <string name="settings_font_family_default">Sistema</string>
     <string name="post_reply_source_account">da:</string>
+    <string name="settings_comment_bar_theme">Tema barra dei commenti</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Oceano</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Fragola</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Arcobaleno</string>
 </resources>

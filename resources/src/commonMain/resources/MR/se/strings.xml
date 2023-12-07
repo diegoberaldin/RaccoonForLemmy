@@ -253,4 +253,9 @@
     <string name="settings_vote_format_percentage">Procentsats</string>
     <string name="settings_font_family_default">Systemet</string>
     <string name="post_reply_source_account">förbi:</string>
+    <string name="settings_comment_bar_theme">Kommentarsfältets tema</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Hav</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Jordgubbe</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Regnbåge</string>
 </resources>

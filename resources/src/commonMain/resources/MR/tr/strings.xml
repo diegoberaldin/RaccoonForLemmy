@@ -255,4 +255,9 @@
     <string name="settings_vote_format_percentage">Yüzde</string>
     <string name="settings_font_family_default">Sistem</string>
     <string name="post_reply_source_account">ile:</string>
+    <string name="settings_comment_bar_theme">Yorum çubuğu teması</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Okyanus</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Çilek</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Gökkuşağı</string>
 </resources>

@@ -260,4 +260,9 @@
     <string name="settings_vote_format_percentage">Процент</string>
     <string name="settings_font_family_default">Система</string>
     <string name="post_reply_source_account">от:</string>
+    <string name="settings_comment_bar_theme">Тема на лентата за коментари</string>
+    <string name="settings_comment_bar_theme_blue">🌊 океан</string>
+    <string name="settings_comment_bar_theme_green">🥑 авокадо</string>
+    <string name="settings_comment_bar_theme_red">🍓 Ягода</string>
+    <string name="settings_comment_bar_theme_multi">🌈 дъга</string>
 </resources>

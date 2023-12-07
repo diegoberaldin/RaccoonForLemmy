@@ -250,4 +250,9 @@
     <string name="settings_vote_format_percentage">نسبة مئوية</string>
     <string name="settings_font_family_default">نظام</string>
     <string name="post_reply_source_account">بواسطة:</string>
+    <string name="settings_comment_bar_theme">موضوع شريط التعليق</string>
+    <string name="settings_comment_bar_theme_blue">🌊 محيط</string>
+    <string name="settings_comment_bar_theme_green">🥑 أفوكادو</string>
+    <string name="settings_comment_bar_theme_red">🍓 الفراولة</string>
+    <string name="settings_comment_bar_theme_multi">🌈 قوس المطر</string>
 </resources>

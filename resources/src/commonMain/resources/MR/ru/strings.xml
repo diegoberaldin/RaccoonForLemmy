@@ -255,4 +255,9 @@
     <string name="settings_vote_format_percentage">Процент</string>
     <string name="settings_font_family_default">Система</string>
     <string name="post_reply_source_account">к:</string>
+    <string name="settings_comment_bar_theme">Тема панели комментариев</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Океан</string>
+    <string name="settings_comment_bar_theme_green">🥑 Авокадо</string>
+    <string name="settings_comment_bar_theme_red">🍓 Клубника</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Радуга</string>
 </resources>

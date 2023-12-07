@@ -256,4 +256,9 @@
     <string name="settings_vote_format_percentage">Procenti</string>
     <string name="settings_font_family_default">Sistēma</string>
     <string name="post_reply_source_account">autors:</string>
+    <string name="settings_comment_bar_theme">Komentāru joslas tēma</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Okeāns</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Zemeņu</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Varavīksne</string>
 </resources>

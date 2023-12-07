@@ -252,4 +252,9 @@
     <string name="settings_vote_format_percentage">Protsent</string>
     <string name="settings_font_family_default">Süsteem</string>
     <string name="post_reply_source_account">kõrval:</string>
+    <string name="settings_comment_bar_theme">Kommentaaririba teema</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ookean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokaado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Maasikas</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Vikerkaar</string>
 </resources>

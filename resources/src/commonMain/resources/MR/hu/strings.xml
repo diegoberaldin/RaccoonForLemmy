@@ -256,4 +256,9 @@
     <string name="settings_vote_format_percentage">Százalék</string>
     <string name="settings_font_family_default">Rendszer</string>
     <string name="post_reply_source_account">által:</string>
+    <string name="settings_comment_bar_theme">A megjegyzéssáv témája</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Óceán</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokádó</string>
+    <string name="settings_comment_bar_theme_red">🍓 Eper</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Szivárvány</string>
 </resources>

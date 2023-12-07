@@ -252,4 +252,9 @@
     <string name="settings_vote_format_percentage">Procent</string>
     <string name="settings_font_family_default">System</string>
     <string name="post_reply_source_account">ved:</string>
+    <string name="settings_comment_bar_theme">Kommentarlinje-tema</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ocean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Jordbær</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Regnbue</string>
 </resources>

@@ -257,4 +257,9 @@
     <string name="settings_vote_format_percentage">Postotak</string>
     <string name="settings_font_family_default">Sustav</string>
     <string name="post_reply_source_account">po:</string>
+    <string name="settings_comment_bar_theme">Tema trake komentara</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ocean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Jagoda</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Duga</string>
 </resources>

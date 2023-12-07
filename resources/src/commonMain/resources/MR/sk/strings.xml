@@ -254,4 +254,9 @@
     <string name="settings_vote_format_percentage">Percento</string>
     <string name="settings_font_family_default">Systém</string>
     <string name="post_reply_source_account">od:</string>
+    <string name="settings_comment_bar_theme">Motív panela komentárov</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Oceán</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokádo</string>
+    <string name="settings_comment_bar_theme_red">🍓 Jahodový</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Dúha</string>
 </resources>

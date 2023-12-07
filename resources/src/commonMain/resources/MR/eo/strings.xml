@@ -251,4 +251,9 @@
     <string name="settings_vote_format_percentage">Procento</string>
     <string name="settings_font_family_default">Sistemo</string>
     <string name="post_reply_source_account">de:</string>
+    <string name="settings_comment_bar_theme">Etoso de la komenta trinkejo</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Ocean</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Frago</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Ĉielarko</string>
 </resources>

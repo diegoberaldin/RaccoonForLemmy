@@ -261,4 +261,9 @@
     <string name="settings_vote_format_percentage">Céatadán</string>
     <string name="settings_font_family_default">Córas</string>
     <string name="post_reply_source_account">le:</string>
+    <string name="settings_comment_bar_theme">Téama barra tráchta</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Aigéan</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Sú talún</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Bogha ceatha</string>
 </resources>

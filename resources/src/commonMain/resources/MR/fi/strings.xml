@@ -252,4 +252,9 @@
     <string name="settings_vote_format_percentage">Prosenttiosuus</string>
     <string name="settings_font_family_default">Järjestelmä</string>
     <string name="post_reply_source_account">kirjoittaja:</string>
+    <string name="settings_comment_bar_theme">Kommenttipalkin teema</string>
+    <string name="settings_comment_bar_theme_blue">🌊 Valtameri</string>
+    <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
+    <string name="settings_comment_bar_theme_red">🍓 Mansikka</string>
+    <string name="settings_comment_bar_theme_multi">🌈 Sateenkaari</string>
 </resources>
