@@ -71,7 +71,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDur
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageFlag
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.getSettingsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutDialog
@@ -359,6 +358,7 @@ class SettingsScreen : Screen {
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
                                 sheetKey = key,
+                                values = uiState.availableSortTypesForPosts,
                                 expandTop = true,
                                 comments = false,
                             )
@@ -374,13 +374,7 @@ class SettingsScreen : Screen {
                             val sheet = SortBottomSheet(
                                 sheetKey = key,
                                 comments = true,
-                                values = listOf(
-                                    SortType.Hot,
-                                    SortType.Top.Generic,
-                                    SortType.New,
-                                    SortType.Old,
-                                    SortType.Controversial,
-                                ),
+                                values = uiState.availableSortTypesForComments,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
@@ -520,8 +514,7 @@ class SettingsScreen : Screen {
                     )
 
                     // NSFW options
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_include_nsfw),
+                    SettingsSwitchRow(title = stringResource(MR.strings.settings_include_nsfw),
                         value = uiState.includeNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))

@@ -56,6 +56,7 @@ interface PostDetailMviModel :
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
         val moderators: List<UserModel> = emptyList(),
+        val availableSortTypes: List<SortType> = emptyList(),
     )
 
     sealed interface Effect {

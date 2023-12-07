@@ -42,4 +42,17 @@ internal class DefaultGetSortTypesUseCase(
             this += SortType.Top.Generic
         }
     }
+
+    override suspend fun getTypesForCommunities(otherInstance: String?): List<SortType> =
+        buildList {
+            this += SortType.Active
+            this += SortType.New
+            this += SortType.MostComments
+        }
+
+    override suspend fun getTypesForSavedItems(): List<SortType> = buildList {
+        this += SortType.Hot
+        this += SortType.New
+        this += SortType.Old
+    }
 }

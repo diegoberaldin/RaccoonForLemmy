@@ -26,6 +26,7 @@ interface InstanceInfoMviModel :
         val loading: Boolean = false,
         val sortType: SortType = SortType.Active,
         val communities: List<CommunityModel> = emptyList(),
+        val availableSortTypes: List<SortType> = emptyList(),
     )
 
     sealed interface Effect {

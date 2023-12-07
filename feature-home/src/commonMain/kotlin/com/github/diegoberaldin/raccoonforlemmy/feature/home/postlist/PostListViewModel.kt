@@ -19,6 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +43,7 @@ class PostListViewModel(
     private val zombieModeHelper: ZombieModeHelper,
     private val imagePreloadManager: ImagePreloadManager,
     private val contentResetCoordinator: ContentResetCoordinator,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : PostListMviModel,
     MviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect> by mvi {
 
@@ -68,6 +70,7 @@ class PostListViewModel(
                 mvi.updateState {
                     it.copy(isLogged = logged ?: false)
                 }
+                updateAvailableSortTypes()
             }.launchIn(this)
 
             themeRepository.postLayout.onEach { layout ->
@@ -134,10 +137,16 @@ class PostListViewModel(
                 )
             }
             mvi.scope?.launch(Dispatchers.IO) {
+                updateAvailableSortTypes()
                 refresh()
                 mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             }
         }
+    }
+
+    private suspend fun updateAvailableSortTypes() {
+        val sortTypes = getSortTypesUseCase.getTypesForPosts()
+        mvi.updateState { it.copy(availableSortTypes = sortTypes) }
     }
 
     override fun reduce(intent: PostListMviModel.Intent) {

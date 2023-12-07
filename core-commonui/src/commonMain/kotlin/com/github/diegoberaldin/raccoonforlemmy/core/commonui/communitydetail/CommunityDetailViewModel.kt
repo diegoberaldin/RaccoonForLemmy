@@ -18,6 +18,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +41,7 @@ class CommunityDetailViewModel(
     private val hapticFeedback: HapticFeedback,
     private val zombieModeHelper: ZombieModeHelper,
     private val imagePreloadManager: ImagePreloadManager,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
     private val notificationCenter: NotificationCenter,
 ) : CommunityDetailMviModel,
     MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi {
@@ -129,6 +131,8 @@ class CommunityDetailViewModel(
                 mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
             if (mvi.uiState.value.posts.isEmpty()) {
+                val sortTypes = getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
+                mvi.updateState { it.copy(availableSortTypes = sortTypes) }
                 refresh()
             }
         }

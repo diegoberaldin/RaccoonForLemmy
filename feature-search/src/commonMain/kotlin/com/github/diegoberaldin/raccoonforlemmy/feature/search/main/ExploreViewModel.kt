@@ -22,6 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -44,6 +45,7 @@ class ExploreViewModel(
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val contentResetCoordinator: ContentResetCoordinator,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : ExploreMviModel,
     MviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect> by mvi {
 
@@ -63,6 +65,7 @@ class ExploreViewModel(
                 mvi.updateState {
                     it.copy(isLogged = isLogged ?: false)
                 }
+                updateAvailableSortTypes()
             }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
@@ -117,10 +120,16 @@ class ExploreViewModel(
                 )
             }
             mvi.scope?.launch(Dispatchers.IO) {
+                updateAvailableSortTypes()
                 refresh()
                 mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
             }
         }
+    }
+
+    private suspend fun updateAvailableSortTypes() {
+        val sortTypes = getSortTypesUseCase.getTypesForPosts()
+        mvi.updateState { it.copy(availableSortTypes = sortTypes) }
     }
 
     override fun reduce(intent: ExploreMviModel.Intent) {

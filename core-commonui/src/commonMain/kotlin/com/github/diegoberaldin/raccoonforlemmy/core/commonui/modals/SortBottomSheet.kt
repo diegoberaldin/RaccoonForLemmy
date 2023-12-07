@@ -41,15 +41,7 @@ import dev.icerock.moko.resources.compose.stringResource
 class SortBottomSheet(
     private val sheetKey: String,
     private val comments: Boolean,
-    private val values: List<SortType> = listOf(
-        SortType.Active,
-        SortType.Hot,
-        SortType.New,
-        SortType.NewComments,
-        SortType.MostComments,
-        SortType.Old,
-        SortType.Top.Generic,
-    ),
+    private val values: List<SortType>,
     private val expandTop: Boolean = false,
 ) : Screen {
     @Composable

@@ -21,6 +21,7 @@ val settingsTabModule = module {
             crashReportConfiguration = get(),
             crashReportSender = get(),
             contentResetCoordinator = get(),
+            getSortTypesUseCase = get(),
         )
     }
     factory<AboutDialogMviModel> {

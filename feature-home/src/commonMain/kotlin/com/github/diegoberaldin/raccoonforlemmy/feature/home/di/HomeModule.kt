@@ -27,6 +27,7 @@ val homeTabModule = module {
             zombieModeHelper = get(),
             imagePreloadManager = get(),
             contentResetCoordinator = get(),
+            getSortTypesUseCase = get(),
         )
     }
 }

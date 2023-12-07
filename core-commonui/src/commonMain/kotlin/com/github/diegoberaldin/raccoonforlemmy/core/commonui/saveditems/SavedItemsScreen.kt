@@ -67,14 +67,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -91,7 +89,6 @@ class SavedItemsScreen : Screen {
         val navigatorCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-        val notificationCenter = remember { getNotificationCenter() }
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
@@ -118,11 +115,7 @@ class SavedItemsScreen : Screen {
                                     val sheet = SortBottomSheet(
                                         sheetKey = key,
                                         comments = false,
-                                        values = listOf(
-                                            SortType.Hot,
-                                            SortType.New,
-                                            SortType.Old,
-                                        ),
+                                        values = uiState.availableSortTypes,
                                     )
                                     navigatorCoordinator.showBottomSheet(sheet)
                                 },

@@ -27,6 +27,7 @@ val exploreTabModule = module {
             notificationCenter = get(),
             hapticFeedback = get(),
             contentResetCoordinator = get(),
+            getSortTypesUseCase = get(),
         )
     }
     factory<ManageSubscriptionsMviModel> {
@@ -55,6 +56,7 @@ val exploreTabModule = module {
             hapticFeedback = get(),
             paginator = get(),
             imagePreloadManager = get(),
+            getSortTypesUseCase = get(),
         )
     }
     factory<MultiCommunityPaginator> {

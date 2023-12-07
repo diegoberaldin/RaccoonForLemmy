@@ -28,6 +28,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.resources.LanguageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
@@ -47,6 +48,7 @@ class SettingsViewModel(
     private val crashReportConfiguration: CrashReportConfiguration,
     private val crashReportSender: CrashReportSender,
     private val contentResetCoordinator: ContentResetCoordinator,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : SettingsMviModel,
     MviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect> by mvi {
 
@@ -147,6 +149,15 @@ class SettingsViewModel(
                 .onEach { evt ->
                     changeVoteFormat(evt.value)
                 }.launchIn(this)
+
+            val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
+            val availableSortTypesForComments = getSortTypesUseCase.getTypesForPosts()
+            mvi.updateState {
+                it.copy(
+                    availableSortTypesForPosts = availableSortTypesForPosts,
+                    availableSortTypesForComments = availableSortTypesForComments,
+                )
+            }
         }
 
         val settings = settingsRepository.currentSettings.value

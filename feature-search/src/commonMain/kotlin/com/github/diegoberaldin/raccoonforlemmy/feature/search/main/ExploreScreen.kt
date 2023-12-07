@@ -161,6 +161,7 @@ class ExploreScreen : Screen {
                         focusManager.clearFocus()
                         val sheet = SortBottomSheet(
                             sheetKey = key,
+                            values = uiState.availableSortTypes,
                             comments = false,
                             expandTop = true,
                         )

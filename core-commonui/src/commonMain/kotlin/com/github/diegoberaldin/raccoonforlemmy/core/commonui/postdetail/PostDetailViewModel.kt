@@ -16,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +41,7 @@ class PostDetailViewModel(
     private val shareHelper: ShareHelper,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : PostDetailMviModel,
     MviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect> by mvi {
 
@@ -168,6 +170,9 @@ class PostDetailViewModel(
                 refreshPost()
             }
             if (mvi.uiState.value.comments.isEmpty()) {
+                val sortTypes =
+                    getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
+                mvi.updateState { it.copy(availableSortTypes = sortTypes) }
                 refresh()
             }
         }

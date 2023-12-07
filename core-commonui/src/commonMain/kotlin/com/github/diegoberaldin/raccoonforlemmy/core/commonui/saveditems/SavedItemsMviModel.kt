@@ -43,6 +43,7 @@ interface SavedItemsMviModel :
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
+        val availableSortTypes: List<SortType> = emptyList(),
     )
 
     sealed interface Effect

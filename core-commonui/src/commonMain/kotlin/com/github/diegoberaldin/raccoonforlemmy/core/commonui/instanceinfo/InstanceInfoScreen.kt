@@ -50,7 +50,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -134,11 +133,7 @@ class InstanceInfoScreen(
                                         val sheet = SortBottomSheet(
                                             sheetKey = key,
                                             comments = false,
-                                            values = listOf(
-                                                SortType.Active,
-                                                SortType.New,
-                                                SortType.MostComments,
-                                            ),
+                                            values = uiState.availableSortTypes,
                                             expandTop = true,
                                         )
                                         navigationCoordinator.showBottomSheet(sheet)

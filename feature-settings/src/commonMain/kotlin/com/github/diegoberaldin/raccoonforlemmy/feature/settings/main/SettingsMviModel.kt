@@ -81,6 +81,8 @@ interface SettingsMviModel :
         val zombieModeInterval: Duration = 2.5.seconds,
         val zombieModeScrollAmount: Float = 100f,
         val markAsReadWhileScrolling: Boolean = true,
+        val availableSortTypesForPosts: List<SortType> = emptyList(),
+        val availableSortTypesForComments: List<SortType> = emptyList(),
     )
 
     sealed interface Effect

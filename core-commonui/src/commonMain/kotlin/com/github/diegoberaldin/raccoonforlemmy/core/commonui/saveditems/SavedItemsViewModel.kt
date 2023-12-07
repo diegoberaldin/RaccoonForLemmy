@@ -13,6 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
@@ -34,6 +35,7 @@ class SavedItemsViewModel(
     private val shareHelper: ShareHelper,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : SavedItemsMviModel,
     MviModel<SavedItemsMviModel.Intent, SavedItemsMviModel.UiState, SavedItemsMviModel.Effect> by mvi {
 
@@ -64,10 +66,11 @@ class SavedItemsViewModel(
                 .onEach { evt ->
                     applySortType(evt.value)
                 }.launchIn(this)
-        }
-
-        if (mvi.uiState.value.posts.isEmpty()) {
-            refresh()
+            if (mvi.uiState.value.posts.isEmpty()) {
+                val sortTypes = getSortTypesUseCase.getTypesForSavedItems()
+                mvi.updateState { it.copy(availableSortTypes = sortTypes) }
+                refresh()
+            }
         }
     }
 

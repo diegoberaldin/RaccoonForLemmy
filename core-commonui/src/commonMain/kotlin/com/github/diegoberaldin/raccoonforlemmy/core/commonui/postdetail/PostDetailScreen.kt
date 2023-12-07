@@ -104,7 +104,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -206,13 +205,7 @@ class PostDetailScreen(
                                     val sheet = SortBottomSheet(
                                         sheetKey = key,
                                         comments = true,
-                                        values = listOf(
-                                            SortType.Hot,
-                                            SortType.Top.Generic,
-                                            SortType.New,
-                                            SortType.Old,
-                                            SortType.Controversial,
-                                        ),
+                                        values = uiState.availableSortTypes,
                                     )
                                     navigationCoordinator.showBottomSheet(sheet)
                                 },

@@ -58,6 +58,7 @@ interface CommunityDetailMviModel :
         val autoLoadImages: Boolean = true,
         val zombieModeActive: Boolean = false,
         val moderators: List<UserModel> = emptyList(),
+        val availableSortTypes: List<SortType> = emptyList(),
     )
 
     sealed interface Effect {

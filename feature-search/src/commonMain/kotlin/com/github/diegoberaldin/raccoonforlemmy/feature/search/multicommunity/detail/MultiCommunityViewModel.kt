@@ -15,6 +15,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.utils.MultiCommunityPaginator
@@ -37,6 +38,7 @@ class MultiCommunityViewModel(
     private val hapticFeedback: HapticFeedback,
     private val paginator: MultiCommunityPaginator,
     private val imagePreloadManager: ImagePreloadManager,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : MultiCommunityMviModel,
     MviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect> by mvi {
 
@@ -79,9 +81,11 @@ class MultiCommunityViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             if (uiState.value.posts.isEmpty()) {
                 val settings = settingsRepository.currentSettings.value
+                val sortTypes = getSortTypesUseCase.getTypesForPosts()
                 mvi.updateState {
                     it.copy(
                         sortType = settings.defaultPostSortType.toSortType(),
+                        availableSortTypes = sortTypes,
                     )
                 }
                 paginator.setCommunities(community.communityIds)

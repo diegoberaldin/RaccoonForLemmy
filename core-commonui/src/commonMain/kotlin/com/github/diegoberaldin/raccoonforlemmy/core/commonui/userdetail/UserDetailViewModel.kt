@@ -17,6 +17,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
@@ -41,6 +42,7 @@ class UserDetailViewModel(
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val imagePreloadManager: ImagePreloadManager,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : UserDetailMviModel,
     MviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect> by mvi {
 
@@ -93,6 +95,7 @@ class UserDetailViewModel(
             }
         }
         if (uiState.value.posts.isEmpty()) {
+            updateAvailableSortTypes()
             refresh(initial = true)
         }
     }
@@ -181,6 +184,18 @@ class UserDetailViewModel(
             it.copy(
                 section = section,
             )
+        }
+        updateAvailableSortTypes()
+    }
+
+    private fun updateAvailableSortTypes() {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val sortTypes = if (uiState.value.section == UserDetailSection.Posts) {
+                getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
+            } else {
+                getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
+            }
+            mvi.updateState { it.copy(availableSortTypes = sortTypes) }
         }
     }
 

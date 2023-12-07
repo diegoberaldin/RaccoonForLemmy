@@ -66,6 +66,7 @@ val commonUiModule = module {
             shareHelper = get(),
             notificationCenter = get(),
             hapticFeedback = get(),
+            getSortTypesUseCase = get(),
         )
     }
     factory<CommunityDetailMviModel> { params ->
@@ -84,6 +85,7 @@ val commonUiModule = module {
             zombieModeHelper = get(),
             imagePreloadManager = get(),
             notificationCenter = get(),
+            getSortTypesUseCase = get(),
         )
     }
     factory<CommunityInfoMviModel> { params ->
@@ -108,6 +110,7 @@ val commonUiModule = module {
             hapticFeedback = get(),
             notificationCenter = get(),
             imagePreloadManager = get(),
+            getSortTypesUseCase = get(),
         )
     }
     factory<InstanceInfoMviModel> {
@@ -119,6 +122,7 @@ val commonUiModule = module {
             identityRepository = get(),
             settingsRepository = get(),
             notificationCenter = get(),
+            getSortTypesUseCase = get(),
         )
     }
     factory<CreateCommentMviModel> { params ->
@@ -181,6 +185,7 @@ val commonUiModule = module {
             shareHelper = get(),
             hapticFeedback = get(),
             notificationCenter = get(),
+            getSortTypesUseCase = get(),
         )
     }
     factory<ModalDrawerMviModel> {

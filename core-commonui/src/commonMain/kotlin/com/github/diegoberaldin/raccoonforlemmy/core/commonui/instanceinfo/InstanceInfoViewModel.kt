@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -26,6 +27,7 @@ class InstanceInfoViewModel(
     private val identityRepository: IdentityRepository,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : InstanceInfoMviModel,
     MviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect> by mvi {
 
@@ -43,12 +45,14 @@ class InstanceInfoViewModel(
                 }.launchIn(this)
 
             val metadata = siteRepository.getMetadata(url)
+            val sortTypes = getSortTypesUseCase.getTypesForCommunities()
             if (metadata != null) {
                 metadata.title
                 mvi.updateState {
                     it.copy(
                         title = metadata.title,
                         description = metadata.description,
+                        availableSortTypes = sortTypes,
                     )
                 }
             }

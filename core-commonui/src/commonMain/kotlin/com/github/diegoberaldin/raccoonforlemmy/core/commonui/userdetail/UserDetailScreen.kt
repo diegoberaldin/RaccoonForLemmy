@@ -93,7 +93,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -199,6 +198,7 @@ class UserDetailScreen(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
                                         sheetKey = key,
+                                        values = uiState.availableSortTypes,
                                         comments = false,
                                         expandTop = true,
                                     )
