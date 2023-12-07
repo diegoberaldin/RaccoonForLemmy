@@ -458,8 +458,10 @@ class SavedItemsScreen : Screen {
         if (rawContent != null) {
             when (val content = rawContent) {
                 is PostModel -> {
-                    RawContentDialog(title = content.title,
-                        date = content.publishDate,
+                    RawContentDialog(
+                        title = content.title,
+                        publishDate = content.publishDate,
+                        updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
                         onDismiss = {
@@ -468,7 +470,8 @@ class SavedItemsScreen : Screen {
                         onQuote = { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                val screen = CreateCommentScreen(originalPost = content,
+                                val screen = CreateCommentScreen(
+                                    originalPost = content,
                                     initialText = buildString {
                                         append("> ")
                                         append(quotation)
@@ -480,20 +483,26 @@ class SavedItemsScreen : Screen {
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(text = content.text, date = content.publishDate, onDismiss = {
-                        rawContent = null
-                    }, onQuote = { quotation ->
-                        rawContent = null
-                        if (quotation != null) {
-                            val screen = CreateCommentScreen(originalComment = content,
-                                initialText = buildString {
-                                    append("> ")
-                                    append(quotation)
-                                    append("\n\n")
-                                })
-                            navigationCoordinator.showBottomSheet(screen)
+                    RawContentDialog(
+                        text = content.text,
+                        publishDate = content.publishDate,
+                        updateDate = content.updateDate,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                        onQuote = { quotation ->
+                            rawContent = null
+                            if (quotation != null) {
+                                val screen = CreateCommentScreen(originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    })
+                                navigationCoordinator.showBottomSheet(screen)
+                            }
                         }
-                    })
+                    )
                 }
             }
         }

@@ -457,7 +457,8 @@ class ReportListScreen(
                 is PostReportModel -> {
                     RawContentDialog(
                         title = content.originalTitle,
-                        date = content.publishDate,
+                        publishDate = content.publishDate,
+                        updateDate = content.updateDate,
                         url = content.originalUrl,
                         text = content.originalText,
                         onDismiss = {
@@ -468,7 +469,8 @@ class ReportListScreen(
 
                 is CommentReportModel -> {
                     RawContentDialog(
-                        date = content.publishDate,
+                        publishDate = content.publishDate,
+                        updateDate = content.updateDate,
                         text = content.originalText,
                         onDismiss = {
                             rawContent = null

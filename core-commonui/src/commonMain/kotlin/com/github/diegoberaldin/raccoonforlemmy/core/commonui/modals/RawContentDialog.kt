@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -37,11 +38,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.getShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RawContentDialog(
-    date: String? = null,
+    publishDate: String? = null,
+    updateDate: String? = null,
     title: String? = null,
     url: String? = null,
     text: String? = null,
@@ -169,7 +170,7 @@ fun RawContentDialog(
                     }
                 }
 
-                date?.takeIf { it.trim().isNotEmpty() }?.also {
+                publishDate?.takeIf { it.trim().isNotEmpty() }?.also {
                     item {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -178,6 +179,29 @@ fun RawContentDialog(
                             Icon(
                                 modifier = Modifier.size(IconSize.m).padding(4.5.dp),
                                 imageVector = Icons.Default.Schedule,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground,
+                            )
+                            Text(
+                                modifier = Modifier.weight(1f),
+                                text = it,
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontFamily = FontFamily.Monospace,
+                                ),
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
+                    }
+                }
+                updateDate?.takeIf { it.trim().isNotEmpty() }?.also {
+                    item {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(IconSize.m).padding(4.5.dp),
+                                imageVector = Icons.Default.Edit,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onBackground,
                             )

@@ -374,7 +374,8 @@ class CreateCommentScreen(
                 is PostModel -> {
                     RawContentDialog(
                         title = content.title,
-                        date = content.publishDate,
+                        publishDate = content.publishDate,
+                        updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
                         onDismiss = {
@@ -386,7 +387,8 @@ class CreateCommentScreen(
                 is CommentModel -> {
                     RawContentDialog(
                         text = content.text,
-                        date = content.publishDate,
+                        publishDate = content.publishDate,
+                        updateDate = content.updateDate,
                         onDismiss = {
                             rawContent = null
                         },
