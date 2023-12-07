@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository
 
 import androidx.compose.ui.graphics.Color
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
@@ -19,6 +20,7 @@ internal class DefaultThemeRepository : ThemeRepository {
     override val upvoteColor = MutableStateFlow<Color?>(null)
     override val downvoteColor = MutableStateFlow<Color?>(null)
     override val postLayout = MutableStateFlow<PostLayout>(PostLayout.Card)
+    override val commentBarTheme = MutableStateFlow<CommentBarTheme>(CommentBarTheme.Blue)
 
     override fun changeUiTheme(value: UiTheme?) {
         uiTheme.value = value
@@ -44,33 +46,13 @@ internal class DefaultThemeRepository : ThemeRepository {
         dynamicColors.value = value
     }
 
-    override fun getCommentBarColor(
-        depth: Int,
-        maxDepth: Int,
-        startColor: Color,
-        endColor: Color,
-    ): Color {
-        if (depth == 0) {
+    override fun getCommentBarColor(depth: Int, commentBarTheme: CommentBarTheme): Color {
+        val colors = getCommentBarColors(commentBarTheme)
+        if (colors.isEmpty()) {
             return Color.Transparent
         }
-        val r1 = startColor.red
-        val g1 = startColor.green
-        val b1 = startColor.blue
-
-        val r2 = endColor.red
-        val g2 = endColor.green
-        val b2 = endColor.blue
-
-        val redStep = (r2 - r1) / maxDepth
-        val greenStep = (g2 - g1) / maxDepth
-        val blueStep = (b2 - b1) / maxDepth
-
-        val index = ((depth - 1).coerceAtLeast(0) % maxDepth)
-        return Color(
-            r1 + redStep * index,
-            g1 + greenStep * index,
-            b1 + blueStep * index,
-        )
+        val index = depth % colors.size
+        return colors[index]
     }
 
     override fun changeCustomSeedColor(color: Color?) {
@@ -88,4 +70,47 @@ internal class DefaultThemeRepository : ThemeRepository {
     override fun changePostLayout(value: PostLayout) {
         postLayout.value = value
     }
+
+    override fun changeCommentBarTheme(value: CommentBarTheme) {
+        commentBarTheme.value = value
+    }
+
+    override fun getCommentBarColors(commentBarTheme: CommentBarTheme): List<Color> =
+        when (commentBarTheme) {
+            CommentBarTheme.Green -> buildList {
+                this += Color(0xFF1B4332)
+                this += Color(0xFF2D6A4F)
+                this += Color(0xFF40916C)
+                this += Color(0xFF52B788)
+                this += Color(0xFF74C69D)
+                this += Color(0xFF95D5B2)
+            }
+
+            CommentBarTheme.Red -> buildList {
+                this += Color(0xFF6A040F)
+                this += Color(0xFF9D0208)
+                this += Color(0xFFD00000)
+                this += Color(0xFFDC2F02)
+                this += Color(0xFFE85D04)
+                this += Color(0xFFF48C06)
+            }
+
+            CommentBarTheme.Blue -> buildList {
+                this += Color(0xFF012A4A)
+                this += Color(0xFF013A63)
+                this += Color(0xFF014F86)
+                this += Color(0xFF2C7DA0)
+                this += Color(0xFF61A5C2)
+                this += Color(0xFFA9D6E5)
+            }
+
+            CommentBarTheme.Rainbow -> buildList {
+                this += Color(0xFF9400D3)
+                this += Color(0xFF0000FF)
+                this += Color(0xFF00FF00)
+                this += Color(0xFFFFFF00)
+                this += Color(0xFFFF7F00)
+                this += Color(0xFFFF0000)
+            }
+        }
 }

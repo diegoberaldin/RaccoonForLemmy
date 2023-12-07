@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
@@ -20,6 +21,7 @@ interface ThemeRepository {
     val upvoteColor: StateFlow<Color?>
     val downvoteColor: StateFlow<Color?>
     val postLayout: StateFlow<PostLayout>
+    val commentBarTheme: StateFlow<CommentBarTheme>
 
     fun changeUiTheme(value: UiTheme?)
 
@@ -33,17 +35,17 @@ interface ThemeRepository {
 
     fun changeDynamicColors(value: Boolean)
 
-    fun getCommentBarColor(
-        depth: Int,
-        maxDepth: Int,
-        startColor: Color,
-        endColor: Color,
-    ): Color
+    fun getCommentBarColor(depth: Int, commentBarTheme: CommentBarTheme): Color
 
     fun changeCustomSeedColor(color: Color?)
 
     fun changeUpvoteColor(color: Color?)
 
     fun changeDownvoteColor(color: Color?)
+
     fun changePostLayout(value: PostLayout)
+
+    fun changeCommentBarTheme(value: CommentBarTheme)
+
+    fun getCommentBarColors(commentBarTheme: CommentBarTheme): List<Color>
 }

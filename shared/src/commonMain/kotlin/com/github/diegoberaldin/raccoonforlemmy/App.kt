@@ -27,6 +27,7 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toCommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toPostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUiFontFamily
@@ -113,6 +114,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             changeContentFontScale(currentSettings.contentFontScale)
             changeUiFontScale(currentSettings.uiFontScale)
             changeUiFontFamily(currentSettings.uiFontFamily.toUiFontFamily())
+            changeCommentBarTheme(currentSettings.commentBarTheme.toCommentBarTheme())
 
             with(themeRepository) {
                 changeUpvoteColor(currentSettings.upvoteColor?.let { Color(it) })

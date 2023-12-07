@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +26,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 
 private val barWidth = 1.25.dp
 private const val INDENT_AMOUNT = 3
@@ -54,16 +53,16 @@ fun CommentCard(
     onToggleExpanded: (() -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
+    var commentHeight by remember { mutableStateOf(0f) }
+    val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
+    val barColor = themeRepository.getCommentBarColor(
+        depth = comment.depth,
+        commentBarTheme = commentBarTheme,
+    )
+
     Column(
         modifier = modifier
     ) {
-        var commentHeight by remember { mutableStateOf(0f) }
-        val barColor = themeRepository.getCommentBarColor(
-            depth = comment.depth,
-            maxDepth = CommentRepository.MAX_COMMENT_DEPTH,
-            startColor = MaterialTheme.colorScheme.primary,
-            endColor = MaterialTheme.colorScheme.background,
-        )
         Box(
             modifier = Modifier.onClick(
                 onClick = onClick ?: {},

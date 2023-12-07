@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,7 +25,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 
 @Composable
 fun CollapsedCommentCard(
@@ -45,13 +44,12 @@ fun CollapsedCommentCard(
     onToggleExpanded: (() -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
+    val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
     var commentHeight by remember { mutableStateOf(0f) }
     val barWidth = 2.dp
     val barColor = themeRepository.getCommentBarColor(
         depth = comment.depth,
-        maxDepth = CommentRepository.MAX_COMMENT_DEPTH,
-        startColor = MaterialTheme.colorScheme.primary,
-        endColor = MaterialTheme.colorScheme.background,
+        commentBarTheme = commentBarTheme,
     )
     Column(
         modifier = modifier.onClick(
