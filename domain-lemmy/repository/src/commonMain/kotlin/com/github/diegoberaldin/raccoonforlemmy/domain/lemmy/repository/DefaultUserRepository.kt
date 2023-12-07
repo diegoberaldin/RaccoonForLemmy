@@ -24,36 +24,20 @@ internal class DefaultUserRepository(
         id: Int,
         auth: String?,
         username: String?,
+        otherInstance: String?,
     ): UserModel? = runCatching {
-        val response = services.user.getDetails(
-            authHeader = auth.toAuthHeader(),
-            auth = auth,
-            personId = id,
-            username = username,
-        )
-        val dto = response.body() ?: return@runCatching null
-        UserModel(
-            id = dto.personView.person.id,
-            name = dto.personView.person.name,
-            avatar = dto.personView.person.avatar,
-            banner = dto.personView.person.banner,
-            host = dto.personView.person.actorId.toHost(),
-            score = dto.personView.counts.toModel(),
-            accountAge = dto.personView.person.published,
-        )
-    }.getOrNull()
-
-    override suspend fun getOnOtherInstance(
-        instance: String,
-        username: String?,
-        auth: String?,
-    ): UserModel? = runCatching {
-        customServices.changeInstance(instance)
-        val response = customServices.user.getDetails(
-            authHeader = auth.toAuthHeader(),
-            auth = auth,
-            username = username,
-        )
+        val response = if (otherInstance.isNullOrEmpty()) {
+            services.user.getDetails(
+                authHeader = auth.toAuthHeader(),
+                auth = auth,
+                personId = id,
+            )
+        } else {
+            customServices.changeInstance(otherInstance)
+            customServices.user.getDetails(
+                username = "$username@$otherInstance",
+            )
+        }
         val dto = response.body() ?: return@runCatching null
         UserModel(
             id = dto.personView.person.id,
@@ -72,15 +56,27 @@ internal class DefaultUserRepository(
         page: Int,
         limit: Int,
         sort: SortType,
+        username: String?,
+        otherInstance: String?,
     ): List<PostModel>? = runCatching {
-        val response = services.user.getDetails(
-            authHeader = auth.toAuthHeader(),
-            auth = auth,
-            personId = id,
-            page = page,
-            limit = limit,
-            sort = sort.toCommentDto(),
-        )
+        val response = if (otherInstance.isNullOrEmpty()) {
+            services.user.getDetails(
+                authHeader = auth.toAuthHeader(),
+                auth = auth,
+                personId = id,
+                page = page,
+                limit = limit,
+                sort = sort.toCommentDto(),
+            )
+        } else {
+            customServices.changeInstance(otherInstance)
+            customServices.user.getDetails(
+                username = "$username@$otherInstance",
+                page = page,
+                limit = limit,
+                sort = sort.toCommentDto(),
+            )
+        }
         val dto = response.body() ?: return@runCatching emptyList()
         dto.posts.map { it.toModel() }
     }.getOrNull()
@@ -111,15 +107,27 @@ internal class DefaultUserRepository(
         page: Int,
         limit: Int,
         sort: SortType,
+        username: String?,
+        otherInstance: String?,
     ): List<CommentModel>? = runCatching {
-        val response = services.user.getDetails(
-            authHeader = auth.toAuthHeader(),
-            auth = auth,
-            personId = id,
-            page = page,
-            limit = limit,
-            sort = sort.toCommentDto(),
-        )
+        val response = if (otherInstance.isNullOrEmpty()) {
+            services.user.getDetails(
+                authHeader = auth.toAuthHeader(),
+                auth = auth,
+                personId = id,
+                page = page,
+                limit = limit,
+                sort = sort.toCommentDto(),
+            )
+        } else {
+            customServices.changeInstance(otherInstance)
+            customServices.user.getDetails(
+                username = "$username@$otherInstance",
+                page = page,
+                limit = limit,
+                sort = sort.toCommentDto(),
+            )
+        }
         val dto = response.body() ?: return@runCatching emptyList()
         dto.comments.map { it.toModel() }
     }.getOrNull()

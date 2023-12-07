@@ -93,10 +93,11 @@ class UserDetailViewModel(
                     )
                 }
             }
-        }
-        if (uiState.value.posts.isEmpty()) {
-            updateAvailableSortTypes()
-            refresh(initial = true)
+
+            if (uiState.value.posts.isEmpty()) {
+                updateAvailableSortTypes()
+                refresh(initial = true)
+            }
         }
     }
 
@@ -123,8 +124,14 @@ class UserDetailViewModel(
             }
 
             UserDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            UserDetailMviModel.Intent.LoadNextPage -> loadNextPage()
-            UserDetailMviModel.Intent.Refresh -> refresh()
+            UserDetailMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+                loadNextPage()
+            }
+
+            UserDetailMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
+
             is UserDetailMviModel.Intent.SaveComment -> {
                 uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
                     toggleSaveComment(
@@ -199,7 +206,7 @@ class UserDetailViewModel(
         }
     }
 
-    private fun refresh(initial: Boolean = false) {
+    private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
         mvi.updateState {
             it.copy(
@@ -208,110 +215,103 @@ class UserDetailViewModel(
                 initial = initial,
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
-            val auth = identityRepository.authToken.value
-            val refreshedUser = if (otherInstance.isNotEmpty()) {
-                userRepository.getOnOtherInstance(
-                    instance = otherInstance,
-                    auth = auth,
-                    username = user.name,
-                )
-            } else {
-                userRepository.get(
-                    id = user.id,
-                    auth = auth,
-                    username = user.name,
-                )
-            }
-            if (refreshedUser != null) {
-                mvi.updateState { it.copy(user = refreshedUser) }
-            }
-            loadNextPage()
+        val auth = identityRepository.authToken.value
+        val refreshedUser = userRepository.get(
+            id = user.id,
+            auth = auth,
+            otherInstance = otherInstance,
+            username = user.name,
+        )
+        if (refreshedUser != null) {
+            mvi.updateState { it.copy(user = refreshedUser) }
         }
+        loadNextPage()
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
-
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val section = currentState.section
-            val userId = currentState.user.id
-            if (section == UserDetailSection.Posts) {
-                val itemList = userRepository.getPosts(
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val section = currentState.section
+        val userId = currentState.user.id
+        if (section == UserDetailSection.Posts) {
+            val itemList = userRepository.getPosts(
+                auth = auth,
+                id = userId,
+                page = currentPage,
+                sort = currentState.sortType,
+                username = user.name,
+                otherInstance = otherInstance,
+            )
+            val comments = if (currentPage == 1 && currentState.comments.isEmpty()) {
+                // this is needed because otherwise on first selector change
+                // the lazy column scrolls back to top (it must have an empty data set)
+                userRepository.getComments(
                     auth = auth,
                     id = userId,
                     page = currentPage,
                     sort = currentState.sortType,
-                )
-                val comments = if (currentPage == 1 && currentState.comments.isEmpty()) {
-                    // this is needed because otherwise on first selector change
-                    // the lazy column scrolls back to top (it must have an empty data set)
-                    userRepository.getComments(
-                        auth = auth,
-                        id = userId,
-                        page = currentPage,
-                        sort = currentState.sortType,
-                    ).orEmpty()
+                    username = user.name,
+                    otherInstance = otherInstance,
+                ).orEmpty()
+            } else {
+                currentState.comments
+            }
+            mvi.updateState {
+                val newPosts = if (refreshing) {
+                    itemList.orEmpty()
                 } else {
-                    currentState.comments
+                    it.posts + itemList.orEmpty()
                 }
-                mvi.updateState {
-                    val newPosts = if (refreshing) {
-                        itemList.orEmpty()
-                    } else {
-                        it.posts + itemList.orEmpty()
-                    }
-                    if (uiState.value.autoLoadImages) {
-                        newPosts.forEach { post ->
-                            post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
-                                imagePreloadManager.preload(url)
-                            }
+                if (uiState.value.autoLoadImages) {
+                    newPosts.forEach { post ->
+                        post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                            imagePreloadManager.preload(url)
                         }
                     }
-                    it.copy(
-                        posts = newPosts,
-                        comments = comments,
-                        loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
-                        refreshing = false,
-                        initial = false,
-                    )
                 }
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage++
-                }
-            } else {
-                val itemList = userRepository.getComments(
-                    auth = auth,
-                    id = userId,
-                    page = currentPage,
-                    sort = currentState.sortType,
+                it.copy(
+                    posts = newPosts,
+                    comments = comments,
+                    loading = false,
+                    canFetchMore = itemList?.isEmpty() != true,
+                    refreshing = false,
+                    initial = false,
                 )
+            }
+            if (!itemList.isNullOrEmpty()) {
+                currentPage++
+            }
+        } else {
+            val itemList = userRepository.getComments(
+                auth = auth,
+                id = userId,
+                page = currentPage,
+                sort = currentState.sortType,
+                otherInstance = otherInstance,
+            )
 
-                mvi.updateState {
-                    val newcomments = if (refreshing) {
-                        itemList.orEmpty()
-                    } else {
-                        it.comments + itemList.orEmpty()
-                    }
-                    it.copy(
-                        comments = newcomments,
-                        loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
-                        refreshing = false,
-                        initial = false,
-                    )
+            mvi.updateState {
+                val newcomments = if (refreshing) {
+                    itemList.orEmpty()
+                } else {
+                    it.comments + itemList.orEmpty()
                 }
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage++
-                }
+                it.copy(
+                    comments = newcomments,
+                    loading = false,
+                    canFetchMore = itemList?.isEmpty() != true,
+                    refreshing = false,
+                    initial = false,
+                )
+            }
+            if (!itemList.isNullOrEmpty()) {
+                currentPage++
             }
         }
     }

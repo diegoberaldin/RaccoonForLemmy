@@ -10,16 +10,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import de.jensklingenberg.ktorfit.Response
 
 interface UserRepository {
+
     suspend fun get(
         id: Int,
         auth: String? = null,
         username: String? = null,
-    ): UserModel?
-
-    suspend fun getOnOtherInstance(
-        instance: String,
-        username: String? = null,
-        auth: String? = null,
+        otherInstance: String? = null,
     ): UserModel?
 
     suspend fun getPosts(
@@ -28,6 +24,8 @@ interface UserRepository {
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
         sort: SortType = SortType.Active,
+        username: String? = null,
+        otherInstance: String? = null,
     ): List<PostModel>?
 
     suspend fun getSavedPosts(
@@ -44,6 +42,8 @@ interface UserRepository {
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
         sort: SortType = SortType.Active,
+        username: String? = null,
+        otherInstance: String? = null,
     ): List<CommentModel>?
 
     suspend fun getSavedComments(
