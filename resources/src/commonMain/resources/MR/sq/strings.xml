@@ -263,4 +263,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
     <string name="settings_comment_bar_theme_red">🍓 Luleshtrydhe</string>
     <string name="settings_comment_bar_theme_multi">🌈 Ylber</string>
+    <string name="message_confirm_exit">Prekni sërish 🔙 për të dalë</string>
 </resources>

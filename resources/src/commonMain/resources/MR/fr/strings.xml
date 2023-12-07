@@ -260,4 +260,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avocat</string>
     <string name="settings_comment_bar_theme_red">🍓 Fraise</string>
     <string name="settings_comment_bar_theme_multi">🌈 Arc-en-ciel</string>
+    <string name="message_confirm_exit">Appuyez à nouveau sur 🔙 pour quitter</string>
 </resources>

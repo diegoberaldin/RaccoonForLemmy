@@ -240,7 +240,7 @@ class PostListScreen : Screen {
                         }
                     )
                 }
-            }
+            },
         ) { padding ->
             if (uiState.currentUserId != null) {
                 val pullRefreshState = rememberPullRefreshState(

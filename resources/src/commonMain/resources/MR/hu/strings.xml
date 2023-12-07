@@ -261,4 +261,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avokádó</string>
     <string name="settings_comment_bar_theme_red">🍓 Eper</string>
     <string name="settings_comment_bar_theme_multi">🌈 Szivárvány</string>
+    <string name="message_confirm_exit">A kilépéshez érintse meg ismét a 🔙 elemet</string>
 </resources>

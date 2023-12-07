@@ -260,4 +260,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Авокадо</string>
     <string name="settings_comment_bar_theme_red">🍓 Клубника</string>
     <string name="settings_comment_bar_theme_multi">🌈 Радуга</string>
+    <string name="message_confirm_exit">Нажмите 🔙 еще раз, чтобы выйти</string>
 </resources>

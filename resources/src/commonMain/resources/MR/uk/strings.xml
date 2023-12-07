@@ -259,4 +259,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Авокадо</string>
     <string name="settings_comment_bar_theme_red">🍓 Полуниця</string>
     <string name="settings_comment_bar_theme_multi">🌈 Веселка</string>
+    <string name="message_confirm_exit">Натисніть 🔙 ще раз, щоб вийти</string>
 </resources>

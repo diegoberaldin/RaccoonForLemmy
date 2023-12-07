@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -36,7 +39,9 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.ui.navigation.TabNavigationItem
+import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
@@ -54,6 +59,8 @@ internal object MainScreen : Screen {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val uiFontScale by themeRepository.uiFontScale.collectAsState()
+        val snackbarHostState = remember { SnackbarHostState() }
+        val exitMessage = stringResource(MR.strings.message_confirm_exit)
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -82,6 +89,16 @@ internal object MainScreen : Screen {
                 setBottomBarScrollConnection(scrollConnection)
                 setCurrentSection(HomeTab)
             }
+
+            navigationCoordinator.exitMessageVisible.onEach {
+                if (it) {
+                    snackbarHostState.showSnackbar(
+                        message = exitMessage,
+                        duration = SnackbarDuration.Short,
+                    )
+                    navigationCoordinator.setExitMessageVisible(false)
+                }
+            }.launchIn(this)
         }
 
         TabNavigator(HomeTab) { tabNavigator ->
@@ -93,6 +110,9 @@ internal object MainScreen : Screen {
             Scaffold(
                 content = {
                     CurrentTab()
+                },
+                snackbarHost = {
+                    SnackbarHost(snackbarHostState)
                 },
                 bottomBar = {
                     CompositionLocalProvider(

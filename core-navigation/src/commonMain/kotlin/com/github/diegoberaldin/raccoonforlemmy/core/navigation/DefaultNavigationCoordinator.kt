@@ -20,6 +20,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override val deepLinkUrl = MutableSharedFlow<String>()
     override val inboxUnread = MutableStateFlow(0)
     override val canPop = MutableStateFlow(false)
+    override val exitMessageVisible = MutableStateFlow(false)
 
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
@@ -127,5 +128,9 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
                 canPop.value = navigator?.canPop == true
             }
         }
+    }
+
+    override fun setExitMessageVisible(value: Boolean) {
+        exitMessageVisible.value = value
     }
 }

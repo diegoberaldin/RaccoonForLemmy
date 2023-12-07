@@ -255,4 +255,5 @@
     <string name="settings_comment_bar_theme_green">🥑 أفوكادو</string>
     <string name="settings_comment_bar_theme_red">🍓 الفراولة</string>
     <string name="settings_comment_bar_theme_multi">🌈 قوس المطر</string>
+    <string name="message_confirm_exit">ضغط على 🔙 مرة أخرى للخروج</string>
 </resources>

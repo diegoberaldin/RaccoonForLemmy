@@ -257,4 +257,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
     <string name="settings_comment_bar_theme_red">🍓 Jagoda</string>
     <string name="settings_comment_bar_theme_multi">🌈 Mavrica</string>
+    <string name="message_confirm_exit">Znova tapnite 🔙 za izhod</string>
 </resources>

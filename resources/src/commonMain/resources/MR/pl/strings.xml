@@ -260,4 +260,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Awokado</string>
     <string name="settings_comment_bar_theme_red">🍓 Truskawka</string>
     <string name="settings_comment_bar_theme_multi">🌈 Tęcza</string>
+    <string name="message_confirm_exit">Kliknij ponownie 🔙, aby wyjść</string>
 </resources>

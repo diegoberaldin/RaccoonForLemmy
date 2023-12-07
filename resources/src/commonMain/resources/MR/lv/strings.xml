@@ -261,4 +261,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
     <string name="settings_comment_bar_theme_red">🍓 Zemeņu</string>
     <string name="settings_comment_bar_theme_multi">🌈 Varavīksne</string>
+    <string name="message_confirm_exit">Lai izietu, vēlreiz pieskarieties 🔙</string>
 </resources>

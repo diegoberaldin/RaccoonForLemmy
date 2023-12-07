@@ -261,4 +261,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
     <string name="settings_comment_bar_theme_red">🍓 Fragola</string>
     <string name="settings_comment_bar_theme_multi">🌈 Arcobaleno</string>
+    <string name="message_confirm_exit">Premi due volte 🔙 per uscire</string>
 </resources>

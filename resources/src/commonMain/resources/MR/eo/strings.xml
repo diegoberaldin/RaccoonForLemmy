@@ -256,4 +256,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
     <string name="settings_comment_bar_theme_red">🍓 Frago</string>
     <string name="settings_comment_bar_theme_multi">🌈 Ĉielarko</string>
+    <string name="message_confirm_exit">Frapu 🔙 denove por eliri</string>
 </resources>

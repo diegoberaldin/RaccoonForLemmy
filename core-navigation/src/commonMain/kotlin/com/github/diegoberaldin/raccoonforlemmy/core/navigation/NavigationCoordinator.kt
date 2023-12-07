@@ -16,6 +16,7 @@ interface NavigationCoordinator {
     val inboxUnread: StateFlow<Int>
     val deepLinkUrl: Flow<String?>
     val canPop: StateFlow<Boolean>
+    val exitMessageVisible: StateFlow<Boolean>
 
     fun setCurrentSection(tab: Tab)
     fun submitDeeplink(url: String)
@@ -30,4 +31,5 @@ interface NavigationCoordinator {
     fun hideBottomSheet()
     fun pushScreen(screen: Screen)
     fun popScreen()
+    fun setExitMessageVisible(value: Boolean)
 }

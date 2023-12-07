@@ -258,4 +258,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avokado</string>
     <string name="settings_comment_bar_theme_red">🍓 Jordgubbe</string>
     <string name="settings_comment_bar_theme_multi">🌈 Regnbåge</string>
+    <string name="message_confirm_exit">Tryck på 🔙 igen för att avsluta</string>
 </resources>

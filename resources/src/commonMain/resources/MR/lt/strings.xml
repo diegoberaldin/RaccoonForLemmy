@@ -259,4 +259,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avokadas</string>
     <string name="settings_comment_bar_theme_red">🍓 Braškių</string>
     <string name="settings_comment_bar_theme_multi">🌈 Vaivorykštė</string>
+    <string name="message_confirm_exit">Bakstelėkite 🔙 dar kartą, kad išeitumėte</string>
 </resources>

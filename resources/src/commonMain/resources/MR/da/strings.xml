@@ -257,4 +257,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
     <string name="settings_comment_bar_theme_red">🍓 Jordbær</string>
     <string name="settings_comment_bar_theme_multi">🌈 Regnbue</string>
+    <string name="message_confirm_exit">Tryk på 🔙 igen for at afslutte</string>
 </resources>

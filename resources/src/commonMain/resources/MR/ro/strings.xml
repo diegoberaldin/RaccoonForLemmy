@@ -258,4 +258,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Avocado</string>
     <string name="settings_comment_bar_theme_red">🍓 Căpșună</string>
     <string name="settings_comment_bar_theme_multi">🌈 Curcubeu</string>
+    <string name="message_confirm_exit">Apasă din nou 🔙 pentru a ieși</string>
 </resources>

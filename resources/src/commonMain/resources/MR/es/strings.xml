@@ -261,4 +261,5 @@
     <string name="settings_comment_bar_theme_green">🥑 Aguacate</string>
     <string name="settings_comment_bar_theme_red">🍓 Fresa</string>
     <string name="settings_comment_bar_theme_multi">🌈 Arcoíris</string>
+    <string name="message_confirm_exit">Tocar 🔙 nuevamente para salir</string>
 </resources>
