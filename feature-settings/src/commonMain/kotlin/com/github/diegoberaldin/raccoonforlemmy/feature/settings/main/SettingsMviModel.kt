@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.main
 
 import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.core.model.ScreenModel
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
@@ -83,6 +84,7 @@ interface SettingsMviModel :
         val markAsReadWhileScrolling: Boolean = true,
         val availableSortTypesForPosts: List<SortType> = emptyList(),
         val availableSortTypesForComments: List<SortType> = emptyList(),
+        val commentBarTheme: CommentBarTheme = CommentBarTheme.Blue,
     )
 
     sealed interface Effect

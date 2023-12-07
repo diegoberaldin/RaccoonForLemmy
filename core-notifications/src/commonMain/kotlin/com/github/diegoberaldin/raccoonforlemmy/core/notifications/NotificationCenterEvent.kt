@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.notifications
 
 import androidx.compose.ui.graphics.Color
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
@@ -49,4 +50,5 @@ sealed interface NotificationCenterEvent {
     data class ChangeReportListType(val unresolvedOnly: Boolean) : NotificationCenterEvent
     data class UserBannedPost(val postId: Int, val user: UserModel) : NotificationCenterEvent
     data class UserBannedComment(val commentId: Int, val user: UserModel) : NotificationCenterEvent
+    data class ChangeCommentBarTheme(val value: CommentBarTheme) : NotificationCenterEvent
 }

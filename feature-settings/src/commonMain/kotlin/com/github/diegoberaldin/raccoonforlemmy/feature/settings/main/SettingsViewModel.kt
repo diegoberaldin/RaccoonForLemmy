@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.main
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
@@ -85,9 +86,14 @@ class SettingsViewModel(
             themeRepository.downvoteColor.onEach { value ->
                 mvi.updateState { it.copy(downvoteColor = value) }
             }.launchIn(this)
+            themeRepository.commentBarTheme.onEach { value ->
+                mvi.updateState { it.copy(commentBarTheme = value) }
+            }.launchIn(this)
+
             languageRepository.currentLanguage.onEach { lang ->
                 mvi.updateState { it.copy(lang = lang) }
             }.launchIn(this)
+
             identityRepository.isLogged.onEach { logged ->
                 mvi.updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
@@ -148,6 +154,10 @@ class SettingsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeVoteFormat::class)
                 .onEach { evt ->
                     changeVoteFormat(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentBarTheme::class)
+                .onEach { evt ->
+                    changeCommentBarTheme(evt.value)
                 }.launchIn(this)
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
@@ -591,6 +601,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultInboxType = value.toInboxDefaultType(),
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeCommentBarTheme(value: CommentBarTheme) {
+        themeRepository.changeCommentBarTheme(value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                commentBarTheme = value.toInt()
             )
             saveSettings(settings)
         }

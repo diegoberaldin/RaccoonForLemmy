@@ -49,6 +49,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ColorBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ColorPickerDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CommentBarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontFamilyBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontScaleBottomSheet
@@ -77,6 +78,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutDia
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsColorRow
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsHeader
+import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsMultiColorRow
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsSwitchRow
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -255,6 +257,17 @@ class SettingsScreen : Screen {
                         onTap = rememberCallback {
                             downvoteColorDialogOpened = true
                         },
+                    )
+                    // comment bar theme
+                    val commentBarColors =
+                        themeRepository.getCommentBarColors(uiState.commentBarTheme)
+                    SettingsMultiColorRow(
+                        title = stringResource(MR.strings.settings_comment_bar_theme),
+                        values = commentBarColors,
+                        onTap = rememberCallback {
+                            val screen = CommentBarThemeBottomSheet()
+                            navigationCoordinator.showBottomSheet(screen)
+                        }
                     )
 
                     // font family
