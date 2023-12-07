@@ -41,6 +41,7 @@ private object KeyStoreKeys {
     const val ZombieModeInterval = "zombieModeInterval"
     const val ZombieModeScrollAmount = "zombieModeScrollAmount"
     const val MarkAsReadWhileScrolling = "markAsReadWhileScrolling"
+    const val CommentBarTheme = "commentBarTheme"
 }
 
 internal class DefaultSettingsRepository(
@@ -84,6 +85,7 @@ internal class DefaultSettingsRepository(
                 zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
                 zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
                 markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1 else 0,
+                commentBarTheme = settings.commentBarTheme.toLong(),
             )
         }
 
@@ -122,6 +124,7 @@ internal class DefaultSettingsRepository(
                     zombieModeInterval = keyStore[KeyStoreKeys.ZombieModeInterval, 1000].milliseconds,
                     zombieModeScrollAmount = keyStore[KeyStoreKeys.ZombieModeScrollAmount, 55f],
                     markAsReadWhileScrolling = keyStore[KeyStoreKeys.MarkAsReadWhileScrolling, false],
+                    commentBarTheme = keyStore[KeyStoreKeys.CommentBarTheme, 0],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -197,6 +200,7 @@ internal class DefaultSettingsRepository(
                     KeyStoreKeys.MarkAsReadWhileScrolling,
                     settings.markAsReadWhileScrolling,
                 )
+                keyStore.save(KeyStoreKeys.CommentBarTheme, settings.commentBarTheme)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -228,6 +232,7 @@ internal class DefaultSettingsRepository(
                     zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
                     zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
                     markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1L else 0L,
+                    commentBarTheme = settings.commentBarTheme.toLong(),
                 )
             }
         }
@@ -267,4 +272,5 @@ private fun GetBy.toModel() = SettingsModel(
     zombieModeInterval = zombieModeInterval.milliseconds,
     zombieModeScrollAmount = zombieModeScrollAmount.toFloat(),
     markAsReadWhileScrolling = markAsReadWhileScrolling != 0L,
+    commentBarTheme = commentBarTheme.toInt(),
 )

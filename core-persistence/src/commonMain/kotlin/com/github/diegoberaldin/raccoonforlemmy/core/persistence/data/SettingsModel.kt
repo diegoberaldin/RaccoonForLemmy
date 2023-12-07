@@ -35,4 +35,5 @@ data class SettingsModel(
     val zombieModeInterval: Duration = 1.seconds,
     val zombieModeScrollAmount: Float = 55f,
     val markAsReadWhileScrolling: Boolean = false,
+    val commentBarTheme: Int = 0,
 ) : JavaSerializable
