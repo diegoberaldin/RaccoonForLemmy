@@ -77,6 +77,8 @@ fun InboxReplySubtitle(
     val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
+    val fullColor = MaterialTheme.colorScheme.onBackground
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
     Column(
         modifier = modifier,
@@ -127,7 +129,7 @@ fun InboxReplySubtitle(
                                 }
                             },
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onBackground,
+                            color = ancillaryColor,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
                         )
@@ -171,6 +173,7 @@ fun InboxReplySubtitle(
                             style = MaterialTheme.typography.bodySmall,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
+                            color = ancillaryColor,
                         )
                     }
                 }
@@ -185,10 +188,12 @@ fun InboxReplySubtitle(
                     modifier = buttonModifier,
                     imageVector = Icons.Default.Schedule,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground,
+                    tint = ancillaryColor,
                 )
                 Text(
                     text = date?.prettifyDate() ?: "",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = ancillaryColor,
                 )
                 if (options.isNotEmpty()) {
                     Icon(
@@ -204,6 +209,7 @@ fun InboxReplySubtitle(
                             ),
                         imageVector = Icons.Default.MoreHoriz,
                         contentDescription = null,
+                        tint = ancillaryColor
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -220,7 +226,7 @@ fun InboxReplySubtitle(
                         color = if (upVoted) {
                             upvoteColor ?: defaultUpvoteColor
                         } else {
-                            MaterialTheme.colorScheme.onSurface
+                            ancillaryColor
                         },
                     ),
                 )
@@ -236,7 +242,7 @@ fun InboxReplySubtitle(
                         downVoted = downVoted,
                     ),
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = ancillaryColor,
                 )
                 Image(
                     modifier = buttonModifier
@@ -251,7 +257,7 @@ fun InboxReplySubtitle(
                         color = if (downVoted) {
                             downvoteColor ?: defaultDownVoteColor
                         } else {
-                            MaterialTheme.colorScheme.onSurface
+                            ancillaryColor
                         },
                     ),
                 )

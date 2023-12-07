@@ -26,28 +26,32 @@ fun InboxCardHeader(
     mention: PersonMentionModel,
     type: InboxCardType,
 ) {
+    val fullColor = MaterialTheme.colorScheme.onBackground
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
     val header = buildAnnotatedString {
-        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+        withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = fullColor)) {
             append(mention.creator.name)
         }
         append(" ")
-        when (type) {
-            InboxCardType.Mention -> {
-                append(stringResource(MR.strings.inbox_item_mention))
-            }
+        withStyle(SpanStyle(color = ancillaryColor)) {
+            when (type) {
+                InboxCardType.Mention -> {
+                    append(stringResource(MR.strings.inbox_item_mention))
+                }
 
-            InboxCardType.Reply -> {
-                if (mention.isOwnPost) {
-                    append(stringResource(MR.strings.inbox_item_reply_post))
-                } else {
-                    append(stringResource(MR.strings.inbox_item_reply_comment))
+                InboxCardType.Reply -> {
+                    if (mention.isOwnPost) {
+                        append(stringResource(MR.strings.inbox_item_reply_post))
+                    } else {
+                        append(stringResource(MR.strings.inbox_item_reply_comment))
+                    }
                 }
             }
-        }
 
-        append(" ")
-        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-            append(mention.post.title)
+            append(" ")
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = fullColor)) {
+                append(mention.post.title)
+            }
         }
     }
     Row(
@@ -67,6 +71,7 @@ fun InboxCardHeader(
                 modifier = Modifier.size(IconSize.xs),
                 imageVector = Icons.Filled.FiberManualRecord,
                 contentDescription = null,
+                tint = ancillaryColor,
             )
         }
     }

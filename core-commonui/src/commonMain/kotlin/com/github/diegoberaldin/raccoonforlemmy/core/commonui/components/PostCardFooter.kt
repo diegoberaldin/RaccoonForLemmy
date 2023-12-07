@@ -71,6 +71,7 @@ fun PostCardFooter(
     val downvoteColor by themeRepository.downvoteColor.collectAsState()
     val defaultUpvoteColor = MaterialTheme.colorScheme.primary
     val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
     Box(modifier = modifier) {
         Row(
@@ -88,13 +89,13 @@ fun PostCardFooter(
                         ),
                     imageVector = Icons.Default.Chat,
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
+                    colorFilter = ColorFilter.tint(color = ancillaryColor),
                 )
                 Text(
                     modifier = Modifier.padding(end = Spacing.s),
                     text = "$comments",
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = ancillaryColor,
                 )
             }
             if (date != null) {
@@ -102,12 +103,12 @@ fun PostCardFooter(
                     modifier = buttonModifier.padding(1.dp),
                     imageVector = Icons.Default.Schedule,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground,
+                    tint = ancillaryColor,
                 )
                 Text(
                     text = date.prettifyDate(),
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = ancillaryColor,
                 )
             }
             if (options.isNotEmpty()) {
@@ -124,6 +125,7 @@ fun PostCardFooter(
                         ),
                     imageVector = Icons.Default.MoreHoriz,
                     contentDescription = null,
+                    tint = ancillaryColor,
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -144,7 +146,7 @@ fun PostCardFooter(
                         color = if (saved) {
                             MaterialTheme.colorScheme.secondary
                         } else {
-                            MaterialTheme.colorScheme.onBackground
+                            ancillaryColor
                         },
                     ),
                 )
@@ -166,7 +168,7 @@ fun PostCardFooter(
                     color = if (upVoted) {
                         upvoteColor ?: defaultUpvoteColor
                     } else {
-                        MaterialTheme.colorScheme.onSurface
+                        ancillaryColor
                     },
                 ),
             )
@@ -182,7 +184,7 @@ fun PostCardFooter(
                     downVoted = downVoted,
                 ),
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = ancillaryColor,
             )
             Image(
                 modifier = buttonModifier
@@ -201,7 +203,7 @@ fun PostCardFooter(
                     color = if (downVoted) {
                         downvoteColor ?: defaultDownVoteColor
                     } else {
-                        MaterialTheme.colorScheme.onSurface
+                        ancillaryColor
                     },
                 ),
             )

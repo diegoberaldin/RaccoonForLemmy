@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -55,6 +56,8 @@ fun CommunityAndCreatorInfo(
     val creatorName = creator?.name.orEmpty()
     val creatorAvatar = creator?.avatar.orEmpty()
     val creatorHost = creator?.host.orEmpty()
+    val fullColor = MaterialTheme.colorScheme.onBackground
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
     Row(
         modifier = modifier,
@@ -149,12 +152,13 @@ fun CommunityAndCreatorInfo(
                         }
                     },
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = if (creator == null) ancillaryColor else fullColor,
                 )
             }
             if (creator != null) {
                 Text(
                     modifier = Modifier
+                        .graphicsLayer { translationY = -3.5f }
                         .onClick(
                             onClick = rememberCallback {
                                 onOpenCreator?.invoke(creator)
@@ -168,7 +172,7 @@ fun CommunityAndCreatorInfo(
                         }
                     },
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = ancillaryColor,
                 )
             }
         }

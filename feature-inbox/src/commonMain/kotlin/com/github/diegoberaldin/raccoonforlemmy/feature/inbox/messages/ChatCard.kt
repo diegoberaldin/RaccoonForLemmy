@@ -38,7 +38,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardTitle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -65,6 +65,7 @@ internal fun ChatCard(
     val creatorHost = user?.host.orEmpty()
     val creatorAvatar = user?.avatar.orEmpty()
     val iconSize = IconSize.xl
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
     Row(
         modifier = modifier
@@ -128,7 +129,7 @@ internal fun ChatCard(
                         }
                     },
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = ancillaryColor,
                 )
                 if (!read) {
                     Icon(
@@ -140,7 +141,7 @@ internal fun ChatCard(
             }
             ScaledContent {
                 // last message text
-                PostCardTitle(
+                PostCardBody(
                     modifier = Modifier.heightIn(max = 76.dp),
                     text = lastMessage,
                     autoLoadImages = autoLoadImages,
@@ -162,12 +163,12 @@ internal fun ChatCard(
                             modifier = buttonModifier.padding(1.dp),
                             imageVector = Icons.Default.Schedule,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground,
+                            tint = ancillaryColor,
                         )
                         Text(
                             text = lastMessageDate.prettifyDate(),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurface,
+                            color = ancillaryColor,
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         if (options.isNotEmpty()) {
@@ -184,6 +185,7 @@ internal fun ChatCard(
                                     ),
                                 imageVector = Icons.Default.MoreHoriz,
                                 contentDescription = null,
+                                tint = ancillaryColor,
                             )
                         }
                     }
