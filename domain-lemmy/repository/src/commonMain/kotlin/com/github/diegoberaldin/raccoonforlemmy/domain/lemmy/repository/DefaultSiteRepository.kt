@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.to
 
 internal class DefaultSiteRepository(
     private val services: ServiceProvider,
+    private val customServices: ServiceProvider,
 ) : SiteRepository {
     override suspend fun getCurrentUser(auth: String): UserModel? = runCatching {
         val dto = services.site.get(
@@ -22,12 +23,21 @@ internal class DefaultSiteRepository(
         }
     }.getOrNull()
 
-    override suspend fun getSiteVersion(auth: String): String? = runCatching {
-        val dto = services.site.get(
-            authHeader = auth.toAuthHeader(),
-        ).body()
-        dto?.version.takeIf { !it.isNullOrEmpty() }
-    }.getOrNull()
+    override suspend fun getSiteVersion(auth: String?, otherInstance: String?): String? =
+        runCatching {
+            if (otherInstance.isNullOrEmpty()) {
+                val dto = services.site.get(
+                    authHeader = auth.toAuthHeader(),
+                ).body()
+                dto?.version.takeIf { !it.isNullOrEmpty() }
+            } else {
+                customServices.changeInstance(otherInstance)
+                val dto = customServices.site.get(
+                    authHeader = "",
+                ).body()
+                dto?.version.takeIf { !it.isNullOrEmpty() }
+            }
+        }.getOrNull()
 
     override suspend fun block(id: Int, blocked: Boolean, auth: String?): Result<Unit> =
         runCatching {
