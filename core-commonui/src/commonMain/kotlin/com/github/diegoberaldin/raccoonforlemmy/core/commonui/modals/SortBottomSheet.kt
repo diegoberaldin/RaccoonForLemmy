@@ -48,8 +48,6 @@ class SortBottomSheet(
         SortType.NewComments,
         SortType.MostComments,
         SortType.Old,
-        SortType.Controversial,
-        SortType.Scaled,
         SortType.Top.Generic,
     ),
     private val expandTop: Boolean = false,

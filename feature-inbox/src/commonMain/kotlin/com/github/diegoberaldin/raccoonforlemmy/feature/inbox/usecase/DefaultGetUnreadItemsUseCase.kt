@@ -4,7 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 
-class DefaultGetUnreadItemsUseCase(
+internal class DefaultGetUnreadItemsUseCase(
     private val identityRepository: IdentityRepository,
     private val userRepository: UserRepository,
     private val messageRepository: PrivateMessageRepository,

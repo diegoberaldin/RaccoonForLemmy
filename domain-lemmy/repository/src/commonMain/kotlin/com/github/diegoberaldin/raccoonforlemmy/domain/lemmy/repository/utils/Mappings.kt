@@ -17,6 +17,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostReportView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SiteMetadata
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Active
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Hot
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.MostComments
@@ -36,6 +37,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
@@ -315,4 +317,9 @@ internal fun CommentReportView.toModel() = CommentReportModel(
     resolver = resolver?.toModel(),
     originalText = commentReport.originalCommentText,
     updateDate = commentReport.updated,
+)
+
+internal fun SiteMetadata.toModel() = MetadataModel(
+    title = title.orEmpty(),
+    description = description.orEmpty(),
 )

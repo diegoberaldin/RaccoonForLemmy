@@ -2,6 +2,12 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.di
 
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultCommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultCommunityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultPostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultPrivateMessageRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultSiteRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultUserRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
@@ -10,37 +16,37 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single {
-        PostRepository(
+    single<PostRepository> {
+        DefaultPostRepository(
             services = get(named("default")),
             customServices = get(named("custom")),
         )
     }
-    single {
-        CommunityRepository(
+    single<CommunityRepository> {
+        DefaultCommunityRepository(
             services = get(named("default")),
             customServices = get(named("custom")),
         )
     }
-    single {
-        UserRepository(
+    single<UserRepository> {
+        DefaultUserRepository(
             services = get(named("default")),
             customServices = get(named("custom")),
         )
     }
-    single {
-        SiteRepository(
+    single<SiteRepository> {
+        DefaultSiteRepository(
             services = get(named("default")),
         )
     }
-    single {
-        CommentRepository(
+    single<CommentRepository> {
+        DefaultCommentRepository(
             services = get(named("default")),
             customServices = get(named("custom")),
         )
     }
-    single {
-        PrivateMessageRepository(
+    single<PrivateMessageRepository> {
+        DefaultPrivateMessageRepository(
             services = get(named("default")),
         )
     }
