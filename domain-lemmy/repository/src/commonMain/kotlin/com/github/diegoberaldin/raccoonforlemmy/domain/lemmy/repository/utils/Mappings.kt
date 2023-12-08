@@ -19,11 +19,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SiteMetadata
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Active
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Controversial
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Hot
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.MostComments
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.New
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.NewComments
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Old
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Scaled
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Top
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopDay
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopHour
@@ -67,6 +69,8 @@ internal fun SortType.toDto() = when (this) {
     SortType.Top.Year -> TopYear
     SortType.Top.Generic -> Top
     SortType.Old -> Old
+    SortType.Scaled -> Scaled
+    SortType.Controversial -> Controversial
     else -> Active
 }
 
