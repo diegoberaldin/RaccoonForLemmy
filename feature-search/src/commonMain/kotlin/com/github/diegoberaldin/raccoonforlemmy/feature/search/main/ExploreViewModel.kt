@@ -11,13 +11,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedbac
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
@@ -320,11 +318,11 @@ class ExploreViewModel(
         }
     }
 
-    private fun isSafeForWork(element: Any): Boolean = when (element) {
-        is CommunityModel -> element.nsfw
-        is PostModel -> element.nsfw
-        is CommentModel -> true
-        is UserModel -> true
+    private fun isSafeForWork(element: SearchResult): Boolean = when (element) {
+        is SearchResult.Community -> !element.model.nsfw
+        is SearchResult.Post -> !element.model.nsfw
+        is SearchResult.Comment -> true
+        is SearchResult.User -> true
         else -> false
     }
 
