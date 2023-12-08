@@ -193,7 +193,9 @@ class CreateCommentScreen(
                 )
             },
             bottomBar = {
-                Column {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                ) {
                     SectionSelector(
                         titles = listOf(
                             stringResource(MR.strings.create_post_tab_editor),
@@ -213,10 +215,24 @@ class CreateCommentScreen(
                     )
 
                     if (uiState.section == CreatePostSection.Edit) {
+                        TextFormattingBar(
+                            modifier = Modifier.padding(
+                                top = Spacing.s,
+                                start = Spacing.m,
+                                end = Spacing.m,
+                            ),
+                            textFieldValue = textFieldValue,
+                            onTextFieldValueChanged = {
+                                textFieldValue = it
+                            },
+                            onSelectImage = {
+                                openImagePicker = true
+                            }
+                        )
                         TextField(
                             modifier = Modifier
                                 .focusRequester(commentFocusRequester)
-                                .heightIn(min = 300.dp, max = 500.dp)
+                                .heightIn(min = 300.dp, max = 400.dp)
                                 .fillMaxWidth(),
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = Color.Transparent,
@@ -237,21 +253,10 @@ class CreateCommentScreen(
                             },
                             isError = uiState.textError != null,
                             supportingText = {
-                                Column {
-                                    if (uiState.textError != null) {
-                                        Text(
-                                            text = uiState.textError?.localized().orEmpty(),
-                                            color = MaterialTheme.colorScheme.error,
-                                        )
-                                    }
-                                    TextFormattingBar(
-                                        textFieldValue = textFieldValue,
-                                        onTextFieldValueChanged = {
-                                            textFieldValue = it
-                                        },
-                                        onSelectImage = {
-                                            openImagePicker = true
-                                        }
+                                if (uiState.textError != null) {
+                                    Text(
+                                        text = uiState.textError?.localized().orEmpty(),
+                                        color = MaterialTheme.colorScheme.error,
                                     )
                                 }
                             },
@@ -275,7 +280,6 @@ class CreateCommentScreen(
                     if (uiState.currentUser.isNotEmpty()) {
                         Row(
                             modifier = Modifier.padding(
-                                vertical = Spacing.xs,
                                 horizontal = Spacing.l,
                             )
                         ) {

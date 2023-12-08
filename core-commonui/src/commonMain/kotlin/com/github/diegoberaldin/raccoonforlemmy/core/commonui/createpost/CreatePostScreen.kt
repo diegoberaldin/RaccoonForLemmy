@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -185,71 +185,56 @@ class CreatePostScreen(
             }.launchIn(this)
         }
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    scrollBehavior = scrollBehavior,
-                    title = {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    top = Spacing.s,
-                                    start = Spacing.l,
-                                ),
-                            verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            BottomSheetHandle()
-                            Text(
-                                text = when {
-                                    editedPost != null ->
-                                        stringResource(MR.strings.edit_post_title)
+        Scaffold(topBar = {
+            TopAppBar(scrollBehavior = scrollBehavior, title = {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(
+                        top = Spacing.s,
+                        start = Spacing.l,
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    BottomSheetHandle()
+                    Text(
+                        text = when {
+                            editedPost != null -> stringResource(MR.strings.edit_post_title)
 
-                                    else ->
-                                        stringResource(MR.strings.create_post_title)
-                                },
-                                style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.Send,
-                                    contentDescription = null,
-                                )
-                            },
-                            onClick = rememberCallback(model) {
-                                model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
-                            },
+                            else -> stringResource(MR.strings.create_post_title)
+                        },
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+            }, actions = {
+                IconButton(
+                    content = {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = null,
                         )
-                    }
+                    },
+                    onClick = rememberCallback(model) {
+                        model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
+                    },
                 )
-            },
-            snackbarHost = {
-                SnackbarHost(snackbarHostState)
-            }
-        ) { padding ->
+            })
+        }, snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        }) { padding ->
             Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .verticalScroll(rememberScrollState()),
+                modifier = Modifier.padding(padding).verticalScroll(rememberScrollState()),
             ) {
                 // community
                 if (crossPost != null) {
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .onFocusChanged(
-                                rememberCallbackArgs {
-                                    if (it.hasFocus) {
-                                        openSelectCommunity = true
-                                    }
-                                },
-                            ),
+                        modifier = Modifier.fillMaxWidth().onFocusChanged(
+                            rememberCallbackArgs {
+                                if (it.hasFocus) {
+                                    openSelectCommunity = true
+                                }
+                            },
+                        ),
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
@@ -384,90 +369,92 @@ class CreatePostScreen(
                     })
                 }
 
-                SectionSelector(
-                    titles = listOf(
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                ) {
+                    SectionSelector(titles = listOf(
                         stringResource(MR.strings.create_post_tab_editor),
                         stringResource(MR.strings.create_post_tab_preview),
-                    ),
-                    currentSection = when (uiState.section) {
+                    ), currentSection = when (uiState.section) {
                         CreatePostSection.Preview -> 1
                         else -> 0
-                    },
-                    onSectionSelected = {
+                    }, onSectionSelected = {
                         val section = when (it) {
                             1 -> CreatePostSection.Preview
                             else -> CreatePostSection.Edit
                         }
                         model.reduce(CreatePostMviModel.Intent.ChangeSection(section))
-                    }
-                )
+                    })
 
-                if (uiState.section == CreatePostSection.Edit) {
-                    TextField(
-                        modifier = Modifier
-                            .height(500.dp)
-                            .fillMaxWidth()
-                            .focusRequester(bodyFocusRequester),
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            disabledContainerColor = Color.Transparent,
-                        ),
-                        label = {
-                            Text(text = stringResource(MR.strings.create_post_body))
-                        },
-                        textStyle = MaterialTheme.typography.bodyMedium,
-                        value = bodyTextFieldValue,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            autoCorrect = true,
-                        ),
-                        onValueChange = { value ->
-                            bodyTextFieldValue = value
-                        },
-                        isError = uiState.bodyError != null,
-                        supportingText = {
-                            Column {
+                    if (uiState.section == CreatePostSection.Edit) {
+                        TextFormattingBar(
+                            modifier = Modifier.padding(
+                                top = Spacing.s,
+                                start = Spacing.m,
+                                end = Spacing.m,
+                            ),
+                            textFieldValue = bodyTextFieldValue,
+                            onTextFieldValueChanged = {
+                                bodyTextFieldValue = it
+                            },
+                            onSelectImage = {
+                                openImagePickerInBody = true
+                            }
+                        )
+                        TextField(
+                            modifier = Modifier
+                                .heightIn(min = 300.dp, max = 400.dp)
+                                .fillMaxWidth()
+                                .focusRequester(bodyFocusRequester),
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                            ),
+                            label = {
+                                Text(text = stringResource(MR.strings.create_post_body))
+                            },
+                            textStyle = MaterialTheme.typography.bodyMedium,
+                            value = bodyTextFieldValue,
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                autoCorrect = true,
+                            ),
+                            onValueChange = { value ->
+                                bodyTextFieldValue = value
+                            },
+                            isError = uiState.bodyError != null,
+                            supportingText = {
                                 if (uiState.bodyError != null) {
                                     Text(
                                         text = uiState.bodyError?.localized().orEmpty(),
                                         color = MaterialTheme.colorScheme.error,
                                     )
                                 }
-                                TextFormattingBar(
-                                    textFieldValue = bodyTextFieldValue,
-                                    onTextFieldValueChanged = {
-                                        bodyTextFieldValue = it
-                                    },
-                                    onSelectImage = {
-                                        openImagePickerInBody = true
-                                    }
-                                )
-                            }
-                        },
-                    )
-                } else {
-                    val post = PostModel(
-                        text = bodyTextFieldValue.text,
-                        title = uiState.title,
-                        url = uiState.url,
-                        thumbnailUrl = uiState.url,
-                    )
+                            },
+                        )
+                    } else {
+                        val post = PostModel(
+                            text = bodyTextFieldValue.text,
+                            title = uiState.title,
+                            url = uiState.url,
+                            thumbnailUrl = uiState.url,
+                        )
 
-                    PostCard(
-                        post = post,
-                        postLayout = uiState.postLayout,
-                        fullHeightImage = uiState.fullHeightImages,
-                        includeFullBody = true,
-                        voteFormat = uiState.voteFormat,
-                        autoLoadImages = uiState.autoLoadImages,
-                    )
+                        PostCard(
+                            post = post,
+                            postLayout = uiState.postLayout,
+                            fullHeightImage = uiState.fullHeightImages,
+                            includeFullBody = true,
+                            voteFormat = uiState.voteFormat,
+                            autoLoadImages = uiState.autoLoadImages,
+                        )
+                    }
                 }
 
                 if (uiState.currentUser.isNotEmpty()) {
                     Row(
                         modifier = Modifier.padding(
-                            vertical = Spacing.xs,
                             horizontal = Spacing.l,
                         )
                     ) {
