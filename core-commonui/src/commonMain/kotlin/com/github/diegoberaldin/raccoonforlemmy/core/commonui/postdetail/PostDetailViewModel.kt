@@ -768,7 +768,8 @@ private fun List<CommentModel>.processCommentsToGetNestedOrder(
 ): List<CommentModel> {
     val root = Node(null)
     // reconstructs the tree
-    for (c in this) {
+    val byPathLengthAscending = this.sortedBy { it.path.length }
+    for (c in byPathLengthAscending) {
         val parentId = c.parentId
         if (parentId == ancestorId) {
             root.children += Node(c)
