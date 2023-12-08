@@ -35,8 +35,8 @@ fun PostCardTitle(
             h4 = MaterialTheme.typography.titleMedium,
             h5 = MaterialTheme.typography.titleSmall,
             h6 = MaterialTheme.typography.titleSmall,
-            text = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-            paragraph = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+            text = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+            paragraph = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
         ),
         onOpenUrl = { url ->
             navigationCoordinator.handleUrl(

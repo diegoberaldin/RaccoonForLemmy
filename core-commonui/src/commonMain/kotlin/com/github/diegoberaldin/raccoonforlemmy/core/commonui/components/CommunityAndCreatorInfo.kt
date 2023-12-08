@@ -158,7 +158,11 @@ fun CommunityAndCreatorInfo(
             if (creator != null) {
                 Text(
                     modifier = Modifier
-                        .graphicsLayer { translationY = -3.5f }
+                        .graphicsLayer {
+                            if (!communityName.isNullOrEmpty()) {
+                                translationY = -8f
+                            }
+                        }
                         .onClick(
                             onClick = rememberCallback {
                                 onOpenCreator?.invoke(creator)
