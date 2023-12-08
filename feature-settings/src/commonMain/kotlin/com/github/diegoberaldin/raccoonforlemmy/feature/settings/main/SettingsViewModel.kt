@@ -161,7 +161,7 @@ class SettingsViewModel(
                 }.launchIn(this)
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
-            val availableSortTypesForComments = getSortTypesUseCase.getTypesForPosts()
+            val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
             mvi.updateState {
                 it.copy(
                     availableSortTypesForPosts = availableSortTypesForPosts,
