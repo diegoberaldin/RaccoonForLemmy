@@ -205,17 +205,7 @@ class MultiCommunityViewModel(
         if (feedback) {
             hapticFeedback.vibrate()
         }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
-        }
+        handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -227,17 +217,7 @@ class MultiCommunityViewModel(
                 markAsRead(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -255,30 +235,10 @@ class MultiCommunityViewModel(
                     postId = post.id,
                     auth = auth,
                 )
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                newPost
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -292,17 +252,7 @@ class MultiCommunityViewModel(
         if (feedback) {
             hapticFeedback.vibrate()
         }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
-        }
+        handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -314,17 +264,7 @@ class MultiCommunityViewModel(
                 markAsRead(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -338,17 +278,7 @@ class MultiCommunityViewModel(
         if (feedback) {
             hapticFeedback.vibrate()
         }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
-        }
+        handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -360,17 +290,7 @@ class MultiCommunityViewModel(
                 markAsRead(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }

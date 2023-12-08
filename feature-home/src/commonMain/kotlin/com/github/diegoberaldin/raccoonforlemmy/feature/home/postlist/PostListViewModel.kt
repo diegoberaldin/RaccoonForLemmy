@@ -327,19 +327,9 @@ class PostListViewModel(
             post = post,
             voted = newVote,
         )
+        handlePostUpdate(newPost)
         if (feedback) {
             hapticFeedback.vibrate()
-        }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
         }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -352,17 +342,7 @@ class PostListViewModel(
                 markAsRead(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -380,30 +360,10 @@ class PostListViewModel(
                     postId = post.id,
                     auth = auth,
                 )
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                newPost
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -414,19 +374,9 @@ class PostListViewModel(
             post = post,
             downVoted = newValue,
         )
+        handlePostUpdate(newPost)
         if (feedback) {
             hapticFeedback.vibrate()
-        }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
         }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -439,17 +389,7 @@ class PostListViewModel(
                 markAsRead(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -460,19 +400,9 @@ class PostListViewModel(
             post = post,
             saved = newValue,
         )
+        handlePostUpdate(newPost)
         if (feedback) {
             hapticFeedback.vibrate()
-        }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
         }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -485,17 +415,7 @@ class PostListViewModel(
                 markAsRead(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }

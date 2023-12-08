@@ -345,23 +345,13 @@ class CommunityDetailViewModel(
         feedback: Boolean,
     ) {
         val newValue = post.myVote <= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newPost = postRepository.asUpVoted(
             post = post,
             voted = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
+        handlePostUpdate(newPost)
+        if (feedback) {
+            hapticFeedback.vibrate()
         }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -377,17 +367,7 @@ class CommunityDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -405,30 +385,10 @@ class CommunityDetailViewModel(
                     postId = post.id,
                     auth = auth,
                 )
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                newPost
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(newPost)
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -438,23 +398,13 @@ class CommunityDetailViewModel(
         feedback: Boolean,
     ) {
         val newValue = post.myVote >= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newPost = postRepository.asDownVoted(
             post = post,
             downVoted = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
+        handlePostUpdate(newPost)
+        if (feedback) {
+            hapticFeedback.vibrate()
         }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -470,17 +420,7 @@ class CommunityDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -490,23 +430,13 @@ class CommunityDetailViewModel(
         feedback: Boolean,
     ) {
         val newValue = !post.saved
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newPost = postRepository.asSaved(
             post = post,
             saved = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
+        handlePostUpdate(newPost)
+        if (feedback) {
+            hapticFeedback.vibrate()
         }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -522,17 +452,7 @@ class CommunityDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }

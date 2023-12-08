@@ -282,17 +282,7 @@ class ProfileLoggedViewModel(
         if (feedback) {
             hapticFeedback.vibrate()
         }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
-        }
+        handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -303,17 +293,7 @@ class ProfileLoggedViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -327,17 +307,7 @@ class ProfileLoggedViewModel(
         if (feedback) {
             hapticFeedback.vibrate()
         }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
-        }
+        handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -348,17 +318,7 @@ class ProfileLoggedViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -372,17 +332,7 @@ class ProfileLoggedViewModel(
         if (feedback) {
             hapticFeedback.vibrate()
         }
-        mvi.updateState {
-            it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        newPost
-                    } else {
-                        p
-                    }
-                },
-            )
-        }
+        handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -393,17 +343,7 @@ class ProfileLoggedViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        posts = it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
-                    )
-                }
+                handlePostUpdate(post)
             }
         }
     }
@@ -420,17 +360,7 @@ class ProfileLoggedViewModel(
             comment = comment,
             voted = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                comments = it.comments.map { c ->
-                    if (c.id == comment.id) {
-                        newComment
-                    } else {
-                        c
-                    }
-                },
-            )
-        }
+        handleCommentUpdate(newComment)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -441,17 +371,7 @@ class ProfileLoggedViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        comments = it.comments.map { c ->
-                            if (c.id == comment.id) {
-                                comment
-                            } else {
-                                c
-                            }
-                        },
-                    )
-                }
+                handleCommentUpdate(comment)
             }
         }
     }
@@ -465,17 +385,7 @@ class ProfileLoggedViewModel(
             hapticFeedback.vibrate()
         }
         val newComment = commentRepository.asDownVoted(comment, newValue)
-        mvi.updateState {
-            it.copy(
-                comments = it.comments.map { c ->
-                    if (c.id == comment.id) {
-                        newComment
-                    } else {
-                        c
-                    }
-                },
-            )
-        }
+        handleCommentUpdate(newComment)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -486,17 +396,7 @@ class ProfileLoggedViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        comments = it.comments.map { c ->
-                            if (c.id == comment.id) {
-                                comment
-                            } else {
-                                c
-                            }
-                        },
-                    )
-                }
+                handleCommentUpdate(comment)
             }
         }
     }
@@ -513,17 +413,7 @@ class ProfileLoggedViewModel(
             comment = comment,
             saved = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                comments = it.comments.map { c ->
-                    if (c.id == comment.id) {
-                        newComment
-                    } else {
-                        c
-                    }
-                },
-            )
-        }
+        handleCommentUpdate(newComment)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -534,17 +424,7 @@ class ProfileLoggedViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        comments = it.comments.map { c ->
-                            if (c.id == comment.id) {
-                                comment
-                            } else {
-                                c
-                            }
-                        },
-                    )
-                }
+                handleCommentUpdate(comment)
             }
         }
     }
@@ -557,6 +437,20 @@ class ProfileLoggedViewModel(
                         post
                     } else {
                         p
+                    }
+                },
+            )
+        }
+    }
+
+    private fun handleCommentUpdate(comment: CommentModel) {
+        mvi.updateState {
+            it.copy(
+                comments = it.comments.map { c ->
+                    if (c.id == comment.id) {
+                        comment
+                    } else {
+                        c
                     }
                 },
             )
