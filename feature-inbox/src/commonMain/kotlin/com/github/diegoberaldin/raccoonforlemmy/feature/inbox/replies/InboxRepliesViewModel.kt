@@ -94,15 +94,19 @@ class InboxRepliesViewModel(
 
 
             InboxRepliesMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            is InboxRepliesMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                mention = uiState.value.replies.first { it.id == intent.id },
-                feedback = true,
-            )
+            is InboxRepliesMviModel.Intent.DownVoteComment -> {
+                hapticFeedback.vibrate()
+                toggleDownVoteComment(
+                    mention = uiState.value.replies.first { it.id == intent.id },
+                )
+            }
 
-            is InboxRepliesMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                mention = uiState.value.replies.first { it.id == intent.id },
-                feedback = true,
-            )
+            is InboxRepliesMviModel.Intent.UpVoteComment -> {
+                hapticFeedback.vibrate()
+                toggleUpVoteComment(
+                    mention = uiState.value.replies.first { it.id == intent.id },
+                )
+            }
         }
     }
 
@@ -204,14 +208,8 @@ class InboxRepliesViewModel(
         }
     }
 
-    private fun toggleUpVoteComment(
-        mention: PersonMentionModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleUpVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote <= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newMention = commentRepository.asUpVoted(
             mention = mention,
             voted = newValue,
@@ -252,14 +250,8 @@ class InboxRepliesViewModel(
         }
     }
 
-    private fun toggleDownVoteComment(
-        mention: PersonMentionModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleDownVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote >= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newMention = commentRepository.asDownVoted(
             mention = mention,
             downVoted = newValue

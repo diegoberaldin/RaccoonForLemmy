@@ -162,29 +162,29 @@ class PostListViewModel(
             is PostListMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is PostListMviModel.Intent.ChangeListing -> applyListingType(intent.value)
             is PostListMviModel.Intent.DownVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleDownVote(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleDownVote(post = post)
                 }
             }
 
             is PostListMviModel.Intent.SavePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleSave(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleSave(post = post)
                 }
             }
 
             is PostListMviModel.Intent.UpVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleUpVote(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleUpVote(post = post)
                 }
             }
 
@@ -321,16 +321,13 @@ class PostListViewModel(
         }
     }
 
-    private fun toggleUpVote(post: PostModel, feedback: Boolean) {
+    private fun toggleUpVote(post: PostModel) {
         val newVote = post.myVote <= 0
         val newPost = postRepository.asUpVoted(
             post = post,
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -368,16 +365,13 @@ class PostListViewModel(
         }
     }
 
-    private fun toggleDownVote(post: PostModel, feedback: Boolean) {
+    private fun toggleDownVote(post: PostModel) {
         val newValue = post.myVote >= 0
         val newPost = postRepository.asDownVoted(
             post = post,
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -394,16 +388,13 @@ class PostListViewModel(
         }
     }
 
-    private fun toggleSave(post: PostModel, feedback: Boolean) {
+    private fun toggleSave(post: PostModel) {
         val newValue = !post.saved
         val newPost = postRepository.asSaved(
             post = post,
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()

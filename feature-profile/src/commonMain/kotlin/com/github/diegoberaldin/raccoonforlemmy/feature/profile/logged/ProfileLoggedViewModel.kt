@@ -108,56 +108,56 @@ class ProfileLoggedViewModel(
             }
 
             is ProfileLoggedMviModel.Intent.DownVoteComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
-                    toggleDownVoteComment(
-                        comment = comment,
-                        feedback = intent.feedback,
-                    )
+                    toggleDownVoteComment(comment = comment)
                 }
             }
 
             is ProfileLoggedMviModel.Intent.DownVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleDownVotePost(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleDownVotePost(post = post)
                 }
             }
 
             is ProfileLoggedMviModel.Intent.SaveComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
-                    toggleSaveComment(
-                        comment = comment,
-                        feedback = intent.feedback,
-                    )
+                    toggleSaveComment(comment = comment)
                 }
             }
 
             is ProfileLoggedMviModel.Intent.SavePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleSavePost(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleSavePost(post = post)
                 }
             }
 
             is ProfileLoggedMviModel.Intent.UpVoteComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.comments.firstOrNull { it.id == intent.id }?.also { comment ->
-                    toggleUpVoteComment(
-                        comment = comment,
-                        feedback = intent.feedback,
-                    )
+                    toggleUpVoteComment(comment = comment)
                 }
             }
 
             is ProfileLoggedMviModel.Intent.UpVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleUpVotePost(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleUpVotePost(post = post)
                 }
             }
         }
@@ -273,15 +273,12 @@ class ProfileLoggedViewModel(
         currentPage++
     }
 
-    private fun toggleUpVotePost(post: PostModel, feedback: Boolean) {
+    private fun toggleUpVotePost(post: PostModel) {
         val newVote = post.myVote <= 0
         val newPost = postRepository.asUpVoted(
             post = post,
             voted = newVote,
         )
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -298,15 +295,12 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun toggleDownVotePost(post: PostModel, feedback: Boolean) {
+    private fun toggleDownVotePost(post: PostModel) {
         val newValue = post.myVote >= 0
         val newPost = postRepository.asDownVoted(
             post = post,
             downVoted = newValue,
         )
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -323,15 +317,12 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun toggleSavePost(post: PostModel, feedback: Boolean) {
+    private fun toggleSavePost(post: PostModel) {
         val newValue = !post.saved
         val newPost = postRepository.asSaved(
             post = post,
             saved = newValue,
         )
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         handlePostUpdate(newPost)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
@@ -348,14 +339,8 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun toggleUpVoteComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleUpVoteComment(comment: CommentModel) {
         val newValue = comment.myVote <= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asUpVoted(
             comment = comment,
             voted = newValue,
@@ -376,14 +361,8 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun toggleDownVoteComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleDownVoteComment(comment: CommentModel) {
         val newValue = comment.myVote >= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
         mvi.scope?.launch(Dispatchers.IO) {
@@ -401,14 +380,8 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun toggleSaveComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleSaveComment(comment: CommentModel) {
         val newValue = !comment.saved
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asSaved(
             comment = comment,
             saved = newValue,

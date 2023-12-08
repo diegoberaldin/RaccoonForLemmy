@@ -224,49 +224,55 @@ class PostDetailViewModel(
             is PostDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
 
             is PostDetailMviModel.Intent.DownVoteComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.comments.firstOrNull { it.id == intent.commentId }
                     ?.also { comment ->
-                        toggleDownVoteComment(
-                            comment = comment,
-                            feedback = intent.feedback,
-                        )
+                        toggleDownVoteComment(comment = comment)
                     }
             }
 
-            is PostDetailMviModel.Intent.DownVotePost -> toggleDownVotePost(
-                post = uiState.value.post,
-                feedback = intent.feedback,
-            )
+            is PostDetailMviModel.Intent.DownVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
+                toggleDownVotePost(post = uiState.value.post)
+            }
 
             is PostDetailMviModel.Intent.SaveComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.comments.firstOrNull { it.id == intent.commentId }
                     ?.also { comment ->
-                        toggleSaveComment(
-                            comment = comment,
-                            feedback = intent.feedback,
-                        )
+                        toggleSaveComment(comment = comment)
                     }
             }
 
-            is PostDetailMviModel.Intent.SavePost -> toggleSavePost(
-                post = intent.post,
-                feedback = intent.feedback,
-            )
+            is PostDetailMviModel.Intent.SavePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
+                toggleSavePost(post = intent.post)
+            }
 
             is PostDetailMviModel.Intent.UpVoteComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.comments.firstOrNull { it.id == intent.commentId }
                     ?.also { comment ->
-                        toggleUpVoteComment(
-                            comment = comment,
-                            feedback = intent.feedback,
-                        )
+                        toggleUpVoteComment(comment = comment)
                     }
             }
 
-            is PostDetailMviModel.Intent.UpVotePost -> toggleUpVotePost(
-                post = uiState.value.post,
-                feedback = intent.feedback,
-            )
+            is PostDetailMviModel.Intent.UpVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
+                toggleUpVotePost(post = uiState.value.post)
+            }
 
             is PostDetailMviModel.Intent.FetchMoreComments -> {
                 loadMoreComments(intent.parentId)
@@ -434,14 +440,8 @@ class PostDetailViewModel(
         }
     }
 
-    private fun toggleUpVotePost(
-        post: PostModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleUpVotePost(post: PostModel) {
         val newValue = post.myVote <= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newPost = postRepository.asUpVoted(
             post = post,
             voted = newValue,
@@ -467,12 +467,8 @@ class PostDetailViewModel(
 
     private fun toggleDownVotePost(
         post: PostModel,
-        feedback: Boolean,
     ) {
         val newValue = post.myVote >= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newPost = postRepository.asDownVoted(
             post = post,
             downVoted = newValue,
@@ -496,14 +492,8 @@ class PostDetailViewModel(
         }
     }
 
-    private fun toggleSavePost(
-        post: PostModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleSavePost(post: PostModel) {
         val newValue = !post.saved
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newPost = postRepository.asSaved(
             post = post,
             saved = newValue,
@@ -541,14 +531,8 @@ class PostDetailViewModel(
         }
     }
 
-    private fun toggleUpVoteComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleUpVoteComment(comment: CommentModel) {
         val newValue = comment.myVote <= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asUpVoted(
             comment = comment,
             voted = newValue,
@@ -572,14 +556,8 @@ class PostDetailViewModel(
         }
     }
 
-    private fun toggleDownVoteComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleDownVoteComment(comment: CommentModel) {
         val newValue = comment.myVote >= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
         mvi.scope?.launch(Dispatchers.IO) {
@@ -600,14 +578,8 @@ class PostDetailViewModel(
         }
     }
 
-    private fun toggleSaveComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleSaveComment(comment: CommentModel) {
         val newValue = !comment.saved
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asSaved(
             comment = comment,
             saved = newValue,

@@ -31,7 +31,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 class ExploreViewModel(
     private val mvi: DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>,
@@ -152,67 +151,79 @@ class ExploreViewModel(
             is ExploreMviModel.Intent.SetSortType -> changeSortType(intent.value)
             is ExploreMviModel.Intent.SetResultType -> changeResultType(intent.value)
             is ExploreMviModel.Intent.DownVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.results.firstOrNull {
                     it is SearchResult.Post && it.model.id == intent.id
                 }?.also { result ->
                     toggleDownVote(
                         post = (result as SearchResult.Post).model,
-                        feedback = intent.feedback,
                     )
                 }
             }
 
             is ExploreMviModel.Intent.SavePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.results.firstOrNull {
                     it is SearchResult.Post && it.model.id == intent.id
                 }?.also { result ->
                     toggleSave(
                         post = (result as SearchResult.Post).model,
-                        feedback = intent.feedback,
                     )
                 }
             }
 
             is ExploreMviModel.Intent.UpVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.results.firstOrNull {
                     it is SearchResult.Post && it.model.id == intent.id
                 }?.also { result ->
                     toggleUpVote(
                         post = (result as SearchResult.Post).model,
-                        feedback = intent.feedback,
                     )
                 }
             }
 
             is ExploreMviModel.Intent.DownVoteComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.results.firstOrNull {
                     it is SearchResult.Comment && it.model.id == intent.id
                 }?.also { result ->
                     toggleDownVoteComment(
                         comment = (result as SearchResult.Comment).model,
-                        feedback = intent.feedback,
                     )
                 }
             }
 
             is ExploreMviModel.Intent.SaveComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.results.firstOrNull {
                     it is SearchResult.Comment && it.model.id == intent.id
                 }?.also { result ->
                     toggleSaveComment(
                         comment = (result as SearchResult.Comment).model,
-                        feedback = intent.feedback,
                     )
                 }
             }
 
             is ExploreMviModel.Intent.UpVoteComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.results.firstOrNull {
                     it is SearchResult.Comment && it.model.id == intent.id
                 }?.also { result ->
                     toggleUpVoteComment(
                         comment = (result as SearchResult.Comment).model,
-                        feedback = intent.feedback,
                     )
                 }
             }
@@ -355,15 +366,12 @@ class ExploreViewModel(
         }
     }
 
-    private fun toggleUpVote(post: PostModel, feedback: Boolean) {
+    private fun toggleUpVote(post: PostModel) {
         val newVote = post.myVote <= 0
         val newPost = postRepository.asUpVoted(
             post = post,
             voted = newVote,
         )
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.updateState {
             it.copy(
                 results = it.results.map { res ->
@@ -402,15 +410,12 @@ class ExploreViewModel(
         }
     }
 
-    private fun toggleDownVote(post: PostModel, feedback: Boolean) {
+    private fun toggleDownVote(post: PostModel) {
         val newValue = post.myVote >= 0
         val newPost = postRepository.asDownVoted(
             post = post,
             downVoted = newValue,
         )
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.updateState {
             it.copy(
                 results = it.results.map { res ->
@@ -449,15 +454,12 @@ class ExploreViewModel(
         }
     }
 
-    private fun toggleSave(post: PostModel, feedback: Boolean) {
+    private fun toggleSave(post: PostModel) {
         val newValue = !post.saved
         val newPost = postRepository.asSaved(
             post = post,
             saved = newValue,
         )
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.updateState {
             it.copy(
                 results = it.results.map { res ->
@@ -496,14 +498,8 @@ class ExploreViewModel(
         }
     }
 
-    private fun toggleUpVoteComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleUpVoteComment(comment: CommentModel) {
         val newValue = comment.myVote <= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asUpVoted(
             comment = comment,
             voted = newValue,
@@ -546,14 +542,8 @@ class ExploreViewModel(
         }
     }
 
-    private fun toggleDownVoteComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleDownVoteComment(comment: CommentModel) {
         val newValue = comment.myVote >= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asDownVoted(comment, newValue)
         mvi.updateState {
             it.copy(
@@ -593,14 +583,8 @@ class ExploreViewModel(
         }
     }
 
-    private fun toggleSaveComment(
-        comment: CommentModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleSaveComment(comment: CommentModel) {
         val newValue = !comment.saved
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asSaved(
             comment = comment,
             saved = newValue,
@@ -644,7 +628,6 @@ class ExploreViewModel(
     }
 }
 
-@OptIn(ExperimentalEncodingApi::class)
 internal fun getItemKey(result: SearchResult): String = when (result) {
     is SearchResult.Post -> "post" + result.model.id.toString() + result.model.updateDate
     is SearchResult.Comment -> "comment" + result.model.id.toString() + result.model.updateDate

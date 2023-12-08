@@ -149,29 +149,29 @@ class CommunityDetailViewModel(
             }
 
             is CommunityDetailMviModel.Intent.DownVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleDownVotePost(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleDownVotePost(post = post)
                 }
             }
 
             is CommunityDetailMviModel.Intent.SavePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleSavePost(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleSavePost(post = post)
                 }
             }
 
             is CommunityDetailMviModel.Intent.UpVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleUpVotePost(
-                        post = post,
-                        feedback = intent.feedback,
-                    )
+                    toggleUpVotePost(post = post)
                 }
             }
 
@@ -340,19 +340,13 @@ class CommunityDetailViewModel(
         }
     }
 
-    private fun toggleUpVotePost(
-        post: PostModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleUpVotePost(post: PostModel) {
         val newValue = post.myVote <= 0
         val newPost = postRepository.asUpVoted(
             post = post,
             voted = newValue,
         )
         handlePostUpdate(newPost)
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -393,19 +387,13 @@ class CommunityDetailViewModel(
         }
     }
 
-    private fun toggleDownVotePost(
-        post: PostModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleDownVotePost(post: PostModel) {
         val newValue = post.myVote >= 0
         val newPost = postRepository.asDownVoted(
             post = post,
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -425,19 +413,13 @@ class CommunityDetailViewModel(
         }
     }
 
-    private fun toggleSavePost(
-        post: PostModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleSavePost(post: PostModel) {
         val newValue = !post.saved
         val newPost = postRepository.asSaved(
             post = post,
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()

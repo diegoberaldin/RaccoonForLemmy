@@ -90,15 +90,19 @@ class InboxMentionsViewModel(
             }
 
             InboxMentionsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            is InboxMentionsMviModel.Intent.DownVoteComment -> toggleDownVoteComment(
-                mention = uiState.value.mentions.first { it.id == intent.id },
-                feedback = true,
-            )
+            is InboxMentionsMviModel.Intent.DownVoteComment -> {
+                hapticFeedback.vibrate()
+                toggleDownVoteComment(
+                    mention = uiState.value.mentions.first { it.id == intent.id },
+                )
+            }
 
-            is InboxMentionsMviModel.Intent.UpVoteComment -> toggleUpVoteComment(
-                mention = uiState.value.mentions.first { it.id == intent.id },
-                feedback = true,
-            )
+            is InboxMentionsMviModel.Intent.UpVoteComment -> {
+                hapticFeedback.vibrate()
+                toggleUpVoteComment(
+                    mention = uiState.value.mentions.first { it.id == intent.id },
+                )
+            }
         }
     }
 
@@ -194,14 +198,8 @@ class InboxMentionsViewModel(
         }
     }
 
-    private fun toggleUpVoteComment(
-        mention: PersonMentionModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleUpVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote <= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asUpVoted(
             comment = mention.comment,
             voted = newValue,
@@ -245,14 +243,8 @@ class InboxMentionsViewModel(
         }
     }
 
-    private fun toggleDownVoteComment(
-        mention: PersonMentionModel,
-        feedback: Boolean,
-    ) {
+    private fun toggleDownVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote >= 0
-        if (feedback) {
-            hapticFeedback.vibrate()
-        }
         val newComment = commentRepository.asDownVoted(mention.comment, newValue)
         mvi.updateState {
             it.copy(
