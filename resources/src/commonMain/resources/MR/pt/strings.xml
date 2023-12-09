@@ -260,4 +260,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Morango</string>
     <string name="settings_comment_bar_theme_multi">🌈 Arco-íris</string>
     <string name="message_confirm_exit">Tocar em 🔙 novamente para sair</string>
+    <string name="settings_share_post_original">Compartilhar postagens da instância original
+    </string>
 </resources>

@@ -36,4 +36,5 @@ data class SettingsModel(
     val zombieModeScrollAmount: Float = 55f,
     val markAsReadWhileScrolling: Boolean = false,
     val commentBarTheme: Int = 0,
+    val sharePostOriginal: Boolean = true,
 ) : JavaSerializable

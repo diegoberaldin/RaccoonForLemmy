@@ -521,13 +521,25 @@ class SettingsScreen : Screen {
                         },
                     )
 
+                    // share posts from original instance
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_share_post_original),
+                        value = uiState.sharePostOriginal,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeSharePostOriginal(value)
+                            )
+                        },
+                    )
+
                     SettingsHeader(
                         icon = Icons.Default.Shield,
                         title = stringResource(MR.strings.settings_section_nsfw),
                     )
 
                     // NSFW options
-                    SettingsSwitchRow(title = stringResource(MR.strings.settings_include_nsfw),
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_include_nsfw),
                         value = uiState.includeNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))

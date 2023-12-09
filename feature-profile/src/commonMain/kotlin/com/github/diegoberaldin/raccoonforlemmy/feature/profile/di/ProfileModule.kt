@@ -34,6 +34,7 @@ val profileTabModule = module {
         ProfileLoggedViewModel(
             mvi = DefaultMviModel(ProfileLoggedMviModel.UiState()),
             identityRepository = get(),
+            apiConfigurationRepository = get(),
             siteRepository = get(),
             userRepository = get(),
             postRepository = get(),

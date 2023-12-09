@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 class PostListViewModel(
     private val mvi: DefaultMviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>,
     private val postRepository: PostRepository,
-    private val apiConfigRepository: ApiConfigurationRepository,
+    private val apiConfigurationRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
@@ -56,12 +56,12 @@ class PostListViewModel(
         mvi.onStarted()
 
         mvi.scope?.launch(Dispatchers.Main) {
-            apiConfigRepository.instance.onEach { instance ->
+            apiConfigurationRepository.instance.onEach { instance ->
                 mvi.updateState {
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
-            apiConfigRepository.instance.drop(1).onEach { _ ->
+            apiConfigurationRepository.instance.drop(1).onEach { _ ->
                 refresh()
                 mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             }.launchIn(this)
@@ -445,7 +445,12 @@ class PostListViewModel(
     }
 
     private fun share(post: PostModel) {
-        val url = post.originalUrl.orEmpty()
+        val shareOriginal = settingsRepository.currentSettings.value.sharePostOriginal
+        val url = if (shareOriginal) {
+            post.originalUrl.orEmpty()
+        } else {
+            "https://${apiConfigurationRepository.instance.value}/post/${post.id}"
+        }
         if (url.isNotEmpty()) {
             shareHelper.share(url, "text/plain")
         }

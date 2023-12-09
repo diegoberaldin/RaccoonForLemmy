@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Sett
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.zombiemode.ZombieModeHelper
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -32,6 +33,7 @@ class CommunityDetailViewModel(
     private val community: CommunityModel,
     private val otherInstance: String,
     private val identityRepository: IdentityRepository,
+    private val apiConfigurationRepository: ApiConfigurationRepository,
     private val communityRepository: CommunityRepository,
     private val postRepository: PostRepository,
     private val siteRepository: SiteRepository,
@@ -182,9 +184,7 @@ class CommunityDetailViewModel(
             is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
             is CommunityDetailMviModel.Intent.SharePost -> {
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    share(
-                        post = post,
-                    )
+                    share(post = post)
                 }
             }
 
@@ -483,7 +483,14 @@ class CommunityDetailViewModel(
     }
 
     private fun share(post: PostModel) {
-        val url = post.originalUrl.orEmpty()
+        val shareOriginal = settingsRepository.currentSettings.value.sharePostOriginal
+        val url = if (shareOriginal) {
+            post.originalUrl.orEmpty()
+        } else if (otherInstance.isNotEmpty()) {
+            "https://${otherInstance}/post/${post.id}"
+        } else {
+            "https://${apiConfigurationRepository.instance.value}/post/${post.id}"
+        }
         if (url.isNotEmpty()) {
             shareHelper.share(url, "text/plain")
         }

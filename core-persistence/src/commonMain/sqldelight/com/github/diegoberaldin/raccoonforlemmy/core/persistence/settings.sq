@@ -29,6 +29,7 @@ CREATE TABLE SettingsEntity (
     zombieModeScrollAmount REAL NOT NULL DEFAULT 100,
     markAsReadWhileScrolling INTEGER NOT NULL DEFAULT 0,
     commentBarTheme INTEGER NOT NULL DEFAULT 0,
+    sharePostOriginal INTEGER NOT NULL DEFAULT 1,
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
@@ -65,8 +66,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     zombieModeScrollAmount,
     markAsReadWhileScrolling,
     commentBarTheme,
+    sharePostOriginal,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -129,7 +132,8 @@ SET theme = ?,
     zombieModeInterval = ?,
     zombieModeScrollAmount = ?,
     markAsReadWhileScrolling = ?,
-    commentBarTheme = ?
+    commentBarTheme = ?,
+    sharePostOriginal = ?
 WHERE account_id = ?;
 
 getBy:
@@ -163,6 +167,7 @@ SELECT
     zombieModeInterval,
     zombieModeScrollAmount,
     markAsReadWhileScrolling,
-    commentBarTheme
+    commentBarTheme,
+    sharePostOriginal
 FROM SettingsEntity
 WHERE account_id = ?;

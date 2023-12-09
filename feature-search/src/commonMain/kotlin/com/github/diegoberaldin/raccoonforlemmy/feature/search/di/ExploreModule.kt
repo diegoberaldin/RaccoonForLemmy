@@ -48,6 +48,7 @@ val exploreTabModule = module {
             community = params[0],
             postRepository = get(),
             identityRepository = get(),
+            apiConfigurationRepository = get(),
             siteRepository = get(),
             themeRepository = get(),
             shareHelper = get(),

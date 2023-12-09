@@ -48,6 +48,7 @@ interface SettingsMviModel :
         data class ChangeZombieModeScrollAmount(val value: Float) : Intent
         data class ChangeMarkAsReadWhileScrolling(val value: Boolean) : Intent
         data class ChangeDefaultInboxUnreadOnly(val value: Boolean) : Intent
+        data class ChangeSharePostOriginal(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -85,6 +86,7 @@ interface SettingsMviModel :
         val availableSortTypesForPosts: List<SortType> = emptyList(),
         val availableSortTypesForComments: List<SortType> = emptyList(),
         val commentBarTheme: CommentBarTheme = CommentBarTheme.Blue,
+        val sharePostOriginal: Boolean = true,
     )
 
     sealed interface Effect

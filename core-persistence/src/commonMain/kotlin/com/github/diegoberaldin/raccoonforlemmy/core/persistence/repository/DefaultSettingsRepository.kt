@@ -42,6 +42,7 @@ private object KeyStoreKeys {
     const val ZombieModeScrollAmount = "zombieModeScrollAmount"
     const val MarkAsReadWhileScrolling = "markAsReadWhileScrolling"
     const val CommentBarTheme = "commentBarTheme"
+    const val SharePostOriginal = "sharePostOriginal"
 }
 
 internal class DefaultSettingsRepository(
@@ -86,6 +87,7 @@ internal class DefaultSettingsRepository(
                 zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
                 markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1 else 0,
                 commentBarTheme = settings.commentBarTheme.toLong(),
+                sharePostOriginal = if (settings.sharePostOriginal) 1 else 0,
             )
         }
 
@@ -125,6 +127,7 @@ internal class DefaultSettingsRepository(
                     zombieModeScrollAmount = keyStore[KeyStoreKeys.ZombieModeScrollAmount, 55f],
                     markAsReadWhileScrolling = keyStore[KeyStoreKeys.MarkAsReadWhileScrolling, false],
                     commentBarTheme = keyStore[KeyStoreKeys.CommentBarTheme, 0],
+                    sharePostOriginal = keyStore[KeyStoreKeys.SharePostOriginal, true],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -201,6 +204,10 @@ internal class DefaultSettingsRepository(
                     settings.markAsReadWhileScrolling,
                 )
                 keyStore.save(KeyStoreKeys.CommentBarTheme, settings.commentBarTheme)
+                keyStore.save(
+                    KeyStoreKeys.SharePostOriginal,
+                    settings.sharePostOriginal,
+                )
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -233,6 +240,7 @@ internal class DefaultSettingsRepository(
                     zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
                     markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1L else 0L,
                     commentBarTheme = settings.commentBarTheme.toLong(),
+                    sharePostOriginal = if (settings.sharePostOriginal) 1L else 0L,
                 )
             }
         }
@@ -273,4 +281,5 @@ private fun GetBy.toModel() = SettingsModel(
     zombieModeScrollAmount = zombieModeScrollAmount.toFloat(),
     markAsReadWhileScrolling = markAsReadWhileScrolling != 0L,
     commentBarTheme = commentBarTheme.toInt(),
+    sharePostOriginal = sharePostOriginal != 0L,
 )

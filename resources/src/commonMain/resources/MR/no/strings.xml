@@ -260,4 +260,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Jordbær</string>
     <string name="settings_comment_bar_theme_multi">🌈 Regnbue</string>
     <string name="message_confirm_exit">Trykk på 🔙 igjen for å avslutte</string>
+    <string name="settings_share_post_original">Del innlegg fra den opprinnelige forekomsten
+    </string>
 </resources>

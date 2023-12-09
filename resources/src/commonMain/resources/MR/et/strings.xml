@@ -258,4 +258,5 @@
     <string name="settings_comment_bar_theme_red">🍓 Maasikas</string>
     <string name="settings_comment_bar_theme_multi">🌈 Vikerkaar</string>
     <string name="message_confirm_exit">Väljumiseks puudutage uuesti 🔙</string>
+    <string name="settings_share_post_original">Jaga postitusi algsest eksemplarist</string>
 </resources>

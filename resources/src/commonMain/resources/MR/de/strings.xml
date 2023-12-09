@@ -264,4 +264,5 @@
     <string name="settings_comment_bar_theme_red">🍓 Erdbeere</string>
     <string name="settings_comment_bar_theme_multi">🌈 Regenbogen</string>
     <string name="message_confirm_exit">Tippen Sie erneut auf 🔙, um den Vorgang zu beenden</string>
+    <string name="settings_share_post_original">Teilen Sie Beiträge von der Originalinstanz</string>
 </resources>

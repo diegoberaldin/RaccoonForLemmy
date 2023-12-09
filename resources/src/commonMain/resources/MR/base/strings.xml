@@ -287,4 +287,5 @@
     <string name="settings_comment_bar_theme_red">🍓 Strawberry</string>
     <string name="settings_comment_bar_theme_multi">🌈 Rainbow</string>
     <string name="message_confirm_exit">Tap 🔙 again to exit</string>
+    <string name="settings_share_post_original">Share posts from original instance</string>
 </resources>

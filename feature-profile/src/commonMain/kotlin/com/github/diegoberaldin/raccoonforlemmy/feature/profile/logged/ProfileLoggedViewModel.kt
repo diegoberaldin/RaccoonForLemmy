@@ -8,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -31,6 +32,7 @@ import kotlinx.coroutines.yield
 class ProfileLoggedViewModel(
     private val mvi: DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>,
     private val identityRepository: IdentityRepository,
+    private val apiConfigurationRepository: ApiConfigurationRepository,
     private val siteRepository: SiteRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
@@ -451,7 +453,12 @@ class ProfileLoggedViewModel(
     }
 
     private fun share(post: PostModel) {
-        val url = post.originalUrl.orEmpty()
+        val shareOriginal = settingsRepository.currentSettings.value.sharePostOriginal
+        val url = if (shareOriginal) {
+            post.originalUrl.orEmpty()
+        } else {
+            "https://${apiConfigurationRepository.instance.value}/post/${post.id}"
+        }
         if (url.isNotEmpty()) {
             shareHelper.share(url, "text/plain")
         }
