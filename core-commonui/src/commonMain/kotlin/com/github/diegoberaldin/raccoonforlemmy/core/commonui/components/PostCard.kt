@@ -257,7 +257,7 @@ private fun ExtendedPost(
 ) {
     Column(
         modifier = modifier.background(backgroundColor),
-        verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+        verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
     ) {
         CommunityAndCreatorInfo(
             modifier = Modifier.padding(horizontal = Spacing.xxs),

@@ -30,6 +30,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
@@ -156,11 +157,12 @@ fun CommunityAndCreatorInfo(
                 )
             }
             if (creator != null) {
+                val translationAmount = 3.dp.toLocalPixel()
                 Text(
                     modifier = Modifier
                         .graphicsLayer {
-                            if (!communityName.isNullOrEmpty()) {
-                                translationY = -8f
+                            if (communityName.isNotEmpty()) {
+                                translationY = -translationAmount
                             }
                         }
                         .onClick(
