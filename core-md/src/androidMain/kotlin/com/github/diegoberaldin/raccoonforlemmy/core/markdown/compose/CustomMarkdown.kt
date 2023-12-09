@@ -34,7 +34,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownColo
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownPadding
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.ReferenceLinkHandlerImpl
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.DateTime
 import io.noties.markwon.image.AsyncDrawableSpan
 import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
@@ -75,10 +74,7 @@ actual fun CustomMarkdown(
             )
         }
         BoxWithConstraints(
-            modifier = modifier.onClick(
-                onClick = onClick ?: {},
-                onDoubleClick = onDoubleClick ?: {},
-            )
+            modifier = modifier
         ) {
             val style = LocalMarkdownTypography.current.text
             val fontScale = LocalDensity.current.fontScale * 1.25f
@@ -116,6 +112,7 @@ actual fun CustomMarkdown(
                                             val currentTime = DateTime.epochMillis()
                                             if ((currentTime - lastClickTime) < 300) return false
                                             lastClickTime = currentTime
+                                            cancelPendingInputEvents()
                                             onClick?.invoke()
                                             return true
                                         }
@@ -124,6 +121,7 @@ actual fun CustomMarkdown(
                                             val currentTime = DateTime.epochMillis()
                                             if ((currentTime - lastClickTime) < 300) return false
                                             lastClickTime = currentTime
+                                            cancelPendingInputEvents()
                                             onDoubleClick?.invoke()
                                             return true
                                         }
@@ -133,7 +131,12 @@ actual fun CustomMarkdown(
                                         }
                                     }
                                 )
-                            setOnTouchListener { _, evt -> gestureDetector.onTouchEvent(evt) }
+                            setOnTouchListener { v, evt ->
+                                if (evt.action == MotionEvent.ACTION_UP) {
+                                    v.performClick()
+                                }
+                                gestureDetector.onTouchEvent(evt)
+                            }
                         }
                     },
                     update = { textView ->
@@ -157,8 +160,6 @@ private fun createTextView(
     typeface: Typeface? = null,
     style: TextStyle,
     @IdRes viewId: Int? = null,
-    onClick: (() -> Unit)? = null,
-    onLongClick: ((View) -> Boolean)? = null,
 ): TextView {
     val mergedStyle = style.merge(
         TextStyle(
@@ -168,8 +169,6 @@ private fun createTextView(
         ),
     )
     return TextView(context).apply {
-        onClick?.let { setOnClickListener { onClick() } }
-        onLongClick?.let { setOnLongClickListener(it) }
         setTextColor(textColor.toArgb())
         setTextSize(TypedValue.COMPLEX_UNIT_SP, mergedStyle.fontSize.value)
         width = maxWidth

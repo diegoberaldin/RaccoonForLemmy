@@ -31,13 +31,9 @@ class DefaultMarkwonProvider(
             .usePlugin(TablePlugin.create(context))
             .usePlugin(HtmlPlugin.create())
             .usePlugin(
-                ImagesPlugin.create(
-                    object : ImagesPlugin.ImagesConfigure {
-                        override fun configureImages(plugin: ImagesPlugin) {
-                            plugin.addMediaDecoder(GifMediaDecoder.create(true))
-                        }
-                    },
-                ),
+                ImagesPlugin.create { plugin ->
+                    plugin.addMediaDecoder(GifMediaDecoder.create(true))
+                },
             )
             .usePlugin(MarkwonSpoilerPlugin.create(true))
             .usePlugin(

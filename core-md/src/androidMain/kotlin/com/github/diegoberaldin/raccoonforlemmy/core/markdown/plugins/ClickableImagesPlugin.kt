@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.commonmark.node.Image
 import org.commonmark.node.Node
 
-private const val TRIGGER_UPDATE_INTERVAL = 250L
+private const val TRIGGER_UPDATE_INTERVAL = 500L
 
 class ClickableImagesPlugin private constructor(
     private val context: Context,
