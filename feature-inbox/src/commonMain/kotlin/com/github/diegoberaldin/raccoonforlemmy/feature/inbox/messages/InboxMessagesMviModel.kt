@@ -12,6 +12,7 @@ interface InboxMessagesMviModel :
     sealed interface Intent {
         data object Refresh : Intent
         data object LoadNextPage : Intent
+        data class MarkAsRead(val read: Boolean, val id: Int) : Intent
     }
 
     data class UiState(

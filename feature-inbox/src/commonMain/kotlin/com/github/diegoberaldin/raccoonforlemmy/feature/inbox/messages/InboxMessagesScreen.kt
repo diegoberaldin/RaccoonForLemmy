@@ -125,14 +125,23 @@ class InboxMessagesScreen : Tab {
                         lastMessageDate = chat.publishDate,
                         onOpenUser = rememberCallbackArgs { user ->
                             navigationCoordinator.pushScreen(
-                                UserDetailScreen(user)
+                                UserDetailScreen(user),
                             )
                         },
                         onOpen = rememberCallback {
+                            if (!chat.read) {
+                                model.reduce(
+                                    InboxMessagesMviModel.Intent.MarkAsRead(
+                                        read = true,
+                                        id = chat.id
+                                    ),
+                                )
+                            }
+
                             val userId = chat.otherUser(uiState.currentUserId)?.id
                             if (userId != null) {
                                 navigationCoordinator.pushScreen(
-                                    InboxChatScreen(userId)
+                                    InboxChatScreen(userId),
                                 )
                             }
                         },

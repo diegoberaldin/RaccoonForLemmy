@@ -88,7 +88,7 @@ class InboxRepliesViewModel(
             is InboxRepliesMviModel.Intent.MarkAsRead -> {
                 markAsRead(
                     read = intent.read,
-                    mention = uiState.value.replies.first { it.id == intent.id },
+                    reply = uiState.value.replies.first { it.id == intent.id },
                 )
             }
 
@@ -174,12 +174,12 @@ class InboxRepliesViewModel(
         }
     }
 
-    private fun markAsRead(read: Boolean, mention: PersonMentionModel) {
+    private fun markAsRead(read: Boolean, reply: PersonMentionModel) {
         val auth = identityRepository.authToken.value
         mvi.scope?.launch(Dispatchers.IO) {
             userRepository.setReplyRead(
                 read = read,
-                replyId = mention.id,
+                replyId = reply.id,
                 auth = auth,
             )
             val currentState = uiState.value
@@ -187,7 +187,7 @@ class InboxRepliesViewModel(
                 mvi.updateState {
                     it.copy(
                         replies = currentState.replies.filter { r ->
-                            r.id != mention.id
+                            r.id != reply.id
                         }
                     )
                 }
@@ -195,7 +195,7 @@ class InboxRepliesViewModel(
                 mvi.updateState {
                     it.copy(
                         replies = currentState.replies.map { r ->
-                            if (r.id == mention.id) {
+                            if (r.id == reply.id) {
                                 r.copy(read = read)
                             } else {
                                 r

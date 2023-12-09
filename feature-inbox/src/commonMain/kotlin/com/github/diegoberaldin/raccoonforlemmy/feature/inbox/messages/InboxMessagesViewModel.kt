@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
@@ -73,6 +74,13 @@ class InboxMessagesViewModel(
 
             InboxMessagesMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
                 refresh()
+            }
+
+            is InboxMessagesMviModel.Intent.MarkAsRead -> {
+                markAsRead(
+                    read = intent.read,
+                    message = uiState.value.chats.first { it.id == intent.id },
+                )
             }
         }
     }
@@ -151,6 +159,40 @@ class InboxMessagesViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val unreadCount = coordinator.updateUnreadCount()
             mvi.emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
+        }
+    }
+
+    private fun markAsRead(read: Boolean, message: PrivateMessageModel) {
+        val auth = identityRepository.authToken.value
+        mvi.scope?.launch(Dispatchers.IO) {
+            messageRepository.markAsRead(
+                read = read,
+                messageId = message.id,
+                auth = auth,
+            )
+            val currentState = uiState.value
+            if (read && currentState.unreadOnly) {
+                mvi.updateState {
+                    it.copy(
+                        chats = currentState.chats.filter { c ->
+                            c.id != message.id
+                        }
+                    )
+                }
+            } else {
+                mvi.updateState {
+                    it.copy(
+                        chats = currentState.chats.map { c ->
+                            if (c.id == message.id) {
+                                c.copy(read = read)
+                            } else {
+                                c
+                            }
+                        }
+                    )
+                }
+            }
+            updateUnreadItems()
         }
     }
 
