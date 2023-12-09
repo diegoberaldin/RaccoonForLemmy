@@ -296,7 +296,11 @@ class PostDetailScreen(
                                 isFromModerator = uiState.post.creator?.id.let { creatorId ->
                                     uiState.isModerator && uiState.moderators.containsId(creatorId)
                                 },
-                                postLayout = uiState.postLayout,
+                                postLayout = if (uiState.postLayout == PostLayout.Card) {
+                                    uiState.postLayout
+                                } else {
+                                    PostLayout.Full
+                                },
                                 fullHeightImage = uiState.fullHeightImages,
                                 includeFullBody = true,
                                 voteFormat = uiState.voteFormat,
@@ -349,8 +353,7 @@ class PostDetailScreen(
                                 },
                                 options = buildList {
                                     this += Option(
-                                        OptionId.Share,
-                                        stringResource(MR.strings.post_action_share)
+                                        OptionId.Share, stringResource(MR.strings.post_action_share)
                                     )
                                     this += Option(
                                         OptionId.SeeRaw,
@@ -386,8 +389,7 @@ class PostDetailScreen(
                                             }
                                         )
                                         this += Option(
-                                            OptionId.LockPost,
-                                            if (uiState.post.locked) {
+                                            OptionId.LockPost, if (uiState.post.locked) {
                                                 stringResource(MR.strings.mod_action_unlock)
                                             } else {
                                                 stringResource(MR.strings.mod_action_lock)
@@ -409,8 +411,7 @@ class PostDetailScreen(
                                             if (uiState.currentUserId != creatorId) {
                                                 this += Option(
                                                     OptionId.AddMod,
-                                                    if (uiState.moderators.containsId(creatorId)
-                                                    ) {
+                                                    if (uiState.moderators.containsId(creatorId)) {
                                                         stringResource(MR.strings.mod_action_remove_mod)
                                                     } else {
                                                         stringResource(MR.strings.mod_action_add_mod)
@@ -555,15 +556,13 @@ class PostDetailScreen(
                                 )
                             }
                         }
-                        items(
-                            uiState.comments.filter { it.visible },
+                        items(uiState.comments.filter { it.visible },
                             key = { c -> c.id.toString() + c.updateDate }) { comment ->
                             Column {
                                 AnimatedContent(
                                     targetState = comment.expanded,
                                     transitionSpec = {
-                                        fadeIn(animationSpec = tween(250))
-                                            .togetherWith(fadeOut())
+                                        fadeIn(animationSpec = tween(250)).togetherWith(fadeOut())
                                     },
                                 ) {
                                     if (comment.expanded) {
@@ -1154,8 +1153,7 @@ class PostDetailScreen(
         if (rawContent != null) {
             when (val content = rawContent) {
                 is PostModel -> {
-                    RawContentDialog(
-                        title = content.title,
+                    RawContentDialog(title = content.title,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         url = content.url,
@@ -1166,24 +1164,19 @@ class PostDetailScreen(
                         onQuote = { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                val screen =
-                                    CreateCommentScreen(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        }
-                                    )
+                                val screen = CreateCommentScreen(originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    })
                                 navigationCoordinator.showBottomSheet(screen)
                             }
-                        }
-                    )
+                        })
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(
-                        text = content.text,
+                    RawContentDialog(text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = {
@@ -1192,19 +1185,15 @@ class PostDetailScreen(
                         onQuote = { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                val screen =
-                                    CreateCommentScreen(
-                                        originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        }
-                                    )
+                                val screen = CreateCommentScreen(originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    })
                                 navigationCoordinator.showBottomSheet(screen)
                             }
-                        }
-                    )
+                        })
                 }
             }
         }
