@@ -112,8 +112,10 @@ actual fun CustomMarkdown(
                                             val currentTime = DateTime.epochMillis()
                                             if ((currentTime - lastClickTime) < 300) return false
                                             lastClickTime = currentTime
-                                            cancelPendingInputEvents()
-                                            onClick?.invoke()
+                                            if (!markwonProvider.isHandlingLink.value) {
+                                                cancelPendingInputEvents()
+                                                onClick?.invoke()
+                                            }
                                             return true
                                         }
 
@@ -121,8 +123,10 @@ actual fun CustomMarkdown(
                                             val currentTime = DateTime.epochMillis()
                                             if ((currentTime - lastClickTime) < 300) return false
                                             lastClickTime = currentTime
-                                            cancelPendingInputEvents()
-                                            onDoubleClick?.invoke()
+                                            if (!markwonProvider.isHandlingLink.value) {
+                                                cancelPendingInputEvents()
+                                                onDoubleClick?.invoke()
+                                            }
                                             return true
                                         }
 
