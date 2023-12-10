@@ -48,7 +48,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ColorBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ColorPickerDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CommentBarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontFamilyBottomSheet
@@ -61,6 +60,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBotto
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -116,8 +116,6 @@ class SettingsScreen : Screen {
         } else {
             UiTheme.Light
         }
-        var upvoteColorDialogOpened by remember { mutableStateOf(false) }
-        var downvoteColorDialogOpened by remember { mutableStateOf(false) }
         var infoDialogOpened by remember { mutableStateOf(false) }
 
         LaunchedEffect(themeRepository) {
@@ -248,14 +246,20 @@ class SettingsScreen : Screen {
                         title = stringResource(MR.strings.settings_upvote_color),
                         value = uiState.upvoteColor ?: MaterialTheme.colorScheme.primary,
                         onTap = rememberCallback {
-                            upvoteColorDialogOpened = true
+                            val screen = VoteThemeBottomSheet(
+                                downvote = false,
+                            )
+                            navigationCoordinator.showBottomSheet(screen)
                         },
                     )
                     SettingsColorRow(
                         title = stringResource(MR.strings.settings_downvote_color),
                         value = uiState.downvoteColor ?: MaterialTheme.colorScheme.tertiary,
                         onTap = rememberCallback {
-                            downvoteColorDialogOpened = true
+                            val screen = VoteThemeBottomSheet(
+                                downvote = true,
+                            )
+                            navigationCoordinator.showBottomSheet(screen)
                         },
                     )
                     // comment bar theme
@@ -578,48 +582,6 @@ class SettingsScreen : Screen {
                     Spacer(modifier = Modifier.height(Spacing.xxxl))
                 }
             }
-        }
-
-        if (upvoteColorDialogOpened) {
-            val initial = uiState.upvoteColor ?: MaterialTheme.colorScheme.primary
-            ColorPickerDialog(
-                initialValue = initial,
-                onClose = rememberCallback {
-                    upvoteColorDialogOpened = false
-                },
-                onSubmit = rememberCallbackArgs { color ->
-                    upvoteColorDialogOpened = false
-                    model.reduce(SettingsMviModel.Intent.ChangeUpvoteColor(color))
-                },
-                onReset = rememberCallback(model) {
-                    upvoteColorDialogOpened = false
-                    val scheme = getColorSchemeProvider().getColorScheme(
-                        theme = uiState.uiTheme ?: defaultTheme,
-                        dynamic = uiState.dynamicColors,
-                        customSeed = uiState.customSeedColor
-                    )
-                    val defaultValue = scheme.primary
-                    model.reduce(SettingsMviModel.Intent.ChangeUpvoteColor(defaultValue))
-                },
-            )
-        }
-
-        if (downvoteColorDialogOpened) {
-            val initial = uiState.downvoteColor ?: MaterialTheme.colorScheme.tertiary
-            ColorPickerDialog(
-                initialValue = initial,
-                onClose = rememberCallback {
-                    downvoteColorDialogOpened = false
-                },
-                onSubmit = rememberCallbackArgs(model) { color ->
-                    downvoteColorDialogOpened = false
-                    model.reduce(SettingsMviModel.Intent.ChangeDownvoteColor(color))
-                },
-                onReset = rememberCallback(model) {
-                    downvoteColorDialogOpened = false
-                    model.reduce(SettingsMviModel.Intent.ChangeDownvoteColor(null))
-                },
-            )
         }
 
         if (infoDialogOpened) {

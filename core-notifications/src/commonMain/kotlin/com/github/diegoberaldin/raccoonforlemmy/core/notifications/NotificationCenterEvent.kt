@@ -41,6 +41,7 @@ sealed interface NotificationCenterEvent {
     data class CommentUpdated(val model: CommentModel) : NotificationCenterEvent
     data class PostDeleted(val model: PostModel) : NotificationCenterEvent
     data class ChangeColor(val color: Color?) : NotificationCenterEvent
+    data class ChangeVoteColor(val color: Color?, val downvote: Boolean) : NotificationCenterEvent
     data class ChangeZombieScrollAmount(val value: Float) : NotificationCenterEvent
     data class MultiCommunityCreated(val model: MultiCommunityModel) : NotificationCenterEvent
     data object CloseDialog : NotificationCenterEvent

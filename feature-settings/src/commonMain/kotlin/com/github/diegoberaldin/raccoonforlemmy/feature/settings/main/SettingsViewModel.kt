@@ -159,6 +159,14 @@ class SettingsViewModel(
                 .onEach { evt ->
                     changeCommentBarTheme(evt.value)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeVoteColor::class)
+                .onEach { evt ->
+                    if (evt.downvote) {
+                        changeDownvoteColor(evt.color)
+                    } else {
+                        changeUpvoteColor(evt.color)
+                    }
+                }.launchIn(this)
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
             val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
