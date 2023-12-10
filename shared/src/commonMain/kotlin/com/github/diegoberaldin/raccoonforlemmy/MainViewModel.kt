@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -20,7 +21,7 @@ class MainViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             inboxCoordinator.totalUnread.onEach { unreadCount ->
                 mvi.emitEffect(MainScreenMviModel.Effect.UnreadItemsDetected(unreadCount))
-            }
+            }.launchIn(this)
         }
     }
 
