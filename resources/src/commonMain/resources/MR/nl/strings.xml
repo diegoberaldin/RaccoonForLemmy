@@ -125,7 +125,7 @@
     <string name="multi_community_editor_title">Multi-gemeenschappen editor</string>
     <string name="navigation_drawer_anonymous">Anoniem</string>
     <string name="navigation_drawer_title_bookmarks">Opgeslagen</string>
-    <string name="navigation_drawer_title_subscriptions">Abonnementen</string>
+    <string name="navigation_drawer_title_subscriptions">Beheer abonnementen</string>
     <string name="navigation_home">Berichten</string>
     <string name="navigation_inbox">Inbox</string>
     <string name="navigation_profile">Profiel</string>

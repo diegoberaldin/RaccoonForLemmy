@@ -123,7 +123,7 @@
     <string name="multi_community_editor_title">Editor multi-comunidad</string>
     <string name="navigation_drawer_anonymous">Anônimo</string>
     <string name="navigation_drawer_title_bookmarks">Guardados</string>
-    <string name="navigation_drawer_title_subscriptions">Subscripções</string>
+    <string name="navigation_drawer_title_subscriptions">Gerenciar subscripções</string>
     <string name="navigation_home">Publicações</string>
     <string name="navigation_inbox">Caixa</string>
     <string name="navigation_profile">Perfil</string>

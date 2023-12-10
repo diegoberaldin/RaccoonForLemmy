@@ -122,7 +122,7 @@
     <string name="multi_community_editor_title">Urejevalnik za več skupnosti</string>
     <string name="navigation_drawer_anonymous">Anonimno</string>
     <string name="navigation_drawer_title_bookmarks">Shranjeno</string>
-    <string name="navigation_drawer_title_subscriptions">Naročnine</string>
+    <string name="navigation_drawer_title_subscriptions">Upravljanje naročnin</string>
     <string name="navigation_home">Objave</string>
     <string name="navigation_inbox">Prejeto</string>
     <string name="navigation_profile">Profil</string>

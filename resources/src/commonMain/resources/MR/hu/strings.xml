@@ -123,7 +123,7 @@
     <string name="multi_community_editor_title">Többközösségi szerkesztő</string>
     <string name="navigation_drawer_anonymous">Névtelen</string>
     <string name="navigation_drawer_title_bookmarks">Mentve</string>
-    <string name="navigation_drawer_title_subscriptions">Feliratkozások</string>
+    <string name="navigation_drawer_title_subscriptions">Előfizetések kezelése</string>
     <string name="navigation_home">Bejegyzések</string>
     <string name="navigation_inbox">Beérkezett üzenetek</string>
     <string name="navigation_profile">Profil</string>

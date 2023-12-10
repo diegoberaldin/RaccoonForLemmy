@@ -163,7 +163,14 @@ object ModalDrawerContent : Tab {
                         modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxs),
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
-
+                        item {
+                            DrawerShortcut(title = stringResource(MR.strings.navigation_drawer_title_bookmarks),
+                                icon = Icons.Default.Bookmarks,
+                                onSelected = {
+                                    coordinator.toggleDrawer()
+                                    coordinator.sendEvent(DrawerEvent.OpenBookmarks)
+                                })
+                        }
                         item {
                             DrawerShortcut(
                                 title = stringResource(MR.strings.navigation_drawer_title_subscriptions),
@@ -171,14 +178,6 @@ object ModalDrawerContent : Tab {
                                 onSelected = {
                                     coordinator.toggleDrawer()
                                     coordinator.sendEvent(DrawerEvent.ManageSubscriptions)
-                                })
-                        }
-                        item {
-                            DrawerShortcut(title = stringResource(MR.strings.navigation_drawer_title_bookmarks),
-                                icon = Icons.Default.Bookmarks,
-                                onSelected = {
-                                    coordinator.toggleDrawer()
-                                    coordinator.sendEvent(DrawerEvent.OpenBookmarks)
                                 })
                         }
 

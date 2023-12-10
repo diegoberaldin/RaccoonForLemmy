@@ -124,7 +124,7 @@
     <string name="multi_community_editor_title">Flergemenskapsredaktör</string>
     <string name="navigation_drawer_anonymous">Anonym</string>
     <string name="navigation_drawer_title_bookmarks">Sparad</string>
-    <string name="navigation_drawer_title_subscriptions">Prenumerationer</string>
+    <string name="navigation_drawer_title_subscriptions">Hantera prenumerationer</string>
     <string name="navigation_home">Inlägg</string>
     <string name="navigation_inbox">Inkorg</string>
     <string name="navigation_profile">Profil</string>

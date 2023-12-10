@@ -124,7 +124,7 @@
     <string name="multi_community_editor_title">Vairāku kopienu redaktors</string>
     <string name="navigation_drawer_anonymous">Anonīmi</string>
     <string name="navigation_drawer_title_bookmarks">Saglabāts</string>
-    <string name="navigation_drawer_title_subscriptions">Abonementi</string>
+    <string name="navigation_drawer_title_subscriptions">Pārvaldīt abonementus</string>
     <string name="navigation_home">Ieraksti</string>
     <string name="navigation_inbox">Iesūtne</string>
     <string name="navigation_profile">Profils</string>

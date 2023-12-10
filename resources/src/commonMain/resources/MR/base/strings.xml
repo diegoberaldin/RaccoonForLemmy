@@ -154,7 +154,7 @@
     <string name="multi_community_editor_title">Multi-community editor</string>
     <string name="navigation_drawer_anonymous">Anonymous</string>
     <string name="navigation_drawer_title_bookmarks">Saved</string>
-    <string name="navigation_drawer_title_subscriptions">Subscriptions</string>
+    <string name="navigation_drawer_title_subscriptions">Manage subscriptions</string>
     <string name="navigation_home">Posts</string>
     <string name="navigation_inbox">Inbox</string>
     <string name="navigation_profile">Profile</string>

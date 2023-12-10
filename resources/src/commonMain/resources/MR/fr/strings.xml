@@ -125,7 +125,7 @@
     <string name="multi_community_editor_title">Éditeur multi-communauté</string>
     <string name="navigation_drawer_anonymous">Anonyme</string>
     <string name="navigation_drawer_title_bookmarks">Sauvegardés</string>
-    <string name="navigation_drawer_title_subscriptions">Abonnements</string>
+    <string name="navigation_drawer_title_subscriptions">Gérer abonnements</string>
     <string name="navigation_home">Publications</string>
     <string name="navigation_inbox">Boîte</string>
     <string name="navigation_profile">Profil</string>

@@ -123,7 +123,7 @@
     <string name="multi_community_editor_title">Moniyhteisöeditori</string>
     <string name="navigation_drawer_anonymous">Anonyymi</string>
     <string name="navigation_drawer_title_bookmarks">Tallennettu</string>
-    <string name="navigation_drawer_title_subscriptions">Vuokrasopimukset</string>
+    <string name="navigation_drawer_title_subscriptions">Hallinnoi tilauksia</string>
     <string name="navigation_home">Viestit</string>
     <string name="navigation_inbox">Saapuneet-kansio</string>
     <string name="navigation_profile">Profiili</string>

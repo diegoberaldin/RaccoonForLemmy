@@ -125,7 +125,7 @@
     <string name="multi_community_editor_title">Επεξεργαστής πολυκοινότητας</string>
     <string name="navigation_drawer_anonymous">Ανώνυμος</string>
     <string name="navigation_drawer_title_bookmarks">Αποθηκευμένα</string>
-    <string name="navigation_drawer_title_subscriptions">Συνδρομές</string>
+    <string name="navigation_drawer_title_subscriptions">Διαχείριση συνδρομών</string>
     <string name="navigation_home">Αναρτήσεις</string>
     <string name="navigation_inbox">Εισερχόμενα</string>
     <string name="navigation_profile">Προφίλ</string>

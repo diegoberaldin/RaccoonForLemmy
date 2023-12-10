@@ -125,7 +125,7 @@
     <string name="multi_community_editor_title">Multisamfunnsredaktør</string>
     <string name="navigation_drawer_anonymous">Anonym</string>
     <string name="navigation_drawer_title_bookmarks">Lagret</string>
-    <string name="navigation_drawer_title_subscriptions">Abonnement</string>
+    <string name="navigation_drawer_title_subscriptions">Administrer abonnementer</string>
     <string name="navigation_home">Nyheter</string>
     <string name="navigation_inbox">Inbox</string>
     <string name="navigation_profile">Profil</string>

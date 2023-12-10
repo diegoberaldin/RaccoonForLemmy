@@ -124,7 +124,7 @@
     <string name="multi_community_editor_title">Редактор за различни общности</string>
     <string name="navigation_drawer_anonymous">Анонимен</string>
     <string name="navigation_drawer_title_bookmarks">Запазено</string>
-    <string name="navigation_drawer_title_subscriptions">Абонаменти</string>
+    <string name="navigation_drawer_title_subscriptions">Управление на абонаменти</string>
     <string name="navigation_home">Публикации</string>
     <string name="navigation_inbox">Входяща Кутия</string>
     <string name="navigation_profile">Профил</string>

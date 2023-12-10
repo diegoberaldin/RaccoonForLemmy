@@ -121,7 +121,7 @@
     <string name="multi_community_editor_title">محرر متعدد المجتمعات</string>
     <string name="navigation_drawer_anonymous">مجهول</string>
     <string name="navigation_drawer_title_bookmarks">تم الحفظ</string>
-    <string name="navigation_drawer_title_subscriptions">الاشتراكات</string>
+    <string name="navigation_drawer_title_subscriptions">إدارة الاشتراكات</string>
     <string name="navigation_home">المنشورات</string>
     <string name="navigation_inbox">صندوق الوارد</string>
     <string name="navigation_profile">ملف التعريف</string>
