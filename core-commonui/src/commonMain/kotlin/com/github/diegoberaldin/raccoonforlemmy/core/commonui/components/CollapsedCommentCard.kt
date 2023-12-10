@@ -26,6 +26,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
+private const val INDENT_AMOUNT = 3
+
 @Composable
 fun CollapsedCommentCard(
     comment: CommentModel,
@@ -58,7 +60,7 @@ fun CollapsedCommentCard(
     ) {
         Box(
             modifier = Modifier.padding(
-                start = (10 * comment.depth).dp
+                start = (INDENT_AMOUNT * comment.depth).dp
             ),
         ) {
             Column(
@@ -102,13 +104,15 @@ fun CollapsedCommentCard(
                     onOptionSelected = onOptionSelected,
                 )
             }
-            Box(
-                modifier = Modifier
-                    .padding(top = Spacing.xxs)
-                    .width(barWidth)
-                    .height(commentHeight.toLocalDp())
-                    .background(color = barColor)
-            )
+            if (comment.depth > 0) {
+                Box(
+                    modifier = Modifier
+                        .padding(top = Spacing.xxs)
+                        .width(barWidth)
+                        .height(commentHeight.toLocalDp())
+                        .background(color = barColor)
+                )
+            }
         }
     }
 }

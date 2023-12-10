@@ -122,7 +122,7 @@ fun CommentCard(
                     onOptionSelected = onOptionSelected,
                 )
             }
-            if (!hideIndent) {
+            if (!hideIndent && comment.depth > 0) {
                 Box(
                     modifier = Modifier
                         .padding(top = Spacing.xxs)
