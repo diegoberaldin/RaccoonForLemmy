@@ -9,19 +9,19 @@ import kotlinx.coroutines.launch
 
 class DefaultDrawerCoordinator : DrawerCoordinator {
 
-    override val toggleEvents = MutableSharedFlow<DrawerEvent>()
+    override val events = MutableSharedFlow<DrawerEvent>()
     override val gesturesEnabled = MutableStateFlow(true)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     override fun toggleDrawer() {
         scope.launch {
-            toggleEvents.emit(DrawerEvent.Toggled)
+            events.emit(DrawerEvent.Toggled)
         }
     }
 
     override fun sendEvent(event: DrawerEvent) {
         scope.launch {
-            toggleEvents.emit(event)
+            events.emit(event)
         }
     }
 

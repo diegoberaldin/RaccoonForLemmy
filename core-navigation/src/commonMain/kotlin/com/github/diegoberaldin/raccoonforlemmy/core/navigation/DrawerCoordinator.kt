@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.navigation
 import androidx.compose.runtime.Stable
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -12,11 +13,12 @@ sealed interface DrawerEvent {
     data class OpenMultiCommunity(val community: MultiCommunityModel) : DrawerEvent
     data object ManageSubscriptions : DrawerEvent
     data object OpenBookmarks : DrawerEvent
+    data class ChangeListingType(val value: ListingType) : DrawerEvent
 }
 
 @Stable
 interface DrawerCoordinator {
-    val toggleEvents: SharedFlow<DrawerEvent>
+    val events: SharedFlow<DrawerEvent>
     val gesturesEnabled: StateFlow<Boolean>
     fun toggleDrawer()
     fun sendEvent(event: DrawerEvent)

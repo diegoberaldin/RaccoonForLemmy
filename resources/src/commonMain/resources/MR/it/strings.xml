@@ -52,7 +52,7 @@
     <string name="explore_result_type_users">Utenti</string>
     <string name="explore_search_placeholder">Ricerca</string>
     <string name="home_instance_via">via %1$s</string>
-    <string name="home_listing_title">Tipo di feed</string>
+    <string name="home_listing_title">Feed</string>
     <string name="home_listing_type_all">Tutti</string>
     <string name="home_listing_type_local">Locali</string>
     <string name="home_listing_type_subscribed">Iscrizioni</string>

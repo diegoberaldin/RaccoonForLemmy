@@ -34,6 +34,9 @@ fun CommunityItem(
     val communityIcon = community.icon.orEmpty()
     val communityHost = community.host
     val iconSize = if (small) IconSize.m else IconSize.l
+    val fullColor = MaterialTheme.colorScheme.onBackground
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
+
     Row(
         modifier = modifier.padding(
             vertical = Spacing.xs,
@@ -70,7 +73,7 @@ fun CommunityItem(
                             append(title)
                         },
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = fullColor,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -83,7 +86,7 @@ fun CommunityItem(
                             }
                         },
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = ancillaryColor,
                     )
                 }
                 if (showSubscribers) {

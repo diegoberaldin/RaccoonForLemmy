@@ -32,7 +32,11 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.di.getMainViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
@@ -46,6 +50,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 internal object MainScreen : Screen {
@@ -61,6 +66,8 @@ internal object MainScreen : Screen {
         val uiFontScale by themeRepository.uiFontScale.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val exitMessage = stringResource(MR.strings.message_confirm_exit)
+        val drawerCoordinator = remember { getDrawerCoordinator() }
+        val notificationCenter = remember { getNotificationCenter() }
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -105,6 +112,30 @@ internal object MainScreen : Screen {
             LaunchedEffect(tabNavigator.current) {
                 // when the current tab chanes, reset the bottom bar offset to the default value
                 model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(0f))
+            }
+            LaunchedEffect(drawerCoordinator) {
+                drawerCoordinator.events.onEach { evt ->
+                    when (evt) {
+                        is DrawerEvent.ChangeListingType -> {
+                            if (tabNavigator.current == HomeTab) {
+                                notificationCenter.send(NotificationCenterEvent.ChangeFeedType(evt.value))
+                            } else {
+                                tabNavigator.current = HomeTab
+                                launch {
+                                    // wait for transition to finish
+                                    delay(750)
+                                    notificationCenter.send(
+                                        NotificationCenterEvent.ChangeFeedType(
+                                            evt.value
+                                        )
+                                    )
+                                }
+                            }
+                        }
+
+                        else -> null
+                    }
+                }.launchIn(this)
             }
 
             Scaffold(

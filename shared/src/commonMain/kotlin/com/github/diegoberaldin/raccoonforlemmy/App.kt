@@ -192,7 +192,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     }
 
     LaunchedEffect(drawerCoordinator) {
-        drawerCoordinator.toggleEvents.onEach { evt ->
+        drawerCoordinator.events.onEach { evt ->
             when (evt) {
                 DrawerEvent.Toggled -> {
                     drawerState.apply {
@@ -221,6 +221,8 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 DrawerEvent.OpenBookmarks -> {
                     navigationCoordinator.pushScreen(SavedItemsScreen())
                 }
+
+                else -> null
             }
         }.launchIn(this)
     }

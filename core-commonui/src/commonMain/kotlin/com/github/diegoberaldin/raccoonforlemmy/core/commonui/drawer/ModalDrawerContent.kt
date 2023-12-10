@@ -67,7 +67,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import dev.icerock.moko.resources.compose.localized
@@ -97,7 +100,6 @@ object ModalDrawerContent : Tab {
         }
         val languageRepository = remember { getLanguageRepository() }
         val themeRepository = remember { getThemeRepository() }
-        val lang by languageRepository.currentLanguage.collectAsState()
 
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
@@ -119,6 +121,13 @@ object ModalDrawerContent : Tab {
                 uiFontSizeWorkaround = true
             }.launchIn(this)
         }
+        LaunchedEffect(languageRepository) {
+            languageRepository.currentLanguage.drop(1).onEach {
+                uiFontSizeWorkaround = false
+                delay(50)
+                uiFontSizeWorkaround = true
+            }.launchIn(this)
+        }
         if (!uiFontSizeWorkaround) {
             return
         }
@@ -126,7 +135,6 @@ object ModalDrawerContent : Tab {
         Column(
             modifier = Modifier.fillMaxWidth(0.9f)
         ) {
-            LaunchedEffect(lang) {}
 
             DrawerHeader(
                 user = uiState.user,
@@ -163,6 +171,24 @@ object ModalDrawerContent : Tab {
                         modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxs),
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
+                        for (listingType in listOf(
+                            ListingType.Subscribed,
+                            ListingType.All,
+                            ListingType.Local,
+                        )) {
+                            item {
+                                DrawerShortcut(
+                                    title = listingType.toReadableName(),
+                                    icon = listingType.toIcon(),
+                                    onSelected = {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(
+                                            DrawerEvent.ChangeListingType(listingType)
+                                        )
+                                    },
+                                )
+                            }
+                        }
                         item {
                             DrawerShortcut(title = stringResource(MR.strings.navigation_drawer_title_bookmarks),
                                 icon = Icons.Default.Bookmarks,
@@ -226,6 +252,35 @@ object ModalDrawerContent : Tab {
                     text = stringResource(MR.strings.sidebar_not_logged_message),
                     style = MaterialTheme.typography.bodySmall,
                 )
+
+                Text(
+                    modifier = Modifier.padding(horizontal = Spacing.s, vertical = Spacing.s),
+                    text = stringResource(MR.strings.home_listing_title),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                ) {
+                    for (listingType in listOf(
+                        ListingType.All,
+                        ListingType.Local,
+                    )) {
+                        item {
+                            DrawerShortcut(
+                                title = listingType.toReadableName(),
+                                icon = listingType.toIcon(),
+                                onSelected = {
+                                    coordinator.toggleDrawer()
+                                    coordinator.sendEvent(
+                                        DrawerEvent.ChangeListingType(listingType)
+                                    )
+                                },
+                            )
+                        }
+                    }
+                }
             }
         }
 
@@ -256,6 +311,8 @@ private fun DrawerHeader(
     onOpenChangeInstance: (() -> Unit)? = null,
 ) {
     val avatarSize = 52.dp
+    val fullColor = MaterialTheme.colorScheme.onBackground
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
     Row(
         modifier = Modifier.padding(
             top = Spacing.m,
@@ -298,7 +355,7 @@ private fun DrawerHeader(
                         }
                     },
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = fullColor,
                 )
                 Text(
                     text = buildString {
@@ -309,7 +366,7 @@ private fun DrawerHeader(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = ancillaryColor,
                 )
             }
         } else {
@@ -324,13 +381,13 @@ private fun DrawerHeader(
                 Text(
                     text = anonymousTitle,
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = fullColor,
                 )
                 Row {
                     Text(
                         text = instance.orEmpty(),
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = ancillaryColor,
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
