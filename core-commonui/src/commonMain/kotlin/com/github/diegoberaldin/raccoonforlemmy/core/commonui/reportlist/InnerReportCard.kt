@@ -200,7 +200,8 @@ private fun ReportFooter(
             )
             if (options.isNotEmpty()) {
                 Icon(
-                    modifier = buttonModifier
+                    modifier = Modifier.size(IconSize.m)
+                        .padding(Spacing.xs)
                         .padding(top = Spacing.xxs)
                         .onGloballyPositioned {
                             optionsOffset = it.positionInParent()

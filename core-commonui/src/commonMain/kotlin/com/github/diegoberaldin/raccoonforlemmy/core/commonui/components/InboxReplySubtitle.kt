@@ -197,8 +197,8 @@ fun InboxReplySubtitle(
                 )
                 if (options.isNotEmpty()) {
                     Icon(
-                        modifier = buttonModifier
-                            .padding(top = Spacing.xxs)
+                        modifier = Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
                             .onGloballyPositioned {
                                 optionsOffset = it.positionInParent()
                             }
