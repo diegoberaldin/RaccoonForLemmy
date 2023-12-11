@@ -39,4 +39,5 @@ expect fun CustomMarkdown(
     onOpenImage: ((String) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
 )

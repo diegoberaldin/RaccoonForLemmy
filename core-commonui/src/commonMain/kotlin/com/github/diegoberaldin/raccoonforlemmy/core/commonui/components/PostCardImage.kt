@@ -33,6 +33,7 @@ fun PostCardImage(
     blurred: Boolean = false,
     onImageClick: ((String) -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
 ) {
     if (imageUrl.isNotEmpty()) {
         CustomImage(
@@ -42,6 +43,7 @@ fun PostCardImage(
                 .onClick(
                     onClick = { onImageClick?.invoke(imageUrl) },
                     onDoubleClick = onDoubleClick ?: {},
+                    onLongClick = onLongClick ?: {},
                 ),
             url = imageUrl,
             quality = FilterQuality.Low,

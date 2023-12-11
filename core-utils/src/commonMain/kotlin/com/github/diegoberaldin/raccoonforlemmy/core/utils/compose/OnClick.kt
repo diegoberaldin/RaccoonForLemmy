@@ -16,6 +16,7 @@ fun Modifier.onClick(
     debounceInterval: Long = 300,
     onClick: () -> Unit = {},
     onDoubleClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
 ): Modifier = composed {
     var lastClickTime by remember { mutableStateOf(0L) }
     combinedClickable(
@@ -33,5 +34,8 @@ fun Modifier.onClick(
             lastClickTime = currentTime
             onDoubleClick()
         },
+        onLongClick = {
+            onLongClick()
+        }
     )
 }

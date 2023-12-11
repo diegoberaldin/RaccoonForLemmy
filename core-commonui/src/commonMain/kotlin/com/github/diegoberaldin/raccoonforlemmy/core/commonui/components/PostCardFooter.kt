@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,6 +58,7 @@ fun PostCardFooter(
     upVoted: Boolean = false,
     downVoted: Boolean = false,
     actionButtonsActive: Boolean = true,
+    optionsMenuOpen: MutableState<Boolean> = remember { mutableStateOf(false) },
     options: List<Option> = emptyList(),
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
@@ -64,7 +66,6 @@ fun PostCardFooter(
     onReply: (() -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     val themeRepository = remember { getThemeRepository() }
     val upvoteColor by themeRepository.upvoteColor.collectAsState()
@@ -120,7 +121,7 @@ fun PostCardFooter(
                         }
                         .onClick(
                             onClick = rememberCallback {
-                                optionsExpanded = true
+                                optionsMenuOpen.value = true
                             },
                         ),
                     imageVector = Icons.Default.MoreHoriz,
@@ -210,9 +211,9 @@ fun PostCardFooter(
         }
 
         CustomDropDown(
-            expanded = optionsExpanded,
+            expanded = optionsMenuOpen.value,
             onDismiss = {
-                optionsExpanded = false
+                optionsMenuOpen.value = false
             },
             offset = DpOffset(
                 x = optionsOffset.x.toLocalDp(),
@@ -226,7 +227,7 @@ fun PostCardFooter(
                         vertical = Spacing.s,
                     ).onClick(
                         onClick = rememberCallback {
-                            optionsExpanded = false
+                            optionsMenuOpen.value = false
                             onOptionSelected?.invoke(option.id)
                         },
                     ),

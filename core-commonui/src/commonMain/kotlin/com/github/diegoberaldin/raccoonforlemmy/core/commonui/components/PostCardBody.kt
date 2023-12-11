@@ -16,6 +16,7 @@ fun PostCardBody(
     autoLoadImages: Boolean = true,
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -39,6 +40,7 @@ fun PostCardBody(
             },
             onClick = onClick,
             onDoubleClick = onDoubleClick,
+            onLongClick = onLongClick,
         )
     }
 }

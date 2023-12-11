@@ -50,6 +50,7 @@ fun CommunityAndCreatorInfo(
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
 ) {
     val communityName = community?.name.orEmpty()
     val communityIcon = community?.icon.orEmpty()
@@ -145,6 +146,7 @@ fun CommunityAndCreatorInfo(
                                 onOpenCommunity?.invoke(community)
                             },
                             onDoubleClick = onDoubleClick ?: {},
+                            onLongClick = onLongClick ?: {},
                         ),
                     text = buildString {
                         append(communityName)
@@ -170,6 +172,7 @@ fun CommunityAndCreatorInfo(
                                 onOpenCreator?.invoke(creator)
                             },
                             onDoubleClick = onDoubleClick ?: {},
+                            onLongClick = onLongClick ?: {},
                         ),
                     text = buildString {
                         append(creatorName)

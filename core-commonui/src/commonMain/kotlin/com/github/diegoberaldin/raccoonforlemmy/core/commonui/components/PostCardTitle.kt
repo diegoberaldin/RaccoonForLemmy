@@ -19,6 +19,7 @@ fun PostCardTitle(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -50,5 +51,6 @@ fun PostCardTitle(
         },
         onClick = onClick,
         onDoubleClick = onDoubleClick,
+        onLongClick = onLongClick,
     )
 }

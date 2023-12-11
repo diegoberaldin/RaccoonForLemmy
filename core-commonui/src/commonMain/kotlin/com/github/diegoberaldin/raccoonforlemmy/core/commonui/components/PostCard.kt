@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.Dp
@@ -162,8 +164,19 @@ private fun CompactPost(
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
 ) {
+    val optionsMenuOpen = remember { mutableStateOf(false) }
     Column(
-        modifier = modifier.background(MaterialTheme.colorScheme.background),
+        modifier = modifier.background(MaterialTheme.colorScheme.background)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = {
+                        optionsMenuOpen.value = true
+                    },
+                    onTap = {
+                        onClick?.invoke()
+                    }
+                )
+            },
         verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
     ) {
         CommunityAndCreatorInfo(
@@ -176,6 +189,9 @@ private fun CompactPost(
             onOpenCreator = onOpenCreator,
             autoLoadImages = autoLoadImages,
             onDoubleClick = onDoubleClick,
+            onLongClick = {
+                optionsMenuOpen.value = true
+            },
         )
         Row(
             modifier = Modifier.padding(horizontal = Spacing.s),
@@ -189,6 +205,9 @@ private fun CompactPost(
                     autoLoadImages = autoLoadImages,
                     onClick = onClick,
                     onDoubleClick = onDoubleClick,
+                    onLongClick = {
+                        optionsMenuOpen.value = true
+                    },
                 )
             }
             PostCardImage(
@@ -205,6 +224,9 @@ private fun CompactPost(
                 blurred = blurNsfw && post.nsfw,
                 onImageClick = onImageClick,
                 onDoubleClick = onDoubleClick,
+                onLongClick = {
+                    optionsMenuOpen.value = true
+                },
             )
         }
         PostCardFooter(
@@ -221,6 +243,7 @@ private fun CompactPost(
             onSave = onSave,
             onReply = onReply,
             date = post.publishDate,
+            optionsMenuOpen = optionsMenuOpen,
             options = options,
             onOptionSelected = onOptionSelected,
             actionButtonsActive = actionButtonsActive,
@@ -255,8 +278,18 @@ private fun ExtendedPost(
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
 ) {
+    val optionsMenuOpen = remember { mutableStateOf(false) }
     Column(
-        modifier = modifier.background(backgroundColor),
+        modifier = modifier.background(backgroundColor).pointerInput(Unit) {
+            detectTapGestures(
+                onLongPress = {
+                    optionsMenuOpen.value = true
+                },
+                onTap = {
+                    onClick?.invoke()
+                }
+            )
+        },
         verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
     ) {
         CommunityAndCreatorInfo(
@@ -270,6 +303,9 @@ private fun ExtendedPost(
             onOpenCreator = onOpenCreator,
             autoLoadImages = autoLoadImages,
             onDoubleClick = onDoubleClick,
+            onLongClick = {
+                optionsMenuOpen.value = true
+            },
         )
         ScaledContent {
             PostCardTitle(
@@ -281,6 +317,9 @@ private fun ExtendedPost(
                 autoLoadImages = autoLoadImages,
                 onClick = onClick,
                 onDoubleClick = onDoubleClick,
+                onLongClick = {
+                    optionsMenuOpen.value = true
+                },
             )
         }
 
@@ -305,6 +344,9 @@ private fun ExtendedPost(
             onImageClick = onImageClick,
             onDoubleClick = onDoubleClick,
             autoLoadImages = autoLoadImages,
+            onLongClick = {
+                optionsMenuOpen.value = true
+            },
         )
         if (showBody) {
             ScaledContent {
@@ -326,6 +368,9 @@ private fun ExtendedPost(
                         autoLoadImages = autoLoadImages,
                         onClick = onClick,
                         onDoubleClick = onDoubleClick,
+                        onLongClick = {
+                            optionsMenuOpen.value = true
+                        },
                     )
                     if (limitBodyHeight && textHeightPx >= maxHeightPx) {
                         Box(
@@ -381,6 +426,7 @@ private fun ExtendedPost(
             onReply = onReply,
             date = post.publishDate,
             options = options,
+            optionsMenuOpen = optionsMenuOpen,
             onOptionSelected = onOptionSelected,
             actionButtonsActive = actionButtonsActive,
         )

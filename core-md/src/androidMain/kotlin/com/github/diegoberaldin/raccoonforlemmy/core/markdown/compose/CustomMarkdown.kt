@@ -56,6 +56,7 @@ actual fun CustomMarkdown(
     onOpenImage: ((String) -> Unit)?,
     onClick: (() -> Unit)?,
     onDoubleClick: (() -> Unit)?,
+    onLongClick: (() -> Unit)?,
 ) {
     CompositionLocalProvider(
         LocalReferenceLinkHandler provides ReferenceLinkHandlerImpl(),
@@ -128,6 +129,13 @@ actual fun CustomMarkdown(
                                                 onDoubleClick?.invoke()
                                             }
                                             return true
+                                        }
+
+                                        override fun onLongPress(e: MotionEvent) {
+                                            if (!markwonProvider.isHandlingLink.value) {
+                                                cancelPendingInputEvents()
+                                                onLongClick?.invoke()
+                                            }
                                         }
 
                                         override fun onDown(e: MotionEvent): Boolean {

@@ -61,6 +61,7 @@ actual fun CustomMarkdown(
     onOpenImage: ((String) -> Unit)?,
     onClick: (() -> Unit)?,
     onDoubleClick: (() -> Unit)?,
+    onLongClick: (() -> Unit)?,
 ) {
     val matches = Regex("::: spoiler (?<title>.*?)\\n(?<content>.*?)\\n:::\\n").findAll(content)
     val mangledContent = buildString {
@@ -100,6 +101,7 @@ actual fun CustomMarkdown(
             modifier = modifier.onClick(
                 onClick = onClick ?: {},
                 onDoubleClick = onDoubleClick ?: {},
+                onLongClick = onLongClick ?: {},
             )
         ) {
             val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(mangledContent)
