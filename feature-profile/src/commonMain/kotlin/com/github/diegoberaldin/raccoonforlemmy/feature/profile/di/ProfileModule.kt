@@ -50,8 +50,10 @@ val profileTabModule = module {
         ManageAccountsViewModel(
             mvi = DefaultMviModel(ManageAccountsMviModel.UiState()),
             accountRepository = get(),
-            switchAccount = get(),
             settingsRepository = get(),
+            switchAccount = get(),
+            logout = get(),
+            deleteAccount = get(),
         )
     }
 }

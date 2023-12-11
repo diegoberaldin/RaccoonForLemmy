@@ -5,6 +5,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DeleteAccountUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LogoutUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.SwitchAccountUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -18,6 +20,8 @@ class ManageAccountsViewModel(
     private val accountRepository: AccountRepository,
     private val settingsRepository: SettingsRepository,
     private val switchAccount: SwitchAccountUseCase,
+    private val logout: LogoutUseCase,
+    private val deleteAccount: DeleteAccountUseCase,
 ) : ManageAccountsMviModel,
     MviModel<ManageAccountsMviModel.Intent, ManageAccountsMviModel.UiState, ManageAccountsMviModel.Effect> by mvi {
 
@@ -38,9 +42,30 @@ class ManageAccountsViewModel(
 
     override fun reduce(intent: ManageAccountsMviModel.Intent) {
         when (intent) {
-            is ManageAccountsMviModel.Intent.SwitchAccount -> handleSwitchAccount(
-                account = uiState.value.accounts[intent.index]
-            )
+            is ManageAccountsMviModel.Intent.SwitchAccount -> {
+                uiState.value.accounts.getOrNull(intent.index)?.also { account ->
+                    handleSwitchAccount(account)
+                }
+            }
+
+            is ManageAccountsMviModel.Intent.DeleteAccount -> {
+                uiState.value.accounts.getOrNull(intent.index)?.also { account ->
+                    if (account.active) {
+                        mvi.scope?.launch(Dispatchers.IO) {
+                            logout()
+                            deleteAccount(account)
+                            close()
+                        }
+                    } else {
+                        mvi.scope?.launch(Dispatchers.IO) {
+                            deleteAccount(account)
+                            mvi.updateState {
+                                it.copy(accounts = it.accounts.filter { a -> a.id != account.id })
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -50,9 +75,13 @@ class ManageAccountsViewModel(
         }
         mvi.scope?.launch(Dispatchers.IO) {
             switchAccount(account)
-            withContext(Dispatchers.Main) {
-                mvi.emitEffect(ManageAccountsMviModel.Effect.Close)
-            }
+            close()
+        }
+    }
+
+    private suspend fun close() {
+        withContext(Dispatchers.Main) {
+            mvi.emitEffect(ManageAccountsMviModel.Effect.Close)
         }
     }
 }

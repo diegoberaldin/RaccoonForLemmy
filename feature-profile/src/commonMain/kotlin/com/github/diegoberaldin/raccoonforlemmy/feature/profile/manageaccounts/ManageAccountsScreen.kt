@@ -10,17 +10,14 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -31,19 +28,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.layout.ContentScale
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getManageAccountsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -100,52 +94,28 @@ class ManageAccountsScreen : Screen {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     itemsIndexed(uiState.accounts) { idx, account ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .onClick(
-                                    onClick = rememberCallback {
-                                        model.reduce(ManageAccountsMviModel.Intent.SwitchAccount(idx))
-                                    },
+                        AccountItem(
+                            account = account,
+                            autoLoadImages = uiState.autoLoadImages,
+                            onClick = rememberCallback {
+                                model.reduce(ManageAccountsMviModel.Intent.SwitchAccount(idx))
+                            },
+                            options = buildList {
+                                this += Option(
+                                    OptionId.Delete,
+                                    stringResource(MR.strings.comment_action_delete),
                                 )
-                                .padding(
-                                    horizontal = Spacing.m,
-                                    vertical = Spacing.s,
-                                ),
-                            horizontalArrangement = Arrangement.spacedBy(Spacing.s),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            val avatar = account.avatar.orEmpty()
-                            if (avatar.isNotEmpty()) {
-                                CustomImage(
-                                    modifier = Modifier
-                                        .padding(Spacing.xxxs)
-                                        .size(IconSize.l)
-                                        .clip(RoundedCornerShape(IconSize.l / 2)),
-                                    url = avatar,
-                                    autoload = uiState.autoLoadImages,
-                                    quality = FilterQuality.Low,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.FillBounds,
-                                )
-                            } else {
-                                Box(modifier = Modifier.size(IconSize.l))
-                            }
-                            Text(
-                                text = buildString {
-                                    append(account.username)
-                                    append("@")
-                                    append(account.instance)
+                            },
+                            onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                when (optionId) {
+                                    OptionId.Delete -> {
+                                        model.reduce(ManageAccountsMviModel.Intent.DeleteAccount(idx))
+                                    }
+
+                                    else -> Unit
                                 }
-                            )
-                            Spacer(modifier = Modifier.weight(1f))
-                            if (account.active) {
-                                RadioButton(
-                                    selected = true,
-                                    onClick = null,
-                                )
-                            }
-                        }
+                            },
+                        )
                     }
                     item {
                         Spacer(modifier = Modifier.height(Spacing.m))

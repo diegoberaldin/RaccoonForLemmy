@@ -6,9 +6,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Defau
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.DefaultAuthRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.DefaultIdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DefaultDeleteAccountUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DefaultLoginUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DefaultLogoutUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DefaultSwitchAccountUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DeleteAccountUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LoginUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LogoutUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.SwitchAccountUseCase
@@ -57,6 +59,11 @@ val coreIdentityModule = module {
             settingsRepository = get(),
             serviceProvider = get(named("default")),
             notificationCenter = get(),
+        )
+    }
+    single<DeleteAccountUseCase> {
+        DefaultDeleteAccountUseCase(
+            accountRepository = get(),
         )
     }
 }
