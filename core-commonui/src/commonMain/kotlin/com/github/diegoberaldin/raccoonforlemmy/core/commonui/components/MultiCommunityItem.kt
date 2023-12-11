@@ -49,39 +49,40 @@ fun MultiCommunityItem(
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
-    Box(modifier = modifier.padding(horizontal = Spacing.s)) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
+    Row(
+        modifier = modifier.padding(horizontal = Spacing.s),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
+    ) {
+        if (communityIcon.isNotEmpty() && autoLoadImages) {
+            CustomImage(
+                modifier = Modifier.padding(Spacing.xxxs).size(iconSize)
+                    .clip(RoundedCornerShape(iconSize / 2)),
+                url = communityIcon,
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+            )
+        } else {
+            PlaceholderImage(
+                size = iconSize,
+                title = title,
+            )
+        }
+        Column(
+            modifier = Modifier.padding(start = Spacing.xs),
         ) {
-            if (communityIcon.isNotEmpty() && autoLoadImages) {
-                CustomImage(
-                    modifier = Modifier.padding(Spacing.xxxs).size(iconSize)
-                        .clip(RoundedCornerShape(iconSize / 2)),
-                    url = communityIcon,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                )
-            } else {
-                PlaceholderImage(
-                    size = iconSize,
-                    title = title,
-                )
-            }
-            Column(
-                modifier = Modifier.padding(start = Spacing.xs),
-            ) {
-                Text(
-                    modifier = Modifier.padding(vertical = Spacing.s),
-                    text = buildString {
-                        append(title)
-                    },
-                    color = fullColor,
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-            }
+            Text(
+                modifier = Modifier.padding(vertical = Spacing.s),
+                text = buildString {
+                    append(title)
+                },
+                color = fullColor,
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        }
 
-            if (options.isNotEmpty()) {
+        if (options.isNotEmpty()) {
+            Box {
                 Icon(
                     modifier = Modifier.size(IconSize.m)
                         .padding(Spacing.xs)
@@ -97,32 +98,32 @@ fun MultiCommunityItem(
                     contentDescription = null,
                     tint = ancillaryColor,
                 )
-            }
-        }
 
-        CustomDropDown(
-            expanded = optionsMenuOpen,
-            onDismiss = {
-                optionsMenuOpen = false
-            },
-            offset = DpOffset(
-                x = optionsOffset.x.toLocalDp(),
-                y = optionsOffset.y.toLocalDp(),
-            ),
-        ) {
-            options.forEach { option ->
-                Text(
-                    modifier = Modifier.padding(
-                        horizontal = Spacing.m,
-                        vertical = Spacing.s,
-                    ).onClick(
-                        onClick = rememberCallback {
-                            optionsMenuOpen = false
-                            onOptionSelected?.invoke(option.id)
-                        },
+                CustomDropDown(
+                    expanded = optionsMenuOpen,
+                    onDismiss = {
+                        optionsMenuOpen = false
+                    },
+                    offset = DpOffset(
+                        x = optionsOffset.x.toLocalDp(),
+                        y = optionsOffset.y.toLocalDp(),
                     ),
-                    text = option.text,
-                )
+                ) {
+                    options.forEach { option ->
+                        Text(
+                            modifier = Modifier.padding(
+                                horizontal = Spacing.m,
+                                vertical = Spacing.s,
+                            ).onClick(
+                                onClick = rememberCallback {
+                                    optionsMenuOpen = false
+                                    onOptionSelected?.invoke(option.id)
+                                },
+                            ),
+                            text = option.text,
+                        )
+                    }
+                }
             }
         }
     }
