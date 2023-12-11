@@ -289,4 +289,5 @@
     <string name="message_confirm_exit">Tap 🔙 again to exit</string>
     <string name="settings_share_post_original">Share posts from original instance</string>
     <string name="community_action_unsubscribe">Unsubscribe</string>
+    <string name="settings_search_posts_title_only">Search posts only in title</string>
 </resources>

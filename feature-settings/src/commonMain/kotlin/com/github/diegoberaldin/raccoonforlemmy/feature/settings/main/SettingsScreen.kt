@@ -536,6 +536,17 @@ class SettingsScreen : Screen {
                         },
                     )
 
+                    // search posts only in title
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_search_posts_title_only),
+                        value = uiState.searchPostTitleOnly,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeSearchPostTitleOnly(value)
+                            )
+                        },
+                    )
+
                     SettingsHeader(
                         icon = Icons.Default.Shield,
                         title = stringResource(MR.strings.settings_section_nsfw),

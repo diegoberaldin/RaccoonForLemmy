@@ -269,4 +269,5 @@
     <string name="settings_share_post_original">Споделяйте публикации от оригиналния екземпляр
     </string>
     <string name="community_action_unsubscribe">Отписване</string>
+    <string name="settings_search_posts_title_only">Търсете публикации само в заглавието</string>
 </resources>

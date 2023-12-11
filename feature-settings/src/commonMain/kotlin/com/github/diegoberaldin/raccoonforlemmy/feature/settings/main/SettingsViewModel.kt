@@ -200,6 +200,7 @@ class SettingsViewModel(
                 zombieModeInterval = settings.zombieModeInterval,
                 zombieModeScrollAmount = settings.zombieModeScrollAmount,
                 markAsReadWhileScrolling = settings.markAsReadWhileScrolling,
+                searchPostTitleOnly = settings.searchPostTitleOnly,
             )
         }
     }
@@ -324,6 +325,10 @@ class SettingsViewModel(
 
             is SettingsMviModel.Intent.ChangeSharePostOriginal -> {
                 changeSharePostOriginal(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeSearchPostTitleOnly -> {
+                changeSearchPostTitleOnly(intent.value)
             }
         }
     }
@@ -633,6 +638,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 sharePostOriginal = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeSearchPostTitleOnly(value: Boolean) {
+        mvi.updateState { it.copy(searchPostTitleOnly = value) }
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                searchPostTitleOnly = value
             )
             saveSettings(settings)
         }

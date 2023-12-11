@@ -263,4 +263,5 @@
     <string name="settings_share_post_original">Compartilhar postagens da instância original
     </string>
     <string name="community_action_unsubscribe">Cancelar subscrição</string>
+    <string name="settings_search_posts_title_only">Pesquise postagens apenas no título</string>
 </resources>

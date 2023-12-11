@@ -37,4 +37,5 @@ data class SettingsModel(
     val markAsReadWhileScrolling: Boolean = false,
     val commentBarTheme: Int = 0,
     val sharePostOriginal: Boolean = true,
+    val searchPostTitleOnly: Boolean = false,
 ) : JavaSerializable

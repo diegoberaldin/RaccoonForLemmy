@@ -263,4 +263,5 @@
     <string name="settings_share_post_original">Діліться публікаціями з оригінального екземпляра
     </string>
     <string name="community_action_unsubscribe">Відписатися</string>
+    <string name="settings_search_posts_title_only">Шукати публікації лише за назвою</string>
 </resources>

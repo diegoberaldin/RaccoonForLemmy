@@ -263,4 +263,5 @@
     <string name="message_confirm_exit">Kliknij ponownie 🔙, aby wyjść</string>
     <string name="settings_share_post_original">Udostępniaj posty z oryginalnej instancji</string>
     <string name="community_action_unsubscribe">Zrezygnuj z subskrypcji</string>
+    <string name="settings_search_posts_title_only">Szukaj postów tylko po tytule</string>
 </resources>

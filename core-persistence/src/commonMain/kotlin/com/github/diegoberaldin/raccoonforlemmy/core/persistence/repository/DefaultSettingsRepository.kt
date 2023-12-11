@@ -43,6 +43,7 @@ private object KeyStoreKeys {
     const val MarkAsReadWhileScrolling = "markAsReadWhileScrolling"
     const val CommentBarTheme = "commentBarTheme"
     const val SharePostOriginal = "sharePostOriginal"
+    const val SearchPostTitleOnly = "searchPostTitleOnly"
 }
 
 internal class DefaultSettingsRepository(
@@ -88,6 +89,7 @@ internal class DefaultSettingsRepository(
                 markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1 else 0,
                 commentBarTheme = settings.commentBarTheme.toLong(),
                 sharePostOriginal = if (settings.sharePostOriginal) 1 else 0,
+                searchPostTitleOnly = if (settings.searchPostTitleOnly) 1 else 0,
             )
         }
 
@@ -128,6 +130,7 @@ internal class DefaultSettingsRepository(
                     markAsReadWhileScrolling = keyStore[KeyStoreKeys.MarkAsReadWhileScrolling, false],
                     commentBarTheme = keyStore[KeyStoreKeys.CommentBarTheme, 0],
                     sharePostOriginal = keyStore[KeyStoreKeys.SharePostOriginal, true],
+                    searchPostTitleOnly = keyStore[KeyStoreKeys.SearchPostTitleOnly, false],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -208,6 +211,10 @@ internal class DefaultSettingsRepository(
                     KeyStoreKeys.SharePostOriginal,
                     settings.sharePostOriginal,
                 )
+                keyStore.save(
+                    KeyStoreKeys.SearchPostTitleOnly,
+                    settings.searchPostTitleOnly,
+                )
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -241,6 +248,7 @@ internal class DefaultSettingsRepository(
                     markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1L else 0L,
                     commentBarTheme = settings.commentBarTheme.toLong(),
                     sharePostOriginal = if (settings.sharePostOriginal) 1L else 0L,
+                    searchPostTitleOnly = if (settings.searchPostTitleOnly) 1L else 0L,
                 )
             }
         }
@@ -282,4 +290,5 @@ private fun GetBy.toModel() = SettingsModel(
     markAsReadWhileScrolling = markAsReadWhileScrolling != 0L,
     commentBarTheme = commentBarTheme.toInt(),
     sharePostOriginal = sharePostOriginal != 0L,
+    searchPostTitleOnly = searchPostTitleOnly != 0L,
 )

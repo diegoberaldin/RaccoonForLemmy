@@ -49,6 +49,7 @@ interface SettingsMviModel :
         data class ChangeMarkAsReadWhileScrolling(val value: Boolean) : Intent
         data class ChangeDefaultInboxUnreadOnly(val value: Boolean) : Intent
         data class ChangeSharePostOriginal(val value: Boolean) : Intent
+        data class ChangeSearchPostTitleOnly(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -87,6 +88,7 @@ interface SettingsMviModel :
         val availableSortTypesForComments: List<SortType> = emptyList(),
         val commentBarTheme: CommentBarTheme = CommentBarTheme.Blue,
         val sharePostOriginal: Boolean = true,
+        val searchPostTitleOnly: Boolean = false,
     )
 
     sealed interface Effect

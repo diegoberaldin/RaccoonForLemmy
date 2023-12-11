@@ -262,4 +262,5 @@
     <string name="message_confirm_exit">Opätovným klepnutím na 🔙 ukončíte</string>
     <string name="settings_share_post_original">Zdieľajte príspevky z pôvodnej inštancie</string>
     <string name="community_action_unsubscribe">Zrušte odber</string>
+    <string name="settings_search_posts_title_only">Hľadajte príspevky iba v názve</string>
 </resources>

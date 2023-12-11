@@ -260,4 +260,5 @@
     <string name="message_confirm_exit">Pro ukončení klepněte znovu na 🔙</string>
     <string name="settings_share_post_original">Sdílejte příspěvky z původní instance</string>
     <string name="community_action_unsubscribe">Odhlásit odběr</string>
+    <string name="settings_search_posts_title_only">Hledejte příspěvky pouze v názvu</string>
 </resources>

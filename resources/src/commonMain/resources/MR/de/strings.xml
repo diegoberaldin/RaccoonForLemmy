@@ -266,4 +266,5 @@
     <string name="message_confirm_exit">Tippen Sie erneut auf 🔙, um den Vorgang zu beenden</string>
     <string name="settings_share_post_original">Teilen Sie Beiträge von der Originalinstanz</string>
     <string name="community_action_unsubscribe">Abbestellen</string>
+    <string name="settings_search_posts_title_only">Durchsuchen Sie Beiträge nur nach Titel</string>
 </resources>

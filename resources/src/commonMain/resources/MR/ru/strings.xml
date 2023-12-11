@@ -264,4 +264,5 @@
     <string name="settings_share_post_original">Делитесь сообщениями из исходного экземпляра
     </string>
     <string name="community_action_unsubscribe">Отписаться</string>
+    <string name="settings_search_posts_title_only">Искать сообщения только по заголовку</string>
 </resources>

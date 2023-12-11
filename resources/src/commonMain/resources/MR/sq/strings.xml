@@ -266,4 +266,5 @@
     <string name="message_confirm_exit">Prekni sërish 🔙 për të dalë</string>
     <string name="settings_share_post_original">Ndani postimet nga shembulli origjinal</string>
     <string name="community_action_unsubscribe">Çregjistrohu</string>
+    <string name="settings_search_posts_title_only">Kërkoni postimet vetëm në titull</string>
 </resources>

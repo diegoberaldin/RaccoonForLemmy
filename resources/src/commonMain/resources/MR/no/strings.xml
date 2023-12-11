@@ -263,4 +263,5 @@
     <string name="settings_share_post_original">Del innlegg fra den opprinnelige forekomsten
     </string>
     <string name="community_action_unsubscribe">Avslutte abonnementet</string>
+    <string name="settings_search_posts_title_only">Søk kun innlegg i tittel</string>
 </resources>

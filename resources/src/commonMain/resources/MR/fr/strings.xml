@@ -264,4 +264,7 @@
     <string name="settings_share_post_original">Partager les publications de l\'instance d\'origine
     </string>
     <string name="community_action_unsubscribe">Se désabonner</string>
+    <string name="settings_search_posts_title_only">Rechercher les publications uniquement dans le
+        titre
+    </string>
 </resources>

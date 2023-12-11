@@ -299,6 +299,14 @@ class ExploreViewModel(
             } else {
                 isSafeForWork(item)
             }
+        }.let {
+            if (resultType == SearchResultType.Posts && settings.searchPostTitleOnly && searchText.isNotEmpty()) {
+                // apply the more restrictive title-only search
+                it.filterIsInstance<SearchResult.Post>()
+                    .filter { r -> r.model.title.contains(other = searchText, ignoreCase = true) }
+            } else {
+                it
+            }
         }.filter { r1 ->
             // prevents accidental duplication
             currentState.results.none { r2 -> getItemKey(r1) == getItemKey(r2) }
