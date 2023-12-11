@@ -259,4 +259,5 @@
     <string name="settings_comment_bar_theme_multi">🌈 Duha</string>
     <string name="message_confirm_exit">Pro ukončení klepněte znovu na 🔙</string>
     <string name="settings_share_post_original">Sdílejte příspěvky z původní instance</string>
+    <string name="community_action_unsubscribe">Odhlásit odběr</string>
 </resources>

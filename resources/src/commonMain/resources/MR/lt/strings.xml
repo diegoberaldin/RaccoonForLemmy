@@ -262,4 +262,5 @@
     <string name="message_confirm_exit">Bakstelėkite 🔙 dar kartą, kad išeitumėte</string>
     <string name="settings_share_post_original">Bendrinkite įrašus iš pradinio egzemplioriaus
     </string>
+    <string name="community_action_unsubscribe">Atsisakyti prenumeratos</string>
 </resources>

@@ -262,4 +262,5 @@
     <string name="message_confirm_exit">Trykk på 🔙 igjen for å avslutte</string>
     <string name="settings_share_post_original">Del innlegg fra den opprinnelige forekomsten
     </string>
+    <string name="community_action_unsubscribe">Avslutte abonnementet</string>
 </resources>

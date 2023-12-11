@@ -268,4 +268,5 @@
     <string name="message_confirm_exit">Докоснете 🔙 отново, за да излезете</string>
     <string name="settings_share_post_original">Споделяйте публикации от оригиналния екземпляр
     </string>
+    <string name="community_action_unsubscribe">Отписване</string>
 </resources>

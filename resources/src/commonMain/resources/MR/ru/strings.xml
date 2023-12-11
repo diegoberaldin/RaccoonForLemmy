@@ -263,4 +263,5 @@
     <string name="message_confirm_exit">Нажмите 🔙 еще раз, чтобы выйти</string>
     <string name="settings_share_post_original">Делитесь сообщениями из исходного экземпляра
     </string>
+    <string name="community_action_unsubscribe">Отписаться</string>
 </resources>

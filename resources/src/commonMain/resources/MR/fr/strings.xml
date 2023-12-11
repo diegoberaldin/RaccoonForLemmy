@@ -263,4 +263,5 @@
     <string name="message_confirm_exit">Appuyez à nouveau sur 🔙 pour quitter</string>
     <string name="settings_share_post_original">Partager les publications de l\'instance d\'origine
     </string>
+    <string name="community_action_unsubscribe">Se désabonner</string>
 </resources>

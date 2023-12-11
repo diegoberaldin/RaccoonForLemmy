@@ -20,15 +20,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.Unsubscribe
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -43,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
@@ -56,7 +50,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Communi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.MultiCommunityItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.CommunityItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -182,57 +177,45 @@ class ManageSubscriptionsScreen : Screen {
                         }
                     }
                     items(uiState.multiCommunities) { community ->
-                        val endColor = MaterialTheme.colorScheme.secondary
-                        val startColor = MaterialTheme.colorScheme.tertiary
-                        SwipeableCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            backgroundColor = rememberCallbackArgs {
-                                when (it) {
-                                    DismissValue.DismissedToStart -> endColor
-                                    DismissValue.DismissedToEnd -> startColor
-                                    else -> Color.Transparent
+                        MultiCommunityItem(
+                            modifier = Modifier.fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.background).onClick(
+                                    onClick = rememberCallback {
+                                        navigatorCoordinator.pushScreen(
+                                            MultiCommunityScreen(community),
+                                        )
+                                    },
+                                ),
+                            community = community,
+                            autoLoadImages = uiState.autoLoadImages,
+                            options = buildList {
+                                this += Option(
+                                    OptionId.Edit,
+                                    stringResource(MR.strings.post_action_edit),
+                                )
+                                this += Option(
+                                    OptionId.Delete,
+                                    stringResource(MR.strings.community_action_unsubscribe),
+                                )
+                            },
+                            onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                when (optionId) {
+                                    OptionId.Edit -> {
+                                        navigatorCoordinator.pushScreen(
+                                            MultiCommunityEditorScreen(community),
+                                        )
+                                    }
+
+                                    OptionId.Delete -> {
+                                        model.reduce(
+                                            ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(
+                                                (community.id ?: 0).toInt()
+                                            ),
+                                        )
+                                    }
+
+                                    else -> Unit
                                 }
-                            },
-                            onGestureBegin = rememberCallback(model) {
-                                model.reduce(ManageSubscriptionsMviModel.Intent.HapticIndication)
-                            },
-                            onDismissToStart = rememberCallback {
-                                navigatorCoordinator.pushScreen(
-                                    MultiCommunityEditorScreen(community),
-                                )
-                            },
-                            onDismissToEnd = rememberCallback(model) {
-                                model.reduce(
-                                    ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(
-                                        (community.id ?: 0).toInt()
-                                    ),
-                                )
-                            },
-                            swipeContent = { direction ->
-                                val icon = when (direction) {
-                                    DismissDirection.StartToEnd -> Icons.Default.Delete
-                                    DismissDirection.EndToStart -> Icons.Default.Edit
-                                }
-                                Icon(
-                                    modifier = Modifier.padding(Spacing.xs),
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                )
-                            },
-                            content = {
-                                MultiCommunityItem(
-                                    modifier = Modifier.fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background).onClick(
-                                            onClick = rememberCallback {
-                                                navigatorCoordinator.pushScreen(
-                                                    MultiCommunityScreen(community),
-                                                )
-                                            },
-                                        ),
-                                    community = community,
-                                    autoLoadImages = uiState.autoLoadImages,
-                                )
                             },
                         )
                     }
@@ -254,47 +237,35 @@ class ManageSubscriptionsScreen : Screen {
                         }
                     }
                     items(uiState.communities) { community ->
-                        val endColor = MaterialTheme.colorScheme.secondary
-                        SwipeableCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            directions = setOf(DismissDirection.EndToStart),
-                            backgroundColor = rememberCallbackArgs {
-                                when (it) {
-                                    DismissValue.DismissedToStart -> endColor
-                                    else -> Color.Transparent
+                        CommunityItem(
+                            modifier = Modifier.fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.background)
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        navigatorCoordinator.pushScreen(
+                                            CommunityDetailScreen(community),
+                                        )
+                                    },
+                                ),
+                            community = community,
+                            autoLoadImages = uiState.autoLoadImages,
+                            options = buildList {
+                                this += Option(
+                                    OptionId.Delete,
+                                    stringResource(MR.strings.community_action_unsubscribe),
+                                )
+                            },
+                            onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                when (optionId) {
+                                    OptionId.Delete -> {
+                                        model.reduce(
+                                            ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id),
+                                        )
+                                    }
+
+                                    else -> Unit
                                 }
-                            },
-                            onGestureBegin = rememberCallback(model) {
-                                model.reduce(ManageSubscriptionsMviModel.Intent.HapticIndication)
-                            },
-                            onDismissToStart = rememberCallback(model) {
-                                model.reduce(
-                                    ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id),
-                                )
-                            },
-                            swipeContent = { _ ->
-                                Icon(
-                                    modifier = Modifier.padding(Spacing.xs),
-                                    imageVector = Icons.Default.Unsubscribe,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                )
-                            },
-                            content = {
-                                CommunityItem(
-                                    modifier = Modifier.fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background)
-                                        .onClick(
-                                            onClick = rememberCallback {
-                                                navigatorCoordinator.pushScreen(
-                                                    CommunityDetailScreen(community),
-                                                )
-                                            },
-                                        ),
-                                    community = community,
-                                    autoLoadImages = uiState.autoLoadImages,
-                                )
-                            },
+                            }
                         )
                     }
 

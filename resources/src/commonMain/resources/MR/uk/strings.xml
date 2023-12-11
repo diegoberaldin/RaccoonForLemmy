@@ -262,4 +262,5 @@
     <string name="message_confirm_exit">Натисніть 🔙 ще раз, щоб вийти</string>
     <string name="settings_share_post_original">Діліться публікаціями з оригінального екземпляра
     </string>
+    <string name="community_action_unsubscribe">Відписатися</string>
 </resources>

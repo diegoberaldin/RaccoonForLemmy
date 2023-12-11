@@ -263,4 +263,5 @@
     <string name="settings_comment_bar_theme_multi">🌈 Arcobaleno</string>
     <string name="message_confirm_exit">Premi due volte 🔙 per uscire</string>
     <string name="settings_share_post_original">Condividi post dall\'istanza originale</string>
+    <string name="community_action_unsubscribe">Disiscriviti</string>
 </resources>
