@@ -350,7 +350,9 @@ private fun ExtendedPost(
         )
         if (showBody) {
             ScaledContent {
-                Box {
+                Box(
+                    modifier = Modifier.padding(top = Spacing.xxs)
+                ) {
                     val maxHeight = 200.dp
                     val maxHeightPx = maxHeight.toLocalPixel()
                     var textHeightPx by remember { mutableStateOf(0f) }
