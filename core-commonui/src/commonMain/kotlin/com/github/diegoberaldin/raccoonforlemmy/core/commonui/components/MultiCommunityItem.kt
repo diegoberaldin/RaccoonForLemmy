@@ -68,17 +68,20 @@ fun MultiCommunityItem(
                 title = title,
             )
         }
-        Column(
-            modifier = Modifier.padding(start = Spacing.xs),
-        ) {
-            Text(
-                modifier = Modifier.padding(vertical = Spacing.s),
-                text = buildString {
-                    append(title)
-                },
-                color = fullColor,
-                style = MaterialTheme.typography.bodyLarge,
-            )
+
+        ScaledContent {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    modifier = Modifier.padding(vertical = Spacing.s),
+                    text = buildString {
+                        append(title)
+                    },
+                    color = fullColor,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
         }
 
         if (options.isNotEmpty()) {
