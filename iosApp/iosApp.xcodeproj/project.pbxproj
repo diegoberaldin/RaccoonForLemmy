@@ -69,6 +69,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		5B271BF248115C84A2352FE0 /* xcschemes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = xcschemes;
+			path = iosApp.xcworkspace/xcuserdata/diego.xcuserdatad/xcschemes;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +84,7 @@
 				7555FF7C242A565900829871 /* Products */,
 				7555FFB0242A642200829871 /* Frameworks */,
 				3EE7BE2FC41928A6064CD1E5 /* Pods */,
+				5B271BF248115C84A2352FE0 /* xcschemes */,
 			);
 			sourceTree = "<group>";
 		};
