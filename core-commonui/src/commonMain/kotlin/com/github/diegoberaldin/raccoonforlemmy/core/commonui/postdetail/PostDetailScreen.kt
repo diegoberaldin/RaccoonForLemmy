@@ -309,12 +309,18 @@ class PostDetailScreen(
                                 blurNsfw = false,
                                 onOpenCommunity = rememberCallbackArgs { community ->
                                     navigationCoordinator.pushScreen(
-                                        CommunityDetailScreen(community = community)
+                                        CommunityDetailScreen(
+                                            community = community,
+                                            otherInstance = otherInstance,
+                                        )
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->
                                     navigationCoordinator.pushScreen(
-                                        UserDetailScreen(user = user)
+                                        UserDetailScreen(
+                                            user = user,
+                                            otherInstance = otherInstance,
+                                        )
                                     )
                                 },
                                 onUpVote = rememberCallback(model) {
