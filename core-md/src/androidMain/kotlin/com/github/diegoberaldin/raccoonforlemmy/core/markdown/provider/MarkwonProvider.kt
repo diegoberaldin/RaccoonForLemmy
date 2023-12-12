@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface MarkwonProvider {
     val markwon: Markwon
-    val isHandlingLink: StateFlow<Boolean>
+    val blockClickPropagation: StateFlow<Boolean>
 }

@@ -18,7 +18,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class DefaultMarkwonProvider(
@@ -29,7 +28,7 @@ class DefaultMarkwonProvider(
 ) : MarkwonProvider {
 
     override val markwon: Markwon
-    override val isHandlingLink = MutableStateFlow(false)
+    override val blockClickPropagation = MutableStateFlow(false)
     private val scope = CoroutineScope(SupervisorJob())
 
     init {
@@ -49,7 +48,12 @@ class DefaultMarkwonProvider(
                 ClickableImagesPlugin.create(
                     context = context,
                     onOpenImage = { url ->
+                        blockClickPropagation.value = true
                         onOpenImage?.invoke(url)
+                        scope.launch {
+                            delay(300)
+                            blockClickPropagation.value = false
+                        }
                     },
                     onTriggerUpdate = onImageTriggerUpdate ?: {},
                 )
@@ -58,11 +62,11 @@ class DefaultMarkwonProvider(
                     override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
                         builder.linkResolver { view, link ->
                             view.cancelPendingInputEvents()
-                            isHandlingLink.value = true
+                            blockClickPropagation.value = true
                             onOpenUrl?.invoke(link)
                             scope.launch {
                                 delay(300)
-                                isHandlingLink.value = false
+                                blockClickPropagation.value = false
                             }
                         }
                     }
