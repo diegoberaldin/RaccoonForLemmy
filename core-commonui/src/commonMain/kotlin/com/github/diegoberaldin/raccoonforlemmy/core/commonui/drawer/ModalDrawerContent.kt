@@ -207,7 +207,10 @@ object ModalDrawerContent : Tab {
                                 })
                         }
 
-                        items(uiState.multiCommunities) { community ->
+                        items(
+                            items = uiState.multiCommunities,
+                            key = { it.communityIds.joinToString() },
+                        ) { community ->
                             MultiCommunityItem(
                                 modifier = Modifier.fillMaxWidth().onClick(
                                     onClick = rememberCallback {
@@ -222,7 +225,10 @@ object ModalDrawerContent : Tab {
                                 autoLoadImages = uiState.autoLoadImages,
                             )
                         }
-                        items(uiState.communities) { community ->
+                        items(
+                            items = uiState.communities,
+                            key = { it.id },
+                        ) { community ->
                             CommunityItem(
                                 modifier = Modifier.fillMaxWidth().onClick(
                                     onClick = rememberCallback {
