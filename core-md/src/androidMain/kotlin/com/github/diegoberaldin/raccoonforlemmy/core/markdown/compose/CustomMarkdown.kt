@@ -69,9 +69,6 @@ actual fun CustomMarkdown(
             getMarkwonProvider(
                 onOpenUrl = onOpenUrl,
                 onOpenImage = onOpenImage,
-                onImageTriggerUpdate = {
-                    imageRecompositionTrigger = !imageRecompositionTrigger
-                }
             )
         }
         BoxWithConstraints(
@@ -153,10 +150,16 @@ actual fun CustomMarkdown(
                     },
                     update = { textView ->
                         val md = markwonProvider.markwon.toMarkdown(content)
-                        for (img in md.getSpans(0, md.length, AsyncDrawableSpan::class.java)) {
+                        val imageSpans = md.getSpans(0, md.length, AsyncDrawableSpan::class.java)
+                        for (img in imageSpans) {
                             img.drawable.initWithKnownDimensions(canvasWidthMaybe, textSizeMaybe)
                         }
                         markwonProvider.markwon.setParsedMarkdown(textView, md)
+                        if (imageSpans.isNotEmpty() && !imageRecompositionTrigger) {
+                            textView.postDelayed({
+                                imageRecompositionTrigger = !imageRecompositionTrigger
+                            }, 500)
+                        }
                     },
                 )
             }

@@ -24,7 +24,6 @@ class DefaultMarkwonProvider(
     context: Context,
     onOpenUrl: ((String) -> Unit)?,
     onOpenImage: ((String) -> Unit)?,
-    onImageTriggerUpdate: (() -> Unit)?,
 ) : MarkwonProvider {
 
     override val markwon: Markwon
@@ -55,7 +54,6 @@ class DefaultMarkwonProvider(
                             blockClickPropagation.value = false
                         }
                     },
-                    onTriggerUpdate = onImageTriggerUpdate ?: {},
                 )
             ).usePlugin(
                 object : AbstractMarkwonPlugin() {

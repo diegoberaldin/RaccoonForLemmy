@@ -12,7 +12,6 @@ val markwonModule = module {
             context = get(),
             onOpenUrl = params[0],
             onOpenImage = params[1],
-            onImageTriggerUpdate = params[2],
         )
     }
 }
@@ -20,7 +19,6 @@ val markwonModule = module {
 internal fun getMarkwonProvider(
     onOpenUrl: ((String) -> Unit)?,
     onOpenImage: ((String) -> Unit)?,
-    onImageTriggerUpdate: (() -> Unit)?,
 ): MarkwonProvider {
     val res: MarkwonProvider by KoinJavaComponent.inject(
         MarkwonProvider::class.java,
@@ -28,7 +26,6 @@ internal fun getMarkwonProvider(
             parametersOf(
                 onOpenUrl,
                 onOpenImage,
-                onImageTriggerUpdate,
             )
         },
     )
