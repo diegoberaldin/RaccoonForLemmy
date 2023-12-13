@@ -116,7 +116,7 @@ class PostListScreen : Screen {
         val settings by settingsRepository.currentSettings.collectAsState()
         val keepScreenOn = rememberKeepScreenOn()
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
                 if (tab == HomeTab) {
                     lazyListState.scrollToItem(0)
@@ -124,6 +124,7 @@ class PostListScreen : Screen {
                     topAppBarState.contentOffset = 0f
                 }
             }.launchIn(this)
+            navigationCoordinator.setBottomSheetGesturesEnabled(true)
         }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -473,6 +474,9 @@ class PostListScreen : Screen {
                                                 )
 
                                                 OptionId.Edit -> {
+                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                        false
+                                                    )
                                                     navigationCoordinator.showBottomSheet(
                                                         CreatePostScreen(editedPost = post)
                                                     )
@@ -485,6 +489,9 @@ class PostListScreen : Screen {
                                                 }
 
                                                 OptionId.CrossPost -> {
+                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                        false
+                                                    )
                                                     navigationCoordinator.showBottomSheet(
                                                         CreatePostScreen(crossPost = post)
                                                     )
@@ -574,6 +581,7 @@ class PostListScreen : Screen {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen =
                                     CreateCommentScreen(
                                         originalPost = content,

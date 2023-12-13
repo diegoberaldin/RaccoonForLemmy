@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Send
@@ -42,6 +44,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
@@ -186,39 +189,55 @@ class CreatePostScreen(
         }
 
         Scaffold(topBar = {
-            TopAppBar(scrollBehavior = scrollBehavior, title = {
-                Column(
-                    modifier = Modifier.fillMaxWidth().padding(
-                        top = Spacing.s,
-                        start = Spacing.l,
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    BottomSheetHandle()
-                    Text(
-                        text = when {
-                            editedPost != null -> stringResource(MR.strings.edit_post_title)
-
-                            else -> stringResource(MR.strings.create_post_title)
-                        },
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
+            TopAppBar(
+                scrollBehavior = scrollBehavior,
+                navigationIcon = {
+                    Image(
+                        modifier = Modifier.padding(start = Spacing.s).onClick(
+                            onClick = rememberCallback {
+                                navigationCoordinator.hideBottomSheet()
+                            },
+                        ),
+                        imageVector = Icons.Default.Close,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                     )
-                }
-            }, actions = {
-                IconButton(
-                    content = {
-                        Icon(
-                            imageVector = Icons.Default.Send,
-                            contentDescription = null,
+                },
+                title = {
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(
+                            top = Spacing.s,
+                            start = Spacing.l,
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        BottomSheetHandle()
+                        Text(
+                            text = when {
+                                editedPost != null -> stringResource(MR.strings.edit_post_title)
+
+                                else -> stringResource(MR.strings.create_post_title)
+                            },
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
-                    },
-                    onClick = rememberCallback(model) {
-                        model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
-                    },
-                )
-            })
+                    }
+                },
+                actions = {
+                    IconButton(
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.Send,
+                                contentDescription = null,
+                            )
+                        },
+                        onClick = rememberCallback(model) {
+                            model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
+                        },
+                    )
+                },
+            )
         }, snackbarHost = {
             SnackbarHost(snackbarHostState)
         }) { padding ->

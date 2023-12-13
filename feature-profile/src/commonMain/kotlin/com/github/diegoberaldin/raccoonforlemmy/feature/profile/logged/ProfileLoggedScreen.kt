@@ -85,12 +85,13 @@ internal object ProfileLoggedScreen : Tab {
         val lazyListState = rememberLazyListState()
         var rawContent by remember { mutableStateOf<Any?>(null) }
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
                 if (tab == ProfileTab) {
                     lazyListState.scrollToItem(0)
                 }
             }.launchIn(this)
+            navigationCoordinator.setBottomSheetGesturesEnabled(true)
         }
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe(NotificationCenterEvent.PostCreated::class).onEach {
@@ -255,6 +256,9 @@ internal object ProfileLoggedScreen : Tab {
                                             )
 
                                             OptionId.Edit -> {
+                                                navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                    false
+                                                )
                                                 navigationCoordinator.showBottomSheet(
                                                     CreatePostScreen(
                                                         editedPost = post,
@@ -385,6 +389,9 @@ internal object ProfileLoggedScreen : Tab {
                                             }
 
                                             OptionId.Edit -> {
+                                                navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                    false
+                                                )
                                                 navigationCoordinator.showBottomSheet(
                                                     CreateCommentScreen(editedComment = comment)
                                                 )
@@ -464,6 +471,7 @@ internal object ProfileLoggedScreen : Tab {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen =
                                     CreateCommentScreen(
                                         originalPost = content,
@@ -490,6 +498,7 @@ internal object ProfileLoggedScreen : Tab {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen =
                                     CreateCommentScreen(
                                         originalComment = content,

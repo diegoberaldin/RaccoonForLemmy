@@ -164,6 +164,9 @@ class PostDetailScreen(
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
         }
+        LaunchedEffect(navigationCoordinator) {
+            navigationCoordinator.setBottomSheetGesturesEnabled(true)
+        }
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
                 when (evt) {
@@ -260,6 +263,7 @@ class PostDetailScreen(
                                     icon = Icons.Default.Reply,
                                     text = stringResource(MR.strings.action_reply),
                                     onSelected = rememberCallback {
+                                        navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                         val screen = CreateCommentScreen(
                                             originalPost = uiState.post,
                                         )
@@ -353,6 +357,7 @@ class PostDetailScreen(
                                 },
                                 onReply = rememberCallback {
                                     if (uiState.isLogged && !isOnOtherInstance) {
+                                        navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                         val screen = CreateCommentScreen(
                                             originalPost = uiState.post,
                                         )
@@ -434,6 +439,9 @@ class PostDetailScreen(
                                         OptionId.Delete -> model.reduce(PostDetailMviModel.Intent.DeletePost)
 
                                         OptionId.Edit -> {
+                                            navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                false
+                                            )
                                             navigationCoordinator.showBottomSheet(
                                                 CreatePostScreen(editedPost = uiState.post)
                                             )
@@ -446,6 +454,9 @@ class PostDetailScreen(
                                         }
 
                                         OptionId.CrossPost -> {
+                                            navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                false
+                                            )
                                             navigationCoordinator.showBottomSheet(
                                                 CreatePostScreen(crossPost = uiState.post)
                                             )
@@ -704,6 +715,9 @@ class PostDetailScreen(
                                                     },
                                                     onReply = rememberCallback {
                                                         if (uiState.isLogged && !isOnOtherInstance) {
+                                                            navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                                false
+                                                            )
                                                             val screen = CreateCommentScreen(
                                                                 originalPost = uiState.post,
                                                                 originalComment = comment,
@@ -803,6 +817,9 @@ class PostDetailScreen(
                                                             )
 
                                                             OptionId.Edit -> {
+                                                                navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                                    false
+                                                                )
                                                                 navigationCoordinator.showBottomSheet(
                                                                     CreateCommentScreen(
                                                                         editedComment = comment,
@@ -918,6 +935,9 @@ class PostDetailScreen(
                                             },
                                             onReply = rememberCallback(model) {
                                                 if (uiState.isLogged && !isOnOtherInstance) {
+                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                        false
+                                                    )
                                                     val screen = CreateCommentScreen(
                                                         originalPost = uiState.post,
                                                         originalComment = comment,
@@ -1002,6 +1022,9 @@ class PostDetailScreen(
                                                     )
 
                                                     OptionId.Edit -> {
+                                                        navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                            false
+                                                        )
                                                         navigationCoordinator.showBottomSheet(
                                                             CreateCommentScreen(
                                                                 editedComment = comment,
@@ -1180,6 +1203,7 @@ class PostDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen = CreateCommentScreen(originalPost = content,
                                     initialText = buildString {
                                         append("> ")
@@ -1202,6 +1226,7 @@ class PostDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen = CreateCommentScreen(originalComment = content,
                                     initialText = buildString {
                                         append("> ")

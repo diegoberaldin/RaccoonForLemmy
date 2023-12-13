@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.utils.navigation
+package com.github.diegoberaldin.raccoonforlemmy.core.navigation
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -17,6 +17,7 @@ interface NavigationCoordinator {
     val deepLinkUrl: Flow<String?>
     val canPop: StateFlow<Boolean>
     val exitMessageVisible: StateFlow<Boolean>
+    val bottomSheetGesturesEnabled: StateFlow<Boolean>
 
     fun setCurrentSection(tab: Tab)
     fun submitDeeplink(url: String)
@@ -32,4 +33,5 @@ interface NavigationCoordinator {
     fun pushScreen(screen: Screen)
     fun popScreen()
     fun setExitMessageVisible(value: Boolean)
+    fun setBottomSheetGesturesEnabled(value: Boolean)
 }

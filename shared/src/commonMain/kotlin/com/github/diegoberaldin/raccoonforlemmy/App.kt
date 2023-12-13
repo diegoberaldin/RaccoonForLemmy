@@ -92,6 +92,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val drawerCoordinator = remember { getDrawerCoordinator() }
     val drawerGesturesEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
+    val bottomSheetGesturesEnabled by navigationCoordinator.bottomSheetGesturesEnabled.collectAsState()
 
     LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
@@ -247,6 +248,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                     topEnd = CornerSize.xl
                 ),
                 sheetBackgroundColor = MaterialTheme.colorScheme.background,
+                sheetGesturesEnabled = bottomSheetGesturesEnabled,
             ) { bottomNavigator ->
                 navigationCoordinator.setBottomNavigator(bottomNavigator)
 

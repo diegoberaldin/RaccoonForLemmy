@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.utils.navigation
+package com.github.diegoberaldin.raccoonforlemmy.core.navigation
 
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import cafe.adriel.voyager.core.screen.Screen
@@ -21,6 +21,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override val inboxUnread = MutableStateFlow(0)
     override val canPop = MutableStateFlow(false)
     override val exitMessageVisible = MutableStateFlow(false)
+    override val bottomSheetGesturesEnabled = MutableStateFlow(true)
 
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
@@ -132,5 +133,9 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override fun setExitMessageVisible(value: Boolean) {
         exitMessageVisible.value = value
+    }
+
+    override fun setBottomSheetGesturesEnabled(value: Boolean) {
+        bottomSheetGesturesEnabled.value = value
     }
 }

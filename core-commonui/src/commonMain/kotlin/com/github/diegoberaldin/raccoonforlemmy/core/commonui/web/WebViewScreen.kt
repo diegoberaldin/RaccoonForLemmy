@@ -15,6 +15,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -44,8 +45,10 @@ class WebViewScreen(
         val shareHelper = remember { getShareHelper() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
 
-        DisposableEffect(key) {
+        LaunchedEffect(key) {
             drawerCoordinator.setGesturesEnabled(false)
+        }
+        DisposableEffect(key) {
             onDispose {
                 drawerCoordinator.setGesturesEnabled(true)
             }

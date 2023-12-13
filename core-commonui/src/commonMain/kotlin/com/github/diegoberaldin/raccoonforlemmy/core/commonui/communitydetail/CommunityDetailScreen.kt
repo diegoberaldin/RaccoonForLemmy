@@ -163,6 +163,9 @@ class CommunityDetailScreen(
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
         }
+        LaunchedEffect(navigationCoordinator) {
+            navigationCoordinator.setBottomSheetGesturesEnabled(true)
+        }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
@@ -429,10 +432,11 @@ class CommunityDetailScreen(
                                     icon = Icons.Default.Create,
                                     text = stringResource(MR.strings.action_create_post),
                                     onSelected = rememberCallback {
+                                        navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                         val screen = CreatePostScreen(
                                             communityId = uiState.community.id,
                                         )
-                                        navigationCoordinator.showBottomSheet(screen)
+                                        navigationCoordinator.showBottomSheet(screen = screen)
                                     },
                                 )
                             }
@@ -728,8 +732,11 @@ class CommunityDetailScreen(
                                                 )
 
                                                 OptionId.Edit -> {
+                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                        false
+                                                    )
                                                     navigationCoordinator.showBottomSheet(
-                                                        CreatePostScreen(editedPost = post)
+                                                        CreatePostScreen(editedPost = post),
                                                     )
                                                 }
 
@@ -740,8 +747,11 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.CrossPost -> {
+                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                        false
+                                                    )
                                                     navigationCoordinator.showBottomSheet(
-                                                        CreatePostScreen(crossPost = post)
+                                                        CreatePostScreen(crossPost = post),
                                                     )
                                                 }
 
@@ -855,6 +865,7 @@ class CommunityDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen = CreateCommentScreen(originalPost = content,
                                     initialText = buildString {
                                         append("> ")
@@ -876,6 +887,7 @@ class CommunityDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen = CreateCommentScreen(originalComment = content,
                                     initialText = buildString {
                                         append("> ")

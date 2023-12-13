@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.navigation.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.navigation.NavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.NavigationCoordinator
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

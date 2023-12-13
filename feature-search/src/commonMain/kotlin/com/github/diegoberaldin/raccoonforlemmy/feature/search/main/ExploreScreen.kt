@@ -120,9 +120,9 @@ class ExploreScreen : Screen {
         val downvoteColor by themeRepository.downvoteColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
-
         val lazyListState = rememberLazyListState()
-        LaunchedEffect(Unit) {
+
+        LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
                 if (tab == ExploreTab) {
                     lazyListState.scrollToItem(0)
@@ -130,6 +130,7 @@ class ExploreScreen : Screen {
                     topAppBarState.contentOffset = 0f
                 }
             }.launchIn(this)
+            navigationCoordinator.setBottomSheetGesturesEnabled(true)
         }
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -555,6 +556,9 @@ class ExploreScreen : Screen {
                                                 },
                                                 onReply = rememberCallback {
                                                     if (uiState.isLogged) {
+                                                        navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                            false
+                                                        )
                                                         val screen = CreateCommentScreen(
                                                             originalPost = PostModel(id = result.model.postId),
                                                             originalComment = result.model,

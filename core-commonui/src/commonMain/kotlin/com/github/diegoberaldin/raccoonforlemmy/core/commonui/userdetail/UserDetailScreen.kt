@@ -149,6 +149,9 @@ class UserDetailScreen(
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
         }
+        LaunchedEffect(navigationCoordinator) {
+            navigationCoordinator.setBottomSheetGesturesEnabled(true)
+        }
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
@@ -566,6 +569,9 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.CrossPost -> {
+                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                        false
+                                                    )
                                                     navigationCoordinator.showBottomSheet(
                                                         CreatePostScreen(crossPost = post)
                                                     )
@@ -729,6 +735,9 @@ class UserDetailScreen(
                                             null
                                         } else {
                                             rememberCallback {
+                                                navigationCoordinator.setBottomSheetGesturesEnabled(
+                                                    false
+                                                )
                                                 val screen = CreateCommentScreen(
                                                     originalPost = PostModel(id = comment.postId),
                                                     originalComment = comment,
@@ -846,6 +855,7 @@ class UserDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen =
                                     CreateCommentScreen(
                                         originalPost = content,
@@ -872,6 +882,7 @@ class UserDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
+                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
                                 val screen =
                                     CreateCommentScreen(
                                         originalComment = content,
