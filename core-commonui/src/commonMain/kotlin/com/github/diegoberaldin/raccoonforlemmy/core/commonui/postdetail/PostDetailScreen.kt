@@ -185,7 +185,8 @@ class PostDetailScreen(
         }
 
         Scaffold(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
@@ -285,7 +286,8 @@ class PostDetailScreen(
                         } else {
                             it
                         }
-                    }.nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
+                    }.nestedScroll(fabNestedScrollConnection)
+                        .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState
@@ -311,7 +313,7 @@ class PostDetailScreen(
                                     navigationCoordinator.pushScreen(
                                         CommunityDetailScreen(
                                             community = community,
-                                            otherInstance = otherInstance,
+                                            otherInstance = otherInstanceName,
                                         )
                                     )
                                 },
@@ -319,7 +321,7 @@ class PostDetailScreen(
                                     navigationCoordinator.pushScreen(
                                         UserDetailScreen(
                                             user = user,
-                                            otherInstance = otherInstance,
+                                            otherInstance = otherInstanceName,
                                         )
                                     )
                                 },
@@ -562,8 +564,10 @@ class PostDetailScreen(
                                 )
                             }
                         }
-                        items(uiState.comments.filter { it.visible },
-                            key = { c -> c.id.toString() + c.updateDate }) { comment ->
+                        items(
+                            items = uiState.comments.filter { it.visible },
+                            key = { c -> c.id.toString() + c.updateDate },
+                        ) { comment ->
                             Column {
                                 AnimatedContent(
                                     targetState = comment.expanded,
@@ -1072,13 +1076,15 @@ class PostDetailScreen(
                                 if (comment.loadMoreButtonVisible) {
                                     Row {
                                         Spacer(modifier = Modifier.weight(1f))
-                                        Button(onClick = rememberCallback(model) {
-                                            model.reduce(
-                                                PostDetailMviModel.Intent.FetchMoreComments(
-                                                    parentId = comment.id
+                                        Button(
+                                            onClick = rememberCallback(model) {
+                                                model.reduce(
+                                                    PostDetailMviModel.Intent.FetchMoreComments(
+                                                        parentId = comment.id
+                                                    )
                                                 )
-                                            )
-                                        }) {
+                                            },
+                                        ) {
                                             Text(
                                                 text = stringResource(MR.strings.post_detail_load_more_comments),
                                             )
@@ -1109,7 +1115,8 @@ class PostDetailScreen(
                                 Column {
                                     if (uiState.post.comments == 0) {
                                         Text(
-                                            modifier = Modifier.fillMaxWidth()
+                                            modifier = Modifier
+                                                .fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
                                             text = stringResource(MR.strings.message_empty_comments),
@@ -1118,7 +1125,8 @@ class PostDetailScreen(
                                         )
                                     } else {
                                         Text(
-                                            modifier = Modifier.fillMaxWidth()
+                                            modifier = Modifier
+                                                .fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
                                             text = stringResource(MR.strings.message_error_loading_comments),
@@ -1127,9 +1135,11 @@ class PostDetailScreen(
                                         )
                                         Row {
                                             Spacer(modifier = Modifier.weight(1f))
-                                            Button(onClick = {
-                                                model.reduce(PostDetailMviModel.Intent.Refresh)
-                                            }) {
+                                            Button(
+                                                onClick = rememberCallback(model) {
+                                                    model.reduce(PostDetailMviModel.Intent.Refresh)
+                                                },
+                                            ) {
                                                 Text(
                                                     text = stringResource(MR.strings.button_retry),
                                                 )
@@ -1164,10 +1174,10 @@ class PostDetailScreen(
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
-                        onDismiss = {
+                        onDismiss = rememberCallback {
                             rawContent = null
                         },
-                        onQuote = { quotation ->
+                        onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
                                 val screen = CreateCommentScreen(originalPost = content,
@@ -1182,13 +1192,14 @@ class PostDetailScreen(
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(text = content.text,
+                    RawContentDialog(
+                        text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
-                        onDismiss = {
+                        onDismiss = rememberCallback {
                             rawContent = null
                         },
-                        onQuote = { quotation ->
+                        onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
                                 val screen = CreateCommentScreen(originalComment = content,
@@ -1199,7 +1210,8 @@ class PostDetailScreen(
                                     })
                                 navigationCoordinator.showBottomSheet(screen)
                             }
-                        })
+                        },
+                    )
                 }
             }
         }

@@ -458,10 +458,10 @@ internal object ProfileLoggedScreen : Tab {
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
-                        onDismiss = {
+                        onDismiss = rememberCallback {
                             rawContent = null
                         },
-                        onQuote = { quotation ->
+                        onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
                                 val screen =
@@ -487,7 +487,7 @@ internal object ProfileLoggedScreen : Tab {
                         onDismiss = {
                             rawContent = null
                         },
-                        onQuote = { quotation ->
+                        onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
                                 val screen =

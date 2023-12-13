@@ -840,10 +840,10 @@ class UserDetailScreen(
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
-                        onDismiss = {
+                        onDismiss = rememberCallback {
                             rawContent = null
                         },
-                        onQuote = { quotation ->
+                        onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
                                 val screen =
@@ -869,7 +869,7 @@ class UserDetailScreen(
                         onDismiss = {
                             rawContent = null
                         },
-                        onQuote = { quotation ->
+                        onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
                                 val screen =

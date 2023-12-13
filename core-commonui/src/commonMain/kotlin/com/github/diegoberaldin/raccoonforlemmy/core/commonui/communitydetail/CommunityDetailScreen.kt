@@ -260,8 +260,7 @@ class CommunityDetailScreen(
                         Box {
                             val options = buildList {
                                 this += Option(
-                                    OptionId.Info,
-                                    stringResource(MR.strings.community_detail_info)
+                                    OptionId.Info, stringResource(MR.strings.community_detail_info)
                                 )
                                 this += Option(
                                     OptionId.InfoInstance,
@@ -437,10 +436,10 @@ class CommunityDetailScreen(
                                     },
                                 )
                             }
-                        }
+                        },
                     )
                 }
-            }
+            },
         ) { padding ->
             if (uiState.currentUserId != null) {
                 val pullRefreshState = rememberPullRefreshState(
@@ -845,57 +844,47 @@ class CommunityDetailScreen(
         if (rawContent != null) {
             when (val content = rawContent) {
                 is PostModel -> {
-                    RawContentDialog(
-                        title = content.title,
+                    RawContentDialog(title = content.title,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
-                        onDismiss = {
+                        onDismiss = rememberCallback {
                             rawContent = null
                         },
-                        onQuote = { quotation ->
+                        onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                val screen =
-                                    CreateCommentScreen(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        }
-                                    )
+                                val screen = CreateCommentScreen(originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    })
                                 navigationCoordinator.showBottomSheet(screen)
                             }
-                        }
-                    )
+                        })
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(
-                        text = content.text,
+                    RawContentDialog(text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
-                        onDismiss = {
+                        onDismiss = rememberCallback {
                             rawContent = null
                         },
-                        onQuote = { quotation ->
+                        onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                val screen =
-                                    CreateCommentScreen(
-                                        originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        }
-                                    )
+                                val screen = CreateCommentScreen(originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    })
                                 navigationCoordinator.showBottomSheet(screen)
                             }
-                        }
-                    )
+                        })
                 }
             }
         }
