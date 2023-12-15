@@ -11,6 +11,7 @@ import androidx.annotation.IdRes
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +37,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypo
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.ReferenceLinkHandlerImpl
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.DateTime
 import io.noties.markwon.image.AsyncDrawableSpan
+import kotlinx.coroutines.delay
 import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
 
 /*
@@ -65,6 +67,7 @@ actual fun CustomMarkdown(
         LocalMarkdownTypography provides typography,
     ) {
         var imageRecompositionTrigger by remember { mutableStateOf(false) }
+        var hasImages by remember { mutableStateOf(false) }
         val markwonProvider = remember {
             getMarkwonProvider(
                 onOpenUrl = onOpenUrl,
@@ -155,13 +158,18 @@ actual fun CustomMarkdown(
                             img.drawable.initWithKnownDimensions(canvasWidthMaybe, textSizeMaybe)
                         }
                         markwonProvider.markwon.setParsedMarkdown(textView, md)
-                        if (imageSpans.isNotEmpty() && !imageRecompositionTrigger) {
-                            textView.postDelayed({
-                                imageRecompositionTrigger = !imageRecompositionTrigger
-                            }, 500)
+                        if (imageSpans.isNotEmpty()) {
+                            hasImages = true
                         }
                     },
                 )
+            }
+
+            LaunchedEffect(hasImages) {
+                if (hasImages && !imageRecompositionTrigger) {
+                    delay(500)
+                    imageRecompositionTrigger = true
+                }
             }
         }
     }

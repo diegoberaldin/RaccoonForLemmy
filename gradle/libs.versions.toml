@@ -55,7 +55,7 @@ markwon_strikethrough = { module = "io.noties.markwon:ext-strikethrough", versio
 markwon_tables = { module = "io.noties.markwon:ext-tables", version.ref = "markwon" }
 markwon_html = { module = "io.noties.markwon:html", version.ref = "markwon" }
 markwon_linkify = { module = "io.noties.markwon:linkify", version.ref = "markwon" }
-markwon_image = { module = "io.noties.markwon:image", version.ref = "markwon" }
+markwon_image_coil = { module = "io.noties.markwon:image-coil", version.ref = "markwon" }
 
 multiplatform_settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform.settings" }
 
