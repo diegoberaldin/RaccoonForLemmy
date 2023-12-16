@@ -54,7 +54,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
@@ -133,6 +135,9 @@ class CreatePostScreen(
         var openSelectCommunity by remember { mutableStateOf(false) }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
+        val themeRepository = remember { getThemeRepository() }
+        val contentFontFamily by themeRepository.contentFontFamily.collectAsState()
+        val typography = contentFontFamily.toTypography()
 
         LaunchedEffect(model) {
             val referencePost = editedPost ?: crossPost
@@ -268,7 +273,7 @@ class CreatePostScreen(
                                 contentDescription = null,
                             )
                         },
-                        textStyle = MaterialTheme.typography.bodyMedium,
+                        textStyle = typography.bodyMedium,
                         value = uiState.communityInfo,
                         readOnly = true,
                         singleLine = true,
@@ -294,9 +299,12 @@ class CreatePostScreen(
                         disabledContainerColor = Color.Transparent,
                     ),
                     label = {
-                        Text(text = stringResource(MR.strings.create_post_name))
+                        Text(
+                            text = stringResource(MR.strings.create_post_name),
+                            style = typography.titleMedium,
+                        )
                     },
-                    textStyle = MaterialTheme.typography.titleMedium,
+                    textStyle = typography.titleMedium,
                     value = uiState.title,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
@@ -330,7 +338,10 @@ class CreatePostScreen(
                         disabledContainerColor = Color.Transparent,
                     ),
                     label = {
-                        Text(text = stringResource(MR.strings.create_post_url))
+                        Text(
+                            text = stringResource(MR.strings.create_post_url),
+                            style = typography.bodyMedium,
+                        )
                     },
                     trailingIcon = {
                         Icon(
@@ -343,7 +354,7 @@ class CreatePostScreen(
                             contentDescription = null,
                         )
                     },
-                    textStyle = MaterialTheme.typography.bodyMedium.copy(
+                    textStyle = typography.bodyMedium.copy(
                         fontFamily = FontFamily.Monospace,
                     ),
                     value = uiState.url,
@@ -431,9 +442,12 @@ class CreatePostScreen(
                                 disabledContainerColor = Color.Transparent,
                             ),
                             label = {
-                                Text(text = stringResource(MR.strings.create_post_body))
+                                Text(
+                                    text = stringResource(MR.strings.create_post_body),
+                                    style = typography.bodyMedium,
+                                )
                             },
-                            textStyle = MaterialTheme.typography.bodyMedium,
+                            textStyle = typography.bodyMedium,
                             value = bodyTextFieldValue,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,

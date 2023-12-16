@@ -50,8 +50,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.TextFormattingBar
@@ -83,6 +85,9 @@ class InboxChatScreen(
                 TextFieldValue(text = "")
             )
         }
+        val themeRepository = remember { getThemeRepository() }
+        val contentFontFamily by themeRepository.contentFontFamily.collectAsState()
+        val typography = contentFontFamily.toTypography()
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -152,7 +157,10 @@ class InboxChatScreen(
                             disabledContainerColor = Color.Transparent,
                         ),
                         label = {
-                            Text(text = stringResource(MR.strings.inbox_chat_message))
+                            Text(
+                                text = stringResource(MR.strings.inbox_chat_message),
+                                style = typography.bodyMedium,
+                            )
                         },
                         trailingIcon = {
                             IconButton(
@@ -172,7 +180,7 @@ class InboxChatScreen(
                                 )
                             }
                         },
-                        textStyle = MaterialTheme.typography.bodyMedium,
+                        textStyle = typography.bodyMedium,
                         value = textFieldValue,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Ascii,

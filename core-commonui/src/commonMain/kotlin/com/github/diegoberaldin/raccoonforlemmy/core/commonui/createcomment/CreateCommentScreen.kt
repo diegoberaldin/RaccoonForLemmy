@@ -47,7 +47,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
@@ -110,6 +112,9 @@ class CreateCommentScreen(
         val commentFocusRequester = remember { FocusRequester() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
+        val themeRepository = remember { getThemeRepository() }
+        val contentFontFamily by themeRepository.contentFontFamily.collectAsState()
+        val typography = contentFontFamily.toTypography()
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -257,9 +262,12 @@ class CreateCommentScreen(
                                 disabledContainerColor = Color.Transparent,
                             ),
                             label = {
-                                Text(text = stringResource(MR.strings.create_comment_body))
+                                Text(
+                                    text = stringResource(MR.strings.create_comment_body),
+                                    style = typography.bodyMedium,
+                                )
                             },
-                            textStyle = MaterialTheme.typography.bodyMedium,
+                            textStyle = typography.bodyMedium,
                             value = textFieldValue,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
