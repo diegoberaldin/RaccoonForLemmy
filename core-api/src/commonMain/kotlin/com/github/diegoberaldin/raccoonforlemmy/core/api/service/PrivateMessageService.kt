@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePrivateMessageForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPrivateMessageForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPrivateMessageAsReadForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessagesResponse
 import de.jensklingenberg.ktorfit.Response
@@ -20,6 +21,7 @@ interface PrivateMessageService {
         @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("page") page: Int? = null,
+        @Query("creator_id") creatorId: PersonId? = null,
         @Query("limit") limit: Int? = null,
         @Query("unread_only") unreadOnly: Boolean? = null,
     ): Response<PrivateMessagesResponse>

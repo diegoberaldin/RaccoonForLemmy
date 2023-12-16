@@ -14,6 +14,7 @@ internal class DefaultPrivateMessageRepository(
 
     override suspend fun getAll(
         auth: String?,
+        creatorId: Int?,
         page: Int,
         limit: Int,
         unreadOnly: Boolean,
@@ -21,6 +22,7 @@ internal class DefaultPrivateMessageRepository(
         val response = services.privateMessages.getPrivateMessages(
             authHeader = auth.toAuthHeader(),
             auth = auth,
+            creatorId = creatorId,
             limit = limit,
             page = page,
             unreadOnly = unreadOnly,

@@ -60,6 +60,10 @@ class InboxChatViewModel(
                             otherUserAvatar = user?.avatar,
                         )
                     }
+
+                    if (uiState.value.messages.isEmpty()) {
+                        refresh(initial = true)
+                    }
                 }
             }
         }
@@ -68,7 +72,9 @@ class InboxChatViewModel(
     override fun reduce(intent: InboxChatMviModel.Intent) {
         when (intent) {
             InboxChatMviModel.Intent.LoadNextPage -> {
-                loadNextPage()
+                mvi.scope?.launch(Dispatchers.IO) {
+                    loadNextPage()
+                }
             }
 
             is InboxChatMviModel.Intent.SubmitNewMessage -> {
@@ -87,53 +93,58 @@ class InboxChatViewModel(
         }
     }
 
-    private fun refresh() {
+    private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        mvi.updateState {
+            it.copy(
+                initial = initial,
+                canFetchMore = true,
+                refreshing = true
+            )
+        }
         loadNextPage()
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val itemList = messageRepository.getAll(
-                auth = auth,
-                page = currentPage,
-                unreadOnly = false,
-            )?.filter {
-                it.creator?.id == otherUserId || it.recipient?.id == otherUserId
-            }?.onEach {
-                if (!it.read) {
-                    launch {
-                        markAsRead(true, it.id)
-                    }
-                }
+        mvi.updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val itemList = messageRepository.getAll(
+            creatorId = otherUserId,
+            auth = auth,
+            page = currentPage,
+            unreadOnly = false,
+        )?.onEach {
+            if (!it.read) {
+                markAsRead(true, it.id)
             }
-            if (!itemList.isNullOrEmpty()) {
-                currentPage++
-            }
+        }
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
 
-            mvi.updateState {
-                val newItems = if (refreshing) {
-                    itemList.orEmpty()
-                } else {
-                    it.messages + itemList.orEmpty()
-                }
-                it.copy(
-                    messages = newItems,
-                    loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
-                    refreshing = false,
-                )
+        val itemsToAdd = itemList.orEmpty().filter {
+            it.creator?.id == otherUserId || it.recipient?.id == otherUserId
+        }
+        mvi.updateState {
+            val newItems = if (refreshing) {
+                itemsToAdd
+            } else {
+                it.messages + itemsToAdd
             }
+            it.copy(
+                messages = newItems,
+                loading = false,
+                canFetchMore = itemList?.isEmpty() != true,
+                refreshing = false,
+                initial = false,
+            )
         }
     }
 

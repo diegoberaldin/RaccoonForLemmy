@@ -227,6 +227,11 @@ class InboxChatScreen(
                         item {
                             Spacer(modifier = Modifier.height(Spacing.s))
                         }
+                        if (uiState.messages.isEmpty() && uiState.initial) {
+                            items(10) {
+                                MessageCardPlaceholder()
+                            }
+                        }
                         items(uiState.messages) { message ->
                             val isMyMessage = message.creator?.id == uiState.currentUserId
                             val content = message.content.orEmpty()
@@ -262,10 +267,10 @@ class InboxChatScreen(
                             )
                         }
                         item {
-                            if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
+                            if (!uiState.initial && !uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
                                 model.reduce(InboxChatMviModel.Intent.LoadNextPage)
                             }
-                            if (uiState.loading && !uiState.refreshing) {
+                            if (!uiState.initial && uiState.loading && !uiState.refreshing) {
                                 Box(
                                     modifier = Modifier.fillMaxWidth().padding(Spacing.xs),
                                     contentAlignment = Alignment.Center,

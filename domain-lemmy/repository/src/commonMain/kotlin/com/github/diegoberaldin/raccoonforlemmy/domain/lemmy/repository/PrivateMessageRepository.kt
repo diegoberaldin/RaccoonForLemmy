@@ -10,6 +10,7 @@ interface PrivateMessageRepository {
 
     suspend fun getAll(
         auth: String? = null,
+        creatorId: Int? = null,
         page: Int,
         limit: Int = DEFAULT_PAGE_SIZE,
         unreadOnly: Boolean = true,
