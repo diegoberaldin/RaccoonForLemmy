@@ -1,12 +1,12 @@
 [versions]
-androidx_activity = "1.8.1"
+androidx_activity = "1.8.2"
 androidx_crypto = "1.0.0"
 androidx_splashscreen = "1.0.1"
 android_gif_drawable = "1.2.28"
 android_gradle = "8.1.4"
 coil = "2.5.0"
 compose = "1.5.11"
-compose_compiler = "1.5.4"
+compose_compiler = "1.5.6"
 crashkios = "0.8.5"
 crashlytics = "18.6.0"
 crashlytics_gradle = "2.9.9"
@@ -16,19 +16,19 @@ koin = "3.5.0"
 kotlin = "1.9.21"
 kotlincrypto = "0.3.0"
 kotlinx_coroutines = "1.7.3"
-kotlinx_serialization_json = "1.6.1"
+kotlinx_serialization_json = "1.6.2"
 ksp = "1.9.21-1.0.15"
-ktor = "2.3.6"
-ktorfit_gradle = "1.10.1"
-ktorfit_lib = "1.10.1"
+ktor = "2.3.7"
+ktorfit_gradle = "1.11.0"
+ktorfit_lib = "1.11.0"
 markdown = "0.5.0"
 markwon = "4.6.2"
-materialKolor = "1.2.8"
+materialKolor = "1.3.0"
 moko_resources = "0.23.0"
 multiplatform_settings = "1.1.1"
 sqlcipher = "4.5.4"
-sqldelight = "2.0.0"
-voyager = "1.0.0-rc10"
+sqldelight = "2.0.1"
+voyager = "1.0.0"
 
 android_targetSdk = "34"
 android_minSdk = "26"
@@ -83,6 +83,7 @@ moko_resources_compose = { module = "dev.icerock.moko:resources-compose", versio
 moko_resources_test = { module = "dev.icerock.moko:resources-test", version.ref = "moko.resources" }
 
 voyager_navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager_screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyager_bottomsheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 voyager_tab = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
 voyager_transition = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }

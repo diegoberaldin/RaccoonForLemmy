@@ -38,6 +38,7 @@ kotlin {
                 implementation(compose.components.resources)
 
                 implementation(libs.voyager.navigator)
+                implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.tab)
                 implementation(libs.voyager.bottomsheet)
 

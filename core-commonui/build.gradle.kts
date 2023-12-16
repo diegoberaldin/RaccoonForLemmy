@@ -43,6 +43,7 @@ kotlin {
 
                 implementation(libs.koin.core)
                 implementation(libs.voyager.navigator)
+                implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.bottomsheet)
                 implementation(libs.voyager.tab)
 
