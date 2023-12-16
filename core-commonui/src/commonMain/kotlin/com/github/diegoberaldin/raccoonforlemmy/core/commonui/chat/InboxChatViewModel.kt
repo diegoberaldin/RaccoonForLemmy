@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
@@ -66,9 +67,23 @@ class InboxChatViewModel(
 
     override fun reduce(intent: InboxChatMviModel.Intent) {
         when (intent) {
-            InboxChatMviModel.Intent.LoadNextPage -> loadNextPage()
-            is InboxChatMviModel.Intent.SubmitNewMessage -> submitNewMessage(intent.value)
-            is InboxChatMviModel.Intent.ImageSelected -> loadImageAndAppendUrlInBody(intent.value)
+            InboxChatMviModel.Intent.LoadNextPage -> {
+                loadNextPage()
+            }
+
+            is InboxChatMviModel.Intent.SubmitNewMessage -> {
+                submitNewMessage(intent.value)
+            }
+
+            is InboxChatMviModel.Intent.ImageSelected -> {
+                loadImageAndAppendUrlInBody(intent.value)
+            }
+
+            is InboxChatMviModel.Intent.EditMessage -> {
+                uiState.value.messages.firstOrNull { it.id == intent.value }?.also { message ->
+                    startEditingMessage(message)
+                }
+            }
         }
     }
 
@@ -153,15 +168,36 @@ class InboxChatViewModel(
         }
     }
 
+    private fun startEditingMessage(message: PrivateMessageModel) {
+        mvi.updateState {
+            it.copy(
+                editedMessageId = message.id,
+            )
+        }
+    }
+
     private fun submitNewMessage(text: String) {
+        val editedMessageId = uiState.value.editedMessageId
         if (text.isNotEmpty()) {
             mvi.scope?.launch {
                 val auth = identityRepository.authToken.value
-                messageRepository.create(
-                    message = text,
-                    auth = auth,
-                    recipiendId = otherUserId,
-                )
+                if (editedMessageId == null) {
+                    messageRepository.create(
+                        message = text,
+                        recipiendId = otherUserId,
+                        auth = auth,
+                    )
+                } else {
+                    messageRepository.edit(
+                        messageId = editedMessageId,
+                        message = text,
+                        auth = auth,
+                    )
+                }
+
+                mvi.updateState {
+                    it.copy(editedMessageId = null)
+                }
                 refresh()
             }
         }

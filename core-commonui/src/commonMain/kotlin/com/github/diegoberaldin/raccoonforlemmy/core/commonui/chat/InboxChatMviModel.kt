@@ -29,6 +29,7 @@ interface InboxChatMviModel :
             }
         }
 
+        data class EditMessage(val value: Int) : Intent
         data class SubmitNewMessage(val value: String) : Intent
     }
 
@@ -41,6 +42,7 @@ interface InboxChatMviModel :
         val otherUserAvatar: String? = null,
         val messages: List<PrivateMessageModel> = emptyList(),
         val autoLoadImages: Boolean = true,
+        val editedMessageId: Int? = null,
     )
 
     sealed interface Effect {

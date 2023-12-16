@@ -21,6 +21,12 @@ interface PrivateMessageRepository {
         recipiendId: Int,
     )
 
+    suspend fun edit(
+        messageId: Int,
+        message: String,
+        auth: String? = null,
+    )
+
     suspend fun markAsRead(
         messageId: Int,
         auth: String? = null,

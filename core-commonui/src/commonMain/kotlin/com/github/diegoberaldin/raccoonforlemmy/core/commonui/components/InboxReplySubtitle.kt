@@ -77,7 +77,6 @@ fun InboxReplySubtitle(
     val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
-    val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
     Column(

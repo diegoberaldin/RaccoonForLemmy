@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePrivateMessageForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPrivateMessageForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPrivateMessageAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
@@ -39,6 +40,18 @@ internal class DefaultPrivateMessageRepository(
             recipientId = recipiendId,
         )
         services.privateMessages.createPrivateMessage(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
+    }
+
+    override suspend fun edit(messageId: Int, message: String, auth: String?) {
+        val data = EditPrivateMessageForm(
+            content = message,
+            auth = auth.orEmpty(),
+            privateMessageId = messageId,
+        )
+        services.privateMessages.editPrivateMessage(
             authHeader = auth.toAuthHeader(),
             form = data,
         )
