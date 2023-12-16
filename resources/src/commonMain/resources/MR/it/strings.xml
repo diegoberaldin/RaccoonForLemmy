@@ -265,4 +265,5 @@
     <string name="settings_share_post_original">Condividi post dall\'istanza originale</string>
     <string name="community_action_unsubscribe">Disiscriviti</string>
     <string name="settings_search_posts_title_only">Cerca solo nel titolo dei post</string>
+    <string name="settings_content_font_family">Font contenuti</string>
 </resources>

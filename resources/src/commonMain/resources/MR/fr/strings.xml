@@ -267,4 +267,5 @@
     <string name="settings_search_posts_title_only">Rechercher les publications uniquement dans le
         titre
     </string>
+    <string name="settings_content_font_family">Police des contenus</string>
 </resources>

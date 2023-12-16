@@ -79,7 +79,7 @@ fun CommunityItem(
             )
         }
 
-        ScaledContent {
+        CustomizedContent {
             Column(
                 modifier = Modifier.weight(1f)
             ) {

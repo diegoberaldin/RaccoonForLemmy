@@ -51,7 +51,7 @@ fun UserItem(
             )
         }
 
-        ScaledContent {
+        CustomizedContent {
             Text(
                 text = buildString {
                     append(name)

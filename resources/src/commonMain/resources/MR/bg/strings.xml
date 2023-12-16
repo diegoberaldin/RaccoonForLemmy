@@ -270,4 +270,5 @@
     </string>
     <string name="community_action_unsubscribe">Отписване</string>
     <string name="settings_search_posts_title_only">Търсете публикации само в заглавието</string>
+    <string name="settings_content_font_family">Семейство шрифтове за съдържание</string>
 </resources>

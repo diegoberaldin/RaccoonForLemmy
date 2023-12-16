@@ -94,7 +94,7 @@ fun CommentCard(
                     onToggleExpanded = onToggleExpanded,
                     distinguished = comment.distinguished,
                 )
-                ScaledContent {
+                CustomizedContent {
                     PostCardBody(
                         text = comment.text,
                         autoLoadImages = autoLoadImages,

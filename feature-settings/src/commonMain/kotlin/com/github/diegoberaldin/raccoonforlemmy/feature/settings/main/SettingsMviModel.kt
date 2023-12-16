@@ -23,6 +23,7 @@ interface SettingsMviModel :
         data class ChangeUiFontSize(val value: Float) : Intent
         data class ChangeUiFontFamily(val value: UiFontFamily) : Intent
         data class ChangeContentFontSize(val value: Float) : Intent
+        data class ChangeContentFontFamily(val value: UiFontFamily) : Intent
         data class ChangeLanguage(val value: String) : Intent
         data class ChangeDefaultListingType(val value: ListingType) : Intent
         data class ChangePostLayout(val value: PostLayout) : Intent
@@ -55,12 +56,13 @@ interface SettingsMviModel :
     data class UiState(
         val isLogged: Boolean = false,
         val uiTheme: UiTheme? = null,
-        val uiFontFamily: UiFontFamily = UiFontFamily.TitilliumWeb,
+        val uiFontFamily: UiFontFamily = UiFontFamily.Poppins,
         val customSeedColor: Color? = null,
         val upvoteColor: Color? = null,
         val downvoteColor: Color? = null,
         val uiFontScale: FontScale = FontScale.Normal,
         val contentFontScale: FontScale = FontScale.Normal,
+        val contentFontFamily: UiFontFamily = UiFontFamily.Poppins,
         val lang: String = "",
         val postLayout: PostLayout = PostLayout.Card,
         val defaultListingType: ListingType = ListingType.Local,

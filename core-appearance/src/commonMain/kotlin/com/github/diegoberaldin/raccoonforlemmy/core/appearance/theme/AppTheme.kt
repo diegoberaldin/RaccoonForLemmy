@@ -41,7 +41,7 @@ fun AppTheme(
     )
 
     val fontFamily by repository.uiFontFamily.collectAsState()
-    val typography = getTypography(fontFamily)
+    val typography = fontFamily.toTypography()
 
     val barColorProvider = remember { getBarColorProvider() }
     barColorProvider.setBarColorAccordingToTheme(theme ?: defaultTheme)

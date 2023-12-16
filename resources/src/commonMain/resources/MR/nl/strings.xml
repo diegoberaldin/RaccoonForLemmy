@@ -265,4 +265,5 @@
     </string>
     <string name="community_action_unsubscribe">Uitschrijven</string>
     <string name="settings_search_posts_title_only">Zoek berichten alleen op titel</string>
+    <string name="settings_content_font_family">Inhoud lettertypefamilie</string>
 </resources>

@@ -41,7 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommunityItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.CommunityItemPlaceholder
@@ -172,7 +172,7 @@ class InstanceInfoScreen(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     item {
-                        ScaledContent {
+                        CustomizedContent {
                             Column(
                                 modifier = Modifier.padding(horizontal = Spacing.s),
                                 verticalArrangement = Arrangement.spacedBy(Spacing.s),

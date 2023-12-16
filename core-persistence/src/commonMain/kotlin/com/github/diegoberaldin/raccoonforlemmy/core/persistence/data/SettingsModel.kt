@@ -11,6 +11,7 @@ data class SettingsModel(
     val uiFontFamily: Int = 0,
     val uiFontScale: Float = 1f,
     val contentFontScale: Float = 1f,
+    val contentFontFamily: Int = 0,
     val locale: String? = null,
     val defaultListingType: Int = 2,
     val defaultPostSortType: Int = 1,

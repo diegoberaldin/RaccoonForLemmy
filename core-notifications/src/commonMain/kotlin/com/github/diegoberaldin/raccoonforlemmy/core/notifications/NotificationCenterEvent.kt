@@ -30,6 +30,7 @@ sealed interface NotificationCenterEvent {
     data class ChangeContentFontSize(val value: Float) : NotificationCenterEvent
     data class ChangeUiFontSize(val value: Float) : NotificationCenterEvent
     data class ChangeFontFamily(val value: UiFontFamily) : NotificationCenterEvent
+    data class ChangeContentFontFamily(val value: UiFontFamily) : NotificationCenterEvent
     data class ChangeZombieInterval(val value: Duration) : NotificationCenterEvent
     data class ChangeLanguage(val value: String) : NotificationCenterEvent
     data class ChangePostLayout(val value: PostLayout) : NotificationCenterEvent

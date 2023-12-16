@@ -39,6 +39,7 @@ class FontFamilyBottomSheet(
         UiFontFamily.Comfortaa,
         UiFontFamily.Default,
     ),
+    private val content: Boolean = false,
 ) : Screen {
 
     @Composable
@@ -78,9 +79,12 @@ class FontFamilyBottomSheet(
                                 .fillMaxWidth()
                                 .onClick(
                                     onClick = rememberCallback {
-                                        notificationCenter.send(
+                                        val event = if (content) {
+                                            NotificationCenterEvent.ChangeContentFontFamily(value)
+                                        } else {
                                             NotificationCenterEvent.ChangeFontFamily(value)
-                                        )
+                                        }
+                                        notificationCenter.send(event)
                                         navigationCoordinator.hideBottomSheet()
                                     },
                                 ),

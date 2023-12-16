@@ -283,6 +283,14 @@ class SettingsScreen : Screen {
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_content_font_family),
+                        value = uiState.contentFontFamily.toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet = FontFamilyBottomSheet(content = true)
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
                     // font scale
                     SettingsRow(
                         title = stringResource(MR.strings.settings_ui_font_scale),

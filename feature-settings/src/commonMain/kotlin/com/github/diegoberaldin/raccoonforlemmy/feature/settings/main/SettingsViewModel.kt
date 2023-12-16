@@ -56,14 +56,17 @@ class SettingsViewModel(
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch(Dispatchers.Main) {
-            themeRepository.uiTheme.onEach { currentTheme ->
-                mvi.updateState { it.copy(uiTheme = currentTheme) }
+            themeRepository.uiTheme.onEach { value ->
+                mvi.updateState { it.copy(uiTheme = value) }
             }.launchIn(this)
-            themeRepository.uiFontFamily.onEach { fontFamily ->
-                mvi.updateState { it.copy(uiFontFamily = fontFamily) }
+            themeRepository.uiFontFamily.onEach { value ->
+                mvi.updateState { it.copy(uiFontFamily = value) }
             }.launchIn(this)
             themeRepository.contentFontScale.onEach { value ->
                 mvi.updateState { it.copy(contentFontScale = value.toFontScale()) }
+            }.launchIn(this)
+            themeRepository.contentFontFamily.onEach { value ->
+                mvi.updateState { it.copy(contentFontFamily = value) }
             }.launchIn(this)
             themeRepository.uiFontScale.onEach { value ->
                 mvi.updateState { it.copy(uiFontScale = value.toFontScale()) }
@@ -118,6 +121,10 @@ class SettingsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
                 .onEach { evt ->
                     changeContentFontScale(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontFamily::class)
+                .onEach { evt ->
+                    changeContentFontFamily(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeUiFontSize::class)
                 .onEach { evt ->
@@ -217,6 +224,10 @@ class SettingsViewModel(
 
             is SettingsMviModel.Intent.ChangeContentFontSize -> {
                 changeContentFontScale(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeContentFontFamily -> {
+                changeContentFontFamily(intent.value)
             }
 
             is SettingsMviModel.Intent.ChangeUiFontSize -> {
@@ -368,6 +379,16 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 contentFontScale = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeContentFontFamily(value: UiFontFamily) {
+        themeRepository.changeContentFontFamily(value)
+        mvi.scope?.launch {
+            val settings = settingsRepository.currentSettings.value.copy(
+                contentFontFamily = value.toInt()
             )
             saveSettings(settings)
         }

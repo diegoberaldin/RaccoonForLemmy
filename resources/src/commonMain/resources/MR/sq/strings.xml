@@ -267,4 +267,5 @@
     <string name="settings_share_post_original">Ndani postimet nga shembulli origjinal</string>
     <string name="community_action_unsubscribe">Çregjistrohu</string>
     <string name="settings_search_posts_title_only">Kërkoni postimet vetëm në titull</string>
+    <string name="settings_content_font_family">Madhësia e shkronjave të përmbajtjes</string>
 </resources>

@@ -198,7 +198,7 @@ private fun CompactPost(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
         ) {
-            ScaledContent {
+            CustomizedContent {
                 PostCardTitle(
                     modifier = Modifier.weight(0.75f),
                     text = post.title,
@@ -307,7 +307,7 @@ private fun ExtendedPost(
                 optionsMenuOpen.value = true
             },
         )
-        ScaledContent {
+        CustomizedContent {
             PostCardTitle(
                 modifier = Modifier.padding(
                     vertical = Spacing.xs,
@@ -349,7 +349,7 @@ private fun ExtendedPost(
             },
         )
         if (showBody) {
-            ScaledContent {
+            CustomizedContent {
                 Box(
                     modifier = Modifier.padding(top = Spacing.xxs)
                 ) {

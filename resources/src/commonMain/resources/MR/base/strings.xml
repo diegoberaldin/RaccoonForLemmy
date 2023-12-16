@@ -290,4 +290,5 @@
     <string name="settings_share_post_original">Share posts from original instance</string>
     <string name="community_action_unsubscribe">Unsubscribe</string>
     <string name="settings_search_posts_title_only">Search posts only in title</string>
+    <string name="settings_content_font_family">Content font family</string>
 </resources>

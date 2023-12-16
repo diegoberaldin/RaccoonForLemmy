@@ -44,6 +44,7 @@ private object KeyStoreKeys {
     const val CommentBarTheme = "commentBarTheme"
     const val SharePostOriginal = "sharePostOriginal"
     const val SearchPostTitleOnly = "searchPostTitleOnly"
+    const val ContentFontFamily = "contentFontFamily"
 }
 
 internal class DefaultSettingsRepository(
@@ -90,6 +91,7 @@ internal class DefaultSettingsRepository(
                 commentBarTheme = settings.commentBarTheme.toLong(),
                 sharePostOriginal = if (settings.sharePostOriginal) 1 else 0,
                 searchPostTitleOnly = if (settings.searchPostTitleOnly) 1 else 0,
+                contentFontFamily = settings.contentFontFamily.toLong(),
             )
         }
 
@@ -131,6 +133,7 @@ internal class DefaultSettingsRepository(
                     commentBarTheme = keyStore[KeyStoreKeys.CommentBarTheme, 0],
                     sharePostOriginal = keyStore[KeyStoreKeys.SharePostOriginal, true],
                     searchPostTitleOnly = keyStore[KeyStoreKeys.SearchPostTitleOnly, false],
+                    contentFontFamily = keyStore[KeyStoreKeys.ContentFontFamily, 0],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -215,6 +218,7 @@ internal class DefaultSettingsRepository(
                     KeyStoreKeys.SearchPostTitleOnly,
                     settings.searchPostTitleOnly,
                 )
+                keyStore.save(KeyStoreKeys.ContentFontFamily, settings.contentFontFamily)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -249,6 +253,7 @@ internal class DefaultSettingsRepository(
                     commentBarTheme = settings.commentBarTheme.toLong(),
                     sharePostOriginal = if (settings.sharePostOriginal) 1L else 0L,
                     searchPostTitleOnly = if (settings.searchPostTitleOnly) 1L else 0L,
+                    contentFontFamily = settings.contentFontFamily.toLong(),
                 )
             }
         }
@@ -291,4 +296,5 @@ private fun GetBy.toModel() = SettingsModel(
     commentBarTheme = commentBarTheme.toInt(),
     sharePostOriginal = sharePostOriginal != 0L,
     searchPostTitleOnly = searchPostTitleOnly != 0L,
+    contentFontFamily = contentFontFamily.toInt(),
 )

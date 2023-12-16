@@ -2,7 +2,7 @@ CREATE TABLE SettingsEntity (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     theme INTEGER DEFAULT NULL,
     uiFontScale REAL NOT NULL DEFAULT 1,
-    uiFontFamily INTEGER NOT NULL DEFAULT 1,
+    uiFontFamily INTEGER NOT NULL DEFAULT 0,
     contentFontScale REAL NOT NULL DEFAULT 1,
     locale TEXT DEFAULT NULL,
     defaultListingType INTEGER NOT NULL DEFAULT 0,
@@ -31,6 +31,7 @@ CREATE TABLE SettingsEntity (
     commentBarTheme INTEGER NOT NULL DEFAULT 0,
     sharePostOriginal INTEGER NOT NULL DEFAULT 1,
     searchPostTitleOnly INTEGER NOT NULL DEFAULT 0,
+    contentFontFamily INTEGER NOT NULL DEFAULT 0,
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
@@ -69,8 +70,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     commentBarTheme,
     sharePostOriginal,
     searchPostTitleOnly,
+    contentFontFamily,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -137,7 +140,8 @@ SET theme = ?,
     markAsReadWhileScrolling = ?,
     commentBarTheme = ?,
     sharePostOriginal = ?,
-    searchPostTitleOnly = ?
+    searchPostTitleOnly = ?,
+    contentFontFamily = ?
 WHERE account_id = ?;
 
 getBy:
@@ -173,6 +177,7 @@ SELECT
     markAsReadWhileScrolling,
     commentBarTheme,
     sharePostOriginal,
-    searchPostTitleOnly
+    searchPostTitleOnly,
+    contentFontFamily
 FROM SettingsEntity
 WHERE account_id = ?;

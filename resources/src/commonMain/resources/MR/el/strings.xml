@@ -271,4 +271,5 @@
     </string>
     <string name="community_action_unsubscribe">Απεγγραφή</string>
     <string name="settings_search_posts_title_only">Αναζήτηση αναρτήσεων μόνο στον τίτλο</string>
+    <string name="settings_content_font_family">Γραμματοσειρά περιεχομένων</string>
 </resources>

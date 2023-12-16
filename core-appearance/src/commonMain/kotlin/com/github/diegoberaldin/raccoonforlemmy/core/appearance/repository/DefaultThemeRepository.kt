@@ -14,6 +14,7 @@ internal class DefaultThemeRepository : ThemeRepository {
     override val uiFontFamily = MutableStateFlow(UiFontFamily.Poppins)
     override val uiFontScale = MutableStateFlow(1f)
     override val contentFontScale = MutableStateFlow(1f)
+    override val contentFontFamily = MutableStateFlow(UiFontFamily.Poppins)
     override val navItemTitles = MutableStateFlow(false)
     override val dynamicColors = MutableStateFlow(false)
     override val customSeedColor = MutableStateFlow<Color?>(null)
@@ -36,6 +37,10 @@ internal class DefaultThemeRepository : ThemeRepository {
 
     override fun changeContentFontScale(value: Float) {
         contentFontScale.value = value
+    }
+
+    override fun changeContentFontFamily(value: UiFontFamily) {
+        contentFontFamily.value = value
     }
 
     override fun changeNavItemTitles(value: Boolean) {

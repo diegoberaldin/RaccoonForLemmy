@@ -267,4 +267,5 @@
     </string>
     <string name="community_action_unsubscribe">Cancelar suscripción</string>
     <string name="settings_search_posts_title_only">Buscar publicaciones sólo en el título</string>
+    <string name="settings_content_font_family">Fuente del contenido</string>
 </resources>

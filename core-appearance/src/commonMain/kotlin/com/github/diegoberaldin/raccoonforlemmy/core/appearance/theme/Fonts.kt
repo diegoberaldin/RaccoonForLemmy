@@ -11,10 +11,8 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
 
 @Composable
-internal fun getTypography(
-    fontFamily: UiFontFamily = UiFontFamily.TitilliumWeb,
-): Typography {
-    val fontFamily = when (fontFamily) {
+fun UiFontFamily.toTypography(): Typography {
+    val fontFamily = when (this) {
         UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
         UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
         UiFontFamily.EBGaramond -> fontFamilyResource(MR.fonts.EBGaramond.regular)

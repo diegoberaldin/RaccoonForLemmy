@@ -182,7 +182,7 @@
     <string name="settings_content_font_larger">Foarte mare</string>
     <string name="settings_content_font_largest">Dublu extra mare</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">Dimensiunea textului conținutului</string>
+    <string name="settings_content_font_scale">Dimensiunea textului conținuturilor</string>
     <string name="settings_content_font_small">Mic</string>
     <string name="settings_content_font_smaller">Extra mic</string>
     <string name="settings_content_font_smallest">Dublu extra mic</string>
@@ -262,4 +262,5 @@
     <string name="settings_share_post_original">Distribui postări din instanța originală</string>
     <string name="community_action_unsubscribe">Dezabonează-te</string>
     <string name="settings_search_posts_title_only">Căută postări numai în titlu</string>
+    <string name="settings_content_font_family">Font conținuturilor</string>
 </resources>

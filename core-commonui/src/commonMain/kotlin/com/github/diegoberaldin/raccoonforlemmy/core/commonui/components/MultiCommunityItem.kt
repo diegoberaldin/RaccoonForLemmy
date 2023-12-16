@@ -69,7 +69,7 @@ fun MultiCommunityItem(
             )
         }
 
-        ScaledContent {
+        CustomizedContent {
             Column(
                 modifier = Modifier.weight(1f)
             ) {

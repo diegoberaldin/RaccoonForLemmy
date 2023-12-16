@@ -1,11 +1,14 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.CustomMarkdown
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.markdownTypography
@@ -24,20 +27,23 @@ fun PostCardTitle(
     val uriHandler = LocalUriHandler.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val settingsRepository = remember { getSettingsRepository() }
+    val themeRepository = remember { getThemeRepository() }
+    val fontFamily by themeRepository.contentFontFamily.collectAsState()
+    val typography = fontFamily.toTypography()
 
     CustomMarkdown(
         modifier = modifier,
         content = text,
         autoLoadImages = autoLoadImages,
         typography = markdownTypography(
-            h1 = MaterialTheme.typography.titleLarge,
-            h2 = MaterialTheme.typography.titleLarge,
-            h3 = MaterialTheme.typography.titleMedium,
-            h4 = MaterialTheme.typography.titleMedium,
-            h5 = MaterialTheme.typography.titleSmall,
-            h6 = MaterialTheme.typography.titleSmall,
-            text = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
-            paragraph = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+            h1 = typography.titleLarge,
+            h2 = typography.titleLarge,
+            h3 = typography.titleMedium,
+            h4 = typography.titleMedium,
+            h5 = typography.titleSmall,
+            h6 = typography.titleSmall,
+            text = typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+            paragraph = typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
         ),
         onOpenUrl = { url ->
             navigationCoordinator.handleUrl(

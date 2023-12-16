@@ -262,4 +262,5 @@
     <string name="settings_share_post_original">Dela inlägg från den ursprungliga instansen</string>
     <string name="community_action_unsubscribe">Säga upp</string>
     <string name="settings_search_posts_title_only">Sök endast inlägg i rubriken</string>
+    <string name="settings_content_font_family">Teckenstorlek för innehåll</string>
 </resources>

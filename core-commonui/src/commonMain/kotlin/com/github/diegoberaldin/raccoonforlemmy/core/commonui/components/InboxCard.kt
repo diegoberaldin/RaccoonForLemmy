@@ -67,7 +67,7 @@ fun InboxCard(
                 mention = mention,
                 type = type,
             )
-            ScaledContent {
+            CustomizedContent {
                 PostCardBody(
                     modifier = Modifier.padding(
                         horizontal = Spacing.xs,

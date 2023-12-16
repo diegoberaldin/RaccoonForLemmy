@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Extra grande</string>
     <string name="settings_content_font_largest">Duplo extra large</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">Tamanho do texto do conteúdo</string>
+    <string name="settings_content_font_scale">Tamanho do texto dos conteúdos</string>
     <string name="settings_content_font_small">Pequeno</string>
     <string name="settings_content_font_smaller">Extra pequeno</string>
     <string name="settings_content_font_smallest">Doblo extra pequeno</string>
@@ -264,4 +264,5 @@
     </string>
     <string name="community_action_unsubscribe">Cancelar subscrição</string>
     <string name="settings_search_posts_title_only">Pesquise postagens apenas no título</string>
+    <string name="settings_content_font_family">Fonte dos conteúdos</string>
 </resources>

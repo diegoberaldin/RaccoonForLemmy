@@ -115,6 +115,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             changeContentFontScale(currentSettings.contentFontScale)
             changeUiFontScale(currentSettings.uiFontScale)
             changeUiFontFamily(currentSettings.uiFontFamily.toUiFontFamily())
+            changeContentFontFamily(currentSettings.contentFontFamily.toUiFontFamily())
             changeCommentBarTheme(currentSettings.commentBarTheme.toCommentBarTheme())
 
             with(themeRepository) {
@@ -148,6 +149,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             changeContentFontScale(settings.contentFontScale)
             changeUiFontScale(settings.uiFontScale)
             changeUiFontFamily(settings.uiFontFamily.toUiFontFamily())
+            changeContentFontFamily(settings.contentFontFamily.toUiFontFamily())
 
             with(themeRepository) {
                 changeUpvoteColor(settings.upvoteColor?.let { Color(it) })

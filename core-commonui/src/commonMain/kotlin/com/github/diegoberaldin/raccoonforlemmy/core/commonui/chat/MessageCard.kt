@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ScaledContent
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 
 @Composable
@@ -90,7 +90,7 @@ internal fun MessageCard(
                 )
             ).fillMaxWidth().padding(Spacing.s)
         ) {
-            ScaledContent {
+            CustomizedContent {
                 Column {
                     PostCardBody(
                         text = content,

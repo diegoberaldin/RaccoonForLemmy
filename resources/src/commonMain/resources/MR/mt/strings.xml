@@ -266,4 +266,5 @@
     <string name="settings_share_post_original">Aqsam il-postijiet mill-istanza oriġinali</string>
     <string name="community_action_unsubscribe">Annulla l-abbonament</string>
     <string name="settings_search_posts_title_only">Fittex postijiet biss fit-titlu</string>
+    <string name="settings_content_font_family">Familja tat-tipa tal-kontenut</string>
 </resources>

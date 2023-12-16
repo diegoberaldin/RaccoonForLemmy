@@ -265,4 +265,5 @@
     <string name="settings_share_post_original">Oszd meg az eredeti példány bejegyzéseit</string>
     <string name="community_action_unsubscribe">Leiratkozás</string>
     <string name="settings_search_posts_title_only">Keresés a bejegyzésekben csak a címben</string>
+    <string name="settings_content_font_family">Tartalmi betűtípuscsalád</string>
 </resources>
