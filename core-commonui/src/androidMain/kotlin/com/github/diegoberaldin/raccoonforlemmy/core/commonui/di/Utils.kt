@@ -1,9 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.platform.TextToolbar
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.CustomTextToolbar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
@@ -132,18 +128,6 @@ actual fun getSelectCommunityViewModel(): SelectCommunityMviModel {
     return res
 }
 
-
-@Composable
-actual fun getCustomTextToolbar(
-    onShare: () -> Unit,
-    onQuote: () -> Unit,
-): TextToolbar {
-    return CustomTextToolbar(
-        view = LocalView.current,
-        onShare = onShare,
-        onQuote = onQuote,
-    )
-}
 
 actual fun getRemoveViewModel(
     postId: Int?,

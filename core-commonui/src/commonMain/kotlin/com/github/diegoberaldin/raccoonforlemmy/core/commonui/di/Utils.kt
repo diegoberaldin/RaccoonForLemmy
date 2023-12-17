@@ -1,7 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.TextToolbar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
@@ -69,12 +67,6 @@ expect fun getCreateReportViewModel(
     postId: Int? = null,
     commentId: Int? = null,
 ): CreateReportMviModel
-
-@Composable
-expect fun getCustomTextToolbar(
-    onShare: () -> Unit,
-    onQuote: () -> Unit,
-): TextToolbar
 
 expect fun getSelectCommunityViewModel(): SelectCommunityMviModel
 

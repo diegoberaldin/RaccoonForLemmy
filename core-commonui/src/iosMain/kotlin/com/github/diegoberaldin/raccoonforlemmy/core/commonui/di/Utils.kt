@@ -1,8 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalTextToolbar
-import androidx.compose.ui.platform.TextToolbar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
@@ -230,12 +227,4 @@ object CommonUiViewModelHelper : KoinComponent {
         )
         return model
     }
-}
-
-@Composable
-actual fun getCustomTextToolbar(
-    onShare: () -> Unit,
-    onQuote: () -> Unit,
-): TextToolbar {
-    return LocalTextToolbar.current
 }

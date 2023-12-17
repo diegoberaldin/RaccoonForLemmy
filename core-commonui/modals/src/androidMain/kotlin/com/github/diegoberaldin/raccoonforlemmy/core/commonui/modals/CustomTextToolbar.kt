@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
 
 import android.view.ActionMode
 import android.view.Menu
