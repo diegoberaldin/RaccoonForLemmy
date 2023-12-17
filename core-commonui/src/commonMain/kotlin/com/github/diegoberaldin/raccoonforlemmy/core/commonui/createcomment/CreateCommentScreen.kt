@@ -41,6 +41,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
@@ -272,6 +273,7 @@ class CreateCommentScreen(
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 autoCorrect = true,
+                                capitalization = KeyboardCapitalization.Sentences,
                             ),
                             onValueChange = { value ->
                                 textFieldValue = value

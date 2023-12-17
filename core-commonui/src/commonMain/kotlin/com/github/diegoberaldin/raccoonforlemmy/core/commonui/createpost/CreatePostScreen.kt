@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
@@ -309,8 +310,9 @@ class CreatePostScreen(
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Ascii,
-                        autoCorrect = false,
+                        autoCorrect = true,
                         imeAction = ImeAction.Next,
+                        capitalization = KeyboardCapitalization.Sentences,
                     ),
                     keyboardActions = KeyboardActions(onNext = {
                         urlFocusRequester.requestFocus()
@@ -452,6 +454,7 @@ class CreatePostScreen(
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 autoCorrect = true,
+                                capitalization = KeyboardCapitalization.Sentences,
                             ),
                             onValueChange = { value ->
                                 bodyTextFieldValue = value

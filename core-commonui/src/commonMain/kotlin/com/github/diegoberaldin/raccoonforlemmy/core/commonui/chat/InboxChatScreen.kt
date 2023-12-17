@@ -43,7 +43,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
@@ -195,7 +195,7 @@ class InboxChatScreen(
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Ascii,
                             autoCorrect = true,
-                            imeAction = ImeAction.Next,
+                            capitalization = KeyboardCapitalization.Sentences,
                         ),
                         onValueChange = { value ->
                             textFieldValue = value
