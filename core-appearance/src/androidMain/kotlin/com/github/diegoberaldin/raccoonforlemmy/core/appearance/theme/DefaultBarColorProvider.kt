@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme
 
 import android.app.Activity
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
@@ -11,28 +12,37 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 
 class DefaultBarColorProvider : BarColorProvider {
     @Composable
-    override fun setBarColorAccordingToTheme(theme: UiTheme) {
+    override fun setBarColorAccordingToTheme(theme: UiTheme, transparent: Boolean) {
         val view = LocalView.current
-        LaunchedEffect(theme) {
+        LaunchedEffect(theme, transparent) {
             (view.context as? Activity)?.window?.apply {
-                statusBarColor = when (theme) {
-                    UiTheme.Light -> Color.White
+                statusBarColor = when {
+                    transparent -> Color.Transparent
+                    theme == UiTheme.Light -> Color.White
                     else -> Color.Black
                 }.toArgb()
-                navigationBarColor = when (theme) {
-                    UiTheme.Light -> Color.White
+                navigationBarColor = when {
+                    transparent -> Color.Transparent
+                    theme == UiTheme.Light -> Color.White
                     else -> Color.Black
                 }.toArgb()
-                WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars =
-                    when (theme) {
+
+                if (transparent) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        setDecorFitsSystemWindows(false)
+                    }
+                }
+
+                WindowCompat.getInsetsController(this, decorView).apply {
+                    isAppearanceLightStatusBars = when (theme) {
                         UiTheme.Light -> true
                         else -> false
                     }
-                WindowCompat.getInsetsController(this, view).isAppearanceLightNavigationBars =
-                    when (theme) {
+                    isAppearanceLightNavigationBars = when (theme) {
                         UiTheme.Light -> true
                         else -> false
                     }
+                }
             }
         }
     }

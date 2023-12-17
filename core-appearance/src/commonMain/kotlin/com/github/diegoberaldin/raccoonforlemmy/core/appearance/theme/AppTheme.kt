@@ -16,6 +16,7 @@ fun AppTheme(
     theme: UiTheme?,
     contentFontScale: Float,
     useDynamicColors: Boolean,
+    transparent: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val repository = remember {
@@ -44,7 +45,10 @@ fun AppTheme(
     val typography = fontFamily.toTypography()
 
     val barColorProvider = remember { getBarColorProvider() }
-    barColorProvider.setBarColorAccordingToTheme(theme ?: defaultTheme)
+    barColorProvider.setBarColorAccordingToTheme(
+        theme = theme ?: defaultTheme,
+        transparent = transparent,
+    )
 
     MaterialTheme(
         colorScheme = colorScheme,
