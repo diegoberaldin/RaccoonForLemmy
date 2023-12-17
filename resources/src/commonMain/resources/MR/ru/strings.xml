@@ -266,4 +266,5 @@
     <string name="community_action_unsubscribe">Отписаться</string>
     <string name="settings_search_posts_title_only">Искать сообщения только по заголовку</string>
     <string name="settings_content_font_family">Размер шрифта контента</string>
+    <string name="community_info_moderators">Модераторы</string>
 </resources>

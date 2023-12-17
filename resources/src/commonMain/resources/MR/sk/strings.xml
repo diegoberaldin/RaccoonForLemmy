@@ -264,4 +264,5 @@
     <string name="community_action_unsubscribe">Zrušte odber</string>
     <string name="settings_search_posts_title_only">Hľadajte príspevky iba v názve</string>
     <string name="settings_content_font_family">Veľkosť písma obsahu</string>
+    <string name="community_info_moderators">Moderátori</string>
 </resources>

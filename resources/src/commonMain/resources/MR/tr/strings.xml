@@ -265,4 +265,5 @@
     <string name="community_action_unsubscribe">Abonelikten çık</string>
     <string name="settings_search_posts_title_only">Gönderileri yalnızca başlıkta ara</string>
     <string name="settings_content_font_family">İçerik yazı tipi boyutu</string>
+    <string name="community_info_moderators">Moderatörler</string>
 </resources>

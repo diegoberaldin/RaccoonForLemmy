@@ -268,4 +268,5 @@
     <string name="community_action_unsubscribe">Çregjistrohu</string>
     <string name="settings_search_posts_title_only">Kërkoni postimet vetëm në titull</string>
     <string name="settings_content_font_family">Madhësia e shkronjave të përmbajtjes</string>
+    <string name="community_info_moderators">Moderatorët</string>
 </resources>

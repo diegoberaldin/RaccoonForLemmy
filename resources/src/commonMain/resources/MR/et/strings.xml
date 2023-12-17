@@ -262,4 +262,5 @@
     <string name="community_action_unsubscribe">Loobu tellimusest</string>
     <string name="settings_search_posts_title_only">Otsi postitusi ainult pealkirjast</string>
     <string name="settings_content_font_family">Sisu fondiperekond</string>
+    <string name="community_info_moderators">Moderaatorid</string>
 </resources>

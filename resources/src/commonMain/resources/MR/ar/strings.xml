@@ -260,4 +260,5 @@
     <string name="community_action_unsubscribe">إلغاء الاشتراك</string>
     <string name="settings_search_posts_title_only">البحث عن المشاركات فقط في العنوان</string>
     <string name="settings_content_font_family">عائلة خطوط المحتوى</string>
+    <string name="community_info_moderators">المشرفون</string>
 </resources>

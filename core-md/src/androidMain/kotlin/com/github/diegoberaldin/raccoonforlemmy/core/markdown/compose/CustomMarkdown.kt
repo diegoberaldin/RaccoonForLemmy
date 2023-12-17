@@ -78,7 +78,7 @@ actual fun CustomMarkdown(
             modifier = modifier
         ) {
             val style = LocalMarkdownTypography.current.text
-            val fontScale = LocalDensity.current.fontScale * 1.25f
+            val fontScale = LocalDensity.current.fontScale * 1.3f
             val canvasWidthMaybe = with(LocalDensity.current) { maxWidth.toPx() }.toInt()
             val textSizeMaybe = with(LocalDensity.current) { (style.fontSize * fontScale).toPx() }
             val defaultColor = LocalMarkdownColors.current.text

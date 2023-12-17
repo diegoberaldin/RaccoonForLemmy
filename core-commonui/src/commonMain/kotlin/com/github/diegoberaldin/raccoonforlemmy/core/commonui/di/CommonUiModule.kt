@@ -94,6 +94,8 @@ val commonUiModule = module {
         CommunityInfoViewModel(
             mvi = DefaultMviModel(CommunityInfoMviModel.UiState()),
             community = params[0],
+            communityRepository = get(),
+            settingsRepository = get(),
         )
     }
     factory<UserDetailMviModel> { params ->

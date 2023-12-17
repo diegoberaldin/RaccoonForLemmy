@@ -291,4 +291,5 @@
     <string name="community_action_unsubscribe">Unsubscribe</string>
     <string name="settings_search_posts_title_only">Search posts only in title</string>
     <string name="settings_content_font_family">Content font family</string>
+    <string name="community_info_moderators">Moderators</string>
 </resources>

@@ -262,4 +262,5 @@
     <string name="community_action_unsubscribe">Odhlásit odběr</string>
     <string name="settings_search_posts_title_only">Hledejte příspěvky pouze v názvu</string>
     <string name="settings_content_font_family">Rodina písem obsahu</string>
+    <string name="community_info_moderators">Moderátoři</string>
 </resources>

@@ -263,4 +263,5 @@
     <string name="community_action_unsubscribe">Dezabonează-te</string>
     <string name="settings_search_posts_title_only">Căută postări numai în titlu</string>
     <string name="settings_content_font_family">Font conținuturilor</string>
+    <string name="community_info_moderators">Moderatori</string>
 </resources>

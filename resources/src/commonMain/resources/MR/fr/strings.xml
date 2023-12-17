@@ -268,4 +268,5 @@
         titre
     </string>
     <string name="settings_content_font_family">Police des contenus</string>
+    <string name="community_info_moderators">Modérateurs</string>
 </resources>

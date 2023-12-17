@@ -262,4 +262,5 @@
     <string name="community_action_unsubscribe">Odjavi se</string>
     <string name="settings_search_posts_title_only">Išči objave samo v naslovu</string>
     <string name="settings_content_font_family">Velikost pisave vsebine</string>
+    <string name="community_info_moderators">Moderatorji</string>
 </resources>

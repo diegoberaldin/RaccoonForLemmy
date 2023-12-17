@@ -271,4 +271,5 @@
     <string name="community_action_unsubscribe">Díliostáil</string>
     <string name="settings_search_posts_title_only">Cuardaigh postálacha i dteideal amháin</string>
     <string name="settings_content_font_family">Teaghlach cló ábhar</string>
+    <string name="community_info_moderators">Modhnóirí</string>
 </resources>
