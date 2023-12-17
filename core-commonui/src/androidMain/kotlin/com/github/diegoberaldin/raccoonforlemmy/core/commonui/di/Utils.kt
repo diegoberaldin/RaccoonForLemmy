@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.TextToolbar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.CustomTextToolbar
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.DefaultImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
@@ -13,10 +12,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.FabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
@@ -27,21 +24,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent.inject
-
-actual val imagePreloadModule = module {
-    single<ImagePreloadManager> {
-        DefaultImagePreloadManager(
-            context = get(),
-        )
-    }
-}
-
-actual fun getFabNestedScrollConnection(): FabNestedScrollConnection {
-    val res: FabNestedScrollConnection by inject(FabNestedScrollConnection::class.java)
-    return res
-}
 
 actual fun getPostDetailViewModel(
     post: PostModel,

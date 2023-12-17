@@ -35,6 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.Se
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import org.koin.dsl.module
 

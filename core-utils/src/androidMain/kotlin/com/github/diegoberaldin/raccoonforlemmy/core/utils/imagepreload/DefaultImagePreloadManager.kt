@@ -1,9 +1,8 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui
+package com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload
 
 import android.content.Context
 import coil.imageLoader
 import coil.request.ImageRequest
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 
 class DefaultImagePreloadManager(
     private val context: Context,

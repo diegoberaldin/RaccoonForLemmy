@@ -54,6 +54,7 @@ kotlin {
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.activity)
                 implementation(libs.ktor.android)
+                implementation(libs.coil)
                 implementation(libs.firebase.crashlytics)
             }
         }

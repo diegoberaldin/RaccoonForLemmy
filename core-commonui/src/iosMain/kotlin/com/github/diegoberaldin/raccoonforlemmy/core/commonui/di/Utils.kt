@@ -3,7 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalTextToolbar
 import androidx.compose.ui.platform.TextToolbar
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.DefaultImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
@@ -12,7 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.FabNestedScrollConnection
@@ -28,16 +26,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
-
-actual val imagePreloadModule = module {
-    single<ImagePreloadManager> {
-        DefaultImagePreloadManager()
-    }
-} ø
-
-        actual fun getFabNestedScrollConnection(): FabNestedScrollConnection =
-    CommonUiViewModelHelper.fabNestedScrollConnection
 
 actual fun getPostDetailViewModel(
     post: PostModel,
