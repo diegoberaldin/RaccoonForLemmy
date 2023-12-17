@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 
 @Composable
@@ -19,6 +19,7 @@ internal fun CommentReportCard(
     options: List<Option> = emptyList(),
     autoLoadImages: Boolean = true,
     onOpen: (() -> Unit)? = null,
+    onOpenImage: ((String) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     InnerReportCard(
@@ -41,6 +42,7 @@ internal fun CommentReportCard(
                         ),
                         text = text,
                         autoLoadImages = autoLoadImages,
+                        onOpenImage = onOpenImage,
                     )
                 }
             }

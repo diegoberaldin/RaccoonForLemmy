@@ -64,18 +64,19 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommunityItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -249,8 +250,7 @@ class ExploreScreen : Screen {
                                             (currentSection + 1).coerceAtMost(4)
                                         )
                                     }
-                                }
-                            ),
+                                }),
                             selected = i == currentSection,
                             text = {
                                 Text(
@@ -322,8 +322,8 @@ class ExploreScreen : Screen {
                                                 DismissDirection.EndToStart,
                                             )
                                         },
-                                        backgroundColor = rememberCallbackArgs {
-                                            when (it) {
+                                        backgroundColor = rememberCallbackArgs { direction ->
+                                            when (direction) {
                                                 DismissValue.DismissedToStart -> upvoteColor
                                                     ?: defaultUpvoteColor
 
@@ -381,14 +381,14 @@ class ExploreScreen : Screen {
                                                         }
                                                     }
                                                 },
-                                                onOpenCommunity = rememberCallbackArgs { community ->
+                                                onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                     navigationCoordinator.pushScreen(
-                                                        CommunityDetailScreen(community),
+                                                        CommunityDetailScreen(community, instance),
                                                     )
                                                 },
-                                                onOpenCreator = rememberCallbackArgs { user ->
+                                                onOpenCreator = rememberCallbackArgs { user, instance ->
                                                     navigationCoordinator.pushScreen(
-                                                        UserDetailScreen(user),
+                                                        UserDetailScreen(user, instance),
                                                     )
                                                 },
                                                 onUpVote = rememberCallback(model) {
@@ -433,6 +433,20 @@ class ExploreScreen : Screen {
                                                         ZoomableImageScreen(url),
                                                     )
                                                 },
+                                                onOpenPost = rememberCallbackArgs { post, instance ->
+                                                    navigationCoordinator.pushScreen(
+                                                        PostDetailScreen(
+                                                            post = post,
+                                                            otherInstance = instance,
+                                                        )
+                                                    )
+
+                                                },
+                                                onOpenWeb = rememberCallbackArgs { url ->
+                                                    navigationCoordinator.pushScreen(
+                                                        WebViewScreen(url)
+                                                    )
+                                                },
                                             )
                                         },
                                     )
@@ -455,8 +469,8 @@ class ExploreScreen : Screen {
                                                 DismissDirection.EndToStart,
                                             )
                                         },
-                                        backgroundColor = rememberCallbackArgs {
-                                            when (it) {
+                                        backgroundColor = rememberCallbackArgs { direction ->
+                                            when (direction) {
                                                 DismissValue.DismissedToStart -> upvoteColor
                                                     ?: defaultUpvoteColor
 
@@ -566,14 +580,27 @@ class ExploreScreen : Screen {
                                                         navigationCoordinator.showBottomSheet(screen)
                                                     }
                                                 },
-                                                onOpenCommunity = rememberCallbackArgs {
+                                                onOpenCommunity = rememberCallbackArgs { community, _ ->
                                                     navigationCoordinator.pushScreen(
-                                                        CommunityDetailScreen(it)
+                                                        CommunityDetailScreen(community)
                                                     )
                                                 },
-                                                onOpenCreator = rememberCallbackArgs {
+                                                onOpenCreator = rememberCallbackArgs { user, _ ->
                                                     navigationCoordinator.pushScreen(
-                                                        UserDetailScreen(it)
+                                                        UserDetailScreen(user)
+                                                    )
+                                                },
+                                                onOpenPost = rememberCallbackArgs { post, instance ->
+                                                    navigationCoordinator.pushScreen(
+                                                        PostDetailScreen(
+                                                            post = post,
+                                                            otherInstance = instance,
+                                                        )
+                                                    )
+                                                },
+                                                onOpenWeb = rememberCallbackArgs { url ->
+                                                    navigationCoordinator.pushScreen(
+                                                        WebViewScreen(url)
                                                     )
                                                 },
                                             )

@@ -30,8 +30,8 @@ private const val OPEN_LINK_DELAY = 300L
 
 class DefaultMarkwonProvider(
     context: Context,
-    onOpenUrl: ((String) -> Unit)?,
-    onOpenImage: ((String) -> Unit)?,
+    override var onOpenUrl: ((String) -> Unit)? = null,
+    override var onOpenImage: ((String) -> Unit)? = null,
 ) : MarkwonProvider {
 
     override val markwon: Markwon

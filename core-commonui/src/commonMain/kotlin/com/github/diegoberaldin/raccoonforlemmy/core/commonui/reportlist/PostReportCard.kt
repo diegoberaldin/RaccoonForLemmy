@@ -11,16 +11,21 @@ import androidx.compose.ui.platform.LocalUriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardTitle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostLinkBanner
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardTitle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostLinkBanner
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 
@@ -34,6 +39,8 @@ internal fun PostReportCard(
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
+    val navigationCoordinator = remember { getNavigationCoordinator() }
+
     InnerReportCard(
         modifier = modifier,
         reason = report.reason.orEmpty(),
@@ -54,6 +61,22 @@ internal fun PostReportCard(
                         ),
                         text = title,
                         autoLoadImages = autoLoadImages,
+                        onOpenUser = rememberCallbackArgs { user, instance ->
+                            navigationCoordinator.pushScreen(
+                                UserDetailScreen(user, instance)
+                            )
+                        },
+                        onOpenPost = rememberCallbackArgs { post, instance ->
+                            navigationCoordinator.pushScreen(
+                                PostDetailScreen(post, instance)
+                            )
+
+                        },
+                        onOpenWeb = rememberCallbackArgs { url ->
+                            navigationCoordinator.pushScreen(
+                                WebViewScreen(url)
+                            )
+                        },
                     )
                 }
                 report.imageUrl.takeIf { it.isNotEmpty() }?.also { imageUrl ->
@@ -73,6 +96,22 @@ internal fun PostReportCard(
                         ),
                         text = text,
                         autoLoadImages = autoLoadImages,
+                        onOpenUser = rememberCallbackArgs { user, instance ->
+                            navigationCoordinator.pushScreen(
+                                UserDetailScreen(user, instance)
+                            )
+                        },
+                        onOpenPost = rememberCallbackArgs { post, instance ->
+                            navigationCoordinator.pushScreen(
+                                PostDetailScreen(post, instance)
+                            )
+
+                        },
+                        onOpenWeb = rememberCallbackArgs { url ->
+                            navigationCoordinator.pushScreen(
+                                WebViewScreen(url)
+                            )
+                        },
                     )
                 }
                 report.originalUrl?.also { url ->
@@ -83,12 +122,12 @@ internal fun PostReportCard(
                         modifier = Modifier
                             .padding(vertical = Spacing.xs)
                             .onClick(
-                                onClick = {
-                                    if (settingsRepository.currentSettings.value.openUrlsInExternalBrowser) {
-                                        uriHandler.openUri(url)
-                                    } else {
-                                        navigationCoordinator.pushScreen(WebViewScreen(url))
-                                    }
+                                onClick = rememberCallback {
+                                    navigationCoordinator.handleUrl(
+                                        url = url,
+                                        openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
+                                        uriHandler = uriHandler
+                                    )
                                 },
                             ),
                         url = url,

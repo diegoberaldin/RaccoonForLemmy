@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -8,11 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.CustomMarkdown
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.markdownTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 @Composable
 fun PostCardBody(
@@ -20,8 +23,13 @@ fun PostCardBody(
     text: String,
     autoLoadImages: Boolean = true,
     onClick: (() -> Unit)? = null,
+    onOpenImage: ((String) -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
+    onOpenCommunity: ((CommunityModel, String) -> Unit)? = null,
+    onOpenUser: ((UserModel, String) -> Unit)? = null,
+    onOpenPost: ((PostModel, String) -> Unit)? = null,
+    onOpenWeb: ((String) -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -46,15 +54,19 @@ fun PostCardBody(
                 text = typography.bodyMedium,
                 paragraph = typography.bodyMedium,
             ),
-            onOpenUrl = { url ->
+            onOpenUrl = rememberCallbackArgs { url ->
                 navigationCoordinator.handleUrl(
                     url = url,
                     openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
                     uriHandler = uriHandler,
+                    onOpenCommunity = onOpenCommunity,
+                    onOpenUser = onOpenUser,
+                    onOpenPost = onOpenPost,
+                    onOpenWeb = onOpenWeb,
                 )
             },
-            onOpenImage = { url ->
-                navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+            onOpenImage = rememberCallbackArgs { url ->
+                onOpenImage?.invoke(url)
             },
             onClick = onClick,
             onDoubleClick = onDoubleClick,

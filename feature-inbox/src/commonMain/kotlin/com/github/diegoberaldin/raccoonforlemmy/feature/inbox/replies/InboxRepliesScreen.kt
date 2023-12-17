@@ -43,12 +43,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCardPlaceholder
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.InboxCardType
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardType
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -143,8 +144,8 @@ class InboxRepliesScreen : Tab {
                         modifier = Modifier.fillMaxWidth(),
                         directions = setOf(DismissDirection.EndToStart),
                         enabled = uiState.swipeActionsEnabled,
-                        backgroundColor = rememberCallbackArgs {
-                            when (it) {
+                        backgroundColor = rememberCallbackArgs { direction ->
+                            when (direction) {
                                 DismissValue.DismissedToStart -> endColor
                                 else -> Color.Transparent
                             }
@@ -197,10 +198,10 @@ class InboxRepliesScreen : Tab {
                                         CommunityDetailScreen(community),
                                     )
                                 },
-                                onUpVote = rememberCallbackArgs(model) {
+                                onUpVote = rememberCallbackArgs(model) { _ ->
                                     model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
                                 },
-                                onDownVote = rememberCallbackArgs(model) {
+                                onDownVote = rememberCallbackArgs(model) { _ ->
                                     model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
                                 },
                                 options = buildList {
@@ -226,7 +227,12 @@ class InboxRepliesScreen : Tab {
 
                                         else -> Unit
                                     }
-                                }
+                                },
+                                onImageClick = rememberCallbackArgs { url ->
+                                    navigationCoordinator.pushScreen(
+                                        ZoomableImageScreen(url)
+                                    )
+                                },
                             )
                         },
                     )

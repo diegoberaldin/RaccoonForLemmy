@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,46 +21,60 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
+private val barWidth = 1.25.dp
 private const val INDENT_AMOUNT = 3
 
 @Composable
-fun CollapsedCommentCard(
+fun CommentCard(
     comment: CommentModel,
     modifier: Modifier = Modifier,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
+    hideAuthor: Boolean = false,
+    hideCommunity: Boolean = true,
+    hideIndent: Boolean = false,
     autoLoadImages: Boolean = true,
     actionButtonsActive: Boolean = true,
     options: List<Option> = emptyList(),
     onClick: (() -> Unit)? = null,
-    onOpenCreator: ((UserModel) -> Unit)? = null,
+    onImageClick: ((String) -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
+    onOpenCommunity: ((CommunityModel, String) -> Unit)? = null,
+    onOpenCreator: ((UserModel, String) -> Unit)? = null,
+    onOpenPost: ((PostModel, String) -> Unit)? = null,
+    onOpenWeb: ((String) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
-    val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
     var commentHeight by remember { mutableStateOf(0f) }
-    val barWidth = 2.dp
+    val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
     val barColor = themeRepository.getCommentBarColor(
         depth = comment.depth,
         commentBarTheme = commentBarTheme,
     )
+
     Column(
-        modifier = modifier.onClick(
-            onClick = onClick ?: {},
-        )
+        modifier = modifier
     ) {
         Box(
-            modifier = Modifier.padding(
-                start = (INDENT_AMOUNT * comment.depth).dp
+            modifier = Modifier.onClick(
+                onClick = onClick ?: {},
+                onDoubleClick = onDoubleClick ?: {}
+            ).padding(
+                start = if (hideIndent) 0.dp else (INDENT_AMOUNT * comment.depth).dp
             ),
         ) {
             Column(
@@ -75,15 +89,34 @@ fun CollapsedCommentCard(
                     }
             ) {
                 CommunityAndCreatorInfo(
+                    modifier = Modifier.padding(top = Spacing.xxs),
                     iconSize = IconSize.s,
-                    creator = comment.creator,
+                    creator = comment.creator.takeIf { !hideAuthor },
+                    community = comment.community.takeIf { !hideCommunity },
                     indicatorExpanded = comment.expanded,
                     autoLoadImages = autoLoadImages,
-                    onToggleExpanded = {
-                        onToggleExpanded?.invoke()
+                    onOpenCreator = rememberCallbackArgs { user ->
+                        onOpenCreator?.invoke(user, "")
                     },
-                    onOpenCreator = onOpenCreator,
+                    onOpenCommunity = rememberCallbackArgs { community ->
+                        onOpenCommunity?.invoke(community, "")
+                    },
+                    onToggleExpanded = onToggleExpanded,
+                    distinguished = comment.distinguished,
                 )
+                CustomizedContent {
+                    PostCardBody(
+                        text = comment.text,
+                        autoLoadImages = autoLoadImages,
+                        onClick = onClick,
+                        onOpenImage = onImageClick,
+                        onDoubleClick = onDoubleClick,
+                        onOpenCommunity = onOpenCommunity,
+                        onOpenUser = onOpenCreator,
+                        onOpenPost = onOpenPost,
+                        onOpenWeb = onOpenWeb,
+                    )
+                }
                 PostCardFooter(
                     modifier = Modifier.padding(top = Spacing.xs),
                     score = comment.score,
@@ -94,17 +127,17 @@ fun CollapsedCommentCard(
                     upVoted = comment.myVote > 0,
                     downVoted = comment.myVote < 0,
                     comments = comment.comments,
+                    actionButtonsActive = actionButtonsActive,
                     onUpVote = onUpVote,
                     onDownVote = onDownVote,
                     onSave = onSave,
                     onReply = onReply,
                     date = comment.publishDate,
-                    actionButtonsActive = actionButtonsActive,
                     options = options,
                     onOptionSelected = onOptionSelected,
                 )
             }
-            if (comment.depth > 0) {
+            if (!hideIndent && comment.depth > 0) {
                 Box(
                     modifier = Modifier
                         .padding(top = Spacing.xxs)

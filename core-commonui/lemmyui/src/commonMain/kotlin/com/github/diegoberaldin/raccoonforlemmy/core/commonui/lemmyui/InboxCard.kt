@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,8 +15,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
@@ -36,6 +38,7 @@ fun InboxCard(
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     postLayout: PostLayout = PostLayout.Card,
     options: List<Option> = emptyList(),
+    onImageClick: (String) -> Unit,
     onOpenPost: (PostModel) -> Unit,
     onOpenCreator: (UserModel) -> Unit,
     onOpenCommunity: (CommunityModel) -> Unit,
@@ -74,6 +77,7 @@ fun InboxCard(
                     ),
                     text = mention.comment.text,
                     autoLoadImages = autoLoadImages,
+                    onOpenImage = onImageClick,
                     onClick = {
                         onOpenPost(mention.post)
                     }
@@ -97,13 +101,13 @@ fun InboxCard(
                 downVoted = mention.myVote < 0,
                 options = options,
                 onOpenCommunity = onOpenCommunity,
-                onOpenCreator = { user ->
+                onOpenCreator = rememberCallbackArgs { user ->
                     onOpenCreator(user)
                 },
-                onUpVote = {
+                onUpVote = rememberCallback {
                     onUpVote?.invoke(mention.comment)
                 },
-                onDownVote = {
+                onDownVote = rememberCallback {
                     onDownVote?.invoke(mention.comment)
                 },
                 onOptionSelected = onOptionSelected,

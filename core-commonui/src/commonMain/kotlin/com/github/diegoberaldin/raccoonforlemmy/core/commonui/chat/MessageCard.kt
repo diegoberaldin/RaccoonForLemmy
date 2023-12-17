@@ -35,9 +35,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
@@ -56,16 +58,12 @@ internal fun MessageCard(
     } else {
         MaterialTheme.colorScheme.secondaryContainer
     }
-    val textColor = if (isMyMessage) {
-        MaterialTheme.colorScheme.onTertiaryContainer
-    } else {
-        MaterialTheme.colorScheme.onSecondaryContainer
-    }
     val longDistance = Spacing.l
     val mediumDistance = Spacing.s
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
+    val navigationCoordinator = remember { getNavigationCoordinator() }
 
     Box {
         Canvas(
@@ -115,6 +113,9 @@ internal fun MessageCard(
                 Column {
                     PostCardBody(
                         text = content,
+                        onOpenImage = { url ->
+                            navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                        }
                     )
                     Box {
                         Row(

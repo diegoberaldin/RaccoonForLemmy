@@ -60,21 +60,22 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -305,8 +306,8 @@ class PostListScreen : Screen {
                                         DismissDirection.EndToStart,
                                     )
                                 },
-                                backgroundColor = rememberCallbackArgs {
-                                    when (it) {
+                                backgroundColor = rememberCallbackArgs { direction ->
+                                    when (direction) {
                                         DismissValue.DismissedToStart -> upvoteColor
                                             ?: defaultUpvoteColor
 
@@ -363,14 +364,25 @@ class PostListScreen : Screen {
                                                 )
                                             }
                                         },
-                                        onOpenCommunity = rememberCallbackArgs { community ->
+                                        onOpenCommunity = rememberCallbackArgs { community, instance ->
                                             navigationCoordinator.pushScreen(
-                                                CommunityDetailScreen(community),
+                                                CommunityDetailScreen(community, instance),
                                             )
                                         },
-                                        onOpenCreator = rememberCallbackArgs { user ->
+                                        onOpenCreator = rememberCallbackArgs { user, instance ->
                                             navigationCoordinator.pushScreen(
-                                                UserDetailScreen(user),
+                                                UserDetailScreen(user, instance),
+                                            )
+                                        },
+                                        onOpenPost = rememberCallbackArgs { p, instance ->
+                                            navigationCoordinator.pushScreen(
+                                                PostDetailScreen(p, instance)
+                                            )
+
+                                        },
+                                        onOpenWeb = rememberCallbackArgs { url ->
+                                            navigationCoordinator.pushScreen(
+                                                WebViewScreen(url)
                                             )
                                         },
                                         onUpVote = rememberCallback(model) {

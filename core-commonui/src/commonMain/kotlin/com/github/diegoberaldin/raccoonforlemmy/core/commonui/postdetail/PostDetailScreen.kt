@@ -77,14 +77,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CollapsedCommentCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
@@ -92,10 +86,17 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.Creat
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getPostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CollapsedCommentCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -313,7 +314,7 @@ class PostDetailScreen(
                                 autoLoadImages = uiState.autoLoadImages,
                                 actionButtonsActive = uiState.isLogged,
                                 blurNsfw = false,
-                                onOpenCommunity = rememberCallbackArgs { community ->
+                                onOpenCommunity = rememberCallbackArgs { community, _ ->
                                     navigationCoordinator.pushScreen(
                                         CommunityDetailScreen(
                                             community = community,
@@ -321,12 +322,23 @@ class PostDetailScreen(
                                         )
                                     )
                                 },
-                                onOpenCreator = rememberCallbackArgs { user ->
+                                onOpenCreator = rememberCallbackArgs { user, _ ->
                                     navigationCoordinator.pushScreen(
                                         UserDetailScreen(
                                             user = user,
                                             otherInstance = otherInstanceName,
                                         )
+                                    )
+                                },
+                                onOpenPost = rememberCallbackArgs { p, instance ->
+                                    navigationCoordinator.pushScreen(
+                                        PostDetailScreen(p, instance)
+                                    )
+
+                                },
+                                onOpenWeb = rememberCallbackArgs { url ->
+                                    navigationCoordinator.pushScreen(
+                                        WebViewScreen(url)
                                     )
                                 },
                                 onUpVote = rememberCallback(model) {
@@ -598,8 +610,8 @@ class PostDetailScreen(
                                                     DismissDirection.EndToStart,
                                                 )
                                             },
-                                            backgroundColor = rememberCallbackArgs {
-                                                when (it) {
+                                            backgroundColor = rememberCallbackArgs { direction ->
+                                                when (direction) {
                                                     DismissValue.DismissedToStart -> upvoteColor
                                                         ?: defaultUpvoteColor
 
@@ -727,27 +739,37 @@ class PostDetailScreen(
                                                             )
                                                         }
                                                     },
-                                                    onOpenCreator = rememberCallbackArgs {
-                                                        val user = comment.creator
-                                                        if (user != null) {
-                                                            navigationCoordinator.pushScreen(
-                                                                UserDetailScreen(
-                                                                    user = user,
-                                                                    otherInstance = otherInstanceName,
-                                                                ),
-                                                            )
-                                                        }
+                                                    onOpenCreator = rememberCallbackArgs { user, instance ->
+                                                        navigationCoordinator.pushScreen(
+                                                            UserDetailScreen(
+                                                                user = user,
+                                                                otherInstance = instance,
+                                                            ),
+                                                        )
                                                     },
-                                                    onOpenCommunity = rememberCallbackArgs {
-                                                        val community = comment.community
-                                                        if (community != null) {
-                                                            navigationCoordinator.pushScreen(
-                                                                CommunityDetailScreen(
-                                                                    community = community,
-                                                                    otherInstance = otherInstanceName,
-                                                                ),
-                                                            )
-                                                        }
+                                                    onOpenCommunity = rememberCallbackArgs { community, instance ->
+                                                        navigationCoordinator.pushScreen(
+                                                            CommunityDetailScreen(
+                                                                community = community,
+                                                                otherInstance = instance,
+                                                            ),
+                                                        )
+                                                    },
+                                                    onOpenPost = rememberCallbackArgs { p, instance ->
+                                                        navigationCoordinator.pushScreen(
+                                                            PostDetailScreen(p, instance)
+                                                        )
+
+                                                    },
+                                                    onOpenWeb = rememberCallbackArgs { url ->
+                                                        navigationCoordinator.pushScreen(
+                                                            WebViewScreen(url)
+                                                        )
+                                                    },
+                                                    onImageClick = rememberCallbackArgs { url ->
+                                                        navigationCoordinator.pushScreen(
+                                                            ZoomableImageScreen(url)
+                                                        )
                                                     },
                                                     options = buildList {
                                                         this += Option(
@@ -945,16 +967,13 @@ class PostDetailScreen(
                                                     navigationCoordinator.showBottomSheet(screen)
                                                 }
                                             },
-                                            onOpenCreator = rememberCallbackArgs {
-                                                val user = comment.creator
-                                                if (user != null) {
-                                                    navigationCoordinator.pushScreen(
-                                                        UserDetailScreen(
-                                                            user = user,
-                                                            otherInstance = otherInstanceName,
-                                                        ),
-                                                    )
-                                                }
+                                            onOpenCreator = rememberCallbackArgs { user ->
+                                                navigationCoordinator.pushScreen(
+                                                    UserDetailScreen(
+                                                        user = user,
+                                                        otherInstance = otherInstanceName,
+                                                    ),
+                                                )
                                             },
                                             options = buildList {
                                                 this += Option(

@@ -56,6 +56,7 @@ kotlin {
                 implementation(projects.coreNotifications)
                 implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui.components)
+                implementation(projects.coreCommonui.lemmyui)
 
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)

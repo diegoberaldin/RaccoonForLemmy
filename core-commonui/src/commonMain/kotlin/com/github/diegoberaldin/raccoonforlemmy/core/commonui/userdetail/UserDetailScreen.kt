@@ -70,28 +70,29 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -376,8 +377,8 @@ class UserDetailScreen(
                                     UserDetailSection.Comments -> 1
                                     else -> 0
                                 },
-                                onSectionSelected = rememberCallbackArgs {
-                                    val section = when (it) {
+                                onSectionSelected = rememberCallbackArgs { idx ->
+                                    val section = when (idx) {
                                         1 -> UserDetailSection.Comments
                                         else -> UserDetailSection.Posts
                                     }
@@ -412,8 +413,8 @@ class UserDetailScreen(
                                         DismissDirection.EndToStart,
                                     )
                                 },
-                                backgroundColor = rememberCallbackArgs {
-                                    when (it) {
+                                backgroundColor = rememberCallbackArgs { direction ->
+                                    when (direction) {
                                         DismissValue.DismissedToStart -> upvoteColor
                                             ?: defaultUpvoteColor
 
@@ -511,9 +512,24 @@ class UserDetailScreen(
                                                 )
                                             }
                                         },
-                                        onOpenCommunity = rememberCallbackArgs { community ->
+                                        onOpenCommunity = rememberCallbackArgs { community, instance ->
                                             navigationCoordinator.pushScreen(
-                                                CommunityDetailScreen(community),
+                                                CommunityDetailScreen(community, instance),
+                                            )
+                                        },
+                                        onOpenCreator = rememberCallbackArgs { user, instance ->
+                                            navigationCoordinator.pushScreen(
+                                                UserDetailScreen(user, instance)
+                                            )
+                                        },
+                                        onOpenPost = rememberCallbackArgs { p, instance ->
+                                            navigationCoordinator.pushScreen(
+                                                PostDetailScreen(p, instance)
+                                            )
+                                        },
+                                        onOpenWeb = rememberCallbackArgs { url ->
+                                            navigationCoordinator.pushScreen(
+                                                WebViewScreen(url)
                                             )
                                         },
                                         onReply = if (!uiState.isLogged || isOnOtherInstance) {
@@ -630,8 +646,8 @@ class UserDetailScreen(
                                         DismissDirection.EndToStart,
                                     )
                                 },
-                                backgroundColor = rememberCallbackArgs {
-                                    when (it) {
+                                backgroundColor = rememberCallbackArgs { direction ->
+                                    when (direction) {
                                         DismissValue.DismissedToStart -> upvoteColor
                                             ?: defaultUpvoteColor
 
@@ -682,6 +698,9 @@ class UserDetailScreen(
                                                     highlightCommentId = comment.id,
                                                 )
                                             )
+                                        },
+                                        onImageClick = rememberCallbackArgs { url ->
+                                            navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled) {
                                             null
@@ -745,11 +764,25 @@ class UserDetailScreen(
                                                 navigationCoordinator.showBottomSheet(screen)
                                             }
                                         },
-                                        onOpenCommunity = rememberCallbackArgs { community ->
+                                        onOpenCommunity = rememberCallbackArgs { community, instance ->
                                             navigationCoordinator.pushScreen(
-                                                CommunityDetailScreen(
-                                                    community
-                                                )
+                                                CommunityDetailScreen(community, instance)
+                                            )
+                                        },
+                                        onOpenCreator = rememberCallbackArgs { user, instance ->
+                                            navigationCoordinator.pushScreen(
+                                                UserDetailScreen(user, instance)
+                                            )
+                                        },
+                                        onOpenPost = rememberCallbackArgs { post, instance ->
+                                            navigationCoordinator.pushScreen(
+                                                PostDetailScreen(post, instance)
+                                            )
+
+                                        },
+                                        onOpenWeb = rememberCallbackArgs { url ->
+                                            navigationCoordinator.pushScreen(
+                                                WebViewScreen(url)
                                             )
                                         },
                                         options = buildList {

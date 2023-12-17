@@ -1,10 +1,6 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.ui.platform.UriHandler
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.NavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -44,6 +40,10 @@ fun NavigationCoordinator.handleUrl(
     url: String,
     openExternal: Boolean,
     uriHandler: UriHandler,
+    onOpenCommunity: ((CommunityModel, String) -> Unit)? = null,
+    onOpenUser: ((UserModel, String) -> Unit)? = null,
+    onOpenPost: ((PostModel, String) -> Unit)? = null,
+    onOpenWeb: ((String) -> Unit)? = null,
 ) {
     val community = getCommunityFromUrl(url)
     val user = getUserFromUrl(url)
@@ -51,37 +51,24 @@ fun NavigationCoordinator.handleUrl(
 
     when {
         community != null -> {
-            pushScreen(
-                CommunityDetailScreen(
-                    community = community,
-                    otherInstance = community.host
-                )
-            )
+            onOpenCommunity?.invoke(community, community.host)
         }
 
         user != null -> {
-            pushScreen(
-                UserDetailScreen(
-                    user = user,
-                    otherInstance = user.host
-                )
-            )
+            onOpenUser?.invoke(user, user.host)
         }
 
         post != null -> {
-            pushScreen(
-                PostDetailScreen(
-                    post = post,
-                    otherInstance = postInstance.orEmpty(),
-                )
-            )
+            onOpenPost?.invoke(post, postInstance.orEmpty())
         }
 
         openExternal -> {
             uriHandler.openUri(url)
         }
 
-        else -> pushScreen(WebViewScreen(url))
+        else -> {
+            onOpenWeb?.invoke(url)
+        }
     }
 }
 

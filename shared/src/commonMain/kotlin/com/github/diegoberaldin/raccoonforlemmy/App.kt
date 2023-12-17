@@ -36,10 +36,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.AppTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getCommunityFromUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getPostFromUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.getUserFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerContent
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getCommunityFromUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFromUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getUserFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen

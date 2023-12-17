@@ -48,8 +48,8 @@ fun SwipeableCard(
         val dismissToStartCallback by rememberUpdatedState(onDismissToStart)
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
         val dismissState = rememberDismissState(
-            confirmValueChange = rememberCallbackArgs {
-                when (it) {
+            confirmValueChange = rememberCallbackArgs { direction ->
+                when (direction) {
                     DismissValue.DismissedToEnd -> {
                         dismissToEndCallback?.invoke()
                     }

@@ -51,22 +51,23 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getSavedItemsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -225,15 +226,27 @@ class SavedItemsScreen : Screen {
                                             PostDetailScreen(post),
                                         )
                                     },
-                                    onOpenCommunity = rememberCallbackArgs { community ->
+                                    onOpenCommunity = rememberCallbackArgs { community, instance ->
                                         navigatorCoordinator.pushScreen(
-                                            CommunityDetailScreen(community),
+                                            CommunityDetailScreen(community, instance),
                                         )
                                     },
-                                    onOpenCreator = rememberCallbackArgs { u ->
+                                    onOpenCreator = rememberCallbackArgs { u, instance ->
                                         if (u.id != uiState.user?.id) {
-                                            navigatorCoordinator.pushScreen(UserDetailScreen(u))
+                                            navigatorCoordinator.pushScreen(
+                                                UserDetailScreen(u, instance),
+                                            )
                                         }
+                                    },
+                                    onOpenPost = rememberCallbackArgs { p, instance ->
+                                        navigationCoordinator.pushScreen(
+                                            PostDetailScreen(p, instance)
+                                        )
+                                    },
+                                    onOpenWeb = rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(
+                                            WebViewScreen(url)
+                                        )
                                     },
                                     onUpVote = rememberCallback(model) {
                                         model.reduce(
@@ -348,6 +361,9 @@ class SavedItemsScreen : Screen {
                                                 highlightCommentId = comment.id,
                                             ),
                                         )
+                                    },
+                                    onImageClick = rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                     },
                                     onUpVote = {
                                         model.reduce(

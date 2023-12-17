@@ -35,6 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownColo
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownPadding
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.ReferenceLinkHandlerImpl
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.provider.MarkwonProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.DateTime
 import io.noties.markwon.image.AsyncDrawableSpan
 import kotlinx.coroutines.delay
@@ -68,12 +69,10 @@ actual fun CustomMarkdown(
     ) {
         var imageRecompositionTrigger by remember { mutableStateOf(false) }
         var hasImages by remember { mutableStateOf(false) }
-        val markwonProvider = remember {
-            getMarkwonProvider(
-                onOpenUrl = onOpenUrl,
-                onOpenImage = onOpenImage,
-            )
-        }
+        val markwonProvider: MarkwonProvider = remember { getMarkwonProvider() }
+        markwonProvider.onOpenUrl = onOpenUrl
+        markwonProvider.onOpenImage = onOpenImage
+
         BoxWithConstraints(
             modifier = modifier
         ) {

@@ -37,7 +37,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.handleUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -120,22 +121,28 @@ class AboutDialog : Screen {
                             text = stringResource(MR.strings.settings_about_changelog),
                             vector = Icons.Default.OpenInBrowser,
                             textDecoration = TextDecoration.Underline,
-                            onClick = {
+                            onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
                                     url = CHANGELOG_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
+                                    onOpenWeb = { url ->
+                                        navigationCoordinator.pushScreen(WebViewScreen(url))
+                                    },
                                 )
                             }
                         )
                     }
                     item {
                         Button(
-                            onClick = {
+                            onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
                                     url = REPORT_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
+                                    onOpenWeb = { url ->
+                                        navigationCoordinator.pushScreen(WebViewScreen(url))
+                                    },
                                 )
                             },
                         ) {
@@ -162,11 +169,14 @@ class AboutDialog : Screen {
                             painter = painterResource(MR.images.ic_github),
                             text = stringResource(MR.strings.settings_about_view_github),
                             textDecoration = TextDecoration.Underline,
-                            onClick = {
+                            onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
                                     url = WEBSITE_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
+                                    onOpenWeb = { url ->
+                                        navigationCoordinator.pushScreen(WebViewScreen(url))
+                                    },
                                 )
                             },
                         )

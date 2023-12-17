@@ -39,19 +39,21 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CommentCardPlaceholder
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -142,8 +144,8 @@ internal object ProfileLoggedScreen : Tab {
                                         ProfileLoggedSection.Comments -> 1
                                         else -> 0
                                     },
-                                    onSectionSelected = rememberCallbackArgs(model) {
-                                        val section = when (it) {
+                                    onSectionSelected = rememberCallbackArgs(model) { idx ->
+                                        val section = when (idx) {
                                             1 -> ProfileLoggedSection.Comments
                                             else -> ProfileLoggedSection.Posts
                                         }
@@ -184,9 +186,25 @@ internal object ProfileLoggedScreen : Tab {
                                             PostDetailScreen(post),
                                         )
                                     },
-                                    onOpenCommunity = rememberCallbackArgs { community ->
+                                    onOpenCommunity = rememberCallbackArgs { community, _ ->
                                         navigationCoordinator.pushScreen(
                                             CommunityDetailScreen(community),
+                                        )
+                                    },
+                                    onOpenCreator = rememberCallbackArgs { user, instance ->
+                                        navigationCoordinator.pushScreen(
+                                            UserDetailScreen(user, instance)
+                                        )
+                                    },
+                                    onOpenPost = rememberCallbackArgs { p, instance ->
+                                        navigationCoordinator.pushScreen(
+                                            PostDetailScreen(p, instance)
+                                        )
+
+                                    },
+                                    onOpenWeb = rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(
+                                            WebViewScreen(url)
                                         )
                                     },
                                     onImageClick = rememberCallbackArgs { url ->
@@ -318,6 +336,9 @@ internal object ProfileLoggedScreen : Tab {
                                     hideCommunity = false,
                                     hideAuthor = true,
                                     hideIndent = true,
+                                    onImageClick = rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                    },
                                     onClick = rememberCallback {
                                         navigationCoordinator.pushScreen(
                                             PostDetailScreen(

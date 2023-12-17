@@ -51,17 +51,16 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getReportListViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ReportListTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -85,7 +84,6 @@ class ReportListScreen(
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-        val notificationCenter = remember { getNotificationCenter() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val scope = rememberCoroutineScope()
@@ -227,8 +225,8 @@ class ReportListScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     directions = setOf(DismissDirection.EndToStart),
                                     enabled = uiState.swipeActionsEnabled,
-                                    backgroundColor = rememberCallbackArgs {
-                                        when (it) {
+                                    backgroundColor = rememberCallbackArgs { direction ->
+                                        when (direction) {
                                             DismissValue.DismissedToStart -> endColor
                                             else -> Color.Transparent
                                         }
@@ -336,8 +334,8 @@ class ReportListScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     directions = setOf(DismissDirection.EndToStart),
                                     enabled = uiState.swipeActionsEnabled,
-                                    backgroundColor = rememberCallbackArgs {
-                                        when (it) {
+                                    backgroundColor = rememberCallbackArgs { direction ->
+                                        when (direction) {
                                             DismissValue.DismissedToStart -> endColor
                                             else -> Color.Transparent
                                         }

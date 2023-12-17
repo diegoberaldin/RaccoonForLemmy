@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,51 +24,43 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
-private val barWidth = 1.25.dp
 private const val INDENT_AMOUNT = 3
 
 @Composable
-fun CommentCard(
+fun CollapsedCommentCard(
     comment: CommentModel,
     modifier: Modifier = Modifier,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
-    hideAuthor: Boolean = false,
-    hideCommunity: Boolean = true,
-    hideIndent: Boolean = false,
     autoLoadImages: Boolean = true,
     actionButtonsActive: Boolean = true,
     options: List<Option> = emptyList(),
     onClick: (() -> Unit)? = null,
-    onDoubleClick: (() -> Unit)? = null,
+    onOpenCreator: ((UserModel) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
-    onOpenCommunity: ((CommunityModel) -> Unit)? = null,
-    onOpenCreator: ((UserModel) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
 ) {
     val themeRepository = remember { getThemeRepository() }
-    var commentHeight by remember { mutableStateOf(0f) }
     val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
+    var commentHeight by remember { mutableStateOf(0f) }
+    val barWidth = 2.dp
     val barColor = themeRepository.getCommentBarColor(
         depth = comment.depth,
         commentBarTheme = commentBarTheme,
     )
-
     Column(
-        modifier = modifier
+        modifier = modifier.onClick(
+            onClick = onClick ?: {},
+        )
     ) {
         Box(
-            modifier = Modifier.onClick(
-                onClick = onClick ?: {},
-                onDoubleClick = onDoubleClick ?: {}
-            ).padding(
-                start = if (hideIndent) 0.dp else (INDENT_AMOUNT * comment.depth).dp
+            modifier = Modifier.padding(
+                start = (INDENT_AMOUNT * comment.depth).dp
             ),
         ) {
             Column(
@@ -83,25 +75,15 @@ fun CommentCard(
                     }
             ) {
                 CommunityAndCreatorInfo(
-                    modifier = Modifier.padding(top = Spacing.xxs),
                     iconSize = IconSize.s,
-                    creator = comment.creator.takeIf { !hideAuthor },
-                    community = comment.community.takeIf { !hideCommunity },
+                    creator = comment.creator,
                     indicatorExpanded = comment.expanded,
                     autoLoadImages = autoLoadImages,
+                    onToggleExpanded = {
+                        onToggleExpanded?.invoke()
+                    },
                     onOpenCreator = onOpenCreator,
-                    onOpenCommunity = onOpenCommunity,
-                    onToggleExpanded = onToggleExpanded,
-                    distinguished = comment.distinguished,
                 )
-                CustomizedContent {
-                    PostCardBody(
-                        text = comment.text,
-                        autoLoadImages = autoLoadImages,
-                        onClick = onClick,
-                        onDoubleClick = onDoubleClick,
-                    )
-                }
                 PostCardFooter(
                     modifier = Modifier.padding(top = Spacing.xs),
                     score = comment.score,
@@ -112,17 +94,17 @@ fun CommentCard(
                     upVoted = comment.myVote > 0,
                     downVoted = comment.myVote < 0,
                     comments = comment.comments,
-                    actionButtonsActive = actionButtonsActive,
                     onUpVote = onUpVote,
                     onDownVote = onDownVote,
                     onSave = onSave,
                     onReply = onReply,
                     date = comment.publishDate,
+                    actionButtonsActive = actionButtonsActive,
                     options = options,
                     onOptionSelected = onOptionSelected,
                 )
             }
-            if (!hideIndent && comment.depth > 0) {
+            if (comment.depth > 0) {
                 Box(
                     modifier = Modifier
                         .padding(top = Spacing.xxs)

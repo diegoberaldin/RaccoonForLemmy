@@ -49,6 +49,7 @@ kotlin {
                 implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui)
                 implementation(projects.coreCommonui.components)
+                implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreUtils)
                 implementation(projects.corePreferences)
                 implementation(projects.corePersistence)

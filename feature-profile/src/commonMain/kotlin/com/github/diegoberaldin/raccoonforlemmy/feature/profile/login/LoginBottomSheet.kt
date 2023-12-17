@@ -49,7 +49,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.handleUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -124,12 +125,15 @@ class LoginBottomSheet : Screen {
                     }
                     IconButton(
                         modifier = Modifier.align(Alignment.TopEnd),
-                        onClick = {
+                        onClick = rememberCallback {
                             navigationCoordinator.hideBottomSheet()
                             navigationCoordinator.handleUrl(
                                 url = HELP_URL,
                                 openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
                                 uriHandler = uriHandler,
+                                onOpenWeb = { url ->
+                                    navigationCoordinator.pushScreen(WebViewScreen(url))
+                                }
                             )
                         },
                     ) {

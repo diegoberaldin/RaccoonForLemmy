@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -36,10 +36,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -62,8 +64,10 @@ fun PostCard(
     blurNsfw: Boolean = true,
     actionButtonsActive: Boolean = true,
     options: List<Option> = emptyList(),
-    onOpenCommunity: ((CommunityModel) -> Unit)? = null,
-    onOpenCreator: ((UserModel) -> Unit)? = null,
+    onOpenCommunity: ((CommunityModel, String) -> Unit)? = null,
+    onOpenCreator: ((UserModel, String) -> Unit)? = null,
+    onOpenPost: ((PostModel, String) -> Unit)? = null,
+    onOpenWeb: ((String) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
@@ -108,6 +112,8 @@ fun PostCard(
                 options = options,
                 onOpenCommunity = onOpenCommunity,
                 onOpenCreator = onOpenCreator,
+                onOpenPost = onOpenPost,
+                onOpenWeb = onOpenWeb,
                 onUpVote = onUpVote,
                 onDownVote = onDownVote,
                 onSave = onSave,
@@ -129,6 +135,8 @@ fun PostCard(
                 options = options,
                 onOpenCommunity = onOpenCommunity,
                 onOpenCreator = onOpenCreator,
+                onOpenPost = onOpenPost,
+                onOpenWeb = onOpenWeb,
                 onUpVote = onUpVote,
                 onDownVote = onDownVote,
                 onSave = onSave,
@@ -153,8 +161,10 @@ private fun CompactPost(
     actionButtonsActive: Boolean = true,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     options: List<Option> = emptyList(),
-    onOpenCommunity: ((CommunityModel) -> Unit)? = null,
-    onOpenCreator: ((UserModel) -> Unit)? = null,
+    onOpenCommunity: ((CommunityModel, String) -> Unit)? = null,
+    onOpenCreator: ((UserModel, String) -> Unit)? = null,
+    onOpenPost: ((PostModel, String) -> Unit)? = null,
+    onOpenWeb: ((String) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
@@ -185,11 +195,15 @@ private fun CompactPost(
             featured = post.featuredCommunity,
             locked = post.locked,
             isFromModerator = isFromModerator,
-            onOpenCommunity = onOpenCommunity,
-            onOpenCreator = onOpenCreator,
+            onOpenCommunity = rememberCallbackArgs { community ->
+                onOpenCommunity?.invoke(community, "")
+            },
+            onOpenCreator = rememberCallbackArgs { user ->
+                onOpenCreator?.invoke(user, "")
+            },
             autoLoadImages = autoLoadImages,
             onDoubleClick = onDoubleClick,
-            onLongClick = {
+            onLongClick = rememberCallback {
                 optionsMenuOpen.value = true
             },
         )
@@ -204,7 +218,10 @@ private fun CompactPost(
                     text = post.title,
                     autoLoadImages = autoLoadImages,
                     onClick = onClick,
+                    onOpenImage = onImageClick,
                     onDoubleClick = onDoubleClick,
+                    onOpenPost = onOpenPost,
+                    onOpenWeb = onOpenWeb,
                     onLongClick = {
                         optionsMenuOpen.value = true
                     },
@@ -267,8 +284,10 @@ private fun ExtendedPost(
     actionButtonsActive: Boolean = true,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     options: List<Option> = emptyList(),
-    onOpenCommunity: ((CommunityModel) -> Unit)? = null,
-    onOpenCreator: ((UserModel) -> Unit)? = null,
+    onOpenCommunity: ((CommunityModel, String) -> Unit)? = null,
+    onOpenCreator: ((UserModel, String) -> Unit)? = null,
+    onOpenPost: ((PostModel, String) -> Unit)? = null,
+    onOpenWeb: ((String) -> Unit)? = null,
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
@@ -299,11 +318,15 @@ private fun ExtendedPost(
             featured = post.featuredCommunity,
             locked = post.locked,
             isFromModerator = isFromModerator,
-            onOpenCommunity = onOpenCommunity,
-            onOpenCreator = onOpenCreator,
+            onOpenCommunity = rememberCallbackArgs { community ->
+                onOpenCommunity?.invoke(community, "")
+            },
+            onOpenCreator = rememberCallbackArgs { user ->
+                onOpenCreator?.invoke(user, "")
+            },
             autoLoadImages = autoLoadImages,
             onDoubleClick = onDoubleClick,
-            onLongClick = {
+            onLongClick = rememberCallback {
                 optionsMenuOpen.value = true
             },
         )
@@ -315,7 +338,12 @@ private fun ExtendedPost(
                 ),
                 text = post.title,
                 autoLoadImages = autoLoadImages,
+                onOpenCommunity = onOpenCommunity,
+                onOpenUser = onOpenCreator,
+                onOpenPost = onOpenPost,
+                onOpenWeb = onOpenWeb,
                 onClick = onClick,
+                onOpenImage = onImageClick,
                 onDoubleClick = onDoubleClick,
                 onLongClick = {
                     optionsMenuOpen.value = true
@@ -369,6 +397,7 @@ private fun ExtendedPost(
                         text = post.text,
                         autoLoadImages = autoLoadImages,
                         onClick = onClick,
+                        onOpenImage = onImageClick,
                         onDoubleClick = onDoubleClick,
                         onLongClick = {
                             optionsMenuOpen.value = true
@@ -400,12 +429,12 @@ private fun ExtendedPost(
                 modifier = Modifier
                     .padding(vertical = Spacing.xs)
                     .onClick(
-                        onClick = {
-                            if (settingsRepository.currentSettings.value.openUrlsInExternalBrowser) {
-                                uriHandler.openUri(url)
-                            } else {
-                                navigationCoordinator.pushScreen(WebViewScreen(url))
-                            }
+                        onClick = rememberCallback {
+                            navigationCoordinator.handleUrl(
+                                url = url,
+                                openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
+                                uriHandler = uriHandler
+                            )
                         },
                         onDoubleClick = onDoubleClick ?: {},
                     ),

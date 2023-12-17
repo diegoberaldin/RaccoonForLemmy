@@ -50,13 +50,17 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityInfoViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -212,7 +216,7 @@ class CommunityInfoScreen(
                                     ModeratorCell(
                                         autoLoadImages = uiState.autoLoadImages,
                                         user = user,
-                                        onOpenUser = rememberCallbackArgs {
+                                        onOpenUser = rememberCallbackArgs { _ ->
                                             navigationCoordinator.hideBottomSheet()
                                             scope.launch {
                                                 delay(100)
@@ -231,6 +235,51 @@ class CommunityInfoScreen(
                             PostCardBody(
                                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.m),
                                 text = uiState.community.description,
+                                onOpenImage = { url ->
+                                    navigationCoordinator.hideBottomSheet()
+                                    scope.launch {
+                                        delay(100)
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(url),
+                                        )
+                                    }
+                                },
+                                onOpenCommunity = { community, instance ->
+                                    navigationCoordinator.hideBottomSheet()
+                                    scope.launch {
+                                        delay(100)
+                                        navigationCoordinator.pushScreen(
+                                            CommunityDetailScreen(community, instance),
+                                        )
+                                    }
+                                },
+                                onOpenPost = { post, instance ->
+                                    navigationCoordinator.hideBottomSheet()
+                                    scope.launch {
+                                        delay(100)
+                                        navigationCoordinator.pushScreen(
+                                            PostDetailScreen(post, instance),
+                                        )
+                                    }
+                                },
+                                onOpenUser = { user, instance ->
+                                    navigationCoordinator.hideBottomSheet()
+                                    scope.launch {
+                                        delay(100)
+                                        navigationCoordinator.pushScreen(
+                                            UserDetailScreen(user, instance),
+                                        )
+                                    }
+                                },
+                                onOpenWeb = { url ->
+                                    navigationCoordinator.hideBottomSheet()
+                                    scope.launch {
+                                        delay(100)
+                                        navigationCoordinator.pushScreen(
+                                            WebViewScreen(url),
+                                        )
+                                    }
+                                },
                             )
                         }
                     }
