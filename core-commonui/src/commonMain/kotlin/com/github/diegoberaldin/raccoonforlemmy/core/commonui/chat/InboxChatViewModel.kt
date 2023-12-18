@@ -146,6 +146,9 @@ class InboxChatViewModel(
                 initial = itemsToAdd.isEmpty(),
             )
         }
+        if (currentState.initial && itemsToAdd.isEmpty()) {
+            loadNextPage()
+        }
     }
 
     private fun markAsRead(read: Boolean, messageId: Int) {
