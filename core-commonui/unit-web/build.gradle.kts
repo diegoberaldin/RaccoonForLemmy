@@ -41,12 +41,8 @@ kotlin {
 
                 implementation(projects.coreUtils)
                 implementation(projects.coreAppearance)
-                implementation(projects.coreArchitecture)
                 implementation(projects.coreCommonui.components)
-                implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreNavigation)
-                implementation(projects.coreNotifications)
-                implementation(projects.corePersistence)
 
                 implementation(projects.resources)
             }
@@ -60,7 +56,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.web"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

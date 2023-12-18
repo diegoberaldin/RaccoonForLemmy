@@ -54,6 +54,7 @@ kotlin {
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.modals)
                 implementation(projects.coreCommonui.unitZoomableimage)
+                implementation(projects.coreCommonui.unitWeb)
                 implementation(projects.coreNotifications)
 
                 implementation(projects.domainIdentity)

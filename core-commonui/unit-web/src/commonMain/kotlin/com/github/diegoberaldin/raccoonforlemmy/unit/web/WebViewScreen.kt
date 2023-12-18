@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.web
+package com.github.diegoberaldin.raccoonforlemmy.unit.web
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

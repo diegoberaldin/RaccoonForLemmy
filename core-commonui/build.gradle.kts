@@ -61,6 +61,7 @@ kotlin {
                 implementation(projects.coreCommonui.unitBan)
                 implementation(projects.coreCommonui.unitChat)
                 implementation(projects.coreCommonui.unitZoomableimage)
+                implementation(projects.coreCommonui.unitWeb)
 
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)
