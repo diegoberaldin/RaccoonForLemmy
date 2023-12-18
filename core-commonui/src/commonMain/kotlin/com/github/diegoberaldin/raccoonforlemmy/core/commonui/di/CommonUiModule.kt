@@ -12,8 +12,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.Creat
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
@@ -28,6 +26,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.communityInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
 import org.koin.dsl.module
@@ -45,6 +44,7 @@ val commonUiModule = module {
         drawerModule,
         communityInfoModule,
         instanceInfoModule,
+        removeModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -159,17 +159,6 @@ val commonUiModule = module {
             identityRepository = get(),
             postRepository = get(),
             commentRepository = get(),
-        )
-    }
-    factory<RemoveMviModel> { params ->
-        RemoveViewModel(
-            postId = params[0],
-            commentId = params[1],
-            mvi = DefaultMviModel(RemoveMviModel.UiState()),
-            identityRepository = get(),
-            postRepository = get(),
-            commentRepository = get(),
-            notificationCenter = get(),
         )
     }
     factory<ReportListMviModel> { params ->

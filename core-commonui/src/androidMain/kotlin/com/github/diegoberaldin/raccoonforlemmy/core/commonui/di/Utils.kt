@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
@@ -74,16 +73,6 @@ actual fun getCreateReportViewModel(
     commentId: Int?,
 ): CreateReportMviModel {
     val res: CreateReportMviModel by inject(CreateReportMviModel::class.java, parameters = {
-        parametersOf(postId, commentId)
-    })
-    return res
-}
-
-actual fun getRemoveViewModel(
-    postId: Int?,
-    commentId: Int?,
-): RemoveMviModel {
-    val res: RemoveMviModel by inject(RemoveMviModel::class.java, parameters = {
         parametersOf(postId, commentId)
     })
     return res
