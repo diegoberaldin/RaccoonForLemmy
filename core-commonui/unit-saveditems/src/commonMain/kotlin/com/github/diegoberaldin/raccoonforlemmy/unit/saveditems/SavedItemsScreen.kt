@@ -70,6 +70,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.di.getSavedItemsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -375,12 +376,11 @@ class SavedItemsScreen : Screen {
                                     },
                                     onReply = {
                                         navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                        // TODO
-//                                        val screen = CreateCommentScreen(
-//                                            originalPost = PostModel(id = comment.postId),
-//                                            originalComment = comment,
-//                                        )
-//                                        navigatorCoordinator.showBottomSheet(screen)
+                                        val screen = CreateCommentScreen(
+                                            originalPost = PostModel(id = comment.postId),
+                                            originalComment = comment,
+                                        )
+                                        navigatorCoordinator.showBottomSheet(screen)
                                     },
                                     options = buildList {
                                         add(
@@ -476,17 +476,17 @@ class SavedItemsScreen : Screen {
                             rawContent = null
                             if (quotation != null) {
                                 navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                // TODO
-//                                val screen = CreateCommentScreen(
-//                                    originalPost = content,
-//                                    initialText = buildString {
-//                                        append("> ")
-//                                        append(quotation)
-//                                        append("\n\n")
-//                                    })
-//                                navigationCoordinator.showBottomSheet(screen)
+                                val screen = CreateCommentScreen(
+                                    originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    })
+                                navigationCoordinator.showBottomSheet(screen)
                             }
-                        })
+                        },
+                    )
                 }
 
                 is CommentModel -> {
@@ -501,15 +501,15 @@ class SavedItemsScreen : Screen {
                             rawContent = null
                             if (quotation != null) {
                                 navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                // TODO
-//                                val screen = CreateCommentScreen(
-//                                    originalComment = content,
-//                                    initialText = buildString {
-//                                        append("> ")
-//                                        append(quotation)
-//                                        append("\n\n")
-//                                    })
-//                                navigationCoordinator.showBottomSheet(screen)
+                                val screen = CreateCommentScreen(
+                                    originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
                             }
                         }
                     )

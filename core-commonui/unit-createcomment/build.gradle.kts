@@ -15,50 +15,37 @@ kotlin {
             }
         }
     }
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "feature-search"
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.koin.core)
-
                 implementation(compose.runtime)
                 implementation(compose.foundation)
+                implementation(compose.material)
                 implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
 
-                implementation(libs.voyager.navigator)
+                implementation(libs.koin.core)
                 implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.tab)
-                implementation(libs.voyager.bottomsheet)
+                implementation(libs.voyager.navigator)
 
-                implementation(projects.coreArchitecture)
-                implementation(projects.coreAppearance)
                 implementation(projects.coreUtils)
-                implementation(projects.corePreferences)
-                implementation(projects.corePersistence)
-                implementation(projects.coreNavigation)
-                implementation(projects.coreCommonui)
+                implementation(projects.coreAppearance)
+                implementation(projects.coreArchitecture)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.modals)
                 implementation(projects.coreCommonui.unitZoomableimage)
                 implementation(projects.coreCommonui.unitWeb)
-                implementation(projects.coreCommonui.unitCreatereport)
-                implementation(projects.coreCommonui.unitCreatecomment)
                 implementation(projects.coreCommonui.detailopenerApi)
+                implementation(projects.coreNavigation)
                 implementation(projects.coreNotifications)
+                implementation(projects.corePersistence)
 
                 implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
@@ -76,7 +63,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.search"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.createcomment"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

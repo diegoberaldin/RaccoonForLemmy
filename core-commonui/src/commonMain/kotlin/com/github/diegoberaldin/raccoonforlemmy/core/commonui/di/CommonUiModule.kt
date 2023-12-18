@@ -3,8 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
@@ -105,21 +103,6 @@ val commonUiModule = module {
             notificationCenter = get(),
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
-        )
-    }
-    factory<CreateCommentMviModel> { params ->
-        CreateCommentViewModel(
-            mvi = DefaultMviModel(CreateCommentMviModel.UiState()),
-            postId = params[0],
-            parentId = params[1],
-            editedCommentId = params[2],
-            identityRepository = get(),
-            commentRepository = get(),
-            postRepository = get(),
-            siteRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
-            notificationCenter = get(),
         )
     }
     factory<CreatePostMviModel> { params ->

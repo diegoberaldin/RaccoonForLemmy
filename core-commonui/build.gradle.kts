@@ -65,6 +65,7 @@ kotlin {
                 implementation(projects.coreCommonui.unitReportlist)
                 implementation(projects.coreCommonui.unitSaveditems)
                 implementation(projects.coreCommonui.unitCreatereport)
+                implementation(projects.coreCommonui.unitCreatecomment)
                 implementation(projects.coreCommonui.detailopenerApi)
 
                 implementation(projects.domainLemmy.data)

@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 sealed interface CreatePostSection {
     data object Edit : CreatePostSection

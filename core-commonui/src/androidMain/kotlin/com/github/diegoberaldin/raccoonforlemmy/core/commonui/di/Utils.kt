@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
@@ -40,16 +39,6 @@ actual fun getUserDetailViewModel(user: UserModel, otherInstance: String): UserD
         clazz = UserDetailMviModel::class.java,
         parameters = { parametersOf(user, otherInstance) },
     )
-    return res
-}
-
-actual fun getCreateCommentViewModel(
-    postId: Int?,
-    parentId: Int?,
-    editedCommentId: Int?,
-): CreateCommentMviModel {
-    val res: CreateCommentMviModel by inject(clazz = CreateCommentMviModel::class.java,
-        parameters = { parametersOf(postId, parentId, editedCommentId) })
     return res
 }
 
