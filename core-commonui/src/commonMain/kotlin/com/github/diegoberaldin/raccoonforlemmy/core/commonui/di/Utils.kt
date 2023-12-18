@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
@@ -26,10 +25,6 @@ expect fun getCommunityDetailViewModel(
     community: CommunityModel,
     otherInstance: String = "",
 ): CommunityDetailMviModel
-
-expect fun getCommunityInfoViewModel(
-    community: CommunityModel,
-): CommunityInfoMviModel
 
 expect fun getUserDetailViewModel(
     user: UserModel,

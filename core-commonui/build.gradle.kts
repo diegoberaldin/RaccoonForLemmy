@@ -64,6 +64,8 @@ kotlin {
                 implementation(projects.coreCommonui.unitWeb)
                 implementation(projects.coreCommonui.unitSelectcommunity)
                 implementation(projects.coreCommonui.unitDrawer)
+                implementation(projects.coreCommonui.unitCommunityinfo)
+                implementation(projects.coreCommonui.detailopenerApi)
 
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)

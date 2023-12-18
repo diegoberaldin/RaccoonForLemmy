@@ -36,12 +36,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.AppTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getUserFromUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -93,6 +92,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val drawerCoordinator = remember { getDrawerCoordinator() }
     val drawerGesturesEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
     val bottomSheetGesturesEnabled by navigationCoordinator.bottomSheetGesturesEnabled.collectAsState()
+    val detailOpener = remember { getDetailOpener() }
 
     LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
@@ -163,33 +163,21 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             val community = getCommunityFromUrl(url)
             val user = getUserFromUrl(url)
             val postAndInstance = getPostFromUrl(url)
-            val newScreen = when {
+            when {
                 community != null -> {
-                    CommunityDetailScreen(
-                        community = community,
-                        otherInstance = community.host,
-                    )
+                    detailOpener.openCommunityDetail(community, community.host)
                 }
 
                 user != null -> {
-                    UserDetailScreen(
-                        user = user,
-                        otherInstance = user.host,
-                    )
+                    detailOpener.openUserDetail(user, user.host)
                 }
 
                 postAndInstance != null -> {
                     val (post, otherInstance) = postAndInstance
-                    PostDetailScreen(
-                        post = post,
-                        otherInstance = otherInstance,
-                    )
+                    detailOpener.openPostDetail(post, otherInstance)
                 }
 
-                else -> null
-            }
-            if (newScreen != null) {
-                navigationCoordinator.pushScreen(newScreen)
+                else -> Unit
             }
         }.launchIn(this)
     }

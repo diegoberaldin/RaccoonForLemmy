@@ -57,20 +57,17 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -81,6 +78,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalL
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getMultiCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
@@ -109,6 +107,7 @@ class MultiCommunityScreen(
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        val detailOpener = remember { getDetailOpener() }
 
         Scaffold(
             topBar = {
@@ -292,9 +291,7 @@ class MultiCommunityScreen(
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = rememberCallback {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
-                                        navigationCoordinator.pushScreen(
-                                            PostDetailScreen(post),
-                                        )
+                                        detailOpener.openPostDetail(post, "")
                                     },
                                     onDoubleClick = if (uiState.swipeActionsEnabled) {
                                         null
@@ -309,23 +306,16 @@ class MultiCommunityScreen(
                                         }
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                        navigationCoordinator.pushScreen(
-                                            CommunityDetailScreen(community, instance),
-                                        )
+                                        detailOpener.openCommunityDetail(community, instance)
                                     },
                                     onOpenCreator = rememberCallbackArgs { user, instance ->
-                                        navigationCoordinator.pushScreen(
-                                            UserDetailScreen(user, instance),
-                                        )
+                                        detailOpener.openUserDetail(user, instance)
                                     },
                                     onOpenPost = rememberCallbackArgs { post, instance ->
-                                        navigationCoordinator.pushScreen(
-                                            PostDetailScreen(
-                                                post = post,
-                                                otherInstance = instance,
-                                            )
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            otherInstance = instance,
                                         )
-
                                     },
                                     onOpenWeb = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(
@@ -357,15 +347,11 @@ class MultiCommunityScreen(
                                         )
                                     },
                                     onReply = rememberCallback {
-                                        navigationCoordinator.pushScreen(
-                                            PostDetailScreen(post),
-                                        )
+                                        detailOpener.openPostDetail(post, "")
                                     },
                                     onImageClick = rememberCallbackArgs { url ->
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
-                                        navigationCoordinator.pushScreen(
-                                            ZoomableImageScreen(url),
-                                        )
+                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                     },
                                     options = buildList {
                                         add(

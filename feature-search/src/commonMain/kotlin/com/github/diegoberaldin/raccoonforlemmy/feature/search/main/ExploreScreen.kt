@@ -63,9 +63,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
@@ -73,9 +73,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -88,6 +85,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultTy
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getExploreViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
@@ -122,6 +120,7 @@ class ExploreScreen : Screen {
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
@@ -300,9 +299,7 @@ class ExploreScreen : Screen {
                                     CommunityItem(
                                         modifier = Modifier.fillMaxWidth().onClick(
                                             onClick = rememberCallback {
-                                                navigationCoordinator.pushScreen(
-                                                    CommunityDetailScreen(result.model),
-                                                )
+                                                detailOpener.openCommunityDetail(result.model, "")
                                             },
                                         ),
                                         community = result.model,
@@ -363,9 +360,7 @@ class ExploreScreen : Screen {
                                                 blurNsfw = uiState.blurNsfw,
                                                 actionButtonsActive = uiState.isLogged,
                                                 onClick = rememberCallback {
-                                                    navigationCoordinator.pushScreen(
-                                                        PostDetailScreen(result.model),
-                                                    )
+                                                    detailOpener.openPostDetail(result.model, "")
                                                 },
                                                 onDoubleClick = if (!uiState.doubleTapActionEnabled) {
                                                     null
@@ -382,14 +377,13 @@ class ExploreScreen : Screen {
                                                     }
                                                 },
                                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                                    navigationCoordinator.pushScreen(
-                                                        CommunityDetailScreen(community, instance),
+                                                    detailOpener.openCommunityDetail(
+                                                        community,
+                                                        instance
                                                     )
                                                 },
                                                 onOpenCreator = rememberCallbackArgs { user, instance ->
-                                                    navigationCoordinator.pushScreen(
-                                                        UserDetailScreen(user, instance),
-                                                    )
+                                                    detailOpener.openUserDetail(user, instance)
                                                 },
                                                 onUpVote = rememberCallback(model) {
                                                     if (uiState.isLogged) {
@@ -423,8 +417,9 @@ class ExploreScreen : Screen {
                                                 },
                                                 onReply = rememberCallback {
                                                     if (uiState.isLogged) {
-                                                        navigationCoordinator.pushScreen(
-                                                            PostDetailScreen(result.model),
+                                                        detailOpener.openPostDetail(
+                                                            result.model,
+                                                            ""
                                                         )
                                                     }
                                                 },
@@ -434,12 +429,7 @@ class ExploreScreen : Screen {
                                                     )
                                                 },
                                                 onOpenPost = rememberCallbackArgs { post, instance ->
-                                                    navigationCoordinator.pushScreen(
-                                                        PostDetailScreen(
-                                                            post = post,
-                                                            otherInstance = instance,
-                                                        )
-                                                    )
+                                                    detailOpener.openPostDetail(post, instance)
 
                                                 },
                                                 onOpenWeb = rememberCallbackArgs { url ->
@@ -517,11 +507,10 @@ class ExploreScreen : Screen {
                                                 hideIndent = true,
                                                 actionButtonsActive = uiState.isLogged,
                                                 onClick = rememberCallback {
-                                                    navigationCoordinator.pushScreen(
-                                                        PostDetailScreen(
-                                                            post = PostModel(id = result.model.postId),
-                                                            highlightCommentId = result.model.id,
-                                                        ),
+                                                    detailOpener.openPostDetail(
+                                                        post = PostModel(id = result.model.postId),
+                                                        highlightCommentId = result.model.id,
+                                                        otherInstance = "",
                                                     )
                                                 },
                                                 onDoubleClick = if (!uiState.doubleTapActionEnabled) {
@@ -580,22 +569,19 @@ class ExploreScreen : Screen {
                                                         navigationCoordinator.showBottomSheet(screen)
                                                     }
                                                 },
-                                                onOpenCommunity = rememberCallbackArgs { community, _ ->
-                                                    navigationCoordinator.pushScreen(
-                                                        CommunityDetailScreen(community)
+                                                onOpenCommunity = rememberCallbackArgs { community, instance ->
+                                                    detailOpener.openCommunityDetail(
+                                                        community,
+                                                        instance
                                                     )
                                                 },
-                                                onOpenCreator = rememberCallbackArgs { user, _ ->
-                                                    navigationCoordinator.pushScreen(
-                                                        UserDetailScreen(user)
-                                                    )
+                                                onOpenCreator = rememberCallbackArgs { user, instance ->
+                                                    detailOpener.openUserDetail(user, instance)
                                                 },
                                                 onOpenPost = rememberCallbackArgs { post, instance ->
-                                                    navigationCoordinator.pushScreen(
-                                                        PostDetailScreen(
-                                                            post = post,
-                                                            otherInstance = instance,
-                                                        )
+                                                    detailOpener.openPostDetail(
+                                                        post = post,
+                                                        otherInstance = instance,
                                                     )
                                                 },
                                                 onOpenWeb = rememberCallbackArgs { url ->
@@ -616,9 +602,7 @@ class ExploreScreen : Screen {
                                     UserItem(
                                         modifier = Modifier.fillMaxWidth().onClick(
                                             onClick = rememberCallback {
-                                                navigationCoordinator.pushScreen(
-                                                    UserDetailScreen(result.model),
-                                                )
+                                                detailOpener.openUserDetail(result.model, "")
                                             },
                                         ),
                                         user = result.model,

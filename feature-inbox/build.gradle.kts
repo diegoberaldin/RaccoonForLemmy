@@ -53,6 +53,7 @@ kotlin {
                 implementation(projects.coreCommonui.modals)
                 implementation(projects.coreCommonui.unitZoomableimage)
                 implementation(projects.coreCommonui.unitChat)
+                implementation(projects.coreCommonui.detailopenerApi)
                 implementation(projects.coreUtils)
                 implementation(projects.corePreferences)
                 implementation(projects.corePersistence)

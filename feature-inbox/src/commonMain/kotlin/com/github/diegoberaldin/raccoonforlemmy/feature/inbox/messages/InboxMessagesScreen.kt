@@ -32,7 +32,7 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -60,6 +60,8 @@ class InboxMessagesScreen : Tab {
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val lazyListState = rememberLazyListState()
+        val detailOpener = remember { getDetailOpener() }
+
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach {
                 if (it == InboxTab) {
@@ -124,9 +126,7 @@ class InboxMessagesScreen : Tab {
                         read = chat.read,
                         lastMessageDate = chat.publishDate,
                         onOpenUser = rememberCallbackArgs { user ->
-                            navigationCoordinator.pushScreen(
-                                UserDetailScreen(user),
-                            )
+                            detailOpener.openUserDetail(user, "")
                         },
                         onOpen = rememberCallback {
                             if (!chat.read) {

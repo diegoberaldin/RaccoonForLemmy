@@ -57,13 +57,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
@@ -72,9 +72,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabN
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -85,6 +82,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.getHomeScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
@@ -116,6 +114,7 @@ class PostListScreen : Screen {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val keepScreenOn = rememberKeepScreenOn()
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { tab ->
@@ -348,9 +347,7 @@ class PostListScreen : Screen {
                                         blurNsfw = uiState.blurNsfw,
                                         onClick = rememberCallback(model) {
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
-                                            navigationCoordinator.pushScreen(
-                                                PostDetailScreen(post),
-                                            )
+                                            detailOpener.openPostDetail(post, "")
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged) {
                                             null
@@ -365,20 +362,13 @@ class PostListScreen : Screen {
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                CommunityDetailScreen(community, instance),
-                                            )
+                                            detailOpener.openCommunityDetail(community, instance)
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                UserDetailScreen(user, instance),
-                                            )
+                                            detailOpener.openUserDetail(user, instance)
                                         },
                                         onOpenPost = rememberCallbackArgs { p, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                PostDetailScreen(p, instance)
-                                            )
-
+                                            detailOpener.openPostDetail(p, instance)
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(
@@ -418,9 +408,7 @@ class PostListScreen : Screen {
                                         onReply = rememberCallback(model) {
                                             if (uiState.isLogged) {
                                                 model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
-                                                navigationCoordinator.pushScreen(
-                                                    PostDetailScreen(post),
-                                                )
+                                                detailOpener.openPostDetail(post, "")
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs(model, post) { url ->

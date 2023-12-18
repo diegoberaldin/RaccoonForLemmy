@@ -1,8 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
@@ -29,6 +27,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.communityInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
@@ -45,6 +44,7 @@ val commonUiModule = module {
         chatModule,
         selectCommunityModule,
         drawerModule,
+        communityInfoModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -85,14 +85,6 @@ val commonUiModule = module {
             imagePreloadManager = get(),
             notificationCenter = get(),
             getSortTypesUseCase = get(),
-        )
-    }
-    factory<CommunityInfoMviModel> { params ->
-        CommunityInfoViewModel(
-            mvi = DefaultMviModel(CommunityInfoMviModel.UiState()),
-            community = params[0],
-            communityRepository = get(),
-            settingsRepository = get(),
         )
     }
     factory<UserDetailMviModel> { params ->

@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
@@ -31,9 +30,6 @@ actual fun getCommunityDetailViewModel(
     otherInstance: String,
 ): CommunityDetailMviModel =
     CommonUiViewModelHelper.getCommunityDetailModel(community, otherInstance)
-
-actual fun getCommunityInfoViewModel(community: CommunityModel): CommunityInfoMviModel =
-    CommonUiViewModelHelper.getCommunityInfoModel(community)
 
 actual fun getInstanceInfoViewModel(url: String): InstanceInfoMviModel =
     CommonUiViewModelHelper.getInstanceInfoModel(url)
@@ -92,13 +88,6 @@ object CommonUiViewModelHelper : KoinComponent {
     ): CommunityDetailMviModel {
         val model: CommunityDetailMviModel by inject(
             parameters = { parametersOf(community, otherInstance) },
-        )
-        return model
-    }
-
-    fun getCommunityInfoModel(community: CommunityModel): CommunityInfoMviModel {
-        val model: CommunityInfoMviModel by inject(
-            parameters = { parametersOf(community) },
         )
         return model
     }
