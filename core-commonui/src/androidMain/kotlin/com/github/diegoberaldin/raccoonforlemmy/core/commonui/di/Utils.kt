@@ -4,7 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
@@ -36,14 +35,6 @@ actual fun getCommunityDetailViewModel(
     val res: CommunityDetailMviModel by inject(
         clazz = CommunityDetailMviModel::class.java,
         parameters = { parametersOf(community, otherInstance) },
-    )
-    return res
-}
-
-actual fun getInstanceInfoViewModel(url: String): InstanceInfoMviModel {
-    val res: InstanceInfoMviModel by inject(
-        clazz = InstanceInfoMviModel::class.java,
-        parameters = { parametersOf(url) },
     )
     return res
 }

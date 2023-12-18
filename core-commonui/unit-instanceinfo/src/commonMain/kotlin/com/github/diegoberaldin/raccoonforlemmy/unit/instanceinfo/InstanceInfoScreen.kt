@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo
+package com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,9 +39,8 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInstanceInfoViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
@@ -53,6 +52,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.getInstanceInfoViewModel
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -77,6 +77,7 @@ class InstanceInfoScreen(
         val settings by settingsRepository.currentSettings.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
         val listState = rememberLazyListState()
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -207,19 +208,14 @@ class InstanceInfoScreen(
                             CommunityItemPlaceholder()
                         }
                     }
-                    items(uiState.communities) {
+                    items(uiState.communities) { community ->
                         CommunityItem(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
-                                    navigationCoordinator.pushScreen(
-                                        CommunityDetailScreen(
-                                            community = it,
-                                            otherInstance = instanceName,
-                                        ),
-                                    )
+                                    detailOpener.openCommunityDetail(community, instanceName)
                                 },
                             ),
-                            community = it,
+                            community = community,
                             autoLoadImages = uiState.autoLoadImages,
                             showSubscribers = true,
                         )

@@ -26,11 +26,6 @@ kotlin {
     }
 
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.coil)
-            }
-        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -65,6 +60,7 @@ kotlin {
                 implementation(projects.coreCommonui.unitSelectcommunity)
                 implementation(projects.coreCommonui.unitDrawer)
                 implementation(projects.coreCommonui.unitCommunityinfo)
+                implementation(projects.coreCommonui.unitInstanceinfo)
                 implementation(projects.coreCommonui.detailopenerApi)
 
                 implementation(projects.domainLemmy.data)

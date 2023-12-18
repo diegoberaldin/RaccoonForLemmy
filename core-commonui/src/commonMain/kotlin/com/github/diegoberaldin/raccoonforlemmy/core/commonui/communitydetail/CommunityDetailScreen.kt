@@ -83,7 +83,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
@@ -112,6 +111,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource

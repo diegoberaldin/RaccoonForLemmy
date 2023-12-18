@@ -9,8 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreateP
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
@@ -29,6 +27,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.communityInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
 import org.koin.dsl.module
@@ -45,6 +44,7 @@ val commonUiModule = module {
         selectCommunityModule,
         drawerModule,
         communityInfoModule,
+        instanceInfoModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -104,18 +104,6 @@ val commonUiModule = module {
             hapticFeedback = get(),
             notificationCenter = get(),
             imagePreloadManager = get(),
-            getSortTypesUseCase = get(),
-        )
-    }
-    factory<InstanceInfoMviModel> {
-        InstanceInfoViewModel(
-            mvi = DefaultMviModel(InstanceInfoMviModel.UiState()),
-            url = it[0],
-            siteRepository = get(),
-            communityRepository = get(),
-            identityRepository = get(),
-            settingsRepository = get(),
-            notificationCenter = get(),
             getSortTypesUseCase = get(),
         )
     }

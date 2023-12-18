@@ -20,11 +20,6 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.coil.compose)
-            }
-        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -53,7 +48,6 @@ kotlin {
                 implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)
-
 
                 implementation(projects.resources)
             }

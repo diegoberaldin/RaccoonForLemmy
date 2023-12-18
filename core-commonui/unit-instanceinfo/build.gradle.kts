@@ -39,9 +39,13 @@ kotlin {
                 implementation(projects.coreArchitecture)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
+                implementation(projects.coreCommonui.modals)
+                implementation(projects.coreCommonui.unitZoomableimage)
+                implementation(projects.coreCommonui.unitWeb)
+                implementation(projects.coreCommonui.detailopenerApi)
                 implementation(projects.coreNavigation)
-                implementation(projects.corePersistence)
                 implementation(projects.coreNotifications)
+                implementation(projects.corePersistence)
 
                 implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
@@ -59,7 +63,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.ban"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
