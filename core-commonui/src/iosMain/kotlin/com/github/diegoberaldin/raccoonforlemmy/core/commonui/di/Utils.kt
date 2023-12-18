@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
@@ -57,9 +56,6 @@ actual fun getCreatePostViewModel(
 actual fun getSavedItemsViewModel(): SavedItemsMviModel =
     CommonUiViewModelHelper.savedItemsViewModel
 
-actual fun getModalDrawerViewModel(): ModalDrawerMviModel =
-    CommonUiViewModelHelper.modalDrawerViewModel
-
 actual fun getCreateReportViewModel(
     postId: Int?,
     commentId: Int?,
@@ -77,7 +73,6 @@ actual fun getReportListViewModel(
 object CommonUiViewModelHelper : KoinComponent {
 
     val savedItemsViewModel: SavedItemsMviModel by inject()
-    val modalDrawerViewModel: ModalDrawerMviModel by inject()
 
     fun getPostDetailModel(
         post: PostModel,

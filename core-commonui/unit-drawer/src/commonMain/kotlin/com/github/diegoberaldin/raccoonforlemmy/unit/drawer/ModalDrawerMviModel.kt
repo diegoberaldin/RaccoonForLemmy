@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer
+package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
 
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel

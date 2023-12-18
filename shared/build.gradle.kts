@@ -51,6 +51,7 @@ kotlin {
                 implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui)
                 implementation(projects.coreCommonui.lemmyui)
+                implementation(projects.coreCommonui.unitDrawer)
                 implementation(projects.coreNotifications)
                 implementation(projects.corePersistence)
                 implementation(projects.domainIdentity)

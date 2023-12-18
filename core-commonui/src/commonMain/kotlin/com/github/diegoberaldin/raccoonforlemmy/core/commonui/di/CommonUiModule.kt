@@ -11,8 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreateP
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
@@ -31,6 +29,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
 import org.koin.dsl.module
@@ -45,6 +44,7 @@ val commonUiModule = module {
         zoomableImageModule,
         chatModule,
         selectCommunityModule,
+        drawerModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -169,18 +169,6 @@ val commonUiModule = module {
             hapticFeedback = get(),
             notificationCenter = get(),
             getSortTypesUseCase = get(),
-        )
-    }
-    factory<ModalDrawerMviModel> {
-        ModalDrawerViewModel(
-            mvi = DefaultMviModel(ModalDrawerMviModel.UiState()),
-            apiConfigurationRepository = get(),
-            siteRepository = get(),
-            identityRepository = get(),
-            accountRepository = get(),
-            communityRepository = get(),
-            multiCommunityRepository = get(),
-            settingsRepository = get(),
         )
     }
     factory<CreateReportMviModel> { params ->

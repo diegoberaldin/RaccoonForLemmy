@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
@@ -85,11 +84,6 @@ actual fun getSavedItemsViewModel(): SavedItemsMviModel {
     val res: SavedItemsMviModel by inject(
         clazz = SavedItemsMviModel::class.java,
     )
-    return res
-}
-
-actual fun getModalDrawerViewModel(): ModalDrawerMviModel {
-    val res: ModalDrawerMviModel by inject(ModalDrawerMviModel::class.java)
     return res
 }
 

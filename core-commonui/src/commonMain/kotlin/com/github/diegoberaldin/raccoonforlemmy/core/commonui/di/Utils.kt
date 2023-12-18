@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.Co
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
@@ -52,8 +51,6 @@ expect fun getCreatePostViewModel(
 ): CreatePostMviModel
 
 expect fun getSavedItemsViewModel(): SavedItemsMviModel
-
-expect fun getModalDrawerViewModel(): ModalDrawerMviModel
 
 expect fun getCreateReportViewModel(
     postId: Int? = null,

@@ -36,7 +36,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.AppTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getUserFromUrl
@@ -56,6 +55,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.search.managesubscriptio
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.detail.MultiCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerContent
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.FlowPreview
