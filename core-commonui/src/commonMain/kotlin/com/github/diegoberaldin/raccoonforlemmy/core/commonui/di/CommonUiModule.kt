@@ -4,8 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationModule
@@ -18,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.di.createPostMod
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.di.createReportModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.di.postDetailModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.reportListModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.di.savedItemsModule
@@ -43,28 +42,8 @@ val commonUiModule = module {
         savedItemsModule,
         createReportModule,
         createPostModule,
+        postDetailModule,
     )
-    factory<PostDetailMviModel> { params ->
-        PostDetailViewModel(
-            mvi = DefaultMviModel(PostDetailMviModel.UiState()),
-            post = params[0],
-            otherInstance = params[1],
-            highlightCommentId = params[2],
-            isModerator = params[3],
-            identityRepository = get(),
-            apiConfigurationRepository = get(),
-            siteRepository = get(),
-            postRepository = get(),
-            commentRepository = get(),
-            communityRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
-            shareHelper = get(),
-            notificationCenter = get(),
-            hapticFeedback = get(),
-            getSortTypesUseCase = get(),
-        )
-    }
     factory<CommunityDetailMviModel> { params ->
         CommunityDetailViewModel(
             mvi = DefaultMviModel(CommunityDetailMviModel.UiState()),

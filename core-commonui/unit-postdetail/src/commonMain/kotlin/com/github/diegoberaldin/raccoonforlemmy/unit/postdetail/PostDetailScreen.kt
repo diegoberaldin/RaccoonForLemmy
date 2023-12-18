@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail
+package com.github.diegoberaldin.raccoonforlemmy.unit.postdetail
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -75,11 +75,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getPostDetailViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CollapsedCommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
@@ -89,7 +88,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -105,6 +103,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.di.getPostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
@@ -161,6 +160,7 @@ class PostDetailScreen(
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -315,26 +315,13 @@ class PostDetailScreen(
                                 actionButtonsActive = uiState.isLogged,
                                 blurNsfw = false,
                                 onOpenCommunity = rememberCallbackArgs { community, _ ->
-                                    navigationCoordinator.pushScreen(
-                                        CommunityDetailScreen(
-                                            community = community,
-                                            otherInstance = otherInstanceName,
-                                        )
-                                    )
+                                    detailOpener.openCommunityDetail(community, otherInstanceName)
                                 },
                                 onOpenCreator = rememberCallbackArgs { user, _ ->
-                                    navigationCoordinator.pushScreen(
-                                        UserDetailScreen(
-                                            user = user,
-                                            otherInstance = otherInstanceName,
-                                        )
-                                    )
+                                    detailOpener.openUserDetail(user, otherInstanceName)
                                 },
                                 onOpenPost = rememberCallbackArgs { p, instance ->
-                                    navigationCoordinator.pushScreen(
-                                        PostDetailScreen(p, instance)
-                                    )
-
+                                    detailOpener.openPostDetail(p, instance)
                                 },
                                 onOpenWeb = rememberCallbackArgs { url ->
                                     navigationCoordinator.pushScreen(
@@ -452,25 +439,25 @@ class PostDetailScreen(
 
                                         OptionId.Edit -> {
                                             navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                false
+                                                false,
                                             )
                                             navigationCoordinator.showBottomSheet(
-                                                CreatePostScreen(editedPost = uiState.post)
+                                                CreatePostScreen(editedPost = uiState.post),
                                             )
                                         }
 
                                         OptionId.Report -> {
                                             navigationCoordinator.showBottomSheet(
-                                                CreateReportScreen(postId = uiState.post.id)
+                                                CreateReportScreen(postId = uiState.post.id),
                                             )
                                         }
 
                                         OptionId.CrossPost -> {
                                             navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                false
+                                                false,
                                             )
                                             navigationCoordinator.showBottomSheet(
-                                                CreatePostScreen(crossPost = uiState.post)
+                                                CreatePostScreen(crossPost = uiState.post),
                                             )
                                         }
 
@@ -481,11 +468,11 @@ class PostDetailScreen(
                                         OptionId.Share -> model.reduce(PostDetailMviModel.Intent.SharePost)
 
                                         OptionId.FeaturePost -> model.reduce(
-                                            PostDetailMviModel.Intent.ModFeaturePost
+                                            PostDetailMviModel.Intent.ModFeaturePost,
                                         )
 
                                         OptionId.LockPost -> model.reduce(
-                                            PostDetailMviModel.Intent.ModLockPost
+                                            PostDetailMviModel.Intent.ModLockPost,
                                         )
 
                                         OptionId.Remove -> {
@@ -565,9 +552,7 @@ class PostDetailScreen(
                                                             id = crossPost.id,
                                                             community = community,
                                                         )
-                                                        navigationCoordinator.pushScreen(
-                                                            PostDetailScreen(post)
-                                                        )
+                                                        detailOpener.openPostDetail(post)
                                                     },
                                                 ),
                                                 text = string,
@@ -740,26 +725,16 @@ class PostDetailScreen(
                                                         }
                                                     },
                                                     onOpenCreator = rememberCallbackArgs { user, instance ->
-                                                        navigationCoordinator.pushScreen(
-                                                            UserDetailScreen(
-                                                                user = user,
-                                                                otherInstance = instance,
-                                                            ),
-                                                        )
+                                                        detailOpener.openUserDetail(user, instance)
                                                     },
                                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                                        navigationCoordinator.pushScreen(
-                                                            CommunityDetailScreen(
-                                                                community = community,
-                                                                otherInstance = instance,
-                                                            ),
+                                                        detailOpener.openCommunityDetail(
+                                                            community,
+                                                            instance
                                                         )
                                                     },
                                                     onOpenPost = rememberCallbackArgs { p, instance ->
-                                                        navigationCoordinator.pushScreen(
-                                                            PostDetailScreen(p, instance)
-                                                        )
-
+                                                        detailOpener.openPostDetail(p, instance)
                                                     },
                                                     onOpenWeb = rememberCallbackArgs { url ->
                                                         navigationCoordinator.pushScreen(
@@ -871,7 +846,7 @@ class PostDetailScreen(
                                                                 val screen =
                                                                     RemoveScreen(commentId = comment.id)
                                                                 navigationCoordinator.showBottomSheet(
-                                                                    screen
+                                                                    screen,
                                                                 )
                                                             }
 
@@ -885,7 +860,7 @@ class PostDetailScreen(
                                                                         commentId = comment.id,
                                                                     )
                                                                     navigationCoordinator.showBottomSheet(
-                                                                        screen
+                                                                        screen,
                                                                     )
                                                                 }
                                                             }
@@ -894,7 +869,7 @@ class PostDetailScreen(
                                                                 comment.creator?.id?.also { userId ->
                                                                     model.reduce(
                                                                         PostDetailMviModel.Intent.ModToggleModUser(
-                                                                            userId
+                                                                            userId,
                                                                         )
                                                                     )
                                                                 }
@@ -913,7 +888,7 @@ class PostDetailScreen(
                                             onToggleExpanded = rememberCallback(model) {
                                                 model.reduce(
                                                     PostDetailMviModel.Intent.ToggleExpandComment(
-                                                        comment.id
+                                                        comment.id,
                                                     )
 
                                                 )
@@ -921,7 +896,7 @@ class PostDetailScreen(
                                             onClick = rememberCallback(model) {
                                                 model.reduce(
                                                     PostDetailMviModel.Intent.ToggleExpandComment(
-                                                        comment.id
+                                                        comment.id,
                                                     )
                                                 )
                                             },
@@ -958,7 +933,7 @@ class PostDetailScreen(
                                             onReply = rememberCallback(model) {
                                                 if (uiState.isLogged && !isOnOtherInstance) {
                                                     navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                        false
+                                                        false,
                                                     )
                                                     val screen = CreateCommentScreen(
                                                         originalPost = uiState.post,
@@ -968,30 +943,25 @@ class PostDetailScreen(
                                                 }
                                             },
                                             onOpenCreator = rememberCallbackArgs { user ->
-                                                navigationCoordinator.pushScreen(
-                                                    UserDetailScreen(
-                                                        user = user,
-                                                        otherInstance = otherInstanceName,
-                                                    ),
-                                                )
+                                                detailOpener.openUserDetail(user, otherInstanceName)
                                             },
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw)
+                                                    stringResource(MR.strings.post_action_see_raw),
                                                 )
                                                 this += Option(
                                                     OptionId.Report,
-                                                    stringResource(MR.strings.post_action_report)
+                                                    stringResource(MR.strings.post_action_report),
                                                 )
                                                 if (comment.creator?.id == uiState.currentUserId) {
                                                     this += Option(
                                                         OptionId.Edit,
-                                                        stringResource(MR.strings.post_action_edit)
+                                                        stringResource(MR.strings.post_action_edit),
                                                     )
                                                     this += Option(
                                                         OptionId.Delete,
-                                                        stringResource(MR.strings.comment_action_delete)
+                                                        stringResource(MR.strings.comment_action_delete),
                                                     )
                                                 }
                                                 if (uiState.isModerator) {
@@ -1020,7 +990,7 @@ class PostDetailScreen(
                                                             this += Option(
                                                                 OptionId.AddMod,
                                                                 if (uiState.moderators.containsId(
-                                                                        creatorId
+                                                                        creatorId,
                                                                     )
                                                                 ) {
                                                                     stringResource(MR.strings.mod_action_remove_mod)
@@ -1036,13 +1006,13 @@ class PostDetailScreen(
                                                 when (optionId) {
                                                     OptionId.Delete -> model.reduce(
                                                         PostDetailMviModel.Intent.DeleteComment(
-                                                            comment.id
+                                                            comment.id,
                                                         )
                                                     )
 
                                                     OptionId.Edit -> {
                                                         navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                            false
+                                                            false,
                                                         )
                                                         navigationCoordinator.showBottomSheet(
                                                             CreateCommentScreen(
@@ -1054,7 +1024,7 @@ class PostDetailScreen(
                                                     OptionId.Report -> {
                                                         navigationCoordinator.showBottomSheet(
                                                             CreateReportScreen(
-                                                                commentId = comment.id
+                                                                commentId = comment.id,
                                                             )
                                                         )
                                                     }
@@ -1065,7 +1035,7 @@ class PostDetailScreen(
 
                                                     OptionId.DistinguishComment -> model.reduce(
                                                         PostDetailMviModel.Intent.ModDistinguishComment(
-                                                            comment.id
+                                                            comment.id,
                                                         )
                                                     )
 
@@ -1073,7 +1043,7 @@ class PostDetailScreen(
                                                         val screen =
                                                             RemoveScreen(commentId = comment.id)
                                                         navigationCoordinator.showBottomSheet(
-                                                            screen
+                                                            screen,
                                                         )
                                                     }
 
@@ -1087,7 +1057,7 @@ class PostDetailScreen(
                                                                 commentId = comment.id,
                                                             )
                                                             navigationCoordinator.showBottomSheet(
-                                                                screen
+                                                                screen,
                                                             )
                                                         }
                                                     }
@@ -1096,7 +1066,7 @@ class PostDetailScreen(
                                                         comment.creator?.id?.also { userId ->
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.ModToggleModUser(
-                                                                    userId
+                                                                    userId,
                                                                 )
                                                             )
                                                         }
@@ -1122,7 +1092,7 @@ class PostDetailScreen(
                                             onClick = rememberCallback(model) {
                                                 model.reduce(
                                                     PostDetailMviModel.Intent.FetchMoreComments(
-                                                        parentId = comment.id
+                                                        parentId = comment.id,
                                                     )
                                                 )
                                             },
@@ -1211,7 +1181,8 @@ class PostDetailScreen(
         if (rawContent != null) {
             when (val content = rawContent) {
                 is PostModel -> {
-                    RawContentDialog(title = content.title,
+                    RawContentDialog(
+                        title = content.title,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         url = content.url,
@@ -1231,7 +1202,8 @@ class PostDetailScreen(
                                     })
                                 navigationCoordinator.showBottomSheet(screen)
                             }
-                        })
+                        },
+                    )
                 }
 
                 is CommentModel -> {

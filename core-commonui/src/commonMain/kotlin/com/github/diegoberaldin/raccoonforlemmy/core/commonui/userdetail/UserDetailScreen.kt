@@ -68,13 +68,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
@@ -86,7 +86,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -146,6 +145,7 @@ class UserDetailScreen(
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -460,9 +460,7 @@ class UserDetailScreen(
                                         autoLoadImages = uiState.autoLoadImages,
                                         actionButtonsActive = uiState.isLogged,
                                         onClick = rememberCallback {
-                                            navigationCoordinator.pushScreen(
-                                                PostDetailScreen(post = post),
-                                            )
+                                            detailOpener.openPostDetail(post)
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled) {
                                             null
@@ -513,19 +511,13 @@ class UserDetailScreen(
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                CommunityDetailScreen(community, instance),
-                                            )
+                                            detailOpener.openCommunityDetail(community, instance)
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                UserDetailScreen(user, instance)
-                                            )
+                                            detailOpener.openUserDetail(user, instance)
                                         },
                                         onOpenPost = rememberCallbackArgs { p, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                PostDetailScreen(p, instance)
-                                            )
+                                            detailOpener.openPostDetail(p, instance)
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(
@@ -536,9 +528,7 @@ class UserDetailScreen(
                                             null
                                         } else {
                                             rememberCallback {
-                                                navigationCoordinator.pushScreen(
-                                                    PostDetailScreen(post),
-                                                )
+                                                detailOpener.openPostDetail(post)
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs { url ->
@@ -692,11 +682,9 @@ class UserDetailScreen(
                                         hideIndent = true,
                                         actionButtonsActive = uiState.isLogged,
                                         onClick = rememberCallback {
-                                            navigationCoordinator.pushScreen(
-                                                PostDetailScreen(
-                                                    post = PostModel(id = comment.postId),
-                                                    highlightCommentId = comment.id,
-                                                )
+                                            detailOpener.openPostDetail(
+                                                post = PostModel(id = comment.postId),
+                                                highlightCommentId = comment.id,
                                             )
                                         },
                                         onImageClick = rememberCallbackArgs { url ->
@@ -765,20 +753,13 @@ class UserDetailScreen(
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                CommunityDetailScreen(community, instance)
-                                            )
+                                            detailOpener.openCommunityDetail(community, instance)
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                UserDetailScreen(user, instance)
-                                            )
+                                            detailOpener.openUserDetail(user, instance)
                                         },
                                         onOpenPost = rememberCallbackArgs { post, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                PostDetailScreen(post, instance)
-                                            )
-
+                                            detailOpener.openPostDetail(post, instance)
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(

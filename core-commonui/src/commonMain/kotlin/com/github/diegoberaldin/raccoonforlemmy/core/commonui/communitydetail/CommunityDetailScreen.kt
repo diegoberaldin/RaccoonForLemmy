@@ -79,6 +79,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Floatin
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
@@ -88,8 +89,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -160,6 +159,7 @@ class CommunityDetailScreen(
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val keepScreenOn = rememberKeepScreenOn()
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -565,12 +565,10 @@ class CommunityDetailScreen(
                                                     post.id
                                                 )
                                             )
-                                            navigationCoordinator.pushScreen(
-                                                PostDetailScreen(
-                                                    post = post,
-                                                    otherInstance = otherInstanceName,
-                                                    isMod = uiState.moderators.containsId(uiState.currentUserId),
-                                                ),
+                                            detailOpener.openPostDetail(
+                                                post = post,
+                                                otherInstance = otherInstanceName,
+                                                isMod = uiState.moderators.containsId(uiState.currentUserId),
                                             )
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged || isOnOtherInstance) {
@@ -586,18 +584,10 @@ class CommunityDetailScreen(
                                             }
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, _ ->
-                                            navigationCoordinator.pushScreen(
-                                                UserDetailScreen(
-                                                    user = user,
-                                                    otherInstance = otherInstanceName,
-                                                ),
-                                            )
+                                            detailOpener.openUserDetail(user, otherInstanceName)
                                         },
                                         onOpenPost = rememberCallbackArgs { p, instance ->
-                                            navigationCoordinator.pushScreen(
-                                                PostDetailScreen(p, instance)
-                                            )
-
+                                            detailOpener.openPostDetail(p, instance)
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(
@@ -641,9 +631,7 @@ class CommunityDetailScreen(
                                                         post.id
                                                     )
                                                 )
-                                                navigationCoordinator.pushScreen(
-                                                    PostDetailScreen(post),
-                                                )
+                                                detailOpener.openPostDetail(post)
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs(model) { url ->

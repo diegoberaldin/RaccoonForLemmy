@@ -38,6 +38,7 @@ kotlin {
 
                 implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui)
+                implementation(projects.coreCommonui.unitPostdetail)
                 implementation(projects.coreCommonui.detailopenerApi)
 
                 implementation(projects.domainLemmy.data)
