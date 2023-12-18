@@ -24,8 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportL
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationModule
@@ -33,6 +31,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
 import org.koin.dsl.module
 
@@ -45,6 +44,7 @@ val commonUiModule = module {
         banModule,
         zoomableImageModule,
         chatModule,
+        selectCommunityModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -191,15 +191,6 @@ val commonUiModule = module {
             identityRepository = get(),
             postRepository = get(),
             commentRepository = get(),
-        )
-    }
-    factory<SelectCommunityMviModel> {
-        SelectCommunityViewModel(
-            mvi = DefaultMviModel(SelectCommunityMviModel.UiState()),
-            identityRepository = get(),
-            communityRepository = get(),
-            settingsRepository = get(),
-            notificationCenter = get(),
         )
     }
     factory<RemoveMviModel> { params ->

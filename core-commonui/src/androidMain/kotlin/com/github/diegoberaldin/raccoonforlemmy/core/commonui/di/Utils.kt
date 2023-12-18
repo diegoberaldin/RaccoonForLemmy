@@ -11,7 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.selectcommunity.SelectCommunityMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -103,12 +102,6 @@ actual fun getCreateReportViewModel(
     })
     return res
 }
-
-actual fun getSelectCommunityViewModel(): SelectCommunityMviModel {
-    val res: SelectCommunityMviModel by inject(SelectCommunityMviModel::class.java)
-    return res
-}
-
 
 actual fun getRemoveViewModel(
     postId: Int?,
