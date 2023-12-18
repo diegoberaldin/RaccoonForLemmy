@@ -7,8 +7,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
@@ -20,6 +18,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.communityInfoModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.di.createReportModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
@@ -45,6 +44,7 @@ val commonUiModule = module {
         removeModule,
         reportListModule,
         savedItemsModule,
+        createReportModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -131,16 +131,6 @@ val commonUiModule = module {
             siteRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
-        )
-    }
-    factory<CreateReportMviModel> { params ->
-        CreateReportViewModel(
-            postId = params[0],
-            commentId = params[1],
-            mvi = DefaultMviModel(CreateReportMviModel.UiState()),
-            identityRepository = get(),
-            postRepository = get(),
-            commentRepository = get(),
         )
     }
 }

@@ -3,7 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -41,11 +40,6 @@ actual fun getCreatePostViewModel(
     editedPostId: Int?,
 ): CreatePostMviModel =
     CommonUiViewModelHelper.getCreatePostModel(editedPostId)
-
-actual fun getCreateReportViewModel(
-    postId: Int?,
-    commentId: Int?,
-): CreateReportMviModel = CommonUiViewModelHelper.getCreateReportModel(postId, commentId)
 
 object CommonUiViewModelHelper : KoinComponent {
 
@@ -92,16 +86,6 @@ object CommonUiViewModelHelper : KoinComponent {
     fun getCreatePostModel(editedPostId: Int?): CreatePostMviModel {
         val model: CreatePostMviModel by inject(
             parameters = { parametersOf(editedPostId) }
-        )
-        return model
-    }
-
-    fun getCreateReportModel(
-        postId: Int?,
-        commentId: Int?,
-    ): CreateReportMviModel {
-        val model: CreateReportMviModel by inject(
-            parameters = { parametersOf(postId, commentId) }
         )
         return model
     }

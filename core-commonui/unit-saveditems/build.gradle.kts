@@ -42,6 +42,7 @@ kotlin {
                 implementation(projects.coreCommonui.modals)
                 implementation(projects.coreCommonui.unitZoomableimage)
                 implementation(projects.coreCommonui.unitWeb)
+                implementation(projects.coreCommonui.unitCreatereport)
                 implementation(projects.coreCommonui.detailopenerApi)
                 implementation(projects.coreNavigation)
                 implementation(projects.corePersistence)
