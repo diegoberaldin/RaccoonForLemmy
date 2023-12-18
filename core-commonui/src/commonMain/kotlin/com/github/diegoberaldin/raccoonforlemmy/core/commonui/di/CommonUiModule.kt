@@ -1,8 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
@@ -15,8 +13,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.Creat
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
@@ -36,6 +32,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationMod
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
 import org.koin.dsl.module
 
 val commonUiModule = module {
@@ -45,6 +43,8 @@ val commonUiModule = module {
         navigationModule,
         lemmyUiModule,
         banModule,
+        zoomableImageModule,
+        chatModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -153,27 +153,7 @@ val commonUiModule = module {
             settingsRepository = get(),
         )
     }
-    factory<ZoomableImageMviModel> {
-        ZoomableImageViewModel(
-            mvi = DefaultMviModel(ZoomableImageMviModel.UiState()),
-            shareHelper = get(),
-            galleryHelper = get(),
-            settingsRepository = get(),
-        )
-    }
-    factory<InboxChatMviModel> { params ->
-        InboxChatViewModel(
-            otherUserId = params[0],
-            mvi = DefaultMviModel(InboxChatMviModel.UiState()),
-            identityRepository = get(),
-            siteRepository = get(),
-            userRepository = get(),
-            messageRepository = get(),
-            postRepository = get(),
-            notificationCenter = get(),
-            settingsRepository = get(),
-        )
-    }
+
     factory<SavedItemsMviModel> {
         SavedItemsViewModel(
             mvi = DefaultMviModel(SavedItemsMviModel.UiState()),

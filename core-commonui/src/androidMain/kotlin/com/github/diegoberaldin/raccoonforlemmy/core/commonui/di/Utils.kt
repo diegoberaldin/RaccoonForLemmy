@@ -1,13 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
@@ -84,22 +82,6 @@ actual fun getCreatePostViewModel(editedPostId: Int?): CreatePostMviModel {
         parameters = { parametersOf(editedPostId) })
     return res
 }
-
-actual fun getZoomableImageViewModel(): ZoomableImageMviModel {
-    val res: ZoomableImageMviModel by inject(ZoomableImageMviModel::class.java)
-    return res
-}
-
-actual fun getInboxChatViewModel(otherUserId: Int): InboxChatMviModel {
-    val res: InboxChatMviModel by inject(
-        InboxChatMviModel::class.java,
-        parameters = {
-            parametersOf(otherUserId)
-        },
-    )
-    return res
-}
-
 actual fun getSavedItemsViewModel(): SavedItemsMviModel {
     val res: SavedItemsMviModel by inject(
         clazz = SavedItemsMviModel::class.java,

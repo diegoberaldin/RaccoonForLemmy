@@ -56,7 +56,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityInfoViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
@@ -70,6 +69,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

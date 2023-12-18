@@ -1,13 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
@@ -53,10 +51,6 @@ expect fun getCreateCommentViewModel(
 expect fun getCreatePostViewModel(
     editedPostId: Int?,
 ): CreatePostMviModel
-
-expect fun getZoomableImageViewModel(): ZoomableImageMviModel
-
-expect fun getInboxChatViewModel(otherUserId: Int): InboxChatMviModel
 
 expect fun getSavedItemsViewModel(): SavedItemsMviModel
 

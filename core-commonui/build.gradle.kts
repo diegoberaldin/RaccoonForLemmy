@@ -59,6 +59,8 @@ kotlin {
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.modals)
                 implementation(projects.coreCommonui.unitBan)
+                implementation(projects.coreCommonui.unitChat)
+                implementation(projects.coreCommonui.unitZoomableimage)
 
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)

@@ -66,7 +66,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
@@ -89,6 +88,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultTy
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getExploreViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

@@ -51,6 +51,8 @@ kotlin {
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.modals)
+                implementation(projects.coreCommonui.unitZoomableimage)
+                implementation(projects.coreCommonui.unitChat)
                 implementation(projects.coreUtils)
                 implementation(projects.corePreferences)
                 implementation(projects.corePersistence)
@@ -59,6 +61,7 @@ kotlin {
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)
                 implementation(projects.domainIdentity)
+
             }
         }
         val commonTest by getting {

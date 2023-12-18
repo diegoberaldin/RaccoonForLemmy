@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.image
+package com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

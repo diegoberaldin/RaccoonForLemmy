@@ -1,15 +1,12 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.drawer.ModalDrawerMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.instanceinfo.InstanceInfoMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.FabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.remove.RemoveMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
@@ -58,12 +55,6 @@ actual fun getCreatePostViewModel(
 ): CreatePostMviModel =
     CommonUiViewModelHelper.getCreatePostModel(editedPostId)
 
-actual fun getZoomableImageViewModel(): ZoomableImageMviModel =
-    CommonUiViewModelHelper.zoomableImageModel
-
-actual fun getInboxChatViewModel(otherUserId: Int): InboxChatMviModel =
-    CommonUiViewModelHelper.getChatViewModel(otherUserId)
-
 actual fun getSavedItemsViewModel(): SavedItemsMviModel =
     CommonUiViewModelHelper.savedItemsViewModel
 
@@ -89,8 +80,6 @@ actual fun getReportListViewModel(
 
 object CommonUiViewModelHelper : KoinComponent {
 
-    val fabNestedScrollConnection: FabNestedScrollConnection by inject()
-    val zoomableImageModel: ZoomableImageMviModel by inject()
     val savedItemsViewModel: SavedItemsMviModel by inject()
     val modalDrawerViewModel: ModalDrawerMviModel by inject()
     val selectCommunityViewModel: SelectCommunityMviModel by inject()
@@ -152,13 +141,6 @@ object CommonUiViewModelHelper : KoinComponent {
     fun getCreatePostModel(editedPostId: Int?): CreatePostMviModel {
         val model: CreatePostMviModel by inject(
             parameters = { parametersOf(editedPostId) }
-        )
-        return model
-    }
-
-    fun getChatViewModel(otherUserId: Int): InboxChatMviModel {
-        val model: InboxChatMviModel by inject(
-            parameters = { parametersOf(otherUserId) }
         )
         return model
     }

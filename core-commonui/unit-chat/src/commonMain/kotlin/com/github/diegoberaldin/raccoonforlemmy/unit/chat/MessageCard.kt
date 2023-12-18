@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat
+package com.github.diegoberaldin.raccoonforlemmy.unit.chat
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -35,7 +35,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.image.ZoomableImageScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
@@ -50,6 +49,7 @@ internal fun MessageCard(
     isMyMessage: Boolean = false,
     content: String = "",
     date: String = "",
+    onOpenImage: ((String) -> Unit)? = null,
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
@@ -113,9 +113,7 @@ internal fun MessageCard(
                 Column {
                     PostCardBody(
                         text = content,
-                        onOpenImage = { url ->
-                            navigationCoordinator.pushScreen(ZoomableImageScreen(url))
-                        }
+                        onOpenImage = onOpenImage,
                     )
                     Box {
                         Row(

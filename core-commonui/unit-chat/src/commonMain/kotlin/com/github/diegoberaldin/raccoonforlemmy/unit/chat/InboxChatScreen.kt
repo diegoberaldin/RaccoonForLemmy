@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat
+package com.github.diegoberaldin.raccoonforlemmy.unit.chat
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -56,7 +56,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getInboxChatViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
@@ -66,6 +65,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.getInboxChatViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -240,6 +241,9 @@ class InboxChatScreen(
                                 isMyMessage = isMyMessage,
                                 content = content,
                                 date = date,
+                                onOpenImage = rememberCallbackArgs { url ->
+                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                },
                                 options = buildList {
                                     if (isMyMessage) {
                                         this += Option(
