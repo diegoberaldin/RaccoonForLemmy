@@ -40,7 +40,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getUserFromUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -55,6 +54,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.search.multicommunity.de
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerContent
+import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.SavedItemsScreen
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.FlowPreview

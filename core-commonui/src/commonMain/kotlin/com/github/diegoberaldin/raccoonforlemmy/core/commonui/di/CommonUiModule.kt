@@ -12,8 +12,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.Creat
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationModule
@@ -26,6 +24,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.reportListModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.di.savedItemsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
 import org.koin.dsl.module
@@ -45,6 +44,7 @@ val commonUiModule = module {
         instanceInfoModule,
         removeModule,
         reportListModule,
+        savedItemsModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -131,24 +131,6 @@ val commonUiModule = module {
             siteRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
-        )
-    }
-
-    factory<SavedItemsMviModel> {
-        SavedItemsViewModel(
-            mvi = DefaultMviModel(SavedItemsMviModel.UiState()),
-            identityRepository = get(),
-            apiConfigurationRepository = get(),
-            siteRepository = get(),
-            userRepository = get(),
-            postRepository = get(),
-            commentRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
-            shareHelper = get(),
-            hapticFeedback = get(),
-            notificationCenter = get(),
-            getSortTypesUseCase = get(),
         )
     }
     factory<CreateReportMviModel> { params ->

@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems
+package com.github.diegoberaldin.raccoonforlemmy.unit.saveditems
 
 sealed interface SavedItemsSection {
     data object Posts : SavedItemsSection

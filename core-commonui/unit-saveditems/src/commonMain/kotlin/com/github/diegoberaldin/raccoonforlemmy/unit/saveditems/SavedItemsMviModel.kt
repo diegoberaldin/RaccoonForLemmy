@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems
+package com.github.diegoberaldin.raccoonforlemmy.unit.saveditems
 
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel

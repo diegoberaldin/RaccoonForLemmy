@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems
+package com.github.diegoberaldin.raccoonforlemmy.unit.saveditems
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -50,13 +50,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.CreateCommentScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getSavedItemsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
@@ -64,9 +61,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -76,6 +70,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.di.getSavedItemsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
@@ -99,6 +96,7 @@ class SavedItemsScreen : Screen {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.setBottomSheetGesturesEnabled(true)
@@ -222,26 +220,18 @@ class SavedItemsScreen : Screen {
                                     autoLoadImages = uiState.autoLoadImages,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = rememberCallback {
-                                        navigatorCoordinator.pushScreen(
-                                            PostDetailScreen(post),
-                                        )
+                                        detailOpener.openPostDetail(post)
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                        navigatorCoordinator.pushScreen(
-                                            CommunityDetailScreen(community, instance),
-                                        )
+                                        detailOpener.openCommunityDetail(community, instance)
                                     },
                                     onOpenCreator = rememberCallbackArgs { u, instance ->
                                         if (u.id != uiState.user?.id) {
-                                            navigatorCoordinator.pushScreen(
-                                                UserDetailScreen(u, instance),
-                                            )
+                                            detailOpener.openUserDetail(u, instance)
                                         }
                                     },
                                     onOpenPost = rememberCallbackArgs { p, instance ->
-                                        navigationCoordinator.pushScreen(
-                                            PostDetailScreen(p, instance)
-                                        )
+                                        detailOpener.openPostDetail(p, instance)
                                     },
                                     onOpenWeb = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(
@@ -273,9 +263,7 @@ class SavedItemsScreen : Screen {
                                         )
                                     },
                                     onReply = rememberCallback {
-                                        navigationCoordinator.pushScreen(
-                                            PostDetailScreen(post),
-                                        )
+                                        detailOpener.openPostDetail(post)
                                     },
                                     onImageClick = rememberCallbackArgs { url ->
                                         navigatorCoordinator.pushScreen(
@@ -306,9 +294,7 @@ class SavedItemsScreen : Screen {
                                         when (optionIndex) {
                                             OptionId.Report -> {
                                                 navigatorCoordinator.showBottomSheet(
-                                                    CreateReportScreen(
-                                                        postId = post.id
-                                                    )
+                                                    CreateReportScreen(postId = post.id),
                                                 )
                                             }
 
@@ -355,11 +341,9 @@ class SavedItemsScreen : Screen {
                                     autoLoadImages = uiState.autoLoadImages,
                                     hideIndent = true,
                                     onClick = {
-                                        navigatorCoordinator.pushScreen(
-                                            PostDetailScreen(
-                                                post = PostModel(id = comment.postId),
-                                                highlightCommentId = comment.id,
-                                            ),
+                                        detailOpener.openPostDetail(
+                                            post = PostModel(id = comment.postId),
+                                            highlightCommentId = comment.id,
                                         )
                                     },
                                     onImageClick = rememberCallbackArgs { url ->
@@ -391,11 +375,12 @@ class SavedItemsScreen : Screen {
                                     },
                                     onReply = {
                                         navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                        val screen = CreateCommentScreen(
-                                            originalPost = PostModel(id = comment.postId),
-                                            originalComment = comment,
-                                        )
-                                        navigatorCoordinator.showBottomSheet(screen)
+                                        // TODO
+//                                        val screen = CreateCommentScreen(
+//                                            originalPost = PostModel(id = comment.postId),
+//                                            originalComment = comment,
+//                                        )
+//                                        navigatorCoordinator.showBottomSheet(screen)
                                     },
                                     options = buildList {
                                         add(
@@ -415,9 +400,7 @@ class SavedItemsScreen : Screen {
                                         when (optionIndex) {
                                             OptionId.Report -> {
                                                 navigatorCoordinator.showBottomSheet(
-                                                    CreateReportScreen(
-                                                        commentId = comment.id
-                                                    )
+                                                    CreateReportScreen(commentId = comment.id),
                                                 )
                                             }
 
@@ -493,14 +476,15 @@ class SavedItemsScreen : Screen {
                             rawContent = null
                             if (quotation != null) {
                                 navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen = CreateCommentScreen(
-                                    originalPost = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    })
-                                navigationCoordinator.showBottomSheet(screen)
+                                // TODO
+//                                val screen = CreateCommentScreen(
+//                                    originalPost = content,
+//                                    initialText = buildString {
+//                                        append("> ")
+//                                        append(quotation)
+//                                        append("\n\n")
+//                                    })
+//                                navigationCoordinator.showBottomSheet(screen)
                             }
                         })
                 }
@@ -517,14 +501,15 @@ class SavedItemsScreen : Screen {
                             rawContent = null
                             if (quotation != null) {
                                 navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen = CreateCommentScreen(
-                                    originalComment = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    })
-                                navigationCoordinator.showBottomSheet(screen)
+                                // TODO
+//                                val screen = CreateCommentScreen(
+//                                    originalComment = content,
+//                                    initialText = buildString {
+//                                        append("> ")
+//                                        append(quotation)
+//                                        append("\n\n")
+//                                    })
+//                                navigationCoordinator.showBottomSheet(screen)
                             }
                         }
                     )

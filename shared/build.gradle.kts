@@ -52,6 +52,7 @@ kotlin {
                 implementation(projects.coreCommonui)
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.unitDrawer)
+                implementation(projects.coreCommonui.unitSaveditems)
                 implementation(projects.coreCommonui.detailopenerApi)
                 implementation(projects.coreCommonui.detailopenerImpl)
                 implementation(projects.coreNotifications)

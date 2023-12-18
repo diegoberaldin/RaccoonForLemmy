@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -37,8 +36,6 @@ expect fun getCreateCommentViewModel(
 expect fun getCreatePostViewModel(
     editedPostId: Int?,
 ): CreatePostMviModel
-
-expect fun getSavedItemsViewModel(): SavedItemsMviModel
 
 expect fun getCreateReportViewModel(
     postId: Int? = null,

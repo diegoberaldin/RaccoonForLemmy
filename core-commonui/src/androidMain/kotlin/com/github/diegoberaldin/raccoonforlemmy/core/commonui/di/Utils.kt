@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -58,12 +57,6 @@ actual fun getCreateCommentViewModel(
 actual fun getCreatePostViewModel(editedPostId: Int?): CreatePostMviModel {
     val res: CreatePostMviModel by inject(clazz = CreatePostMviModel::class.java,
         parameters = { parametersOf(editedPostId) })
-    return res
-}
-actual fun getSavedItemsViewModel(): SavedItemsMviModel {
-    val res: SavedItemsMviModel by inject(
-        clazz = SavedItemsMviModel::class.java,
-    )
     return res
 }
 
