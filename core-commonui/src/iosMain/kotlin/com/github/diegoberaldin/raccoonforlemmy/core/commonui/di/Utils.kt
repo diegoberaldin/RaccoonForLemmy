@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
@@ -87,20 +86,6 @@ actual fun getRemoveViewModel(
 actual fun getReportListViewModel(
     communityId: Int,
 ): ReportListMviModel = CommonUiViewModelHelper.getReportListViewModel(communityId)
-
-actual fun getBanUserViewModel(
-    userId: Int,
-    communityId: Int,
-    newValue: Boolean,
-    postId: Int?,
-    commentId: Int?,
-): BanUserMviModel = CommonUiViewModelHelper.getBanUserViewModel(
-    userId,
-    communityId,
-    newValue,
-    postId,
-    commentId
-)
 
 object CommonUiViewModelHelper : KoinComponent {
 
@@ -203,27 +188,6 @@ object CommonUiViewModelHelper : KoinComponent {
     ): ReportListMviModel {
         val model: ReportListMviModel by inject(
             parameters = { parametersOf(communityId) }
-        )
-        return model
-    }
-
-    fun getBanUserViewModel(
-        userId: Int,
-        communityId: Int,
-        newValue: Boolean,
-        postId: Int?,
-        commentId: Int?,
-    ): BanUserMviModel {
-        val model: BanUserMviModel by inject(
-            parameters = {
-                parametersOf(
-                    userId,
-                    communityId,
-                    newValue,
-                    postId,
-                    commentId,
-                )
-            }
         )
         return model
     }

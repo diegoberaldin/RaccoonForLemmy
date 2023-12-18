@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
@@ -148,21 +147,3 @@ actual fun getReportListViewModel(
     return res
 }
 
-actual fun getBanUserViewModel(
-    userId: Int,
-    communityId: Int,
-    newValue: Boolean,
-    postId: Int?,
-    commentId: Int?,
-): BanUserMviModel {
-    val res: BanUserMviModel by inject(BanUserMviModel::class.java, parameters = {
-        parametersOf(
-            userId,
-            communityId,
-            newValue,
-            postId,
-            commentId,
-        )
-    })
-    return res
-}

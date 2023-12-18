@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
@@ -78,11 +77,3 @@ expect fun getRemoveViewModel(
 expect fun getReportListViewModel(
     communityId: Int,
 ): ReportListMviModel
-
-expect fun getBanUserViewModel(
-    userId: Int,
-    communityId: Int,
-    newValue: Boolean = true,
-    postId: Int? = null,
-    commentId: Int? = null,
-): BanUserMviModel

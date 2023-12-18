@@ -1,8 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.ban.BanUserViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.chat.InboxChatViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communityInfo.CommunityInfoMviModel
@@ -37,6 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import org.koin.dsl.module
 
 val commonUiModule = module {
@@ -45,6 +44,7 @@ val commonUiModule = module {
         imagePreloadModule,
         navigationModule,
         lemmyUiModule,
+        banModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -243,19 +243,6 @@ val commonUiModule = module {
             themeRepository = get(),
             settingsRepository = get(),
             hapticFeedback = get(),
-            notificationCenter = get(),
-        )
-    }
-    factory<BanUserMviModel> { params ->
-        BanUserViewModel(
-            userId = params[0],
-            communityId = params[1],
-            newValue = params[2],
-            postId = params[3],
-            commentId = params[4],
-            mvi = DefaultMviModel(BanUserMviModel.UiState()),
-            identityRepository = get(),
-            communityRepository = get(),
             notificationCenter = get(),
         )
     }
