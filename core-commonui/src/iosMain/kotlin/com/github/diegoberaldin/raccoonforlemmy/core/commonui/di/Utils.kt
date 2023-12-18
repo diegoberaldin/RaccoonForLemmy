@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createcomment.Crea
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.CreateReportMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -51,10 +50,6 @@ actual fun getCreateReportViewModel(
     postId: Int?,
     commentId: Int?,
 ): CreateReportMviModel = CommonUiViewModelHelper.getCreateReportModel(postId, commentId)
-
-actual fun getReportListViewModel(
-    communityId: Int,
-): ReportListMviModel = CommonUiViewModelHelper.getReportListViewModel(communityId)
 
 object CommonUiViewModelHelper : KoinComponent {
 
@@ -113,15 +108,6 @@ object CommonUiViewModelHelper : KoinComponent {
     ): CreateReportMviModel {
         val model: CreateReportMviModel by inject(
             parameters = { parametersOf(postId, commentId) }
-        )
-        return model
-    }
-
-    fun getReportListViewModel(
-        communityId: Int,
-    ): ReportListMviModel {
-        val model: ReportListMviModel by inject(
-            parameters = { parametersOf(communityId) }
         )
         return model
     }

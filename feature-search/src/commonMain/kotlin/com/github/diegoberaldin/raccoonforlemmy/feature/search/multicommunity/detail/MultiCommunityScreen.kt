@@ -291,7 +291,7 @@ class MultiCommunityScreen(
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = rememberCallback {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
-                                        detailOpener.openPostDetail(post, "")
+                                        detailOpener.openPostDetail(post)
                                     },
                                     onDoubleClick = if (uiState.swipeActionsEnabled) {
                                         null
@@ -347,7 +347,7 @@ class MultiCommunityScreen(
                                         )
                                     },
                                     onReply = rememberCallback {
-                                        detailOpener.openPostDetail(post, "")
+                                        detailOpener.openPostDetail(post)
                                     },
                                     onImageClick = rememberCallbackArgs { url ->
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))

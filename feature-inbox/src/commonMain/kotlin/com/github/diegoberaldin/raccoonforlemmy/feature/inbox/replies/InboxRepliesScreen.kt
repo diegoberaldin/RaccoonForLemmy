@@ -183,7 +183,6 @@ class InboxRepliesScreen : Tab {
                                     detailOpener.openPostDetail(
                                         post = post,
                                         highlightCommentId = reply.comment.id,
-                                        otherInstance = "",
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->

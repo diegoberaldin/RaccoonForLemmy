@@ -17,7 +17,7 @@ class DefaultDetailOpener(
         navigationCoordinator.pushScreen(
             CommunityDetailScreen(
                 community = community,
-                otherInstance = otherInstance
+                otherInstance = otherInstance,
             ),
         )
     }
@@ -26,7 +26,7 @@ class DefaultDetailOpener(
         navigationCoordinator.pushScreen(
             UserDetailScreen(
                 user = user,
-                otherInstance = otherInstance
+                otherInstance = otherInstance,
             ),
         )
     }
@@ -35,12 +35,14 @@ class DefaultDetailOpener(
         post: PostModel,
         otherInstance: String,
         highlightCommentId: Int?,
+        isMod: Boolean,
     ) {
         navigationCoordinator.pushScreen(
             PostDetailScreen(
                 post = post,
                 highlightCommentId = highlightCommentId,
-                otherInstance = otherInstance
+                otherInstance = otherInstance,
+                isMod = isMod,
             ),
         )
     }

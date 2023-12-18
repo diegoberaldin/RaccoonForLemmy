@@ -181,7 +181,7 @@ internal object ProfileLoggedScreen : Tab {
                                     hideAuthor = true,
                                     blurNsfw = false,
                                     onClick = rememberCallback {
-                                        detailOpener.openPostDetail(post, "")
+                                        detailOpener.openPostDetail(post)
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
                                         detailOpener.openCommunityDetail(community, instance)
@@ -227,7 +227,7 @@ internal object ProfileLoggedScreen : Tab {
                                         )
                                     },
                                     onReply = rememberCallback {
-                                        detailOpener.openPostDetail(post, "")
+                                        detailOpener.openPostDetail(post)
                                     },
                                     options = buildList {
                                         add(
@@ -331,7 +331,6 @@ internal object ProfileLoggedScreen : Tab {
                                         detailOpener.openPostDetail(
                                             post = PostModel(id = comment.postId),
                                             highlightCommentId = comment.id,
-                                            otherInstance = "",
                                         )
                                     },
                                     onUpVote = rememberCallback(model) {
@@ -362,7 +361,6 @@ internal object ProfileLoggedScreen : Tab {
                                         detailOpener.openPostDetail(
                                             post = PostModel(id = comment.postId),
                                             highlightCommentId = comment.id,
-                                            otherInstance = "",
                                         )
                                     },
                                     options = buildList {

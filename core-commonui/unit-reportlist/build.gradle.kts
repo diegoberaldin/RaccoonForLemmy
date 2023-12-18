@@ -15,15 +15,9 @@ kotlin {
             }
         }
     }
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "core-commonui"
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         val commonMain by getting {
@@ -37,37 +31,25 @@ kotlin {
                 implementation(compose.materialIconsExtended)
 
                 implementation(libs.koin.core)
-                implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.bottomsheet)
-                implementation(libs.voyager.tab)
+                implementation(libs.voyager.navigator)
 
                 implementation(projects.coreUtils)
                 implementation(projects.coreAppearance)
                 implementation(projects.coreArchitecture)
-                implementation(projects.corePreferences)
-                implementation(projects.corePersistence)
-                implementation(projects.coreMd)
-                implementation(projects.coreNotifications)
-                implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.modals)
-                implementation(projects.coreCommonui.unitBan)
-                implementation(projects.coreCommonui.unitChat)
                 implementation(projects.coreCommonui.unitZoomableimage)
                 implementation(projects.coreCommonui.unitWeb)
-                implementation(projects.coreCommonui.unitSelectcommunity)
-                implementation(projects.coreCommonui.unitDrawer)
-                implementation(projects.coreCommonui.unitCommunityinfo)
-                implementation(projects.coreCommonui.unitInstanceinfo)
-                implementation(projects.coreCommonui.unitRemove)
-                implementation(projects.coreCommonui.unitReportlist)
                 implementation(projects.coreCommonui.detailopenerApi)
+                implementation(projects.coreNavigation)
+                implementation(projects.coreNotifications)
+                implementation(projects.corePersistence)
 
+                implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)
-                implementation(projects.domainIdentity)
 
                 implementation(projects.resources)
             }
@@ -81,7 +63,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.core.commonui"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.reportlist"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

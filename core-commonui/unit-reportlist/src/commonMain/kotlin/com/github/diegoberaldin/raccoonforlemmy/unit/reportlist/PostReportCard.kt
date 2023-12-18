@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist
+package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
@@ -18,9 +19,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardIm
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardTitle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostLinkBanner
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -28,6 +26,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
+import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 
 @Composable
 internal fun PostReportCard(
@@ -40,6 +39,7 @@ internal fun PostReportCard(
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     val navigationCoordinator = remember { getNavigationCoordinator() }
+    val detailOpener = remember { getDetailOpener() }
 
     InnerReportCard(
         modifier = modifier,
@@ -62,15 +62,10 @@ internal fun PostReportCard(
                         text = title,
                         autoLoadImages = autoLoadImages,
                         onOpenUser = rememberCallbackArgs { user, instance ->
-                            navigationCoordinator.pushScreen(
-                                UserDetailScreen(user, instance)
-                            )
+                            detailOpener.openUserDetail(user, instance)
                         },
                         onOpenPost = rememberCallbackArgs { post, instance ->
-                            navigationCoordinator.pushScreen(
-                                PostDetailScreen(post, instance)
-                            )
-
+                            detailOpener.openPostDetail(post, instance)
                         },
                         onOpenWeb = rememberCallbackArgs { url ->
                             navigationCoordinator.pushScreen(
@@ -97,15 +92,10 @@ internal fun PostReportCard(
                         text = text,
                         autoLoadImages = autoLoadImages,
                         onOpenUser = rememberCallbackArgs { user, instance ->
-                            navigationCoordinator.pushScreen(
-                                UserDetailScreen(user, instance)
-                            )
+                            detailOpener.openUserDetail(user, instance)
                         },
                         onOpenPost = rememberCallbackArgs { post, instance ->
-                            navigationCoordinator.pushScreen(
-                                PostDetailScreen(post, instance)
-                            )
-
+                            detailOpener.openPostDetail(post, instance)
                         },
                         onOpenWeb = rememberCallbackArgs { url ->
                             navigationCoordinator.pushScreen(
@@ -117,7 +107,6 @@ internal fun PostReportCard(
                 report.originalUrl?.also { url ->
                     val settingsRepository = remember { getSettingsRepository() }
                     val uriHandler = LocalUriHandler.current
-                    val navigationCoordinator = remember { getNavigationCoordinator() }
                     PostLinkBanner(
                         modifier = Modifier
                             .padding(vertical = Spacing.xs)

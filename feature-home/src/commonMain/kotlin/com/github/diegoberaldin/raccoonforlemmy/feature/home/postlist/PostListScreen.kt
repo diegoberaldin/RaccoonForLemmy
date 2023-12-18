@@ -347,7 +347,7 @@ class PostListScreen : Screen {
                                         blurNsfw = uiState.blurNsfw,
                                         onClick = rememberCallback(model) {
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
-                                            detailOpener.openPostDetail(post, "")
+                                            detailOpener.openPostDetail(post)
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged) {
                                             null
@@ -408,7 +408,7 @@ class PostListScreen : Screen {
                                         onReply = rememberCallback(model) {
                                             if (uiState.isLogged) {
                                                 model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
-                                                detailOpener.openPostDetail(post, "")
+                                                detailOpener.openPostDetail(post)
                                             }
                                         },
                                         onImageClick = rememberCallbackArgs(model, post) { url ->

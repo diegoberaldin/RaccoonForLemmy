@@ -12,8 +12,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createreport.Creat
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist.ReportListViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.saveditems.SavedItemsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
@@ -27,6 +25,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.communityI
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.reportListModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
 import org.koin.dsl.module
@@ -45,6 +44,7 @@ val commonUiModule = module {
         communityInfoModule,
         instanceInfoModule,
         removeModule,
+        reportListModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -159,19 +159,6 @@ val commonUiModule = module {
             identityRepository = get(),
             postRepository = get(),
             commentRepository = get(),
-        )
-    }
-    factory<ReportListMviModel> { params ->
-        ReportListViewModel(
-            communityId = params[0],
-            mvi = DefaultMviModel(ReportListMviModel.UiState()),
-            identityRepository = get(),
-            postRepository = get(),
-            commentRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
-            hapticFeedback = get(),
-            notificationCenter = get(),
         )
     }
 }

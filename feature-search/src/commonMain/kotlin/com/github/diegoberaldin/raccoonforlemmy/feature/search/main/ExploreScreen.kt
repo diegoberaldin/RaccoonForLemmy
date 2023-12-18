@@ -360,7 +360,7 @@ class ExploreScreen : Screen {
                                                 blurNsfw = uiState.blurNsfw,
                                                 actionButtonsActive = uiState.isLogged,
                                                 onClick = rememberCallback {
-                                                    detailOpener.openPostDetail(result.model, "")
+                                                    detailOpener.openPostDetail(result.model)
                                                 },
                                                 onDoubleClick = if (!uiState.doubleTapActionEnabled) {
                                                     null
@@ -419,7 +419,6 @@ class ExploreScreen : Screen {
                                                     if (uiState.isLogged) {
                                                         detailOpener.openPostDetail(
                                                             result.model,
-                                                            ""
                                                         )
                                                     }
                                                 },
@@ -510,7 +509,6 @@ class ExploreScreen : Screen {
                                                     detailOpener.openPostDetail(
                                                         post = PostModel(id = result.model.postId),
                                                         highlightCommentId = result.model.id,
-                                                        otherInstance = "",
                                                     )
                                                 },
                                                 onDoubleClick = if (!uiState.doubleTapActionEnabled) {

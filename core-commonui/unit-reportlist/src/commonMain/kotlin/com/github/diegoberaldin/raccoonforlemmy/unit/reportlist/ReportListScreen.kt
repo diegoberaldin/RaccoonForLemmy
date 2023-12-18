@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.reportlist
+package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -54,12 +54,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getReportListViewModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ReportListTypeSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -69,6 +68,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.getReportListViewModel
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -96,6 +96,7 @@ class ReportListScreen(
                 model.reduce(ReportListMviModel.Intent.Refresh)
             },
         )
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -217,8 +218,8 @@ class ReportListScreen(
                                 }
                             }
                             items(
-                                uiState.postReports,
-                                { it.id.toString() + it.updateDate + it.resolved + uiState.unresolvedOnly },
+                                items = uiState.postReports,
+                                key = { it.id.toString() + it.updateDate + it.resolved + uiState.unresolvedOnly },
                             ) { report ->
                                 val endColor = MaterialTheme.colorScheme.secondary
                                 SwipeableCard(
@@ -257,11 +258,10 @@ class ReportListScreen(
                                             postLayout = uiState.postLayout,
                                             autoLoadImages = uiState.autoLoadImages,
                                             onOpen = rememberCallback {
-                                                val screen = PostDetailScreen(
+                                                detailOpener.openPostDetail(
                                                     post = PostModel(id = report.postId),
                                                     isMod = true,
                                                 )
-                                                navigationCoordinator.pushScreen(screen)
                                             },
                                             options = buildList {
                                                 this += Option(
@@ -366,12 +366,11 @@ class ReportListScreen(
                                             postLayout = uiState.postLayout,
                                             autoLoadImages = uiState.autoLoadImages,
                                             onOpen = rememberCallback {
-                                                val screen = PostDetailScreen(
+                                                detailOpener.openPostDetail(
                                                     post = PostModel(id = report.postId),
                                                     highlightCommentId = report.commentId,
                                                     isMod = true,
                                                 )
-                                                navigationCoordinator.pushScreen(screen)
                                             },
                                             options = buildList {
                                                 this += Option(
