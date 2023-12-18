@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost
+package com.github.diegoberaldin.raccoonforlemmy.unit.createpost
 
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel

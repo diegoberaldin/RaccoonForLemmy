@@ -79,7 +79,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Floatin
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
@@ -108,6 +107,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen

@@ -3,8 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailViewModel
@@ -16,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.communityInfoModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.di.createPostModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.di.createReportModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
@@ -43,6 +42,7 @@ val commonUiModule = module {
         reportListModule,
         savedItemsModule,
         createReportModule,
+        createPostModule,
     )
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
@@ -103,17 +103,6 @@ val commonUiModule = module {
             notificationCenter = get(),
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
-        )
-    }
-    factory<CreatePostMviModel> { params ->
-        CreatePostViewModel(
-            mvi = DefaultMviModel(CreatePostMviModel.UiState()),
-            editedPostId = params[0],
-            identityRepository = get(),
-            postRepository = get(),
-            siteRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
         )
     }
 }

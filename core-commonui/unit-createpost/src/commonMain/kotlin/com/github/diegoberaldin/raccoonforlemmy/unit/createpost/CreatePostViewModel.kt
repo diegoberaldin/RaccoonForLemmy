@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost
+package com.github.diegoberaldin.raccoonforlemmy.unit.createpost
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel

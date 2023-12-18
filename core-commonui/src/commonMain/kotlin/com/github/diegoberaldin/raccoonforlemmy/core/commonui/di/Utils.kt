@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -24,7 +23,3 @@ expect fun getUserDetailViewModel(
     user: UserModel,
     otherInstance: String = "",
 ): UserDetailMviModel
-
-expect fun getCreatePostViewModel(
-    editedPostId: Int?,
-): CreatePostMviModel

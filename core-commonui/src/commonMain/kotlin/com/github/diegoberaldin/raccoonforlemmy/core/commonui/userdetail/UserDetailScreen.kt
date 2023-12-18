@@ -75,7 +75,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Floatin
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
@@ -102,6 +101,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen

@@ -60,7 +60,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
@@ -81,6 +80,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.getHomeScreenMod
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen

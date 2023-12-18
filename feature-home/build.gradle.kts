@@ -57,6 +57,7 @@ kotlin {
                 implementation(projects.coreCommonui.unitWeb)
                 implementation(projects.coreCommonui.unitCreatereport)
                 implementation(projects.coreCommonui.unitCreatecomment)
+                implementation(projects.coreCommonui.unitCreatepost)
                 implementation(projects.coreCommonui.detailopenerApi)
                 implementation(projects.coreNotifications)
 

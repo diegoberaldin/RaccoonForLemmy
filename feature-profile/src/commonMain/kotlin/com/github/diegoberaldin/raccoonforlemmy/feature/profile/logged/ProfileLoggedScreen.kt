@@ -39,7 +39,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
@@ -60,6 +59,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLog
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource

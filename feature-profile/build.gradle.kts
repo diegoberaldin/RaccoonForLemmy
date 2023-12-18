@@ -57,6 +57,7 @@ kotlin {
                 implementation(projects.coreCommonui.unitZoomableimage)
                 implementation(projects.coreCommonui.unitWeb)
                 implementation(projects.coreCommonui.unitCreatecomment)
+                implementation(projects.coreCommonui.unitCreatepost)
                 implementation(projects.coreCommonui.detailopenerApi)
                 implementation(projects.corePreferences)
                 implementation(projects.coreNotifications)

@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.createpost.CreatePostMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.postdetail.PostDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -27,11 +26,6 @@ actual fun getCommunityDetailViewModel(
 
 actual fun getUserDetailViewModel(user: UserModel, otherInstance: String): UserDetailMviModel =
     CommonUiViewModelHelper.getUserDetailModel(user, otherInstance)
-
-actual fun getCreatePostViewModel(
-    editedPostId: Int?,
-): CreatePostMviModel =
-    CommonUiViewModelHelper.getCreatePostModel(editedPostId)
 
 object CommonUiViewModelHelper : KoinComponent {
 
@@ -60,13 +54,6 @@ object CommonUiViewModelHelper : KoinComponent {
     fun getUserDetailModel(user: UserModel, otherInstance: String): UserDetailMviModel {
         val model: UserDetailMviModel by inject(
             parameters = { parametersOf(user, otherInstance) },
-        )
-        return model
-    }
-
-    fun getCreatePostModel(editedPostId: Int?): CreatePostMviModel {
-        val model: CreatePostMviModel by inject(
-            parameters = { parametersOf(editedPostId) }
         )
         return model
     }
