@@ -75,6 +75,8 @@ kotlin {
                 implementation(projects.unitPostdetail)
                 implementation(projects.unitCommunitydetail)
                 implementation(projects.unitUserdetail)
+                implementation(projects.unitManagesubscriptions)
+                implementation(projects.unitMulticommunity)
 
                 api(projects.resources)
                 api(projects.featureHome)

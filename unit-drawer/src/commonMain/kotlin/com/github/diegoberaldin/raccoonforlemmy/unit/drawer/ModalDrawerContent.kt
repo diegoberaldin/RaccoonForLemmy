@@ -105,7 +105,6 @@ object ModalDrawerContent : Tab {
         Column(
             modifier = Modifier.fillMaxWidth(0.9f)
         ) {
-
             DrawerHeader(
                 user = uiState.user,
                 instance = uiState.instance,
@@ -150,7 +149,7 @@ object ModalDrawerContent : Tab {
                                 DrawerShortcut(
                                     title = listingType.toReadableName(),
                                     icon = listingType.toIcon(),
-                                    onSelected = {
+                                    onSelected = rememberCallback(coordinator) {
                                         coordinator.toggleDrawer()
                                         coordinator.sendEvent(
                                             DrawerEvent.ChangeListingType(listingType)
@@ -162,7 +161,7 @@ object ModalDrawerContent : Tab {
                         item {
                             DrawerShortcut(title = stringResource(MR.strings.navigation_drawer_title_bookmarks),
                                 icon = Icons.Default.Bookmarks,
-                                onSelected = {
+                                onSelected = rememberCallback(coordinator) {
                                     coordinator.toggleDrawer()
                                     coordinator.sendEvent(DrawerEvent.OpenBookmarks)
                                 })
@@ -171,7 +170,7 @@ object ModalDrawerContent : Tab {
                             DrawerShortcut(
                                 title = stringResource(MR.strings.navigation_drawer_title_subscriptions),
                                 icon = Icons.Default.ManageAccounts,
-                                onSelected = {
+                                onSelected = rememberCallback(coordinator) {
                                     coordinator.toggleDrawer()
                                     coordinator.sendEvent(DrawerEvent.ManageSubscriptions)
                                 })

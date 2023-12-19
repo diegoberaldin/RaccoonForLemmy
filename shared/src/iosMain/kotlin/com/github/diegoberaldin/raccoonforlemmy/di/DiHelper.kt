@@ -30,6 +30,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.di.createPostMod
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.di.createReportModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.di.manageSubscriptionsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.di.postDetailModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.reportListModule
@@ -80,6 +81,7 @@ fun initKoin() {
             postDetailModule,
             communityDetailModule,
             userDetailModule,
+            manageSubscriptionsModule,
         )
     }
 
