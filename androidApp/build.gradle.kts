@@ -57,6 +57,6 @@ dependencies {
     implementation(libs.coil.gif)
 
     implementation(projects.shared)
-    implementation(projects.coreUtils)
-    implementation(projects.coreNavigation)
+    implementation(projects.core.utils)
+    implementation(projects.core.navigation)
 }
