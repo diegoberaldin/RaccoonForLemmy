@@ -36,7 +36,7 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -71,16 +71,15 @@ class AboutDialog : Screen {
         val settings by settingsRepository.currentSettings.collectAsState()
         val uiState by viewModel.uiState.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(viewModel) {
             viewModel.effects.onEach { effect ->
                 when (effect) {
                     is AboutDialogMviModel.Effect.OpenCommunity -> {
-                        navigationCoordinator.pushScreen(
-                            CommunityDetailScreen(
-                                community = effect.community,
-                                otherInstance = effect.instance,
-                            )
+                        detailOpener.openCommunityDetail(
+                            community = effect.community,
+                            otherInstance = effect.instance,
                         )
                     }
                 }

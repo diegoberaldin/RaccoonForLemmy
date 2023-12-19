@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail
+package com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -80,7 +80,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Floatin
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
@@ -104,6 +103,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
@@ -878,7 +878,8 @@ class CommunityDetailScreen(
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(text = content.text,
+                    RawContentDialog(
+                        text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = rememberCallback {
@@ -896,7 +897,8 @@ class CommunityDetailScreen(
                                     })
                                 navigationCoordinator.showBottomSheet(screen)
                             }
-                        })
+                        },
+                    )
                 }
             }
         }

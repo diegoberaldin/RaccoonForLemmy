@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail
+package com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail
 
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel

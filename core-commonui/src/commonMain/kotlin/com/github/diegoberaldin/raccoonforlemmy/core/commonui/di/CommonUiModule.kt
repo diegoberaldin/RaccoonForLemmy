@@ -1,8 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
@@ -44,26 +42,6 @@ val commonUiModule = module {
         createPostModule,
         postDetailModule,
     )
-    factory<CommunityDetailMviModel> { params ->
-        CommunityDetailViewModel(
-            mvi = DefaultMviModel(CommunityDetailMviModel.UiState()),
-            community = params[0],
-            otherInstance = params[1],
-            identityRepository = get(),
-            apiConfigurationRepository = get(),
-            communityRepository = get(),
-            postRepository = get(),
-            siteRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
-            shareHelper = get(),
-            hapticFeedback = get(),
-            zombieModeHelper = get(),
-            imagePreloadManager = get(),
-            notificationCenter = get(),
-            getSortTypesUseCase = get(),
-        )
-    }
     factory<UserDetailMviModel> { params ->
         UserDetailViewModel(
             mvi = DefaultMviModel(UserDetailMviModel.UiState()),

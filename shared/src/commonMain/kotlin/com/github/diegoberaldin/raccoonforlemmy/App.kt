@@ -35,7 +35,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.AppTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFromUrl
@@ -198,7 +197,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 }
 
                 is DrawerEvent.OpenCommunity -> {
-                    navigationCoordinator.pushScreen(CommunityDetailScreen(evt.community))
+                    detailOpener.openCommunityDetail(evt.community)
                 }
 
                 is DrawerEvent.OpenMultiCommunity -> {

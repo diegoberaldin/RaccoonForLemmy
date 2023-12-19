@@ -45,9 +45,9 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.communitydetail.CommunityDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.MultiCommunityItem
@@ -79,6 +79,7 @@ class ManageSubscriptionsScreen : Screen {
         val scope = rememberCoroutineScope()
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
+        val detailOpener = remember { getDetailOpener() }
 
         Scaffold(
             topBar = {
@@ -242,9 +243,7 @@ class ManageSubscriptionsScreen : Screen {
                                 .background(MaterialTheme.colorScheme.background)
                                 .onClick(
                                     onClick = rememberCallback {
-                                        navigatorCoordinator.pushScreen(
-                                            CommunityDetailScreen(community),
-                                        )
+                                        detailOpener.openCommunityDetail(community)
                                     },
                                 ),
                             community = community,

@@ -15,50 +15,52 @@ kotlin {
             }
         }
     }
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "feature-settings"
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.koin.core)
-
                 implementation(compose.runtime)
                 implementation(compose.foundation)
+                implementation(compose.material)
                 implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
 
-                implementation(libs.voyager.navigator)
+                implementation(libs.koin.core)
                 implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.tab)
-                implementation(libs.voyager.bottomsheet)
+                implementation(libs.voyager.navigator)
 
-                implementation(projects.coreAppearance)
-                implementation(projects.corePreferences)
-                implementation(projects.corePersistence)
-                implementation(projects.coreArchitecture)
                 implementation(projects.coreUtils)
-                implementation(projects.coreNavigation)
-                implementation(projects.coreCommonui)
+                implementation(projects.coreAppearance)
+                implementation(projects.coreArchitecture)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.modals)
+                implementation(projects.coreCommonui.unitZoomableimage)
                 implementation(projects.coreCommonui.unitWeb)
+                implementation(projects.coreCommonui.unitCreatereport)
+                implementation(projects.coreCommonui.unitCreatecomment)
+                implementation(projects.coreCommonui.unitCreatepost)
+                implementation(projects.coreCommonui.unitRemove)
+                implementation(projects.coreCommonui.unitBan)
+                implementation(projects.coreCommonui.unitCommunityinfo)
+                implementation(projects.coreCommonui.unitInstanceinfo)
+                implementation(projects.coreCommonui.unitCreatereport)
+                implementation(projects.coreCommonui.unitReportlist)
                 implementation(projects.coreCommonui.detailopenerApi)
+                implementation(projects.coreNavigation)
+                implementation(projects.corePersistence)
                 implementation(projects.coreNotifications)
-                implementation(projects.resources)
+
+                implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)
-                implementation(projects.domainIdentity)
+
+                implementation(projects.resources)
             }
         }
         val commonTest by getting {
@@ -70,7 +72,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.settings"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
