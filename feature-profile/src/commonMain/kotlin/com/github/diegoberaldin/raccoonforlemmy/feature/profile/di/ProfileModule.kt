@@ -5,12 +5,15 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLo
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.login.di.loginModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.di.manageAccountsModule
 import org.koin.dsl.module
 
 val profileTabModule = module {
-    includes(loginModule)
+    includes(
+        loginModule,
+        manageAccountsModule,
+    )
     factory<ProfileMainMviModel> {
         ProfileMainViewModel(
             mvi = DefaultMviModel(ProfileMainMviModel.UiState()),
@@ -32,16 +35,6 @@ val profileTabModule = module {
             shareHelper = get(),
             notificationCenter = get(),
             hapticFeedback = get(),
-        )
-    }
-    factory<ManageAccountsMviModel> {
-        ManageAccountsViewModel(
-            mvi = DefaultMviModel(ManageAccountsMviModel.UiState()),
-            accountRepository = get(),
-            settingsRepository = get(),
-            switchAccount = get(),
-            logout = get(),
-            deleteAccount = get(),
         )
     }
 }

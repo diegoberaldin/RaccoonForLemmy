@@ -40,11 +40,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedScreen
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.notlogged.ProfileNotLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
+import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.ManageAccountsScreen
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
