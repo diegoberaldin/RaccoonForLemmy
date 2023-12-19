@@ -1,6 +1,6 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog
+package com.github.diegoberaldin.raccoonforlemmy.unit.about
 
-internal object AboutContants {
+internal object AboutConstants {
     const val REPORT_URL =
         "https://github.com/diegoberaldin/RaccoonForLemmy/issues/new?labels=bug"
     const val CHANGELOG_URL =

@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog
+package com.github.diegoberaldin.raccoonforlemmy.unit.about
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel

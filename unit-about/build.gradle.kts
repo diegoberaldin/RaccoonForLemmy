@@ -15,15 +15,9 @@ kotlin {
             }
         }
     }
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "feature-settings"
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         val commonMain by getting {
@@ -39,25 +33,21 @@ kotlin {
 
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.tab)
-                implementation(libs.voyager.bottomsheet)
 
                 implementation(projects.coreAppearance)
                 implementation(projects.corePreferences)
-                implementation(projects.corePersistence)
                 implementation(projects.coreArchitecture)
                 implementation(projects.coreUtils)
                 implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
-                implementation(projects.coreCommonui.modals)
                 implementation(projects.coreCommonui.detailopenerApi)
                 implementation(projects.unitWeb)
-                implementation(projects.unitAbout)
                 implementation(projects.coreNotifications)
+                implementation(projects.corePersistence)
+                implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)
-                implementation(projects.domainIdentity)
                 implementation(projects.resources)
             }
         }
@@ -70,7 +60,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.settings"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.about"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

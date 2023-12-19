@@ -1,13 +1,13 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.di
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutDialogMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutDialogViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.main.SettingsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.main.SettingsViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.di.aboutModule
 import org.koin.dsl.module
 
 val settingsTabModule = module {
+    includes(aboutModule)
     factory<SettingsMviModel> {
         SettingsViewModel(
             mvi = DefaultMviModel(SettingsMviModel.UiState()),
@@ -22,13 +22,6 @@ val settingsTabModule = module {
             crashReportSender = get(),
             contentResetCoordinator = get(),
             getSortTypesUseCase = get(),
-        )
-    }
-    factory<AboutDialogMviModel> {
-        AboutDialogViewModel(
-            mvi = DefaultMviModel(AboutDialogMviModel.UiState()),
-            identityRepository = get(),
-            communityRepository = get(),
         )
     }
 }

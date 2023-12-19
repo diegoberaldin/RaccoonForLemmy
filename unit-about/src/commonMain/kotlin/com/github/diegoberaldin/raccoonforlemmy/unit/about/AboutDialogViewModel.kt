@@ -1,12 +1,12 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog
+package com.github.diegoberaldin.raccoonforlemmy.unit.about
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutContants.LEMMY_COMMUNITY_INSTANCE
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutContants.LEMMY_COMMUNITY_NAME
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.LEMMY_COMMUNITY_INSTANCE
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.LEMMY_COMMUNITY_NAME
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch

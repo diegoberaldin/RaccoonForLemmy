@@ -75,7 +75,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.getSettingsViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsColorRow
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsHeader
@@ -85,6 +84,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.S
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.delay

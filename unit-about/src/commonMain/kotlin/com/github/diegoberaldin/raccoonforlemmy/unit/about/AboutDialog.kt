@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog
+package com.github.diegoberaldin.raccoonforlemmy.unit.about
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -44,12 +44,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.getAboutDialogViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutContants.CHANGELOG_URL
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutContants.REPORT_EMAIL_ADDRESS
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutContants.REPORT_URL
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.dialog.AboutContants.WEBSITE_URL
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.CHANGELOG_URL
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.REPORT_EMAIL_ADDRESS
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.REPORT_URL
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.WEBSITE_URL
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.di.getAboutDialogViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
