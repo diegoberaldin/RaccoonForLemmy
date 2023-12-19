@@ -5,21 +5,28 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import cafe.adriel.voyager.navigator.tab.Tab
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+
+sealed interface TabNavigationSection {
+    data object Home : TabNavigationSection
+    data object Explore : TabNavigationSection
+    data object Profile : TabNavigationSection
+    data object Inbox : TabNavigationSection
+    data object Settings : TabNavigationSection
+}
 
 @Stable
 interface NavigationCoordinator {
 
-    val onDoubleTabSelection: Flow<Tab>
+    val onDoubleTabSelection: Flow<TabNavigationSection>
     val inboxUnread: StateFlow<Int>
     val deepLinkUrl: Flow<String?>
     val canPop: StateFlow<Boolean>
     val exitMessageVisible: StateFlow<Boolean>
     val bottomSheetGesturesEnabled: StateFlow<Boolean>
 
-    fun setCurrentSection(tab: Tab)
+    fun setCurrentSection(section: TabNavigationSection)
     fun submitDeeplink(url: String)
     fun setRootNavigator(value: Navigator?)
     fun setCanGoBackCallback(value: (() -> Boolean)?)

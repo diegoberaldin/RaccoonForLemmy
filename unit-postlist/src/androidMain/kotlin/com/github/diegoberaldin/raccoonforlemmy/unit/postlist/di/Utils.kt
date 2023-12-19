@@ -1,6 +1,6 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.home.di
+package com.github.diegoberaldin.raccoonforlemmy.unit.postlist.di
 
-import com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist.PostListMviModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.postlist.PostListMviModel
 import org.koin.java.KoinJavaComponent.inject
 
 actual fun getHomeScreenModel(): PostListMviModel {

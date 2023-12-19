@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist
+package com.github.diegoberaldin.raccoonforlemmy.unit.postlist
 
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel

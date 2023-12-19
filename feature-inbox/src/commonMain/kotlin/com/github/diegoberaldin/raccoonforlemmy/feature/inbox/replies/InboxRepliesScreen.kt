@@ -49,11 +49,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardP
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxRepliesViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
@@ -77,8 +77,8 @@ class InboxRepliesScreen : Tab {
         val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.onDoubleTabSelection.onEach {
-                if (it == InboxTab) {
+            navigationCoordinator.onDoubleTabSelection.onEach { section ->
+                if (section == TabNavigationSection.Inbox) {
                     lazyListState.scrollToItem(0)
                 }
             }.launchIn(this)

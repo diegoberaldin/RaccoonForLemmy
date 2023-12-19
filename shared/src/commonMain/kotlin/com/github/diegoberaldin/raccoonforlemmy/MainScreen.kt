@@ -33,6 +33,7 @@ import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -94,7 +95,7 @@ internal object MainScreen : Screen {
             }
             navigationCoordinator.apply {
                 setBottomBarScrollConnection(scrollConnection)
-                setCurrentSection(HomeTab)
+                setCurrentSection(TabNavigationSection.Home)
             }
 
             navigationCoordinator.exitMessageVisible.onEach {

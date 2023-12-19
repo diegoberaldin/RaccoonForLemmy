@@ -1,27 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.home.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist.PostListMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist.PostListViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.postlist.di.postListModule
 import org.koin.dsl.module
 
 val homeTabModule = module {
-    factory<PostListMviModel> {
-        PostListViewModel(
-            mvi = DefaultMviModel(PostListMviModel.UiState()),
-            postRepository = get(),
-            apiConfigurationRepository = get(),
-            identityRepository = get(),
-            siteRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
-            shareHelper = get(),
-            notificationCenter = get(),
-            hapticFeedback = get(),
-            zombieModeHelper = get(),
-            imagePreloadManager = get(),
-            contentResetCoordinator = get(),
-            getSortTypesUseCase = get(),
-        )
-    }
+    includes(
+        postListModule,
+    )
 }

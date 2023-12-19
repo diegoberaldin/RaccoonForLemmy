@@ -27,7 +27,12 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
+import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
+import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
 import dev.icerock.moko.resources.desc.desc
@@ -43,7 +48,14 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
         modifier = Modifier.weight(1f).fillMaxHeight(),
         onClick = {
             tabNavigator.current = tab
-            navigationCoordinator.setCurrentSection(tab)
+            val section = when (tab) {
+                ExploreTab -> TabNavigationSection.Explore
+                ProfileTab -> TabNavigationSection.Profile
+                InboxTab -> TabNavigationSection.Inbox
+                SettingsTab -> TabNavigationSection.Settings
+                else -> TabNavigationSection.Home
+            }
+            navigationCoordinator.setCurrentSection(section)
         },
         selected = tabNavigator.current == tab,
         icon = {

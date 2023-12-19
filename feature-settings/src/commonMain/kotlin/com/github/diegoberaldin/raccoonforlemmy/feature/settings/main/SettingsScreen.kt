@@ -61,6 +61,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteThemeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -126,8 +127,8 @@ class SettingsScreen : Screen {
             }.launchIn(this)
         }
         LaunchedEffect(Unit) {
-            navigationCoordinator.onDoubleTabSelection.onEach { tab ->
-                if (tab == SettingsTab) {
+            navigationCoordinator.onDoubleTabSelection.onEach { section ->
+                if (section == TabNavigationSection.Settings) {
                     scrollState.scrollTo(0)
                     topAppBarState.heightOffset = 0f
                     topAppBarState.contentOffset = 0f

@@ -4,7 +4,6 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import cafe.adriel.voyager.navigator.tab.Tab
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 
 internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
-    override val onDoubleTabSelection = MutableSharedFlow<Tab>()
+    override val onDoubleTabSelection = MutableSharedFlow<TabNavigationSection>()
     override val deepLinkUrl = MutableSharedFlow<String>()
     override val inboxUnread = MutableStateFlow(0)
     override val canPop = MutableStateFlow(false)
@@ -26,7 +25,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
     private var bottomNavigator: BottomSheetNavigator? = null
-    private var currentTab: Tab? = null
+    private var currentTab: TabNavigationSection? = null
     private val scope = CoroutineScope(SupervisorJob())
     private var canGoBackCallback: (() -> Boolean)? = null
     private var job: Job? = null
@@ -48,12 +47,12 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override fun getBottomBarScrollConnection() = connection
 
-    override fun setCurrentSection(tab: Tab) {
+    override fun setCurrentSection(section: TabNavigationSection) {
         val oldTab = currentTab
-        currentTab = tab
-        if (tab == oldTab) {
+        currentTab = section
+        if (section == oldTab) {
             scope.launch {
-                onDoubleTabSelection.emit(tab)
+                onDoubleTabSelection.emit(section)
             }
         }
     }

@@ -10,10 +10,10 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.github.diegoberaldin.raccoonforlemmy.feature.home.postlist.PostListScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
+import com.github.diegoberaldin.raccoonforlemmy.unit.postlist.PostListScreen
 import dev.icerock.moko.resources.desc.desc
 
 object HomeTab : Tab {

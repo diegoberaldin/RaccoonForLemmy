@@ -15,50 +15,45 @@ kotlin {
             }
         }
     }
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "feature-home"
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.koin.core)
-
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material3)
                 implementation(compose.material)
-                implementation(compose.materialIconsExtended)
+                implementation(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
 
-                implementation(libs.voyager.navigator)
+                implementation(libs.koin.core)
                 implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.tab)
-                implementation(libs.voyager.bottomsheet)
+                implementation(libs.voyager.navigator)
 
+                implementation(projects.coreUtils)
                 implementation(projects.coreAppearance)
                 implementation(projects.coreArchitecture)
-                implementation(projects.corePreferences)
-                implementation(projects.corePersistence)
-                implementation(projects.coreUtils)
-                implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.modals)
-                implementation(projects.coreCommonui.detailopenerApi)
                 implementation(projects.unitZoomableimage)
                 implementation(projects.unitWeb)
                 implementation(projects.unitCreatereport)
                 implementation(projects.unitCreatecomment)
                 implementation(projects.unitCreatepost)
-                implementation(projects.unitPostlist)
+                implementation(projects.unitRemove)
+                implementation(projects.unitBan)
+                implementation(projects.unitCommunityinfo)
+                implementation(projects.unitInstanceinfo)
+                implementation(projects.unitCreatereport)
+                implementation(projects.unitReportlist)
+                implementation(projects.coreCommonui.detailopenerApi)
+                implementation(projects.coreNavigation)
+                implementation(projects.corePersistence)
                 implementation(projects.coreNotifications)
 
                 implementation(projects.domainIdentity)
@@ -77,7 +72,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.home"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.postlist"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
