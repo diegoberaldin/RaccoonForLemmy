@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged
+package com.github.diegoberaldin.raccoonforlemmy.unit.myaccount
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -57,17 +57,17 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.getProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.di.getProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-internal object ProfileLoggedScreen : Tab {
+object ProfileLoggedScreen : Tab {
 
     override val options: TabOptions
         @Composable get() {
@@ -172,7 +172,10 @@ internal object ProfileLoggedScreen : Tab {
                                     }
                                 }
                             }
-                            items(uiState.posts, { it.id.toString() + it.updateDate }) { post ->
+                            items(
+                                items = uiState.posts,
+                                key = { it.id.toString() + it.updateDate },
+                            ) { post ->
                                 PostCard(
                                     post = post,
                                     postLayout = uiState.postLayout,
@@ -315,8 +318,9 @@ internal object ProfileLoggedScreen : Tab {
                                 }
                             }
                             items(
-                                uiState.comments,
-                                { it.id.toString() + it.updateDate }) { comment ->
+                                items = uiState.comments,
+                                key = { it.id.toString() + it.updateDate },
+                            ) { comment ->
                                 CommentCard(
                                     modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,
