@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail
+package com.github.diegoberaldin.raccoonforlemmy.unit.userdetail
 
 sealed interface UserDetailSection {
     data object Posts : UserDetailSection

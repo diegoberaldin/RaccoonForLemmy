@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail
+package com.github.diegoberaldin.raccoonforlemmy.unit.userdetail
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -75,7 +75,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Progres
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.di.getUserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
@@ -102,6 +101,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.userdetail.di.getUserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource

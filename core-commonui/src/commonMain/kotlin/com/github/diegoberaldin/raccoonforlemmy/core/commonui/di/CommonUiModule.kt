@@ -1,9 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
@@ -42,24 +39,4 @@ val commonUiModule = module {
         createPostModule,
         postDetailModule,
     )
-    factory<UserDetailMviModel> { params ->
-        UserDetailViewModel(
-            mvi = DefaultMviModel(UserDetailMviModel.UiState()),
-            user = params[0],
-            otherInstance = params[1],
-            identityRepository = get(),
-            apiConfigurationRepository = get(),
-            userRepository = get(),
-            postRepository = get(),
-            commentRepository = get(),
-            siteRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
-            shareHelper = get(),
-            hapticFeedback = get(),
-            notificationCenter = get(),
-            imagePreloadManager = get(),
-            getSortTypesUseCase = get(),
-        )
-    }
 }

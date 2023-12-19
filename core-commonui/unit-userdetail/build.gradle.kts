@@ -20,11 +20,6 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.coil.compose)
-            }
-        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -33,17 +28,34 @@ kotlin {
                 implementation(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
 
+                implementation(libs.koin.core)
+                implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.navigator)
 
-                implementation(projects.coreNavigation)
-                implementation(projects.coreCommonui)
-                implementation(projects.coreCommonui.unitPostdetail)
-                implementation(projects.coreCommonui.unitCommunitydetail)
-                implementation(projects.coreCommonui.unitUserdetail)
+                implementation(projects.coreUtils)
+                implementation(projects.coreAppearance)
+                implementation(projects.coreArchitecture)
+                implementation(projects.coreCommonui.components)
+                implementation(projects.coreCommonui.lemmyui)
+                implementation(projects.coreCommonui.modals)
+                implementation(projects.coreCommonui.unitZoomableimage)
+                implementation(projects.coreCommonui.unitWeb)
+                implementation(projects.coreCommonui.unitCreatereport)
+                implementation(projects.coreCommonui.unitCreatecomment)
+                implementation(projects.coreCommonui.unitCreatepost)
+                implementation(projects.coreCommonui.unitRemove)
+                implementation(projects.coreCommonui.unitBan)
+                implementation(projects.coreCommonui.unitChat)
                 implementation(projects.coreCommonui.detailopenerApi)
+                implementation(projects.coreNavigation)
+                implementation(projects.corePersistence)
+                implementation(projects.coreNotifications)
 
+                implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
+                implementation(projects.domainLemmy.repository)
 
                 implementation(projects.resources)
             }
@@ -57,7 +69,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.impl"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.userdetail"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

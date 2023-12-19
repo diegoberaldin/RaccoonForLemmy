@@ -1,15 +1,15 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.di
+package com.github.diegoberaldin.raccoonforlemmy.unit.userdetail.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.userdetail.UserDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.userdetail.UserDetailMviModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
 
 actual fun getUserDetailViewModel(user: UserModel, otherInstance: String): UserDetailMviModel =
-    CommonUiViewModelHelper.getUserDetailModel(user, otherInstance)
+    UnitUserDetailDiHelper.getUserDetailModel(user, otherInstance)
 
-object CommonUiViewModelHelper : KoinComponent {
+object UnitUserDetailDiHelper : KoinComponent {
 
     fun getUserDetailModel(user: UserModel, otherInstance: String): UserDetailMviModel {
         val model: UserDetailMviModel by inject(

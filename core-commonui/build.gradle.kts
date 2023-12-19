@@ -68,6 +68,7 @@ kotlin {
                 implementation(projects.coreCommonui.unitCreatecomment)
                 implementation(projects.coreCommonui.unitCreatepost)
                 implementation(projects.coreCommonui.unitPostdetail)
+                implementation(projects.coreCommonui.unitUserdetail)
                 implementation(projects.coreCommonui.detailopenerApi)
 
                 implementation(projects.domainLemmy.data)
