@@ -3,8 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.profile.di
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsMviModel
@@ -12,22 +10,12 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.M
 import org.koin.dsl.module
 
 val profileTabModule = module {
+    includes(loginModule)
     factory<ProfileMainMviModel> {
         ProfileMainViewModel(
             mvi = DefaultMviModel(ProfileMainMviModel.UiState()),
             identityRepository = get(),
             logout = get(),
-        )
-    }
-    factory<LoginBottomSheetMviModel> {
-        LoginBottomSheetViewModel(
-            mvi = DefaultMviModel(LoginBottomSheetMviModel.UiState()),
-            login = get(),
-            accountRepository = get(),
-            identityRepository = get(),
-            siteRepository = get(),
-            communityRepository = get(),
-            apiConfigurationRepository = get(),
         )
     }
     factory<ProfileLoggedMviModel> {

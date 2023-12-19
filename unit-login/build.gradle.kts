@@ -40,31 +40,22 @@ kotlin {
 
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.tab)
                 implementation(libs.voyager.bottomsheet)
-                implementation(libs.ktor.cio)
 
-                implementation(projects.resources)
                 implementation(projects.coreArchitecture)
                 implementation(projects.coreAppearance)
                 implementation(projects.coreUtils)
-                implementation(projects.coreMd)
                 implementation(projects.coreNavigation)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
-                implementation(projects.coreCommonui.modals)
-                implementation(projects.coreCommonui.detailopenerApi)
+                implementation(projects.unitWeb)
                 implementation(projects.corePreferences)
                 implementation(projects.coreNotifications)
                 implementation(projects.corePersistence)
                 implementation(projects.domainIdentity)
                 implementation(projects.domainLemmy.data)
                 implementation(projects.domainLemmy.repository)
-                implementation(projects.unitZoomableimage)
-                implementation(projects.unitWeb)
-                implementation(projects.unitCreatecomment)
-                implementation(projects.unitCreatepost)
-                implementation(projects.unitLogin)
+                implementation(projects.resources)
             }
         }
         val commonTest by getting {
@@ -76,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.profile"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.login"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

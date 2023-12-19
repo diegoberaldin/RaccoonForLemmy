@@ -1,13 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.profile.di
 
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged.ProfileLoggedMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.profile.login.LoginBottomSheetMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.manageaccounts.ManageAccountsMviModel
 
 expect fun getProfileScreenModel(): ProfileMainMviModel
-
-expect fun getLoginBottomSheetViewModel(): LoginBottomSheetMviModel
 
 expect fun getProfileLoggedViewModel(): ProfileLoggedMviModel
 
