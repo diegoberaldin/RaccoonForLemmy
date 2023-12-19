@@ -1,12 +1,13 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.profile.logged
+package com.github.diegoberaldin.raccoonforlemmy.unit.userdetail
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ProfileLoggedSection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserDetailSection
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
@@ -14,103 +15,100 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
-import kotlinx.coroutines.yield
 
-class ProfileLoggedViewModel(
-    private val mvi: DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>,
+class UserDetailViewModel(
+    private val mvi: DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>,
+    private val user: UserModel,
+    private val otherInstance: String = "",
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
-    private val siteRepository: SiteRepository,
+    private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
-    private val userRepository: UserRepository,
+    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
-    private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
-    private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
-) : ProfileLoggedMviModel,
-    MviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect> by mvi {
+    private val settingsRepository: SettingsRepository,
+    private val notificationCenter: NotificationCenter,
+    private val imagePreloadManager: ImagePreloadManager,
+    private val getSortTypesUseCase: GetSortTypesUseCase,
+) : UserDetailMviModel,
+    MviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect> by mvi {
 
     private var currentPage = 1
 
-    @OptIn(FlowPreview::class)
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope?.launch(Dispatchers.IO) {
+        mvi.scope?.launch {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
-
-            identityRepository.isLogged.drop(1).debounce(250).onEach { logged ->
-                if (logged == true) {
-                    mvi.updateState {
-                        it.copy(
-                            posts = emptyList(),
-                            comments = emptyList(),
-                        )
-                    }
-                    refreshUser()
-                    refresh()
-                }
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
+                handlePostUpdate(evt.model)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    applySortType(evt.value)
+                }.launchIn(this)
+        }
+        mvi.updateState {
+            it.copy(
+                user = it.user.takeIf { u -> u.id != 0 } ?: user,
+            )
+        }
+        mvi.scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState {
                     it.copy(
+                        blurNsfw = settings.blurNsfw,
+                        swipeActionsEnabled = settings.enableSwipeActions,
+                        doubleTapActionEnabled = settings.enableDoubleTapAction,
+                        sortType = settings.defaultPostSortType.toSortType(),
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
                     )
                 }
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
+            identityRepository.isLogged.onEach { logged ->
+                mvi.updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class).onEach { evt ->
-                handlePostDelete(evt.model.id)
-            }.launchIn(this)
+            if (uiState.value.currentUserId == null) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val user = siteRepository.getCurrentUser(auth)
+                mvi.updateState {
+                    it.copy(
+                        currentUserId = user?.id ?: 0,
+                    )
+                }
+            }
 
             if (uiState.value.posts.isEmpty()) {
-                refreshUser()
+                updateAvailableSortTypes()
                 refresh(initial = true)
             }
         }
     }
 
-    override fun reduce(intent: ProfileLoggedMviModel.Intent) {
+    override fun reduce(intent: UserDetailMviModel.Intent) {
         when (intent) {
-            is ProfileLoggedMviModel.Intent.ChangeSection -> changeSection(intent.section)
-            is ProfileLoggedMviModel.Intent.DeleteComment -> deleteComment(intent.id)
-            is ProfileLoggedMviModel.Intent.DeletePost -> deletePost(intent.id)
-            ProfileLoggedMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
-                loadNextPage()
-            }
-
-            ProfileLoggedMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
-                refresh()
-            }
-
-            is ProfileLoggedMviModel.Intent.SharePost -> {
-                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    share(post = post)
-                }
-            }
-
-            is ProfileLoggedMviModel.Intent.DownVoteComment -> {
+            is UserDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
+            is UserDetailMviModel.Intent.ChangeSection -> changeSection(intent.section)
+            is UserDetailMviModel.Intent.DownVoteComment -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
@@ -119,16 +117,27 @@ class ProfileLoggedViewModel(
                 }
             }
 
-            is ProfileLoggedMviModel.Intent.DownVotePost -> {
+            is UserDetailMviModel.Intent.DownVotePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleDownVotePost(post = post)
+                    toggleDownVote(
+                        post = post,
+                    )
                 }
             }
 
-            is ProfileLoggedMviModel.Intent.SaveComment -> {
+            UserDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
+            UserDetailMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+                loadNextPage()
+            }
+
+            UserDetailMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+                refresh()
+            }
+
+            is UserDetailMviModel.Intent.SaveComment -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
@@ -137,16 +146,16 @@ class ProfileLoggedViewModel(
                 }
             }
 
-            is ProfileLoggedMviModel.Intent.SavePost -> {
+            is UserDetailMviModel.Intent.SavePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleSavePost(post = post)
+                    toggleSave(post = post)
                 }
             }
 
-            is ProfileLoggedMviModel.Intent.UpVoteComment -> {
+            is UserDetailMviModel.Intent.UpVoteComment -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
@@ -155,34 +164,50 @@ class ProfileLoggedViewModel(
                 }
             }
 
-            is ProfileLoggedMviModel.Intent.UpVotePost -> {
+            is UserDetailMviModel.Intent.UpVotePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleUpVotePost(post = post)
+                    toggleUpVote(post = post)
                 }
             }
+
+            is UserDetailMviModel.Intent.SharePost -> {
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    share(post = post)
+                }
+            }
+
+            UserDetailMviModel.Intent.Block -> blockUser()
+            UserDetailMviModel.Intent.BlockInstance -> blockInstance()
         }
     }
 
-    private suspend fun refreshUser() {
-        val auth = identityRepository.authToken.value.orEmpty()
-        if (auth.isEmpty()) {
-            mvi.updateState { it.copy(user = null) }
-        } else {
-            var user = siteRepository.getCurrentUser(auth)
-            runCatching {
-                withTimeout(2000) {
-                    while (user == null) {
-                        // retry getting user if non-empty auth
-                        delay(500)
-                        user = siteRepository.getCurrentUser(auth)
-                        yield()
-                    }
-                    mvi.updateState { it.copy(user = user) }
-                }
+    private fun applySortType(value: SortType) {
+        mvi.updateState { it.copy(sortType = value) }
+        mvi.scope?.launch {
+            mvi.emitEffect(UserDetailMviModel.Effect.BackToTop)
+        }
+    }
+
+    private fun changeSection(section: UserDetailSection) {
+        mvi.updateState {
+            it.copy(
+                section = section,
+            )
+        }
+        updateAvailableSortTypes()
+    }
+
+    private fun updateAvailableSortTypes() {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val sortTypes = if (uiState.value.section == UserDetailSection.Posts) {
+                getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
+            } else {
+                getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
             }
+            mvi.updateState { it.copy(availableSortTypes = sortTypes) }
         }
     }
 
@@ -195,35 +220,38 @@ class ProfileLoggedViewModel(
                 initial = initial,
             )
         }
-        loadNextPage()
-    }
-
-    private fun changeSection(section: ProfileLoggedSection) {
-        mvi.updateState {
-            it.copy(
-                section = section,
-            )
+        val auth = identityRepository.authToken.value
+        val refreshedUser = userRepository.get(
+            id = user.id,
+            auth = auth,
+            otherInstance = otherInstance,
+            username = user.name,
+        )
+        if (refreshedUser != null) {
+            mvi.updateState { it.copy(user = refreshedUser) }
         }
+        loadNextPage()
     }
 
     private suspend fun loadNextPage() {
         val currentState = mvi.uiState.value
-        if (!currentState.canFetchMore || currentState.loading || currentState.user == null) {
+        if (!currentState.canFetchMore || currentState.loading) {
             mvi.updateState { it.copy(refreshing = false) }
             return
         }
-
         mvi.updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
-        val userId = currentState.user.id
         val section = currentState.section
-        if (section == ProfileLoggedSection.Posts) {
+        val userId = currentState.user.id
+        if (section == UserDetailSection.Posts) {
             val itemList = userRepository.getPosts(
                 auth = auth,
                 id = userId,
                 page = currentPage,
-                sort = SortType.New,
+                sort = currentState.sortType,
+                username = user.name,
+                otherInstance = otherInstance,
             )
             val comments = if (currentPage == 1 && currentState.comments.isEmpty()) {
                 // this is needed because otherwise on first selector change
@@ -232,7 +260,9 @@ class ProfileLoggedViewModel(
                     auth = auth,
                     id = userId,
                     page = currentPage,
-                    sort = SortType.New,
+                    sort = currentState.sortType,
+                    username = user.name,
+                    otherInstance = otherInstance,
                 ).orEmpty()
             } else {
                 currentState.comments
@@ -243,21 +273,34 @@ class ProfileLoggedViewModel(
                 } else {
                     it.posts + itemList.orEmpty()
                 }
+                if (uiState.value.autoLoadImages) {
+                    newPosts.forEach { post ->
+                        post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                            imagePreloadManager.preload(url)
+                        }
+                    }
+                }
                 it.copy(
                     posts = newPosts,
                     comments = comments,
                     loading = false,
                     canFetchMore = itemList?.isEmpty() != true,
                     refreshing = false,
+                    initial = false,
                 )
+            }
+            if (!itemList.isNullOrEmpty()) {
+                currentPage++
             }
         } else {
             val itemList = userRepository.getComments(
                 auth = auth,
                 id = userId,
                 page = currentPage,
-                sort = SortType.New,
+                sort = currentState.sortType,
+                otherInstance = otherInstance,
             )
+
             mvi.updateState {
                 val newcomments = if (refreshing) {
                     itemList.orEmpty()
@@ -272,11 +315,13 @@ class ProfileLoggedViewModel(
                     initial = false,
                 )
             }
+            if (!itemList.isNullOrEmpty()) {
+                currentPage++
+            }
         }
-        currentPage++
     }
 
-    private fun toggleUpVotePost(post: PostModel) {
+    private fun toggleUpVote(post: PostModel) {
         val newVote = post.myVote <= 0
         val newPost = postRepository.asUpVoted(
             post = post,
@@ -298,7 +343,7 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun toggleDownVotePost(post: PostModel) {
+    private fun toggleDownVote(post: PostModel) {
         val newValue = post.myVote >= 0
         val newPost = postRepository.asDownVoted(
             post = post,
@@ -320,7 +365,7 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun toggleSavePost(post: PostModel) {
+    private fun toggleSave(post: PostModel) {
         val newValue = !post.saved
         val newPost = postRepository.asSaved(
             post = post,
@@ -433,35 +478,49 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun handlePostDelete(id: Int) {
-        mvi.updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
-    }
-
-    private fun deletePost(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
-            val auth = identityRepository.authToken.value.orEmpty()
-            postRepository.delete(id = id, auth = auth)
-            handlePostDelete(id)
-        }
-    }
-
-    private fun deleteComment(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
-            val auth = identityRepository.authToken.value.orEmpty()
-            commentRepository.delete(id, auth)
-            refresh()
-        }
-    }
-
     private fun share(post: PostModel) {
         val shareOriginal = settingsRepository.currentSettings.value.sharePostOriginal
         val url = if (shareOriginal) {
             post.originalUrl.orEmpty()
+        } else if (otherInstance.isNotEmpty()) {
+            "https://${otherInstance}/post/${post.id}"
         } else {
             "https://${apiConfigurationRepository.instance.value}/post/${post.id}"
         }
         if (url.isNotEmpty()) {
             shareHelper.share(url, "text/plain")
+        }
+    }
+
+    private fun blockUser() {
+        mvi.updateState { it.copy(asyncInProgress = true) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val userId = user.id
+                val auth = identityRepository.authToken.value
+                userRepository.block(userId, true, auth).getOrThrow()
+                mvi.emitEffect(UserDetailMviModel.Effect.BlockSuccess)
+            } catch (e: Throwable) {
+                mvi.emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
+            } finally {
+                mvi.updateState { it.copy(asyncInProgress = false) }
+            }
+        }
+    }
+
+    private fun blockInstance() {
+        mvi.updateState { it.copy(asyncInProgress = true) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val instanceId = user.instanceId
+                val auth = identityRepository.authToken.value
+                siteRepository.block(instanceId, true, auth).getOrThrow()
+                mvi.emitEffect(UserDetailMviModel.Effect.BlockSuccess)
+            } catch (e: Throwable) {
+                mvi.emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
+            } finally {
+                mvi.updateState { it.copy(asyncInProgress = false) }
+            }
         }
     }
 }

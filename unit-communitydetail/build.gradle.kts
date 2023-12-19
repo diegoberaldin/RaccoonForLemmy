@@ -15,40 +15,28 @@ kotlin {
             }
         }
     }
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "feature-search"
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.koin.core)
-
                 implementation(compose.runtime)
                 implementation(compose.foundation)
+                implementation(compose.material)
                 implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
 
-                implementation(libs.voyager.navigator)
+                implementation(libs.koin.core)
                 implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.tab)
-                implementation(libs.voyager.bottomsheet)
+                implementation(libs.voyager.navigator)
 
-                implementation(projects.coreArchitecture)
-                implementation(projects.coreAppearance)
                 implementation(projects.coreUtils)
-                implementation(projects.corePreferences)
-                implementation(projects.corePersistence)
-                implementation(projects.coreNavigation)
+                implementation(projects.coreAppearance)
+                implementation(projects.coreArchitecture)
                 implementation(projects.coreCommonui.components)
                 implementation(projects.coreCommonui.lemmyui)
                 implementation(projects.coreCommonui.modals)
@@ -56,7 +44,16 @@ kotlin {
                 implementation(projects.unitWeb)
                 implementation(projects.unitCreatereport)
                 implementation(projects.unitCreatecomment)
+                implementation(projects.unitCreatepost)
+                implementation(projects.unitRemove)
+                implementation(projects.unitBan)
+                implementation(projects.unitCommunityinfo)
+                implementation(projects.unitInstanceinfo)
+                implementation(projects.unitCreatereport)
+                implementation(projects.unitReportlist)
                 implementation(projects.coreCommonui.detailopenerApi)
+                implementation(projects.coreNavigation)
+                implementation(projects.corePersistence)
                 implementation(projects.coreNotifications)
 
                 implementation(projects.domainIdentity)
@@ -75,7 +72,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.search"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
