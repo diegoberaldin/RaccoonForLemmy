@@ -5,12 +5,14 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMain
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.main.ProfileMainViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.login.di.loginModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.di.manageAccountsModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.di.myAccountModule
 import org.koin.dsl.module
 
 val profileTabModule = module {
     includes(
         loginModule,
         manageAccountsModule,
+        myAccountModule,
     )
     factory<ProfileMainMviModel> {
         ProfileMainViewModel(
