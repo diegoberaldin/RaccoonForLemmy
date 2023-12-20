@@ -56,6 +56,7 @@ kotlin {
                 implementation(projects.core.persistence)
 
                 implementation(projects.domain.identity)
+                implementation(projects.domain.inbox)
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
 
