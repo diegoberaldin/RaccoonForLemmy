@@ -274,4 +274,6 @@
     <string name="community_info_moderators">Modhnóirí</string>
     <string name="community_action_add_favorite">Cuir le ceanáin</string>
     <string name="community_action_remove_favorite">Bain ó cheanáin</string>
+    <string name="community_action_view_modlog">Féach ar loga modhnóireachta</string>
+    <string name="modlog_title">Loga modhnóireachta</string>
 </resources>

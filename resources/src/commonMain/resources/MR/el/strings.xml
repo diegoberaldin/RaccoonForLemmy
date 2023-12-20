@@ -275,4 +275,6 @@
     <string name="community_info_moderators">Συντονιστές</string>
     <string name="community_action_add_favorite">Προσθήκη στα αγαπημένα</string>
     <string name="community_action_remove_favorite">Αφαίρεση από τα αγαπημένα</string>
+    <string name="community_action_view_modlog">Προβολή αρχείου καταγραφής εποπτείας</string>
+    <string name="modlog_title">Μητρώο εποπτείας</string>
 </resources>

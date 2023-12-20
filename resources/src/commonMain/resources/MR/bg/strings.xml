@@ -274,4 +274,6 @@
     <string name="community_info_moderators">Модератори</string>
     <string name="community_action_add_favorite">Добави към любими</string>
     <string name="community_action_remove_favorite">Премахване от любими</string>
+    <string name="community_action_view_modlog">Преглед на журнала за модериране</string>
+    <string name="modlog_title">Дневник за модериране</string>
 </resources>

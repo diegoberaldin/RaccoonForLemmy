@@ -268,4 +268,6 @@
     <string name="community_info_moderators">Moderadores</string>
     <string name="community_action_add_favorite">Adicionar aos favoritos</string>
     <string name="community_action_remove_favorite">Remover dos favoritos</string>
+    <string name="community_action_view_modlog">Ver registro de moderação</string>
+    <string name="modlog_title">Registro de moderação</string>
 </resources>

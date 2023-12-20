@@ -269,4 +269,6 @@
     <string name="community_info_moderators">Moderátorok</string>
     <string name="community_action_add_favorite">Összesítés a kedvencekhez</string>
     <string name="community_action_remove_favorite">Eltávolítás a kedvencekből</string>
+    <string name="community_action_view_modlog">Moderálási napló megtekintése</string>
+    <string name="modlog_title">Moderálási napló</string>
 </resources>

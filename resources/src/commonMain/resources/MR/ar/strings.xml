@@ -263,4 +263,6 @@
     <string name="community_info_moderators">المشرفون</string>
     <string name="community_action_add_favorite">اضافة الى المفضلة</string>
     <string name="community_action_remove_favorite">إزالة من المفضلة</string>
+    <string name="community_action_view_modlog">عرض سجل الإشراف</string>
+    <string name="modlog_title">سجل الاعتدال</string>
 </resources>

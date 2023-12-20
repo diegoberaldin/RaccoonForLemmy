@@ -269,4 +269,6 @@
     <string name="community_info_moderators">Модераторы</string>
     <string name="community_action_add_favorite">Добавить в избранное</string>
     <string name="community_action_remove_favorite">Удалить из Избранного</string>
+    <string name="community_action_view_modlog">Посмотреть журнал модерации</string>
+    <string name="modlog_title">Журнал модерации</string>
 </resources>

@@ -294,4 +294,6 @@
     <string name="community_info_moderators">Moderators</string>
     <string name="community_action_add_favorite">Add to favorites</string>
     <string name="community_action_remove_favorite">Remove from favorites</string>
+    <string name="community_action_view_modlog">View moderation log</string>
+    <string name="modlog_title">Moderation log</string>
 </resources>

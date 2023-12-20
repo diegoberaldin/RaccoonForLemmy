@@ -266,4 +266,6 @@
     <string name="community_info_moderators">Moderatorer</string>
     <string name="community_action_add_favorite">Lägg till i favoriter</string>
     <string name="community_action_remove_favorite">Ta bort från favoriter</string>
+    <string name="community_action_view_modlog">Visa modereringslogg</string>
+    <string name="modlog_title">Modereringslogg</string>
 </resources>

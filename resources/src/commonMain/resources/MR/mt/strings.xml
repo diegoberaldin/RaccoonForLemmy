@@ -270,4 +270,6 @@
     <string name="community_info_moderators">Moderaturi</string>
     <string name="community_action_add_favorite">Żid mal-favoriti</string>
     <string name="community_action_remove_favorite">Neħħi mill-favoriti</string>
+    <string name="community_action_view_modlog">Ara l-ġurnal tal-moderazzjoni</string>
+    <string name="modlog_title">Ġurnal tal-moderazzjoni</string>
 </resources>

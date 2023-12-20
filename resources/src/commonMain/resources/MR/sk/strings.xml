@@ -267,4 +267,6 @@
     <string name="community_info_moderators">Moderátori</string>
     <string name="community_action_add_favorite">Pridať k obľúbeným</string>
     <string name="community_action_remove_favorite">Odstrániť z obľúbených</string>
+    <string name="community_action_view_modlog">Zobraziť denník moderovania</string>
+    <string name="modlog_title">Denník moderovania</string>
 </resources>

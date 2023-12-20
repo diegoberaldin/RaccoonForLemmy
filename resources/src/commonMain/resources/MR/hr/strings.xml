@@ -270,4 +270,6 @@
     <string name="community_info_moderators">Moderatori</string>
     <string name="community_action_add_favorite">Dodaj u favorite</string>
     <string name="community_action_remove_favorite">Ukloni iz favorita</string>
+    <string name="community_action_view_modlog">Pogledaj dnevnik moderiranja</string>
+    <string name="modlog_title">Dnevnik moderiranja</string>
 </resources>

@@ -61,6 +61,7 @@ kotlin {
                 implementation(projects.unit.instanceinfo)
                 implementation(projects.unit.createreport)
                 implementation(projects.unit.reportlist)
+                implementation(projects.unit.modlog)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)

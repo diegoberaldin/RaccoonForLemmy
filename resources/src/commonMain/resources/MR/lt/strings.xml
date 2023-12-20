@@ -268,4 +268,6 @@
     <string name="community_info_moderators">Moderatoriai</string>
     <string name="community_action_add_favorite">Įtraukti į adresyną</string>
     <string name="community_action_remove_favorite">Pašalinti iš mėgstamiausių</string>
+    <string name="community_action_view_modlog">Peržiūrėkite moderavimo žurnalą</string>
+    <string name="modlog_title">Moderavimo žurnalas</string>
 </resources>

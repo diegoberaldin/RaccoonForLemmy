@@ -271,4 +271,6 @@
     <string name="community_info_moderators">Moderatorët</string>
     <string name="community_action_add_favorite">Shto te të preferuarat</string>
     <string name="community_action_remove_favorite">Hiq nga të preferuarat</string>
+    <string name="community_action_view_modlog">Shiko regjistrin e moderimit</string>
+    <string name="modlog_title">Regjistri i moderimit</string>
 </resources>

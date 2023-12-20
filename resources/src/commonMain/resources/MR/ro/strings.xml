@@ -266,4 +266,6 @@
     <string name="community_info_moderators">Moderatori</string>
     <string name="community_action_add_favorite">Adaugă la favorite</string>
     <string name="community_action_remove_favorite">Elimină din favorite</string>
+    <string name="community_action_view_modlog">Vezi jurnalul de moderare</string>
+    <string name="modlog_title">Jurnal de moderare</string>
 </resources>

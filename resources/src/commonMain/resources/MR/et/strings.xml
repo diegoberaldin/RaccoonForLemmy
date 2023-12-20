@@ -265,4 +265,6 @@
     <string name="community_info_moderators">Moderaatorid</string>
     <string name="community_action_add_favorite">Lisa lemmikutesse</string>
     <string name="community_action_remove_favorite">Eemalda lemmikutest</string>
+    <string name="community_action_view_modlog">Vaata modereerimislogi</string>
+    <string name="modlog_title">Modereerimise logi</string>
 </resources>

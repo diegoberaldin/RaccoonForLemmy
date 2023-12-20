@@ -268,4 +268,6 @@
     <string name="community_info_moderators">Модератори</string>
     <string name="community_action_add_favorite">Додати в обране</string>
     <string name="community_action_remove_favorite">Видалити з вибраного</string>
+    <string name="community_action_view_modlog">Переглянути журнал модерації</string>
+    <string name="modlog_title">Журнал модерації</string>
 </resources>

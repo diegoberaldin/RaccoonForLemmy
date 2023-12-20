@@ -268,4 +268,6 @@
     <string name="community_info_moderators">Moderatorer</string>
     <string name="community_action_add_favorite">Legg til i favoritter</string>
     <string name="community_action_remove_favorite">Fjern fra favoritter</string>
+    <string name="community_action_view_modlog">Se moderasjonslogg</string>
+    <string name="modlog_title">Moderasjonslogg</string>
 </resources>

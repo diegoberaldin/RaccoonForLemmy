@@ -269,4 +269,6 @@
     <string name="community_info_moderators">Moderatori</string>
     <string name="community_action_add_favorite">Pievienot pie favorītiem</string>
     <string name="community_action_remove_favorite">Noņemt no izlases</string>
+    <string name="community_action_view_modlog">Skatīt moderēšanas žurnālu</string>
+    <string name="modlog_title">Moderācijas žurnāls</string>
 </resources>

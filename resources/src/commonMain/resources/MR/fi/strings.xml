@@ -265,4 +265,6 @@
     <string name="community_info_moderators">Moderaattorit</string>
     <string name="community_action_add_favorite">Lisää suosikkeihin</string>
     <string name="community_action_remove_favorite">Poista suosikeista</string>
+    <string name="community_action_view_modlog">Näytä moderointiloki</string>
+    <string name="modlog_title">Valvontaloki</string>
 </resources>

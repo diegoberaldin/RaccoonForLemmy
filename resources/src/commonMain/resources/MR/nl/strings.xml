@@ -269,4 +269,6 @@
     <string name="community_info_moderators">Moderators</string>
     <string name="community_action_add_favorite">Toevoegen aan favorieten</string>
     <string name="community_action_remove_favorite">Verwijder van favorieten</string>
+    <string name="community_action_view_modlog">Bekijk het moderatielogboek</string>
+    <string name="modlog_title">Moderatielogboek</string>
 </resources>

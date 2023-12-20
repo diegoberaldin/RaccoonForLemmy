@@ -268,4 +268,6 @@
     <string name="community_info_moderators">Moderatörler</string>
     <string name="community_action_add_favorite">Favorilere ekle</string>
     <string name="community_action_remove_favorite">Favorilerden çıkar</string>
+    <string name="community_action_view_modlog">Denetleme günlüğünü görüntüle</string>
+    <string name="modlog_title">Denetleme günlüğü</string>
 </resources>

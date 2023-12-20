@@ -109,6 +109,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateComment
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.ReportListScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -289,6 +290,11 @@ class CommunityDetailScreen(
                                     )
                                 }
 
+                                this += Option(
+                                    OptionId.ViewModlog,
+                                    stringResource(MR.strings.community_action_view_modlog),
+                                )
+
                                 if (uiState.moderators.containsId(uiState.currentUserId)) {
                                     this += Option(
                                         OptionId.OpenReports,
@@ -362,6 +368,13 @@ class CommunityDetailScreen(
                                                         model.reduce(
                                                             CommunityDetailMviModel.Intent.ToggleFavorite,
                                                         )
+                                                    }
+
+                                                    OptionId.ViewModlog -> {
+                                                        val screen = ModlogScreen(
+                                                            communityId = uiState.community.id,
+                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
                                                     }
 
                                                     else -> Unit
