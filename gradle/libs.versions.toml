@@ -1,4 +1,5 @@
 [versions]
+
 androidx_activity = "1.8.2"
 androidx_crypto = "1.0.0"
 androidx_splashscreen = "1.0.1"

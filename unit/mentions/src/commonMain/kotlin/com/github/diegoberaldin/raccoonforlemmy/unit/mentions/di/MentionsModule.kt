@@ -5,7 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.mentions.InboxMentionsMviMo
 import com.github.diegoberaldin.raccoonforlemmy.unit.mentions.InboxMentionsViewModel
 import org.koin.dsl.module
 
-val mentionsModule = module {
+val inboxMentionsModule = module {
     factory<InboxMentionsMviModel> {
         InboxMentionsViewModel(
             mvi = DefaultMviModel(InboxMentionsMviModel.UiState()),
