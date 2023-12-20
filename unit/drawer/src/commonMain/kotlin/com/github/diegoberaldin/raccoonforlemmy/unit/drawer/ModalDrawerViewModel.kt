@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.FavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
@@ -32,6 +33,7 @@ class ModalDrawerViewModel(
     private val siteRepository: SiteRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val settingsRepository: SettingsRepository,
+    private val favoriteCommunityRepository: FavoriteCommunityRepository,
 ) : ModalDrawerMviModel,
     MviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect> by mvi {
 
@@ -101,8 +103,15 @@ class ModalDrawerViewModel(
         mvi.updateState { it.copy(refreshing = true) }
 
         val auth = identityRepository.authToken.value
-        val communities = communityRepository.getSubscribed(auth).sortedBy { it.name }
         val accountId = accountRepository.getActive()?.id ?: 0L
+        val favoriteCommunityIds =
+            favoriteCommunityRepository.getAll(accountId).map { it.communityId }
+        val communities = communityRepository.getSubscribed(auth)
+            .map { community ->
+                community.copy(favorite = community.id in favoriteCommunityIds)
+            }
+            .sortedBy { it.name }
+            .sortedByDescending { it.favorite }
         val multiCommunitites = multiCommunityRepository.getAll(accountId).sortedBy { it.name }
 
         mvi.updateState {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -48,6 +49,7 @@ fun CommunityItem(
     small: Boolean = false,
     autoLoadImages: Boolean = true,
     showSubscribers: Boolean = false,
+    showFavorite: Boolean = false,
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
@@ -129,6 +131,17 @@ fun CommunityItem(
                         tint = MaterialTheme.colorScheme.onBackground,
                     )
                 }
+            }
+        }
+
+        if (showFavorite) {
+            if (community.favorite) {
+                Icon(
+                    modifier = Modifier.size(IconSize.s),
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.onBackground,
+                )
             }
         }
 

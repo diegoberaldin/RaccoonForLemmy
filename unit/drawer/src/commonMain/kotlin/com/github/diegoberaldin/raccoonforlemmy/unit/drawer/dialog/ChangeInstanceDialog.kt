@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
+package com.github.diegoberaldin.raccoonforlemmy.unit.drawer.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

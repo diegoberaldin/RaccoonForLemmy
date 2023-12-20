@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
+package com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

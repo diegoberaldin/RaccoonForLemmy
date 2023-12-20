@@ -16,6 +16,7 @@ val drawerModule = module {
             communityRepository = get(),
             multiCommunityRepository = get(),
             settingsRepository = get(),
+            favoriteCommunityRepository = get(),
         )
     }
 }

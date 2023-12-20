@@ -44,7 +44,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerHeader
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerShortcut
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.getModalDrawerViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.dialog.ChangeInstanceDialog
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
@@ -196,7 +199,7 @@ object ModalDrawerContent : Tab {
                         }
                         items(
                             items = uiState.communities,
-                            key = { it.id },
+                            key = { it.id.toString() + it.favorite.toString() },
                         ) { community ->
                             CommunityItem(
                                 modifier = Modifier.fillMaxWidth().onClick(
@@ -209,6 +212,7 @@ object ModalDrawerContent : Tab {
                                 ),
                                 community = community,
                                 small = true,
+                                showFavorite = true,
                                 autoLoadImages = uiState.autoLoadImages,
                             )
                         }
