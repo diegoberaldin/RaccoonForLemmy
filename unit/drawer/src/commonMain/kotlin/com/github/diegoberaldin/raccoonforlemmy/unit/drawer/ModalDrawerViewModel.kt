@@ -12,14 +12,20 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.Communit
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.desc.desc
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
@@ -37,7 +43,7 @@ class ModalDrawerViewModel(
 ) : ModalDrawerMviModel,
     MviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect> by mvi {
 
-    @OptIn(FlowPreview::class)
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch(Dispatchers.Main) {
@@ -54,12 +60,41 @@ class ModalDrawerViewModel(
                 mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)
 
+            observeChangesInFavoriteCommunities()
+
             mvi.scope?.launch {
                 delay(250)
                 refreshUser()
                 refresh()
             }
         }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun CoroutineScope.observeChangesInFavoriteCommunities() {
+        channelFlow {
+            while (isActive) {
+                val accountId = accountRepository.getActive()?.id
+                trySend(accountId)
+                delay(1000)
+            }
+        }.distinctUntilChanged().flatMapConcat { accountId ->
+            channelFlow {
+                while (isActive) {
+                    val communityIds =
+                        favoriteCommunityRepository.getAll(accountId).map { it.communityId }
+                    trySend(communityIds)
+                    delay(1000)
+                }
+            }.distinctUntilChanged()
+        }.onEach { favoriteCommunityIds ->
+            val newCommunities = uiState.value.communities.map { community ->
+                community.copy(favorite = community.id in favoriteCommunityIds)
+            }
+                .sortedBy { it.name }
+                .sortedByDescending { it.favorite }
+            mvi.updateState { it.copy(communities = newCommunities) }
+        }.launchIn(this)
     }
 
     override fun reduce(intent: ModalDrawerMviModel.Intent) {
@@ -103,7 +138,7 @@ class ModalDrawerViewModel(
         mvi.updateState { it.copy(refreshing = true) }
 
         val auth = identityRepository.authToken.value
-        val accountId = accountRepository.getActive()?.id ?: 0L
+        val accountId = accountRepository.getActive()?.id
         val favoriteCommunityIds =
             favoriteCommunityRepository.getAll(accountId).map { it.communityId }
         val communities = communityRepository.getSubscribed(auth)

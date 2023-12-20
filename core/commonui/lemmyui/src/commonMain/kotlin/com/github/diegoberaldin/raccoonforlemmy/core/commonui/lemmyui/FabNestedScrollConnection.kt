@@ -26,7 +26,7 @@ internal class DefaultFabNestedScrollConnection : FabNestedScrollConnection {
             //.debounce(750)
             .stateIn(
                 scope = scope,
-                started = SharingStarted.WhileSubscribed(3000),
+                started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = true
             )
 

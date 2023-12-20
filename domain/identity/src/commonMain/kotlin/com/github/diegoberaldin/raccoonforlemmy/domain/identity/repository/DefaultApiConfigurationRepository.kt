@@ -34,7 +34,7 @@ internal class DefaultApiConfigurationRepository(
         }
     }.distinctUntilChanged().stateIn(
         scope = scope,
-        started = SharingStarted.Lazily,
+        started = SharingStarted.WhileSubscribed(5_000),
         initialValue = "",
     )
 

@@ -12,6 +12,7 @@ internal class DefaultFavoriteCommunityRepository(
 ) : FavoriteCommunityRepository {
 
     private val db = provider.getDatabase()
+
     override suspend fun getAll(accountId: Long?): List<FavoriteCommunityModel> =
         withContext(Dispatchers.IO) {
             db.favoritecommunitiesQueries.getAll(accountId).executeAsList().map { it.toModel() }
