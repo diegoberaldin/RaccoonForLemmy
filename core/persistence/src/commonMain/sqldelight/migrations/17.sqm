@@ -1,0 +1,7 @@
+CREATE TABLE FavoriteCommunityEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    communityId INTEGER NOT NULL DEFAULT "",
+    account_id INTEGER,
+    FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
+    UNIQUE(communityId, account_id)
+);

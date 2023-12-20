@@ -1,0 +1,30 @@
+CREATE TABLE FavoriteCommunityEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    communityId INTEGER NOT NULL DEFAULT "",
+    account_id INTEGER,
+    FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
+    UNIQUE(communityId, account_id)
+);
+
+getAll:
+SELECT *
+FROM FavoriteCommunityEntity
+WHERE account_id = ?;
+
+getBy:
+SELECT *
+FROM FavoriteCommunityEntity
+WHERE communityId = ? AND account_id = ?;
+
+create:
+INSERT OR IGNORE INTO FavoriteCommunityEntity (
+    communityId,
+    account_id
+) VALUES (
+?,
+ ?
+);
+
+delete:
+DELETE FROM FavoriteCommunityEntity
+WHERE id = ?;
