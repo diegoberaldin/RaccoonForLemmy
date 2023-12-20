@@ -6,12 +6,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -34,9 +33,9 @@ class InboxMessagesViewModel(
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch {
-            coordinator.effects.onEach {
+            coordinator.events.onEach {
                 when (it) {
-                    InboxMviModel.Effect.Refresh -> refresh()
+                    InboxCoordinator.Event.Refresh -> refresh()
                 }
             }.launchIn(this)
             coordinator.unreadOnly.onEach {

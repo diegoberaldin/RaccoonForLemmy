@@ -15,6 +15,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.galleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.shareHelperModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.hapticFeedbackModule
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.coreIdentityModule
+import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.di.domainInboxModule
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.di.repositoryModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.homeTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.inboxTabModule
@@ -58,6 +59,7 @@ fun initKoin() {
             galleryHelperModule,
             crashReportModule,
             repositoryModule,
+            domainInboxModule,
             utilsModule,
             imagePreloadModule,
             navigationModule,

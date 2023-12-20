@@ -7,8 +7,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -78,7 +78,7 @@ class InboxViewModel(
             val auth = identityRepository.authToken.value
             userRepository.readAll(auth)
             mvi.emitEffect(InboxMviModel.Effect.Refresh)
-            coordinator.emitEffect(InboxMviModel.Effect.Refresh)
+            coordinator.sendEvent(InboxCoordinator.Event.Refresh)
         }
     }
 }

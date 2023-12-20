@@ -8,12 +8,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -39,9 +38,9 @@ class InboxMentionsViewModel(
         mvi.onStarted()
 
         mvi.scope?.launch {
-            coordinator.effects.onEach {
+            coordinator.events.onEach {
                 when (it) {
-                    InboxMviModel.Effect.Refresh -> refresh()
+                    InboxCoordinator.Event.Refresh -> refresh()
                 }
             }.launchIn(this)
             coordinator.unreadOnly.onEach {
