@@ -39,11 +39,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.getInboxViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.mentions.InboxMentionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.InboxMessagesScreen
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
+import com.github.diegoberaldin.raccoonforlemmy.unit.mentions.InboxMentionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.replies.InboxRepliesScreen
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.desc
