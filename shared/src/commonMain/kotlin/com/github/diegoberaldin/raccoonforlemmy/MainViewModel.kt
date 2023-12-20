@@ -2,7 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.InboxCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn

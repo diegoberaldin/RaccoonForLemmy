@@ -21,49 +21,43 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "inbox"
+            baseName = "replies"
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.koin.core)
-
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
 
-                implementation(libs.voyager.navigator)
+                implementation(libs.koin.core)
                 implementation(libs.voyager.screenmodel)
+                implementation(libs.voyager.navigator)
                 implementation(libs.voyager.tab)
-                implementation(libs.voyager.bottomsheet)
 
-                implementation(projects.resources)
-                implementation(projects.core.architecture)
+                implementation(projects.core.utils)
                 implementation(projects.core.appearance)
-                implementation(projects.core.navigation)
+                implementation(projects.core.architecture)
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.lemmyui)
-                implementation(projects.core.commonui.modals)
                 implementation(projects.core.commonui.detailopenerApi)
-                implementation(projects.core.utils)
-                implementation(projects.core.preferences)
+                implementation(projects.core.navigation)
                 implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
                 implementation(projects.unit.zoomableimage)
-                implementation(projects.unit.chat)
-                implementation(projects.unit.replies)
 
-                implementation(projects.domain.lemmy.data)
-                implementation(projects.domain.lemmy.repository)
                 implementation(projects.domain.identity)
                 implementation(projects.domain.inbox)
+                implementation(projects.domain.lemmy.data)
+                implementation(projects.domain.lemmy.repository)
 
+                implementation(projects.resources)
             }
         }
         val commonTest by getting {
@@ -75,7 +69,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.inbox"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.replies"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

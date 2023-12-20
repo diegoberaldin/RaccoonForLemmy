@@ -3,16 +3,10 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.mentions.InboxMentionsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.InboxMessagesMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies.InboxRepliesMviModel
 import org.koin.java.KoinJavaComponent.inject
 
 actual fun getInboxViewModel(): InboxMviModel {
     val res: InboxMviModel by inject(InboxMviModel::class.java)
-    return res
-}
-
-actual fun getInboxRepliesViewModel(): InboxRepliesMviModel {
-    val res: InboxRepliesMviModel by inject(InboxRepliesMviModel::class.java)
     return res
 }
 

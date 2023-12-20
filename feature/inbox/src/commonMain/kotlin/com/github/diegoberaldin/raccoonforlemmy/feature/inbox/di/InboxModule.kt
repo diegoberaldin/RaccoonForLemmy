@@ -7,8 +7,6 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.mentions.InboxMent
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.mentions.InboxMentionsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.InboxMessagesMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.messages.InboxMessagesViewModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies.InboxRepliesMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.replies.InboxRepliesViewModel
 import org.koin.dsl.module
 
 val inboxTabModule = module {
@@ -19,20 +17,6 @@ val inboxTabModule = module {
             userRepository = get(),
             coordinator = get(),
             settingsRepository = get(),
-            notificationCenter = get(),
-        )
-    }
-    factory<InboxRepliesMviModel> {
-        InboxRepliesViewModel(
-            mvi = DefaultMviModel(InboxRepliesMviModel.UiState()),
-            userRepository = get(),
-            identityRepository = get(),
-            siteRepository = get(),
-            commentRepository = get(),
-            themeRepository = get(),
-            settingsRepository = get(),
-            hapticFeedback = get(),
-            coordinator = get(),
             notificationCenter = get(),
         )
     }
