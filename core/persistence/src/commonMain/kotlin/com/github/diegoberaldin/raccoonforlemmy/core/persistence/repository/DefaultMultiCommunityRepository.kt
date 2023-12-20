@@ -8,7 +8,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
 internal class DefaultMultiCommunityRepository(
-    val provider: DatabaseProvider,
+    provider: DatabaseProvider,
 ) : MultiCommunityRepository {
 
     private val db = provider.getDatabase()

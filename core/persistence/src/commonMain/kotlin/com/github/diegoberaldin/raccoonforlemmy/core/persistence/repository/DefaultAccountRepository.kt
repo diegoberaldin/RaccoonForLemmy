@@ -8,7 +8,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
 internal class DefaultAccountRepository(
-    val provider: DatabaseProvider,
+    provider: DatabaseProvider,
 ) : AccountRepository {
 
     private val db = provider.getDatabase()

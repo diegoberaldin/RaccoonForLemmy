@@ -48,7 +48,7 @@ private object KeyStoreKeys {
 }
 
 internal class DefaultSettingsRepository(
-    val provider: DatabaseProvider,
+    provider: DatabaseProvider,
     private val keyStore: TemporaryKeyStore,
 ) : SettingsRepository {
 
