@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -280,11 +279,31 @@ class CreateCommentScreen(
                             },
                             isError = uiState.textError != null,
                             supportingText = {
-                                if (uiState.textError != null) {
-                                    Text(
-                                        text = uiState.textError?.localized().orEmpty(),
-                                        color = MaterialTheme.colorScheme.error,
-                                    )
+                                Column(
+                                    modifier = Modifier.padding(bottom = Spacing.xxs),
+                                ) {
+                                    if (uiState.textError != null) {
+                                        Text(
+                                            text = uiState.textError?.localized().orEmpty(),
+                                            color = MaterialTheme.colorScheme.error,
+                                        )
+                                    }
+                                    if (uiState.currentUser.isNotEmpty()) {
+                                        Text(
+                                            text = buildString {
+                                                append(stringResource(MR.strings.post_reply_source_account))
+                                                append(" ")
+                                                append(uiState.currentUser)
+                                                if (uiState.currentInstance.isNotEmpty()) {
+                                                    append("@")
+                                                    append(uiState.currentInstance)
+                                                }
+                                            },
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            textDecoration = TextDecoration.Underline,
+                                        )
+                                    }
                                 }
                             },
                         )
@@ -300,29 +319,6 @@ class CreateCommentScreen(
                                     .verticalScroll(rememberScrollState()),
                                 text = textFieldValue.text,
                                 autoLoadImages = uiState.autoLoadImages,
-                            )
-                        }
-                    }
-
-                    if (uiState.currentUser.isNotEmpty()) {
-                        Row(
-                            modifier = Modifier.padding(
-                                horizontal = Spacing.l,
-                            )
-                        ) {
-                            Text(
-                                text = buildString {
-                                    append(stringResource(MR.strings.post_reply_source_account))
-                                    append(" ")
-                                    append(uiState.currentUser)
-                                    if (uiState.currentInstance.isNotEmpty()) {
-                                        append("@")
-                                        append(uiState.currentInstance)
-                                    }
-                                },
-                                color = MaterialTheme.colorScheme.onBackground,
-                                style = MaterialTheme.typography.labelSmall,
-                                textDecoration = TextDecoration.Underline,
                             )
                         }
                     }

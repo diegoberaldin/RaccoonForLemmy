@@ -462,11 +462,31 @@ class CreatePostScreen(
                             },
                             isError = uiState.bodyError != null,
                             supportingText = {
-                                if (uiState.bodyError != null) {
-                                    Text(
-                                        text = uiState.bodyError?.localized().orEmpty(),
-                                        color = MaterialTheme.colorScheme.error,
-                                    )
+                                Column(
+                                    modifier = Modifier.padding(bottom = Spacing.xxs),
+                                ) {
+                                    if (uiState.bodyError != null) {
+                                        Text(
+                                            text = uiState.bodyError?.localized().orEmpty(),
+                                            color = MaterialTheme.colorScheme.error,
+                                        )
+                                    }
+                                    if (uiState.currentUser.isNotEmpty()) {
+                                        Text(
+                                            text = buildString {
+                                                append(stringResource(MR.strings.post_reply_source_account))
+                                                append(" ")
+                                                append(uiState.currentUser)
+                                                if (uiState.currentInstance.isNotEmpty()) {
+                                                    append("@")
+                                                    append(uiState.currentInstance)
+                                                }
+                                            },
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            textDecoration = TextDecoration.Underline,
+                                        )
+                                    }
                                 }
                             },
                         )
@@ -485,29 +505,6 @@ class CreatePostScreen(
                             includeFullBody = true,
                             voteFormat = uiState.voteFormat,
                             autoLoadImages = uiState.autoLoadImages,
-                        )
-                    }
-                }
-
-                if (uiState.currentUser.isNotEmpty()) {
-                    Row(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.l,
-                        )
-                    ) {
-                        Text(
-                            text = buildString {
-                                append(stringResource(MR.strings.post_reply_source_account))
-                                append(" ")
-                                append(uiState.currentUser)
-                                if (uiState.currentInstance.isNotEmpty()) {
-                                    append("@")
-                                    append(uiState.currentInstance)
-                                }
-                            },
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.labelSmall,
-                            textDecoration = TextDecoration.Underline,
                         )
                     }
                 }
