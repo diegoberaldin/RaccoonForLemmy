@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
@@ -124,9 +125,7 @@ class CreateCommentScreen(
                     }
 
                     is CreateCommentMviModel.Effect.Success -> {
-                        notificationCenter.send(
-                            event = NotificationCenterEvent.CommentCreated,
-                        )
+                        notificationCenter.send(event = NotificationCenterEvent.CommentCreated)
                         if (originalPost != null) {
                             notificationCenter.send(
                                 event = NotificationCenterEvent.PostUpdated(
@@ -177,7 +176,7 @@ class CreateCommentScreen(
                                     start = Spacing.l,
                                 ),
                             verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                            horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             BottomSheetHandle()
                             Text(
@@ -359,7 +358,11 @@ class CreateCommentScreen(
                         originalPost != null -> {
                             PostCard(
                                 modifier = referenceModifier,
-                                postLayout = uiState.postLayout,
+                                postLayout = if (uiState.postLayout == PostLayout.Card) {
+                                    uiState.postLayout
+                                } else {
+                                    PostLayout.Full
+                                },
                                 fullHeightImage = uiState.fullHeightImages,
                                 post = originalPost,
                                 limitBodyHeight = true,
@@ -378,7 +381,6 @@ class CreateCommentScreen(
                                     rawContent = originalPost
                                 },
                             )
-                            Divider()
                         }
                     }
                 }
