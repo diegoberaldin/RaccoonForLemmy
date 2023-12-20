@@ -272,4 +272,6 @@
     <string name="settings_search_posts_title_only">Cuardaigh postálacha i dteideal amháin</string>
     <string name="settings_content_font_family">Teaghlach cló ábhar</string>
     <string name="community_info_moderators">Modhnóirí</string>
+    <string name="community_action_add_favorite">Cuir le ceanáin</string>
+    <string name="community_action_remove_favorite">Bain ó cheanáin</string>
 </resources>

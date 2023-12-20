@@ -266,4 +266,6 @@
     <string name="settings_search_posts_title_only">Szukaj postów tylko po tytule</string>
     <string name="settings_content_font_family">Rodzina czcionek treści</string>
     <string name="community_info_moderators">Moderatorzy</string>
+    <string name="community_action_add_favorite">Dodaj do ulubionych</string>
+    <string name="community_action_remove_favorite">Usuń z ulubionych</string>
 </resources>

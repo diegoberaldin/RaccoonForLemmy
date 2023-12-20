@@ -269,4 +269,6 @@
     <string name="settings_search_posts_title_only">Buscar publicaciones sólo en el título</string>
     <string name="settings_content_font_family">Fuente del contenido</string>
     <string name="community_info_moderators">Moderadores</string>
+    <string name="community_action_add_favorite">Agregar a los favoritos</string>
+    <string name="community_action_remove_favorite">Quitar de los favoritos</string>
 </resources>

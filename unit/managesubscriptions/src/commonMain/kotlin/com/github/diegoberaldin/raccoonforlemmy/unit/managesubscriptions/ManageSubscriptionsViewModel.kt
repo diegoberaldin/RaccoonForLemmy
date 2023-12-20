@@ -4,8 +4,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.FavoriteCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.FavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
@@ -25,6 +27,7 @@ class ManageSubscriptionsViewModel(
     private val accountRepository: AccountRepository,
     private val multiCommunityRepository: MultiCommunityRepository,
     private val settingsRepository: SettingsRepository,
+    private val favoriteCommunityRepository: FavoriteCommunityRepository,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
 ) : ManageSubscriptionsMviModel,
@@ -50,15 +53,25 @@ class ManageSubscriptionsViewModel(
         when (intent) {
             ManageSubscriptionsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             ManageSubscriptionsMviModel.Intent.Refresh -> refresh()
-            is ManageSubscriptionsMviModel.Intent.Unsubscribe -> handleUnsubscription(
-                community = uiState.value.communities.first { it.id == intent.id },
-            )
+            is ManageSubscriptionsMviModel.Intent.Unsubscribe -> {
+                uiState.value.communities.firstOrNull { it.id == intent.id }?.also { community ->
+                    handleUnsubscription(community)
+                }
+            }
 
-            is ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity -> deleteMultiCommunity(
-                community = uiState.value.multiCommunities.first {
+            is ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity -> {
+                uiState.value.multiCommunities.firstOrNull() {
                     (it.id ?: 0).toInt() == intent.id
-                },
-            )
+                }?.also { community ->
+                    deleteMultiCommunity(community)
+                }
+            }
+
+            is ManageSubscriptionsMviModel.Intent.ToggleFavorite -> {
+                uiState.value.communities.firstOrNull { it.id == intent.id }?.also { community ->
+                    toggleFavorite(community)
+                }
+            }
         }
     }
 
@@ -69,8 +82,14 @@ class ManageSubscriptionsViewModel(
         mvi.updateState { it.copy(refreshing = true) }
         mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
-            val communities = communityRepository.getSubscribed(auth).sortedBy { it.name }
             val accountId = accountRepository.getActive()?.id ?: 0L
+            val favoriteCommunityIds =
+                favoriteCommunityRepository.getAll(accountId).map { it.communityId }
+            val communities = communityRepository.getSubscribed(auth)
+                .map { community ->
+                    community.copy(favorite = community.id in favoriteCommunityIds)
+                }
+                .sortedBy { it.name }
             val multiCommunitites = multiCommunityRepository.getAll(accountId).sortedBy { it.name }
 
             mvi.updateState {
@@ -120,5 +139,37 @@ class ManageSubscriptionsViewModel(
             oldCommunities + community
         }.sortedBy { it.name }
         mvi.updateState { it.copy(multiCommunities = newCommunities) }
+    }
+
+    private fun toggleFavorite(community: CommunityModel) {
+        val communityId = community.id
+        mvi.scope?.launch(Dispatchers.IO) {
+            val accountId = accountRepository.getActive()?.id ?: 0L
+            val newValue = !community.favorite
+            if (newValue) {
+                val model = FavoriteCommunityModel(communityId = communityId)
+                favoriteCommunityRepository.create(model, accountId)
+            } else {
+                favoriteCommunityRepository.getBy(accountId, communityId)?.also { toDelete ->
+                    favoriteCommunityRepository.delete(accountId, toDelete)
+                }
+            }
+            val newCommunity = community.copy(favorite = newValue)
+            handleCommunityUpdate(newCommunity)
+        }
+    }
+
+    private fun handleCommunityUpdate(community: CommunityModel) {
+        mvi.updateState {
+            it.copy(
+                communities = it.communities.map { c ->
+                    if (c.id == community.id) {
+                        community
+                    } else {
+                        c
+                    }
+                },
+            )
+        }
     }
 }

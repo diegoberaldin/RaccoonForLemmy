@@ -267,4 +267,6 @@
     <string name="settings_search_posts_title_only">Zoek berichten alleen op titel</string>
     <string name="settings_content_font_family">Inhoud lettertypefamilie</string>
     <string name="community_info_moderators">Moderators</string>
+    <string name="community_action_add_favorite">Toevoegen aan favorieten</string>
+    <string name="community_action_remove_favorite">Verwijder van favorieten</string>
 </resources>

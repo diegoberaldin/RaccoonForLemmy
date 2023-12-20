@@ -263,4 +263,6 @@
     <string name="settings_search_posts_title_only">Otsi postitusi ainult pealkirjast</string>
     <string name="settings_content_font_family">Sisu fondiperekond</string>
     <string name="community_info_moderators">Moderaatorid</string>
+    <string name="community_action_add_favorite">Lisa lemmikutesse</string>
+    <string name="community_action_remove_favorite">Eemalda lemmikutest</string>
 </resources>

@@ -268,4 +268,6 @@
     <string name="settings_search_posts_title_only">Fittex postijiet biss fit-titlu</string>
     <string name="settings_content_font_family">Familja tat-tipa tal-kontenut</string>
     <string name="community_info_moderators">Moderaturi</string>
+    <string name="community_action_add_favorite">Żid mal-favoriti</string>
+    <string name="community_action_remove_favorite">Neħħi mill-favoriti</string>
 </resources>

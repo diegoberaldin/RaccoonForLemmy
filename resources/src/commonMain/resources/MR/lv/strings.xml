@@ -267,4 +267,6 @@
     <string name="settings_search_posts_title_only">Meklēt ziņas tikai virsrakstā</string>
     <string name="settings_content_font_family">Satura fontu saime</string>
     <string name="community_info_moderators">Moderatori</string>
+    <string name="community_action_add_favorite">Pievienot pie favorītiem</string>
+    <string name="community_action_remove_favorite">Noņemt no izlases</string>
 </resources>

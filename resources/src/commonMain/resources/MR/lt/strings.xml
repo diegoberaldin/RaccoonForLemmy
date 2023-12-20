@@ -266,4 +266,6 @@
     <string name="settings_search_posts_title_only">Ieškoti įrašų tik pavadinime</string>
     <string name="settings_content_font_family">Turinio šriftų šeima</string>
     <string name="community_info_moderators">Moderatoriai</string>
+    <string name="community_action_add_favorite">Įtraukti į adresyną</string>
+    <string name="community_action_remove_favorite">Pašalinti iš mėgstamiausių</string>
 </resources>

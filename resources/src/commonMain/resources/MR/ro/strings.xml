@@ -264,4 +264,6 @@
     <string name="settings_search_posts_title_only">Căută postări numai în titlu</string>
     <string name="settings_content_font_family">Font conținuturilor</string>
     <string name="community_info_moderators">Moderatori</string>
+    <string name="community_action_add_favorite">Adaugă la favorite</string>
+    <string name="community_action_remove_favorite">Elimină din favorite</string>
 </resources>

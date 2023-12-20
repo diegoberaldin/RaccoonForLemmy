@@ -263,4 +263,6 @@
     <string name="settings_search_posts_title_only">Hae viestejä vain otsikosta</string>
     <string name="settings_content_font_family">Sisällön kirjasinperhe</string>
     <string name="community_info_moderators">Moderaattorit</string>
+    <string name="community_action_add_favorite">Lisää suosikkeihin</string>
+    <string name="community_action_remove_favorite">Poista suosikeista</string>
 </resources>

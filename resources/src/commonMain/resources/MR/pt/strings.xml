@@ -266,4 +266,6 @@
     <string name="settings_search_posts_title_only">Pesquise postagens apenas no título</string>
     <string name="settings_content_font_family">Fonte dos conteúdos</string>
     <string name="community_info_moderators">Moderadores</string>
+    <string name="community_action_add_favorite">Adicionar aos favoritos</string>
+    <string name="community_action_remove_favorite">Remover dos favoritos</string>
 </resources>

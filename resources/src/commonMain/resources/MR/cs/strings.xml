@@ -263,4 +263,6 @@
     <string name="settings_search_posts_title_only">Hledejte příspěvky pouze v názvu</string>
     <string name="settings_content_font_family">Rodina písem obsahu</string>
     <string name="community_info_moderators">Moderátoři</string>
+    <string name="community_action_add_favorite">Přidat k oblíbeným</string>
+    <string name="community_action_remove_favorite">Odstranit z oblíbených</string>
 </resources>

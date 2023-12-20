@@ -248,10 +248,19 @@ class ManageSubscriptionsScreen : Screen {
                                 ),
                             community = community,
                             autoLoadImages = uiState.autoLoadImages,
+                            showFavorite = true,
                             options = buildList {
                                 this += Option(
                                     OptionId.Delete,
                                     stringResource(MR.strings.community_action_unsubscribe),
+                                )
+                                this += Option(
+                                    OptionId.Favorite,
+                                    if (community.favorite) {
+                                        stringResource(MR.strings.community_action_remove_favorite)
+                                    } else {
+                                        stringResource(MR.strings.community_action_add_favorite)
+                                    },
                                 )
                             },
                             onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -259,6 +268,14 @@ class ManageSubscriptionsScreen : Screen {
                                     OptionId.Delete -> {
                                         model.reduce(
                                             ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id),
+                                        )
+                                    }
+
+                                    OptionId.Favorite -> {
+                                        model.reduce(
+                                            ManageSubscriptionsMviModel.Intent.ToggleFavorite(
+                                                community.id
+                                            )
                                         )
                                     }
 

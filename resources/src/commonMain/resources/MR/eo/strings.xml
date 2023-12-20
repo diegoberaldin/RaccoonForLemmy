@@ -262,4 +262,6 @@
     <string name="settings_search_posts_title_only">Serĉi afiŝojn nur en titolo</string>
     <string name="settings_content_font_family">Enhavo tiparo</string>
     <string name="community_info_moderators">Moderigantoj</string>
+    <string name="community_action_add_favorite">Aldoni al plej ŝatataj</string>
+    <string name="community_action_remove_favorite">Forigi el plej ŝatataj</string>
 </resources>

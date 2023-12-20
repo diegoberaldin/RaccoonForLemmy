@@ -269,4 +269,6 @@
     </string>
     <string name="settings_content_font_family">Police des contenus</string>
     <string name="community_info_moderators">Modérateurs</string>
+    <string name="community_action_add_favorite">Ajouter aux favoris</string>
+    <string name="community_action_remove_favorite">Retirer des favoris</string>
 </resources>

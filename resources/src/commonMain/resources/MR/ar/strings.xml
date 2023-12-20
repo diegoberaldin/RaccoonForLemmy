@@ -261,4 +261,6 @@
     <string name="settings_search_posts_title_only">البحث عن المشاركات فقط في العنوان</string>
     <string name="settings_content_font_family">عائلة خطوط المحتوى</string>
     <string name="community_info_moderators">المشرفون</string>
+    <string name="community_action_add_favorite">اضافة الى المفضلة</string>
+    <string name="community_action_remove_favorite">إزالة من المفضلة</string>
 </resources>

@@ -264,4 +264,6 @@
     <string name="settings_search_posts_title_only">Sök endast inlägg i rubriken</string>
     <string name="settings_content_font_family">Teckenstorlek för innehåll</string>
     <string name="community_info_moderators">Moderatorer</string>
+    <string name="community_action_add_favorite">Lägg till i favoriter</string>
+    <string name="community_action_remove_favorite">Ta bort från favoriter</string>
 </resources>

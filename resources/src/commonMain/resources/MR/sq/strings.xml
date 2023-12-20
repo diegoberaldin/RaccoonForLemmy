@@ -269,4 +269,6 @@
     <string name="settings_search_posts_title_only">Kërkoni postimet vetëm në titull</string>
     <string name="settings_content_font_family">Madhësia e shkronjave të përmbajtjes</string>
     <string name="community_info_moderators">Moderatorët</string>
+    <string name="community_action_add_favorite">Shto te të preferuarat</string>
+    <string name="community_action_remove_favorite">Hiq nga të preferuarat</string>
 </resources>

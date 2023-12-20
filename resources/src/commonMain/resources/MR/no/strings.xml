@@ -266,4 +266,6 @@
     <string name="settings_search_posts_title_only">Søk kun innlegg i tittel</string>
     <string name="settings_content_font_family">Innhold fontfamilie</string>
     <string name="community_info_moderators">Moderatorer</string>
+    <string name="community_action_add_favorite">Legg til i favoritter</string>
+    <string name="community_action_remove_favorite">Fjern fra favoritter</string>
 </resources>

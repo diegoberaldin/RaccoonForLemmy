@@ -15,6 +15,7 @@ interface ManageSubscriptionsMviModel :
         data object HapticIndication : Intent
         data class Unsubscribe(val id: Int) : Intent
         data class DeleteMultiCommunity(val id: Int) : Intent
+        data class ToggleFavorite(val id: Int) : Intent
     }
 
     data class UiState(

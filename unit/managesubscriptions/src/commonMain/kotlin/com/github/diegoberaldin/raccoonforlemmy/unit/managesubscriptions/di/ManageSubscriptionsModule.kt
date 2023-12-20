@@ -19,6 +19,7 @@ val manageSubscriptionsModule = module {
             hapticFeedback = get(),
             notificationCenter = get(),
             settingsRepository = get(),
+            favoriteCommunityRepository = get(),
         )
     }
 }

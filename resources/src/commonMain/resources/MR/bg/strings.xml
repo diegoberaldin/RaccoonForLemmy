@@ -272,4 +272,6 @@
     <string name="settings_search_posts_title_only">Търсете публикации само в заглавието</string>
     <string name="settings_content_font_family">Семейство шрифтове за съдържание</string>
     <string name="community_info_moderators">Модератори</string>
+    <string name="community_action_add_favorite">Добави към любими</string>
+    <string name="community_action_remove_favorite">Премахване от любими</string>
 </resources>

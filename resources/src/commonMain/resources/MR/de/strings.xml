@@ -269,4 +269,6 @@
     <string name="settings_search_posts_title_only">Durchsuchen Sie Beiträge nur nach Titel</string>
     <string name="settings_content_font_family">Content-Schriftfamilie</string>
     <string name="community_info_moderators">Moderatoren</string>
+    <string name="community_action_add_favorite">Zu den Favoriten hinzufügen</string>
+    <string name="community_action_remove_favorite">Von Favoriten entfernen</string>
 </resources>

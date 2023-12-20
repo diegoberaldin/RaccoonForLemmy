@@ -266,4 +266,6 @@
     <string name="settings_search_posts_title_only">Шукати публікації лише за назвою</string>
     <string name="settings_content_font_family">Розмір шрифту вмісту</string>
     <string name="community_info_moderators">Модератори</string>
+    <string name="community_action_add_favorite">Додати в обране</string>
+    <string name="community_action_remove_favorite">Видалити з вибраного</string>
 </resources>

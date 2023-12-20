@@ -292,4 +292,6 @@
     <string name="settings_search_posts_title_only">Search posts only in title</string>
     <string name="settings_content_font_family">Content font family</string>
     <string name="community_info_moderators">Moderators</string>
+    <string name="community_action_add_favorite">Add to favorites</string>
+    <string name="community_action_remove_favorite">Remove from favorites</string>
 </resources>
