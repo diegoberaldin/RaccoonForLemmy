@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist
+package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
