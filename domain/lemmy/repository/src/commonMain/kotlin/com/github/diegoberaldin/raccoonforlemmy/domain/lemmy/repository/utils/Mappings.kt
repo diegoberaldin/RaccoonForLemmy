@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils
 
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Comment
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReplyView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReportView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentSortType
@@ -9,10 +10,19 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.All
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Local
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddCommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModBanFromCommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModFeaturePostView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModLockPostView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModRemoveCommentView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModRemovePostView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModTransferCommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModlogActionType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Person
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonAggregates
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Post
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostReportView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageView
@@ -40,6 +50,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItemType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
@@ -134,6 +146,21 @@ internal fun PostView.toModel() = PostModel(
     locked = post.locked,
 )
 
+internal fun Post.toModel() = PostModel(
+    id = id,
+    originalUrl = apId,
+    title = name,
+    text = body.orEmpty(),
+    thumbnailUrl = thumbnailUrl.orEmpty(),
+    url = url,
+    updateDate = updated,
+    nsfw = nsfw,
+    embedVideoUrl = embedVideoUrl,
+    featuredCommunity = featuredCommunity,
+    removed = removed,
+    locked = locked,
+)
+
 internal fun CommentView.toModel() = CommentModel(
     id = comment.id,
     text = comment.content,
@@ -151,6 +178,17 @@ internal fun CommentView.toModel() = CommentModel(
     path = comment.path,
     distinguished = comment.distinguished,
     removed = comment.removed,
+)
+
+internal fun Comment.toModel() = CommentModel(
+    id = id,
+    text = content,
+    publishDate = published,
+    updateDate = updated,
+    postId = postId,
+    path = path,
+    distinguished = distinguished,
+    removed = removed,
 )
 
 internal fun Community.toModel() = CommunityModel(
@@ -326,4 +364,70 @@ internal fun CommentReportView.toModel() = CommentReportModel(
 internal fun SiteMetadata.toModel() = MetadataModel(
     title = title.orEmpty(),
     description = description.orEmpty(),
+)
+
+internal fun ModlogItemType.toDto(): ModlogActionType = when (this) {
+    ModlogItemType.All -> ModlogActionType.All
+    ModlogItemType.ModRemovePost -> ModlogActionType.ModRemovePost
+    ModlogItemType.ModLockPost -> ModlogActionType.ModLockPost
+    ModlogItemType.ModAdd -> ModlogActionType.ModAddCommunity
+    ModlogItemType.ModBanFromCommunity -> ModlogActionType.ModBanFromCommunity
+    ModlogItemType.ModFeaturePost -> ModlogActionType.ModFeaturePost
+    ModlogItemType.ModRemoveComment -> ModlogActionType.ModRemoveComment
+    ModlogItemType.ModTransferCommunity -> ModlogActionType.ModTransferCommunity
+}
+
+internal fun ModAddCommunityView.toDto() = ModlogItem.ModAdd(
+    id = modAddCommunity.id,
+    date = modAddCommunity.date,
+    removed = modAddCommunity.removed,
+    user = moddedPerson.toModel(),
+    moderator = moderator?.toModel(),
+)
+
+internal fun ModBanFromCommunityView.toDto() = ModlogItem.ModBanFromCommunity(
+    id = modBanFromCommunity.id,
+    date = modBanFromCommunity.date,
+    banned = modBanFromCommunity.banned,
+    user = bannedPerson.toModel(),
+    moderator = moderator?.toModel(),
+)
+
+internal fun ModFeaturePostView.toDto() = ModlogItem.ModFeaturePost(
+    id = modFeaturePost.id,
+    date = modFeaturePost.date,
+    featured = modFeaturePost.featured,
+    moderator = moderator?.toModel(),
+    post = post.toModel(),
+)
+
+internal fun ModLockPostView.toDto() = ModlogItem.ModLockPost(
+    id = modLockPost.id,
+    date = modLockPost.date,
+    locked = modLockPost.locked,
+    moderator = moderator?.toModel(),
+    post = post.toModel(),
+)
+
+internal fun ModRemovePostView.toDto() = ModlogItem.ModRemovePost(
+    id = modRemovePost.id,
+    date = modRemovePost.date,
+    removed = modRemovePost.removed,
+    moderator = moderator?.toModel(),
+    post = post.toModel(),
+)
+
+internal fun ModRemoveCommentView.toDto() = ModlogItem.ModRemoveComment(
+    id = modRemoveComment.id,
+    date = modRemoveComment.date,
+    removed = modRemoveComment.removed,
+    moderator = moderator?.toModel(),
+    comment = comment.toModel(),
+)
+
+internal fun ModTransferCommunityView.toDto() = ModlogItem.ModTransferCommunity(
+    id = modTransferCommunity.id,
+    date = modTransferCommunity.date,
+    moderator = moderator?.toModel(),
+    user = moddedPerson.toModel(),
 )
