@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.api.provider
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.AuthService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.CommentService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.CommunityService
+import com.github.diegoberaldin.raccoonforlemmy.core.api.service.ModlogService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.PostService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.PrivateMessageService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.SearchService
@@ -52,6 +53,9 @@ internal class DefaultServiceProvider : ServiceProvider {
         private set
 
     override lateinit var privateMessages: PrivateMessageService
+        private set
+
+    override lateinit var modLog: ModlogService
         private set
 
     private val baseUrl: String get() = "https://$currentInstance/api/$VERSION/"
@@ -108,5 +112,7 @@ internal class DefaultServiceProvider : ServiceProvider {
         comment = ktorfit.create()
         search = ktorfit.create()
         privateMessages = ktorfit.create()
+        privateMessages = ktorfit.create()
+        modLog = ktorfit.create()
     }
 }
