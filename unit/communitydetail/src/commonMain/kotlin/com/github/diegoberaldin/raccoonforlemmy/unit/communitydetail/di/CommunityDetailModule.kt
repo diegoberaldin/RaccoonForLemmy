@@ -24,6 +24,8 @@ val communityDetailModule = module {
             imagePreloadManager = get(),
             notificationCenter = get(),
             getSortTypesUseCase = get(),
+            accountRepository = get(),
+            favoriteCommunityRepository = get(),
         )
     }
 }

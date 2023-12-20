@@ -278,6 +278,16 @@ class CommunityDetailScreen(
                                     OptionId.BlockInstance,
                                     stringResource(MR.strings.community_detail_block_instance)
                                 )
+                                if (uiState.currentUserId != null && otherInstanceName.isEmpty()) {
+                                    this += Option(
+                                        OptionId.Favorite,
+                                        if (uiState.community.favorite) {
+                                            stringResource(MR.strings.community_action_remove_favorite)
+                                        } else {
+                                            stringResource(MR.strings.community_action_add_favorite)
+                                        },
+                                    )
+                                }
 
                                 if (uiState.moderators.containsId(uiState.currentUserId)) {
                                     this += Option(
@@ -346,6 +356,12 @@ class CommunityDetailScreen(
                                                             communityId = uiState.community.id
                                                         )
                                                         navigationCoordinator.pushScreen(screen)
+                                                    }
+
+                                                    OptionId.Favorite -> {
+                                                        model.reduce(
+                                                            CommunityDetailMviModel.Intent.ToggleFavorite,
+                                                        )
                                                     }
 
                                                     else -> Unit

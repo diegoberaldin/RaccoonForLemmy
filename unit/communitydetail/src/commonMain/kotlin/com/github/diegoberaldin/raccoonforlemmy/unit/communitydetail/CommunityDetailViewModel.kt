@@ -5,6 +5,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.FavoriteCommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.FavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
@@ -39,6 +42,8 @@ class CommunityDetailViewModel(
     private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
+    private val accountRepository: AccountRepository,
+    private val favoriteCommunityRepository: FavoriteCommunityRepository,
     private val shareHelper: ShareHelper,
     private val hapticFeedback: HapticFeedback,
     private val zombieModeHelper: ZombieModeHelper,
@@ -227,6 +232,10 @@ class CommunityDetailViewModel(
             is CommunityDetailMviModel.Intent.ModToggleModUser -> {
                 toggleModeratorStatus(intent.id)
             }
+
+            CommunityDetailMviModel.Intent.ToggleFavorite -> {
+                toggleFavorite()
+            }
         }
     }
 
@@ -236,19 +245,14 @@ class CommunityDetailViewModel(
         hideReadPosts = false
         mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
         val auth = identityRepository.authToken.value
-        val refreshedCommunity = if (otherInstance.isNotEmpty()) {
-            communityRepository.get(
-                auth = auth,
-                name = community.name,
-                instance = otherInstance,
-            )
-        } else {
-            communityRepository.get(
-                auth = auth,
-                id = community.id,
-                name = community.name,
-            )
-        }
+        val accountId = accountRepository.getActive()?.id
+        val isFavorite = favoriteCommunityRepository.getBy(accountId, community.id) != null
+        val refreshedCommunity = communityRepository.get(
+            auth = auth,
+            name = community.name,
+            id = community.id,
+            instance = otherInstance,
+        )?.copy(favorite = isFavorite)
         val moderators = communityRepository.getModerators(
             auth = auth,
             id = community.id,
@@ -589,6 +593,24 @@ class CommunityDetailViewModel(
             mvi.updateState {
                 it.copy(moderators = newModerators)
             }
+        }
+    }
+
+    private fun toggleFavorite() {
+        val communityId = community.id
+        mvi.scope?.launch(Dispatchers.IO) {
+            val accountId = accountRepository.getActive()?.id ?: 0L
+            val newValue = !community.favorite
+            if (newValue) {
+                val model = FavoriteCommunityModel(communityId = communityId)
+                favoriteCommunityRepository.create(model, accountId)
+            } else {
+                favoriteCommunityRepository.getBy(accountId, communityId)?.also { toDelete ->
+                    favoriteCommunityRepository.delete(accountId, toDelete)
+                }
+            }
+            val newCommunity = uiState.value.community.copy(favorite = newValue)
+            mvi.updateState { it.copy(community = newCommunity) }
         }
     }
 }

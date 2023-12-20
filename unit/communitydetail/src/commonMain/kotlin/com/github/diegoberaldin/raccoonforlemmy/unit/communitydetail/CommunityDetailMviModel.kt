@@ -37,6 +37,7 @@ interface CommunityDetailMviModel :
         data class ModFeaturePost(val id: Int) : Intent
         data class ModLockPost(val id: Int) : Intent
         data class ModToggleModUser(val id: Int) : Intent
+        data object ToggleFavorite : Intent
     }
 
     data class UiState(
