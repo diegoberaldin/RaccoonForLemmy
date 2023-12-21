@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.modlog
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.ModlogRepository
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,7 @@ class ModlogViewModel(
     private val themeRepository: ThemeRepository,
     private val identityRepository: IdentityRepository,
     private val modlogRepository: ModlogRepository,
+    private val settingsRepository: SettingsRepository,
 ) : ModlogMviModel,
     MviModel<ModlogMviModel.Intent, ModlogMviModel.UiState, ModlogMviModel.Effect> by mvi {
 
@@ -28,6 +30,13 @@ class ModlogViewModel(
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
+            settingsRepository.currentSettings.onEach { settings ->
+                mvi.updateState {
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                    )
+                }
+            }
 
             if (uiState.value.items.isEmpty()) {
                 refresh(initial = true)

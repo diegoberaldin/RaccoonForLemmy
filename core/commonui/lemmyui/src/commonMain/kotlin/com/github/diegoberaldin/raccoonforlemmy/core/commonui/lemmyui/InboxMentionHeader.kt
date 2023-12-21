@@ -64,7 +64,7 @@ fun InboxCardHeader(
                 .padding(vertical = Spacing.xs, horizontal = Spacing.xs),
             text = header,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = fullColor,
         )
         if (!mention.read) {
             Icon(

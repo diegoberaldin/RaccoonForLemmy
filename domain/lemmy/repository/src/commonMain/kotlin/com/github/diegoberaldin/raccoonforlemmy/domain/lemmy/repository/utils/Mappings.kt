@@ -423,6 +423,7 @@ internal fun ModRemoveCommentView.toDto() = ModlogItem.ModRemoveComment(
     removed = modRemoveComment.removed,
     moderator = moderator?.toModel(),
     comment = comment.toModel(),
+    post = post.toModel(),
 )
 
 internal fun ModTransferCommunityView.toDto() = ModlogItem.ModTransferCommunity(

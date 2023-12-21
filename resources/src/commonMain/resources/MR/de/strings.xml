@@ -273,4 +273,19 @@
     <string name="community_action_remove_favorite">Von Favoriten entfernen</string>
     <string name="community_action_view_modlog">Moderationsprotokoll ansehen</string>
     <string name="modlog_title">Moderationsprotokoll</string>
+    <string name="modlog_item_mod_added">wurde als Moderator hinzugefügt</string>
+    <string name="modlog_item_mod_removed">wurde als Moderator entfernt</string>
+    <string name="modlog_item_user_banned">war verbannt</string>
+    <string name="modlog_item_user_unbanned">wurde aufgehoben</string>
+    <string name="modlog_item_post_featured">wurde als hervorgehobener Beitrag markiert</string>
+    <string name="modlog_item_post_unfeatured">wurde als nicht vorgestellter Beitrag markiert
+    </string>
+    <string name="modlog_item_post_locked">war gesperrt</string>
+    <string name="modlog_item_post_unlocked">wurde entsperrt</string>
+    <string name="modlog_item_post_removed">wurde entfernt</string>
+    <string name="modlog_item_post_restored">wurde wiederhergestellt</string>
+    <string name="modlog_item_comment_removed">wurde aus den Kommentaren von entfernt</string>
+    <string name="modlog_item_comment_restored">wurde in den Kommentaren von wiederhergestellt
+    </string>
+    <string name="modlog_item_community_transfer">die Gemeinde wurde übertragen</string>
 </resources>

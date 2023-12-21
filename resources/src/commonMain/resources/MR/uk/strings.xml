@@ -270,4 +270,17 @@
     <string name="community_action_remove_favorite">Видалити з вибраного</string>
     <string name="community_action_view_modlog">Переглянути журнал модерації</string>
     <string name="modlog_title">Журнал модерації</string>
+    <string name="modlog_item_mod_added">був доданий як модератор</string>
+    <string name="modlog_item_mod_removed">було видалено з модератора</string>
+    <string name="modlog_item_user_banned">було заборонено</string>
+    <string name="modlog_item_user_unbanned">був розбанений</string>
+    <string name="modlog_item_post_featured">було позначено як рекомендований допис</string>
+    <string name="modlog_item_post_unfeatured">було позначено як непопулярне повідомлення</string>
+    <string name="modlog_item_post_locked">було заблоковано</string>
+    <string name="modlog_item_post_unlocked">було розблоковано</string>
+    <string name="modlog_item_post_removed">було видалено</string>
+    <string name="modlog_item_post_restored">було відновлено</string>
+    <string name="modlog_item_comment_removed">було видалено з коментарів користувача</string>
+    <string name="modlog_item_comment_restored">було відновлено в коментарях</string>
+    <string name="modlog_item_community_transfer">громаду було передано с</string>
 </resources>

@@ -277,4 +277,17 @@
     <string name="community_action_remove_favorite">Αφαίρεση από τα αγαπημένα</string>
     <string name="community_action_view_modlog">Προβολή αρχείου καταγραφής εποπτείας</string>
     <string name="modlog_title">Μητρώο εποπτείας</string>
+    <string name="modlog_item_mod_added">προστέθηκε ως συντονιστής</string>
+    <string name="modlog_item_mod_removed">καταργήθηκε ως συντονιστής</string>
+    <string name="modlog_item_user_banned">αποκλείστηκε</string>
+    <string name="modlog_item_user_unbanned">ήταν απαγορευμένος</string>
+    <string name="modlog_item_post_featured">επισημάνθηκε ως επιλεγμένη ανάρτηση</string>
+    <string name="modlog_item_post_unfeatured">επισημάνθηκε ως μη επιλεγμένη ανάρτηση</string>
+    <string name="modlog_item_post_locked">κλειδώθηκε</string>
+    <string name="modlog_item_post_unlocked">ξεκλειδώθηκε</string>
+    <string name="modlog_item_post_removed">απομακρύνθηκε</string>
+    <string name="modlog_item_post_restored">αποκαταστάθηκε</string>
+    <string name="modlog_item_comment_removed">αφαιρέθηκε από τα σχόλια του</string>
+    <string name="modlog_item_comment_restored">αποκαταστάθηκε στα σχόλια του</string>
+    <string name="modlog_item_community_transfer">η κοινότητα μεταφέρθηκε σε</string>
 </resources>

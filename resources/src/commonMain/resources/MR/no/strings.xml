@@ -270,4 +270,17 @@
     <string name="community_action_remove_favorite">Fjern fra favoritter</string>
     <string name="community_action_view_modlog">Se moderasjonslogg</string>
     <string name="modlog_title">Moderasjonslogg</string>
+    <string name="modlog_item_mod_added">ble lagt til som moderator</string>
+    <string name="modlog_item_mod_removed">ble fjernet som moderator</string>
+    <string name="modlog_item_user_banned">ble bannlyst</string>
+    <string name="modlog_item_user_unbanned">ble opphevet forbudet</string>
+    <string name="modlog_item_post_featured">ble merket som fremhevet innlegg</string>
+    <string name="modlog_item_post_unfeatured">ble merket som ikke-fremhevet innlegg</string>
+    <string name="modlog_item_post_locked">var låst</string>
+    <string name="modlog_item_post_unlocked">ble låst opp</string>
+    <string name="modlog_item_post_removed">var fjernet</string>
+    <string name="modlog_item_post_restored">ble restaurert</string>
+    <string name="modlog_item_comment_removed">ble fjernet fra kommentarene til</string>
+    <string name="modlog_item_comment_restored">ble gjenopprettet i kommentarene til</string>
+    <string name="modlog_item_community_transfer">fellesskapet ble overført til</string>
 </resources>

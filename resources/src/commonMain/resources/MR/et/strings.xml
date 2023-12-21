@@ -267,4 +267,17 @@
     <string name="community_action_remove_favorite">Eemalda lemmikutest</string>
     <string name="community_action_view_modlog">Vaata modereerimislogi</string>
     <string name="modlog_title">Modereerimise logi</string>
+    <string name="modlog_item_mod_added">lisati moderaatoriks</string>
+    <string name="modlog_item_mod_removed">eemaldati moderaatori kohalt</string>
+    <string name="modlog_item_user_banned">keelati ära</string>
+    <string name="modlog_item_user_unbanned">oli keelustamata</string>
+    <string name="modlog_item_post_featured">märgiti esiletoodud postituseks</string>
+    <string name="modlog_item_post_unfeatured">märgiti mitteesilepandavaks postituseks</string>
+    <string name="modlog_item_post_locked">oli lukus</string>
+    <string name="modlog_item_post_unlocked">oli lukustamata</string>
+    <string name="modlog_item_post_removed">eemaldati</string>
+    <string name="modlog_item_post_restored">taastati</string>
+    <string name="modlog_item_comment_removed">eemaldati kasutaja kommentaaridest</string>
+    <string name="modlog_item_comment_restored">aasta kommentaarides taastati</string>
+    <string name="modlog_item_community_transfer">kogukond viidi üle</string>
 </resources>

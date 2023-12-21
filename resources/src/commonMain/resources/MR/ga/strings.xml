@@ -276,4 +276,17 @@
     <string name="community_action_remove_favorite">Bain ó cheanáin</string>
     <string name="community_action_view_modlog">Féach ar loga modhnóireachta</string>
     <string name="modlog_title">Loga modhnóireachta</string>
+    <string name="modlog_item_mod_added">cuireadh leis mar mhodhnóir</string>
+    <string name="modlog_item_mod_removed">baineadh as mar mhodhnóir</string>
+    <string name="modlog_item_user_banned">cuireadh toirmeasc</string>
+    <string name="modlog_item_user_unbanned">bhí gan toirmeasc</string>
+    <string name="modlog_item_post_featured">marcáilte mar phostáil faoi thrácht</string>
+    <string name="modlog_item_post_unfeatured">marcáilte mar phostáil neamh-feiceáil</string>
+    <string name="modlog_item_post_locked">faoi ghlas</string>
+    <string name="modlog_item_post_unlocked">bhí díghlasáilte</string>
+    <string name="modlog_item_post_removed">baineadh</string>
+    <string name="modlog_item_post_restored">athchóiríodh</string>
+    <string name="modlog_item_comment_removed">baineadh de thuairimí ó</string>
+    <string name="modlog_item_comment_restored">a athchóiriú i dtuairimí ó</string>
+    <string name="modlog_item_community_transfer">aistríodh an pobal go</string>
 </resources>

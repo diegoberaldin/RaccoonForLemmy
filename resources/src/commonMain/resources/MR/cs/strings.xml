@@ -267,4 +267,17 @@
     <string name="community_action_remove_favorite">Odstranit z oblíbených</string>
     <string name="community_action_view_modlog">Zobrazit protokol moderování</string>
     <string name="modlog_title">Záznam moderování</string>
+    <string name="modlog_item_mod_added">byl přidán jako moderátor</string>
+    <string name="modlog_item_mod_removed">byl odebrán jako moderátor</string>
+    <string name="modlog_item_user_banned">byl zakázán</string>
+    <string name="modlog_item_user_unbanned">byla zakázána</string>
+    <string name="modlog_item_post_featured">byl označen jako doporučený příspěvek</string>
+    <string name="modlog_item_post_unfeatured">byl označen jako nedoporučený příspěvek</string>
+    <string name="modlog_item_post_locked">byl uzamčen</string>
+    <string name="modlog_item_post_unlocked">byl odemčen</string>
+    <string name="modlog_item_post_removed">byl odstraněn</string>
+    <string name="modlog_item_post_restored">byl obnoven</string>
+    <string name="modlog_item_comment_removed">byl odstraněn z komentářů uživatele</string>
+    <string name="modlog_item_comment_restored">byl obnoven v komentářích</string>
+    <string name="modlog_item_community_transfer">komunita byla převedena do</string>
 </resources>

@@ -271,4 +271,17 @@
     <string name="community_action_remove_favorite">Eltávolítás a kedvencekből</string>
     <string name="community_action_view_modlog">Moderálási napló megtekintése</string>
     <string name="modlog_title">Moderálási napló</string>
+    <string name="modlog_item_mod_added">hozzáadva moderátornak</string>
+    <string name="modlog_item_mod_removed">eltávolították moderátorként</string>
+    <string name="modlog_item_user_banned">eltiltották</string>
+    <string name="modlog_item_user_unbanned">tiltva volt</string>
+    <string name="modlog_item_post_featured">kiemelt bejegyzésként lett megjelölve</string>
+    <string name="modlog_item_post_unfeatured">nem kiemelt bejegyzésként lett megjelölve</string>
+    <string name="modlog_item_post_locked">zárva volt</string>
+    <string name="modlog_item_post_unlocked">fel volt oldva</string>
+    <string name="modlog_item_post_removed">eltávolítva</string>
+    <string name="modlog_item_post_restored">helyreállították</string>
+    <string name="modlog_item_comment_removed">eltávolítva a megjegyzései közül</string>
+    <string name="modlog_item_comment_restored">megjegyzésében helyreállították</string>
+    <string name="modlog_item_community_transfer">a közösség átkerült</string>
 </resources>

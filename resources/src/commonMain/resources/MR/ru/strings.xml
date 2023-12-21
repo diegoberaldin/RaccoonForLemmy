@@ -271,4 +271,17 @@
     <string name="community_action_remove_favorite">Удалить из Избранного</string>
     <string name="community_action_view_modlog">Посмотреть журнал модерации</string>
     <string name="modlog_title">Журнал модерации</string>
+    <string name="modlog_item_mod_added">добавлен в качестве модератора</string>
+    <string name="modlog_item_mod_removed">был удален с поста модератора</string>
+    <string name="modlog_item_user_banned">был забанен</string>
+    <string name="modlog_item_user_unbanned">был разбанен</string>
+    <string name="modlog_item_post_featured">было отмечено как избранное сообщение</string>
+    <string name="modlog_item_post_unfeatured">был помечен как нерекомендуемый пост</string>
+    <string name="modlog_item_post_locked">был заперт</string>
+    <string name="modlog_item_post_unlocked">был разблокирован</string>
+    <string name="modlog_item_post_removed">был удален</string>
+    <string name="modlog_item_post_restored">был восстановлен</string>
+    <string name="modlog_item_comment_removed">удалили из комментариев</string>
+    <string name="modlog_item_comment_restored">восстановлено в комментариях</string>
+    <string name="modlog_item_community_transfer">община была переведена в</string>
 </resources>

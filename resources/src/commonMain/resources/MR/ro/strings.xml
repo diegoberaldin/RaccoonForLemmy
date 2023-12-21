@@ -268,4 +268,17 @@
     <string name="community_action_remove_favorite">Elimină din favorite</string>
     <string name="community_action_view_modlog">Vezi jurnalul de moderare</string>
     <string name="modlog_title">Jurnal de moderare</string>
+    <string name="modlog_item_mod_added">a fost adăugat ca moderator</string>
+    <string name="modlog_item_mod_removed">a fost eliminat ca moderator</string>
+    <string name="modlog_item_user_banned">a fost interzis</string>
+    <string name="modlog_item_user_unbanned">a fost neinterzis</string>
+    <string name="modlog_item_post_featured">a fost marcat ca postare recomandată</string>
+    <string name="modlog_item_post_unfeatured">a fost marcat ca postare nerecomandată</string>
+    <string name="modlog_item_post_locked">a fost blocat</string>
+    <string name="modlog_item_post_unlocked">a fost deblocat</string>
+    <string name="modlog_item_post_removed">a fost eliminat</string>
+    <string name="modlog_item_post_restored">a fost restaurat</string>
+    <string name="modlog_item_comment_removed">a fost eliminat din comentariile de</string>
+    <string name="modlog_item_comment_restored">a fost restaurat în comentariile de</string>
+    <string name="modlog_item_community_transfer">comunitatea a fost transferată la</string>
 </resources>

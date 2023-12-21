@@ -271,4 +271,17 @@
     <string name="community_action_remove_favorite">Rimuovi dai preferiti</string>
     <string name="community_action_view_modlog">Vedi registro di moderazione</string>
     <string name="modlog_title">Registro di moderazione</string>
+    <string name="modlog_item_mod_added">è stato nominato moderatore</string>
+    <string name="modlog_item_mod_removed">è stato destituito come moderatore</string>
+    <string name="modlog_item_user_banned">è stato bannato</string>
+    <string name="modlog_item_user_unbanned">è stato riammesso</string>
+    <string name="modlog_item_post_featured">è stato marcato come fissato</string>
+    <string name="modlog_item_post_unfeatured">è stato marcato come non fissato</string>
+    <string name="modlog_item_post_locked">è stato bloccato</string>
+    <string name="modlog_item_post_unlocked">è stato sbloccato</string>
+    <string name="modlog_item_post_removed">è stato rimosso</string>
+    <string name="modlog_item_post_restored">è stato ripristinato</string>
+    <string name="modlog_item_comment_removed">è stato rimosso dai commenti di</string>
+    <string name="modlog_item_comment_restored">è stato ripristinato nei commenti dif</string>
+    <string name="modlog_item_community_transfer">la comunità è stata trasferita a</string>
 </resources>

@@ -1,8 +1,7 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components
+package com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,17 +54,17 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 @Composable
-internal fun InnerReportCard(
+internal fun InnerModlogItem(
     modifier: Modifier = Modifier,
-    reason: String,
+    reason: String? = null,
     autoLoadImages: Boolean = true,
     date: String? = null,
-    creator: UserModel? = null,
+    moderator: UserModel? = null,
     postLayout: PostLayout = PostLayout.Card,
     options: List<Option> = emptyList(),
-    onOpenCreator: ((UserModel) -> Unit)? = null,
+    onOpenUser: ((UserModel) -> Unit)? = null,
     onOpen: (() -> Unit)? = null,
-    originalContent: (@Composable () -> Unit)? = null,
+    innerContent: (@Composable () -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     Box(
@@ -84,36 +83,36 @@ internal fun InnerReportCard(
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
-            ReportHeader(
-                creator = creator,
+            ModlogHeader(
+                creator = moderator,
                 autoLoadImages = autoLoadImages,
-                onOpenCreator = onOpenCreator,
+                onOpenCreator = onOpenUser,
             )
             CustomizedContent {
-                PostCardBody(
-                    modifier = Modifier.padding(
-                        horizontal = Spacing.xs,
-                    ),
-                    text = reason,
-                )
-                if (originalContent != null) {
+                if (reason != null) {
+                    PostCardBody(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.xs,
+                        ),
+                        text = reason,
+                    )
+                }
+                if (innerContent != null) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(CornerSize.l),
+                            .padding(
+                                vertical = Spacing.xs,
+                                horizontal = Spacing.s,
                             )
-                            .padding(all = Spacing.s)
                     ) {
-                        originalContent()
+                        innerContent()
                     }
                 }
             }
-            ReportFooter(
+            ModlogFooter(
                 date = date,
-                onOpenResolve = onOpen,
+                onOpen = onOpen,
                 options = options,
                 onOptionSelected = onOptionSelected,
             )
@@ -122,7 +121,7 @@ internal fun InnerReportCard(
 }
 
 @Composable
-private fun ReportHeader(
+private fun ModlogHeader(
     modifier: Modifier = Modifier,
     creator: UserModel? = null,
     autoLoadImages: Boolean = true,
@@ -175,10 +174,10 @@ private fun ReportHeader(
 }
 
 @Composable
-private fun ReportFooter(
+private fun ModlogFooter(
     date: String? = null,
     options: List<Option> = emptyList(),
-    onOpenResolve: (() -> Unit)? = null,
+    onOpen: (() -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
@@ -199,7 +198,7 @@ private fun ReportFooter(
             Text(
                 text = date?.prettifyDate() ?: "",
                 style = MaterialTheme.typography.labelLarge,
-                color = ancillaryColor,
+                color = ancillaryColor
             )
             if (options.isNotEmpty()) {
                 Icon(
@@ -220,12 +219,12 @@ private fun ReportFooter(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            if (onOpenResolve != null) {
+            if (onOpen != null) {
                 Image(
                     modifier = buttonModifier
                         .onClick(
                             onClick = rememberCallback {
-                                onOpenResolve.invoke()
+                                onOpen.invoke()
                             },
                         ),
                     imageVector = Icons.Default.OpenInNew,

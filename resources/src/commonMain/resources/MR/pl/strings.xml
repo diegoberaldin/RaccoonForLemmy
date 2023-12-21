@@ -270,4 +270,17 @@
     <string name="community_action_remove_favorite">Usuń z ulubionych</string>
     <string name="community_action_view_modlog">Zobacz dziennik moderacji</string>
     <string name="modlog_title">Dziennik moderacji</string>
+    <string name="modlog_item_mod_added">został dodany jako moderator</string>
+    <string name="modlog_item_mod_removed">został usunięty z funkcji moderatora</string>
+    <string name="modlog_item_user_banned">zostało zakazane</string>
+    <string name="modlog_item_user_unbanned">został odblokowany</string>
+    <string name="modlog_item_post_featured">został oznaczony jako polecany post</string>
+    <string name="modlog_item_post_unfeatured">został oznaczony jako post niepolecany</string>
+    <string name="modlog_item_post_locked">był zamknięty</string>
+    <string name="modlog_item_post_unlocked">został odblokowany</string>
+    <string name="modlog_item_post_removed">zostało usunięte</string>
+    <string name="modlog_item_post_restored">został przywrócony</string>
+    <string name="modlog_item_comment_removed">został usunięty z komentarzy</string>
+    <string name="modlog_item_comment_restored">został przywrócony w komentarzach</string>
+    <string name="modlog_item_community_transfer">gmina została przeniesiona</string>
 </resources>

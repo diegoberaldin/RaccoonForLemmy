@@ -268,4 +268,17 @@
     <string name="community_action_remove_favorite">Ta bort från favoriter</string>
     <string name="community_action_view_modlog">Visa modereringslogg</string>
     <string name="modlog_title">Modereringslogg</string>
+    <string name="modlog_item_mod_added">lades till som moderator</string>
+    <string name="modlog_item_mod_removed">togs bort som moderator</string>
+    <string name="modlog_item_user_banned">var avstängd</string>
+    <string name="modlog_item_user_unbanned">förbjöds</string>
+    <string name="modlog_item_post_featured">markerades som utvalt inlägg</string>
+    <string name="modlog_item_post_unfeatured">har markerats som ett inlägg som inte visas</string>
+    <string name="modlog_item_post_locked">var låst</string>
+    <string name="modlog_item_post_unlocked">var upplåst</string>
+    <string name="modlog_item_post_removed">togs bort</string>
+    <string name="modlog_item_post_restored">återställdes</string>
+    <string name="modlog_item_comment_removed">togs bort från kommentarerna till</string>
+    <string name="modlog_item_comment_restored">återställdes i kommentarerna till</string>
+    <string name="modlog_item_community_transfer">samhället överfördes till</string>
 </resources>

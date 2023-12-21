@@ -13,6 +13,7 @@ val modlogModule = module {
             themeRepository = get(),
             identityRepository = get(),
             modlogRepository = get(),
+            settingsRepository = get(),
         )
     }
 }

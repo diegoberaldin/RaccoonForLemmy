@@ -273,4 +273,17 @@
     <string name="community_action_remove_favorite">Hiq nga të preferuarat</string>
     <string name="community_action_view_modlog">Shiko regjistrin e moderimit</string>
     <string name="modlog_title">Regjistri i moderimit</string>
+    <string name="modlog_item_mod_added">u shtua si moderator</string>
+    <string name="modlog_item_mod_removed">u hoq si moderator</string>
+    <string name="modlog_item_user_banned">u ndalua</string>
+    <string name="modlog_item_user_unbanned">ishte i pandaluar</string>
+    <string name="modlog_item_post_featured">u shënua si postim i veçuar</string>
+    <string name="modlog_item_post_unfeatured">u shënua si postim jo i veçuar</string>
+    <string name="modlog_item_post_locked">ishte mbyllur</string>
+    <string name="modlog_item_post_unlocked">ishte i zhbllokuar</string>
+    <string name="modlog_item_post_removed">u hoq</string>
+    <string name="modlog_item_post_restored">u restaurua</string>
+    <string name="modlog_item_comment_removed">u hoq nga komentet e</string>
+    <string name="modlog_item_comment_restored">u rivendos në komentet e</string>
+    <string name="modlog_item_community_transfer">komuniteti u transferua në</string>
 </resources>

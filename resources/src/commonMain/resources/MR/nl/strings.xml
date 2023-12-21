@@ -271,4 +271,17 @@
     <string name="community_action_remove_favorite">Verwijder van favorieten</string>
     <string name="community_action_view_modlog">Bekijk het moderatielogboek</string>
     <string name="modlog_title">Moderatielogboek</string>
+    <string name="modlog_item_mod_added">werd toegevoegd als moderator</string>
+    <string name="modlog_item_mod_removed">werd verwijderd als moderator</string>
+    <string name="modlog_item_user_banned">werd verboden</string>
+    <string name="modlog_item_user_unbanned">werd ongedaan gemaakt</string>
+    <string name="modlog_item_post_featured">werd gemarkeerd als uitgelicht bericht</string>
+    <string name="modlog_item_post_unfeatured">werd gemarkeerd als niet-aanbevolen bericht</string>
+    <string name="modlog_item_post_locked">was op slot</string>
+    <string name="modlog_item_post_unlocked">werd ontgrendeld</string>
+    <string name="modlog_item_post_removed">werd verwijderd</string>
+    <string name="modlog_item_post_restored">werd hersteld</string>
+    <string name="modlog_item_comment_removed">werd verwijderd uit de reacties van</string>
+    <string name="modlog_item_comment_restored">werd hersteld in de opmerkingen van</string>
+    <string name="modlog_item_community_transfer">de gemeenschap werd overgedragen</string>
 </resources>

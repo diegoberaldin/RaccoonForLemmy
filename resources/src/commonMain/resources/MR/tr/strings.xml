@@ -270,4 +270,17 @@
     <string name="community_action_remove_favorite">Favorilerden çıkar</string>
     <string name="community_action_view_modlog">Denetleme günlüğünü görüntüle</string>
     <string name="modlog_title">Denetleme günlüğü</string>
+    <string name="modlog_item_mod_added">moderatör olarak eklendi</string>
+    <string name="modlog_item_mod_removed">moderatörlük kaldırıldı</string>
+    <string name="modlog_item_user_banned">yasaklandı</string>
+    <string name="modlog_item_user_unbanned">yasağı kaldırıldı</string>
+    <string name="modlog_item_post_featured">öne çıkan gönderi olarak işaretlendi</string>
+    <string name="modlog_item_post_unfeatured">öne çıkarılmayan gönderi olarak işaretlendi</string>
+    <string name="modlog_item_post_locked">kilitlendi</string>
+    <string name="modlog_item_post_unlocked">kilidi açıldı</string>
+    <string name="modlog_item_post_removed">kaldırıldı</string>
+    <string name="modlog_item_post_restored">yenilendi</string>
+    <string name="modlog_item_comment_removed">yorumlarından kaldırıldı</string>
+    <string name="modlog_item_comment_restored">yorumlarında geri yüklendi</string>
+    <string name="modlog_item_community_transfer">topluluk şuraya transfer edildi</string>
 </resources>

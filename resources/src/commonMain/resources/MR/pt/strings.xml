@@ -270,4 +270,17 @@
     <string name="community_action_remove_favorite">Remover dos favoritos</string>
     <string name="community_action_view_modlog">Ver registro de moderação</string>
     <string name="modlog_title">Registro de moderação</string>
+    <string name="modlog_item_mod_added">foi adicionado como moderador</string>
+    <string name="modlog_item_mod_removed">foi removido como moderador</string>
+    <string name="modlog_item_user_banned">foi banido</string>
+    <string name="modlog_item_user_unbanned">foi desbanido</string>
+    <string name="modlog_item_post_featured">foi marcada como postagem destacada</string>
+    <string name="modlog_item_post_unfeatured">foi marcada como postagem não destacada</string>
+    <string name="modlog_item_post_locked">foi bloqueado</string>
+    <string name="modlog_item_post_unlocked">foi desbloqueado</string>
+    <string name="modlog_item_post_removed">foi removido</string>
+    <string name="modlog_item_post_restored">foi restaurado</string>
+    <string name="modlog_item_comment_removed">foi removido dos comentários de</string>
+    <string name="modlog_item_comment_restored">foi restaurado nos comentários de</string>
+    <string name="modlog_item_community_transfer">a comunidade foi transferida para</string>
 </resources>

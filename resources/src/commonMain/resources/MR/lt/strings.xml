@@ -270,4 +270,17 @@
     <string name="community_action_remove_favorite">Pašalinti iš mėgstamiausių</string>
     <string name="community_action_view_modlog">Peržiūrėkite moderavimo žurnalą</string>
     <string name="modlog_title">Moderavimo žurnalas</string>
+    <string name="modlog_item_mod_added">buvo pridėtas kaip moderatorius</string>
+    <string name="modlog_item_mod_removed">buvo pašalintas kaip moderatorius</string>
+    <string name="modlog_item_user_banned">buvo uždrausta</string>
+    <string name="modlog_item_user_unbanned">buvo uždraustas</string>
+    <string name="modlog_item_post_featured">buvo pažymėtas kaip pagrindinis įrašas</string>
+    <string name="modlog_item_post_unfeatured">buvo pažymėtas kaip nepanašus įrašas</string>
+    <string name="modlog_item_post_locked">buvo užrakintas</string>
+    <string name="modlog_item_post_unlocked">buvo atrakintas</string>
+    <string name="modlog_item_post_removed">buvo pašalintas</string>
+    <string name="modlog_item_post_restored">buvo atstatytas</string>
+    <string name="modlog_item_comment_removed">buvo pašalintas iš komentarų</string>
+    <string name="modlog_item_comment_restored">buvo atkurta komentaruose</string>
+    <string name="modlog_item_community_transfer">bendruomenė buvo perduota</string>
 </resources>

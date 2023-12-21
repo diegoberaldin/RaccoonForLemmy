@@ -43,8 +43,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModAddItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModBanFromCommunityItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModFeaturePostItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModLockPostItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModRemoveCommentItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModRemovePostItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModTransferCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModlogItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.di.getModlogViewModel
 import dev.icerock.moko.resources.compose.stringResource
@@ -138,6 +146,7 @@ class ModlogScreen(
                 ) {
                     LazyColumn(
                         state = lazyListState,
+                        verticalArrangement = Arrangement.spacedBy(Spacing.s)
                     ) {
                         if (uiState.items.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
@@ -166,31 +175,80 @@ class ModlogScreen(
                         ) { item ->
                             when (item) {
                                 is ModlogItem.ModAdd -> {
-                                    ModAddItem(item = item)
+                                    ModAddItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
                                 }
 
                                 is ModlogItem.ModBanFromCommunity -> {
-                                    ModBanFromCommunityItem(item = item)
+                                    ModBanFromCommunityItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
                                 }
 
                                 is ModlogItem.ModFeaturePost -> {
-                                    ModFeaturePostItem(item = item)
+                                    ModFeaturePostItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
                                 }
 
                                 is ModlogItem.ModLockPost -> {
-                                    ModLockPostItem(item = item)
+                                    ModLockPostItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
                                 }
 
                                 is ModlogItem.ModRemoveComment -> {
-                                    ModRemoveCommentItem(item = item)
+                                    ModRemoveCommentItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
                                 }
 
                                 is ModlogItem.ModRemovePost -> {
-                                    ModRemovePostItem(item = item)
+                                    ModRemovePostItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
                                 }
 
                                 is ModlogItem.ModTransferCommunity -> {
-                                    ModTransferCommunityItem(item)
+                                    ModTransferCommunityItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
                                 }
 
                                 else -> Unit
@@ -201,67 +259,4 @@ class ModlogScreen(
             }
         }
     }
-}
-
-@Composable
-fun ModAddItem(
-    item: ModlogItem.ModAdd,
-) {
-    Text(
-        text = "Mod was added",
-    )
-}
-
-@Composable
-fun ModBanFromCommunityItem(
-    item: ModlogItem.ModBanFromCommunity,
-) {
-    Text(
-        text = "User was banned",
-    )
-}
-
-@Composable
-fun ModFeaturePostItem(
-    item: ModlogItem.ModFeaturePost,
-) {
-    Text(
-        text = "Post was featured",
-    )
-}
-
-@Composable
-fun ModLockPostItem(
-    item: ModlogItem.ModLockPost,
-) {
-    Text(
-        text = "Post was locked",
-    )
-}
-
-@Composable
-fun ModRemovePostItem(
-    item: ModlogItem.ModRemovePost,
-) {
-    Text(
-        text = "Post was removed",
-    )
-}
-
-@Composable
-fun ModRemoveCommentItem(
-    item: ModlogItem.ModRemoveComment,
-) {
-    Text(
-        text = "Comment was removed",
-    )
-}
-
-@Composable
-fun ModTransferCommunityItem(
-    item: ModlogItem.ModTransferCommunity,
-) {
-    Text(
-        text = "Community was transferred",
-    )
 }

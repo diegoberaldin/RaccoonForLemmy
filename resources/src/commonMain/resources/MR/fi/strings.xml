@@ -267,4 +267,17 @@
     <string name="community_action_remove_favorite">Poista suosikeista</string>
     <string name="community_action_view_modlog">Näytä moderointiloki</string>
     <string name="modlog_title">Valvontaloki</string>
+    <string name="modlog_item_mod_added">lisättiin moderaattoriksi</string>
+    <string name="modlog_item_mod_removed">poistettiin moderaattorista</string>
+    <string name="modlog_item_user_banned">oli estetty</string>
+    <string name="modlog_item_user_unbanned">oli kielletty</string>
+    <string name="modlog_item_post_featured">merkittiin suosituksi viestiksi</string>
+    <string name="modlog_item_post_unfeatured">merkittiin ei-suositeltuksi viestiksi</string>
+    <string name="modlog_item_post_locked">oli lukittu</string>
+    <string name="modlog_item_post_unlocked">oli avattu</string>
+    <string name="modlog_item_post_removed">poistettiin</string>
+    <string name="modlog_item_post_restored">kunnostettiin</string>
+    <string name="modlog_item_comment_removed">poistettiin kommenteista</string>
+    <string name="modlog_item_comment_restored">palautettiin kommenteissa</string>
+    <string name="modlog_item_community_transfer">yhteisö siirrettiin</string>
 </resources>

@@ -276,4 +276,17 @@
     <string name="community_action_remove_favorite">Премахване от любими</string>
     <string name="community_action_view_modlog">Преглед на журнала за модериране</string>
     <string name="modlog_title">Дневник за модериране</string>
+    <string name="modlog_item_mod_added">беше добавен като модератор</string>
+    <string name="modlog_item_mod_removed">беше премахнат като модератор</string>
+    <string name="modlog_item_user_banned">беше забранен</string>
+    <string name="modlog_item_user_unbanned">беше незабранен</string>
+    <string name="modlog_item_post_featured">беше маркирана като представена публикация</string>
+    <string name="modlog_item_post_unfeatured">беше маркирана като непредставена публикация</string>
+    <string name="modlog_item_post_locked">беше заключено</string>
+    <string name="modlog_item_post_unlocked">беше отключен</string>
+    <string name="modlog_item_post_removed">беше премахнат</string>
+    <string name="modlog_item_post_restored">беше възстановен</string>
+    <string name="modlog_item_comment_removed">беше премахнат от коментарите на</string>
+    <string name="modlog_item_comment_restored">беше възстановено в коментарите на</string>
+    <string name="modlog_item_community_transfer">общността беше прехвърлена на</string>
 </resources>

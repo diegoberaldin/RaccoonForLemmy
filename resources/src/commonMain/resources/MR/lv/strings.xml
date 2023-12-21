@@ -271,4 +271,17 @@
     <string name="community_action_remove_favorite">Noņemt no izlases</string>
     <string name="community_action_view_modlog">Skatīt moderēšanas žurnālu</string>
     <string name="modlog_title">Moderācijas žurnāls</string>
+    <string name="modlog_item_mod_added">tika pievienots kā moderators</string>
+    <string name="modlog_item_mod_removed">tika noņemts kā moderators</string>
+    <string name="modlog_item_user_banned">tika aizliegts</string>
+    <string name="modlog_item_user_unbanned">bija aizliegts</string>
+    <string name="modlog_item_post_featured">tika atzīmēta kā piedāvāta ziņa</string>
+    <string name="modlog_item_post_unfeatured">tika atzīmēta kā nepiederoša ziņa</string>
+    <string name="modlog_item_post_locked">bija bloķēta</string>
+    <string name="modlog_item_post_unlocked">bija atslēgts</string>
+    <string name="modlog_item_post_removed">tika noņemts</string>
+    <string name="modlog_item_post_restored">tika atjaunota</string>
+    <string name="modlog_item_comment_removed">tika noņemts no komentāriem</string>
+    <string name="modlog_item_comment_restored">gada komentāros tika atjaunots</string>
+    <string name="modlog_item_community_transfer">kopiena tika pārcelta uz</string>
 </resources>

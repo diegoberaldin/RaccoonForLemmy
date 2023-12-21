@@ -197,6 +197,7 @@ class ReportListScreen(
                 ) {
                     LazyColumn(
                         state = lazyListState,
+                        verticalArrangement = Arrangement.spacedBy(Spacing.s)
                     ) {
                         if (uiState.section == ReportListSection.Posts) {
                             if (uiState.postReports.isEmpty() && uiState.loading && uiState.initial) {

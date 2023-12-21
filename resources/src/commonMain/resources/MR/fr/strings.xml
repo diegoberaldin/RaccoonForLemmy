@@ -273,4 +273,17 @@
     <string name="community_action_remove_favorite">Retirer des favoris</string>
     <string name="community_action_view_modlog">Afficher le journal de modération</string>
     <string name="modlog_title">Journal de modération</string>
+    <string name="modlog_item_mod_added">a été ajouté en tant que modérateur</string>
+    <string name="modlog_item_mod_removed">a été supprimé en tant que modérateur</string>
+    <string name="modlog_item_user_banned">a été banni</string>
+    <string name="modlog_item_user_unbanned">n\'était pas banni</string>
+    <string name="modlog_item_post_featured">a été marqué comme publication présentée</string>
+    <string name="modlog_item_post_unfeatured">a été marqué comme publication pas présentée</string>
+    <string name="modlog_item_post_locked">a été verrouillé</string>
+    <string name="modlog_item_post_unlocked">a été déverrouillé</string>
+    <string name="modlog_item_post_removed">a été éliminé</string>
+    <string name="modlog_item_post_restored">a été restauré</string>
+    <string name="modlog_item_comment_removed">a été supprimé des commentaires de</string>
+    <string name="modlog_item_comment_restored">a été restauré dans les commentaires de</string>
+    <string name="modlog_item_community_transfer">la communauté a été transférée à</string>
 </resources>

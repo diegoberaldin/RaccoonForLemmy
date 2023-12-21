@@ -265,4 +265,17 @@
     <string name="community_action_remove_favorite">إزالة من المفضلة</string>
     <string name="community_action_view_modlog">عرض سجل الإشراف</string>
     <string name="modlog_title">سجل الاعتدال</string>
+    <string name="modlog_item_mod_added">تمت إضافته كمشرف</string>
+    <string name="modlog_item_mod_removed">تمت إزالة الوسيط</string>
+    <string name="modlog_item_user_banned">تم حظره</string>
+    <string name="modlog_item_user_unbanned">كان غير محظور</string>
+    <string name="modlog_item_post_featured">م وضع علامة على أنها مشاركة مميزة</string>
+    <string name="modlog_item_post_unfeatured">تم وضع علامة على أنها مشاركة غير مميزة</string>
+    <string name="modlog_item_post_locked">كان مقفلا</string>
+    <string name="modlog_item_post_unlocked">تم فتحه</string>
+    <string name="modlog_item_post_removed">تمت إزالته</string>
+    <string name="modlog_item_post_restored">تم ترميمه</string>
+    <string name="modlog_item_comment_removed">تمت إزالته من التعليقات</string>
+    <string name="modlog_item_comment_restored">تمت استعادته في تعليقات</string>
+    <string name="modlog_item_community_transfer">تم نقل المجتمع إلى</string>
 </resources>

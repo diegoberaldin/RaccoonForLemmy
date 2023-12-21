@@ -19,6 +19,7 @@ interface ModlogMviModel :
         val loading: Boolean = false,
         val canFetchMore: Boolean = true,
         val postLayout: PostLayout = PostLayout.Card,
+        val autoLoadImages: Boolean = true,
         val items: List<ModlogItem> = emptyList(),
     )
 

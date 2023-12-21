@@ -267,4 +267,17 @@
     <string name="community_action_remove_favorite">Fjern fra favoritter</string>
     <string name="community_action_view_modlog">Se moderationslog</string>
     <string name="modlog_title">Modereringslog</string>
+    <string name="modlog_item_mod_added">blev tilføjet som moderator</string>
+    <string name="modlog_item_mod_removed">blev fjernet som moderator</string>
+    <string name="modlog_item_user_banned">blev forbudt</string>
+    <string name="modlog_item_user_unbanned">blev ophævet</string>
+    <string name="modlog_item_post_featured">blev markeret som fremhævet indlæg</string>
+    <string name="modlog_item_post_unfeatured">blev markeret som ikke-udvalgt indlæg</string>
+    <string name="modlog_item_post_locked">var låst</string>
+    <string name="modlog_item_post_unlocked">blev låst op</string>
+    <string name="modlog_item_post_removed">blev fjernet</string>
+    <string name="modlog_item_post_restored">blev restaureret</string>
+    <string name="modlog_item_comment_removed">blev fjernet fra kommentarerne til</string>
+    <string name="modlog_item_comment_restored">blev gendannet i kommentarerne til</string>
+    <string name="modlog_item_community_transfer">samfundet blev overført til</string>
 </resources>

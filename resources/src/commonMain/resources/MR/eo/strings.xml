@@ -266,4 +266,17 @@
     <string name="community_action_remove_favorite">Forigi el plej ŝatataj</string>
     <string name="community_action_view_modlog">Vidu protokolon de modereco</string>
     <string name="modlog_title">Protokolo de modereco</string>
+    <string name="modlog_item_mod_added">estis aldonita kiel moderanto</string>
+    <string name="modlog_item_mod_removed">estis forigita kiel moderigaĵo</string>
+    <string name="modlog_item_user_banned">estis malpermesita</string>
+    <string name="modlog_item_user_unbanned">estis nemalpermesita</string>
+    <string name="modlog_item_post_featured">estis markita kiel elstara afiŝo</string>
+    <string name="modlog_item_post_unfeatured">estis markita kiel ne-elstarigita afiŝo</string>
+    <string name="modlog_item_post_locked">estis ŝlosita</string>
+    <string name="modlog_item_post_unlocked">estis malŝlosita</string>
+    <string name="modlog_item_post_removed">estis forigita</string>
+    <string name="modlog_item_post_restored">estis restarigita</string>
+    <string name="modlog_item_comment_removed">estis forigita de la komentoj de</string>
+    <string name="modlog_item_comment_restored">estis restarigita en la komentoj de</string>
+    <string name="modlog_item_community_transfer">la komunumo estis translokigita al</string>
 </resources>

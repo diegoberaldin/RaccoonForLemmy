@@ -44,6 +44,7 @@ sealed class ModlogItem(
         val moderator: UserModel? = null,
         val reason: String? = null,
         val comment: CommentModel? = null,
+        val post: PostModel? = null,
     ) : ModlogItem(type = ModlogItemType.ModRemoveComment)
 
     data class ModBanFromCommunity(

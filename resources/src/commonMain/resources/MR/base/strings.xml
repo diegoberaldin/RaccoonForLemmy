@@ -296,4 +296,17 @@
     <string name="community_action_remove_favorite">Remove from favorites</string>
     <string name="community_action_view_modlog">View moderation log</string>
     <string name="modlog_title">Moderation log</string>
+    <string name="modlog_item_mod_added">was added as moderator</string>
+    <string name="modlog_item_mod_removed">was removed as moderator</string>
+    <string name="modlog_item_user_banned">was banned</string>
+    <string name="modlog_item_user_unbanned">was unbanned</string>
+    <string name="modlog_item_post_featured">was marked as featured post</string>
+    <string name="modlog_item_post_unfeatured">was marked as non-featured post</string>
+    <string name="modlog_item_post_locked">was locked</string>
+    <string name="modlog_item_post_unlocked">was unlocked</string>
+    <string name="modlog_item_post_removed">was removed</string>
+    <string name="modlog_item_post_restored">was restored</string>
+    <string name="modlog_item_comment_removed">was removed from the comments of</string>
+    <string name="modlog_item_comment_restored">was restored in the comments of</string>
+    <string name="modlog_item_community_transfer">the community was transferred to</string>
 </resources>

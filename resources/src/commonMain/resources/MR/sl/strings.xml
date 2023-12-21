@@ -267,4 +267,17 @@
     <string name="community_action_remove_favorite">Odstrani iz priljubljenih</string>
     <string name="community_action_view_modlog">Oglejte si dnevnik moderiranja</string>
     <string name="modlog_title">Dnevnik moderiranja</string>
+    <string name="modlog_item_mod_added">je bil dodan kot moderator</string>
+    <string name="modlog_item_mod_removed">je bil odstranjen kot moderator</string>
+    <string name="modlog_item_user_banned">je bil prepovedan</string>
+    <string name="modlog_item_user_unbanned">je bil neprepovedan</string>
+    <string name="modlog_item_post_featured">je bila označena kot predstavljena objava</string>
+    <string name="modlog_item_post_unfeatured">je bila označena kot nepredstavljena objava</string>
+    <string name="modlog_item_post_locked">je bil zaklenjen</string>
+    <string name="modlog_item_post_unlocked">je bil odklenjen</string>
+    <string name="modlog_item_post_removed">je bil odstranjen</string>
+    <string name="modlog_item_post_restored">je bil obnovljen</string>
+    <string name="modlog_item_comment_removed">je bil odstranjen iz komentarjev osebe</string>
+    <string name="modlog_item_comment_restored">je bil obnovljen v komentarjih</string>
+    <string name="modlog_item_community_transfer">skupnost je bila prenesena na</string>
 </resources>
