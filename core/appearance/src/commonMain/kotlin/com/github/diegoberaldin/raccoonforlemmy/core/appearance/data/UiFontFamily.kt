@@ -6,8 +6,6 @@ import dev.icerock.moko.resources.compose.stringResource
 
 enum class UiFontFamily {
     TitilliumWeb,
-    Dosis,
-    EBGaramond,
     NotoSans,
     CharisSIL,
     Comfortaa,
@@ -21,8 +19,6 @@ fun Int.toUiFontFamily() = when (this) {
     5 -> UiFontFamily.Comfortaa
     4 -> UiFontFamily.CharisSIL
     3 -> UiFontFamily.NotoSans
-    2 -> UiFontFamily.EBGaramond
-    1 -> UiFontFamily.Dosis
     else -> UiFontFamily.Poppins
 }
 
@@ -31,8 +27,6 @@ fun UiFontFamily.toInt() = when (this) {
     UiFontFamily.Comfortaa -> 5
     UiFontFamily.CharisSIL -> 4
     UiFontFamily.NotoSans -> 3
-    UiFontFamily.EBGaramond -> 2
-    UiFontFamily.Dosis -> 1
     UiFontFamily.TitilliumWeb -> 6
     UiFontFamily.Default -> 7
 }
@@ -44,7 +38,5 @@ fun UiFontFamily.toReadableName() = when (this) {
     UiFontFamily.Comfortaa -> "Comfortaa"
     UiFontFamily.CharisSIL -> "Charis SIL"
     UiFontFamily.NotoSans -> "Noto Sans"
-    UiFontFamily.EBGaramond -> "EB Garamond"
-    UiFontFamily.Dosis -> "Dosis"
     else -> "Titillium Web"
 }

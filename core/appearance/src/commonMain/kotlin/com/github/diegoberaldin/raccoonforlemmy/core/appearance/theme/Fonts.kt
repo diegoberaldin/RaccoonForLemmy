@@ -15,8 +15,6 @@ fun UiFontFamily.toTypography(): Typography {
     val fontFamily = when (this) {
         UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
         UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
-        UiFontFamily.EBGaramond -> fontFamilyResource(MR.fonts.EBGaramond.regular)
-        UiFontFamily.Dosis -> fontFamilyResource(MR.fonts.Dosis.regular)
         UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
         UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
         UiFontFamily.TitilliumWeb -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
