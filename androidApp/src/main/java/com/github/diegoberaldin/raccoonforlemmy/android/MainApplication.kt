@@ -1,14 +1,12 @@
 package com.github.diegoberaldin.raccoonforlemmy.android
 
 import android.app.Application
-import android.os.Build
 import coil.ImageLoader
 import coil.ImageLoaderFactory
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportConfiguration
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportWriter
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload.getCoilImageLoader
 import com.github.diegoberaldin.raccoonforlemmy.di.sharedHelperModule
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
@@ -49,14 +47,5 @@ class MainApplication : Application(), ImageLoaderFactory {
         }
     }
 
-    override fun newImageLoader(): ImageLoader {
-        return ImageLoader.Builder(this)
-            .components {
-                if (Build.VERSION.SDK_INT >= 28) {
-                    add(ImageDecoderDecoder.Factory())
-                } else {
-                    add(GifDecoder.Factory())
-                }
-            }.build()
-    }
+    override fun newImageLoader(): ImageLoader = getCoilImageLoader(this)
 }

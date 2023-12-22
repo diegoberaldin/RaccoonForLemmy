@@ -1,16 +1,13 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.markdown.provider
 
 import android.content.Context
-import android.os.Build
 import android.text.Spanned
 import android.text.util.Linkify
 import android.widget.TextView
-import coil.ImageLoader
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.plugins.ClickableImagesPlugin
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.plugins.MarkwonLemmyLinkPlugin
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.plugins.MarkwonSpoilerPlugin
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload.getCoilImageLoader
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
 import io.noties.markwon.MarkwonConfiguration
@@ -47,16 +44,7 @@ class DefaultMarkwonProvider(
             .usePlugin(HtmlPlugin.create())
             .usePlugin(MarkwonSpoilerPlugin.create(true))
             .run {
-                val imageLoader = ImageLoader.Builder(context)
-                    .components {
-                        if (Build.VERSION.SDK_INT >= 28) {
-                            add(ImageDecoderDecoder.Factory())
-                        } else {
-                            add(GifDecoder.Factory())
-                        }
-                    }
-                    .crossfade(true)
-                    .build()
+                val imageLoader = getCoilImageLoader(context)
                 usePlugin(CoilImagesPlugin.create(context, imageLoader))
             }
             .usePlugin(object : AbstractMarkwonPlugin() {

@@ -55,6 +55,7 @@ kotlin {
                 implementation(libs.androidx.activity)
                 implementation(libs.ktor.android)
                 implementation(libs.coil)
+                implementation(libs.coil.gif)
                 implementation(libs.firebase.crashlytics)
             }
         }
