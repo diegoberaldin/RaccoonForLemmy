@@ -280,4 +280,6 @@
     <string name="modlog_item_comment_removed">eemaldati kasutaja kommentaaridest</string>
     <string name="modlog_item_comment_restored">aasta kommentaarides taastati</string>
     <string name="modlog_item_community_transfer">kogukond viidi üle</string>
+    <string name="block_action_user">Blokeeri kasutaja</string>
+    <string name="block_action_community">Blokeeri kogukond</string>
 </resources>

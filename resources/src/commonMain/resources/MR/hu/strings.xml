@@ -284,4 +284,6 @@
     <string name="modlog_item_comment_removed">eltávolítva a megjegyzései közül</string>
     <string name="modlog_item_comment_restored">megjegyzésében helyreállították</string>
     <string name="modlog_item_community_transfer">a közösség átkerült</string>
+    <string name="block_action_user">Felhasználó letiltása</string>
+    <string name="block_action_community">Közösség letiltása</string>
 </resources>

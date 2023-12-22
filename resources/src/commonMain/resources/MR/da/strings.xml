@@ -280,4 +280,6 @@
     <string name="modlog_item_comment_removed">blev fjernet fra kommentarerne til</string>
     <string name="modlog_item_comment_restored">blev gendannet i kommentarerne til</string>
     <string name="modlog_item_community_transfer">samfundet blev overført til</string>
+    <string name="block_action_user">Bloker bruger</string>
+    <string name="block_action_community">Bloker fællesskabet</string>
 </resources>

@@ -280,4 +280,6 @@
     <string name="modlog_item_comment_removed">je bil odstranjen iz komentarjev osebe</string>
     <string name="modlog_item_comment_restored">je bil obnovljen v komentarjih</string>
     <string name="modlog_item_community_transfer">skupnost je bila prenesena na</string>
+    <string name="block_action_user">Blokiraj uporabnika</string>
+    <string name="block_action_community">Blokiraj skupnost</string>
 </resources>

@@ -14,7 +14,7 @@
     <string name="button_retry">Προσπάθησε ξανά</string>
     <string name="comment_action_delete">Διάγραψε</string>
     <string name="community_detail_block">Απόκλεισε</string>
-    <string name="community_detail_block_instance">Απόκλεισε διακομιστή</string>
+    <string name="community_detail_block_instance">Αποκλεισμός διακομιστή</string>
     <string name="community_detail_info">Πληροφορίες κοινότητας</string>
     <string name="community_detail_instance_info">Πληροφορίες διακομιστή</string>
     <string name="community_info_comments">σχόλια</string>
@@ -290,4 +290,6 @@
     <string name="modlog_item_comment_removed">αφαιρέθηκε από τα σχόλια του</string>
     <string name="modlog_item_comment_restored">αποκαταστάθηκε στα σχόλια του</string>
     <string name="modlog_item_community_transfer">η κοινότητα μεταφέρθηκε σε</string>
+    <string name="block_action_user">Αποκλεισμός χρήστη</string>
+    <string name="block_action_community">Αποκλεισμός κοινότητας</string>
 </resources>

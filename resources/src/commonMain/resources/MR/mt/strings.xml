@@ -285,4 +285,6 @@
     <string name="modlog_item_comment_removed">tneħħa mill-kummenti ta</string>
     <string name="modlog_item_comment_restored">ġie restawrat fil-kummenti ta</string>
     <string name="modlog_item_community_transfer">il-komunità ġiet trasferita</string>
+    <string name="block_action_user">Blokk utent</string>
+    <string name="block_action_community">Blokk komunità</string>
 </resources>

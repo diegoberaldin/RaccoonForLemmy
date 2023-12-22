@@ -283,4 +283,6 @@
     <string name="modlog_item_comment_removed">yorumlarından kaldırıldı</string>
     <string name="modlog_item_comment_restored">yorumlarında geri yüklendi</string>
     <string name="modlog_item_community_transfer">topluluk şuraya transfer edildi</string>
+    <string name="block_action_user">Kullanıcıyı engelle</string>
+    <string name="block_action_community">Topluluğu engelle</string>
 </resources>

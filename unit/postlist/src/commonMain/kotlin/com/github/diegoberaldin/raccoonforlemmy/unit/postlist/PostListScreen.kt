@@ -66,6 +66,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BlockBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
@@ -421,49 +422,55 @@ class PostListScreen : Screen {
                                             add(
                                                 Option(
                                                     OptionId.Share,
-                                                    stringResource(MR.strings.post_action_share)
-                                                )
+                                                    stringResource(MR.strings.post_action_share),
+                                                ),
                                             )
                                             if (uiState.isLogged) {
                                                 add(
                                                     Option(
                                                         OptionId.Hide,
-                                                        stringResource(MR.strings.post_action_hide)
-                                                    )
+                                                        stringResource(MR.strings.post_action_hide),
+                                                    ),
+                                                )
+                                                add(
+                                                    Option(
+                                                        OptionId.Block,
+                                                        stringResource(MR.strings.community_detail_block),
+                                                    ),
                                                 )
                                             }
                                             add(
                                                 Option(
                                                     OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw)
-                                                )
+                                                    stringResource(MR.strings.post_action_see_raw),
+                                                ),
                                             )
                                             if (uiState.isLogged) {
                                                 add(
                                                     Option(
                                                         OptionId.CrossPost,
-                                                        stringResource(MR.strings.post_action_cross_post)
-                                                    )
+                                                        stringResource(MR.strings.post_action_cross_post),
+                                                    ),
                                                 )
                                                 add(
                                                     Option(
                                                         OptionId.Report,
-                                                        stringResource(MR.strings.post_action_report)
-                                                    )
+                                                        stringResource(MR.strings.post_action_report),
+                                                    ),
                                                 )
                                             }
                                             if (post.creator?.id == uiState.currentUserId) {
                                                 add(
                                                     Option(
                                                         OptionId.Edit,
-                                                        stringResource(MR.strings.post_action_edit)
-                                                    )
+                                                        stringResource(MR.strings.post_action_edit),
+                                                    ),
                                                 )
                                                 add(
                                                     Option(
                                                         OptionId.Delete,
-                                                        stringResource(MR.strings.comment_action_delete)
-                                                    )
+                                                        stringResource(MR.strings.comment_action_delete),
+                                                    ),
                                                 )
                                             }
                                         },
@@ -510,6 +517,36 @@ class PostListScreen : Screen {
                                                 OptionId.Share -> model.reduce(
                                                     PostListMviModel.Intent.SharePost(post.id)
                                                 )
+
+                                                OptionId.Block -> {
+                                                    val screen = BlockBottomSheet(
+                                                        userName = buildString {
+                                                            post.creator?.also {
+                                                                append(it.name)
+                                                                if (it.host.isNotEmpty()) {
+                                                                    append("@")
+                                                                    append(it.host)
+                                                                }
+                                                            }
+                                                        },
+                                                        userId = post.creator?.id,
+                                                        communityName = buildString {
+                                                            post.community?.also {
+                                                                append(it.name)
+                                                                if (it.host.isNotEmpty()) {
+                                                                    append("@")
+                                                                    append(it.host)
+                                                                }
+                                                            }
+                                                        },
+                                                        communityId = post.community?.id,
+                                                        instanceName = post.community?.host,
+                                                        instanceId = post.community?.instanceId,
+                                                        userInstanceName = post.creator?.host,
+                                                        userInstanceId = post.creator?.instanceId,
+                                                    )
+                                                    navigationCoordinator.showBottomSheet(screen)
+                                                }
 
                                                 else -> Unit
                                             }

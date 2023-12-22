@@ -283,4 +283,6 @@
     <string name="modlog_item_comment_removed">ble fjernet fra kommentarene til</string>
     <string name="modlog_item_comment_restored">ble gjenopprettet i kommentarene til</string>
     <string name="modlog_item_community_transfer">fellesskapet ble overført til</string>
+    <string name="block_action_user">Blokker bruker</string>
+    <string name="block_action_community">Blokker fellesskapet</string>
 </resources>

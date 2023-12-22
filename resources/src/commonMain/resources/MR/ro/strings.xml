@@ -281,4 +281,6 @@
     <string name="modlog_item_comment_removed">a fost eliminat din comentariile de</string>
     <string name="modlog_item_comment_restored">a fost restaurat în comentariile de</string>
     <string name="modlog_item_community_transfer">comunitatea a fost transferată la</string>
+    <string name="block_action_user">Blochează utilizatorul</string>
+    <string name="block_action_community">Blochează comunitatea</string>
 </resources>

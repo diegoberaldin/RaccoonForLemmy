@@ -19,9 +19,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.drop
@@ -38,6 +40,8 @@ class PostListViewModel(
     private val themeRepository: ThemeRepository,
     private val shareHelper: ShareHelper,
     private val settingsRepository: SettingsRepository,
+    private val userRepository: UserRepository,
+    private val communityRepository: CommunityRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val zombieModeHelper: ZombieModeHelper,
@@ -89,6 +93,7 @@ class PostListViewModel(
                     )
                 }
             }.launchIn(this)
+
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class)
                 .onEach { evt ->
                     handlePostUpdate(evt.model)
@@ -101,20 +106,29 @@ class PostListViewModel(
                 .onEach { evt ->
                     applyListingType(evt.value)
                 }.launchIn(this)
-
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     applySortType(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
+                handleLogout()
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.BlockActionSelected::class)
+                .onEach { evt ->
+                    val userId = evt.userId
+                    val communityId = evt.communityId
+                    val instanceId = evt.instanceId
+                    when {
+                        userId != null -> blockUser(userId)
+                        communityId != null -> blockCommunity(communityId)
+                        instanceId != null -> blockInstance(instanceId)
+                    }
                 }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
                 if (uiState.value.zombieModeActive) {
                     mvi.emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
                 }
-            }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
-                handleLogout()
             }.launchIn(this)
 
             val auth = identityRepository.authToken.value.orEmpty()
@@ -474,5 +488,38 @@ class PostListViewModel(
             )
         }
         markAsRead(post)
+    }
+
+    private fun blockUser(userId: Int) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value
+                userRepository.block(userId, true, auth).getOrThrow()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun blockCommunity(communityId: Int) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value
+                communityRepository.block(communityId, true, auth).getOrThrow()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun blockInstance(instanceId: Int) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            try {
+                val auth = identityRepository.authToken.value
+                siteRepository.block(instanceId, true, auth)
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
     }
 }

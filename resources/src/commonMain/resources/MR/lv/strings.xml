@@ -284,4 +284,6 @@
     <string name="modlog_item_comment_removed">tika noņemts no komentāriem</string>
     <string name="modlog_item_comment_restored">gada komentāros tika atjaunots</string>
     <string name="modlog_item_community_transfer">kopiena tika pārcelta uz</string>
+    <string name="block_action_user">Bloķēt lietotāju</string>
+    <string name="block_action_community">Bloķēt kopienu</string>
 </resources>

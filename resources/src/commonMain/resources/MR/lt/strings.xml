@@ -283,4 +283,6 @@
     <string name="modlog_item_comment_removed">buvo pašalintas iš komentarų</string>
     <string name="modlog_item_comment_restored">buvo atkurta komentaruose</string>
     <string name="modlog_item_community_transfer">bendruomenė buvo perduota</string>
+    <string name="block_action_user">Blokuoti vartotoją</string>
+    <string name="block_action_community">Blokuoti bendruomenę</string>
 </resources>

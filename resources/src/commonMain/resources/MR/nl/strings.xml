@@ -284,4 +284,6 @@
     <string name="modlog_item_comment_removed">werd verwijderd uit de reacties van</string>
     <string name="modlog_item_comment_restored">werd hersteld in de opmerkingen van</string>
     <string name="modlog_item_community_transfer">de gemeenschap werd overgedragen</string>
+    <string name="block_action_user">Blokkeer gebruiker</string>
+    <string name="block_action_community">Blokkeer gemeenschap</string>
 </resources>

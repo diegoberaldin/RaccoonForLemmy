@@ -289,4 +289,6 @@
     <string name="modlog_item_comment_removed">baineadh de thuairimí ó</string>
     <string name="modlog_item_comment_restored">a athchóiriú i dtuairimí ó</string>
     <string name="modlog_item_community_transfer">aistríodh an pobal go</string>
+    <string name="block_action_user">Cuir bac ar úsáideoir</string>
+    <string name="block_action_community">Bloc pobail</string>
 </resources>

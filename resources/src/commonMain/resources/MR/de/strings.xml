@@ -288,4 +288,6 @@
     <string name="modlog_item_comment_restored">wurde in den Kommentaren von wiederhergestellt
     </string>
     <string name="modlog_item_community_transfer">die Gemeinde wurde übertragen</string>
+    <string name="block_action_user">Benutzer blockieren</string>
+    <string name="block_action_community">Community blockieren</string>
 </resources>

@@ -286,4 +286,6 @@
     <string name="modlog_item_comment_removed">a été supprimé des commentaires de</string>
     <string name="modlog_item_comment_restored">a été restauré dans les commentaires de</string>
     <string name="modlog_item_community_transfer">la communauté a été transférée à</string>
+    <string name="block_action_user">Bloquer l\'utilisateur</string>
+    <string name="block_action_community">Bloquer la communauté</string>
 </resources>

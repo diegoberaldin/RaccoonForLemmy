@@ -281,4 +281,6 @@
     <string name="modlog_item_comment_removed">togs bort från kommentarerna till</string>
     <string name="modlog_item_comment_restored">återställdes i kommentarerna till</string>
     <string name="modlog_item_community_transfer">samhället överfördes till</string>
+    <string name="block_action_user">Blockera användare</string>
+    <string name="block_action_community">Blockera gemenskap</string>
 </resources>

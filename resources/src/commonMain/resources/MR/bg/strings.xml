@@ -289,4 +289,6 @@
     <string name="modlog_item_comment_removed">беше премахнат от коментарите на</string>
     <string name="modlog_item_comment_restored">беше възстановено в коментарите на</string>
     <string name="modlog_item_community_transfer">общността беше прехвърлена на</string>
+    <string name="block_action_user">Блокиране на потребител</string>
+    <string name="block_action_community">Блокиране на общността</string>
 </resources>

@@ -282,4 +282,6 @@
     <string name="modlog_item_comment_removed">bol odstránený z komentárov používateľa</string>
     <string name="modlog_item_comment_restored">bol obnovený v komentároch o</string>
     <string name="modlog_item_community_transfer">komunita bola prevedená na</string>
+    <string name="block_action_user">Blokovať používateľa</string>
+    <string name="block_action_community">Blokovať komunitu</string>
 </resources>

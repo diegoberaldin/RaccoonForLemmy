@@ -14,7 +14,7 @@
     <string name="button_retry">Próba</string>
     <string name="comment_action_delete">Usunąć</string>
     <string name="community_detail_block">Blok</string>
-    <string name="community_detail_block_instance">Instancja bloku</string>
+    <string name="community_detail_block_instance">Zablokui instancję</string>
     <string name="community_detail_info">Informacje o społeczności</string>
     <string name="community_detail_instance_info">Szczegóły instancji</string>
     <string name="community_info_comments">Komentarze</string>
@@ -283,4 +283,6 @@
     <string name="modlog_item_comment_removed">został usunięty z komentarzy</string>
     <string name="modlog_item_comment_restored">został przywrócony w komentarzach</string>
     <string name="modlog_item_community_transfer">gmina została przeniesiona</string>
+    <string name="block_action_user">Zablokuj użytkownika</string>
+    <string name="block_action_community">Zablokuj społeczność</string>
 </resources>

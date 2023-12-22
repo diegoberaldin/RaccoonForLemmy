@@ -13,7 +13,7 @@
     <string name="button_retry">Повторить</string>
     <string name="comment_action_delete">Удалить</string>
     <string name="community_detail_block">Блок</string>
-    <string name="community_detail_block_instance">Экземпляр блока</string>
+    <string name="community_detail_block_instance">Заблокировать экземпляр</string>
     <string name="community_detail_info">Информация о микрорайоне</string>
     <string name="community_detail_instance_info">Сведения об экземпляре</string>
     <string name="community_info_comments">Комментарии</string>
@@ -284,4 +284,6 @@
     <string name="modlog_item_comment_removed">удалили из комментариев</string>
     <string name="modlog_item_comment_restored">восстановлено в комментариях</string>
     <string name="modlog_item_community_transfer">община была переведена в</string>
+    <string name="block_action_user">Заблокировать пользователя</string>
+    <string name="block_action_community">Заблокировать сообщество</string>
 </resources>

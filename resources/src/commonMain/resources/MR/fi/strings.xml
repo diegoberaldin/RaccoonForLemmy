@@ -280,4 +280,6 @@
     <string name="modlog_item_comment_removed">poistettiin kommenteista</string>
     <string name="modlog_item_comment_restored">palautettiin kommenteissa</string>
     <string name="modlog_item_community_transfer">yhteisö siirrettiin</string>
+    <string name="block_action_user">Estä käyttäjä</string>
+    <string name="block_action_community">Estä yhteisö</string>
 </resources>

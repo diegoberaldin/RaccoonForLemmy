@@ -279,4 +279,6 @@
     <string name="modlog_item_comment_removed">estis forigita de la komentoj de</string>
     <string name="modlog_item_comment_restored">estis restarigita en la komentoj de</string>
     <string name="modlog_item_community_transfer">la komunumo estis translokigita al</string>
+    <string name="block_action_user">Bloki uzanton</string>
+    <string name="block_action_community">Bloki komunumon</string>
 </resources>

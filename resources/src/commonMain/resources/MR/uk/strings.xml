@@ -283,4 +283,6 @@
     <string name="modlog_item_comment_removed">було видалено з коментарів користувача</string>
     <string name="modlog_item_comment_restored">було відновлено в коментарях</string>
     <string name="modlog_item_community_transfer">громаду було передано с</string>
+    <string name="block_action_user">Заблокувати користувача</string>
+    <string name="block_action_community">Заблокувати спільноту</string>
 </resources>
