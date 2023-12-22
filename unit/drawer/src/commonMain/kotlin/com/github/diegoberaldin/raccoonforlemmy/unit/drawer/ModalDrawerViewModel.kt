@@ -43,7 +43,7 @@ class ModalDrawerViewModel(
 ) : ModalDrawerMviModel,
     MviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect> by mvi {
 
-    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    @OptIn(FlowPreview::class)
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch(Dispatchers.Main) {
@@ -146,7 +146,11 @@ class ModalDrawerViewModel(
                 community.copy(favorite = community.id in favoriteCommunityIds)
             }
             .sortedBy { it.name }
-            .sortedByDescending { it.favorite }
+            .let {
+                val favorites = it.filter { e -> e.favorite }
+                val res = it - favorites.toSet()
+                favorites + res
+            }
         val multiCommunitites = multiCommunityRepository.getAll(accountId).sortedBy { it.name }
 
         mvi.updateState {
