@@ -41,8 +41,6 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
 
-                implementation(libs.kamel)
-
                 implementation(projects.core.utils)
                 implementation(projects.core.appearance)
                 implementation(projects.resources)
@@ -51,6 +49,11 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+            }
+        }
+        val iosMain by getting {
+            dependencies {
+                implementation(libs.kamel)
             }
         }
     }

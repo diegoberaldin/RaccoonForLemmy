@@ -41,7 +41,6 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
 
-                implementation(libs.kamel)
                 implementation(libs.koin.core)
 
                 implementation(projects.core.utils)

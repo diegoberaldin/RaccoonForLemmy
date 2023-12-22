@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.CustomMarkdown
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.markdownTypography
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.markdownTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs

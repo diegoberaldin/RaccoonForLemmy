@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.markdown.model
+package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model
 
 /** An interface of providing use case specific un/ordered list handling.*/
 fun interface BulletHandler {

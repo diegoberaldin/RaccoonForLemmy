@@ -2,11 +2,11 @@ package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.BulletHandler
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownColors
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownPadding
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypography
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.ReferenceLinkHandler
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.BulletHandler
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownColors
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownPadding
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownTypography
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.ReferenceLinkHandler
 
 /**
  * The CompositionLocal to provide functionality related to transforming the bullet of an ordered list

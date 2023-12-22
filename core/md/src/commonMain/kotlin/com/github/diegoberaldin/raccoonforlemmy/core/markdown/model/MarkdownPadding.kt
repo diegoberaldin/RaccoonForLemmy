@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.markdown.model
+package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable

@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.markdown.model
+package com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model
 
 /**
  * Interface to describe the [ReferenceLinkHandler]

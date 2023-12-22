@@ -4,14 +4,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownColors
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownPadding
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypography
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.markdownColor
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.markdownPadding
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.markdownTypography
-import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
-import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownColors
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownPadding
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownTypography
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.markdownColor
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.markdownPadding
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.markdownTypography
 
 @Composable
 expect fun CustomMarkdown(
@@ -32,7 +30,6 @@ expect fun CustomMarkdown(
     ),
     padding: MarkdownPadding = markdownPadding(),
     modifier: Modifier = Modifier.fillMaxSize(),
-    flavour: MarkdownFlavourDescriptor = GFMFlavourDescriptor(),
     onOpenUrl: ((String) -> Unit)? = null,
     inlineImages: Boolean = true,
     autoLoadImages: Boolean = true,

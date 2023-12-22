@@ -30,16 +30,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.viewinterop.AndroidView
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownColors
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownPadding
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownTypography
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.ReferenceLinkHandlerImpl
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.di.getMarkwonProvider
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownColors
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownPadding
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypography
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.ReferenceLinkHandlerImpl
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.provider.MarkwonProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.DateTime
 import io.noties.markwon.image.AsyncDrawableSpan
 import kotlinx.coroutines.delay
-import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
 
 /*
  * CREDITS:
@@ -52,7 +51,6 @@ actual fun CustomMarkdown(
     typography: MarkdownTypography,
     padding: MarkdownPadding,
     modifier: Modifier,
-    flavour: MarkdownFlavourDescriptor,
     onOpenUrl: ((String) -> Unit)?,
     inlineImages: Boolean,
     autoLoadImages: Boolean,
@@ -76,11 +74,13 @@ actual fun CustomMarkdown(
         BoxWithConstraints(
             modifier = modifier
         ) {
-            val style = LocalMarkdownTypography.current.text
+            val style =
+                com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalMarkdownTypography.current.text
             val fontScale = LocalDensity.current.fontScale * 1.3f
             val canvasWidthMaybe = with(LocalDensity.current) { maxWidth.toPx() }.toInt()
             val textSizeMaybe = with(LocalDensity.current) { (style.fontSize * fontScale).toPx() }
-            val defaultColor = LocalMarkdownColors.current.text
+            val defaultColor =
+                com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalMarkdownColors.current.text
             val resolver: FontFamily.Resolver = LocalFontFamilyResolver.current
             val typeface: Typeface = remember(resolver, style) {
                 resolver.resolve(

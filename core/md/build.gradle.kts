@@ -41,15 +41,20 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation(libs.koin.core)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
 
-                api(libs.markdown)
+                implementation(libs.koin.core)
+
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.utils)
                 implementation(projects.resources)
+            }
+        }
+        val iosMain by getting {
+            dependencies {
+                implementation(libs.markdown)
             }
         }
         val commonTest by getting {

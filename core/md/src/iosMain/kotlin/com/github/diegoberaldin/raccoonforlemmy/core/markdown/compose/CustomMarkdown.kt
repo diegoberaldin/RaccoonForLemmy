@@ -15,10 +15,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.elements.M
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.elements.MarkdownOrderedList
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.elements.MarkdownParagraph
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.elements.MarkdownText
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownColors
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownPadding
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.MarkdownTypography
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.model.ReferenceLinkHandlerImpl
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownColors
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownPadding
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.MarkdownTypography
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.ReferenceLinkHandlerImpl
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownElementTypes.ATX_1
@@ -40,7 +40,7 @@ import org.intellij.markdown.MarkdownTokenTypes.Companion.TEXT
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.findChildOfType
 import org.intellij.markdown.ast.getTextInNode
-import org.intellij.markdown.flavours.MarkdownFlavourDescriptor
+import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.parser.MarkdownParser
 
 /**
@@ -54,7 +54,6 @@ actual fun CustomMarkdown(
     typography: MarkdownTypography,
     padding: MarkdownPadding,
     modifier: Modifier,
-    flavour: MarkdownFlavourDescriptor,
     onOpenUrl: ((String) -> Unit)?,
     inlineImages: Boolean,
     autoLoadImages: Boolean,
@@ -104,7 +103,8 @@ actual fun CustomMarkdown(
                 onLongClick = onLongClick ?: {},
             )
         ) {
-            val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(mangledContent)
+            val parsedTree =
+                MarkdownParser(GFMFlavourDescriptor()).buildMarkdownTreeFromString(mangledContent)
             parsedTree.children.forEach { node ->
                 if (!node.handleElement(
                         content = mangledContent,
