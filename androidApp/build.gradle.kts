@@ -32,7 +32,13 @@ android {
         }
     }
     buildTypes {
+        getByName("debug") {
+            resValue("string", "app_name", "Kijetesantakalu for Lemmy")
+            applicationIdSuffix = ".dev"
+            extra["enableCrashlytics"] = false
+        }
         getByName("release") {
+            resValue("string", "app_name", "Raccoon for Lemmy")
             isMinifyEnabled = true
             setProguardFiles(
                 listOf(

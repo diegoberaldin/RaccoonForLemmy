@@ -29,6 +29,9 @@ class MainApplication : Application(), ImageLoaderFactory {
                 append(" (")
                 append(BuildConfig.VERSION_CODE)
                 append(")")
+                if (BuildConfig.DEBUG) {
+                    append(" - dev")
+                }
             }
         }.apply {
             val crashReportWriter: CrashReportWriter by inject()
