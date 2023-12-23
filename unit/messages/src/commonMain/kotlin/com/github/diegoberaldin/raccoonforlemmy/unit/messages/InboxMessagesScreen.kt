@@ -93,7 +93,9 @@ class InboxMessagesScreen : Tab {
             modifier = Modifier.pullRefresh(pullRefreshState),
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = Spacing.m),
                 state = lazyListState,
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
