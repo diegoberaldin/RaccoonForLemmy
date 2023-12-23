@@ -59,11 +59,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.getInboxChatViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
@@ -92,6 +94,7 @@ class InboxChatScreen(
         val themeRepository = remember { getThemeRepository() }
         val contentFontFamily by themeRepository.contentFontFamily.collectAsState()
         val typography = contentFontFamily.toTypography()
+        var rawContent by remember { mutableStateOf<Any?>(null) }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -248,9 +251,13 @@ class InboxChatScreen(
                                     if (isMyMessage) {
                                         this += Option(
                                             OptionId.Edit,
-                                            stringResource(MR.strings.post_action_edit)
+                                            stringResource(MR.strings.post_action_edit),
                                         )
                                     }
+                                    this += Option(
+                                        OptionId.SeeRaw,
+                                        stringResource(MR.strings.post_action_see_raw),
+                                    )
                                 },
                                 onOptionSelected = rememberCallbackArgs { optionId ->
                                     when (optionId) {
@@ -265,9 +272,13 @@ class InboxChatScreen(
                                             }
                                         }
 
+                                        OptionId.SeeRaw -> {
+                                            rawContent = message
+                                        }
+
                                         else -> Unit
                                     }
-                                }
+                                },
                             )
                         }
                         item {
@@ -297,6 +308,21 @@ class InboxChatScreen(
                 galleryHelper.getImageFromGallery { bytes ->
                     openImagePicker = false
                     model.reduce(InboxChatMviModel.Intent.ImageSelected(bytes))
+                }
+            }
+        }
+
+        if (rawContent != null) {
+            when (val content = rawContent) {
+                is PrivateMessageModel -> {
+                    RawContentDialog(
+                        publishDate = content.publishDate,
+                        updateDate = content.updateDate,
+                        text = content.content,
+                        onDismiss = {
+                            rawContent = null
+                        },
+                    )
                 }
             }
         }

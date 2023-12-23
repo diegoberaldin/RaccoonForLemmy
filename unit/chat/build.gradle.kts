@@ -45,6 +45,7 @@ kotlin {
                 implementation(projects.core.architecture)
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.lemmyui)
+                implementation(projects.core.commonui.modals)
                 implementation(projects.core.navigation)
                 implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
