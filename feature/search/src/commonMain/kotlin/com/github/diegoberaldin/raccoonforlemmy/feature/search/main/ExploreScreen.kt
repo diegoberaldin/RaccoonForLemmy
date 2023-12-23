@@ -133,7 +133,6 @@ class ExploreScreen : Screen {
                     topAppBarState.contentOffset = 0f
                 }
             }.launchIn(this)
-            navigationCoordinator.setBottomSheetGesturesEnabled(true)
         }
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -564,14 +563,14 @@ class ExploreScreen : Screen {
                                                 },
                                                 onReply = rememberCallback {
                                                     if (uiState.isLogged) {
-                                                        navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                            false
-                                                        )
-                                                        val screen = CreateCommentScreen(
-                                                            originalPost = PostModel(id = result.model.postId),
-                                                            originalComment = result.model,
-                                                        )
-                                                        navigationCoordinator.showBottomSheet(screen)
+                                                        with(navigationCoordinator) {
+                                                            setBottomSheetGesturesEnabled(false)
+                                                            val screen = CreateCommentScreen(
+                                                                originalPost = PostModel(id = result.model.postId),
+                                                                originalComment = result.model,
+                                                            )
+                                                            showBottomSheet(screen)
+                                                        }
                                                     }
                                                 },
                                                 onOpenCommunity = rememberCallbackArgs { community, instance ->

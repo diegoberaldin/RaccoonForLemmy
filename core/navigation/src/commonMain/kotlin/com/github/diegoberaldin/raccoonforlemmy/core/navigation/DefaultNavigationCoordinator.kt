@@ -60,8 +60,14 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
                 .debounce(BOTTOM_NAVIGATION_DELAY)
                 .onEach { evt ->
                     when (evt) {
-                        is NavigationEvent.Show -> bottomNavigator?.show(evt.screen)
-                        NavigationEvent.Hide -> bottomNavigator?.hide()
+                        is NavigationEvent.Show -> {
+                            bottomNavigator?.show(evt.screen)
+                        }
+
+                        NavigationEvent.Hide -> {
+                            bottomNavigator?.hide()
+                            setBottomSheetGesturesEnabled(true)
+                        }
                     }
                 }.launchIn(this)
             screenChannel.receiveAsFlow()

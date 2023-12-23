@@ -32,7 +32,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -98,10 +97,6 @@ class SavedItemsScreen : Screen {
         val settings by settingsRepository.currentSettings.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val detailOpener = remember { getDetailOpener() }
-
-        LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.setBottomSheetGesturesEnabled(true)
-        }
 
         Scaffold(
             topBar = {
@@ -375,12 +370,14 @@ class SavedItemsScreen : Screen {
                                         )
                                     },
                                     onReply = {
-                                        navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                        val screen = CreateCommentScreen(
-                                            originalPost = PostModel(id = comment.postId),
-                                            originalComment = comment,
-                                        )
-                                        navigatorCoordinator.showBottomSheet(screen)
+                                        with(navigationCoordinator) {
+                                            setBottomSheetGesturesEnabled(false)
+                                            val screen = CreateCommentScreen(
+                                                originalPost = PostModel(id = comment.postId),
+                                                originalComment = comment,
+                                            )
+                                            showBottomSheet(screen)
+                                        }
                                     },
                                     options = buildList {
                                         add(
@@ -475,15 +472,18 @@ class SavedItemsScreen : Screen {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen = CreateCommentScreen(
-                                    originalPost = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    })
-                                navigationCoordinator.showBottomSheet(screen)
+                                with(navigationCoordinator) {
+                                    setBottomSheetGesturesEnabled(false)
+                                    val screen = CreateCommentScreen(
+                                        originalPost = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        },
+                                    )
+                                    showBottomSheet(screen)
+                                }
                             }
                         },
                     )
@@ -500,16 +500,18 @@ class SavedItemsScreen : Screen {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen = CreateCommentScreen(
-                                    originalComment = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    },
-                                )
-                                navigationCoordinator.showBottomSheet(screen)
+                                with(navigationCoordinator) {
+                                    setBottomSheetGesturesEnabled(false)
+                                    val screen = CreateCommentScreen(
+                                        originalComment = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        },
+                                    )
+                                    showBottomSheet(screen)
+                                }
                             }
                         }
                     )

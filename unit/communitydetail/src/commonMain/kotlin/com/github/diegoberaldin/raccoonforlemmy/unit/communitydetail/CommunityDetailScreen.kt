@@ -165,9 +165,6 @@ class CommunityDetailScreen(
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
         }
-        LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.setBottomSheetGesturesEnabled(true)
-        }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
@@ -462,11 +459,13 @@ class CommunityDetailScreen(
                                     icon = Icons.Default.Create,
                                     text = stringResource(MR.strings.action_create_post),
                                     onSelected = rememberCallback {
-                                        navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                        val screen = CreatePostScreen(
-                                            communityId = uiState.community.id,
-                                        )
-                                        navigationCoordinator.showBottomSheet(screen = screen)
+                                        with(navigationCoordinator) {
+                                            setBottomSheetGesturesEnabled(false)
+                                            val screen = CreatePostScreen(
+                                                communityId = uiState.community.id,
+                                            )
+                                            showBottomSheet(screen = screen)
+                                        }
                                     },
                                 )
                             }
@@ -761,12 +760,12 @@ class CommunityDetailScreen(
                                                 )
 
                                                 OptionId.Edit -> {
-                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                        false
-                                                    )
-                                                    navigationCoordinator.showBottomSheet(
-                                                        CreatePostScreen(editedPost = post),
-                                                    )
+                                                    with(navigationCoordinator) {
+                                                        setBottomSheetGesturesEnabled(false)
+                                                        showBottomSheet(
+                                                            CreatePostScreen(editedPost = post),
+                                                        )
+                                                    }
                                                 }
 
                                                 OptionId.Report -> {
@@ -776,12 +775,12 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                        false
-                                                    )
-                                                    navigationCoordinator.showBottomSheet(
-                                                        CreatePostScreen(crossPost = post),
-                                                    )
+                                                    with(navigationCoordinator) {
+                                                        setBottomSheetGesturesEnabled(false)
+                                                        showBottomSheet(
+                                                            CreatePostScreen(crossPost = post),
+                                                        )
+                                                    }
                                                 }
 
                                                 OptionId.SeeRaw -> {
@@ -894,14 +893,18 @@ class CommunityDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen = CreateCommentScreen(originalPost = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    })
-                                navigationCoordinator.showBottomSheet(screen)
+                                with(navigationCoordinator) {
+                                    setBottomSheetGesturesEnabled(false)
+                                    val screen = CreateCommentScreen(
+                                        originalPost = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        },
+                                    )
+                                    showBottomSheet(screen)
+                                }
                             }
                         })
                 }
@@ -917,14 +920,16 @@ class CommunityDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen = CreateCommentScreen(originalComment = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    })
-                                navigationCoordinator.showBottomSheet(screen)
+                                with(navigationCoordinator) {
+                                    setBottomSheetGesturesEnabled(false)
+                                    val screen = CreateCommentScreen(originalComment = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        })
+                                    showBottomSheet(screen)
+                                }
                             }
                         },
                     )

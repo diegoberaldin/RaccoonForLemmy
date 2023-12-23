@@ -264,11 +264,13 @@ class PostDetailScreen(
                                     icon = Icons.Default.Reply,
                                     text = stringResource(MR.strings.action_reply),
                                     onSelected = rememberCallback {
-                                        navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                        val screen = CreateCommentScreen(
-                                            originalPost = uiState.post,
-                                        )
-                                        navigationCoordinator.showBottomSheet(screen)
+                                        with(navigationCoordinator) {
+                                            setBottomSheetGesturesEnabled(false)
+                                            val screen = CreateCommentScreen(
+                                                originalPost = uiState.post,
+                                            )
+                                            showBottomSheet(screen)
+                                        }
                                     },
                                 )
                             }
@@ -356,11 +358,13 @@ class PostDetailScreen(
                                 },
                                 onReply = rememberCallback {
                                     if (uiState.isLogged && !isOnOtherInstance) {
-                                        navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                        val screen = CreateCommentScreen(
-                                            originalPost = uiState.post,
-                                        )
-                                        navigationCoordinator.showBottomSheet(screen)
+                                        with(navigationCoordinator) {
+                                            setBottomSheetGesturesEnabled(false)
+                                            val screen = CreateCommentScreen(
+                                                originalPost = uiState.post,
+                                            )
+                                            showBottomSheet(screen)
+                                        }
                                     }
                                 },
                                 options = buildList {
@@ -438,12 +442,12 @@ class PostDetailScreen(
                                         OptionId.Delete -> model.reduce(PostDetailMviModel.Intent.DeletePost)
 
                                         OptionId.Edit -> {
-                                            navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                false,
-                                            )
-                                            navigationCoordinator.showBottomSheet(
-                                                CreatePostScreen(editedPost = uiState.post),
-                                            )
+                                            with(navigationCoordinator) {
+                                                setBottomSheetGesturesEnabled(false)
+                                                showBottomSheet(
+                                                    CreatePostScreen(editedPost = uiState.post),
+                                                )
+                                            }
                                         }
 
                                         OptionId.Report -> {
@@ -453,12 +457,12 @@ class PostDetailScreen(
                                         }
 
                                         OptionId.CrossPost -> {
-                                            navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                false,
-                                            )
-                                            navigationCoordinator.showBottomSheet(
-                                                CreatePostScreen(crossPost = uiState.post),
-                                            )
+                                            with(navigationCoordinator) {
+                                                setBottomSheetGesturesEnabled(false)
+                                                showBottomSheet(
+                                                    CreatePostScreen(crossPost = uiState.post),
+                                                )
+                                            }
                                         }
 
                                         OptionId.SeeRaw -> {
@@ -712,16 +716,14 @@ class PostDetailScreen(
                                                     },
                                                     onReply = rememberCallback {
                                                         if (uiState.isLogged && !isOnOtherInstance) {
-                                                            navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                                false
-                                                            )
-                                                            val screen = CreateCommentScreen(
-                                                                originalPost = uiState.post,
-                                                                originalComment = comment,
-                                                            )
-                                                            navigationCoordinator.showBottomSheet(
-                                                                screen
-                                                            )
+                                                            with(navigationCoordinator) {
+                                                                setBottomSheetGesturesEnabled(false)
+                                                                val screen = CreateCommentScreen(
+                                                                    originalPost = uiState.post,
+                                                                    originalComment = comment,
+                                                                )
+                                                                showBottomSheet(screen)
+                                                            }
                                                         }
                                                     },
                                                     onOpenCreator = rememberCallbackArgs { user, instance ->
@@ -814,14 +816,16 @@ class PostDetailScreen(
                                                             )
 
                                                             OptionId.Edit -> {
-                                                                navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                                    false
-                                                                )
-                                                                navigationCoordinator.showBottomSheet(
-                                                                    CreateCommentScreen(
-                                                                        editedComment = comment,
+                                                                with(navigationCoordinator) {
+                                                                    setBottomSheetGesturesEnabled(
+                                                                        false
                                                                     )
-                                                                )
+                                                                    showBottomSheet(
+                                                                        CreateCommentScreen(
+                                                                            editedComment = comment,
+                                                                        )
+                                                                    )
+                                                                }
                                                             }
 
                                                             OptionId.Report -> {
@@ -932,14 +936,14 @@ class PostDetailScreen(
                                             },
                                             onReply = rememberCallback(model) {
                                                 if (uiState.isLogged && !isOnOtherInstance) {
-                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                        false,
-                                                    )
-                                                    val screen = CreateCommentScreen(
-                                                        originalPost = uiState.post,
-                                                        originalComment = comment,
-                                                    )
-                                                    navigationCoordinator.showBottomSheet(screen)
+                                                    with(navigationCoordinator) {
+                                                        setBottomSheetGesturesEnabled(false)
+                                                        val screen = CreateCommentScreen(
+                                                            originalPost = uiState.post,
+                                                            originalComment = comment,
+                                                        )
+                                                        showBottomSheet(screen)
+                                                    }
                                                 }
                                             },
                                             onOpenCreator = rememberCallbackArgs { user ->
@@ -1011,14 +1015,14 @@ class PostDetailScreen(
                                                     )
 
                                                     OptionId.Edit -> {
-                                                        navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                            false,
-                                                        )
-                                                        navigationCoordinator.showBottomSheet(
-                                                            CreateCommentScreen(
-                                                                editedComment = comment,
+                                                        with(navigationCoordinator) {
+                                                            setBottomSheetGesturesEnabled(false)
+                                                            showBottomSheet(
+                                                                CreateCommentScreen(
+                                                                    editedComment = comment,
+                                                                ),
                                                             )
-                                                        )
+                                                        }
                                                     }
 
                                                     OptionId.Report -> {
@@ -1193,14 +1197,18 @@ class PostDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen = CreateCommentScreen(originalPost = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    })
-                                navigationCoordinator.showBottomSheet(screen)
+                                with(navigationCoordinator) {
+                                    setBottomSheetGesturesEnabled(false)
+                                    val screen = CreateCommentScreen(
+                                        originalPost = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        },
+                                    )
+                                    showBottomSheet(screen)
+                                }
                             }
                         },
                     )
@@ -1217,14 +1225,18 @@ class PostDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen = CreateCommentScreen(originalComment = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    })
-                                navigationCoordinator.showBottomSheet(screen)
+                                with(navigationCoordinator) {
+                                    setBottomSheetGesturesEnabled(false)
+                                    val screen = CreateCommentScreen(
+                                        originalComment = content,
+                                        initialText = buildString {
+                                            append("> ")
+                                            append(quotation)
+                                            append("\n\n")
+                                        },
+                                    )
+                                    showBottomSheet(screen)
+                                }
                             }
                         },
                     )

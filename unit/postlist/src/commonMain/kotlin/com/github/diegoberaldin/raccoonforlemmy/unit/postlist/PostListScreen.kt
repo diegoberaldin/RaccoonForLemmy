@@ -125,7 +125,6 @@ class PostListScreen : Screen {
                     topAppBarState.contentOffset = 0f
                 }
             }.launchIn(this)
-            navigationCoordinator.setBottomSheetGesturesEnabled(true)
         }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -483,12 +482,12 @@ class PostListScreen : Screen {
                                                 )
 
                                                 OptionId.Edit -> {
-                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                        false
-                                                    )
-                                                    navigationCoordinator.showBottomSheet(
-                                                        CreatePostScreen(editedPost = post)
-                                                    )
+                                                    with(navigationCoordinator) {
+                                                        setBottomSheetGesturesEnabled(false)
+                                                        showBottomSheet(
+                                                            CreatePostScreen(editedPost = post),
+                                                        )
+                                                    }
                                                 }
 
                                                 OptionId.Report -> {
@@ -498,12 +497,12 @@ class PostListScreen : Screen {
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    navigationCoordinator.setBottomSheetGesturesEnabled(
-                                                        false
-                                                    )
-                                                    navigationCoordinator.showBottomSheet(
-                                                        CreatePostScreen(crossPost = post)
-                                                    )
+                                                    with(navigationCoordinator) {
+                                                        setBottomSheetGesturesEnabled(false)
+                                                        showBottomSheet(
+                                                            CreatePostScreen(crossPost = post),
+                                                        )
+                                                    }
                                                 }
 
                                                 OptionId.SeeRaw -> {
@@ -620,17 +619,19 @@ class PostListScreen : Screen {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                navigationCoordinator.setBottomSheetGesturesEnabled(false)
-                                val screen =
-                                    CreateCommentScreen(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        }
-                                    )
-                                navigationCoordinator.showBottomSheet(screen)
+                                with(navigationCoordinator) {
+                                    setBottomSheetGesturesEnabled(false)
+                                    val screen =
+                                        CreateCommentScreen(
+                                            originalPost = content,
+                                            initialText = buildString {
+                                                append("> ")
+                                                append(quotation)
+                                                append("\n\n")
+                                            },
+                                        )
+                                    showBottomSheet(screen)
+                                }
                             }
                         }
                     )
