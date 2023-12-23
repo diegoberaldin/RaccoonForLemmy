@@ -72,7 +72,7 @@ fun PostCard(
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
-    onImageClick: ((String) -> Unit)? = null,
+    onOpenImage: ((String) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
@@ -118,7 +118,7 @@ fun PostCard(
                 onDownVote = onDownVote,
                 onSave = onSave,
                 onReply = onReply,
-                onImageClick = onImageClick,
+                onOpenImage = onOpenImage,
                 onOptionSelected = onOptionSelected,
                 onClick = onClick,
                 onDoubleClick = onDoubleClick,
@@ -141,7 +141,7 @@ fun PostCard(
                 onDownVote = onDownVote,
                 onSave = onSave,
                 onReply = onReply,
-                onImageClick = onImageClick,
+                onOpenImage = onOpenImage,
                 onOptionSelected = onOptionSelected,
                 onClick = onClick,
                 onDoubleClick = onDoubleClick,
@@ -169,7 +169,7 @@ private fun CompactPost(
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
-    onImageClick: ((String) -> Unit)? = null,
+    onOpenImage: ((String) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
@@ -218,9 +218,11 @@ private fun CompactPost(
                     text = post.title,
                     autoLoadImages = autoLoadImages,
                     onClick = onClick,
-                    onOpenImage = onImageClick,
-                    onDoubleClick = onDoubleClick,
+                    onOpenCommunity = onOpenCommunity,
+                    onOpenUser = onOpenCreator,
                     onOpenPost = onOpenPost,
+                    onOpenImage = onOpenImage,
+                    onDoubleClick = onDoubleClick,
                     onOpenWeb = onOpenWeb,
                     onLongClick = {
                         optionsMenuOpen.value = true
@@ -239,7 +241,7 @@ private fun CompactPost(
                     Icon(imageVector = Icons.Default.Download, contentDescription = null)
                 },
                 blurred = blurNsfw && post.nsfw,
-                onImageClick = onImageClick,
+                onImageClick = onOpenImage,
                 onDoubleClick = onDoubleClick,
                 onLongClick = {
                     optionsMenuOpen.value = true
@@ -292,7 +294,7 @@ private fun ExtendedPost(
     onDownVote: (() -> Unit)? = null,
     onSave: (() -> Unit)? = null,
     onReply: (() -> Unit)? = null,
-    onImageClick: ((String) -> Unit)? = null,
+    onOpenImage: ((String) -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
@@ -343,7 +345,7 @@ private fun ExtendedPost(
                 onOpenPost = onOpenPost,
                 onOpenWeb = onOpenWeb,
                 onClick = onClick,
-                onOpenImage = onImageClick,
+                onOpenImage = onOpenImage,
                 onDoubleClick = onDoubleClick,
                 onLongClick = {
                     optionsMenuOpen.value = true
@@ -369,7 +371,7 @@ private fun ExtendedPost(
                 },
             imageUrl = post.imageUrl,
             blurred = blurNsfw && post.nsfw,
-            onImageClick = onImageClick,
+            onImageClick = onOpenImage,
             onDoubleClick = onDoubleClick,
             autoLoadImages = autoLoadImages,
             onLongClick = {
@@ -397,7 +399,11 @@ private fun ExtendedPost(
                         text = post.text,
                         autoLoadImages = autoLoadImages,
                         onClick = onClick,
-                        onOpenImage = onImageClick,
+                        onOpenCommunity = onOpenCommunity,
+                        onOpenUser = onOpenCreator,
+                        onOpenPost = onOpenPost,
+                        onOpenImage = onOpenImage,
+                        onOpenWeb = onOpenWeb,
                         onDoubleClick = onDoubleClick,
                         onLongClick = {
                             optionsMenuOpen.value = true

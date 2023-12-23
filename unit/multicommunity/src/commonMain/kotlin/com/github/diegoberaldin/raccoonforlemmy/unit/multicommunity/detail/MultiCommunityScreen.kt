@@ -349,7 +349,7 @@ class MultiCommunityScreen(
                                     onReply = rememberCallback {
                                         detailOpener.openPostDetail(post)
                                     },
-                                    onImageClick = rememberCallbackArgs { url ->
+                                    onOpenImage = rememberCallbackArgs { url ->
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
                                         navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                     },

@@ -536,7 +536,7 @@ class UserDetailScreen(
                                                 detailOpener.openPostDetail(post)
                                             }
                                         },
-                                        onImageClick = rememberCallbackArgs { url ->
+                                        onOpenImage = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(
                                                 ZoomableImageScreen(url),
                                             )

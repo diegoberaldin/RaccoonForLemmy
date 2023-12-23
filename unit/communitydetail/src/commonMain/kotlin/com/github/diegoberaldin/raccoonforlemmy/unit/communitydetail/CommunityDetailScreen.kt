@@ -662,7 +662,7 @@ class CommunityDetailScreen(
                                                 detailOpener.openPostDetail(post)
                                             }
                                         },
-                                        onImageClick = rememberCallbackArgs(model) { url ->
+                                        onOpenImage = rememberCallbackArgs(model) { url ->
                                             model.reduce(
                                                 CommunityDetailMviModel.Intent.MarkAsRead(
                                                     post.id

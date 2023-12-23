@@ -509,7 +509,7 @@ class PostDetailScreen(
                                         else -> Unit
                                     }
                                 },
-                                onImageClick = rememberCallbackArgs { url ->
+                                onOpenImage = rememberCallbackArgs { url ->
                                     navigationCoordinator.pushScreen(
                                         ZoomableImageScreen(url),
                                     )

@@ -261,7 +261,7 @@ class SavedItemsScreen : Screen {
                                     onReply = rememberCallback {
                                         detailOpener.openPostDetail(post)
                                     },
-                                    onImageClick = rememberCallbackArgs { url ->
+                                    onOpenImage = rememberCallbackArgs { url ->
                                         navigatorCoordinator.pushScreen(
                                             ZoomableImageScreen(url),
                                         )

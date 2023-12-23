@@ -200,7 +200,7 @@ object ProfileLoggedScreen : Tab {
                                             WebViewScreen(url)
                                         )
                                     },
-                                    onImageClick = rememberCallbackArgs { url ->
+                                    onOpenImage = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(
                                             ZoomableImageScreen(url),
                                         )

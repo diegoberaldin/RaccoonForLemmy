@@ -413,7 +413,7 @@ class PostListScreen : Screen {
                                                 detailOpener.openPostDetail(post)
                                             }
                                         },
-                                        onImageClick = rememberCallbackArgs(model, post) { url ->
+                                        onOpenImage = rememberCallbackArgs(model, post) { url ->
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
                                             navigationCoordinator.pushScreen(
                                                 ZoomableImageScreen(url)
