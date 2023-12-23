@@ -4,6 +4,8 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.SupervisorJob
@@ -13,6 +15,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -28,6 +31,7 @@ private sealed interface NavigationEvent {
 @OptIn(FlowPreview::class)
 internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
+    override val currentSection = MutableStateFlow<TabNavigationSection?>(null)
     override val onDoubleTabSelection = MutableSharedFlow<TabNavigationSection>()
     override val deepLinkUrl = MutableSharedFlow<String>()
     override val inboxUnread = MutableStateFlow(0)
@@ -38,7 +42,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
     private var bottomNavigator: BottomSheetNavigator? = null
-    private var currentTab: TabNavigationSection? = null
+    private var tabNavigator: TabNavigator? = null
     private val scope = CoroutineScope(SupervisorJob())
     private var canGoBackCallback: (() -> Boolean)? = null
     private val bottomSheetChannel = Channel<NavigationEvent>()
@@ -93,12 +97,13 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override fun getBottomBarScrollConnection() = connection
 
     override fun setCurrentSection(section: TabNavigationSection) {
-        val oldTab = currentTab
-        currentTab = section
-        if (section == oldTab) {
-            scope.launch {
-                onDoubleTabSelection.emit(section)
+        currentSection.getAndUpdate { oldValue ->
+            if (section == oldValue) {
+                scope.launch {
+                    onDoubleTabSelection.emit(section)
+                }
             }
+            section
         }
     }
 
@@ -156,5 +161,13 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override fun setBottomSheetGesturesEnabled(value: Boolean) {
         bottomSheetGesturesEnabled.value = value
+    }
+
+    override fun setTabNavigator(value: TabNavigator) {
+        tabNavigator = value
+    }
+
+    override fun changeTab(value: Tab) {
+        tabNavigator?.current = value
     }
 }

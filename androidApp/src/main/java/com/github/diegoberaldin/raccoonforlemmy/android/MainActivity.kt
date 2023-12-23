@@ -8,7 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.github.diegoberaldin.raccoonforlemmy.MainView
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,8 +29,17 @@ class MainActivity : ComponentActivity() {
         val navigationCoordinator = getNavigationCoordinator()
         val backPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (!navigationCoordinator.exitMessageVisible.value) {
-                    navigationCoordinator.setExitMessageVisible(true)
+                if (navigationCoordinator.currentSection.value == TabNavigationSection.Home) {
+                    // asks for confirmation
+                    if (!navigationCoordinator.exitMessageVisible.value) {
+                        navigationCoordinator.setExitMessageVisible(true)
+                    }
+                } else {
+                    // goes back to home
+                    with(navigationCoordinator) {
+                        changeTab(HomeTab)
+                        setCurrentSection(TabNavigationSection.Home)
+                    }
                 }
             }
         }

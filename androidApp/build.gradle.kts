@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.coil)
     implementation(libs.coil.gif)
+    implementation(libs.voyager.navigator)
+    implementation(libs.voyager.tab)
 
     implementation(projects.shared)
     implementation(projects.core.utils)

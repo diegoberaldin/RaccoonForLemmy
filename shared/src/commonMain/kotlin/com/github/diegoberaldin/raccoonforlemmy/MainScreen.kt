@@ -110,10 +110,13 @@ internal object MainScreen : Screen {
         }
 
         TabNavigator(HomeTab) { tabNavigator ->
+            navigationCoordinator.setTabNavigator(tabNavigator)
+
             LaunchedEffect(tabNavigator.current) {
                 // when the current tab chanes, reset the bottom bar offset to the default value
                 model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(0f))
             }
+
             LaunchedEffect(drawerCoordinator) {
                 drawerCoordinator.events.onEach { evt ->
                     when (evt) {
@@ -121,7 +124,10 @@ internal object MainScreen : Screen {
                             if (tabNavigator.current == HomeTab) {
                                 notificationCenter.send(NotificationCenterEvent.ChangeFeedType(evt.value))
                             } else {
-                                tabNavigator.current = HomeTab
+                                with(navigationCoordinator) {
+                                    changeTab(HomeTab)
+                                    setCurrentSection(TabNavigationSection.Home)
+                                }
                                 launch {
                                     // wait for transition to finish
                                     delay(750)
