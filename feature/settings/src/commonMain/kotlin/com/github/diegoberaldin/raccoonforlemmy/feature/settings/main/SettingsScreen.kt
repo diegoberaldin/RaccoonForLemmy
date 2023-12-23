@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -91,6 +92,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class SettingsScreen : Screen {
@@ -118,6 +120,7 @@ class SettingsScreen : Screen {
             UiTheme.Light
         }
         var infoDialogOpened by remember { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
 
         LaunchedEffect(themeRepository) {
             themeRepository.uiFontScale.drop(1).onEach {
@@ -160,7 +163,9 @@ class SettingsScreen : Screen {
                         Image(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
-                                    drawerCoordinator.toggleDrawer()
+                                    scope.launch {
+                                        drawerCoordinator.toggleDrawer()
+                                    }
                                 },
                             ),
                             imageVector = Icons.Default.Menu,

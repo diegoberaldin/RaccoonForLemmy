@@ -24,6 +24,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +54,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 object ModalDrawerContent : Tab {
 
@@ -73,6 +75,7 @@ object ModalDrawerContent : Tab {
         }
         val languageRepository = remember { getLanguageRepository() }
         val themeRepository = remember { getThemeRepository() }
+        val scope = rememberCoroutineScope()
 
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
@@ -153,30 +156,39 @@ object ModalDrawerContent : Tab {
                                     title = listingType.toReadableName(),
                                     icon = listingType.toIcon(),
                                     onSelected = rememberCallback(coordinator) {
-                                        coordinator.toggleDrawer()
-                                        coordinator.sendEvent(
-                                            DrawerEvent.ChangeListingType(listingType)
-                                        )
+                                        scope.launch {
+                                            coordinator.toggleDrawer()
+                                            coordinator.sendEvent(
+                                                DrawerEvent.ChangeListingType(listingType)
+                                            )
+                                        }
                                     },
                                 )
                             }
                         }
                         item {
-                            DrawerShortcut(title = stringResource(MR.strings.navigation_drawer_title_bookmarks),
+                            DrawerShortcut(
+                                title = stringResource(MR.strings.navigation_drawer_title_bookmarks),
                                 icon = Icons.Default.Bookmarks,
                                 onSelected = rememberCallback(coordinator) {
-                                    coordinator.toggleDrawer()
-                                    coordinator.sendEvent(DrawerEvent.OpenBookmarks)
-                                })
+                                    scope.launch {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(DrawerEvent.OpenBookmarks)
+                                    }
+                                },
+                            )
                         }
                         item {
                             DrawerShortcut(
                                 title = stringResource(MR.strings.navigation_drawer_title_subscriptions),
                                 icon = Icons.Default.ManageAccounts,
                                 onSelected = rememberCallback(coordinator) {
-                                    coordinator.toggleDrawer()
-                                    coordinator.sendEvent(DrawerEvent.ManageSubscriptions)
-                                })
+                                    scope.launch {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(DrawerEvent.ManageSubscriptions)
+                                    }
+                                },
+                            )
                         }
 
                         items(
@@ -186,10 +198,12 @@ object ModalDrawerContent : Tab {
                             MultiCommunityItem(
                                 modifier = Modifier.fillMaxWidth().onClick(
                                     onClick = rememberCallback {
-                                        coordinator.toggleDrawer()
-                                        coordinator.sendEvent(
-                                            DrawerEvent.OpenMultiCommunity(community),
-                                        )
+                                        scope.launch {
+                                            coordinator.toggleDrawer()
+                                            coordinator.sendEvent(
+                                                DrawerEvent.OpenMultiCommunity(community),
+                                            )
+                                        }
                                     },
                                 ),
                                 community = community,
@@ -204,10 +218,12 @@ object ModalDrawerContent : Tab {
                             CommunityItem(
                                 modifier = Modifier.fillMaxWidth().onClick(
                                     onClick = rememberCallback {
-                                        coordinator.toggleDrawer()
-                                        coordinator.sendEvent(
-                                            DrawerEvent.OpenCommunity(community),
-                                        )
+                                        scope.launch {
+                                            coordinator.toggleDrawer()
+                                            coordinator.sendEvent(
+                                                DrawerEvent.OpenCommunity(community),
+                                            )
+                                        }
                                     },
                                 ),
                                 community = community,
@@ -251,10 +267,12 @@ object ModalDrawerContent : Tab {
                                 title = listingType.toReadableName(),
                                 icon = listingType.toIcon(),
                                 onSelected = {
-                                    coordinator.toggleDrawer()
-                                    coordinator.sendEvent(
-                                        DrawerEvent.ChangeListingType(listingType)
-                                    )
+                                    scope.launch {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(
+                                            DrawerEvent.ChangeListingType(listingType)
+                                        )
+                                    }
                                 },
                             )
                         }

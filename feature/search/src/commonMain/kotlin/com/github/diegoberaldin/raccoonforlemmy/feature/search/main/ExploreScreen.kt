@@ -45,6 +45,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -90,6 +91,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImage
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class ExploreScreen : Screen {
 
@@ -121,6 +123,7 @@ class ExploreScreen : Screen {
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val detailOpener = remember { getDetailOpener() }
+        val scope = rememberCoroutineScope()
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -147,7 +150,8 @@ class ExploreScreen : Screen {
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
             topBar = {
-                ExploreTopBar(scrollBehavior = scrollBehavior,
+                ExploreTopBar(
+                    scrollBehavior = scrollBehavior,
                     listingType = uiState.listingType,
                     sortType = uiState.sortType,
                     onSelectListingType = rememberCallback {
@@ -169,8 +173,11 @@ class ExploreScreen : Screen {
                         navigationCoordinator.showBottomSheet(sheet)
                     },
                     onHamburgerTapped = rememberCallback {
-                        drawerCoordinator.toggleDrawer()
-                    })
+                        scope.launch {
+                            drawerCoordinator.toggleDrawer()
+                        }
+                    },
+                )
             },
         ) { padding ->
             Column(

@@ -5,14 +5,27 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+private sealed interface NavigationEvent {
+
+    data class Show(val screen: Screen) : NavigationEvent
+
+    data object Hide : NavigationEvent
+}
+
+@OptIn(FlowPreview::class)
 internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override val onDoubleTabSelection = MutableSharedFlow<TabNavigationSection>()
@@ -28,12 +41,44 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     private var currentTab: TabNavigationSection? = null
     private val scope = CoroutineScope(SupervisorJob())
     private var canGoBackCallback: (() -> Boolean)? = null
-    private var job: Job? = null
+    private val bottomSheetChannel = Channel<NavigationEvent>()
+    private val screenChannel = Channel<NavigationEvent>()
 
     companion object {
         private const val NAVIGATION_DELAY = 100L
         private const val BOTTOM_NAVIGATION_DELAY = 100L
         private const val DEEP_LINK_DELAY = 500L
+    }
+
+    init {
+        scope.launch {
+            bottomSheetChannel.receiveAsFlow()
+                .debounce(BOTTOM_NAVIGATION_DELAY)
+                .onEach { evt ->
+                    when (evt) {
+                        is NavigationEvent.Show -> bottomNavigator?.show(evt.screen)
+                        NavigationEvent.Hide -> bottomNavigator?.hide()
+                    }
+                }.launchIn(this)
+            screenChannel.receiveAsFlow()
+                .debounce(NAVIGATION_DELAY)
+                .onEach { evt ->
+                    when (evt) {
+                        is NavigationEvent.Show -> {
+                            // make sure the new screen has a different key than the top of the stack
+                            if (evt.screen.key != navigator?.lastItem?.key) {
+                                navigator?.push(evt.screen)
+                                canPop.value = navigator?.canPop == true
+                            }
+                        }
+
+                        NavigationEvent.Hide -> {
+                            navigator?.pop()
+                            canPop.value = navigator?.canPop == true
+                        }
+                    }
+                }.launchIn(this)
+        }
     }
 
     override fun setRootNavigator(value: Navigator?) {
@@ -82,51 +127,26 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     }
 
     override fun showBottomSheet(screen: Screen) {
-        job?.cancel()
-        job = scope.launch {
-            delay(BOTTOM_NAVIGATION_DELAY)
-            runCatching {
-                ensureActive()
-                bottomNavigator?.show(screen)
-            }
+        scope.launch {
+            bottomSheetChannel.send(NavigationEvent.Show(screen))
         }
     }
 
     override fun pushScreen(screen: Screen) {
-        job?.cancel()
-        job = scope.launch {
-            delay(NAVIGATION_DELAY)
-            runCatching {
-                ensureActive()
-                // make sure the new screen has a different key than the top of the stack
-                if (screen.key != navigator?.lastItem?.key) {
-                    navigator?.push(screen)
-                    canPop.value = navigator?.canPop == true
-                }
-            }
+        scope.launch {
+            screenChannel.send(NavigationEvent.Show(screen))
         }
     }
 
     override fun hideBottomSheet() {
-        job?.cancel()
-        job = scope.launch {
-            delay(BOTTOM_NAVIGATION_DELAY)
-            runCatching {
-                ensureActive()
-                bottomNavigator?.hide()
-            }
+        scope.launch {
+            bottomSheetChannel.send(NavigationEvent.Hide)
         }
     }
 
     override fun popScreen() {
-        job?.cancel()
-        job = scope.launch {
-            delay(NAVIGATION_DELAY)
-            runCatching {
-                ensureActive()
-                navigator?.pop()
-                canPop.value = navigator?.canPop == true
-            }
+        scope.launch {
+            screenChannel.send(NavigationEvent.Hide)
         }
     }
 
