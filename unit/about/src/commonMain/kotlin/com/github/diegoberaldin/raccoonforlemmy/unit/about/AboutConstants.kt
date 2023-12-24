@@ -9,4 +9,5 @@ internal object AboutConstants {
     const val WEBSITE_URL = "https://github.com/diegoberaldin/RaccoonForLemmy"
     const val LEMMY_COMMUNITY_NAME = "raccoonforlemmy"
     const val LEMMY_COMMUNITY_INSTANCE = "lemmy.world"
+    const val MATRIX_URL = "https://matrix.to/#/#raccoonforlemmy:matrix.org"
 }

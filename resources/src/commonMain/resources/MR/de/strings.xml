@@ -293,4 +293,5 @@
     <string name="user_detail_info">Nutzerinformation</string>
     <string name="user_info_moderates">Moderator von</string>
     <string name="user_info_admin">Administrator</string>
+    <string name="settings_about_chat_matrix">Chatten Sie auf Matrix</string>
 </resources>

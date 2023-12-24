@@ -285,4 +285,5 @@
     <string name="user_detail_info">Brugeroplysninger</string>
     <string name="user_info_moderates">Moderator af</string>
     <string name="user_info_admin">administrator</string>
+    <string name="settings_about_chat_matrix">Chat på Matrix</string>
 </resources>

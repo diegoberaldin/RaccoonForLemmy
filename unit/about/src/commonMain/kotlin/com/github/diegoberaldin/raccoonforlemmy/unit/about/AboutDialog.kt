@@ -190,6 +190,17 @@ class AboutDialog : Screen {
                             },
                         )
                     }
+                    item {
+                        AboutItem(
+                            painter = painterResource(MR.images.ic_matrix),
+                            text = stringResource(MR.strings.settings_about_chat_matrix),
+                            textDecoration = TextDecoration.Underline,
+                            onClick = {
+                                uriHandler.openUri(AboutConstants.MATRIX_URL)
+                                viewModel.reduce(AboutDialogMviModel.Intent.OpenOwnCommunity)
+                            },
+                        )
+                    }
                 }
                 Button(
                     onClick = {
@@ -229,6 +240,7 @@ class AboutDialog : Screen {
                     modifier = imageModifier,
                     painter = painter,
                     contentDescription = null,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                 )
             } else if (vector != null) {
                 Image(

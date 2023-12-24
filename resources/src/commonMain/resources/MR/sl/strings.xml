@@ -285,4 +285,5 @@
     <string name="user_detail_info">Informacije o uporabniku</string>
     <string name="user_info_moderates">Moderator od</string>
     <string name="user_info_admin">skrbnik</string>
+    <string name="settings_about_chat_matrix">Klepet na Matrixu</string>
 </resources>

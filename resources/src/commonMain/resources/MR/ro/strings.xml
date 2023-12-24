@@ -286,4 +286,5 @@
     <string name="user_detail_info">Informații despre utilizatorul</string>
     <string name="user_info_moderates">Moderator al</string>
     <string name="user_info_admin">administrator</string>
+    <string name="settings_about_chat_matrix">Chat pe Matrix</string>
 </resources>

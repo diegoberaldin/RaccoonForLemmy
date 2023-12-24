@@ -289,4 +289,5 @@
     <string name="user_detail_info">Lietotāja informācija</string>
     <string name="user_info_moderates">Moderators no</string>
     <string name="user_info_admin">administrators</string>
+    <string name="settings_about_chat_matrix">Tērzējiet Matrix</string>
 </resources>
