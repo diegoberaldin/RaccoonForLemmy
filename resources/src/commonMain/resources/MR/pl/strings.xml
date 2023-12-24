@@ -285,4 +285,7 @@
     <string name="modlog_item_community_transfer">gmina została przeniesiona</string>
     <string name="block_action_user">Zablokuj użytkownika</string>
     <string name="block_action_community">Zablokuj społeczność</string>
+    <string name="user_detail_info">Informacje o użytkowniku</string>
+    <string name="user_info_moderates">Moderator</string>
+    <string name="user_info_admin">administrator</string>
 </resources>

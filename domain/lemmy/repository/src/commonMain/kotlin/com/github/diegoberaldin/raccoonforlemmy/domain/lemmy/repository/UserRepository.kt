@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReplyResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionResponse
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -77,14 +78,19 @@ interface UserRepository {
     suspend fun setMentionRead(
         read: Boolean,
         mentionId: Int,
-        auth: String? = null
+        auth: String? = null,
     ): Result<Response<PersonMentionResponse>>
 
     suspend fun setReplyRead(
         read: Boolean,
         replyId: Int,
-        auth: String? = null
+        auth: String? = null,
     ): Result<Response<CommentReplyResponse>>
 
     suspend fun block(id: Int, blocked: Boolean, auth: String? = null): Result<Unit>
+
+    suspend fun getModeratedCommunities(
+        auth: String? = null,
+        id: Int?,
+    ): List<CommunityModel>
 }

@@ -288,4 +288,7 @@
     <string name="modlog_item_community_transfer">komuniteti u transferua në</string>
     <string name="block_action_user">Blloko përdoruesin</string>
     <string name="block_action_community">Blloko komunitetin</string>
+    <string name="user_detail_info">Informacioni i përdoruesit</string>
+    <string name="user_info_moderates">Moderator i</string>
+    <string name="user_info_admin">administratori</string>
 </resources>

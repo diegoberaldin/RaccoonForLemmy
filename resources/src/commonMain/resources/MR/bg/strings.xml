@@ -291,4 +291,7 @@
     <string name="modlog_item_community_transfer">общността беше прехвърлена на</string>
     <string name="block_action_user">Блокиране на потребител</string>
     <string name="block_action_community">Блокиране на общността</string>
+    <string name="user_detail_info">Информация за потребителя</string>
+    <string name="user_info_moderates">Модератор на</string>
+    <string name="user_info_admin">администратор</string>
 </resources>

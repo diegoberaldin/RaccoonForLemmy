@@ -286,4 +286,7 @@
     <string name="modlog_item_community_transfer">община была переведена в</string>
     <string name="block_action_user">Заблокировать пользователя</string>
     <string name="block_action_community">Заблокировать сообщество</string>
+    <string name="user_detail_info">Информация о пользователе</string>
+    <string name="user_info_moderates">Модератор</string>
+    <string name="user_info_admin">администратор</string>
 </resources>

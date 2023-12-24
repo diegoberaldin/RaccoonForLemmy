@@ -291,4 +291,7 @@
     <string name="modlog_item_community_transfer">aistríodh an pobal go</string>
     <string name="block_action_user">Cuir bac ar úsáideoir</string>
     <string name="block_action_community">Bloc pobail</string>
+    <string name="user_detail_info">Eolas úsáideora</string>
+    <string name="user_info_moderates">Modhnóir na</string>
+    <string name="user_info_admin">riarthóir</string>
 </resources>

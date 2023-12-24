@@ -281,4 +281,7 @@
     <string name="modlog_item_community_transfer">la komunumo estis translokigita al</string>
     <string name="block_action_user">Bloki uzanton</string>
     <string name="block_action_community">Bloki komunumon</string>
+    <string name="user_detail_info">Detaloj pri la uzanto</string>
+    <string name="user_info_moderates">Moderatoro de</string>
+    <string name="user_info_admin">administranto</string>
 </resources>

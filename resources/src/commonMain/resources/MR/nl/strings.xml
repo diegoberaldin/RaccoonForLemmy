@@ -286,4 +286,7 @@
     <string name="modlog_item_community_transfer">de gemeenschap werd overgedragen</string>
     <string name="block_action_user">Blokkeer gebruiker</string>
     <string name="block_action_community">Blokkeer gemeenschap</string>
+    <string name="user_detail_info">Gebruikers informatie</string>
+    <string name="user_info_moderates">Moderator van</string>
+    <string name="user_info_admin">beheerder</string>
 </resources>

@@ -38,6 +38,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.DetailInfoItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -45,6 +46,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.components.ModeratorCell
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.getCommunityInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
@@ -113,12 +115,12 @@ class CommunityInfoScreen(
                         Column(
                             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                         ) {
-                            CommunityInfoItem(
+                            DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Cake,
                                 title = community.creationDate?.prettifyDate().orEmpty(),
                             )
-                            CommunityInfoItem(
+                            DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Padding,
                                 title = stringResource(MR.strings.community_info_posts),
@@ -127,7 +129,7 @@ class CommunityInfoScreen(
                                     millionLabel = stringResource(MR.strings.profile_million_short),
                                 ),
                             )
-                            CommunityInfoItem(
+                            DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Reply,
                                 title = stringResource(MR.strings.community_info_comments),
@@ -136,7 +138,7 @@ class CommunityInfoScreen(
                                     millionLabel = stringResource(MR.strings.profile_million_short),
                                 ),
                             )
-                            CommunityInfoItem(
+                            DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Group,
                                 title = stringResource(MR.strings.community_info_subscribers),
@@ -145,7 +147,7 @@ class CommunityInfoScreen(
                                     millionLabel = stringResource(MR.strings.profile_million_short),
                                 ),
                             )
-                            CommunityInfoItem(
+                            DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewMonth,
                                 title = stringResource(MR.strings.community_info_monthly_active_users),
@@ -154,7 +156,7 @@ class CommunityInfoScreen(
                                     millionLabel = stringResource(MR.strings.profile_million_short),
                                 ),
                             )
-                            CommunityInfoItem(
+                            DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewWeek,
                                 title = stringResource(MR.strings.community_info_weekly_active_users),
@@ -163,7 +165,7 @@ class CommunityInfoScreen(
                                     millionLabel = stringResource(MR.strings.profile_million_short),
                                 ),
                             )
-                            CommunityInfoItem(
+                            DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewDay,
                                 title = stringResource(MR.strings.community_info_daily_active_users),

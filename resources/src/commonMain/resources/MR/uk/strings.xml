@@ -285,4 +285,7 @@
     <string name="modlog_item_community_transfer">громаду було передано с</string>
     <string name="block_action_user">Заблокувати користувача</string>
     <string name="block_action_community">Заблокувати спільноту</string>
+    <string name="user_detail_info">Інформація про користувача</string>
+    <string name="user_info_moderates">Модератор</string>
+    <string name="user_info_admin">адміністратор</string>
 </resources>

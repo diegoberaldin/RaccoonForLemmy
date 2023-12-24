@@ -40,6 +40,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.reportListMod
 import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.di.savedItemsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.userdetail.di.userDetailModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.di.userInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.di.zoomableImageModule
 import org.koin.dsl.module
 
@@ -85,6 +86,7 @@ val sharedHelperModule = module {
         postDetailModule,
         communityDetailModule,
         userDetailModule,
+        userInfoModule,
         manageSubscriptionsModule,
         modlogModule,
     )

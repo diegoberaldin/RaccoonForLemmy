@@ -6,13 +6,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkCommentAsReadFo
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPersonMentionAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toCommentDto
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toHost
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
 
 internal class DefaultUserRepository(
@@ -39,15 +39,7 @@ internal class DefaultUserRepository(
             )
         }
         val dto = response.body() ?: return@runCatching null
-        UserModel(
-            id = dto.personView.person.id,
-            name = dto.personView.person.name,
-            avatar = dto.personView.person.avatar,
-            banner = dto.personView.person.banner,
-            host = dto.personView.person.actorId.toHost(),
-            score = dto.personView.counts.toModel(),
-            accountAge = dto.personView.person.published,
-        )
+        dto.personView.toModel()
     }.getOrNull()
 
     override suspend fun getPosts(
@@ -237,4 +229,18 @@ internal class DefaultUserRepository(
                 form = data,
             )
         }
+
+    override suspend fun getModeratedCommunities(
+        auth: String?,
+        id: Int?,
+    ): List<CommunityModel> = runCatching {
+        val response = services.user.getDetails(
+            authHeader = auth.toAuthHeader(),
+            auth = auth,
+            personId = id,
+        ).body()
+        response?.moderates?.map {
+            it.community.toModel()
+        }.orEmpty()
+    }.getOrElse { emptyList() }
 }

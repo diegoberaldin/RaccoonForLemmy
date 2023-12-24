@@ -286,4 +286,7 @@
     <string name="modlog_item_community_transfer">a közösség átkerült</string>
     <string name="block_action_user">Felhasználó letiltása</string>
     <string name="block_action_community">Közösség letiltása</string>
+    <string name="user_detail_info">Felhasználói információ</string>
+    <string name="user_info_moderates">Moderátora</string>
+    <string name="user_info_admin">adminisztrátor</string>
 </resources>

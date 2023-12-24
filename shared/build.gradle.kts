@@ -75,6 +75,7 @@ kotlin {
                 implementation(projects.unit.postdetail)
                 implementation(projects.unit.communitydetail)
                 implementation(projects.unit.userdetail)
+                implementation(projects.unit.userinfo)
                 implementation(projects.unit.managesubscriptions)
                 implementation(projects.unit.multicommunity)
                 implementation(projects.unit.modlog)

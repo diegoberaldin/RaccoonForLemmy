@@ -280,4 +280,7 @@
     <string name="modlog_item_community_transfer">تم نقل المجتمع إلى</string>
     <string name="block_action_user">مستخدم محضور</string>
     <string name="block_action_community">منع المجتمع</string>
+    <string name="user_detail_info">معلومات المستخدم</string>
+    <string name="user_info_moderates">مشرف</string>
+    <string name="user_info_admin">مدير</string>
 </resources>

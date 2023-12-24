@@ -112,7 +112,6 @@ internal class DefaultCommunityRepository(
         }.orEmpty()
     }.getOrElse { emptyList() }
 
-
     override suspend fun subscribe(
         auth: String?,
         id: Int,

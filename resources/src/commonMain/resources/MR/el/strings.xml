@@ -292,4 +292,7 @@
     <string name="modlog_item_community_transfer">η κοινότητα μεταφέρθηκε σε</string>
     <string name="block_action_user">Αποκλεισμός χρήστη</string>
     <string name="block_action_community">Αποκλεισμός κοινότητας</string>
+    <string name="user_detail_info">Πληροφορίες χρήστη</string>
+    <string name="user_info_moderates">Συντονιστής των</string>
+    <string name="user_info_admin">διαχειριστής</string>
 </resources>

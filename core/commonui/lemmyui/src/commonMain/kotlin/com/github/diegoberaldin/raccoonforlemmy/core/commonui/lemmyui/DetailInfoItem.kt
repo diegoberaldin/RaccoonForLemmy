@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,7 +15,7 @@ import androidx.compose.ui.text.withStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 
 @Composable
-internal fun CommunityInfoItem(
+fun DetailInfoItem(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     title: String = "",

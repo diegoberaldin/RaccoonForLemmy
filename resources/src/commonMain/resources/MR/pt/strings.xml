@@ -285,4 +285,7 @@
     <string name="modlog_item_community_transfer">a comunidade foi transferida para</string>
     <string name="block_action_user">Bloquear usuário</string>
     <string name="block_action_community">Bloquear comunidade</string>
+    <string name="user_detail_info">Informação do usuário</string>
+    <string name="user_info_moderates">Moderador de</string>
+    <string name="user_info_admin">administrador</string>
 </resources>

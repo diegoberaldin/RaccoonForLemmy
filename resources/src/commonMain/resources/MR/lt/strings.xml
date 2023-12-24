@@ -285,4 +285,7 @@
     <string name="modlog_item_community_transfer">bendruomenė buvo perduota</string>
     <string name="block_action_user">Blokuoti vartotoją</string>
     <string name="block_action_community">Blokuoti bendruomenę</string>
+    <string name="user_detail_info">Vartotojo informacija</string>
+    <string name="user_info_moderates">Moderatorius</string>
+    <string name="user_info_admin">administratorius</string>
 </resources>

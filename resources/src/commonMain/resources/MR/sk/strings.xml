@@ -284,4 +284,7 @@
     <string name="modlog_item_community_transfer">komunita bola prevedená na</string>
     <string name="block_action_user">Blokovať používateľa</string>
     <string name="block_action_community">Blokovať komunitu</string>
+    <string name="user_detail_info">Informácie o používateľovi</string>
+    <string name="user_info_moderates">Moderátorka</string>
+    <string name="user_info_admin">správca</string>
 </resources>

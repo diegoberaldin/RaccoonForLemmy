@@ -285,4 +285,7 @@
     <string name="modlog_item_community_transfer">topluluk şuraya transfer edildi</string>
     <string name="block_action_user">Kullanıcıyı engelle</string>
     <string name="block_action_community">Topluluğu engelle</string>
+    <string name="user_detail_info">Kullanıcı bilgisi</string>
+    <string name="user_info_moderates">Moderatörü</string>
+    <string name="user_info_admin">yönetici</string>
 </resources>

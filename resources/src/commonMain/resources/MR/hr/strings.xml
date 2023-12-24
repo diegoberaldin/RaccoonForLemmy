@@ -287,4 +287,7 @@
     <string name="modlog_item_community_transfer">zajednica je prebačena u</string>
     <string name="block_action_user">Blokirati korisnika</string>
     <string name="block_action_community">Blokiraj zajednicu</string>
+    <string name="user_detail_info">Informacije o korisniku</string>
+    <string name="user_info_moderates">Moderator od</string>
+    <string name="user_info_admin">administrator</string>
 </resources>

@@ -283,4 +283,7 @@
     <string name="modlog_item_community_transfer">comunitatea a fost transferată la</string>
     <string name="block_action_user">Blochează utilizatorul</string>
     <string name="block_action_community">Blochează comunitatea</string>
+    <string name="user_detail_info">Informații despre utilizatorul</string>
+    <string name="user_info_moderates">Moderator al</string>
+    <string name="user_info_admin">administrator</string>
 </resources>

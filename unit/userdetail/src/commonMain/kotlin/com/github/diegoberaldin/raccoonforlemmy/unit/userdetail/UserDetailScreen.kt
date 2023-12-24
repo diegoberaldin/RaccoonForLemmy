@@ -104,6 +104,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateComment
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.userdetail.di.getUserDetailViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.UserInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
@@ -217,6 +218,10 @@ class UserDetailScreen(
                         Box {
                             val options = listOf(
                                 Option(
+                                    OptionId.Info,
+                                    stringResource(MR.strings.user_detail_info)
+                                ),
+                                Option(
                                     OptionId.Block,
                                     stringResource(MR.strings.community_detail_block)
                                 ),
@@ -265,6 +270,12 @@ class UserDetailScreen(
                                                     OptionId.Block -> model.reduce(
                                                         UserDetailMviModel.Intent.Block
                                                     )
+
+                                                    OptionId.Info -> {
+                                                        navigationCoordinator.showBottomSheet(
+                                                            UserInfoScreen(uiState.user),
+                                                        )
+                                                    }
 
                                                     else -> Unit
                                                 }

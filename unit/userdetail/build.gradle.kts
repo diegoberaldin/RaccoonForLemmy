@@ -58,6 +58,7 @@ kotlin {
                 implementation(projects.unit.remove)
                 implementation(projects.unit.ban)
                 implementation(projects.unit.chat)
+                implementation(projects.unit.userinfo)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)

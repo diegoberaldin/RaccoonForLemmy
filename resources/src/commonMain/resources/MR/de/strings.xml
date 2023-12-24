@@ -290,4 +290,7 @@
     <string name="modlog_item_community_transfer">die Gemeinde wurde übertragen</string>
     <string name="block_action_user">Benutzer blockieren</string>
     <string name="block_action_community">Community blockieren</string>
+    <string name="user_detail_info">Nutzerinformation</string>
+    <string name="user_info_moderates">Moderator von</string>
+    <string name="user_info_admin">Administrator</string>
 </resources>

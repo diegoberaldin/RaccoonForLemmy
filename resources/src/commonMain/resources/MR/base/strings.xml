@@ -311,4 +311,7 @@
     <string name="modlog_item_community_transfer">the community was transferred to</string>
     <string name="block_action_user">Block user</string>
     <string name="block_action_community">Block community</string>
+    <string name="user_detail_info">User info</string>
+    <string name="user_info_moderates">Moderator of</string>
+    <string name="user_info_admin">administrator</string>
 </resources>

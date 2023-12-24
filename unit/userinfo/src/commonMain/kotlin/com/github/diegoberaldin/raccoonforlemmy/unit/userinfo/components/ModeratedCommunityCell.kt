@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo
+package com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
@@ -22,17 +23,17 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 
 @Composable
-internal fun ModeratorCell(
-    user: UserModel,
+internal fun ModeratedCommunityCell(
+    community: CommunityModel,
     autoLoadImages: Boolean = true,
-    onOpenUser: ((UserModel) -> Unit)? = null,
+    onOpenCommunity: ((CommunityModel) -> Unit)? = null,
 ) {
-    val creatorName = user?.name.orEmpty()
-    val creatorHost = user?.host.orEmpty()
-    val creatorAvatar = user?.avatar.orEmpty()
+    val name = community.name
+    val host = community.host
+    val icon = community.icon.orEmpty()
     val iconSize = IconSize.xl
     val fullTextColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
@@ -41,7 +42,7 @@ internal fun ModeratorCell(
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (creatorAvatar.isNotEmpty()) {
+        if (icon.isNotEmpty()) {
             CustomImage(
                 modifier = Modifier
                     .padding(Spacing.xxxs)
@@ -49,13 +50,11 @@ internal fun ModeratorCell(
                     .clip(RoundedCornerShape(iconSize / 2))
                     .onClick(
                         onClick = rememberCallback {
-                            if (user != null) {
-                                onOpenUser?.invoke(user)
-                            }
+                            onOpenCommunity?.invoke(community)
                         },
                     ),
                 quality = FilterQuality.Low,
-                url = creatorAvatar,
+                url = icon,
                 autoload = autoLoadImages,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
@@ -64,13 +63,11 @@ internal fun ModeratorCell(
             PlaceholderImage(
                 modifier = Modifier.onClick(
                     onClick = rememberCallback {
-                        if (user != null) {
-                            onOpenUser?.invoke(user)
-                        }
+                        onOpenCommunity?.invoke(community)
                     },
                 ),
                 size = iconSize,
-                title = creatorName,
+                title = name,
             )
         }
 
@@ -79,16 +76,18 @@ internal fun ModeratorCell(
         ) {
             Text(
                 modifier = Modifier.widthIn(max = 100.dp),
-                text = creatorName,
+                text = name,
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
                 color = fullTextColor,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
-            if (creatorHost.isNotEmpty()) {
+            if (host.isNotEmpty()) {
                 Text(
                     modifier = Modifier.widthIn(max = 100.dp),
-                    text = creatorHost,
+                    text = host,
+                    textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelSmall,
                     color = ancillaryColor,
                     maxLines = 1,

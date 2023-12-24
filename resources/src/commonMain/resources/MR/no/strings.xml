@@ -285,4 +285,7 @@
     <string name="modlog_item_community_transfer">fellesskapet ble overført til</string>
     <string name="block_action_user">Blokker bruker</string>
     <string name="block_action_community">Blokker fellesskapet</string>
+    <string name="user_detail_info">Brukerinformasjon</string>
+    <string name="user_info_moderates">Moderator for</string>
+    <string name="user_info_admin">administrator</string>
 </resources>

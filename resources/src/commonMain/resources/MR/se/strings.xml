@@ -283,4 +283,7 @@
     <string name="modlog_item_community_transfer">samhället överfördes till</string>
     <string name="block_action_user">Blockera användare</string>
     <string name="block_action_community">Blockera gemenskap</string>
+    <string name="user_detail_info">Användar information</string>
+    <string name="user_info_moderates">Moderator för</string>
+    <string name="user_info_admin">administratör</string>
 </resources>
