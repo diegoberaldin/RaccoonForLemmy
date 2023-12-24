@@ -190,6 +190,7 @@ Here are some options to install the application on your device.
 - create a post on the project's [community](https://lemmy.world/c/raccoonforlemmy) on
   Lemmy.world for broader questions, opinions, personal feedback, suggestions, insults or whatever
   you feel like writing
+- join the [Matrix space](https://matrix.to/#/#raccoonforlemmy:matrix.org) dedicated to the project
 - if you are a translator and want to help out with l10n or submit some corrections but you don't
   feel confident with repository forks, pull requests, managing resource files, etc. feel free to
   drop an email or contact me in any way.
