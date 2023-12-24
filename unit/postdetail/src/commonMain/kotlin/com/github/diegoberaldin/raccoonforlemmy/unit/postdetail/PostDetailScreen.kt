@@ -556,7 +556,10 @@ class PostDetailScreen(
                                                             id = crossPost.id,
                                                             community = community,
                                                         )
-                                                        detailOpener.openPostDetail(post)
+                                                        detailOpener.openPostDetail(
+                                                            post = post,
+                                                            otherInstance = otherInstanceName
+                                                        )
                                                     },
                                                 ),
                                                 text = string,
