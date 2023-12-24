@@ -367,6 +367,7 @@ class CreateCommentScreen(
                                 post = originalPost,
                                 limitBodyHeight = true,
                                 blurNsfw = false,
+                                includeFullBody = true,
                                 voteFormat = uiState.voteFormat,
                                 autoLoadImages = uiState.autoLoadImages,
                                 options = buildList {
