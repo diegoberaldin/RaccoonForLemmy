@@ -46,7 +46,7 @@ internal class DefaultPostRepository(
                 authHeader = auth.toAuthHeader(),
                 auth = auth,
                 communityId = communityId,
-                page = page,
+                page = if (pageCursor.isNullOrEmpty()) page else null,
                 pageCursor = pageCursor,
                 limit = limit,
                 type = type.toDto(),
@@ -56,7 +56,7 @@ internal class DefaultPostRepository(
             customServices.changeInstance(otherInstance)
             customServices.post.getAll(
                 communityName = communityName,
-                page = page,
+                page = if (pageCursor.isNullOrEmpty()) page else null,
                 pageCursor = pageCursor,
                 limit = limit,
                 type = type.toDto(),
