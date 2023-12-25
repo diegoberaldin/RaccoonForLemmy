@@ -289,4 +289,5 @@
     <string name="user_info_moderates">Moderatore di</string>
     <string name="user_info_admin">amministratore</string>
     <string name="settings_about_chat_matrix">Chat su Matrix</string>
+    <string name="settings_reply_color">Colore azione di risposta</string>
 </resources>

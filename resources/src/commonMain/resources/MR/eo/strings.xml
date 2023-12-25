@@ -284,4 +284,5 @@
     <string name="user_info_moderates">Moderatoro de</string>
     <string name="user_info_admin">administranto</string>
     <string name="settings_about_chat_matrix">Babilu sur Matrix</string>
+    <string name="settings_reply_color">Koloro de responda ago</string>
 </resources>

@@ -287,4 +287,5 @@
     <string name="user_info_moderates">Moderatorius</string>
     <string name="user_info_admin">administratorius</string>
     <string name="settings_about_chat_matrix">Pokalbis Matrix</string>
+    <string name="settings_reply_color">Atsakymo veiksmo spalva</string>
 </resources>

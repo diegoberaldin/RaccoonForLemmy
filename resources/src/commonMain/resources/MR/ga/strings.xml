@@ -294,4 +294,5 @@
     <string name="user_info_moderates">Modhnóir na</string>
     <string name="user_info_admin">riarthóir</string>
     <string name="settings_about_chat_matrix">Comhrá ar Matrix</string>
+    <string name="settings_reply_color">Dath an ghnímh freagartha</string>
 </resources>

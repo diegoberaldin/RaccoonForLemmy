@@ -285,4 +285,5 @@
     <string name="user_info_moderates">Moderátor</string>
     <string name="user_info_admin">správce</string>
     <string name="settings_about_chat_matrix">Chat na Matrixu</string>
+    <string name="settings_reply_color">Barva akce odpovědi</string>
 </resources>

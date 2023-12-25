@@ -294,4 +294,5 @@
     <string name="user_info_moderates">Συντονιστής των</string>
     <string name="user_info_admin">διαχειριστής</string>
     <string name="settings_about_chat_matrix">Συνομιλία στο Matrix</string>
+    <string name="settings_reply_color">Χρώμα της ενέργειας απάντησης</string>
 </resources>

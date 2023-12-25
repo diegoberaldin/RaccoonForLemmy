@@ -288,4 +288,5 @@
     <string name="user_info_moderates">Модератор</string>
     <string name="user_info_admin">администратор</string>
     <string name="settings_about_chat_matrix">чат в Matrix</string>
+    <string name="settings_reply_color">Цвет действия ответа</string>
 </resources>
