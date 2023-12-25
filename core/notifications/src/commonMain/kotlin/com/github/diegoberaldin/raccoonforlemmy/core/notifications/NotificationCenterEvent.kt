@@ -58,4 +58,6 @@ sealed interface NotificationCenterEvent {
         val communityId: Int? = null,
         val instanceId: Int? = null,
     ) : NotificationCenterEvent
+
+    data class Share(val url: String) : NotificationCenterEvent
 }
