@@ -230,9 +230,6 @@ object ProfileLoggedScreen : Tab {
                                             )
                                         )
                                     },
-                                    onReply = rememberCallback {
-                                        detailOpener.openPostDetail(post)
-                                    },
                                     options = buildList {
                                         add(
                                             Option(
@@ -373,12 +370,6 @@ object ProfileLoggedScreen : Tab {
                                                 id = comment.id,
                                                 feedback = true
                                             )
-                                        )
-                                    },
-                                    onReply = rememberCallback {
-                                        detailOpener.openPostDetail(
-                                            post = PostModel(id = comment.postId),
-                                            highlightCommentId = comment.id,
                                         )
                                     },
                                     options = buildList {

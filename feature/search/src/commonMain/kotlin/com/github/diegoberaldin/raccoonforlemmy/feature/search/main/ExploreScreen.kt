@@ -85,7 +85,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.getExploreViewModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
@@ -421,13 +420,6 @@ class ExploreScreen : Screen {
                                                         )
                                                     }
                                                 },
-                                                onReply = rememberCallback {
-                                                    if (uiState.isLogged) {
-                                                        detailOpener.openPostDetail(
-                                                            result.model,
-                                                        )
-                                                    }
-                                                },
                                                 onOpenImage = rememberCallbackArgs { url ->
                                                     navigationCoordinator.pushScreen(
                                                         ZoomableImageScreen(url),
@@ -559,18 +551,6 @@ class ExploreScreen : Screen {
                                                                 feedback = true,
                                                             ),
                                                         )
-                                                    }
-                                                },
-                                                onReply = rememberCallback {
-                                                    if (uiState.isLogged) {
-                                                        with(navigationCoordinator) {
-                                                            setBottomSheetGesturesEnabled(false)
-                                                            val screen = CreateCommentScreen(
-                                                                originalPost = PostModel(id = result.model.postId),
-                                                                originalComment = result.model,
-                                                            )
-                                                            showBottomSheet(screen)
-                                                        }
                                                     }
                                                 },
                                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
