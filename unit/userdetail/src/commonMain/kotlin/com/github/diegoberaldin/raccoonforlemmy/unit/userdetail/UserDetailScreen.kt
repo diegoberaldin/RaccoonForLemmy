@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -144,6 +145,7 @@ class UserDetailScreen(
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
         val downvoteColor by themeRepository.downvoteColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
+        val defaultSecondActionColor = MaterialTheme.colorScheme.secondary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val navigationCoordinator = remember { getNavigationCoordinator() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
@@ -430,6 +432,13 @@ class UserDetailScreen(
                                         DismissDirection.EndToStart,
                                     )
                                 },
+                                enableSecondAction = rememberCallbackArgs { value ->
+                                    if (!uiState.isLogged) {
+                                        false
+                                    } else {
+                                        value == DismissValue.DismissedToStart
+                                    }
+                                },
                                 backgroundColor = rememberCallbackArgs { direction ->
                                     when (direction) {
                                         DismissValue.DismissedToStart -> upvoteColor
@@ -438,6 +447,12 @@ class UserDetailScreen(
                                         DismissValue.DismissedToEnd -> downvoteColor
                                             ?: defaultDownVoteColor
 
+                                        else -> Color.Transparent
+                                    }
+                                },
+                                secondBackgroundColor = rememberCallbackArgs { direction ->
+                                    when (direction) {
+                                        DismissValue.DismissedToStart -> defaultSecondActionColor
                                         else -> Color.Transparent
                                     }
                                 },
@@ -453,6 +468,17 @@ class UserDetailScreen(
                                         tint = Color.White,
                                     )
                                 },
+                                secondSwipeContent = { direction ->
+                                    val icon = when (direction) {
+                                        DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
+                                        DismissDirection.EndToStart -> Icons.Default.Reply
+                                    }
+                                    Icon(
+                                        imageVector = icon,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                    )
+                                },
                                 onGestureBegin = rememberCallback(model) {
                                     model.reduce(UserDetailMviModel.Intent.HapticIndication)
                                 },
@@ -460,6 +486,15 @@ class UserDetailScreen(
                                     model.reduce(
                                         UserDetailMviModel.Intent.UpVotePost(post.id),
                                     )
+                                },
+                                onSecondDismissToStart = rememberCallback(model) {
+                                    with(navigationCoordinator) {
+                                        setBottomSheetGesturesEnabled(false)
+                                        val screen = CreateCommentScreen(
+                                            originalPost = post,
+                                        )
+                                        showBottomSheet(screen)
+                                    }
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
@@ -666,6 +701,13 @@ class UserDetailScreen(
                                         DismissDirection.EndToStart,
                                     )
                                 },
+                                enableSecondAction = rememberCallbackArgs { value ->
+                                    if (!uiState.isLogged) {
+                                        false
+                                    } else {
+                                        value == DismissValue.DismissedToStart
+                                    }
+                                },
                                 backgroundColor = rememberCallbackArgs { direction ->
                                     when (direction) {
                                         DismissValue.DismissedToStart -> upvoteColor
@@ -674,6 +716,12 @@ class UserDetailScreen(
                                         DismissValue.DismissedToEnd -> downvoteColor
                                             ?: defaultDownVoteColor
 
+                                        else -> Color.Transparent
+                                    }
+                                },
+                                secondBackgroundColor = rememberCallbackArgs { direction ->
+                                    when (direction) {
+                                        DismissValue.DismissedToStart -> defaultSecondActionColor
                                         else -> Color.Transparent
                                     }
                                 },
@@ -688,6 +736,17 @@ class UserDetailScreen(
                                         tint = Color.White,
                                     )
                                 },
+                                secondSwipeContent = { direction ->
+                                    val icon = when (direction) {
+                                        DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
+                                        DismissDirection.EndToStart -> Icons.Default.Reply
+                                    }
+                                    Icon(
+                                        imageVector = icon,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                    )
+                                },
                                 onGestureBegin = rememberCallback(model) {
                                     model.reduce(UserDetailMviModel.Intent.HapticIndication)
                                 },
@@ -695,6 +754,16 @@ class UserDetailScreen(
                                     model.reduce(
                                         UserDetailMviModel.Intent.UpVoteComment(comment.id),
                                     )
+                                },
+                                onSecondDismissToStart = rememberCallback(model) {
+                                    with(navigationCoordinator) {
+                                        setBottomSheetGesturesEnabled(false)
+                                        val screen = CreateCommentScreen(
+                                            originalPost = PostModel(id = comment.postId),
+                                            originalComment = comment,
+                                        )
+                                        showBottomSheet(screen)
+                                    }
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
