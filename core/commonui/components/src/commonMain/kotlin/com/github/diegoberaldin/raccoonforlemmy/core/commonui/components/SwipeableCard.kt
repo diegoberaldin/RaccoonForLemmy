@@ -27,6 +27,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 
+private const val SECOND_ACTION_THRESHOLD = 0.35f
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwipeableCard(
@@ -36,44 +38,78 @@ fun SwipeableCard(
         DismissDirection.EndToStart,
     ),
     enabled: Boolean = true,
+    enableSecondAction: (DismissValue) -> Boolean = { false },
     content: @Composable () -> Unit,
     swipeContent: @Composable (DismissDirection) -> Unit,
+    secondSwipeContent: @Composable ((DismissDirection) -> Unit)? = null,
     backgroundColor: (DismissValue) -> Color,
+    secondBackgroundColor: ((DismissValue) -> Color)? = null,
     onGestureBegin: (() -> Unit)? = null,
     onDismissToEnd: (() -> Unit)? = null,
+    onSecondDismissToEnd: (() -> Unit)? = null,
     onDismissToStart: (() -> Unit)? = null,
+    onSecondDismissToStart: (() -> Unit)? = null,
 ) {
     if (enabled) {
+        var notified by remember { mutableStateOf(false) }
+        var secondNotified by remember { mutableStateOf(false) }
         val dismissToEndCallback by rememberUpdatedState(onDismissToEnd)
         val dismissToStartCallback by rememberUpdatedState(onDismissToStart)
+        val secondDismissToEndCallback by rememberUpdatedState(onSecondDismissToEnd)
+        val secondDismissToStartCallback by rememberUpdatedState(onSecondDismissToStart)
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
+        var lastProgress by remember { mutableStateOf(0.0f) }
         val dismissState = rememberDismissState(
-            confirmValueChange = rememberCallbackArgs { direction ->
-                when (direction) {
+            confirmValueChange = rememberCallbackArgs { value ->
+                when (value) {
                     DismissValue.DismissedToEnd -> {
-                        dismissToEndCallback?.invoke()
+                        if (lastProgress >= SECOND_ACTION_THRESHOLD) {
+                            secondDismissToEndCallback?.invoke()
+                        } else {
+                            dismissToEndCallback?.invoke()
+                        }
                     }
 
                     DismissValue.DismissedToStart -> {
-                        dismissToStartCallback?.invoke()
+                        if (lastProgress >= SECOND_ACTION_THRESHOLD) {
+                            secondDismissToStartCallback?.invoke()
+                        } else {
+                            dismissToStartCallback?.invoke()
+                        }
                     }
 
                     else -> Unit
                 }
+                notified = false
+                secondNotified = false
+                // return false to stay dismissed
                 false
             },
             positionalThreshold = { _ -> 56.dp.toPx() }
         )
-
-        var notified by remember { mutableStateOf(false) }
         LaunchedEffect(dismissState) {
             snapshotFlow { dismissState.progress }.stateIn(this).onEach { progress ->
-                if (progress in 0.0..<1.0 && !notified) {
-                    notified = true
-                    gestureBeginCallback?.invoke()
-                } else if (progress >= 1) {
-                    notified = false
+                if (!enableSecondAction(dismissState.targetValue)) {
+                    when {
+                        progress in 0.0f..<1.0f && !notified -> {
+                            notified = true
+                            gestureBeginCallback?.invoke()
+                        }
+                    }
+                } else {
+                    when {
+                        progress in 0.0f..<SECOND_ACTION_THRESHOLD && !notified -> {
+                            notified = true
+                            gestureBeginCallback?.invoke()
+                        }
+
+                        progress in SECOND_ACTION_THRESHOLD..<1.0f && !secondNotified -> {
+                            secondNotified = true
+                            gestureBeginCallback?.invoke()
+                        }
+                    }
                 }
+                lastProgress = progress
             }.launchIn(this)
         }
 
@@ -84,7 +120,16 @@ fun SwipeableCard(
             background = {
                 val direction = dismissState.dismissDirection ?: DismissDirection.StartToEnd
                 val bgColor by animateColorAsState(
-                    backgroundColor(dismissState.targetValue),
+                    targetValue = if (
+                        dismissState.progress < SECOND_ACTION_THRESHOLD
+                        || dismissState.targetValue == DismissValue.Default
+                        || !enableSecondAction(dismissState.targetValue)
+                    ) {
+                        backgroundColor(dismissState.targetValue)
+                    } else {
+                        secondBackgroundColor?.invoke(dismissState.targetValue)
+                            ?: backgroundColor(dismissState.targetValue)
+                    },
                 )
                 val alignment = when (direction) {
                     DismissDirection.StartToEnd -> Alignment.CenterStart
@@ -96,7 +141,14 @@ fun SwipeableCard(
                         .padding(horizontal = 20.dp),
                     contentAlignment = alignment,
                 ) {
-                    swipeContent(direction)
+                    if (
+                        dismissState.progress < SECOND_ACTION_THRESHOLD
+                        || !enableSecondAction(dismissState.targetValue)
+                    ) {
+                        swipeContent(direction)
+                    } else {
+                        secondSwipeContent?.invoke(direction)
+                    }
                 }
             },
             dismissContent = {
