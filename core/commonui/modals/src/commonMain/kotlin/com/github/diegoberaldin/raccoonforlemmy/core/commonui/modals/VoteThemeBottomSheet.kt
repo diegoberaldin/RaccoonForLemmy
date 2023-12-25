@@ -31,6 +31,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toDownVoteColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReplyColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUpVoteColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -44,7 +45,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 class VoteThemeBottomSheet(
-    val downvote: Boolean,
+    val actionType: Int,
 ) : Screen {
 
     @Composable
@@ -54,6 +55,7 @@ class VoteThemeBottomSheet(
         var customPickerDialogOpened by remember { mutableStateOf(false) }
         val settingsRepository = remember { getSettingsRepository() }
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
+        val defaultReplyColor = MaterialTheme.colorScheme.secondary
         val defaultDownvoteColor = MaterialTheme.colorScheme.tertiary
 
         Column(
@@ -76,10 +78,10 @@ class VoteThemeBottomSheet(
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = if (downvote) {
-                        stringResource(MR.strings.settings_downvote_color)
-                    } else {
-                        stringResource(MR.strings.settings_upvote_color)
+                    text = when (actionType) {
+                        2 -> stringResource(MR.strings.settings_reply_color)
+                        1 -> stringResource(MR.strings.settings_downvote_color)
+                        else -> stringResource(MR.strings.settings_upvote_color)
                     },
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
@@ -113,13 +115,21 @@ class VoteThemeBottomSheet(
                             onClick = rememberCallback {
                                 if (!isChooseCustom) {
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeVoteColor(
-                                            color = if (downvote) {
-                                                value?.toDownVoteColor() ?: defaultDownvoteColor
-                                            } else {
-                                                value?.toUpVoteColor() ?: defaultUpvoteColor
+                                        NotificationCenterEvent.ChangeActionColor(
+                                            color = when (actionType) {
+                                                2 -> {
+                                                    value?.toReplyColor() ?: defaultReplyColor
+                                                }
+
+                                                1 -> {
+                                                    value?.toDownVoteColor() ?: defaultDownvoteColor
+                                                }
+
+                                                else -> {
+                                                    value?.toUpVoteColor() ?: defaultUpvoteColor
+                                                }
                                             },
-                                            downvote = downvote,
+                                            actionType = actionType,
                                         )
                                     )
                                     navigationCoordinator.hideBottomSheet()
@@ -141,10 +151,10 @@ class VoteThemeBottomSheet(
                                 modifier = Modifier
                                     .size(36.dp)
                                     .background(
-                                        color = if (downvote) {
-                                            value.toDownVoteColor()
-                                        } else {
-                                            value.toUpVoteColor()
+                                        color = when (actionType) {
+                                            2 -> value.toReplyColor()
+                                            1 -> value.toDownVoteColor()
+                                            else -> value.toUpVoteColor()
                                         },
                                         shape = CircleShape
                                     )
@@ -162,10 +172,18 @@ class VoteThemeBottomSheet(
         }
 
         if (customPickerDialogOpened) {
-            val current = if (downvote) {
-                settingsRepository.currentSettings.value.downvoteColor?.let { Color(it) }
-            } else {
-                settingsRepository.currentSettings.value.upvoteColor?.let { Color(it) }
+            val current = when (actionType) {
+                2 -> {
+                    settingsRepository.currentSettings.value.replyColor?.let { Color(it) }
+                }
+
+                1 -> {
+                    settingsRepository.currentSettings.value.downvoteColor?.let { Color(it) }
+                }
+
+                else -> {
+                    settingsRepository.currentSettings.value.upvoteColor?.let { Color(it) }
+                }
             }
             ColorPickerDialog(
                 initialValue = current ?: MaterialTheme.colorScheme.primary,
@@ -174,9 +192,9 @@ class VoteThemeBottomSheet(
                 },
                 onSubmit = { color ->
                     notificationCenter.send(
-                        NotificationCenterEvent.ChangeVoteColor(
+                        NotificationCenterEvent.ChangeActionColor(
                             color = color,
-                            downvote = downvote,
+                            actionType = actionType,
                         )
                     )
                     navigationCoordinator.hideBottomSheet()

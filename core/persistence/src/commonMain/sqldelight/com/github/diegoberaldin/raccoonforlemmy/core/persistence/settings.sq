@@ -29,7 +29,7 @@ CREATE TABLE SettingsEntity (
     zombieModeScrollAmount REAL NOT NULL DEFAULT 100,
     markAsReadWhileScrolling INTEGER NOT NULL DEFAULT 0,
     commentBarTheme INTEGER NOT NULL DEFAULT 0,
-    sharePostOriginal INTEGER NOT NULL DEFAULT 1,
+    replyColor INTEGER DEFAULT NULL,
     searchPostTitleOnly INTEGER NOT NULL DEFAULT 0,
     contentFontFamily INTEGER NOT NULL DEFAULT 0,
     account_id INTEGER,
@@ -68,7 +68,7 @@ INSERT OR IGNORE INTO SettingsEntity (
     zombieModeScrollAmount,
     markAsReadWhileScrolling,
     commentBarTheme,
-    sharePostOriginal,
+    replyColor,
     searchPostTitleOnly,
     contentFontFamily,
     account_id
@@ -139,7 +139,7 @@ SET theme = ?,
     zombieModeScrollAmount = ?,
     markAsReadWhileScrolling = ?,
     commentBarTheme = ?,
-    sharePostOriginal = ?,
+    replyColor = ?,
     searchPostTitleOnly = ?,
     contentFontFamily = ?
 WHERE account_id = ?;
@@ -176,7 +176,7 @@ SELECT
     zombieModeScrollAmount,
     markAsReadWhileScrolling,
     commentBarTheme,
-    sharePostOriginal,
+    replyColor,
     searchPostTitleOnly,
     contentFontFamily
 FROM SettingsEntity

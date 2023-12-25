@@ -314,4 +314,5 @@
     <string name="user_info_moderates">Moderator of</string>
     <string name="user_info_admin">administrator</string>
     <string name="settings_about_chat_matrix">Chat on Matrix</string>
+    <string name="settings_reply_color">Reply action color</string>
 </resources>

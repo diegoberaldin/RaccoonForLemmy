@@ -50,3 +50,11 @@ fun CommentBarTheme?.toDownVoteColor(): Color = when (this) {
     CommentBarTheme.Blue -> Color(0xFF9400D3)
     else -> Color.Transparent
 }
+
+fun CommentBarTheme?.toReplyColor(): Color = when (this) {
+    CommentBarTheme.Rainbow -> Color(0xFFFF5722)
+    CommentBarTheme.Red -> Color(0xFF8BC34A)
+    CommentBarTheme.Green -> Color(0xFFFF9800)
+    CommentBarTheme.Blue -> Color(0xFF388E3C)
+    else -> Color.Transparent
+}

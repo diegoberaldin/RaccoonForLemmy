@@ -102,8 +102,9 @@ class MultiCommunityScreen(
         val themeRepository = remember { getThemeRepository() }
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
         val downvoteColor by themeRepository.downvoteColor.collectAsState()
+        val replyColor by themeRepository.replyColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
-        val defaultSecondActionColor = MaterialTheme.colorScheme.secondary
+        val defaultReplyColor = MaterialTheme.colorScheme.secondary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
@@ -274,7 +275,7 @@ class MultiCommunityScreen(
                             },
                             secondBackgroundColor = rememberCallbackArgs { direction ->
                                 when (direction) {
-                                    DismissValue.DismissedToStart -> defaultSecondActionColor
+                                    DismissValue.DismissedToStart -> replyColor ?: defaultReplyColor
                                     else -> Color.Transparent
                                 }
                             },

@@ -20,6 +20,7 @@ internal class DefaultThemeRepository : ThemeRepository {
     override val customSeedColor = MutableStateFlow<Color?>(null)
     override val upvoteColor = MutableStateFlow<Color?>(null)
     override val downvoteColor = MutableStateFlow<Color?>(null)
+    override val replyColor = MutableStateFlow<Color?>(null)
     override val postLayout = MutableStateFlow<PostLayout>(PostLayout.Card)
     override val commentBarTheme = MutableStateFlow<CommentBarTheme>(CommentBarTheme.Blue)
 
@@ -70,6 +71,10 @@ internal class DefaultThemeRepository : ThemeRepository {
 
     override fun changeDownvoteColor(color: Color?) {
         downvoteColor.value = color
+    }
+
+    override fun changeReplyColor(color: Color?) {
+        replyColor.value = color
     }
 
     override fun changePostLayout(value: PostLayout) {

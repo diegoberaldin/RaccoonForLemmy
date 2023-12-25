@@ -39,6 +39,7 @@ interface SettingsMviModel :
         data class ChangeCustomSeedColor(val value: Color?) : Intent
         data class ChangeUpvoteColor(val value: Color?) : Intent
         data class ChangeDownvoteColor(val value: Color?) : Intent
+        data class ChangeReplyColor(val value: Color?) : Intent
         data class ChangeCrashReportEnabled(val value: Boolean) : Intent
         data class ChangeVoteFormat(val value: VoteFormat) : Intent
         data class ChangeAutoLoadImages(val value: Boolean) : Intent
@@ -59,6 +60,7 @@ interface SettingsMviModel :
         val customSeedColor: Color? = null,
         val upvoteColor: Color? = null,
         val downvoteColor: Color? = null,
+        val replyColor: Color? = null,
         val uiFontScale: FontScale = FontScale.Normal,
         val contentFontScale: FontScale = FontScale.Normal,
         val contentFontFamily: UiFontFamily = UiFontFamily.Poppins,

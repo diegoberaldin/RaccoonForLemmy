@@ -42,7 +42,7 @@ private object KeyStoreKeys {
     const val ZombieModeScrollAmount = "zombieModeScrollAmount"
     const val MarkAsReadWhileScrolling = "markAsReadWhileScrolling"
     const val CommentBarTheme = "commentBarTheme"
-    const val SharePostOriginal = "sharePostOriginal"
+    const val ReplyColor = "replyColor"
     const val SearchPostTitleOnly = "searchPostTitleOnly"
     const val ContentFontFamily = "contentFontFamily"
 }
@@ -89,7 +89,7 @@ internal class DefaultSettingsRepository(
                 zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
                 markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1 else 0,
                 commentBarTheme = settings.commentBarTheme.toLong(),
-                sharePostOriginal = if (settings.sharePostOriginal) 1 else 0,
+                replyColor = settings.replyColor?.toLong(),
                 searchPostTitleOnly = if (settings.searchPostTitleOnly) 1 else 0,
                 contentFontFamily = settings.contentFontFamily.toLong(),
             )
@@ -131,7 +131,7 @@ internal class DefaultSettingsRepository(
                     zombieModeScrollAmount = keyStore[KeyStoreKeys.ZombieModeScrollAmount, 55f],
                     markAsReadWhileScrolling = keyStore[KeyStoreKeys.MarkAsReadWhileScrolling, false],
                     commentBarTheme = keyStore[KeyStoreKeys.CommentBarTheme, 0],
-                    sharePostOriginal = keyStore[KeyStoreKeys.SharePostOriginal, true],
+                    replyColor = if (!keyStore.containsKey(KeyStoreKeys.ReplyColor)) null else keyStore[KeyStoreKeys.ReplyColor, 0],
                     searchPostTitleOnly = keyStore[KeyStoreKeys.SearchPostTitleOnly, false],
                     contentFontFamily = keyStore[KeyStoreKeys.ContentFontFamily, 0],
                 )
@@ -210,10 +210,11 @@ internal class DefaultSettingsRepository(
                     settings.markAsReadWhileScrolling,
                 )
                 keyStore.save(KeyStoreKeys.CommentBarTheme, settings.commentBarTheme)
-                keyStore.save(
-                    KeyStoreKeys.SharePostOriginal,
-                    settings.sharePostOriginal,
-                )
+                if (settings.replyColor != null) {
+                    keyStore.save(KeyStoreKeys.ReplyColor, settings.replyColor)
+                } else {
+                    keyStore.remove(KeyStoreKeys.ReplyColor)
+                }
                 keyStore.save(
                     KeyStoreKeys.SearchPostTitleOnly,
                     settings.searchPostTitleOnly,
@@ -251,7 +252,7 @@ internal class DefaultSettingsRepository(
                     zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
                     markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1L else 0L,
                     commentBarTheme = settings.commentBarTheme.toLong(),
-                    sharePostOriginal = if (settings.sharePostOriginal) 1L else 0L,
+                    replyColor = settings.replyColor?.toLong(),
                     searchPostTitleOnly = if (settings.searchPostTitleOnly) 1L else 0L,
                     contentFontFamily = settings.contentFontFamily.toLong(),
                 )
@@ -294,7 +295,7 @@ private fun GetBy.toModel() = SettingsModel(
     zombieModeScrollAmount = zombieModeScrollAmount.toFloat(),
     markAsReadWhileScrolling = markAsReadWhileScrolling != 0L,
     commentBarTheme = commentBarTheme.toInt(),
-    sharePostOriginal = sharePostOriginal != 0L,
+    replyColor = replyColor?.toInt(),
     searchPostTitleOnly = searchPostTitleOnly != 0L,
     contentFontFamily = contentFontFamily.toInt(),
 )

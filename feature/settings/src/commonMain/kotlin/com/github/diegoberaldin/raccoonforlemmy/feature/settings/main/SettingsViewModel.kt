@@ -90,6 +90,9 @@ class SettingsViewModel(
             themeRepository.downvoteColor.onEach { value ->
                 mvi.updateState { it.copy(downvoteColor = value) }
             }.launchIn(this)
+            themeRepository.replyColor.onEach { value ->
+                mvi.updateState { it.copy(replyColor = value) }
+            }.launchIn(this)
             themeRepository.commentBarTheme.onEach { value ->
                 mvi.updateState { it.copy(commentBarTheme = value) }
             }.launchIn(this)
@@ -167,12 +170,12 @@ class SettingsViewModel(
                 .onEach { evt ->
                     changeCommentBarTheme(evt.value)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeVoteColor::class)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeActionColor::class)
                 .onEach { evt ->
-                    if (evt.downvote) {
-                        changeDownvoteColor(evt.color)
-                    } else {
-                        changeUpvoteColor(evt.color)
+                    when (evt.actionType) {
+                        2 -> changeReplyColor(evt.color)
+                        1 -> changeDownvoteColor(evt.color)
+                        else -> changeUpvoteColor(evt.color)
                     }
                 }.launchIn(this)
 
@@ -313,6 +316,10 @@ class SettingsViewModel(
 
             is SettingsMviModel.Intent.ChangeDownvoteColor -> {
                 changeDownvoteColor(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeReplyColor -> {
+                changeReplyColor(intent.value)
             }
 
             is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling -> {
@@ -500,6 +507,16 @@ class SettingsViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 downvoteColor = value?.toArgb()
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeReplyColor(value: Color?) {
+        themeRepository.changeReplyColor(value)
+        mvi.scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                replyColor = value?.toArgb()
             )
             saveSettings(settings)
         }

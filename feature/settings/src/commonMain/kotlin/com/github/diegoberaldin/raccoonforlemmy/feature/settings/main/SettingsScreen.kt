@@ -253,7 +253,7 @@ class SettingsScreen : Screen {
                         value = uiState.upvoteColor ?: MaterialTheme.colorScheme.primary,
                         onTap = rememberCallback {
                             val screen = VoteThemeBottomSheet(
-                                downvote = false,
+                                actionType = 0,
                             )
                             navigationCoordinator.showBottomSheet(screen)
                         },
@@ -263,7 +263,17 @@ class SettingsScreen : Screen {
                         value = uiState.downvoteColor ?: MaterialTheme.colorScheme.tertiary,
                         onTap = rememberCallback {
                             val screen = VoteThemeBottomSheet(
-                                downvote = true,
+                                actionType = 1,
+                            )
+                            navigationCoordinator.showBottomSheet(screen)
+                        },
+                    )
+                    SettingsColorRow(
+                        title = stringResource(MR.strings.settings_reply_color),
+                        value = uiState.replyColor ?: MaterialTheme.colorScheme.secondary,
+                        onTap = rememberCallback {
+                            val screen = VoteThemeBottomSheet(
+                                actionType = 2,
                             )
                             navigationCoordinator.showBottomSheet(screen)
                         },
