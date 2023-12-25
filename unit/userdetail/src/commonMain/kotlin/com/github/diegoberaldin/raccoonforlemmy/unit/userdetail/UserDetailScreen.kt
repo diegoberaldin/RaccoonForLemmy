@@ -86,6 +86,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserDetail
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -603,9 +604,14 @@ class UserDetailScreen(
                                                     rawContent = post
                                                 }
 
-                                                OptionId.Share -> model.reduce(
-                                                    UserDetailMviModel.Intent.SharePost(post.id)
-                                                )
+                                                OptionId.Share -> {
+                                                    val urls = listOfNotNull(
+                                                        post.originalUrl,
+                                                        "https://${uiState.instance}/post/${post.id}"
+                                                    )
+                                                    val screen = ShareBottomSheet(urls = urls)
+                                                    navigationCoordinator.showBottomSheet(screen)
+                                                }
 
                                                 else -> Unit
                                             }

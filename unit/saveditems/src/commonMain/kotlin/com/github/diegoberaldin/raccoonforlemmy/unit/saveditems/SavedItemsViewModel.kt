@@ -45,6 +45,7 @@ class SavedItemsViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
+        mvi.updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
         mvi.scope?.launch {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
@@ -68,6 +69,10 @@ class SavedItemsViewModel(
                 .onEach { evt ->
                     applySortType(evt.value)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
+                shareHelper.share(evt.url, "text/plain")
+            }.launchIn(this)
+
             if (mvi.uiState.value.posts.isEmpty()) {
                 val sortTypes = getSortTypesUseCase.getTypesForSavedItems()
                 mvi.updateState { it.copy(availableSortTypes = sortTypes) }

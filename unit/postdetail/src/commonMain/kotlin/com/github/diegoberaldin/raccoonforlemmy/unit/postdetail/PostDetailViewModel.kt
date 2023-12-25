@@ -53,7 +53,12 @@ class PostDetailViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-
+        mvi.updateState {
+            it.copy(
+                instance = otherInstance.takeIf { n -> n.isNotEmpty() }
+                    ?: apiConfigurationRepository.instance.value,
+            )
+        }
         mvi.scope?.launch(Dispatchers.Main) {
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
@@ -112,6 +117,9 @@ class PostDetailViewModel(
 
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach {
                 refreshPost()
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
+                shareHelper.share(evt.url, "text/plain")
             }.launchIn(this)
         }
 
@@ -282,9 +290,6 @@ class PostDetailViewModel(
 
             is PostDetailMviModel.Intent.DeleteComment -> deleteComment(intent.commentId)
             PostDetailMviModel.Intent.DeletePost -> deletePost()
-            PostDetailMviModel.Intent.SharePost -> share(
-                post = uiState.value.post,
-            )
 
             is PostDetailMviModel.Intent.ToggleExpandComment -> {
                 uiState.value.comments.firstOrNull { it.id == intent.commentId }
@@ -475,7 +480,9 @@ class PostDetailViewModel(
             post = post,
             downVoted = newValue,
         )
-        mvi.updateState { it.copy(post = newPost) }
+        mvi.updateState {
+            it.copy(post = newPost)
+        }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -626,20 +633,6 @@ class PostDetailViewModel(
                 event = NotificationCenterEvent.PostDeleted(post),
             )
             mvi.emitEffect(PostDetailMviModel.Effect.Close)
-        }
-    }
-
-    private fun share(post: PostModel) {
-        val shareOriginal = settingsRepository.currentSettings.value.sharePostOriginal
-        val url = if (shareOriginal) {
-            post.originalUrl.orEmpty()
-        } else if (otherInstance.isNotEmpty()) {
-            "https://${otherInstance}/post/${post.id}"
-        } else {
-            "https://${apiConfigurationRepository.instance.value}/post/${post.id}"
-        }
-        if (url.isNotEmpty()) {
-            shareHelper.share(url, "text/plain")
         }
     }
 

@@ -66,6 +66,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
@@ -391,9 +392,14 @@ class MultiCommunityScreen(
                                                 )
                                             )
 
-                                            OptionId.Share -> model.reduce(
-                                                MultiCommunityMviModel.Intent.SharePost(post.id)
-                                            )
+                                            OptionId.Share -> {
+                                                val urls = listOfNotNull(
+                                                    post.originalUrl,
+                                                    "https://${uiState.instance}/post/${post.id}"
+                                                )
+                                                val screen = ShareBottomSheet(urls = urls)
+                                                navigationCoordinator.showBottomSheet(screen)
+                                            }
 
                                             else -> Unit
                                         }

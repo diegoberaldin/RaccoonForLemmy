@@ -69,6 +69,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabN
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BlockBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
@@ -515,9 +516,14 @@ class PostListScreen : Screen {
                                                     )
                                                 )
 
-                                                OptionId.Share -> model.reduce(
-                                                    PostListMviModel.Intent.SharePost(post.id)
-                                                )
+                                                OptionId.Share -> {
+                                                    val urls = listOfNotNull(
+                                                        post.originalUrl,
+                                                        "https://${uiState.instance}/post/${post.id}"
+                                                    )
+                                                    val screen = ShareBottomSheet(urls = urls)
+                                                    navigationCoordinator.showBottomSheet(screen)
+                                                }
 
                                                 OptionId.Block -> {
                                                     val screen = BlockBottomSheet(

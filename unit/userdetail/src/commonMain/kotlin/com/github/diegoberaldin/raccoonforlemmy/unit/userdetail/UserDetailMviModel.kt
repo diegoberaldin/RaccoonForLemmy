@@ -35,6 +35,7 @@ interface UserDetailMviModel :
 
     data class UiState(
         val isLogged: Boolean = false,
+        val instance: String = "",
         val currentUserId: Int? = null,
         val section: UserDetailSection = UserDetailSection.Posts,
         val sortType: SortType = SortType.Active,

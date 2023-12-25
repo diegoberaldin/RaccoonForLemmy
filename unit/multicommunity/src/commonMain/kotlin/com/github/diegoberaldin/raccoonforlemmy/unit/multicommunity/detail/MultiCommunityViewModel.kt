@@ -72,6 +72,9 @@ class MultiCommunityViewModel(
                 .onEach { evt ->
                     applySortType(evt.value)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
+                shareHelper.share(evt.url, "text/plain")
+            }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()

@@ -63,6 +63,8 @@ class CommunityDetailViewModel(
         mvi.updateState {
             it.copy(
                 community = it.community.takeIf { c -> c.id != 0 } ?: community,
+                instance = otherInstance.takeIf { n -> n.isNotEmpty() }
+                    ?: apiConfigurationRepository.instance.value,
             )
         }
 
@@ -131,6 +133,9 @@ class CommunityDetailViewModel(
                 .onEach { evt ->
                     applySortType(evt.value)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
+                shareHelper.share(evt.url, "text/plain")
+            }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -187,11 +192,6 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.Subscribe -> subscribe()
             CommunityDetailMviModel.Intent.Unsubscribe -> unsubscribe()
             is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
-            is CommunityDetailMviModel.Intent.SharePost -> {
-                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    share(post = post)
-                }
-            }
 
             CommunityDetailMviModel.Intent.Block -> blockCommunity()
             CommunityDetailMviModel.Intent.BlockInstance -> blockInstance()
@@ -484,20 +484,6 @@ class CommunityDetailViewModel(
 
     private fun handlePostDelete(id: Int) {
         mvi.updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
-    }
-
-    private fun share(post: PostModel) {
-        val shareOriginal = settingsRepository.currentSettings.value.sharePostOriginal
-        val url = if (shareOriginal) {
-            post.originalUrl.orEmpty()
-        } else if (otherInstance.isNotEmpty()) {
-            "https://${otherInstance}/post/${post.id}"
-        } else {
-            "https://${apiConfigurationRepository.instance.value}/post/${post.id}"
-        }
-        if (url.isNotEmpty()) {
-            shareHelper.share(url, "text/plain")
-        }
     }
 
     private fun blockCommunity() {

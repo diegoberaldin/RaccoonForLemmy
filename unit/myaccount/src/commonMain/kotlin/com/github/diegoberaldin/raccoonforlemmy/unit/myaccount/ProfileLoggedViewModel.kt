@@ -51,6 +51,7 @@ class ProfileLoggedViewModel(
     @OptIn(FlowPreview::class)
     override fun onStarted() {
         mvi.onStarted()
+        mvi.updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
         mvi.scope?.launch(Dispatchers.IO) {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
@@ -82,6 +83,9 @@ class ProfileLoggedViewModel(
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class).onEach { evt ->
                 handlePostDelete(evt.model.id)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
+                shareHelper.share(evt.url, "text/plain")
             }.launchIn(this)
 
             if (uiState.value.posts.isEmpty()) {

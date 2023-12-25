@@ -53,6 +53,12 @@ class UserDetailViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
+        mvi.updateState {
+            it.copy(
+                instance = otherInstance.takeIf { n -> n.isNotEmpty() }
+                    ?: apiConfigurationRepository.instance.value,
+            )
+        }
         mvi.scope?.launch {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
@@ -64,6 +70,9 @@ class UserDetailViewModel(
                 .onEach { evt ->
                     applySortType(evt.value)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
+                shareHelper.share(evt.url, "text/plain")
+            }.launchIn(this)
         }
         mvi.updateState {
             it.copy(

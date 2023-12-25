@@ -31,7 +31,6 @@ interface PostDetailMviModel :
         data class DeleteComment(val commentId: Int) : Intent
         data object DeletePost : Intent
         data object HapticIndication : Intent
-        data object SharePost : Intent
         data object ModFeaturePost : Intent
         data object ModLockPost : Intent
         data class ModDistinguishComment(val commentId: Int) : Intent
@@ -40,6 +39,7 @@ interface PostDetailMviModel :
 
     data class UiState(
         val post: PostModel = PostModel(),
+        val instance: String = "",
         val isModerator: Boolean = false,
         val isLogged: Boolean = false,
         val refreshing: Boolean = false,

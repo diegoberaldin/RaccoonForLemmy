@@ -23,7 +23,6 @@ interface SavedItemsMviModel :
         data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class SharePost(val id: Int) : Intent
         data class UpVoteComment(val id: Int, val feedback: Boolean = false) : Intent
         data class DownVoteComment(val id: Int, val feedback: Boolean = false) : Intent
         data class SaveComment(val id: Int, val feedback: Boolean = false) : Intent
@@ -32,6 +31,7 @@ interface SavedItemsMviModel :
     data class UiState(
         val section: SavedItemsSection = SavedItemsSection.Posts,
         val user: UserModel? = null,
+        val instance: String = "",
         val refreshing: Boolean = false,
         val loading: Boolean = false,
         val canFetchMore: Boolean = true,

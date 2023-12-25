@@ -31,6 +31,7 @@ interface ProfileLoggedMviModel :
 
     data class UiState(
         val user: UserModel? = null,
+        val instance: String = "",
         val section: ProfileLoggedSection = ProfileLoggedSection.Posts,
         val refreshing: Boolean = false,
         val loading: Boolean = false,

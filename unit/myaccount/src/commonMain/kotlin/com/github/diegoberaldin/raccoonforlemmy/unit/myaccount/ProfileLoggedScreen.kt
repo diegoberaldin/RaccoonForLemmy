@@ -49,6 +49,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ProfileLoggedSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -279,9 +280,14 @@ object ProfileLoggedScreen : Tab {
                                                 rawContent = post
                                             }
 
-                                            OptionId.Share -> model.reduce(
-                                                ProfileLoggedMviModel.Intent.SharePost(post.id)
-                                            )
+                                            OptionId.Share -> {
+                                                val urls = listOfNotNull(
+                                                    post.originalUrl,
+                                                    "https://${uiState.instance}/post/${post.id}"
+                                                )
+                                                val screen = ShareBottomSheet(urls = urls)
+                                                navigationCoordinator.showBottomSheet(screen)
+                                            }
 
                                             else -> Unit
                                         }
