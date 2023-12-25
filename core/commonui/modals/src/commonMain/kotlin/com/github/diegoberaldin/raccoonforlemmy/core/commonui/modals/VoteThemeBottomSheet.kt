@@ -71,7 +71,11 @@ class VoteThemeBottomSheet(
             ) {
                 BottomSheetHandle()
                 Text(
-                    modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
+                    modifier = Modifier.padding(
+                        start = Spacing.s,
+                        top = Spacing.s,
+                        end = Spacing.s,
+                    ),
                     text = if (downvote) {
                         stringResource(MR.strings.settings_downvote_color)
                     } else {

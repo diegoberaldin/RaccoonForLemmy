@@ -59,7 +59,11 @@ class FontFamilyBottomSheet(
             ) {
                 BottomSheetHandle()
                 Text(
-                    modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
+                    modifier = Modifier.padding(
+                        start = Spacing.s,
+                        top = Spacing.s,
+                        end = Spacing.s,
+                    ),
                     text = stringResource(MR.strings.settings_ui_font_family),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,

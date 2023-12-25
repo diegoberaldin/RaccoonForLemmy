@@ -52,11 +52,15 @@ class BlockBottomSheet(
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 BottomSheetHandle()
                 Text(
-                    modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
+                    modifier = Modifier.padding(
+                        start = Spacing.s,
+                        top = Spacing.s,
+                        end = Spacing.s,
+                    ),
                     text = stringResource(MR.strings.community_detail_block),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,

@@ -85,7 +85,11 @@ internal class SortBottomSheetMain(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
+                modifier = Modifier.padding(
+                    start = Spacing.s,
+                    top = Spacing.s,
+                    end = Spacing.s,
+                ),
                 text = stringResource(MR.strings.home_sort_title),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
@@ -189,7 +193,11 @@ internal class SortBottomSheetTop(
                     contentDescription = null,
                 )
                 Text(
-                    modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
+                    modifier = Modifier.padding(
+                        start = Spacing.s,
+                        top = Spacing.s,
+                        end = Spacing.s,
+                    ),
                     text = SortType.Top.Generic.toReadableName() + "…",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,

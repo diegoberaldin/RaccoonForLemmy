@@ -56,7 +56,11 @@ class DurationBottomSheet(
             ) {
                 BottomSheetHandle()
                 Text(
-                    modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
+                    modifier = Modifier.padding(
+                        start = Spacing.s,
+                        top = Spacing.s,
+                        end = Spacing.s,
+                    ),
                     text = stringResource(MR.strings.settings_zombie_mode_interval),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
