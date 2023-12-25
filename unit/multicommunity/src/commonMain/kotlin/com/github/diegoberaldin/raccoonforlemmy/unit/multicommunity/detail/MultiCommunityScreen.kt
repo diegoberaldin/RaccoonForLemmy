@@ -396,9 +396,17 @@ class MultiCommunityScreen(
                                                 val urls = listOfNotNull(
                                                     post.originalUrl,
                                                     "https://${uiState.instance}/post/${post.id}"
-                                                )
-                                                val screen = ShareBottomSheet(urls = urls)
-                                                navigationCoordinator.showBottomSheet(screen)
+                                                ).distinct()
+                                                if (urls.size == 1) {
+                                                    model.reduce(
+                                                        MultiCommunityMviModel.Intent.Share(
+                                                            urls.first()
+                                                        )
+                                                    )
+                                                } else {
+                                                    val screen = ShareBottomSheet(urls = urls)
+                                                    navigationCoordinator.showBottomSheet(screen)
+                                                }
                                             }
 
                                             else -> Unit

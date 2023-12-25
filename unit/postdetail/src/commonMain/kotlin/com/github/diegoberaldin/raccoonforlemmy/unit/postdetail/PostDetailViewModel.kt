@@ -267,6 +267,10 @@ class PostDetailViewModel(
                 toggleSavePost(post = intent.post)
             }
 
+            is PostDetailMviModel.Intent.Share -> {
+                shareHelper.share(intent.url)
+            }
+
             is PostDetailMviModel.Intent.UpVoteComment -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()

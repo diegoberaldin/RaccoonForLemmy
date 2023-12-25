@@ -35,6 +35,7 @@ interface PostDetailMviModel :
         data object ModLockPost : Intent
         data class ModDistinguishComment(val commentId: Int) : Intent
         data class ModToggleModUser(val id: Int) : Intent
+        data class Share(val url: String) : Intent
     }
 
     data class UiState(

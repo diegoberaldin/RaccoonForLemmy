@@ -125,7 +125,7 @@ class PostListViewModel(
                     }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.urlext / plain")
+                shareHelper.share(evt.url)
             }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->

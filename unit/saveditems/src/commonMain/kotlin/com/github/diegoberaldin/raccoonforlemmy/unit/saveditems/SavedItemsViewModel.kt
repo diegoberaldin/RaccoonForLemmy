@@ -122,6 +122,10 @@ class SavedItemsViewModel(
                 )
             }
 
+            is SavedItemsMviModel.Intent.Share -> {
+                shareHelper.share(intent.url)
+            }
+
             is SavedItemsMviModel.Intent.UpVoteComment -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()

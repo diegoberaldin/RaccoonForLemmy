@@ -169,6 +169,10 @@ class CommunityDetailViewModel(
                 }
             }
 
+            is CommunityDetailMviModel.Intent.Share -> {
+                shareHelper.share(intent.url)
+            }
+
             is CommunityDetailMviModel.Intent.SavePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()

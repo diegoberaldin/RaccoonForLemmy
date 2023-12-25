@@ -796,9 +796,17 @@ class CommunityDetailScreen(
                                                     val urls = listOfNotNull(
                                                         post.originalUrl,
                                                         "https://${uiState.instance}/post/${post.id}"
-                                                    )
-                                                    val screen = ShareBottomSheet(urls = urls)
-                                                    navigationCoordinator.showBottomSheet(screen)
+                                                    ).distinct()
+                                                    if (urls.size == 1) {
+                                                        model.reduce(
+                                                            CommunityDetailMviModel.Intent.Share(
+                                                                urls.first()
+                                                            )
+                                                        )
+                                                    } else {
+                                                        val screen = ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    }
                                                 }
 
                                                 OptionId.FeaturePost -> model.reduce(
