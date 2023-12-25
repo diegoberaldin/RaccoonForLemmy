@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -77,6 +78,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.di.getMultiCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -101,6 +103,7 @@ class MultiCommunityScreen(
         val upvoteColor by themeRepository.upvoteColor.collectAsState()
         val downvoteColor by themeRepository.downvoteColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
+        val defaultSecondActionColor = MaterialTheme.colorScheme.secondary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
@@ -251,6 +254,13 @@ class MultiCommunityScreen(
                         SwipeableCard(
                             modifier = Modifier.fillMaxWidth(),
                             enabled = uiState.swipeActionsEnabled,
+                            enableSecondAction = rememberCallbackArgs { value ->
+                                if (!uiState.isLogged) {
+                                    false
+                                } else {
+                                    value == DismissValue.DismissedToStart
+                                }
+                            },
                             backgroundColor = {
                                 when (it) {
                                     DismissValue.DismissedToStart -> upvoteColor
@@ -262,11 +272,26 @@ class MultiCommunityScreen(
                                     DismissValue.Default -> Color.Transparent
                                 }
                             },
+                            secondBackgroundColor = rememberCallbackArgs { direction ->
+                                when (direction) {
+                                    DismissValue.DismissedToStart -> defaultSecondActionColor
+                                    else -> Color.Transparent
+                                }
+                            },
                             onGestureBegin = rememberCallback(model) {
                                 model.reduce(MultiCommunityMviModel.Intent.HapticIndication)
                             },
                             onDismissToStart = {
                                 model.reduce(MultiCommunityMviModel.Intent.UpVotePost(post.id))
+                            },
+                            onSecondDismissToStart = rememberCallback(model) {
+                                with(navigationCoordinator) {
+                                    setBottomSheetGesturesEnabled(false)
+                                    val screen = CreateCommentScreen(
+                                        originalPost = post,
+                                    )
+                                    showBottomSheet(screen)
+                                }
                             },
                             onDismissToEnd = {
                                 model.reduce(MultiCommunityMviModel.Intent.DownVotePost(post.id))
@@ -275,6 +300,17 @@ class MultiCommunityScreen(
                                 val icon = when (direction) {
                                     DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
                                     DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
+                                }
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                )
+                            },
+                            secondSwipeContent = { direction ->
+                                val icon = when (direction) {
+                                    DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
+                                    DismissDirection.EndToStart -> Icons.Default.Reply
                                 }
                                 Icon(
                                     imageVector = icon,
