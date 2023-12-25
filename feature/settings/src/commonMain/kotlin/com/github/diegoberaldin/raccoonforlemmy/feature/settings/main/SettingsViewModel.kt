@@ -334,10 +334,6 @@ class SettingsViewModel(
                 changeDefaultInboxUnreadOnly(intent.value)
             }
 
-            is SettingsMviModel.Intent.ChangeSharePostOriginal -> {
-                changeSharePostOriginal(intent.value)
-            }
-
             is SettingsMviModel.Intent.ChangeSearchPostTitleOnly -> {
                 changeSearchPostTitleOnly(intent.value)
             }
@@ -649,16 +645,6 @@ class SettingsViewModel(
         mvi.scope?.launch {
             val settings = settingsRepository.currentSettings.value.copy(
                 commentBarTheme = value.toInt()
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeSharePostOriginal(value: Boolean) {
-        mvi.updateState { it.copy(sharePostOriginal = value) }
-        mvi.scope?.launch {
-            val settings = settingsRepository.currentSettings.value.copy(
-                sharePostOriginal = value
             )
             saveSettings(settings)
         }

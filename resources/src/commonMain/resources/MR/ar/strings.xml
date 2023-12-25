@@ -256,7 +256,6 @@
     <string name="settings_comment_bar_theme_red">🍓 الفراولة</string>
     <string name="settings_comment_bar_theme_multi">🌈 قوس المطر</string>
     <string name="message_confirm_exit">ضغط على 🔙 مرة أخرى للخروج</string>
-    <string name="settings_share_post_original">مشاركة المشاركات من المثيل الأصلي</string>
     <string name="community_action_unsubscribe">إلغاء الاشتراك</string>
     <string name="settings_search_posts_title_only">البحث عن المشاركات فقط في العنوان</string>
     <string name="settings_content_font_family">عائلة خطوط المحتوى</string>

@@ -25,7 +25,7 @@ interface PostListMviModel :
         data class HandlePostUpdate(val post: PostModel) : Intent
         data object HapticIndication : Intent
         data class DeletePost(val id: Int) : Intent
-        data class SharePost(val id: Int) : Intent
+        data class Share(val url: String) : Intent
         data class MarkAsRead(val id: Int) : Intent
         data class Hide(val id: Int) : Intent
         data object ClearRead : Intent

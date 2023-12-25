@@ -261,8 +261,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Aardbei</string>
     <string name="settings_comment_bar_theme_multi">🌈 Regenboog</string>
     <string name="message_confirm_exit">Tik nogmaals op 🔙 om af te sluiten</string>
-    <string name="settings_share_post_original">Deel berichten van de oorspronkelijke instantie
-    </string>
     <string name="community_action_unsubscribe">Uitschrijven</string>
     <string name="settings_search_posts_title_only">Zoek berichten alleen op titel</string>
     <string name="settings_content_font_family">Inhoud lettertypefamilie</string>

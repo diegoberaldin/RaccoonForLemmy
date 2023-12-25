@@ -19,7 +19,7 @@ interface ProfileLoggedMviModel :
         data object LoadNextPage : Intent
         data class DeletePost(val id: Int) : Intent
         data class DeleteComment(val id: Int) : Intent
-        data class SharePost(val id: Int) : Intent
+        data class Share(val url: String) : Intent
         data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class SavePost(val id: Int, val feedback: Boolean = false) : Intent

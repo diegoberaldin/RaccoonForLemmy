@@ -266,8 +266,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Ягода</string>
     <string name="settings_comment_bar_theme_multi">🌈 дъга</string>
     <string name="message_confirm_exit">Докоснете 🔙 отново, за да излезете</string>
-    <string name="settings_share_post_original">Споделяйте публикации от оригиналния екземпляр
-    </string>
     <string name="community_action_unsubscribe">Отписване</string>
     <string name="settings_search_posts_title_only">Търсете публикации само в заглавието</string>
     <string name="settings_content_font_family">Семейство шрифтове за съдържание</string>

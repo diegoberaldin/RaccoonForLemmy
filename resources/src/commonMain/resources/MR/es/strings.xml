@@ -262,9 +262,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Fresa</string>
     <string name="settings_comment_bar_theme_multi">🌈 Arcoíris</string>
     <string name="message_confirm_exit">Tocar 🔙 nuevamente para salir</string>
-    <string name="settings_share_post_original">Compartir publicaciones desde la instancia
-        original
-    </string>
     <string name="community_action_unsubscribe">Cancelar suscripción</string>
     <string name="settings_search_posts_title_only">Buscar publicaciones sólo en el título</string>
     <string name="settings_content_font_family">Fuente del contenido</string>

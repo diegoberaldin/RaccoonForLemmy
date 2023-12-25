@@ -262,7 +262,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Zemeņu</string>
     <string name="settings_comment_bar_theme_multi">🌈 Varavīksne</string>
     <string name="message_confirm_exit">Lai izietu, vēlreiz pieskarieties 🔙</string>
-    <string name="settings_share_post_original">Kopīgojiet ziņas no sākotnējās instances</string>
     <string name="community_action_unsubscribe">Anulēt abonementu</string>
     <string name="settings_search_posts_title_only">Meklēt ziņas tikai virsrakstā</string>
     <string name="settings_content_font_family">Satura fontu saime</string>

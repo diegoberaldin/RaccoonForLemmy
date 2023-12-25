@@ -85,7 +85,7 @@ class ProfileLoggedViewModel(
                 handlePostDelete(evt.model.id)
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url, "text/plain")
+                shareHelper.share(evt.url)
             }.launchIn(this)
 
             if (uiState.value.posts.isEmpty()) {
@@ -108,10 +108,8 @@ class ProfileLoggedViewModel(
                 refresh()
             }
 
-            is ProfileLoggedMviModel.Intent.SharePost -> {
-                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    share(post = post)
-                }
+            is ProfileLoggedMviModel.Intent.Share -> {
+                shareHelper.share(intent.url)
             }
 
             is ProfileLoggedMviModel.Intent.DownVoteComment -> {
@@ -454,18 +452,6 @@ class ProfileLoggedViewModel(
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             refresh()
-        }
-    }
-
-    private fun share(post: PostModel) {
-        val shareOriginal = settingsRepository.currentSettings.value.sharePostOriginal
-        val url = if (shareOriginal) {
-            post.originalUrl.orEmpty()
-        } else {
-            "https://${apiConfigurationRepository.instance.value}/post/${post.id}"
-        }
-        if (url.isNotEmpty()) {
-            shareHelper.share(url, "text/plain")
         }
     }
 }

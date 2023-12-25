@@ -261,7 +261,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Çilek</string>
     <string name="settings_comment_bar_theme_multi">🌈 Gökkuşağı</string>
     <string name="message_confirm_exit">Çıkmak için 🔙 simgesine tekrar dokunun</string>
-    <string name="settings_share_post_original">Orijinal örnekteki gönderileri paylaşın</string>
     <string name="community_action_unsubscribe">Abonelikten çık</string>
     <string name="settings_search_posts_title_only">Gönderileri yalnızca başlıkta ara</string>
     <string name="settings_content_font_family">İçerik yazı tipi boyutu</string>

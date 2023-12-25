@@ -258,7 +258,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Maasikas</string>
     <string name="settings_comment_bar_theme_multi">🌈 Vikerkaar</string>
     <string name="message_confirm_exit">Väljumiseks puudutage uuesti 🔙</string>
-    <string name="settings_share_post_original">Jaga postitusi algsest eksemplarist</string>
     <string name="community_action_unsubscribe">Loobu tellimusest</string>
     <string name="settings_search_posts_title_only">Otsi postitusi ainult pealkirjast</string>
     <string name="settings_content_font_family">Sisu fondiperekond</string>

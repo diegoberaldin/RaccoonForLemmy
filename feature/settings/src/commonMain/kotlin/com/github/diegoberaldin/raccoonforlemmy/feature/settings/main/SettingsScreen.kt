@@ -539,17 +539,6 @@ class SettingsScreen : Screen {
                         },
                     )
 
-                    // share posts from original instance
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_share_post_original),
-                        value = uiState.sharePostOriginal,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeSharePostOriginal(value)
-                            )
-                        },
-                    )
-
                     // search posts only in title
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_search_posts_title_only),

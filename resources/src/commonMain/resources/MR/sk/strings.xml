@@ -260,7 +260,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Jahodový</string>
     <string name="settings_comment_bar_theme_multi">🌈 Dúha</string>
     <string name="message_confirm_exit">Opätovným klepnutím na 🔙 ukončíte</string>
-    <string name="settings_share_post_original">Zdieľajte príspevky z pôvodnej inštancie</string>
     <string name="community_action_unsubscribe">Zrušte odber</string>
     <string name="settings_search_posts_title_only">Hľadajte príspevky iba v názve</string>
     <string name="settings_content_font_family">Veľkosť písma obsahu</string>

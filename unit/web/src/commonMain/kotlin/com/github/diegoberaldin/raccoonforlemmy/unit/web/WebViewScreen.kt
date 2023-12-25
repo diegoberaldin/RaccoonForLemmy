@@ -75,7 +75,7 @@ class WebViewScreen(
                         Icon(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
-                                    shareHelper.share(url, "text/plain")
+                                    shareHelper.share(url)
                                 },
                             ),
                             imageVector = Icons.Default.Share,

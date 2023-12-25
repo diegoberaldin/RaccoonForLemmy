@@ -70,7 +70,7 @@ class SavedItemsViewModel(
                     applySortType(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url, "text/plain")
+                shareHelper.share(evt.url)
             }.launchIn(this)
 
             if (mvi.uiState.value.posts.isEmpty()) {
@@ -141,9 +141,6 @@ class SavedItemsViewModel(
             }
 
             is SavedItemsMviModel.Intent.ChangeSort -> applySortType(intent.value)
-            is SavedItemsMviModel.Intent.SharePost -> share(
-                post = uiState.value.posts.first { it.id == intent.id }
-            )
         }
     }
 
@@ -402,18 +399,6 @@ class SavedItemsViewModel(
                 e.printStackTrace()
                 handleCommentUpdate(comment)
             }
-        }
-    }
-
-    private fun share(post: PostModel) {
-        val shareOriginal = settingsRepository.currentSettings.value.sharePostOriginal
-        val url = if (shareOriginal) {
-            post.originalUrl.orEmpty()
-        } else {
-            "https://${apiConfigurationRepository.instance.value}/post/${post.id}"
-        }
-        if (url.isNotEmpty()) {
-            shareHelper.share(url, "text/plain")
         }
     }
 }

@@ -260,8 +260,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Полуниця</string>
     <string name="settings_comment_bar_theme_multi">🌈 Веселка</string>
     <string name="message_confirm_exit">Натисніть 🔙 ще раз, щоб вийти</string>
-    <string name="settings_share_post_original">Діліться публікаціями з оригінального екземпляра
-    </string>
     <string name="community_action_unsubscribe">Відписатися</string>
     <string name="settings_search_posts_title_only">Шукати публікації лише за назвою</string>
     <string name="settings_content_font_family">Розмір шрифту вмісту</string>

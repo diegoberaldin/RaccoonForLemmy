@@ -5,7 +5,7 @@ import org.koin.core.module.Module
 
 @Stable
 interface ShareHelper {
-    fun share(url: String, mimeType: String)
+    fun share(url: String, mimeType: String = "text/plain")
 }
 
 expect val shareHelperModule: Module

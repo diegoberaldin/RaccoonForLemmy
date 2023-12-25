@@ -134,7 +134,7 @@ class CommunityDetailViewModel(
                     applySortType(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url, "text/plain")
+                shareHelper.share(evt.url)
             }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {

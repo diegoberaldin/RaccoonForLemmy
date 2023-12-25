@@ -119,7 +119,7 @@ class PostDetailViewModel(
                 refreshPost()
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url, "text/plain")
+                shareHelper.share(evt.url)
             }.launchIn(this)
         }
 

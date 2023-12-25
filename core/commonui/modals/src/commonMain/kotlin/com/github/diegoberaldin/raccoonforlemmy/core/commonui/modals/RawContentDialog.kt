@@ -53,7 +53,7 @@ fun RawContentDialog(
     val shareHelper = remember { getShareHelper() }
     val onShareLambda = rememberCallback {
         val query = clipboardManager.getText()?.text.orEmpty()
-        shareHelper.share(query, "text/plain")
+        shareHelper.share(query)
     }
     val onQuoteLambda = rememberCallback {
         val query = clipboardManager.getText()?.text.orEmpty()

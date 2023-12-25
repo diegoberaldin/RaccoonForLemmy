@@ -267,8 +267,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Φράουλα</string>
     <string name="settings_comment_bar_theme_multi">🌈 Ουράνιο τόξο</string>
     <string name="message_confirm_exit">Πατήστε ξανά 🔙 για έξοδο</string>
-    <string name="settings_share_post_original">Μοιραστείτε αναρτήσεις από το αρχικό παράδειγμα
-    </string>
     <string name="community_action_unsubscribe">Απεγγραφή</string>
     <string name="settings_search_posts_title_only">Αναζήτηση αναρτήσεων μόνο στον τίτλο</string>
     <string name="settings_content_font_family">Γραμματοσειρά περιεχομένων</string>

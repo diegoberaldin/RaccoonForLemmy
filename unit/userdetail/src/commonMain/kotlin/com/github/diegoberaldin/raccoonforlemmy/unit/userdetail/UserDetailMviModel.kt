@@ -28,7 +28,7 @@ interface UserDetailMviModel :
         data class DownVoteComment(val id: Int, val feedback: Boolean = false) : Intent
         data class SaveComment(val id: Int, val feedback: Boolean = false) : Intent
         data object HapticIndication : Intent
-        data class SharePost(val id: Int) : Intent
+        data class Share(val url: String) : Intent
         data object Block : Intent
         data object BlockInstance : Intent
     }

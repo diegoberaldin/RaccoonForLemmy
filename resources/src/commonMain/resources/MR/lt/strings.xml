@@ -260,8 +260,6 @@
     <string name="settings_comment_bar_theme_red">🍓 Braškių</string>
     <string name="settings_comment_bar_theme_multi">🌈 Vaivorykštė</string>
     <string name="message_confirm_exit">Bakstelėkite 🔙 dar kartą, kad išeitumėte</string>
-    <string name="settings_share_post_original">Bendrinkite įrašus iš pradinio egzemplioriaus
-    </string>
     <string name="community_action_unsubscribe">Atsisakyti prenumeratos</string>
     <string name="settings_search_posts_title_only">Ieškoti įrašų tik pavadinime</string>
     <string name="settings_content_font_family">Turinio šriftų šeima</string>
