@@ -28,6 +28,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class UserDetailViewModel(
     private val mvi: DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>,
@@ -108,7 +109,9 @@ class UserDetailViewModel(
 
             if (uiState.value.posts.isEmpty()) {
                 updateAvailableSortTypes()
-                refresh(initial = true)
+                withContext(Dispatchers.IO) {
+                    refresh(initial = true)
+                }
             }
         }
     }
@@ -192,8 +195,11 @@ class UserDetailViewModel(
     }
 
     private fun applySortType(value: SortType) {
+        if (uiState.value.sortType == value) {
+            return
+        }
         mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.Main) {
             mvi.emitEffect(UserDetailMviModel.Effect.BackToTop)
         }
     }

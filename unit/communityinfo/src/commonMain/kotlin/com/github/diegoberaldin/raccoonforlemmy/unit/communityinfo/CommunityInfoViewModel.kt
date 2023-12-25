@@ -5,8 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -23,7 +21,7 @@ class CommunityInfoViewModel(
         mvi.onStarted()
         mvi.updateState { it.copy(community = community) }
 
-        mvi.scope?.launch(Dispatchers.IO) {
+        mvi.scope?.launch {
             settingsRepository.currentSettings.onEach {
                 mvi.updateState { it.copy(autoLoadImages = it.autoLoadImages) }
             }.launchIn(this)

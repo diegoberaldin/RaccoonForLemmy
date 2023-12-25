@@ -35,7 +35,7 @@ class InstanceInfoViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope?.launch(Dispatchers.IO) {
+        mvi.scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)

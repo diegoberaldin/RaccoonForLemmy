@@ -224,6 +224,9 @@ class SavedItemsViewModel(
     }
 
     private fun applySortType(value: SortType) {
+        if (uiState.value.sortType == value) {
+            return
+        }
         mvi.updateState { it.copy(sortType = value) }
         refresh()
     }

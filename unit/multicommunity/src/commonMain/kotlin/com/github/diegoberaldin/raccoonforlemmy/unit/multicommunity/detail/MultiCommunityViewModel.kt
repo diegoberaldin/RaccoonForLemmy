@@ -48,7 +48,6 @@ class MultiCommunityViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-
         mvi.scope?.launch {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
@@ -209,6 +208,9 @@ class MultiCommunityViewModel(
     }
 
     private fun applySortType(value: SortType) {
+        if (uiState.value.sortType == value) {
+            return
+        }
         mvi.updateState { it.copy(sortType = value) }
         refresh()
     }

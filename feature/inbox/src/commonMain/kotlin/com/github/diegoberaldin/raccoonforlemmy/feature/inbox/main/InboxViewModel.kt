@@ -27,7 +27,7 @@ class InboxViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope?.launch(Dispatchers.IO) {
+        mvi.scope?.launch {
             identityRepository.isLogged.onEach { logged ->
                 mvi.updateState { it.copy(isLogged = logged) }
             }.launchIn(this)

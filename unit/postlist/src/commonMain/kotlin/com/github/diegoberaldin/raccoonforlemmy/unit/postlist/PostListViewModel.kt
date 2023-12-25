@@ -58,8 +58,7 @@ class PostListViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-
-        mvi.scope?.launch(Dispatchers.Main) {
+        mvi.scope?.launch {
             apiConfigurationRepository.instance.onEach { instance ->
                 mvi.updateState {
                     it.copy(instance = instance)
@@ -321,16 +320,22 @@ class PostListViewModel(
     }
 
     private fun applySortType(value: SortType) {
+        if (uiState.value.sortType == value) {
+            return
+        }
         mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             refresh()
         }
     }
 
     private fun applyListingType(value: ListingType) {
+        if (uiState.value.listingType == value) {
+            return
+        }
         mvi.updateState { it.copy(listingType = value) }
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.IO) {
             mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             refresh()
         }

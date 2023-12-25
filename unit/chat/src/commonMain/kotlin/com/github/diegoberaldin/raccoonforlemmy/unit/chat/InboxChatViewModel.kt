@@ -209,7 +209,7 @@ class InboxChatViewModel(
     private fun submitNewMessage(text: String) {
         val editedMessageId = uiState.value.editedMessageId
         if (text.isNotEmpty()) {
-            mvi.scope?.launch {
+            mvi.scope?.launch(Dispatchers.IO) {
                 val auth = identityRepository.authToken.value
                 if (editedMessageId == null) {
                     messageRepository.create(

@@ -57,7 +57,7 @@ class ExploreViewModel(
                 instance = apiConfigRepository.instance.value,
             )
         }
-        mvi.scope?.launch(Dispatchers.Main) {
+        mvi.scope?.launch {
             identityRepository.isLogged.onEach { isLogged ->
                 mvi.updateState {
                     it.copy(isLogged = isLogged ?: false)

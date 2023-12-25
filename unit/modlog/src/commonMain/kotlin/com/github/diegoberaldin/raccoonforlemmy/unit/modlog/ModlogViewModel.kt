@@ -62,7 +62,7 @@ class ModlogViewModel(
                 initial = initial,
             )
         }
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.IO) {
             loadNextPage()
         }
     }

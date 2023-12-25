@@ -104,7 +104,7 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun handleUnsubscription(community: CommunityModel) {
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             communityRepository.unsubscribe(
                 auth = auth, id = community.id

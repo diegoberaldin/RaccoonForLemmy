@@ -17,7 +17,6 @@ class ProfileMainViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-
         mvi.scope?.launch {
             identityRepository.isLogged.onEach { logged ->
                 mvi.updateState { it.copy(logged = logged) }

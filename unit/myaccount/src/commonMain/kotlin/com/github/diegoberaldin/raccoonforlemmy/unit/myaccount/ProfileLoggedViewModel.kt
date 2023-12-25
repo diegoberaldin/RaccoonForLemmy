@@ -52,7 +52,7 @@ class ProfileLoggedViewModel(
     override fun onStarted() {
         mvi.onStarted()
         mvi.updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        mvi.scope?.launch {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)

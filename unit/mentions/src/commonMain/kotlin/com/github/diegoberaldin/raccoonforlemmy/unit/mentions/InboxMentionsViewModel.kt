@@ -36,7 +36,6 @@ class InboxMentionsViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-
         mvi.scope?.launch {
             coordinator.events.onEach {
                 when (it) {

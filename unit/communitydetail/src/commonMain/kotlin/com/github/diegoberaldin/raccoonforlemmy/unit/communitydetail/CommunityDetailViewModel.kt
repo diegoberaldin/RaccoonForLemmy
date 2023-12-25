@@ -68,7 +68,7 @@ class CommunityDetailViewModel(
             )
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
+        mvi.scope?.launch {
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -274,6 +274,9 @@ class CommunityDetailViewModel(
     }
 
     private fun applySortType(value: SortType) {
+        if (uiState.value.sortType == value) {
+            return
+        }
         mvi.updateState { it.copy(sortType = value) }
         mvi.scope?.launch(Dispatchers.IO) {
             mvi.emitEffect(CommunityDetailMviModel.Effect.BackToTop)

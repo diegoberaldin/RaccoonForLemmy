@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
 
@@ -46,7 +47,7 @@ class ModalDrawerViewModel(
     @OptIn(FlowPreview::class)
     override fun onStarted() {
         mvi.onStarted()
-        mvi.scope?.launch(Dispatchers.Main) {
+        mvi.scope?.launch {
             apiConfigurationRepository.instance.onEach { instance ->
                 mvi.updateState {
                     it.copy(instance = instance)
@@ -62,7 +63,7 @@ class ModalDrawerViewModel(
 
             observeChangesInFavoriteCommunities()
 
-            mvi.scope?.launch {
+            withContext(Dispatchers.IO) {
                 delay(250)
                 refreshUser()
                 refresh()

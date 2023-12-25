@@ -59,7 +59,7 @@ class PostDetailViewModel(
                     ?: apiConfigurationRepository.instance.value,
             )
         }
-        mvi.scope?.launch(Dispatchers.Main) {
+        mvi.scope?.launch {
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
@@ -131,9 +131,7 @@ class PostDetailViewModel(
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
                 mvi.updateState {
-                    it.copy(
-                        currentUserId = user?.id ?: 0,
-                    )
+                    it.copy(currentUserId = user?.id ?: 0)
                 }
             }
 
@@ -211,7 +209,7 @@ class PostDetailViewModel(
         } else {
             // comment to highlight found
             commentWasHighlighted = true
-            mvi.scope?.launch {
+            mvi.scope?.launch(Dispatchers.Main) {
                 mvi.emitEffect(PostDetailMviModel.Effect.ScrollToComment(indexOfHighlight))
             }
         }
@@ -394,6 +392,9 @@ class PostDetailViewModel(
     }
 
     private fun applySortType(value: SortType) {
+        if (uiState.value.sortType == value) {
+            return
+        }
         mvi.updateState { it.copy(sortType = value) }
         mvi.scope?.launch(Dispatchers.IO) {
             mvi.emitEffect(PostDetailMviModel.Effect.BackToTop)
@@ -641,7 +642,7 @@ class PostDetailViewModel(
     }
 
     private fun toggleExpanded(comment: CommentModel) {
-        mvi.scope?.launch {
+        mvi.scope?.launch(Dispatchers.Main) {
             val commentId = comment.id
             val newExpanded = !comment.expanded
             mvi.updateState {
