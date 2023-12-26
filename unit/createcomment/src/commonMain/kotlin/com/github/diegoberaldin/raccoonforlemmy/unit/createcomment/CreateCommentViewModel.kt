@@ -42,11 +42,13 @@ class CreateCommentViewModel(
             if (uiState.value.currentUser.isEmpty()) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUser = siteRepository.getCurrentUser(auth)
+                val languages = siteRepository.getLanguages(auth)
                 if (currentUser != null) {
                     mvi.updateState {
                         it.copy(
                             currentUser = currentUser.name,
                             currentInstance = currentUser.host,
+                            availableLanguages = languages,
                         )
                     }
                 }
@@ -65,11 +67,18 @@ class CreateCommentViewModel(
 
     override fun reduce(intent: CreateCommentMviModel.Intent) {
         when (intent) {
-            is CreateCommentMviModel.Intent.ChangeSection -> mvi.updateState {
-                it.copy(section = intent.value)
+            is CreateCommentMviModel.Intent.ChangeSection -> {
+                mvi.updateState { it.copy(section = intent.value) }
             }
 
-            is CreateCommentMviModel.Intent.ImageSelected -> loadImageAndAppendUrlInBody(intent.value)
+            is CreateCommentMviModel.Intent.ImageSelected -> {
+                loadImageAndAppendUrlInBody(intent.value)
+            }
+
+            is CreateCommentMviModel.Intent.ChangeLanguage -> {
+                mvi.updateState { it.copy(currentLanguageId = intent.value) }
+            }
+
             is CreateCommentMviModel.Intent.Send -> submit(intent.text)
         }
     }
@@ -85,6 +94,7 @@ class CreateCommentViewModel(
             )
         }
         var valid = true
+        val languageId = uiState.value.currentLanguageId
         if (text.isEmpty()) {
             mvi.updateState {
                 it.copy(
@@ -106,12 +116,14 @@ class CreateCommentViewModel(
                         postId = postId,
                         parentId = parentId,
                         text = text,
+                        languageId = languageId,
                         auth = auth,
                     )
                 } else if (editedCommentId != null) {
                     commentRepository.edit(
                         commentId = editedCommentId,
                         text = text,
+                        languageId = languageId,
                         auth = auth,
                     )
                 }

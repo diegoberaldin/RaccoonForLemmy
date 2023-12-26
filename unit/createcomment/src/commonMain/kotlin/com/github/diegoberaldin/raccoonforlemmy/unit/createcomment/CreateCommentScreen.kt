@@ -63,11 +63,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -116,8 +118,12 @@ class CreateCommentScreen(
         val themeRepository = remember { getThemeRepository() }
         val contentFontFamily by themeRepository.contentFontFamily.collectAsState()
         val typography = contentFontFamily.toTypography()
+        var selectLanguageDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
+            if (editedComment != null) {
+                model.reduce(CreateCommentMviModel.Intent.ChangeLanguage(editedComment.languageId))
+            }
             model.effects.onEach { effect ->
                 when (effect) {
                     is CreateCommentMviModel.Effect.Failure -> {
@@ -248,7 +254,12 @@ class CreateCommentScreen(
                             },
                             onSelectImage = {
                                 openImagePicker = true
-                            }
+                            },
+                            currentLanguageId = uiState.currentLanguageId,
+                            availableLanguages = uiState.availableLanguages,
+                            onSelectLanguage = {
+                                selectLanguageDialogOpen = true
+                            },
                         )
                         TextField(
                             modifier = Modifier
@@ -425,6 +436,20 @@ class CreateCommentScreen(
                     )
                 }
             }
+        }
+
+        if (selectLanguageDialogOpen) {
+            SelectLanguageDialog(
+                languages = uiState.availableLanguages,
+                currentLanguageId = uiState.currentLanguageId,
+                onSelect = rememberCallbackArgs { langId ->
+                    model.reduce(CreateCommentMviModel.Intent.ChangeLanguage(langId))
+                    selectLanguageDialogOpen = false
+                },
+                onDismiss = rememberCallback {
+                    selectLanguageDialogOpen = false
+                }
+            )
         }
     }
 }
