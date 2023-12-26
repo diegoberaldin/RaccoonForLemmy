@@ -169,6 +169,7 @@ internal class DefaultPostRepository(
         body: String?,
         url: String?,
         nsfw: Boolean,
+        languageId: Int?,
         auth: String,
     ) {
         val data = CreatePostForm(
@@ -177,6 +178,7 @@ internal class DefaultPostRepository(
             body = body,
             url = url,
             nsfw = nsfw,
+            languageId = languageId,
             auth = auth,
         )
         services.post.create(
@@ -191,6 +193,7 @@ internal class DefaultPostRepository(
         body: String?,
         url: String?,
         nsfw: Boolean,
+        languageId: Int?,
         auth: String,
     ) {
         val data = EditPostForm(
@@ -199,6 +202,7 @@ internal class DefaultPostRepository(
             body = body,
             url = url,
             nsfw = nsfw,
+            languageId = languageId,
             auth = auth,
         )
         services.post.edit(

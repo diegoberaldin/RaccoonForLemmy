@@ -57,6 +57,7 @@ interface PostRepository {
         body: String?,
         url: String? = null,
         nsfw: Boolean = false,
+        languageId: Int? = null,
         auth: String,
     )
 
@@ -66,6 +67,7 @@ interface PostRepository {
         body: String?,
         url: String? = null,
         nsfw: Boolean = false,
+        languageId: Int? = null,
         auth: String,
     )
 

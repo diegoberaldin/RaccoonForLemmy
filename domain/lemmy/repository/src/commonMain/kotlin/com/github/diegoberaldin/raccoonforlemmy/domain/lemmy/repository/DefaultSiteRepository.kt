@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockSiteForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
@@ -57,4 +58,10 @@ internal class DefaultSiteRepository(
         )
         response.body()?.metadata?.toModel()
     }.getOrNull()
+
+    override suspend fun getLanguages(auth: String?): List<LanguageModel> = runCatching {
+        val response = services.site.get(auth = auth)
+        val dto = response.body()
+        dto?.allLanguages?.map { it.toModel() }.orEmpty()
+    }.getOrElse { emptyList() }
 }

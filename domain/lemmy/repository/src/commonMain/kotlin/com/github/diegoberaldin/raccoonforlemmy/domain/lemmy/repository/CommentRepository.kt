@@ -48,7 +48,7 @@ interface CommentRepository {
     suspend fun downVote(
         comment: CommentModel,
         auth: String,
-        downVoted: Boolean
+        downVoted: Boolean,
     ): Result<Response<CommentResponse>>
 
     fun asSaved(comment: CommentModel, saved: Boolean): CommentModel
@@ -56,19 +56,21 @@ interface CommentRepository {
     suspend fun save(
         comment: CommentModel,
         auth: String,
-        saved: Boolean
+        saved: Boolean,
     ): Result<Response<CommentResponse>>
 
     suspend fun create(
         postId: Int,
         parentId: Int?,
         text: String,
+        languageId: Int? = null,
         auth: String,
     )
 
     suspend fun edit(
         commentId: Int,
         text: String,
+        languageId: Int? = null,
         auth: String,
     )
 

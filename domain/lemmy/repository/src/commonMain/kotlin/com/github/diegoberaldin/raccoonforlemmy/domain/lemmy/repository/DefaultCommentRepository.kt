@@ -214,12 +214,14 @@ internal class DefaultCommentRepository(
         postId: Int,
         parentId: Int?,
         text: String,
+        languageId: Int?,
         auth: String,
     ) {
         val data = CreateCommentForm(
             content = text,
             postId = postId,
             parentId = parentId,
+            languageId = languageId,
             auth = auth,
         )
         services.comment.create(authHeader = auth.toAuthHeader(), form = data)
@@ -228,11 +230,13 @@ internal class DefaultCommentRepository(
     override suspend fun edit(
         commentId: Int,
         text: String,
+        languageId: Int?,
         auth: String,
     ) {
         val data = EditCommentForm(
             content = text,
             commentId = commentId,
+            languageId = languageId,
             auth = auth,
         )
         services.comment.edit(authHeader = auth.toAuthHeader(), form = data)
