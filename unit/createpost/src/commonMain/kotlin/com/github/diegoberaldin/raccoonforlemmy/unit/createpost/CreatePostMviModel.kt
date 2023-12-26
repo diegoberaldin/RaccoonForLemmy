@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import dev.icerock.moko.resources.desc.StringDesc
 
 @Stable
@@ -50,6 +51,8 @@ interface CreatePostMviModel :
         }
 
         data class ChangeSection(val value: CreatePostSection) : Intent
+
+        data class ChangeLanguage(val value: Int?) : Intent
         data class Send(val body: String) : Intent
     }
 
@@ -71,6 +74,8 @@ interface CreatePostMviModel :
         val autoLoadImages: Boolean = true,
         val currentInstance: String = "",
         val currentUser: String = "",
+        val currentLanguageId: Int? = null,
+        val availableLanguages: List<LanguageModel> = emptyList(),
     )
 
     sealed interface Effect {

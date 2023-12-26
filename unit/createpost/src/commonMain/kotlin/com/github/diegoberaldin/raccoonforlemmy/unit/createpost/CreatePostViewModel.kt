@@ -47,11 +47,13 @@ class CreatePostViewModel(
             if (uiState.value.currentUser.isEmpty()) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUser = siteRepository.getCurrentUser(auth)
+                val languages = siteRepository.getLanguages(auth)
                 if (currentUser != null) {
                     mvi.updateState {
                         it.copy(
                             currentUser = currentUser.name,
                             currentInstance = currentUser.host,
+                            availableLanguages = languages,
                         )
                     }
                 }
@@ -106,6 +108,10 @@ class CreatePostViewModel(
 
             is CreatePostMviModel.Intent.ChangeSection -> mvi.updateState {
                 it.copy(section = intent.value)
+            }
+
+            is CreatePostMviModel.Intent.ChangeLanguage -> mvi.updateState {
+                it.copy(currentLanguageId = intent.value)
             }
 
             is CreatePostMviModel.Intent.Send -> submit(intent.body)
@@ -165,6 +171,7 @@ class CreatePostViewModel(
         val title = uiState.value.title
         val url = uiState.value.url.takeIf { it.isNotEmpty() }?.trim()
         val nsfw = uiState.value.nsfw
+        val languageId = uiState.value.currentLanguageId
         var valid = true
         if (title.isEmpty()) {
             mvi.updateState {
@@ -215,6 +222,7 @@ class CreatePostViewModel(
                             body = body,
                             url = url,
                             nsfw = nsfw,
+                            languageId = languageId,
                             auth = auth,
                         )
                     }
@@ -226,6 +234,7 @@ class CreatePostViewModel(
                             body = body,
                             url = url,
                             nsfw = nsfw,
+                            languageId = languageId,
                             auth = auth,
                         )
                     }

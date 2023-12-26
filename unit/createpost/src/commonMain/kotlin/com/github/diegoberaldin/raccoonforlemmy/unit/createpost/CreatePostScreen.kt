@@ -66,6 +66,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -141,11 +142,15 @@ class CreatePostScreen(
         val themeRepository = remember { getThemeRepository() }
         val contentFontFamily by themeRepository.contentFontFamily.collectAsState()
         val typography = contentFontFamily.toTypography()
+        var selectLanguageDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
             val referencePost = editedPost ?: crossPost
             model.reduce(CreatePostMviModel.Intent.SetTitle(referencePost?.title.orEmpty()))
             model.reduce(CreatePostMviModel.Intent.SetUrl(referencePost?.url.orEmpty()))
+            if (editedPost != null) {
+                model.reduce(CreatePostMviModel.Intent.ChangeLanguage(editedPost.languageId))
+            }
             when {
                 communityId != null -> model.reduce(
                     CreatePostMviModel.Intent.SetCommunity(CommunityModel(id = communityId))
@@ -439,7 +444,12 @@ class CreatePostScreen(
                             },
                             onSelectImage = {
                                 openImagePickerInBody = true
-                            }
+                            },
+                            currentLanguageId = uiState.currentLanguageId,
+                            availableLanguages = uiState.availableLanguages,
+                            onSelectLanguage = {
+                                selectLanguageDialogOpen = true
+                            },
                         )
                         TextField(
                             modifier = Modifier
@@ -516,6 +526,20 @@ class CreatePostScreen(
                     }
                 }
             }
+        }
+
+        if (selectLanguageDialogOpen) {
+            SelectLanguageDialog(
+                languages = uiState.availableLanguages,
+                currentLanguageId = uiState.currentLanguageId,
+                onSelect = rememberCallbackArgs { langId ->
+                    model.reduce(CreatePostMviModel.Intent.ChangeLanguage(langId))
+                    selectLanguageDialogOpen = false
+                },
+                onDismiss = rememberCallback {
+                    selectLanguageDialogOpen = false
+                }
+            )
         }
 
         if (uiState.loading) {
