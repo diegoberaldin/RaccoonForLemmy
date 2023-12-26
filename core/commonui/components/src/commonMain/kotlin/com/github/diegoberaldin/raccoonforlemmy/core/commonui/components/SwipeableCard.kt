@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 
-private const val SECOND_ACTION_THRESHOLD = 0.35f
+private const val SECOND_ACTION_THRESHOLD = 0.38f
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
