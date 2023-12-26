@@ -13,11 +13,11 @@ import dev.icerock.moko.resources.compose.fontFamilyResource
 @Composable
 fun UiFontFamily.toTypography(): Typography {
     val fontFamily = when (this) {
-        UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
-        UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
-        UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
-        UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
         UiFontFamily.TitilliumWeb -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
+        UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
+        UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
+        UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
+        UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
         else -> FontFamily.Default
     }
     return Typography(

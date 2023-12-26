@@ -97,7 +97,7 @@ class FontFamilyBottomSheet(
                                 UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
                                 UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
                                 UiFontFamily.TitilliumWeb -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
-                                else -> FontFamily.Default
+                                UiFontFamily.Default -> FontFamily.Default
                             }
                             Text(
                                 text = value.toReadableName(),
