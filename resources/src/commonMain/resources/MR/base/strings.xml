@@ -147,7 +147,7 @@
     <string name="message_image_loading_error">Image loading error</string>
     <string name="message_invalid_field">Invalid field</string>
     <string name="message_missing_field">Missing field</string>
-    <string name="message_operation_successful">Operation completed succcessfully</string>
+    <string name="message_operation_successful">Operation completed successfully</string>
     <string name="multi_community_editor_communities">Communities</string>
     <string name="multi_community_editor_icon">Icon</string>
     <string name="multi_community_editor_name">Name</string>
