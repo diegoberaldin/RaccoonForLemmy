@@ -26,6 +26,7 @@ data class CommentModel(
     val visible: Boolean = true,
     @Transient
     val loadMoreButtonVisible: Boolean = false,
+    val languageId: Int = 0,
 ) : JavaSerializable {
     val depth: Int get() = (path.split(".").size - 2).coerceAtLeast(0)
     val parentId: String?

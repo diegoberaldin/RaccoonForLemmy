@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentSortType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Community
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Language
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.All
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Local
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
@@ -48,6 +49,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SubscribedType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
@@ -125,29 +127,16 @@ internal fun PersonAggregates.toModel() = UserScoreModel(
     commentScore = commentScore ?: 0,
 )
 
-internal fun PostView.toModel() = PostModel(
-    id = post.id,
-    originalUrl = post.apId,
-    title = post.name,
-    text = post.body.orEmpty(),
+internal fun PostView.toModel() = post.toModel().copy(
     score = counts.score,
     upvotes = counts.upvotes,
     downvotes = counts.downvotes,
     comments = counts.comments,
-    thumbnailUrl = post.thumbnailUrl.orEmpty(),
-    url = post.url,
     community = community.toModel(),
     creator = creator.toModel(),
     saved = saved,
     myVote = myVote ?: 0,
-    publishDate = post.published,
-    updateDate = post.updated,
-    nsfw = post.nsfw,
-    embedVideoUrl = post.embedVideoUrl,
     read = read,
-    featuredCommunity = post.featuredCommunity,
-    removed = post.removed,
-    locked = post.locked,
 )
 
 internal fun Post.toModel() = PostModel(
@@ -163,11 +152,10 @@ internal fun Post.toModel() = PostModel(
     featuredCommunity = featuredCommunity,
     removed = removed,
     locked = locked,
+    languageId = languageId,
 )
 
-internal fun CommentView.toModel() = CommentModel(
-    id = comment.id,
-    text = comment.content,
+internal fun CommentView.toModel() = comment.toModel().copy(
     community = community.toModel(),
     creator = creator.toModel(),
     score = counts.score,
@@ -175,13 +163,7 @@ internal fun CommentView.toModel() = CommentModel(
     downvotes = counts.downvotes,
     saved = saved,
     myVote = myVote ?: 0,
-    publishDate = comment.published,
-    updateDate = comment.updated,
-    postId = comment.postId,
     comments = counts.childCount,
-    path = comment.path,
-    distinguished = comment.distinguished,
-    removed = comment.removed,
 )
 
 internal fun Comment.toModel() = CommentModel(
@@ -193,6 +175,7 @@ internal fun Comment.toModel() = CommentModel(
     path = path,
     distinguished = distinguished,
     removed = removed,
+    languageId = languageId,
 )
 
 internal fun Community.toModel() = CommunityModel(
@@ -222,37 +205,17 @@ internal fun CommunityView.toModel() = community.toModel().copy(
 internal fun PersonMentionView.toModel() = PersonMentionModel(
     id = personMention.id,
     read = personMention.read,
-    post = PostModel(
-        id = post.id,
-        originalUrl = post.apId,
-        title = post.name,
-        text = post.body.orEmpty(),
+    post = post.toModel().copy(
         score = counts.score,
         upvotes = counts.upvotes,
         downvotes = counts.downvotes,
-        thumbnailUrl = post.thumbnailUrl.orEmpty(),
-        url = post.url,
         community = community.toModel(),
         creator = creator.toModel(),
         saved = saved,
         myVote = myVote ?: 0,
-        publishDate = post.published,
-        updateDate = post.updated,
-        nsfw = post.nsfw,
-        embedVideoUrl = post.embedVideoUrl,
-        featuredCommunity = post.featuredCommunity,
-        removed = post.removed,
-        locked = post.locked,
     ),
-    comment = CommentModel(
-        id = comment.id,
-        postId = comment.postId,
-        text = comment.content,
+    comment = comment.toModel().copy(
         community = community.toModel(),
-        publishDate = comment.published,
-        updateDate = comment.updated,
-        distinguished = comment.distinguished,
-        removed = comment.removed,
     ),
     creator = creator.toModel(),
     community = community.toModel(),
@@ -267,37 +230,17 @@ internal fun PersonMentionView.toModel() = PersonMentionModel(
 internal fun CommentReplyView.toModel() = PersonMentionModel(
     id = commentReply.id,
     read = commentReply.read,
-    post = PostModel(
-        id = post.id,
-        originalUrl = post.apId,
-        title = post.name,
-        text = post.body.orEmpty(),
+    post = post.toModel().copy(
         score = counts.score,
         upvotes = counts.upvotes,
         downvotes = counts.downvotes,
-        thumbnailUrl = post.thumbnailUrl.orEmpty(),
-        url = post.url,
         community = community.toModel(),
-        creator = UserModel(id = post.creatorId),
+        creator = creator.toModel(),
         saved = saved,
         myVote = myVote ?: 0,
-        publishDate = post.published,
-        updateDate = post.updated,
-        nsfw = post.nsfw,
-        embedVideoUrl = post.embedVideoUrl,
-        featuredCommunity = post.featuredCommunity,
-        removed = post.removed,
-        locked = post.locked,
     ),
-    comment = CommentModel(
-        id = comment.id,
-        postId = comment.postId,
-        text = comment.content,
+    comment = comment.toModel().copy(
         community = community.toModel(),
-        publishDate = comment.published,
-        updateDate = comment.updated,
-        distinguished = comment.distinguished,
-        removed = comment.removed,
     ),
     creator = creator.toModel(),
     community = community.toModel(),
@@ -435,4 +378,10 @@ internal fun ModTransferCommunityView.toDto() = ModlogItem.ModTransferCommunity(
     date = modTransferCommunity.date,
     moderator = moderator?.toModel(),
     user = moddedPerson.toModel(),
+)
+
+internal fun Language.toModel() = LanguageModel(
+    id = id,
+    code = code,
+    name = name,
 )
