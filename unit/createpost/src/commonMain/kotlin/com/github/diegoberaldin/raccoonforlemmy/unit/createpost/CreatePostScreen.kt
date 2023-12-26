@@ -54,8 +54,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
@@ -76,12 +76,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.di.getCreatePostViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.SelectCommunityDialog
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.core.parameter.parametersOf
 
 class CreatePostScreen(
     private val communityId: Int? = null,
@@ -91,8 +91,8 @@ class CreatePostScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel {
-            getCreatePostViewModel(editedPostId = editedPost?.id)
+        val model = getScreenModel<CreatePostMviModel> {
+            parametersOf(editedPost?.id)
         }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()

@@ -31,8 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -47,12 +47,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.components.ModeratorCell
-import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.getCommunityInfoViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 
 class CommunityInfoScreen(
     private val community: CommunityModel,
@@ -60,7 +60,10 @@ class CommunityInfoScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getCommunityInfoViewModel(community) }
+        val model = getScreenModel<CommunityInfoMviModel>(
+            tag = community.id.toString() + community.name,
+            parameters = { parametersOf(community) },
+        )
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -118,7 +121,7 @@ class CommunityInfoScreen(
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Cake,
-                                title = community.creationDate?.prettifyDate().orEmpty(),
+                                title = uiState.community.creationDate?.prettifyDate().orEmpty(),
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),

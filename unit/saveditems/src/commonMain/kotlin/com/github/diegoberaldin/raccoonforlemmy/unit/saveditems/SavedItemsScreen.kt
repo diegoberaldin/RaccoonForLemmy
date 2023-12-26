@@ -44,8 +44,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -72,7 +72,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.di.getSavedItemsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
@@ -83,7 +82,7 @@ class SavedItemsScreen : Screen {
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getSavedItemsViewModel() }
+        val model = getScreenModel<SavedItemsMviModel>()
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigatorCoordinator = remember { getNavigationCoordinator() }

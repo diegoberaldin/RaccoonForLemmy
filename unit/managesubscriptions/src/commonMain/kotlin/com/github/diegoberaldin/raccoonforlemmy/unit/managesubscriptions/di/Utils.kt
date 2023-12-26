@@ -1,5 +1,0 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.di
-
-import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsMviModel
-
-expect fun getManageSubscriptionsViewModel(): ManageSubscriptionsMviModel

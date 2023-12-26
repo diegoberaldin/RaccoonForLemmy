@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -20,7 +19,6 @@ class SelectCommunityViewModel(
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val settingsRepository: SettingsRepository,
-    private val notificationCenter: NotificationCenter,
 ) : SelectCommunityMviModel,
     MviModel<SelectCommunityMviModel.Intent, SelectCommunityMviModel.UiState, SelectCommunityMviModel.Effect> by mvi {
 

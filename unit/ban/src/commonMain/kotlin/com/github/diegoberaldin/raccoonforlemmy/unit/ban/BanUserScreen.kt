@@ -32,19 +32,19 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.getBanUserViewModel
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.core.parameter.parametersOf
 
 class BanUserScreen(
     private val userId: Int,
@@ -55,13 +55,13 @@ class BanUserScreen(
 ) : Screen {
     @Composable
     override fun Content() {
-        val model = rememberScreenModel {
-            getBanUserViewModel(
-                userId = userId,
-                communityId = communityId,
-                newValue = newValue,
-                postId = postId,
-                commentId = commentId,
+        val model = getScreenModel<BanUserMviModel> {
+            parametersOf(
+                userId,
+                communityId,
+                newValue,
+                postId,
+                commentId,
             )
         }
         model.bindToLifecycle(key)

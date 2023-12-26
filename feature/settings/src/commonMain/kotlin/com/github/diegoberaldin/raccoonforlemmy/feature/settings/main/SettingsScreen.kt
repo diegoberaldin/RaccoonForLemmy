@@ -39,8 +39,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.toSize
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
@@ -75,7 +75,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageFlag
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.getSettingsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsColorRow
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsHeader
@@ -100,7 +99,7 @@ class SettingsScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getSettingsViewModel() }
+        val model = getScreenModel<SettingsMviModel>()
         model.bindToLifecycle(SettingsTab.key)
         val uiState by model.uiState.collectAsState()
         val topAppBarState = rememberTopAppBarState()

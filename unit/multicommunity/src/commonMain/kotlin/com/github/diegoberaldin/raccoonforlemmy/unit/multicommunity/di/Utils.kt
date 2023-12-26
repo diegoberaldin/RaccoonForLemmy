@@ -1,9 +1,0 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.di
-
-import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
-import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityMviModel
-import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor.MultiCommunityEditorMviModel
-
-expect fun getMultiCommunityViewModel(community: MultiCommunityModel): MultiCommunityMviModel
-
-expect fun getMultiCommunityEditorViewModel(editedCommunity: MultiCommunityModel?): MultiCommunityEditorMviModel

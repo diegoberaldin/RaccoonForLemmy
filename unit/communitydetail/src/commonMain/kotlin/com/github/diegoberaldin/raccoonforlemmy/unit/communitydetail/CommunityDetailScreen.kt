@@ -68,9 +68,9 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -105,7 +105,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.di.getCommunityDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
@@ -120,6 +119,7 @@ import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 
 class CommunityDetailScreen(
     private val community: CommunityModel,
@@ -132,12 +132,10 @@ class CommunityDetailScreen(
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel(community.id.toString() + community.name) {
-            getCommunityDetailViewModel(
-                community = community,
-                otherInstance = otherInstance,
-            )
-        }
+        val model = getScreenModel<CommunityDetailMviModel>(
+            tag = community.id.toString() + community.name,
+            parameters = { parametersOf(community, otherInstance) },
+        )
         model.bindToLifecycle(key + community.id.toString())
         val uiState by model.uiState.collectAsState()
         val lazyListState = rememberLazyListState()

@@ -33,8 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -54,11 +54,11 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModRemove
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModRemovePostItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModTransferCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModlogItemPlaceholder
-import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.di.getModlogViewModel
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 
 class ModlogScreen(
     private val communityId: Int,
@@ -67,7 +67,7 @@ class ModlogScreen(
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getModlogViewModel(communityId) }
+        val model = getScreenModel<ModlogMviModel> { parametersOf(communityId) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()

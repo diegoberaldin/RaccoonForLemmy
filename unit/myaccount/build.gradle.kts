@@ -37,9 +37,10 @@ kotlin {
                 implementation(compose.materialIconsExtended)
 
                 implementation(libs.koin.core)
-                implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.tab)
+                implementation(libs.voyager.screenmodel)
+                implementation(libs.voyager.koin)
 
                 implementation(projects.core.utils)
                 implementation(projects.core.appearance)

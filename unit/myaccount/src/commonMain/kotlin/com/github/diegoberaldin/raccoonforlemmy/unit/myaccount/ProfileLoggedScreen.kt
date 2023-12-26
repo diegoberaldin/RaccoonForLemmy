@@ -32,7 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
@@ -61,7 +61,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.di.getProfileLoggedViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
@@ -78,7 +77,7 @@ object ProfileLoggedScreen : Tab {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getProfileLoggedViewModel() }
+        val model = getScreenModel<ProfileLoggedMviModel>()
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val user = uiState.user

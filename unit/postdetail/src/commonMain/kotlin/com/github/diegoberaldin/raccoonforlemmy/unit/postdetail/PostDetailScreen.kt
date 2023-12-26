@@ -68,7 +68,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
@@ -90,6 +89,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -104,7 +104,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.di.getPostDetailViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
@@ -112,6 +111,7 @@ import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 
 class PostDetailScreen(
     private val post: PostModel,
@@ -130,16 +130,17 @@ class PostDetailScreen(
     )
     @Composable
     override fun Content() {
-        val model = rememberScreenModel(
-            tag = post.id.toString() + highlightCommentId.toString()
-        ) {
-            getPostDetailViewModel(
-                post = post,
-                highlightCommentId = highlightCommentId,
-                otherInstance = otherInstance,
-                isModerator = isMod,
-            )
-        }
+        val model = getScreenModel<PostDetailMviModel>(
+            tag = post.id.toString() + highlightCommentId.toString(),
+            parameters = {
+                parametersOf(
+                    post,
+                    otherInstance,
+                    highlightCommentId,
+                    isMod,
+                )
+            }
+        )
         model.bindToLifecycle(key + post.id.toString())
         val uiState by model.uiState.collectAsState()
         val isOnOtherInstance = remember { otherInstance.isNotEmpty() }

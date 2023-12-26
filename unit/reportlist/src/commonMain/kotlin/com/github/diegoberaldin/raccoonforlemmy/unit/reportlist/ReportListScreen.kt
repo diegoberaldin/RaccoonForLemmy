@@ -46,8 +46,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -71,11 +71,11 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.CommentReportCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.PostReportCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.ReportCardPlaceHolder
-import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.getReportListViewModel
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 
 class ReportListScreen(
     private val communityId: Int,
@@ -83,7 +83,7 @@ class ReportListScreen(
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getReportListViewModel(communityId) }
+        val model = getScreenModel<ReportListMviModel> { parametersOf(communityId) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()

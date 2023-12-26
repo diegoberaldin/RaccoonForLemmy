@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
@@ -39,7 +39,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoor
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.di.getMainViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
@@ -62,7 +61,7 @@ internal object MainScreen : Screen {
         val themeRepository = remember { getThemeRepository() }
         var bottomBarHeightPx by remember { mutableStateOf(0f) }
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val model = rememberScreenModel { getMainViewModel() }
+        val model = getScreenModel<MainScreenMviModel>()
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val uiFontScale by themeRepository.uiFontScale.collectAsState()

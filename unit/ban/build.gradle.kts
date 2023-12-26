@@ -39,6 +39,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.navigator)
+                implementation(libs.voyager.koin)
 
                 implementation(projects.core.utils)
                 implementation(projects.core.appearance)

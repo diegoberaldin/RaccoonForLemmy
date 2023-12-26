@@ -12,7 +12,6 @@ val selectCommunityModule = module {
             identityRepository = get(),
             communityRepository = get(),
             settingsRepository = get(),
-            notificationCenter = get(),
         )
     }
 }

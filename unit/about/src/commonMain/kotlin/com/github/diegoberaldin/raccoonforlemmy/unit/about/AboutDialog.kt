@@ -32,8 +32,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
@@ -49,7 +49,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.CHANGE
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.REPORT_EMAIL_ADDRESS
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.REPORT_URL
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.WEBSITE_URL
-import com.github.diegoberaldin.raccoonforlemmy.unit.about.di.getAboutDialogViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
@@ -62,7 +61,7 @@ class AboutDialog : Screen {
     @Composable
     override fun Content() {
 
-        val viewModel = rememberScreenModel { getAboutDialogViewModel() }
+        val viewModel = getScreenModel<AboutDialogMviModel>()
         viewModel.bindToLifecycle(key)
 
         val uriHandler = LocalUriHandler.current

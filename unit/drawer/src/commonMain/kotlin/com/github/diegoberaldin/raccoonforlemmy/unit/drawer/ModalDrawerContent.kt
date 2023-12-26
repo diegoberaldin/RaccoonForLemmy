@@ -28,7 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
@@ -47,7 +47,6 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerHeader
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerShortcut
-import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.getModalDrawerViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.dialog.ChangeInstanceDialog
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
@@ -66,7 +65,7 @@ object ModalDrawerContent : Tab {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getModalDrawerViewModel() }
+        val model = getScreenModel<ModalDrawerMviModel>()
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val coordinator = remember { getDrawerCoordinator() }

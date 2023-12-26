@@ -44,8 +44,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -57,7 +57,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.login.di.getLoginBottomSheetViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.stringResource
@@ -71,7 +70,7 @@ class LoginBottomSheet : Screen {
 
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { getLoginBottomSheetViewModel() }
+        val model = getScreenModel<LoginMviModel>()
         model.bindToLifecycle(key)
 
         val uiState by model.uiState.collectAsState()
@@ -82,13 +81,13 @@ class LoginBottomSheet : Screen {
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
-                    is LoginBottomSheetMviModel.Effect.LoginError -> {
+                    is LoginMviModel.Effect.LoginError -> {
                         snackbarHostState.showSnackbar(
                             message = it.message ?: genericError,
                         )
                     }
 
-                    LoginBottomSheetMviModel.Effect.LoginSuccess -> {
+                    LoginMviModel.Effect.LoginSuccess -> {
                         navigationCoordinator.hideBottomSheet()
                     }
                 }
@@ -171,7 +170,7 @@ class LoginBottomSheet : Screen {
                         imeAction = ImeAction.Next,
                     ),
                     onValueChange = rememberCallbackArgs(model) { value ->
-                        model.reduce(LoginBottomSheetMviModel.Intent.SetInstanceName(value))
+                        model.reduce(LoginMviModel.Intent.SetInstanceName(value))
                     },
                     supportingText = {
                         if (uiState.instanceNameError != null) {
@@ -187,7 +186,7 @@ class LoginBottomSheet : Screen {
                                 modifier = Modifier.onClick(
                                     onClick = rememberCallback(model) {
                                         model.reduce(
-                                            LoginBottomSheetMviModel.Intent.SetInstanceName("")
+                                            LoginMviModel.Intent.SetInstanceName("")
                                         )
                                     },
                                 ),
@@ -218,7 +217,7 @@ class LoginBottomSheet : Screen {
                         imeAction = ImeAction.Next,
                     ),
                     onValueChange = rememberCallbackArgs(model) { value ->
-                        model.reduce(LoginBottomSheetMviModel.Intent.SetUsername(value))
+                        model.reduce(LoginMviModel.Intent.SetUsername(value))
                     },
                     supportingText = {
                         if (uiState.usernameError != null) {
@@ -252,7 +251,7 @@ class LoginBottomSheet : Screen {
                         imeAction = ImeAction.Next,
                     ),
                     onValueChange = rememberCallbackArgs(model) { value ->
-                        model.reduce(LoginBottomSheetMviModel.Intent.SetPassword(value))
+                        model.reduce(LoginMviModel.Intent.SetPassword(value))
                     },
                     visualTransformation = transformation,
                     trailingIcon = {
@@ -308,7 +307,7 @@ class LoginBottomSheet : Screen {
                         imeAction = ImeAction.Done,
                     ),
                     onValueChange = rememberCallbackArgs(model) { value ->
-                        model.reduce(LoginBottomSheetMviModel.Intent.SetTotp2faToken(value))
+                        model.reduce(LoginMviModel.Intent.SetTotp2faToken(value))
                     },
                     visualTransformation = PasswordVisualTransformation(),
                 )
@@ -316,7 +315,7 @@ class LoginBottomSheet : Screen {
                 Button(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     onClick = rememberCallback(model) {
-                        model.reduce(LoginBottomSheetMviModel.Intent.Confirm)
+                        model.reduce(LoginMviModel.Intent.Confirm)
                     },
                 ) {
                     Row(
