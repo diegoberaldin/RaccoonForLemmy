@@ -394,7 +394,6 @@ class ExploreScreen : Screen {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.UpVotePost(
                                                                 id = result.model.id,
-                                                                feedback = true,
                                                             ),
                                                         )
                                                     }
@@ -404,7 +403,6 @@ class ExploreScreen : Screen {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.DownVotePost(
                                                                 id = result.model.id,
-                                                                feedback = true,
                                                             ),
                                                         )
                                                     }
@@ -414,7 +412,6 @@ class ExploreScreen : Screen {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.SavePost(
                                                                 id = result.model.id,
-                                                                feedback = true,
                                                             ),
                                                         )
                                                     }
@@ -527,7 +524,6 @@ class ExploreScreen : Screen {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.UpVoteComment(
                                                                 id = result.model.id,
-                                                                feedback = true,
                                                             ),
                                                         )
                                                     }
@@ -537,7 +533,6 @@ class ExploreScreen : Screen {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.DownVoteComment(
                                                                 id = result.model.id,
-                                                                feedback = true,
                                                             ),
                                                         )
                                                     }
@@ -547,7 +542,6 @@ class ExploreScreen : Screen {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.SaveComment(
                                                                 id = result.model.id,
-                                                                feedback = true,
                                                             ),
                                                         )
                                                     }

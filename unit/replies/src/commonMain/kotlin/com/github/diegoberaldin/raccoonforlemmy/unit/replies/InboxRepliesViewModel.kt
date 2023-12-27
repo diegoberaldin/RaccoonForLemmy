@@ -93,14 +93,12 @@ class InboxRepliesViewModel(
 
             InboxRepliesMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is InboxRepliesMviModel.Intent.DownVoteComment -> {
-                hapticFeedback.vibrate()
                 toggleDownVoteComment(
                     mention = uiState.value.replies.first { it.id == intent.id },
                 )
             }
 
             is InboxRepliesMviModel.Intent.UpVoteComment -> {
-                hapticFeedback.vibrate()
                 toggleUpVoteComment(
                     mention = uiState.value.replies.first { it.id == intent.id },
                 )

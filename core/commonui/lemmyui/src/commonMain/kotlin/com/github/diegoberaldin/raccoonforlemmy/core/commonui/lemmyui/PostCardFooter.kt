@@ -41,6 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FeedbackButton
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
@@ -132,47 +133,38 @@ fun PostCardFooter(
             }
             Spacer(modifier = Modifier.weight(1f))
             if (actionButtonsActive) {
-                Image(
-                    modifier = buttonModifier.onClick(
-                        onClick = rememberCallback {
-                            onSave?.invoke()
-                        },
-                    ),
+                FeedbackButton(
+                    modifier = buttonModifier,
                     imageVector = if (!saved) {
                         Icons.Default.BookmarkBorder
                     } else {
                         Icons.Default.Bookmark
                     },
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(
-                        color = if (saved) {
-                            MaterialTheme.colorScheme.secondary
-                        } else {
-                            ancillaryColor
-                        },
-                    ),
+                    tintColor = if (saved) {
+                        MaterialTheme.colorScheme.secondary
+                    } else {
+                        ancillaryColor
+                    },
+                    onClick = rememberCallback {
+                        onSave?.invoke()
+                    },
                 )
             }
-            Image(
-                modifier = buttonModifier
-                    .onClick(
-                        onClick = rememberCallback {
-                            onUpVote?.invoke()
-                        },
-                    ),
+            FeedbackButton(
+                modifier = buttonModifier,
                 imageVector = if (actionButtonsActive) {
                     Icons.Default.ArrowCircleUp
                 } else {
                     Icons.Default.ArrowUpward
                 },
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(
-                    color = if (upVoted) {
-                        upvoteColor ?: defaultUpvoteColor
-                    } else {
-                        ancillaryColor
-                    },
-                ),
+                tintColor = if (upVoted) {
+                    upvoteColor ?: defaultUpvoteColor
+                } else {
+                    ancillaryColor
+                },
+                onClick = rememberCallback {
+                    onUpVote?.invoke()
+                },
             )
             Text(
                 text = formatToReadableValue(
@@ -188,26 +180,21 @@ fun PostCardFooter(
                 style = MaterialTheme.typography.labelLarge,
                 color = ancillaryColor,
             )
-            Image(
-                modifier = buttonModifier
-                    .onClick(
-                        onClick = rememberCallback {
-                            onDownVote?.invoke()
-                        },
-                    ),
+            FeedbackButton(
+                modifier = buttonModifier,
                 imageVector = if (actionButtonsActive) {
                     Icons.Default.ArrowCircleDown
                 } else {
                     Icons.Default.ArrowDownward
                 },
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(
-                    color = if (downVoted) {
-                        downvoteColor ?: defaultDownVoteColor
-                    } else {
-                        ancillaryColor
-                    },
-                ),
+                tintColor = if (downVoted) {
+                    downvoteColor ?: defaultDownVoteColor
+                } else {
+                    ancillaryColor
+                },
+                onClick = rememberCallback {
+                    onDownVote?.invoke()
+                },
             )
         }
 
@@ -238,3 +225,5 @@ fun PostCardFooter(
         }
     }
 }
+
+

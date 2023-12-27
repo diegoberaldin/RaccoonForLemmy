@@ -15,10 +15,13 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 private sealed interface NavigationEvent {
@@ -56,23 +59,30 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     init {
         scope.launch {
-            bottomSheetChannel.receiveAsFlow()
-                .debounce(BOTTOM_NAVIGATION_DELAY)
-                .onEach { evt ->
-                    when (evt) {
-                        is NavigationEvent.Show -> {
-                            bottomNavigator?.show(evt.screen)
-                        }
-
-                        NavigationEvent.Hide -> {
-                            bottomNavigator?.hide()
-                            setBottomSheetGesturesEnabled(true)
-                        }
+            bottomSheetChannel.receiveAsFlow().let { flow ->
+                merge(
+                    flow.take(1),
+                    flow.drop(1).debounce(BOTTOM_NAVIGATION_DELAY)
+                )
+            }.onEach { evt ->
+                when (evt) {
+                    is NavigationEvent.Show -> {
+                        bottomNavigator?.show(evt.screen)
                     }
-                }.launchIn(this)
+
+                    NavigationEvent.Hide -> {
+                        bottomNavigator?.hide()
+                        setBottomSheetGesturesEnabled(true)
+                    }
+                }
+            }.launchIn(this)
             screenChannel.receiveAsFlow()
-                .debounce(NAVIGATION_DELAY)
-                .onEach { evt ->
+                .let { flow ->
+                    merge(
+                        flow.take(1),
+                        flow.drop(1).debounce(NAVIGATION_DELAY)
+                    )
+                }.onEach { evt ->
                     when (evt) {
                         is NavigationEvent.Show -> {
                             // make sure the new screen has a different key than the top of the stack

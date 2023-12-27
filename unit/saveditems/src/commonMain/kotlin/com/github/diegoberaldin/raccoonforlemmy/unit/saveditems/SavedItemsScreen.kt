@@ -238,7 +238,6 @@ class SavedItemsScreen : Screen {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.UpVotePost(
                                                 id = post.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },
@@ -246,7 +245,6 @@ class SavedItemsScreen : Screen {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.DownVotePost(
                                                 id = post.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },
@@ -254,7 +252,6 @@ class SavedItemsScreen : Screen {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.SavePost(
                                                 id = post.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },
@@ -358,7 +355,6 @@ class SavedItemsScreen : Screen {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.UpVoteComment(
                                                 id = comment.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },
@@ -366,7 +362,6 @@ class SavedItemsScreen : Screen {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.DownVoteComment(
                                                 id = comment.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },
@@ -374,7 +369,6 @@ class SavedItemsScreen : Screen {
                                         model.reduce(
                                             SavedItemsMviModel.Intent.SaveComment(
                                                 id = comment.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },

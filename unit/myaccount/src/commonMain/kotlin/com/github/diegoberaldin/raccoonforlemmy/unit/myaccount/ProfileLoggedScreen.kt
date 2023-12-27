@@ -209,7 +209,6 @@ object ProfileLoggedScreen : Tab {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVotePost(
                                                 id = post.id,
-                                                feedback = true
                                             )
                                         )
                                     },
@@ -217,7 +216,6 @@ object ProfileLoggedScreen : Tab {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.DownVotePost(
                                                 id = post.id,
-                                                feedback = true
                                             )
                                         )
                                     },
@@ -225,7 +223,6 @@ object ProfileLoggedScreen : Tab {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.SavePost(
                                                 id = post.id,
-                                                feedback = true
                                             )
                                         )
                                     },
@@ -351,7 +348,6 @@ object ProfileLoggedScreen : Tab {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVoteComment(
                                                 id = comment.id,
-                                                feedback = true
                                             )
                                         )
                                     },
@@ -359,7 +355,6 @@ object ProfileLoggedScreen : Tab {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.DownVoteComment(
                                                 id = comment.id,
-                                                feedback = true
                                             )
                                         )
                                     },
@@ -367,7 +362,6 @@ object ProfileLoggedScreen : Tab {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.SaveComment(
                                                 id = comment.id,
-                                                feedback = true
                                             )
                                         )
                                     },

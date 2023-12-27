@@ -65,7 +65,6 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
-import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -90,6 +89,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.RawContentD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -537,7 +537,6 @@ class UserDetailScreen(
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.UpVotePost(
                                                         id = post.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }
@@ -549,7 +548,6 @@ class UserDetailScreen(
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.DownVotePost(
                                                         id = post.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }
@@ -561,7 +559,6 @@ class UserDetailScreen(
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.SavePost(
                                                         id = post.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }
@@ -814,7 +811,6 @@ class UserDetailScreen(
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.SaveComment(
                                                         id = comment.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }
@@ -826,7 +822,6 @@ class UserDetailScreen(
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.UpVoteComment(
                                                         id = comment.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }
@@ -838,7 +833,6 @@ class UserDetailScreen(
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.DownVoteComment(
                                                         id = comment.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }

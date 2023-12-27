@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -43,6 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FeedbackButton
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
@@ -214,22 +213,20 @@ fun InboxReplySubtitle(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Image(
+                FeedbackButton(
                     modifier = buttonModifier
                         .onClick(
-                            onClick = rememberCallback {
-                                onUpVote?.invoke()
-                            },
+
                         ),
                     imageVector = Icons.Default.ArrowCircleUp,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(
-                        color = if (upVoted) {
-                            upvoteColor ?: defaultUpvoteColor
-                        } else {
-                            ancillaryColor
-                        },
-                    ),
+                    tintColor = if (upVoted) {
+                        upvoteColor ?: defaultUpvoteColor
+                    } else {
+                        ancillaryColor
+                    },
+                    onClick = rememberCallback {
+                        onUpVote?.invoke()
+                    },
                 )
                 Text(
                     text = formatToReadableValue(
@@ -245,22 +242,20 @@ fun InboxReplySubtitle(
                     style = MaterialTheme.typography.labelLarge,
                     color = ancillaryColor,
                 )
-                Image(
+                FeedbackButton(
                     modifier = buttonModifier
                         .onClick(
-                            onClick = rememberCallback {
-                                onDownVote?.invoke()
-                            },
+
                         ),
                     imageVector = Icons.Default.ArrowCircleDown,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(
-                        color = if (downVoted) {
-                            downvoteColor ?: defaultDownVoteColor
-                        } else {
-                            ancillaryColor
-                        },
-                    ),
+                    tintColor = if (downVoted) {
+                        downvoteColor ?: defaultDownVoteColor
+                    } else {
+                        ancillaryColor
+                    },
+                    onClick = rememberCallback {
+                        onDownVote?.invoke()
+                    },
                 )
             }
             CustomDropDown(

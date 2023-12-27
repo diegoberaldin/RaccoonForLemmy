@@ -396,7 +396,6 @@ class PostListScreen : Screen {
                                                 model.reduce(
                                                     PostListMviModel.Intent.UpVotePost(
                                                         id = post.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }
@@ -420,7 +419,6 @@ class PostListScreen : Screen {
                                                 model.reduce(
                                                     PostListMviModel.Intent.UpVotePost(
                                                         id = post.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }
@@ -430,7 +428,6 @@ class PostListScreen : Screen {
                                                 model.reduce(
                                                     PostListMviModel.Intent.DownVotePost(
                                                         id = post.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }
@@ -440,7 +437,6 @@ class PostListScreen : Screen {
                                                 model.reduce(
                                                     PostListMviModel.Intent.SavePost(
                                                         id = post.id,
-                                                        feedback = true,
                                                     ),
                                                 )
                                             }

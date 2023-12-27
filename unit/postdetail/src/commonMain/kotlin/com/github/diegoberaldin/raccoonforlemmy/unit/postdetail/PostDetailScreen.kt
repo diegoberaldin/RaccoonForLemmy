@@ -337,18 +337,14 @@ class PostDetailScreen(
                                 onUpVote = rememberCallback(model) {
                                     if (uiState.isLogged && !isOnOtherInstance) {
                                         model.reduce(
-                                            PostDetailMviModel.Intent.UpVotePost(
-                                                feedback = true,
-                                            ),
+                                            PostDetailMviModel.Intent.UpVotePost(),
                                         )
                                     }
                                 },
                                 onDownVote = rememberCallback(model) {
                                     if (uiState.isLogged && !isOnOtherInstance) {
                                         model.reduce(
-                                            PostDetailMviModel.Intent.DownVotePost(
-                                                feedback = true,
-                                            ),
+                                            PostDetailMviModel.Intent.DownVotePost(),
                                         )
                                     }
                                 },
@@ -356,7 +352,6 @@ class PostDetailScreen(
                                     model.reduce(
                                         PostDetailMviModel.Intent.SavePost(
                                             post = uiState.post,
-                                            feedback = true,
                                         ),
                                     )
                                 },
@@ -742,7 +737,6 @@ class PostDetailScreen(
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.UpVoteComment(
                                                                     commentId = comment.id,
-                                                                    feedback = true,
                                                                 ),
                                                             )
                                                         }
@@ -752,7 +746,6 @@ class PostDetailScreen(
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.DownVoteComment(
                                                                     commentId = comment.id,
-                                                                    feedback = true,
                                                                 ),
                                                             )
                                                         }
@@ -762,7 +755,6 @@ class PostDetailScreen(
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.SaveComment(
                                                                     commentId = comment.id,
-                                                                    feedback = true,
                                                                 ),
                                                             )
                                                         }
@@ -962,7 +954,6 @@ class PostDetailScreen(
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.UpVoteComment(
                                                             commentId = comment.id,
-                                                            feedback = true,
                                                         ),
                                                     )
                                                 }
@@ -972,7 +963,6 @@ class PostDetailScreen(
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.DownVoteComment(
                                                             commentId = comment.id,
-                                                            feedback = true,
                                                         ),
                                                     )
                                                 }
@@ -982,7 +972,6 @@ class PostDetailScreen(
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.SaveComment(
                                                             commentId = comment.id,
-                                                            feedback = true,
                                                         ),
                                                     )
                                                 }

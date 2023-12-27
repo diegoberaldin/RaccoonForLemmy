@@ -363,7 +363,6 @@ class MultiCommunityScreen(
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.UpVotePost(
                                                 id = post.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },
@@ -371,7 +370,6 @@ class MultiCommunityScreen(
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.DownVotePost(
                                                 id = post.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },
@@ -379,7 +377,6 @@ class MultiCommunityScreen(
                                         model.reduce(
                                             MultiCommunityMviModel.Intent.SavePost(
                                                 id = post.id,
-                                                feedback = true,
                                             ),
                                         )
                                     },
