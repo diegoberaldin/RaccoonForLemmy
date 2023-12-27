@@ -56,7 +56,6 @@ internal fun ModeratedCommunityCell(
                 quality = FilterQuality.Low,
                 url = icon,
                 autoload = autoLoadImages,
-                contentDescription = null,
                 contentScale = ContentScale.FillBounds,
             )
         } else {

@@ -289,4 +289,20 @@
     <string name="user_info_admin">beheerder</string>
     <string name="settings_about_chat_matrix">Chatten op Matrix</string>
     <string name="settings_reply_color">Kleur van antwoordactie</string>
+    <string name="settings_section_account">Account instellingen</string>
+    <string name="settings_web_preferences">Webvoorkeuren</string>
+    <string name="settings_web_header_personal">Persoonlijke informatie</string>
+    <string name="settings_web_header_contents">Inhoud</string>
+    <string name="settings_web_header_notifications">Meldingen</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Banier</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Weergavenaam</string>
+    <string name="settings_web_matrix">Gebruikers-ID Matrix</string>
+    <string name="settings_web_email">E-mail</string>
+    <string name="settings_web_show_bot">Toon botaccounts</string>
+    <string name="settings_web_show_nsfw">NSFW tonen</string>
+    <string name="settings_web_show_read">Gelezen berichten weergeven</string>
+    <string name="settings_web_email_notifications">E-mailmeldingen verzenden</string>
 </resources>

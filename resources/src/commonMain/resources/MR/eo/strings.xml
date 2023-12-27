@@ -285,4 +285,20 @@
     <string name="user_info_admin">administranto</string>
     <string name="settings_about_chat_matrix">Babilu sur Matrix</string>
     <string name="settings_reply_color">Koloro de responda ago</string>
+    <string name="settings_section_account">Kontagordoj</string>
+    <string name="settings_web_preferences">Retaj preferoj</string>
+    <string name="settings_web_header_personal">Personaj informoj</string>
+    <string name="settings_web_header_contents">Enhavo</string>
+    <string name="settings_web_header_notifications">Sciigoj</string>
+    <string name="settings_web_avatar">Avataro</string>
+    <string name="settings_web_banner">Standardo</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Montra nomo</string>
+    <string name="settings_web_matrix">Uzantidentigilo Matrix</string>
+    <string name="settings_web_email">Retpoŝto</string>
+    <string name="settings_web_show_bot">Montri botkontojn</string>
+    <string name="settings_web_show_nsfw">Montri NSFW</string>
+    <string name="settings_web_show_read">Montri legitajn afiŝojn</string>
+    <string name="settings_web_email_notifications">Sendi retpoŝtajn sciigojn</string>
 </resources>

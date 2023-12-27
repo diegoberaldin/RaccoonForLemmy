@@ -126,7 +126,6 @@ class InboxChatScreen(
                                     url = avatar,
                                     autoload = uiState.autoLoadImages,
                                     quality = FilterQuality.Low,
-                                    contentDescription = null,
                                     contentScale = ContentScale.FillBounds,
                                 )
                             }

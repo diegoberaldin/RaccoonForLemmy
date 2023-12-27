@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Language
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.All
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Local
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUser
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddCommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModBanFromCommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModFeaturePostView
@@ -27,6 +28,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Post
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostReportView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SiteMetadata
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Active
@@ -38,6 +40,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.NewComment
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Old
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Scaled
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.Top
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopAll
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopDay
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopHour
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopMonth
@@ -46,6 +49,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopTwelveH
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopWeek
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.TopYear
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SubscribedType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountSettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -68,6 +72,35 @@ internal fun ListingType.toDto() = when (this) {
     ListingType.Subscribed -> Subscribed
     ListingType.Local -> Local
 }
+
+internal fun com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.toModel(): ListingType =
+    when (this) {
+        All -> ListingType.All
+        Local -> ListingType.Local
+        Subscribed -> ListingType.Subscribed
+    }
+
+internal fun com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.toModel(): SortType? =
+    when (this) {
+        Active -> SortType.Active
+        Hot -> SortType.Hot
+        New -> SortType.New
+        Old -> SortType.Old
+        TopDay -> SortType.Top.Day
+        TopWeek -> SortType.Top.Week
+        TopMonth -> SortType.Top.Month
+        TopYear -> SortType.Top.Year
+        TopAll -> SortType.Top.Generic
+        Top -> SortType.Top.Generic
+        MostComments -> SortType.MostComments
+        NewComments -> SortType.NewComments
+        TopHour -> SortType.Top.PastHour
+        TopSixHour -> SortType.Top.Past6Hours
+        TopTwelveHour -> SortType.Top.Past12Hours
+        Controversial -> SortType.Controversial
+        Scaled -> SortType.Scaled
+        else -> null
+    }
 
 internal fun SortType.toDto() = when (this) {
     SortType.Hot -> Hot
@@ -110,6 +143,7 @@ internal fun Person.toModel() = UserModel(
     name = name,
     displayName = displayName.orEmpty(),
     avatar = avatar,
+    banner = banner,
     host = actorId.toHost(),
     accountAge = published,
     banned = banned,
@@ -385,4 +419,30 @@ internal fun Language.toModel() = LanguageModel(
     id = id,
     code = code,
     name = name,
+)
+
+internal fun LocalUser.toModel() = AccountSettingsModel(
+    email = email,
+    defaultListingType = defaultListingType?.toModel(),
+    defaultSortType = defaultSortType?.toModel(),
+    sendNotificationsToEmail = sendNotificationsToEmail,
+    showBotAccounts = showBotAccounts,
+    showNsfw = showNsfw,
+    showReadPosts = showReadPosts,
+)
+
+internal fun AccountSettingsModel.toDto() = SaveUserSettingsForm(
+    avatar = avatar,
+    banner = banner,
+    bio = bio,
+    botAccount = bot,
+    defaultListingType = defaultListingType?.toDto(),
+    defaultSortType = defaultSortType?.toDto(),
+    displayName = displayName,
+    email = email,
+    matrixUserId = matrixUserId,
+    sendNotificationsToEmail = sendNotificationsToEmail,
+    showBotAccounts = showBotAccounts,
+    showNsfw = showNsfw,
+    showReadPosts = showReadPosts,
 )

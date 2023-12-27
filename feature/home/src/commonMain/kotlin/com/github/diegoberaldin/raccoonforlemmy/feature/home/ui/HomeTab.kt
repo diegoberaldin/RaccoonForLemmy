@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.home.ui
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SpaceDashboard
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,7 +21,7 @@ object HomeTab : Tab {
     override val options: TabOptions
         @Composable
         get() {
-            val icon = rememberVectorPainter(Icons.Default.SpaceDashboard)
+            val icon = rememberVectorPainter(Icons.Default.Dashboard)
             val languageRepository = remember { getLanguageRepository() }
             val lang by languageRepository.currentLanguage.collectAsState()
             return remember(lang) {

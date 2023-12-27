@@ -1,8 +1,11 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,9 +18,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
-internal fun SettingsRow(
+fun SettingsRow(
     title: String,
     value: String = "",
+    disclosureIndicator: Boolean = false,
     annotatedValue: AnnotatedString = AnnotatedString(""),
     modifier: Modifier = Modifier,
     subtitle: String? = null,
@@ -66,6 +70,13 @@ internal fun SettingsRow(
                 color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+            )
+        }
+        if (disclosureIndicator) {
+            Icon(
+                imageVector = Icons.Default.ChevronRight,
+                tint = MaterialTheme.colorScheme.onBackground,
+                contentDescription = null,
             )
         }
     }

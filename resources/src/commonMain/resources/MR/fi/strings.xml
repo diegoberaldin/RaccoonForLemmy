@@ -286,4 +286,20 @@
     <string name="user_info_admin">järjestelmänvalvoja</string>
     <string name="settings_about_chat_matrix">Chat Matrixissa</string>
     <string name="settings_reply_color">Vastaustoiminnon väri</string>
+    <string name="settings_section_account">Tilin asetukset</string>
+    <string name="settings_web_preferences">Web-asetukset</string>
+    <string name="settings_web_header_personal">Henkilökohtaisia ​​tietoja</string>
+    <string name="settings_web_header_contents">Sisällys</string>
+    <string name="settings_web_header_notifications">Ilmoitukset</string>
+    <string name="settings_web_avatar">hahmo</string>
+    <string name="settings_web_banner">Banneri</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Näyttönimi</string>
+    <string name="settings_web_matrix">Matrix käyttäjätunnus</string>
+    <string name="settings_web_email">Sähköposti</string>
+    <string name="settings_web_show_bot">Näytä bottitilit</string>
+    <string name="settings_web_show_nsfw">Näytä NSFW</string>
+    <string name="settings_web_show_read">Näytä luetut viestit</string>
+    <string name="settings_web_email_notifications">Lähetä sähköposti-ilmoituksia</string>
 </resources>

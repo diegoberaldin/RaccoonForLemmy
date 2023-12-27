@@ -289,4 +289,20 @@
     <string name="user_info_admin">yönetici</string>
     <string name="settings_about_chat_matrix">Matrix\'te sohbet</string>
     <string name="settings_reply_color">yanıt eyleminin rengi</string>
+    <string name="settings_section_account">Hesap ayarları</string>
+    <string name="settings_web_preferences">Web tercihleri</string>
+    <string name="settings_web_header_personal">Kişisel bilgi</string>
+    <string name="settings_web_header_contents">İçindekiler</string>
+    <string name="settings_web_header_notifications">Bildirimler</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Afiş</string>
+    <string name="settings_web_bio">Biyografi</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Ekran adı</string>
+    <string name="settings_web_matrix">Matrix kullanıcı kimliği</string>
+    <string name="settings_web_email">E-posta</string>
+    <string name="settings_web_show_bot">Bot hesaplarını göster</string>
+    <string name="settings_web_show_nsfw">NSFW\'yi göster</string>
+    <string name="settings_web_show_read">Okunmuş gönderileri göster</string>
+    <string name="settings_web_email_notifications">E-posta bildirimleri gönder</string>
 </resources>

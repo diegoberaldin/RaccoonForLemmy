@@ -295,4 +295,20 @@
     <string name="user_info_admin">riarthóir</string>
     <string name="settings_about_chat_matrix">Comhrá ar Matrix</string>
     <string name="settings_reply_color">Dath an ghnímh freagartha</string>
+    <string name="settings_section_account">Socruithe cuntas</string>
+    <string name="settings_web_preferences">Sainroghanna Gréasáin</string>
+    <string name="settings_web_header_personal">Eolas pearsanta</string>
+    <string name="settings_web_header_contents">Clár ábhair</string>
+    <string name="settings_web_header_notifications">Fógraí</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Meirge</string>
+    <string name="settings_web_bio">Bith</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Ainm taispeána</string>
+    <string name="settings_web_matrix">Aitheantas úsáideora Matrix</string>
+    <string name="settings_web_email">Ríomhphost</string>
+    <string name="settings_web_show_bot">Taispeáin cuntais bot</string>
+    <string name="settings_web_show_nsfw">Taispeáin NSFW</string>
+    <string name="settings_web_show_read">Taispeáin postálacha léite</string>
+    <string name="settings_web_email_notifications">Seol fógraí ríomhphoist</string>
 </resources>

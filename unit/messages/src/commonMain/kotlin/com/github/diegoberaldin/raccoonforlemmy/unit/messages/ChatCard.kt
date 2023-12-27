@@ -100,7 +100,6 @@ internal fun ChatCard(
                 quality = FilterQuality.Low,
                 url = creatorAvatar,
                 autoload = autoLoadImages,
-                contentDescription = null,
                 contentScale = ContentScale.FillBounds,
             )
         } else {

@@ -50,7 +50,6 @@ fun PostCardImage(
             quality = FilterQuality.Low,
             autoload = autoLoadImages,
             loadButtonContent = loadButtonContent,
-            contentDescription = null,
             contentScale = ContentScale.FillWidth,
             onFailure = {
                 Text(

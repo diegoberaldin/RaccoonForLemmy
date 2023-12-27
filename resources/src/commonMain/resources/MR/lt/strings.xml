@@ -288,4 +288,20 @@
     <string name="user_info_admin">administratorius</string>
     <string name="settings_about_chat_matrix">Pokalbis Matrix</string>
     <string name="settings_reply_color">Atsakymo veiksmo spalva</string>
+    <string name="settings_section_account">Paskyros nustatymai</string>
+    <string name="settings_web_preferences">Žiniatinklio nuostatos</string>
+    <string name="settings_web_header_personal">Asmeninė informacija</string>
+    <string name="settings_web_header_contents">Turinys</string>
+    <string name="settings_web_header_notifications">Pranešimai</string>
+    <string name="settings_web_avatar">Avataras</string>
+    <string name="settings_web_banner">Baneris</string>
+    <string name="settings_web_bio">Biografija</string>
+    <string name="settings_web_bot">Botas</string>
+    <string name="settings_web_display_name">Rodomas pavadinimas</string>
+    <string name="settings_web_matrix">Matrix vartotojo ID</string>
+    <string name="settings_web_email">El. paštas</string>
+    <string name="settings_web_show_bot">Rodyti roboto paskyras</string>
+    <string name="settings_web_show_nsfw">Rodyti NSFW</string>
+    <string name="settings_web_show_read">Rodyti skaitytus įrašus</string>
+    <string name="settings_web_email_notifications">Siųsti pranešimus el. paštu</string>
 </resources>

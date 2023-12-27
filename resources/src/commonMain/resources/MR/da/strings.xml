@@ -286,4 +286,20 @@
     <string name="user_info_admin">administrator</string>
     <string name="settings_about_chat_matrix">Chat på Matrix</string>
     <string name="settings_reply_color">Farve på svarhandling</string>
+    <string name="settings_section_account">Bruger indstillinger</string>
+    <string name="settings_web_preferences">Webpræferencer</string>
+    <string name="settings_web_header_personal">Personlig information</string>
+    <string name="settings_web_header_contents">Indhold</string>
+    <string name="settings_web_header_notifications">Meddelelser</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Banner</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Vist navn</string>
+    <string name="settings_web_matrix">Matrix bruger-id</string>
+    <string name="settings_web_email">E-mail</string>
+    <string name="settings_web_show_bot">Vis botkonti</string>
+    <string name="settings_web_show_nsfw">Vis NSFW</string>
+    <string name="settings_web_show_read">Vis læste indlæg</string>
+    <string name="settings_web_email_notifications">Send e-mail-meddelelser</string>
 </resources>

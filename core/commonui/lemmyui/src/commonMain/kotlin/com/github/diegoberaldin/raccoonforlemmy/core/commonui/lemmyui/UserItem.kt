@@ -44,7 +44,6 @@ fun UserItem(
                     .clip(RoundedCornerShape(iconSize / 2)),
                 url = avatar,
                 quality = FilterQuality.Low,
-                contentDescription = null,
                 contentScale = ContentScale.FillBounds,
             )
         } else {

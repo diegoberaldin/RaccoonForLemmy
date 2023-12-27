@@ -23,6 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.profileTabMod
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.exploreTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.settingsTabModule
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.localizationModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.di.accountSettingsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.di.communityDetailModule
@@ -89,5 +90,6 @@ val sharedHelperModule = module {
         userInfoModule,
         manageSubscriptionsModule,
         modlogModule,
+        accountSettingsModule,
     )
 }

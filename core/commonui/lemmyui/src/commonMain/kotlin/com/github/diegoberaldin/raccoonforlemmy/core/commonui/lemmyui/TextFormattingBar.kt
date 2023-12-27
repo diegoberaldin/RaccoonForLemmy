@@ -94,6 +94,7 @@ fun TextFormattingBar(
                     }),
                 imageVector = Icons.Default.FormatBold,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -139,6 +140,7 @@ fun TextFormattingBar(
                     }),
                 imageVector = Icons.Default.FormatItalic,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -183,6 +185,7 @@ fun TextFormattingBar(
                         onTextFieldValueChanged(newValue)
                     }),
                 imageVector = Icons.Default.FormatStrikethrough,
+                tint = MaterialTheme.colorScheme.onBackground,
                 contentDescription = null,
             )
         }
@@ -198,6 +201,7 @@ fun TextFormattingBar(
                     ),
                     imageVector = Icons.Default.Image,
                     contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
@@ -246,6 +250,7 @@ fun TextFormattingBar(
                     }),
                 imageVector = Icons.Default.InsertLink,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -291,6 +296,7 @@ fun TextFormattingBar(
                     }),
                 imageVector = Icons.Default.Code,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -318,6 +324,7 @@ fun TextFormattingBar(
                     }),
                 imageVector = Icons.Default.FormatQuote,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -345,6 +352,7 @@ fun TextFormattingBar(
                     }),
                 imageVector = Icons.Default.FormatListBulleted,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -372,6 +380,7 @@ fun TextFormattingBar(
                     }),
                 imageVector = Icons.Default.FormatListNumbered,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
 

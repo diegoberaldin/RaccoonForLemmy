@@ -77,7 +77,6 @@ internal fun AccountItem(
                 url = avatar,
                 autoload = autoLoadImages,
                 quality = FilterQuality.Low,
-                contentDescription = null,
                 contentScale = ContentScale.FillBounds,
             )
         } else {

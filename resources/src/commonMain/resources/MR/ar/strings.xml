@@ -284,4 +284,20 @@
     <string name="user_info_admin">مدير</string>
     <string name="settings_about_chat_matrix">الدردشة على Matrix</string>
     <string name="settings_reply_color">لون عمل الرد</string>
+    <string name="settings_section_account">إعدادت الحساب</string>
+    <string name="settings_web_preferences">تفضيلات الويب</string>
+    <string name="settings_web_header_personal">معلومات شخصية</string>
+    <string name="settings_web_header_contents">محتويات</string>
+    <string name="settings_web_header_notifications">إشعارات</string>
+    <string name="settings_web_avatar">الصورة الرمزية</string>
+    <string name="settings_web_banner">راية</string>
+    <string name="settings_web_bio">السيرة الذاتية</string>
+    <string name="settings_web_bot">بوت</string>
+    <string name="settings_web_display_name">اسم العرض</string>
+    <string name="settings_web_matrix">معرف المستخدم Matrix</string>
+    <string name="settings_web_email">بريد إلكتروني</string>
+    <string name="settings_web_show_bot">إظهار حسابات البوت</string>
+    <string name="settings_web_show_nsfw">عرض إن إس إف دبليو</string>
+    <string name="settings_web_show_read">إظهار المشاركات المقروءة</string>
+    <string name="settings_web_email_notifications">إرسال إشعارات البريد الإلكتروني</string>
 </resources>

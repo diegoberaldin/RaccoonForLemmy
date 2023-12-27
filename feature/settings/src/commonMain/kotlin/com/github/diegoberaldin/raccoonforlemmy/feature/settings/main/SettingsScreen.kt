@@ -12,12 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AdminPanelSettings
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Explicit
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.SettingsApplications
-import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.Style
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -48,6 +49,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchem
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ColorBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CommentBarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
@@ -77,14 +81,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsColorRow
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsMultiColorRow
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsRow
-import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsSwitchRow
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
+import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsScreen
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.delay
@@ -191,7 +193,7 @@ class SettingsScreen : Screen {
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     SettingsHeader(
-                        icon = Icons.Default.Palette,
+                        icon = Icons.Default.Style,
                         title = stringResource(MR.strings.settings_section_appearance),
                     )
 
@@ -374,7 +376,7 @@ class SettingsScreen : Screen {
                     )
 
                     SettingsHeader(
-                        icon = Icons.Default.Tune,
+                        icon = Icons.Default.Dashboard,
                         title = stringResource(MR.strings.settings_section_feed),
                     )
 
@@ -559,8 +561,25 @@ class SettingsScreen : Screen {
                         },
                     )
 
+                    if (uiState.isLogged) {
+                        SettingsHeader(
+                            icon = Icons.Default.AdminPanelSettings,
+                            title = stringResource(MR.strings.settings_section_account),
+                        )
+
+                        // web preferences
+                        SettingsRow(
+                            title = stringResource(MR.strings.settings_web_preferences),
+                            disclosureIndicator = true,
+                            onTap = rememberCallback {
+                                val screen = AccountSettingsScreen()
+                                navigationCoordinator.pushScreen(screen)
+                            },
+                        )
+                    }
+
                     SettingsHeader(
-                        icon = Icons.Default.Shield,
+                        icon = Icons.Default.Explicit,
                         title = stringResource(MR.strings.settings_section_nsfw),
                     )
 

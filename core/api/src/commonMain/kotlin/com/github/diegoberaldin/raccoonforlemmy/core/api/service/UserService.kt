@@ -9,12 +9,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetRepliesResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkAllAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPersonMentionAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsResponse
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.http.Query
 
 interface UserService {
@@ -72,4 +75,11 @@ interface UserService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: BlockPersonForm,
     ): Response<BlockPersonResponse>
+
+    @PUT("user/save_user_settings")
+    @Headers("Content-Type: application/json")
+    suspend fun saveUserSettings(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: SaveUserSettingsForm,
+    ): Response<SaveUserSettingsResponse>
 }

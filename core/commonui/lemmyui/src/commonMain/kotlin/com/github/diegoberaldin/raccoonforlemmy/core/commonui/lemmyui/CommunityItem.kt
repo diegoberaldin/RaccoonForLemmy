@@ -75,7 +75,6 @@ fun CommunityItem(
                     .size(iconSize)
                     .clip(RoundedCornerShape(iconSize / 2)),
                 url = communityIcon,
-                contentDescription = null,
                 contentScale = ContentScale.FillBounds,
             )
         } else {

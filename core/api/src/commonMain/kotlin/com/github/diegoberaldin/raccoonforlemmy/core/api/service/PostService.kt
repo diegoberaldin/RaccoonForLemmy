@@ -8,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FeaturePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostsResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetSiteMetadataResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListPostReportsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LockPostForm
@@ -53,6 +54,13 @@ interface PostService {
         @Query("id") id: Int? = null,
         @Query("comment_id") commentId: Int? = null,
     ): Response<GetPostResponse>
+
+    @GET("post/site_metadata")
+    suspend fun getSiteMetadata(
+        @Header("Authorization") authHeader: String? = null,
+        @Query("url")
+        url: String,
+    ): Response<GetSiteMetadataResponse>
 
     @PUT("post/save")
     @Headers("Content-Type: application/json")

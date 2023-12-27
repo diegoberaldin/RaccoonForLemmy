@@ -56,7 +56,6 @@ internal fun ModeratorCell(
                 quality = FilterQuality.Low,
                 url = creatorAvatar,
                 autoload = autoLoadImages,
-                contentDescription = null,
                 contentScale = ContentScale.FillBounds,
             )
         } else {

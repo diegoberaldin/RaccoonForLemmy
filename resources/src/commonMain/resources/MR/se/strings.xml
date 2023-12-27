@@ -287,4 +287,20 @@
     <string name="user_info_admin">administratör</string>
     <string name="settings_about_chat_matrix">Chatta på Matrix</string>
     <string name="settings_reply_color">Färg på svarsåtgärd</string>
+    <string name="settings_section_account">Kontoinställningar</string>
+    <string name="settings_web_preferences">Webpreferenser</string>
+    <string name="settings_web_header_personal">Personlig information</string>
+    <string name="settings_web_header_contents">Innehåll</string>
+    <string name="settings_web_header_notifications">Aviseringar</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Baner</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Visningsnamn</string>
+    <string name="settings_web_matrix">Matrix användar-ID</string>
+    <string name="settings_web_email">E-post</string>
+    <string name="settings_web_show_bot">Visa botkonton</string>
+    <string name="settings_web_show_nsfw">Visa NSFW</string>
+    <string name="settings_web_show_read">Visa lästa inlägg</string>
+    <string name="settings_web_email_notifications">Skicka e-postmeddelanden</string>
 </resources>

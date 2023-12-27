@@ -290,4 +290,21 @@
     <string name="user_info_admin">administrador</string>
     <string name="settings_about_chat_matrix">Chat en Matrix</string>
     <string name="settings_reply_color">Color de la acción de respuesta</string>
+    <string name="settings_section_account">Configuraciones de la cuenta</string>
+    <string name="settings_web_preferences">Preferencias web</string>
+    <string name="settings_web_header_personal">Informacion personal</string>
+    <string name="settings_web_header_contents">Contenido</string>
+    <string name="settings_web_header_notifications">Notificaciones</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Bandera</string>
+    <string name="settings_web_bio">Biografía</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Nombre para mostrar</string>
+    <string name="settings_web_matrix">ID de usuario Matrix</string>
+    <string name="settings_web_email">Correo electrónico</string>
+    <string name="settings_web_show_bot">Mostrar cuentas de bots</string>
+    <string name="settings_web_show_nsfw">Mostrar NSFW</string>
+    <string name="settings_web_show_read">Mostrar publicaciones leídas</string>
+    <string name="settings_web_email_notifications">Enviar notificaciones por correo electrónico
+    </string>
 </resources>

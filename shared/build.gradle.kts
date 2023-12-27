@@ -80,6 +80,7 @@ kotlin {
                 implementation(projects.unit.managesubscriptions)
                 implementation(projects.unit.multicommunity)
                 implementation(projects.unit.modlog)
+                implementation(projects.unit.accountsettings)
 
                 api(projects.resources)
                 api(projects.feature.home)

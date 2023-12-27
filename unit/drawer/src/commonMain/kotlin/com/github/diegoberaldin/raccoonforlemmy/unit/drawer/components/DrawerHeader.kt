@@ -59,7 +59,6 @@ internal fun DrawerHeader(
                     url = userAvatar,
                     autoload = autoLoadImages,
                     quality = FilterQuality.Low,
-                    contentDescription = null,
                     contentScale = ContentScale.FillBounds,
                 )
             } else {

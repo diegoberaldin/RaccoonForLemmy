@@ -286,4 +286,20 @@
     <string name="user_info_admin">správce</string>
     <string name="settings_about_chat_matrix">Chat na Matrixu</string>
     <string name="settings_reply_color">Barva akce odpovědi</string>
+    <string name="settings_section_account">Nastavení účtu</string>
+    <string name="settings_web_preferences">Předvolby webu</string>
+    <string name="settings_web_header_personal">Osobní informace</string>
+    <string name="settings_web_header_contents">Obsah</string>
+    <string name="settings_web_header_notifications">Oznámení</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Prapor</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Zobrazovaný název</string>
+    <string name="settings_web_matrix">ID uživatele Matrix</string>
+    <string name="settings_web_email">E-mail</string>
+    <string name="settings_web_show_bot">Zobrazit účty robotů</string>
+    <string name="settings_web_show_nsfw">Zobrazit NSFW</string>
+    <string name="settings_web_show_read">Zobrazit přečtené příspěvky</string>
+    <string name="settings_web_email_notifications">Odesílejte e-mailová upozornění</string>
 </resources>

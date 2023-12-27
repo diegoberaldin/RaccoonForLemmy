@@ -53,11 +53,15 @@ kotlin {
                 implementation(projects.core.commonui.modals)
                 implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.notifications)
-                implementation(projects.unit.web)
-                implementation(projects.unit.about)
+
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
                 implementation(projects.domain.identity)
+
+                implementation(projects.unit.web)
+                implementation(projects.unit.about)
+                implementation(projects.unit.accountsettings)
+
                 implementation(projects.resources)
             }
         }

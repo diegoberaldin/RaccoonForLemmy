@@ -286,4 +286,20 @@
     <string name="user_info_admin">skrbnik</string>
     <string name="settings_about_chat_matrix">Klepet na Matrixu</string>
     <string name="settings_reply_color">Barva dejanja odgovora</string>
+    <string name="settings_section_account">Nastavitve računa</string>
+    <string name="settings_web_preferences">Spletne nastavitve</string>
+    <string name="settings_web_header_personal">Osebne informacije</string>
+    <string name="settings_web_header_contents">Vsebina</string>
+    <string name="settings_web_header_notifications">Obvestila</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Pasica</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Prikazno ime</string>
+    <string name="settings_web_matrix">ID uporabnika Matrix</string>
+    <string name="settings_web_email">E-naslov</string>
+    <string name="settings_web_show_bot">Pokaži račune botov</string>
+    <string name="settings_web_show_nsfw">Prikaži NSFW</string>
+    <string name="settings_web_show_read">Prikaži prebrane objave</string>
+    <string name="settings_web_email_notifications">Pošiljanje e-poštnih obvestil</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountSettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -14,4 +15,11 @@ interface SiteRepository {
     suspend fun getMetadata(url: String): MetadataModel?
 
     suspend fun getLanguages(auth: String?): List<LanguageModel>
+
+    suspend fun getAccountSettings(auth: String): AccountSettingsModel?
+
+    suspend fun updateAccountSettings(
+        auth: String,
+        value: AccountSettingsModel,
+    ): Result<Unit>
 }

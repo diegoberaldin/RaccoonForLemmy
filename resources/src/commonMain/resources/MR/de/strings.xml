@@ -294,4 +294,20 @@
     <string name="user_info_admin">Administrator</string>
     <string name="settings_about_chat_matrix">Chatten Sie auf Matrix</string>
     <string name="settings_reply_color">Farbe der Antwortaktion</string>
+    <string name="settings_section_account">Account Einstellungen</string>
+    <string name="settings_web_preferences">Webpräferenzen</string>
+    <string name="settings_web_header_personal">Persönliche Angaben</string>
+    <string name="settings_web_header_contents">Inhalt</string>
+    <string name="settings_web_header_notifications">Benachrichtigungen</string>
+    <string name="settings_web_avatar">Benutzerbild</string>
+    <string name="settings_web_banner">Banner</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Anzeigename</string>
+    <string name="settings_web_matrix">Benutzer-ID Matrix</string>
+    <string name="settings_web_email">Email</string>
+    <string name="settings_web_show_bot">Bot-Konten anzeigen</string>
+    <string name="settings_web_show_nsfw">NSFW anzeigen</string>
+    <string name="settings_web_show_read">Gelesene Beiträge anzeigen</string>
+    <string name="settings_web_email_notifications">Senden Sie E-Mail-Benachrichtigungen</string>
 </resources>

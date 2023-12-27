@@ -33,7 +33,6 @@ internal fun MarkdownImage(content: String, node: ASTNode, autoLoadImages: Boole
         url = link,
         autoload = autoLoadImages,
         quality = FilterQuality.Low,
-        contentDescription = null,
         contentScale = ContentScale.FillWidth,
         modifier = Modifier.fillMaxWidth(),
         onFailure = {

@@ -289,4 +289,21 @@
     <string name="user_info_admin">администратор</string>
     <string name="settings_about_chat_matrix">чат в Matrix</string>
     <string name="settings_reply_color">Цвет действия ответа</string>
+    <string name="settings_section_account">Настройки учетной записи</string>
+    <string name="settings_web_preferences">Веб-настройки</string>
+    <string name="settings_web_header_personal">Персональная информация</string>
+    <string name="settings_web_header_contents">Содержание</string>
+    <string name="settings_web_header_notifications">Уведомления</string>
+    <string name="settings_web_avatar">Аватар</string>
+    <string name="settings_web_banner">Баннер</string>
+    <string name="settings_web_bio">Био</string>
+    <string name="settings_web_bot">Бот</string>
+    <string name="settings_web_display_name">Отображаемое имя</string>
+    <string name="settings_web_matrix">Идентификатор пользователя Matrix</string>
+    <string name="settings_web_email">Электронная почта</string>
+    <string name="settings_web_show_bot">Показать аккаунты ботов</string>
+    <string name="settings_web_show_nsfw">Показать НФВ</string>
+    <string name="settings_web_show_read">Показать прочитанные сообщения</string>
+    <string name="settings_web_email_notifications">Отправлять уведомления по электронной почте
+    </string>
 </resources>

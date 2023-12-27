@@ -274,7 +274,7 @@ class CreateCommentScreen(
                             label = {
                                 Text(
                                     text = stringResource(MR.strings.create_comment_body),
-                                    style = typography.bodyMedium,
+                                    style = MaterialTheme.typography.titleMedium,
                                 )
                             },
                             textStyle = typography.bodyMedium,

@@ -290,4 +290,20 @@
     <string name="user_info_admin">adminisztrátor</string>
     <string name="settings_about_chat_matrix">Chat a Matrixon</string>
     <string name="settings_reply_color">Válaszművelet színe</string>
+    <string name="settings_section_account">Fiók beállítások</string>
+    <string name="settings_web_preferences">Webes beállítások</string>
+    <string name="settings_web_header_personal">Személyes adat</string>
+    <string name="settings_web_header_contents">Tartalom</string>
+    <string name="settings_web_header_notifications">Értesítések</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Transzparens</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Megjelenítendő név</string>
+    <string name="settings_web_matrix">Matrix felhasználói azonosító</string>
+    <string name="settings_web_email">Email</string>
+    <string name="settings_web_show_bot">Bot-fiókok megjelenítése</string>
+    <string name="settings_web_show_nsfw">NSFW megjelenítése</string>
+    <string name="settings_web_show_read">Olvasott bejegyzések megjelenítése</string>
+    <string name="settings_web_email_notifications">E-mail értesítések küldése</string>
 </resources>

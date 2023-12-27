@@ -152,7 +152,6 @@ private fun ModlogHeader(
                         .clip(RoundedCornerShape(iconSize / 2)),
                     url = creatorAvatar,
                     quality = FilterQuality.Low,
-                    contentDescription = null,
                     contentScale = ContentScale.FillBounds,
                 )
             }

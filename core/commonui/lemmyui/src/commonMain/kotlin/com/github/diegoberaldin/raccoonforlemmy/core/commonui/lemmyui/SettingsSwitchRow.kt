@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 
 @Composable
-internal fun SettingsSwitchRow(
+fun SettingsSwitchRow(
     title: String,
     value: Boolean,
     subtitle: String? = null,

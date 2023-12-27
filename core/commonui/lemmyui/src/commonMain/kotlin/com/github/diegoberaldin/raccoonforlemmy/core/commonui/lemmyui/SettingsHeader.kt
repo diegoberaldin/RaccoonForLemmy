@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,7 +15,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 
 @Composable
-internal fun SettingsHeader(
+fun SettingsHeader(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     title: String,

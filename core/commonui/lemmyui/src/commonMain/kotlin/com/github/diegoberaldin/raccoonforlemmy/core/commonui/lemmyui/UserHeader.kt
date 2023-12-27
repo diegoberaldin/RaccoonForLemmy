@@ -63,7 +63,6 @@ fun UserHeader(
                     url = banner,
                     quality = FilterQuality.Low,
                     contentScale = ContentScale.FillBounds,
-                    contentDescription = null,
                 )
                 Box(
                     modifier = Modifier.fillMaxSize().background(
@@ -98,7 +97,6 @@ fun UserHeader(
                         ),
                     url = userAvatar,
                     quality = FilterQuality.Low,
-                    contentDescription = null,
                     contentScale = ContentScale.FillBounds,
                 )
             } else {

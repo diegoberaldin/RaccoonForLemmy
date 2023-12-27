@@ -74,7 +74,6 @@ fun ZoomableImage(
                 .transformable(transformableState),
             url = url,
             autoload = autoLoadImages,
-            contentDescription = null,
             onFailure = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),

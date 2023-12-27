@@ -287,4 +287,20 @@
     <string name="user_info_admin">administrator</string>
     <string name="settings_about_chat_matrix">Chat pe Matrix</string>
     <string name="settings_reply_color">Culoare acțiunii de răspuns</string>
+    <string name="settings_section_account">Setările contului</string>
+    <string name="settings_web_preferences">Preferințe web</string>
+    <string name="settings_web_header_personal">Informații personale</string>
+    <string name="settings_web_header_contents">Cuprins</string>
+    <string name="settings_web_header_notifications">Notificări</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Banner</string>
+    <string name="settings_web_bio">bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Numele de afișare</string>
+    <string name="settings_web_matrix">ID utilizator Matrix</string>
+    <string name="settings_web_email">E-mail</string>
+    <string name="settings_web_show_bot">Arată conturile bot</string>
+    <string name="settings_web_show_nsfw">Arată NSFW</string>
+    <string name="settings_web_show_read">Arată postările citite</string>
+    <string name="settings_web_email_notifications">Trimite notificări prin e-mail</string>
 </resources>

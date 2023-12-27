@@ -288,4 +288,20 @@
     <string name="user_info_admin">адміністратор</string>
     <string name="settings_about_chat_matrix">чат на Matrix</string>
     <string name="settings_reply_color">колір дії відповіді</string>
+    <string name="settings_section_account">Налаштування аккаунта</string>
+    <string name="settings_web_preferences">Веб-налаштування</string>
+    <string name="settings_web_header_personal">Персональна інформація</string>
+    <string name="settings_web_header_contents">Зміст</string>
+    <string name="settings_web_header_notifications">Сповіщення</string>
+    <string name="settings_web_avatar">Аватар</string>
+    <string name="settings_web_banner">банер</string>
+    <string name="settings_web_bio">біографія</string>
+    <string name="settings_web_bot">Бот</string>
+    <string name="settings_web_display_name">Відображуване ім\'я</string>
+    <string name="settings_web_matrix">ID користувача Matrix</string>
+    <string name="settings_web_email">Електронна пошта</string>
+    <string name="settings_web_show_bot">Показати облікові записи ботів</string>
+    <string name="settings_web_show_nsfw">Показати NSFW</string>
+    <string name="settings_web_show_read">Показати прочитані дописи</string>
+    <string name="settings_web_email_notifications">Надсилати сповіщення електронною поштою</string>
 </resources>

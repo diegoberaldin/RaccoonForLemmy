@@ -291,4 +291,20 @@
     <string name="user_info_admin">amministratur</string>
     <string name="settings_about_chat_matrix">Chat fuq Matrix</string>
     <string name="settings_reply_color">Kulur ta\' azzjoni ta\' risposta</string>
+    <string name="settings_section_account">Preferenzi tal-kont</string>
+    <string name="settings_web_preferences">Preferenzi tal-web</string>
+    <string name="settings_web_header_personal">Informazzjoni personali</string>
+    <string name="settings_web_header_contents">Kontenut</string>
+    <string name="settings_web_header_notifications">Notifiki</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Banner</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Isem tal-wiri</string>
+    <string name="settings_web_matrix">ID tal-utent Matrix</string>
+    <string name="settings_web_email">Email</string>
+    <string name="settings_web_show_bot">Uri kontijiet bot</string>
+    <string name="settings_web_show_nsfw">Uri NSFW</string>
+    <string name="settings_web_show_read">Uri postijiet moqrija</string>
+    <string name="settings_web_email_notifications">Ibgħat notifiki bl-email</string>
 </resources>

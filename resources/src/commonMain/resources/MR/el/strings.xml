@@ -295,4 +295,22 @@
     <string name="user_info_admin">διαχειριστής</string>
     <string name="settings_about_chat_matrix">Συνομιλία στο Matrix</string>
     <string name="settings_reply_color">Χρώμα της ενέργειας απάντησης</string>
+    <string name="settings_section_account">Ρυθμίσεις λογαριασμού</string>
+    <string name="settings_web_preferences">Προτιμήσεις Ιστού</string>
+    <string name="settings_web_header_personal">Προσωπικές πληροφορίες</string>
+    <string name="settings_web_header_contents">Περιεχόμενα</string>
+    <string name="settings_web_header_notifications">Ειδοποιήσεις</string>
+    <string name="settings_web_avatar">Εικόνα προφίλ</string>
+    <string name="settings_web_banner">Πανό</string>
+    <string name="settings_web_bio">Βιογραφία</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Εμφανιζόμενο όνομα</string>
+    <string name="settings_web_matrix">Αναγνωριστικό χρήστη Matrix</string>
+    <string name="settings_web_email">Ηλεκτρονική διεύθυνση</string>
+    <string name="settings_web_show_bot">Εμφάνιση λογαριασμών bot</string>
+    <string name="settings_web_show_nsfw">Εμφάνιση NSFW</string>
+    <string name="settings_web_show_read">Εμφάνιση αναγνωσμένων αναρτήσεων</string>
+    <string name="settings_web_email_notifications">Αποστολή ειδοποιήσεων μέσω ηλεκτρονικό
+        ταχυδρομείο
+    </string>
 </resources>

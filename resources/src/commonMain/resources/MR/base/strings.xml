@@ -315,4 +315,20 @@
     <string name="user_info_admin">administrator</string>
     <string name="settings_about_chat_matrix">Chat on Matrix</string>
     <string name="settings_reply_color">Reply action color</string>
+    <string name="settings_section_account">Account settings</string>
+    <string name="settings_web_preferences">Web preferences</string>
+    <string name="settings_web_header_personal">Personal information</string>
+    <string name="settings_web_header_contents">Contents</string>
+    <string name="settings_web_header_notifications">Notifications</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Banner</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Display name</string>
+    <string name="settings_web_matrix">Matrix user ID</string>
+    <string name="settings_web_email">Email</string>
+    <string name="settings_web_show_bot">Show bot accounts</string>
+    <string name="settings_web_show_nsfw">Show NSFW</string>
+    <string name="settings_web_show_read">Show read posts</string>
+    <string name="settings_web_email_notifications">Send email notifications</string>
 </resources>

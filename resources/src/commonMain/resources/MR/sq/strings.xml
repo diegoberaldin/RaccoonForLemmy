@@ -292,4 +292,20 @@
     <string name="user_info_admin">administratori</string>
     <string name="settings_about_chat_matrix">Bisedoni në Matrix</string>
     <string name="settings_reply_color">Ngjyra e veprimit të përgjigjes</string>
+    <string name="settings_section_account">Cilësimet e llogarisë</string>
+    <string name="settings_web_preferences">Preferencat e uebit</string>
+    <string name="settings_web_header_personal">Informata personale</string>
+    <string name="settings_web_header_contents">Përmbajtja</string>
+    <string name="settings_web_header_notifications">Njoftimet</string>
+    <string name="settings_web_avatar">Avatari</string>
+    <string name="settings_web_banner">Banner</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Emri i shfaqur</string>
+    <string name="settings_web_matrix">ID-ja e përdoruesit Matrix</string>
+    <string name="settings_web_email">Email</string>
+    <string name="settings_web_show_bot">Shfaq llogaritë bot</string>
+    <string name="settings_web_show_nsfw">Trego NSFW</string>
+    <string name="settings_web_show_read">Shfaq postimet e lexuara</string>
+    <string name="settings_web_email_notifications">Dërgoni njoftime me email</string>
 </resources>

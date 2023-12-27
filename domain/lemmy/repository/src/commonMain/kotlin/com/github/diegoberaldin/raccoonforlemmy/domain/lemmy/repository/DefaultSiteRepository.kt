@@ -2,10 +2,12 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockSiteForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountSettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
 
 internal class DefaultSiteRepository(
@@ -53,7 +55,7 @@ internal class DefaultSiteRepository(
         }
 
     override suspend fun getMetadata(url: String): MetadataModel? = runCatching {
-        val response = services.site.getSiteMetadata(
+        val response = services.post.getSiteMetadata(
             url = url,
         )
         response.body()?.metadata?.toModel()
@@ -64,4 +66,37 @@ internal class DefaultSiteRepository(
         val dto = response.body()
         dto?.allLanguages?.map { it.toModel() }.orEmpty()
     }.getOrElse { emptyList() }
+
+    override suspend fun getAccountSettings(auth: String): AccountSettingsModel? = runCatching {
+        val dto = services.site.get(
+            auth = auth,
+            authHeader = auth.toAuthHeader(),
+        ).body()
+        dto?.myUser?.localUserView?.run {
+            localUser?.toModel()?.copy(
+                avatar = person.avatar,
+                banner = person.banner,
+                bio = person.bio,
+                bot = person.botAccount,
+                displayName = person.displayName,
+                matrixUserId = person.matrixUserId,
+            )
+        }
+    }.getOrNull()
+
+    override suspend fun updateAccountSettings(
+        auth: String,
+        value: AccountSettingsModel,
+    ): Result<Unit> = runCatching {
+        val formData = value.toDto().copy(auth = auth)
+        services.user.saveUserSettings(
+            authHeader = auth.toAuthHeader(),
+            form = formData,
+        )
+        Unit
+    }.apply {
+        exceptionOrNull()?.also {
+            it.printStackTrace()
+        }
+    }
 }

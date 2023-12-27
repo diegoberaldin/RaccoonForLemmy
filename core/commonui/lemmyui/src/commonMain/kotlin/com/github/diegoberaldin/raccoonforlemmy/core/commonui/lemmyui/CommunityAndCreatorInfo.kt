@@ -85,7 +85,6 @@ fun CommunityAndCreatorInfo(
                         .clip(RoundedCornerShape(iconSize / 2)),
                     url = communityIcon,
                     quality = FilterQuality.Low,
-                    contentDescription = null,
                     contentScale = ContentScale.FillBounds,
                 )
             } else {
@@ -119,7 +118,6 @@ fun CommunityAndCreatorInfo(
                         .clip(RoundedCornerShape(iconSize / 2)),
                     url = creatorAvatar,
                     quality = FilterQuality.Low,
-                    contentDescription = null,
                     contentScale = ContentScale.FillBounds,
                 )
             } else {

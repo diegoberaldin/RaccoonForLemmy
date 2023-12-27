@@ -100,7 +100,6 @@ fun CommunityHeader(
                         ),
                     url = communityIcon,
                     quality = FilterQuality.Low,
-                    contentDescription = null,
                     contentScale = ContentScale.FillBounds,
                 )
             } else {

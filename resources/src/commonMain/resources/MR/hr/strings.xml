@@ -291,4 +291,20 @@
     <string name="user_info_admin">administrator</string>
     <string name="settings_about_chat_matrix">Chat na Matrixu</string>
     <string name="settings_reply_color">Boja radnje odgovora</string>
+    <string name="settings_section_account">Postavke računa</string>
+    <string name="settings_web_preferences">Web postavke</string>
+    <string name="settings_web_header_personal">Osobne informacije</string>
+    <string name="settings_web_header_contents">Sadržaj</string>
+    <string name="settings_web_header_notifications">Obavijesti</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Banner</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Ime za prikaz</string>
+    <string name="settings_web_matrix">ID korisnika Matrix</string>
+    <string name="settings_web_email">E-mail</string>
+    <string name="settings_web_show_bot">Prikaži bot račune</string>
+    <string name="settings_web_show_nsfw">Prikaži NSFW</string>
+    <string name="settings_web_show_read">Prikaži pročitane postove</string>
+    <string name="settings_web_email_notifications">Pošaljite obavijesti e-poštom</string>
 </resources>

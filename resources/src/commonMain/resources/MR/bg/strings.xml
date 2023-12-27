@@ -294,4 +294,20 @@
     <string name="user_info_admin">администратор</string>
     <string name="settings_about_chat_matrix">Чат в Matrix</string>
     <string name="settings_reply_color">цвят на отговора</string>
+    <string name="settings_section_account">Настройки на акаунта</string>
+    <string name="settings_web_preferences">Уеб предпочитания</string>
+    <string name="settings_web_header_personal">Лична информация</string>
+    <string name="settings_web_header_contents">Съдържание</string>
+    <string name="settings_web_header_notifications">Известия</string>
+    <string name="settings_web_avatar">Аватар</string>
+    <string name="settings_web_banner">Банер</string>
+    <string name="settings_web_bio">Био</string>
+    <string name="settings_web_bot">Бот</string>
+    <string name="settings_web_display_name">Екранно име</string>
+    <string name="settings_web_matrix">Идентификатор на потребител Matrix</string>
+    <string name="settings_web_email">Електронна поща</string>
+    <string name="settings_web_show_bot">Показване на бот акаунти</string>
+    <string name="settings_web_show_nsfw">Показване на NSFW</string>
+    <string name="settings_web_show_read">Показване на прочетени публикации</string>
+    <string name="settings_web_email_notifications">Изпращайте имейл известия</string>
 </resources>

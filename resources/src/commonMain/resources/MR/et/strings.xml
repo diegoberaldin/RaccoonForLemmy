@@ -286,4 +286,20 @@
     <string name="user_info_admin">administraator</string>
     <string name="settings_about_chat_matrix">Vestelge Matrixis</string>
     <string name="settings_reply_color">Vastuse toimingu värv</string>
+    <string name="settings_section_account">Konto seaded</string>
+    <string name="settings_web_preferences">Veebi eelistused</string>
+    <string name="settings_web_header_personal">Isiklik informatsioon</string>
+    <string name="settings_web_header_contents">Sisu</string>
+    <string name="settings_web_header_notifications">Märguanded</string>
+    <string name="settings_web_avatar">Avatar</string>
+    <string name="settings_web_banner">Bänner</string>
+    <string name="settings_web_bio">Bio</string>
+    <string name="settings_web_bot">Bot</string>
+    <string name="settings_web_display_name">Kuvatav nimi</string>
+    <string name="settings_web_matrix">Matrix kasutajatunnus</string>
+    <string name="settings_web_email">Meil</string>
+    <string name="settings_web_show_bot">Kuva roboti kontod</string>
+    <string name="settings_web_show_nsfw">Näita NSFW-d</string>
+    <string name="settings_web_show_read">Kuva loetud postitused</string>
+    <string name="settings_web_email_notifications">Saatke meiliteatisi</string>
 </resources>

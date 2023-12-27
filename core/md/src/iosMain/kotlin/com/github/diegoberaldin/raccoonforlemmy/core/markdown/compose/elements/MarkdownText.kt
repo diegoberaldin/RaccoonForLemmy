@@ -126,7 +126,6 @@ internal fun MarkdownText(
                                 url = link,
                                 autoload = autoLoadImages,
                                 quality = FilterQuality.Low,
-                                contentDescription = null,
                                 contentScale = ContentScale.FillWidth,
                                 onFailure = {
                                     Text(
@@ -178,7 +177,6 @@ internal fun MarkdownText(
                 url = imageUrl,
                 autoload = autoLoadImages,
                 quality = FilterQuality.Low,
-                contentDescription = null,
                 contentScale = ContentScale.FillWidth,
                 onFailure = {
                     Text(

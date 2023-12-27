@@ -279,7 +279,10 @@ class CreatePostScreen(
                             disabledContainerColor = Color.Transparent,
                         ),
                         label = {
-                            Text(text = stringResource(MR.strings.create_post_community))
+                            Text(
+                                text = stringResource(MR.strings.create_post_community),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
                         },
                         trailingIcon = {
                             Icon(
@@ -315,7 +318,7 @@ class CreatePostScreen(
                     label = {
                         Text(
                             text = stringResource(MR.strings.create_post_name),
-                            style = typography.titleMedium,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     textStyle = typography.titleMedium,
@@ -355,7 +358,7 @@ class CreatePostScreen(
                     label = {
                         Text(
                             text = stringResource(MR.strings.create_post_url),
-                            style = typography.bodyMedium,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     trailingIcon = {
@@ -464,7 +467,7 @@ class CreatePostScreen(
                             label = {
                                 Text(
                                     text = stringResource(MR.strings.create_post_body),
-                                    style = typography.bodyMedium,
+                                    style = MaterialTheme.typography.titleMedium,
                                 )
                             },
                             textStyle = typography.bodyMedium,
