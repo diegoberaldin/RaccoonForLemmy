@@ -21,7 +21,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "reportlist"
+            baseName = "rawcontent"
         }
     }
 
@@ -30,36 +30,18 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material)
                 implementation(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
+                implementation(compose.material)
 
                 implementation(libs.koin.core)
                 implementation(libs.voyager.navigator)
-                implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.koin)
+                implementation(libs.voyager.bottomsheet)
 
-                implementation(projects.core.utils)
                 implementation(projects.core.appearance)
-                implementation(projects.core.architecture)
-                implementation(projects.core.commonui.components)
-                implementation(projects.core.commonui.lemmyui)
-                implementation(projects.core.commonui.modals)
-                implementation(projects.core.commonui.detailopenerApi)
-                implementation(projects.core.navigation)
-                implementation(projects.core.notifications)
-                implementation(projects.core.persistence)
-
-                implementation(projects.domain.identity)
-                implementation(projects.domain.lemmy.data)
-                implementation(projects.domain.lemmy.repository)
-
-                implementation(projects.unit.zoomableimage)
-                implementation(projects.unit.web)
-                implementation(projects.unit.rawcontent)
-
+                implementation(projects.core.utils)
                 implementation(projects.resources)
             }
         }
@@ -72,7 +54,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.reportlist"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

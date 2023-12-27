@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.di
+package com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.di
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.TextToolbar

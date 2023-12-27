@@ -52,6 +52,11 @@ kotlin {
                 implementation(projects.core.navigation)
                 implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
+
+                implementation(projects.domain.identity)
+                implementation(projects.domain.lemmy.data)
+                implementation(projects.domain.lemmy.repository)
+
                 implementation(projects.unit.zoomableimage)
                 implementation(projects.unit.web)
                 implementation(projects.unit.createreport)
@@ -60,10 +65,7 @@ kotlin {
                 implementation(projects.unit.remove)
                 implementation(projects.unit.ban)
                 implementation(projects.unit.chat)
-
-                implementation(projects.domain.identity)
-                implementation(projects.domain.lemmy.data)
-                implementation(projects.domain.lemmy.repository)
+                implementation(projects.unit.rawcontent)
 
                 implementation(projects.resources)
             }

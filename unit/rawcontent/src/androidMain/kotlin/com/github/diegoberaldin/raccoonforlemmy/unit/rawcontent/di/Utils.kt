@@ -1,9 +1,9 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.di
+package com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.di
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.TextToolbar
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CustomTextToolbar
+import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.CustomTextToolbar
 
 @Composable
 actual fun getCustomTextToolbar(

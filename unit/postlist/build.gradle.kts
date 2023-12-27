@@ -52,6 +52,11 @@ kotlin {
                 implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
                 implementation(projects.unit.zoomableimage)
+
+                implementation(projects.domain.identity)
+                implementation(projects.domain.lemmy.data)
+                implementation(projects.domain.lemmy.repository)
+
                 implementation(projects.unit.web)
                 implementation(projects.unit.createreport)
                 implementation(projects.unit.createcomment)
@@ -62,10 +67,7 @@ kotlin {
                 implementation(projects.unit.instanceinfo)
                 implementation(projects.unit.createreport)
                 implementation(projects.unit.reportlist)
-
-                implementation(projects.domain.identity)
-                implementation(projects.domain.lemmy.data)
-                implementation(projects.domain.lemmy.repository)
+                implementation(projects.unit.rawcontent)
 
                 implementation(projects.resources)
             }

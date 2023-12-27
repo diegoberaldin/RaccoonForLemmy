@@ -51,6 +51,7 @@ kotlin {
                 implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
                 implementation(projects.unit.zoomableimage)
+                implementation(projects.unit.rawcontent)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
