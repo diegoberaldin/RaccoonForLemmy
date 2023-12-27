@@ -214,7 +214,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                     navigationCoordinator.pushScreen(SavedItemsScreen())
                 }
 
-                else -> null
+                else -> Unit
             }
         }.launchIn(this)
     }
