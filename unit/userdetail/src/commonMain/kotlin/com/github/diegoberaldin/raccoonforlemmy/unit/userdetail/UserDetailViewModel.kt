@@ -96,6 +96,7 @@ class UserDetailViewModel(
             }.launchIn(this)
             identityRepository.isLogged.onEach { logged ->
                 mvi.updateState { it.copy(isLogged = logged ?: false) }
+                updateAvailableSortTypes()
             }.launchIn(this)
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -108,7 +109,6 @@ class UserDetailViewModel(
             }
 
             if (uiState.value.posts.isEmpty()) {
-                updateAvailableSortTypes()
                 withContext(Dispatchers.IO) {
                     refresh(initial = true)
                 }
@@ -210,7 +210,6 @@ class UserDetailViewModel(
                 section = section,
             )
         }
-        updateAvailableSortTypes()
     }
 
     private fun updateAvailableSortTypes() {

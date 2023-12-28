@@ -74,6 +74,7 @@ class CommunityDetailViewModel(
             }.launchIn(this)
             identityRepository.isLogged.onEach { logged ->
                 mvi.updateState { it.copy(isLogged = logged ?: false) }
+                updateAvailableSortTypes()
             }.launchIn(this)
 
             settingsRepository.currentSettings.onEach { settings ->
@@ -143,11 +144,14 @@ class CommunityDetailViewModel(
                 mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
             if (mvi.uiState.value.posts.isEmpty()) {
-                val sortTypes = getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
-                mvi.updateState { it.copy(availableSortTypes = sortTypes) }
                 refresh()
             }
         }
+    }
+
+    private suspend fun updateAvailableSortTypes() {
+        val sortTypes = getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
+        mvi.updateState { it.copy(availableSortTypes = sortTypes) }
     }
 
     override fun reduce(intent: CommunityDetailMviModel.Intent) {

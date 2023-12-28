@@ -117,7 +117,6 @@ class ExploreViewModel(
                 )
             }
             mvi.scope?.launch(Dispatchers.IO) {
-                updateAvailableSortTypes()
                 refresh()
                 mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
             }

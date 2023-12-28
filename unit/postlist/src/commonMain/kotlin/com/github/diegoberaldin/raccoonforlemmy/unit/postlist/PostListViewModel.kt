@@ -153,7 +153,6 @@ class PostListViewModel(
                 )
             }
             mvi.scope?.launch(Dispatchers.IO) {
-                updateAvailableSortTypes()
                 refresh()
                 mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             }
