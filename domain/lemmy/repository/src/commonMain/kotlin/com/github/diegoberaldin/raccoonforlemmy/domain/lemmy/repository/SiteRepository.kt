@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountBansModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountSettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
@@ -22,4 +23,8 @@ interface SiteRepository {
         auth: String,
         value: AccountSettingsModel,
     ): Result<Unit>
+
+    suspend fun getBans(
+        auth: String,
+    ): AccountBansModel?
 }

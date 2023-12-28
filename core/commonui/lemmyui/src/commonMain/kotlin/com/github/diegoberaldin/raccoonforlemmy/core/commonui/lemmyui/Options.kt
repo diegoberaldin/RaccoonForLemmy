@@ -28,4 +28,5 @@ sealed class OptionId(val value: Int) {
     data object AddMod : OptionId(20)
     data object Favorite : OptionId(21)
     data object ViewModlog : OptionId(22)
+    data object Unban : OptionId(23)
 }

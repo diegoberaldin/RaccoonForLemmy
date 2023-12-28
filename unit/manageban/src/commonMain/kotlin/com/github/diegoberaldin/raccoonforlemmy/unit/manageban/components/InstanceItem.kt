@@ -1,11 +1,10 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
+package com.github.diegoberaldin.raccoonforlemmy.unit.manageban.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
@@ -18,10 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpOffset
@@ -29,25 +25,23 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.InstanceModel
 
 @Composable
-fun UserItem(
-    user: UserModel,
+fun InstanceItem(
+    instance: InstanceModel,
     modifier: Modifier = Modifier,
-    autoLoadImages: Boolean = true,
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val name = user.name
-    val avatar = user.avatar.orEmpty()
-    val host = user.host
+    val name = instance.domain
     val iconSize = 30.dp
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
@@ -62,29 +56,14 @@ fun UserItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
-        if (avatar.isNotEmpty() && autoLoadImages) {
-            CustomImage(
-                modifier = Modifier.padding(Spacing.xxxs).size(iconSize)
-                    .clip(RoundedCornerShape(iconSize / 2)),
-                url = avatar,
-                quality = FilterQuality.Low,
-                contentScale = ContentScale.FillBounds,
-            )
-        } else {
-            PlaceholderImage(
-                size = iconSize,
-                title = name,
-            )
-        }
+        PlaceholderImage(
+            size = iconSize,
+            title = name,
+        )
 
         CustomizedContent {
             Text(
-                text = buildString {
-                    append(name)
-                    if (host.isNotEmpty()) {
-                        append("@$host")
-                    }
-                },
+                text = name,
                 style = MaterialTheme.typography.bodySmall,
                 color = fullColor,
             )

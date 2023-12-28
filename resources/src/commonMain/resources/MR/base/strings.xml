@@ -332,4 +332,6 @@
     <string name="settings_web_show_read">Show read posts</string>
     <string name="settings_web_email_notifications">Send email notifications</string>
     <string name="settings_manage_ban">Bans and filters</string>
+    <string name="settings_manage_ban_action_unban">Unban</string>
+    <string name="settings_manage_ban_section_instances">Instances</string>
 </resources>

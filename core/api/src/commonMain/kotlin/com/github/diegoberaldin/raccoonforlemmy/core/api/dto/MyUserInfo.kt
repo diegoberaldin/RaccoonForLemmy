@@ -10,5 +10,6 @@ data class MyUserInfo(
     @SerialName("moderates") val moderates: List<CommunityModeratorView> = emptyList(),
     @SerialName("community_blocks") val communityBlocks: List<CommunityBlockView> = emptyList(),
     @SerialName("person_blocks") val personBlocks: List<PersonBlockView> = emptyList(),
+    @SerialName("instance_blocks") val instanceBlocks: List<InstanceBlockView> = emptyList(),
     @SerialName("discussion_languages") val discussionLanguages: List<LanguageId> = emptyList(),
 )

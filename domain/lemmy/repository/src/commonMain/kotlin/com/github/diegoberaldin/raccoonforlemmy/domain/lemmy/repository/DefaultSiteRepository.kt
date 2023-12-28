@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockSiteForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountBansModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountSettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
@@ -94,9 +95,19 @@ internal class DefaultSiteRepository(
             form = formData,
         )
         Unit
-    }.apply {
-        exceptionOrNull()?.also {
-            it.printStackTrace()
-        }
     }
+
+    override suspend fun getBans(auth: String): AccountBansModel? = runCatching {
+        val dto = services.site.get(
+            auth = auth,
+            authHeader = auth.toAuthHeader(),
+        ).body()
+        dto?.myUser?.run {
+            AccountBansModel(
+                users = personBlocks.map { it.target.toModel() },
+                communities = communityBlocks.map { it.community.toModel() },
+                instances = instanceBlocks.map { it.instance.toModel() },
+            )
+        }
+    }.getOrNull()
 }
