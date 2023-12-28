@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.Padding
@@ -28,6 +29,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
@@ -109,9 +112,8 @@ class UserInfoScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
-                        .padding(top = Spacing.m),
+                        .padding(top = Spacing.m, start = Spacing.m, end = Spacing.m),
                     verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     item {
                         Column(
@@ -154,55 +156,98 @@ class UserInfoScreen(
                     uiState.user.displayName.takeIf { it.isNotEmpty() }?.also { name ->
                         item {
                             Text(
+                                modifier = Modifier.fillMaxWidth(),
                                 text = name,
-                                style = typography.bodyLarge,
+                                textAlign = TextAlign.Center,
+                                style = typography.titleMedium,
                             )
                         }
                     }
                     uiState.user.bio?.takeIf { it.isNotEmpty() }?.also { biography ->
                         item {
-                            CustomizedContent {
-                                PostCardBody(
-                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.m),
-                                    text = biography,
-                                    onOpenImage = { url ->
-                                        navigationCoordinator.hideBottomSheet()
-                                        scope.launch {
-                                            delay(100)
-                                            navigationCoordinator.pushScreen(ZoomableImageScreen(url))
-                                        }
-                                    },
-                                    onOpenCommunity = { community, instance ->
-                                        navigationCoordinator.hideBottomSheet()
-                                        scope.launch {
-                                            delay(100)
-                                            detailOpener.openCommunityDetail(community, instance)
-
-                                        }
-                                    },
-                                    onOpenPost = { post, instance ->
-                                        navigationCoordinator.hideBottomSheet()
-                                        scope.launch {
-                                            delay(100)
-                                            detailOpener.openPostDetail(post, instance)
-
-                                        }
-                                    },
-                                    onOpenUser = { user, instance ->
-                                        navigationCoordinator.hideBottomSheet()
-                                        scope.launch {
-                                            delay(100)
-                                            detailOpener.openUserDetail(user, instance)
-                                        }
-                                    },
-                                    onOpenWeb = { url ->
-                                        navigationCoordinator.hideBottomSheet()
-                                        scope.launch {
-                                            delay(100)
-                                            navigationCoordinator.pushScreen(WebViewScreen(url))
-                                        }
-                                    },
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                            ) {
+                                Text(
+                                    text = stringResource(MR.strings.settings_web_bio),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                                 )
+                                CustomizedContent {
+                                    PostCardBody(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = biography,
+                                        onOpenImage = { url ->
+                                            navigationCoordinator.hideBottomSheet()
+                                            scope.launch {
+                                                delay(100)
+                                                navigationCoordinator.pushScreen(
+                                                    ZoomableImageScreen(
+                                                        url
+                                                    )
+                                                )
+                                            }
+                                        },
+                                        onOpenCommunity = { community, instance ->
+                                            navigationCoordinator.hideBottomSheet()
+                                            scope.launch {
+                                                delay(100)
+                                                detailOpener.openCommunityDetail(
+                                                    community,
+                                                    instance
+                                                )
+
+                                            }
+                                        },
+                                        onOpenPost = { post, instance ->
+                                            navigationCoordinator.hideBottomSheet()
+                                            scope.launch {
+                                                delay(100)
+                                                detailOpener.openPostDetail(post, instance)
+
+                                            }
+                                        },
+                                        onOpenUser = { user, instance ->
+                                            navigationCoordinator.hideBottomSheet()
+                                            scope.launch {
+                                                delay(100)
+                                                detailOpener.openUserDetail(user, instance)
+                                            }
+                                        },
+                                        onOpenWeb = { url ->
+                                            navigationCoordinator.hideBottomSheet()
+                                            scope.launch {
+                                                delay(100)
+                                                navigationCoordinator.pushScreen(WebViewScreen(url))
+                                            }
+                                        },
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    uiState.user.matrixUserId?.also { matrixUserId ->
+                        item {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                            ) {
+                                Text(
+                                    text = stringResource(MR.strings.settings_web_matrix),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
+                                )
+                                CustomizedContent {
+                                    SelectionContainer {
+                                        Text(
+                                            text = matrixUserId,
+                                            style = MaterialTheme.typography.bodyMedium.copy(
+                                                fontFamily = FontFamily.Monospace
+                                            ),
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -219,6 +264,7 @@ class UserInfoScreen(
                                 text = stringResource(MR.strings.user_info_moderates),
                             )
                             LazyRow(
+                                modifier = Modifier.padding(top = Spacing.xxs),
                                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                             ) {
                                 items(

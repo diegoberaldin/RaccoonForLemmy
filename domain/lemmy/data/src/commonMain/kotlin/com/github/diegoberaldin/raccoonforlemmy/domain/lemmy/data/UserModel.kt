@@ -9,6 +9,7 @@ data class UserModel(
     val displayName: String = "",
     val avatar: String? = null,
     val bio: String? = null,
+    val matrixUserId: String? = null,
     val banner: String? = null,
     val host: String = "",
     val score: UserScoreModel? = null,

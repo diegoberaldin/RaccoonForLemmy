@@ -148,6 +148,7 @@ internal fun Person.toModel() = UserModel(
     accountAge = published,
     banned = banned,
     bio = bio,
+    matrixUserId = matrixUserId,
     updateDate = updated,
     admin = admin ?: false,
 )
