@@ -63,7 +63,7 @@ fun SwipeableCard(
             confirmValueChange = rememberCallbackArgs { value ->
                 when (value) {
                     DismissValue.DismissedToEnd -> {
-                        if (lastProgress >= SECOND_ACTION_THRESHOLD) {
+                        if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction(value) && secondNotified) {
                             secondDismissToEndCallback?.invoke()
                         } else {
                             dismissToEndCallback?.invoke()
@@ -71,7 +71,7 @@ fun SwipeableCard(
                     }
 
                     DismissValue.DismissedToStart -> {
-                        if (lastProgress >= SECOND_ACTION_THRESHOLD) {
+                        if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction(value) && secondNotified) {
                             secondDismissToStartCallback?.invoke()
                         } else {
                             dismissToStartCallback?.invoke()
