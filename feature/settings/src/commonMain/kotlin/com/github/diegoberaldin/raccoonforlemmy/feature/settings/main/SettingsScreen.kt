@@ -87,6 +87,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageReposito
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.delay
@@ -573,6 +574,16 @@ class SettingsScreen : Screen {
                             disclosureIndicator = true,
                             onTap = rememberCallback {
                                 val screen = AccountSettingsScreen()
+                                navigationCoordinator.pushScreen(screen)
+                            },
+                        )
+
+                        // bans and filters
+                        SettingsRow(
+                            title = stringResource(MR.strings.settings_manage_ban),
+                            disclosureIndicator = true,
+                            onTap = rememberCallback {
+                                val screen = ManageBanScreen()
                                 navigationCoordinator.pushScreen(screen)
                             },
                         )

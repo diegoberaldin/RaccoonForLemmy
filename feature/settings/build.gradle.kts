@@ -61,6 +61,7 @@ kotlin {
                 implementation(projects.unit.web)
                 implementation(projects.unit.about)
                 implementation(projects.unit.accountsettings)
+                implementation(projects.unit.manageban)
 
                 implementation(projects.resources)
             }
