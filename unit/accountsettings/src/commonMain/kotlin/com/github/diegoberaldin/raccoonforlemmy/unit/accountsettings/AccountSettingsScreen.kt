@@ -56,6 +56,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSw
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -85,6 +86,8 @@ class AccountSettingsScreen : Screen {
         val themeRepository = remember { getThemeRepository() }
         val contentFontFamily by themeRepository.contentFontFamily.collectAsState()
         val contentTypography = contentFontFamily.toTypography()
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
         var openDisplayNameEditDialog by remember { mutableStateOf(false) }
         var openEmailEditDialog by remember { mutableStateOf(false) }
         var openMatrixUserIdEditDialog by remember { mutableStateOf(false) }
@@ -161,8 +164,15 @@ class AccountSettingsScreen : Screen {
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier.padding(paddingValues)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection),
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .let {
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            it
+                        }
+                    },
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
