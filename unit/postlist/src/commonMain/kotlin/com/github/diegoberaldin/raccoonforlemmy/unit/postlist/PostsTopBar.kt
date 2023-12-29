@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,10 +15,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.TopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -29,29 +39,46 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun PostsTopBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
+    topAppBarState: TopAppBarState,
     currentInstance: String,
     listingType: ListingType?,
     sortType: SortType?,
+    edgeToEdge: Boolean = true,
     onSelectListingType: (() -> Unit)? = null,
     onSelectSortType: (() -> Unit)? = null,
     onHamburgerTapped: (() -> Unit)? = null,
 ) {
+    val scope = rememberCoroutineScope()
+    val maxTopInset = Dimensions.topBarHeight.value.toInt()
+    var topInset by remember { mutableStateOf(maxTopInset) }
+    snapshotFlow { topAppBarState.collapsedFraction }.onEach {
+        topInset = (maxTopInset * (1 - it)).toInt()
+    }.launchIn(scope)
+
     TopAppBar(
+        windowInsets = if (edgeToEdge) {
+            WindowInsets(0, topInset, 0, 0)
+        } else {
+            TopAppBarDefaults.windowInsets
+        },
         scrollBehavior = scrollBehavior,
         navigationIcon = {
             when {
                 onHamburgerTapped != null -> {
                     Image(
-                        modifier = Modifier.onClick(
-                            onClick = rememberCallback {
-                                onHamburgerTapped()
-                            },
-                        ),
+                        modifier = Modifier
+                            .onClick(
+                                onClick = rememberCallback {
+                                    onHamburgerTapped()
+                                },
+                            ),
                         imageVector = Icons.Default.Menu,
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -60,11 +87,12 @@ internal fun PostsTopBar(
 
                 listingType != null -> {
                     Image(
-                        modifier = Modifier.onClick(
-                            onClick = rememberCallback {
-                                onSelectListingType?.invoke()
-                            },
-                        ),
+                        modifier = Modifier
+                            .onClick(
+                                onClick = rememberCallback {
+                                    onSelectListingType?.invoke()
+                                },
+                            ),
                         imageVector = listingType.toIcon(),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -116,11 +144,12 @@ internal fun PostsTopBar(
             }
             if (sortType != null) {
                 Image(
-                    modifier = Modifier.onClick(
-                        onClick = rememberCallback {
-                            onSelectSortType?.invoke()
-                        },
-                    ),
+                    modifier = Modifier
+                        .onClick(
+                            onClick = rememberCallback {
+                                onSelectSortType?.invoke()
+                            },
+                        ),
                     imageVector = sortType.toIcon(),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
