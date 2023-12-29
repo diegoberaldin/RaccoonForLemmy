@@ -1,5 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings
 
+import androidx.compose.animation.core.InfiniteRepeatableSpec
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontFamily
@@ -49,7 +54,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
@@ -140,12 +144,26 @@ class AccountSettingsScreen : Screen {
                         }
                     },
                     actions = {
+                        val transition = rememberInfiniteTransition()
+                        val iconRotate by transition.animateFloat(
+                            initialValue = 0f,
+                            targetValue = 360f,
+                            animationSpec = InfiniteRepeatableSpec(
+                                animation = tween(1000)
+                            )
+                        )
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = rememberCallback {
-                                    model.reduce(AccountSettingsMviModel.Intent.Submit)
-                                },
-                            ),
+                            modifier = Modifier
+                                .then(
+                                    if (!uiState.loading) {
+                                        Modifier
+                                    } else Modifier.rotate(iconRotate)
+                                )
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        model.reduce(AccountSettingsMviModel.Intent.Submit)
+                                    },
+                                ),
                             imageVector = Icons.Default.Sync,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -387,10 +405,6 @@ class AccountSettingsScreen : Screen {
                     }
                 },
             )
-        }
-
-        if (uiState.loading) {
-            ProgressHud()
         }
 
         if (openAvatarPicker) {
