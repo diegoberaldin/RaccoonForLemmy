@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -51,6 +52,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -67,6 +69,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
@@ -185,7 +188,18 @@ class UserDetailScreen(
             topBar = {
                 val userName = user.name
                 val userHost = user.host
+                val maxTopInset = Dimensions.topBarHeight.value.toInt()
+                var topInset by remember { mutableStateOf(maxTopInset) }
+                snapshotFlow { topAppBarState.collapsedFraction }.onEach {
+                    topInset = (maxTopInset * (1 - it)).toInt()
+                }.launchIn(scope)
+
                 TopAppBar(
+                    windowInsets = if (settings.edgeToEdge) {
+                        WindowInsets(0, topInset, 0, 0)
+                    } else {
+                        TopAppBarDefaults.windowInsets
+                    },
                     scrollBehavior = scrollBehavior,
                     title = {
                         Text(
