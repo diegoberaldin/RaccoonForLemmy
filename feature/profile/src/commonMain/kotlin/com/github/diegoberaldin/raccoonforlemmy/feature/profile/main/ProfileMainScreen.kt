@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.profile.main
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,6 +24,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -32,6 +36,7 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
@@ -65,7 +70,8 @@ internal object ProfileMainScreen : Tab {
         val model = getScreenModel<ProfileMainMviModel>()
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        val topAppBarState = rememberTopAppBarState()
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val settingsRepository = remember { getSettingsRepository() }
@@ -80,7 +86,18 @@ internal object ProfileMainScreen : Tab {
                 val title by remember(lang) {
                     mutableStateOf(staticString(MR.strings.navigation_profile.desc()))
                 }
+                val maxTopInset = Dimensions.topBarHeight.value.toInt()
+                var topInset by remember { mutableStateOf(maxTopInset) }
+                snapshotFlow { topAppBarState.collapsedFraction }.onEach {
+                    topInset = (maxTopInset * (1 - it)).toInt()
+                }.launchIn(scope)
+
                 TopAppBar(
+                    windowInsets = if (settings.edgeToEdge) {
+                        WindowInsets(0, topInset, 0, 0)
+                    } else {
+                        TopAppBarDefaults.windowInsets
+                    },
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
