@@ -442,6 +442,17 @@ class SettingsScreen : Screen {
                         title = stringResource(MR.strings.settings_section_behaviour),
                     )
 
+                    // edge to edge
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_edge_to_edge),
+                        value = uiState.edgeToEdge,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeEdgeToEdge(value)
+                            )
+                        },
+                    )
+
                     // mark as read while scrolling
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_mark_as_read_while_scrolling),

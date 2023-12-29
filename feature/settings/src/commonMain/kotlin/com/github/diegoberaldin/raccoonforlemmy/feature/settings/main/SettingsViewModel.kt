@@ -212,6 +212,7 @@ class SettingsViewModel(
                 zombieModeScrollAmount = settings.zombieModeScrollAmount,
                 markAsReadWhileScrolling = settings.markAsReadWhileScrolling,
                 searchPostTitleOnly = settings.searchPostTitleOnly,
+                edgeToEdge = settings.edgeToEdge,
             )
         }
     }
@@ -344,6 +345,10 @@ class SettingsViewModel(
 
             is SettingsMviModel.Intent.ChangeSearchPostTitleOnly -> {
                 changeSearchPostTitleOnly(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangeEdgeToEdge -> {
+                changeEdgeToEdge(intent.value)
             }
         }
     }
@@ -673,6 +678,16 @@ class SettingsViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 searchPostTitleOnly = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeEdgeToEdge(value: Boolean) {
+        mvi.updateState { it.copy(edgeToEdge = value) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                edgeToEdge = value
             )
             saveSettings(settings)
         }

@@ -334,4 +334,5 @@
     <string name="settings_manage_ban">Bans and filters</string>
     <string name="settings_manage_ban_action_unban">Unban</string>
     <string name="settings_manage_ban_section_instances">Instances</string>
+    <string name="settings_edge_to_edge">Edge to edge contents</string>
 </resources>
