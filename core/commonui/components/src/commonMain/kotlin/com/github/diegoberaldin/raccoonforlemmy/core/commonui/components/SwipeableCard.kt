@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 
 private const val SECOND_ACTION_THRESHOLD = 0.38f
 
@@ -88,7 +87,7 @@ fun SwipeableCard(
             positionalThreshold = { _ -> 56.dp.toPx() }
         )
         LaunchedEffect(dismissState) {
-            snapshotFlow { dismissState.progress }.stateIn(this).onEach { progress ->
+            snapshotFlow { dismissState.progress }.onEach { progress ->
                 if (!enableSecondAction(dismissState.targetValue)) {
                     when {
                         progress in 0.0f..<1.0f && !notified -> {
