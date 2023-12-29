@@ -45,6 +45,7 @@ private object KeyStoreKeys {
     const val ReplyColor = "replyColor"
     const val SearchPostTitleOnly = "searchPostTitleOnly"
     const val ContentFontFamily = "contentFontFamily"
+    const val EdgeToEdge = "edgeToEdge"
 }
 
 internal class DefaultSettingsRepository(
@@ -92,6 +93,7 @@ internal class DefaultSettingsRepository(
                 replyColor = settings.replyColor?.toLong(),
                 searchPostTitleOnly = if (settings.searchPostTitleOnly) 1 else 0,
                 contentFontFamily = settings.contentFontFamily.toLong(),
+                edgeToEdge = if (settings.edgeToEdge) 1 else 0,
             )
         }
 
@@ -134,6 +136,7 @@ internal class DefaultSettingsRepository(
                     replyColor = if (!keyStore.containsKey(KeyStoreKeys.ReplyColor)) null else keyStore[KeyStoreKeys.ReplyColor, 0],
                     searchPostTitleOnly = keyStore[KeyStoreKeys.SearchPostTitleOnly, false],
                     contentFontFamily = keyStore[KeyStoreKeys.ContentFontFamily, 0],
+                    edgeToEdge = keyStore[KeyStoreKeys.EdgeToEdge, true],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -220,6 +223,7 @@ internal class DefaultSettingsRepository(
                     settings.searchPostTitleOnly,
                 )
                 keyStore.save(KeyStoreKeys.ContentFontFamily, settings.contentFontFamily)
+                keyStore.save(KeyStoreKeys.EdgeToEdge, settings.edgeToEdge)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -255,6 +259,7 @@ internal class DefaultSettingsRepository(
                     replyColor = settings.replyColor?.toLong(),
                     searchPostTitleOnly = if (settings.searchPostTitleOnly) 1L else 0L,
                     contentFontFamily = settings.contentFontFamily.toLong(),
+                    edgeToEdge = if (settings.edgeToEdge) 1L else 0L,
                 )
             }
         }
@@ -298,4 +303,5 @@ private fun GetBy.toModel() = SettingsModel(
     replyColor = replyColor?.toInt(),
     searchPostTitleOnly = searchPostTitleOnly != 0L,
     contentFontFamily = contentFontFamily.toInt(),
+    edgeToEdge = edgeToEdge != 0L,
 )

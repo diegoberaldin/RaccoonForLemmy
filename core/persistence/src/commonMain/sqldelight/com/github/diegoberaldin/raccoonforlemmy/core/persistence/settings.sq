@@ -32,6 +32,7 @@ CREATE TABLE SettingsEntity (
     replyColor INTEGER DEFAULT NULL,
     searchPostTitleOnly INTEGER NOT NULL DEFAULT 0,
     contentFontFamily INTEGER NOT NULL DEFAULT 0,
+    edgeToEdge INTEGER NOT NULL DEFAULT 1,
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
@@ -71,8 +72,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     replyColor,
     searchPostTitleOnly,
     contentFontFamily,
+    edgeToEdge,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -141,7 +144,8 @@ SET theme = ?,
     commentBarTheme = ?,
     replyColor = ?,
     searchPostTitleOnly = ?,
-    contentFontFamily = ?
+    contentFontFamily = ?,
+    edgeToEdge = ?
 WHERE account_id = ?;
 
 getBy:
@@ -178,6 +182,7 @@ SELECT
     commentBarTheme,
     replyColor,
     searchPostTitleOnly,
-    contentFontFamily
+    contentFontFamily,
+    edgeToEdge
 FROM SettingsEntity
 WHERE account_id = ?;
