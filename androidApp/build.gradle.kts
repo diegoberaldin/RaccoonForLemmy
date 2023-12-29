@@ -18,6 +18,9 @@ android {
         versionCode = 57
         versionName = "1.2.0"
         archivesName.set("RaccoonForLemmy")
+        ndk {
+            abiFilters += listOf("armeabi", "armeabi-v7a", "x86")
+        }
     }
     buildFeatures {
         compose = true
