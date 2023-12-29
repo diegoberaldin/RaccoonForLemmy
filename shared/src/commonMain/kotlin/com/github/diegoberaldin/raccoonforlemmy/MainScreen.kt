@@ -32,6 +32,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
@@ -188,7 +189,12 @@ internal object MainScreen : Screen {
                                             y = -uiState.bottomBarOffsetHeightPx.roundToInt()
                                         )
                                     },
-                                contentPadding = PaddingValues(0.dp),
+                                contentPadding = PaddingValues(
+                                    start = 0.dp,
+                                    top = 0.dp,
+                                    end = 0.dp,
+                                    bottom = Spacing.m,
+                                ),
                                 backgroundColor = MaterialTheme.colorScheme.background,
                             ) {
                                 TabNavigationItem(HomeTab, withText = titleVisible)

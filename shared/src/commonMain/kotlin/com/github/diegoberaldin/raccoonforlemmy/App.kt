@@ -223,6 +223,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         theme = currentTheme,
         contentFontScale = fontScale,
         useDynamicColors = useDynamicColors,
+        transparent = true,
     ) {
         val lang by languageRepository.currentLanguage.collectAsState()
         LaunchedEffect(lang) {}
