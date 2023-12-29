@@ -307,4 +307,5 @@
     <string name="settings_manage_ban">Proibições e filtros</string>
     <string name="settings_manage_ban_action_unban">Remover proibição</string>
     <string name="settings_manage_ban_section_instances">Instâncias</string>
+    <string name="settings_edge_to_edge">Conteúdo de ponta a ponta</string>
 </resources>

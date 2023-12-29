@@ -307,4 +307,5 @@
     <string name="settings_manage_ban">Zákazy a filtre</string>
     <string name="settings_manage_ban_action_unban">Odstrániť zákaz</string>
     <string name="settings_manage_ban_section_instances">Inštancie</string>
+    <string name="settings_edge_to_edge">Obsah od okraja k okraju</string>
 </resources>

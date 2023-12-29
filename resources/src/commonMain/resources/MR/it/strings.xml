@@ -309,4 +309,5 @@
     <string name="settings_manage_ban">Ban e filtri</string>
     <string name="settings_manage_ban_action_unban">Rimuovi ban</string>
     <string name="settings_manage_ban_section_instances">Istanze</string>
+    <string name="settings_edge_to_edge">Contenuti da margine a margine</string>
 </resources>

@@ -313,4 +313,5 @@
     <string name="settings_manage_ban">Verbote und Filter</string>
     <string name="settings_manage_ban_action_unban">Verbot aufheben</string>
     <string name="settings_manage_ban_section_instances">Instanzen</string>
+    <string name="settings_edge_to_edge">Rand-zu-Rand-Inhalte</string>
 </resources>

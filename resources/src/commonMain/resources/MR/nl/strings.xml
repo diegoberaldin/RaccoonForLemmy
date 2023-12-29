@@ -308,4 +308,5 @@
     <string name="settings_manage_ban">Verboden en filters</string>
     <string name="settings_manage_ban_action_unban">Verwijder verbod</string>
     <string name="settings_manage_ban_section_instances">Instanties</string>
+    <string name="settings_edge_to_edge">Inhoud van rand tot rand</string>
 </resources>

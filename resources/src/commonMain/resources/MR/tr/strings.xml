@@ -308,4 +308,5 @@
     <string name="settings_manage_ban">Yasaklar ve filtreler</string>
     <string name="settings_manage_ban_action_unban">Yasağı kaldır</string>
     <string name="settings_manage_ban_section_instances">Örnekler</string>
+    <string name="settings_edge_to_edge">Uçtan uca içerikler</string>
 </resources>

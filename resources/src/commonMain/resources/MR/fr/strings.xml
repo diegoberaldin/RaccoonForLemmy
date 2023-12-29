@@ -310,4 +310,5 @@
     <string name="settings_manage_ban">Interdictions et filtres</string>
     <string name="settings_manage_ban_action_unban">Supprimer interdiction</string>
     <string name="settings_manage_ban_section_instances">Instances</string>
+    <string name="settings_edge_to_edge">Contenu bord à bord</string>
 </resources>

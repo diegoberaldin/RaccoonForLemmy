@@ -316,4 +316,5 @@
     <string name="settings_manage_ban">Απαγορεύσεις και φίλτρα</string>
     <string name="settings_manage_ban_action_unban">Κατάργηση απαγόρευσης</string>
     <string name="settings_manage_ban_section_instances">Περιπτώσεις</string>
+    <string name="settings_edge_to_edge">Περιεχόμενα από άκρη σε άκρη</string>
 </resources>

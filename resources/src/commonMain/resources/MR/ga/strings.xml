@@ -314,4 +314,5 @@
     <string name="settings_manage_ban">Toirmisc agus scagairí</string>
     <string name="settings_manage_ban_action_unban">Bain toirmeasc</string>
     <string name="settings_manage_ban_section_instances">Cásanna</string>
+    <string name="settings_edge_to_edge">Ábhar imeall go himeall</string>
 </resources>

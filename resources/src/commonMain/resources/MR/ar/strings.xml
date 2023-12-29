@@ -303,4 +303,5 @@
     <string name="settings_manage_ban">الحظر والمرشحات</string>
     <string name="settings_manage_ban_action_unban">إزالة الحظر</string>
     <string name="settings_manage_ban_section_instances">المثيلات</string>
+    <string name="settings_edge_to_edge">محتويات الحافة إلى الحافة</string>
 </resources>

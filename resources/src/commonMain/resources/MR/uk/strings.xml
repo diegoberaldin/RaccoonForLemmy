@@ -307,4 +307,5 @@
     <string name="settings_manage_ban">Заборони та фільтри</string>
     <string name="settings_manage_ban_action_unban">Зняти бан</string>
     <string name="settings_manage_ban_section_instances">Примірники</string>
+    <string name="settings_edge_to_edge">Вміст від краю до краю</string>
 </resources>

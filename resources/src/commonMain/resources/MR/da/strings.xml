@@ -305,4 +305,5 @@
     <string name="settings_manage_ban">Forbud og filtre</string>
     <string name="settings_manage_ban_action_unban">Fjern forbuddet</string>
     <string name="settings_manage_ban_section_instances">Forekomster</string>
+    <string name="settings_edge_to_edge">Indhold fra kant til kant</string>
 </resources>

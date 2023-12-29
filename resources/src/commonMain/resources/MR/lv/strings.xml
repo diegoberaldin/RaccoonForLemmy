@@ -309,4 +309,5 @@
     <string name="settings_manage_ban">Aizliegumi un filtri</string>
     <string name="settings_manage_ban_action_unban">Noņemt aizliegumu</string>
     <string name="settings_manage_ban_section_instances">Gadījumi</string>
+    <string name="settings_edge_to_edge">Saturs no malas līdz malai</string>
 </resources>

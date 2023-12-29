@@ -306,4 +306,5 @@
     <string name="settings_manage_ban">Förbud och filter</string>
     <string name="settings_manage_ban_action_unban">Ta bort förbudet</string>
     <string name="settings_manage_ban_section_instances">Instanser</string>
+    <string name="settings_edge_to_edge">Kant till kant innehåll</string>
 </resources>

@@ -305,4 +305,5 @@
     <string name="settings_manage_ban">Keelud ja filtrid</string>
     <string name="settings_manage_ban_action_unban">Eemalda keeld</string>
     <string name="settings_manage_ban_section_instances">Juhtumid</string>
+    <string name="settings_edge_to_edge">Servast servani sisu</string>
 </resources>
