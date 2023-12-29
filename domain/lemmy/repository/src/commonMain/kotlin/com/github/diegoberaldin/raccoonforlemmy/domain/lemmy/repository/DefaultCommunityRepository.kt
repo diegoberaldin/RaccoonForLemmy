@@ -158,6 +158,7 @@ internal class DefaultCommunityRepository(
             authHeader = auth.toAuthHeader(),
             form = data,
         )
+        Unit
     }
 
     override suspend fun banUser(

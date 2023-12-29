@@ -203,7 +203,8 @@ internal class DefaultUserRepository(
                 authHeader = auth.toAuthHeader(),
                 form = data,
             )
-        }
+            Unit
+        }.getOrElse { }
 
     override suspend fun setReplyRead(read: Boolean, replyId: Int, auth: String?) = runCatching {
         val data = MarkCommentAsReadForm(
@@ -215,7 +216,8 @@ internal class DefaultUserRepository(
             authHeader = auth.toAuthHeader(),
             form = data,
         )
-    }
+        Unit
+    }.getOrElse { }
 
     override suspend fun block(id: Int, blocked: Boolean, auth: String?): Result<Unit> =
         runCatching {
@@ -228,6 +230,7 @@ internal class DefaultUserRepository(
                 authHeader = auth.toAuthHeader(),
                 form = data,
             )
+            Unit
         }
 
     override suspend fun getModeratedCommunities(

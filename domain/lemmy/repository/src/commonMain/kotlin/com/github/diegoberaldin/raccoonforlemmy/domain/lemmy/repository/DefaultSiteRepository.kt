@@ -53,6 +53,7 @@ internal class DefaultSiteRepository(
                 authHeader = auth.toAuthHeader(),
                 form = data,
             )
+            Unit
         }
 
     override suspend fun getMetadata(url: String): MetadataModel? = runCatching {
@@ -88,14 +89,14 @@ internal class DefaultSiteRepository(
     override suspend fun updateAccountSettings(
         auth: String,
         value: AccountSettingsModel,
-    ): Result<Unit> = runCatching {
+    ) = runCatching {
         val formData = value.toDto().copy(auth = auth)
         services.user.saveUserSettings(
             authHeader = auth.toAuthHeader(),
             form = formData,
         )
         Unit
-    }
+    }.getOrElse { }
 
     override suspend fun getBans(auth: String): AccountBansModel? = runCatching {
         val dto = services.site.get(

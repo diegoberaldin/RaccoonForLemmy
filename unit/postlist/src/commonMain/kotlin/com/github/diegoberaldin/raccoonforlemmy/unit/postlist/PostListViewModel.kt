@@ -485,23 +485,15 @@ class PostListViewModel(
 
     private fun blockUser(userId: Int) {
         mvi.scope?.launch(Dispatchers.IO) {
-            try {
-                val auth = identityRepository.authToken.value
-                userRepository.block(userId, true, auth).getOrThrow()
-            } catch (e: Throwable) {
-                e.printStackTrace()
-            }
+            val auth = identityRepository.authToken.value
+            userRepository.block(userId, true, auth)
         }
     }
 
     private fun blockCommunity(communityId: Int) {
         mvi.scope?.launch(Dispatchers.IO) {
-            try {
-                val auth = identityRepository.authToken.value
-                communityRepository.block(communityId, true, auth).getOrThrow()
-            } catch (e: Throwable) {
-                e.printStackTrace()
-            }
+            val auth = identityRepository.authToken.value
+            communityRepository.block(communityId, true, auth)
         }
     }
 

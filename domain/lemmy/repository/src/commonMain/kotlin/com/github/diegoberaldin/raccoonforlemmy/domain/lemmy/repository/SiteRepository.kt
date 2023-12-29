@@ -22,7 +22,7 @@ interface SiteRepository {
     suspend fun updateAccountSettings(
         auth: String,
         value: AccountSettingsModel,
-    ): Result<Unit>
+    )
 
     suspend fun getBans(
         auth: String,
