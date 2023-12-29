@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.chat
+package com.github.diegoberaldin.raccoonforlemmy.unit.chat.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +12,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 
 @Composable
-fun MessageCardPlaceholder() {
+internal fun MessageCardPlaceholder() {
     Box(
         modifier = Modifier
             .height(100.dp)

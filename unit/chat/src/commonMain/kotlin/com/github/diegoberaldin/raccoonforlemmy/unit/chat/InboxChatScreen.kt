@@ -66,6 +66,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.chat.components.MessageCard
+import com.github.diegoberaldin.raccoonforlemmy.unit.chat.components.MessageCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
@@ -247,16 +249,20 @@ class InboxChatScreen(
                                     navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                 },
                                 options = buildList {
+                                    this += Option(
+                                        OptionId.SeeRaw,
+                                        stringResource(MR.strings.post_action_see_raw),
+                                    )
                                     if (isMyMessage) {
                                         this += Option(
                                             OptionId.Edit,
                                             stringResource(MR.strings.post_action_edit),
                                         )
+                                        this += Option(
+                                            OptionId.Delete,
+                                            stringResource(MR.strings.comment_action_delete),
+                                        )
                                     }
-                                    this += Option(
-                                        OptionId.SeeRaw,
-                                        stringResource(MR.strings.post_action_see_raw),
-                                    )
                                 },
                                 onOptionSelected = rememberCallbackArgs { optionId ->
                                     when (optionId) {
@@ -273,6 +279,14 @@ class InboxChatScreen(
 
                                         OptionId.SeeRaw -> {
                                             rawContent = message
+                                        }
+
+                                        OptionId.Delete -> {
+                                            model.reduce(
+                                                InboxChatMviModel.Intent.DeleteMessage(
+                                                    message.id
+                                                )
+                                            )
                                         }
 
                                         else -> Unit

@@ -30,6 +30,7 @@ interface InboxChatMviModel :
         }
 
         data class EditMessage(val value: Int) : Intent
+        data class DeleteMessage(val value: Int) : Intent
         data class SubmitNewMessage(val value: String) : Intent
     }
 

@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePrivateMessageForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeletePrivateMessageForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPrivateMessageForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPrivateMessageAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonId
@@ -17,7 +18,7 @@ import de.jensklingenberg.ktorfit.http.Query
 
 interface PrivateMessageService {
     @GET("private_message/list")
-    suspend fun getPrivateMessages(
+    suspend fun getAll(
         @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
         @Query("page") page: Int? = null,
@@ -28,22 +29,29 @@ interface PrivateMessageService {
 
     @POST("private_message")
     @Headers("Content-Type: application/json")
-    suspend fun createPrivateMessage(
+    suspend fun create(
         @Header("Authorization") authHeader: String? = null,
         @Body form: CreatePrivateMessageForm,
     ): Response<PrivateMessageResponse>
 
     @PUT("private_message")
     @Headers("Content-Type: application/json")
-    suspend fun editPrivateMessage(
+    suspend fun edit(
         @Header("Authorization") authHeader: String? = null,
         @Body form: EditPrivateMessageForm,
     ): Response<PrivateMessageResponse>
 
     @POST("private_message/mark_as_read")
     @Headers("Content-Type: application/json")
-    suspend fun markPrivateMessageAsRead(
+    suspend fun markAsRead(
         @Header("Authorization") authHeader: String? = null,
         @Body form: MarkPrivateMessageAsReadForm,
+    ): Response<PrivateMessageResponse>
+
+    @POST("private_message/delete")
+    @Headers("Content-Type: application/json")
+    suspend fun delete(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: DeletePrivateMessageForm,
     ): Response<PrivateMessageResponse>
 }

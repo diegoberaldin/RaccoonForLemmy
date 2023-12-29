@@ -90,6 +90,12 @@ class InboxChatViewModel(
                     startEditingMessage(message)
                 }
             }
+
+            is InboxChatMviModel.Intent.DeleteMessage -> {
+                uiState.value.messages.firstOrNull { it.id == intent.value }?.also { message ->
+                    deleteMessage(message)
+                }
+            }
         }
     }
 
@@ -235,5 +241,20 @@ class InboxChatViewModel(
 
     private fun handleLogout() {
         mvi.updateState { it.copy(messages = emptyList()) }
+    }
+
+    private fun deleteMessage(message: PrivateMessageModel) {
+        mvi.scope?.launch(Dispatchers.IO) {
+            val auth = identityRepository.authToken.value
+            runCatching {
+                messageRepository.delete(
+                    messageId = message.id,
+                    auth = auth,
+                )
+                mvi.updateState {
+                    it.copy(messages = it.messages.filter { m -> m.id != message.id })
+                }
+            }
+        }
     }
 }

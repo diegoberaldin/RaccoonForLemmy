@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.chat
+package com.github.diegoberaldin.raccoonforlemmy.unit.chat.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background

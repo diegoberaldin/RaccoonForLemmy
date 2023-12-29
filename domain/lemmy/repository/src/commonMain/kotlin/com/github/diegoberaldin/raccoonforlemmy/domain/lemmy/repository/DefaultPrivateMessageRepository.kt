@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePrivateMessageForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeletePrivateMessageForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPrivateMessageForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPrivateMessageAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
@@ -19,7 +20,7 @@ internal class DefaultPrivateMessageRepository(
         limit: Int,
         unreadOnly: Boolean,
     ): List<PrivateMessageModel>? = runCatching {
-        val response = services.privateMessages.getPrivateMessages(
+        val response = services.privateMessages.getAll(
             authHeader = auth.toAuthHeader(),
             auth = auth,
             creatorId = creatorId,
@@ -41,7 +42,7 @@ internal class DefaultPrivateMessageRepository(
             auth = auth.orEmpty(),
             recipientId = recipiendId,
         )
-        services.privateMessages.createPrivateMessage(
+        services.privateMessages.create(
             authHeader = auth.toAuthHeader(),
             form = data,
         ).let { }
@@ -53,10 +54,11 @@ internal class DefaultPrivateMessageRepository(
             auth = auth.orEmpty(),
             privateMessageId = messageId,
         )
-        services.privateMessages.editPrivateMessage(
+        services.privateMessages.edit(
             authHeader = auth.toAuthHeader(),
             form = data,
-        ).let { }
+        )
+        Unit
     }.getOrDefault(Unit)
 
     override suspend fun markAsRead(
@@ -69,10 +71,23 @@ internal class DefaultPrivateMessageRepository(
             auth = auth.orEmpty(),
             read = read,
         )
-        val dto = services.privateMessages.markPrivateMessageAsRead(
+        val dto = services.privateMessages.markAsRead(
             authHeader = auth.toAuthHeader(),
             form = data,
         )
         return dto.body()?.privateMessageView?.toModel()
     }.getOrNull()
+
+    override suspend fun delete(messageId: Int, auth: String?) = runCatching {
+        val data = DeletePrivateMessageForm(
+            auth = auth.orEmpty(),
+            privateMessageId = messageId,
+            deleted = true,
+        )
+        services.privateMessages.delete(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
+        Unit
+    }.getOrDefault(Unit)
 }
