@@ -1,10 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
-
 sealed class ModlogItem(
     val type: ModlogItemType,
-) : JavaSerializable {
+) {
 
     abstract val id: Int
     abstract val date: String?

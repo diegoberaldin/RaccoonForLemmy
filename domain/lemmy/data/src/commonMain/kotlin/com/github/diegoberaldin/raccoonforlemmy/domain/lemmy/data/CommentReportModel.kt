@@ -1,7 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
-
 data class CommentReportModel(
     val id: Int = 0,
     val creator: UserModel? = null,
@@ -13,4 +11,4 @@ data class CommentReportModel(
     val resolver: UserModel? = null,
     val publishDate: String? = null,
     val updateDate: String? = null,
-) : JavaSerializable
+)

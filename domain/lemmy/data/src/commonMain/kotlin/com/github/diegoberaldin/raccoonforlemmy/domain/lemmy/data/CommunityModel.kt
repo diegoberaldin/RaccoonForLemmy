@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
 import kotlin.jvm.Transient
 
 data class CommunityModel(
@@ -23,4 +22,4 @@ data class CommunityModel(
     val comments: Int = 0,
     val creationDate: String? = null,
     @Transient val favorite: Boolean = false,
-) : JavaSerializable
+)

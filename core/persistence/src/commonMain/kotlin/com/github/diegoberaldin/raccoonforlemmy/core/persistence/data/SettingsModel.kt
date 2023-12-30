@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.data
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -40,4 +39,4 @@ data class SettingsModel(
     val replyColor: Int? = null,
     val searchPostTitleOnly: Boolean = false,
     val edgeToEdge: Boolean = true,
-) : JavaSerializable
+)

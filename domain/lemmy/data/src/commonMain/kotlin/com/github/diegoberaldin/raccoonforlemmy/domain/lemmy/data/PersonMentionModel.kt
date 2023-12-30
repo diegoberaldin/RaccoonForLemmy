@@ -1,7 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
-
 data class PersonMentionModel(
     val id: Int = 0,
     val post: PostModel,
@@ -16,4 +14,4 @@ data class PersonMentionModel(
     val isOwnPost: Boolean = false,
     val publishDate: String? = null,
     val read: Boolean = false,
-) : JavaSerializable
+)

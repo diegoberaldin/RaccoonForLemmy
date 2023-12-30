@@ -1,7 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
-
 data class AccountSettingsModel(
     val avatar: String? = null,
     val banner: String? = null,
@@ -16,4 +14,4 @@ data class AccountSettingsModel(
     val showNsfw: Boolean? = null,
     val defaultListingType: ListingType? = null,
     val defaultSortType: SortType? = null,
-) : JavaSerializable
+)

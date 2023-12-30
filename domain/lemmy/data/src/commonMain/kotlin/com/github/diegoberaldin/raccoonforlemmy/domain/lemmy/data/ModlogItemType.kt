@@ -1,8 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
-
-sealed interface ModlogItemType : JavaSerializable {
+sealed interface ModlogItemType {
     data object All : ModlogItemType
     data object ModRemovePost : ModlogItemType
     data object ModLockPost : ModlogItemType

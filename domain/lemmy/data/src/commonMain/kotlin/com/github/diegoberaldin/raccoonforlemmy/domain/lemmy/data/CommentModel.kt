@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
 import kotlin.jvm.Transient
 
 data class CommentModel(
@@ -27,7 +26,7 @@ data class CommentModel(
     @Transient
     val loadMoreButtonVisible: Boolean = false,
     val languageId: Int = 0,
-) : JavaSerializable {
+) {
     val depth: Int get() = (path.split(".").size - 2).coerceAtLeast(0)
     val parentId: String?
         get() = path.split(".")

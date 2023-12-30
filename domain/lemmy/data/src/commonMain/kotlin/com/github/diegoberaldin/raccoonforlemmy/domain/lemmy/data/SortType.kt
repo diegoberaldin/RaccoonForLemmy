@@ -12,11 +12,10 @@ import androidx.compose.material.icons.filled.Thunderstorm
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.JavaSerializable
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
-sealed interface SortType : JavaSerializable {
+sealed interface SortType {
     data object Active : SortType
     data object Hot : SortType
     data object New : SortType
