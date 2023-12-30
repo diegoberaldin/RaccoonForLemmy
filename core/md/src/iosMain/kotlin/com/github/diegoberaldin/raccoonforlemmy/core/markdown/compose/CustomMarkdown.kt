@@ -43,8 +43,8 @@ import org.intellij.markdown.ast.getTextInNode
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.parser.MarkdownParser
 
-/**
- * Credits:
+/*
+ * CREDITS:
  * https://github.com/mikepenz/multiplatform-markdown-renderer
  */
 @Composable

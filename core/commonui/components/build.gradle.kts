@@ -29,6 +29,9 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.coil.compose)
+                implementation(libs.exoplayer)
+                implementation(libs.exoplayer.dash)
+                implementation(libs.exoplayer.ui)
             }
         }
         val commonMain by getting {
