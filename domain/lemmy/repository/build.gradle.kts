@@ -29,7 +29,10 @@ kotlin {
             dependencies {
                 implementation(libs.koin.core)
                 implementation(libs.ktorfit.lib)
+
                 implementation(projects.core.api)
+                implementation(projects.core.utils)
+
                 implementation(projects.domain.lemmy.data)
             }
         }

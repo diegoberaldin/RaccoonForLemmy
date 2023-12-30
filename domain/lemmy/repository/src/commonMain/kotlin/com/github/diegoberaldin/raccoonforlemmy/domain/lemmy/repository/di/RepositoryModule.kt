@@ -1,16 +1,19 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.di
 
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.cache.LruCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultCommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultGetSortTypesUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultLemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultModlogRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultPostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultPrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultSiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultUserRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.ModlogRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
@@ -63,6 +66,14 @@ val repositoryModule = module {
     single<ModlogRepository> {
         DefaultModlogRepository(
             services = get(named("default")),
+        )
+    }
+    single<LemmyItemCache> {
+        DefaultLemmyItemCache(
+            postCache = LruCache.factory(5),
+            commentCache = LruCache.factory(5),
+            communityCache = LruCache.factory(5),
+            userCache = LruCache.factory(5),
         )
     }
 }
