@@ -60,7 +60,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -71,13 +70,13 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class MultiCommunityEditorScreen(
-    private val editedCommunity: MultiCommunityModel? = null,
+    private val communityId: Int? = null,
 ) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<MultiCommunityEditorMviModel> { parametersOf(editedCommunity) }
+        val model = getScreenModel<MultiCommunityEditorMviModel> { parametersOf(communityId) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }

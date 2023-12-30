@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
@@ -32,6 +33,7 @@ interface MultiCommunityMviModel :
         val instance: String = "",
         val isLogged: Boolean = false,
         val sortType: SortType? = null,
+        val community: MultiCommunityModel = MultiCommunityModel(),
         val posts: List<PostModel> = emptyList(),
         val blurNsfw: Boolean = true,
         val swipeActionsEnabled: Boolean = true,

@@ -75,7 +75,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabN
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -83,7 +82,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
@@ -91,15 +89,18 @@ import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 
 class MultiCommunityScreen(
-    private val community: MultiCommunityModel,
+    private val communityId: Int,
 ) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<MultiCommunityMviModel>()
+        val model = getScreenModel<MultiCommunityMviModel>(parameters = {
+            parametersOf(communityId)
+        })
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val topAppBarState = rememberTopAppBarState()
@@ -136,7 +137,7 @@ class MultiCommunityScreen(
                     },
                     title = {
                         Text(
-                            text = community.name,
+                            text = uiState.community.name,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -302,13 +303,9 @@ class MultiCommunityScreen(
                                 model.reduce(MultiCommunityMviModel.Intent.UpVotePost(post.id))
                             },
                             onSecondDismissToStart = rememberCallback(model) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalPost = post,
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalPost = post,
+                                )
                             },
                             onDismissToEnd = {
                                 model.reduce(MultiCommunityMviModel.Intent.DownVotePost(post.id))

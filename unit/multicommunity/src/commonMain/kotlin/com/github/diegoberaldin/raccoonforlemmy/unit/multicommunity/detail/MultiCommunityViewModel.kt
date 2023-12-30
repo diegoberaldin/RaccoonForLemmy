@@ -6,11 +6,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
-import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -25,13 +25,14 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MultiCommunityViewModel(
     private val mvi: DefaultMviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect>,
-    private val community: MultiCommunityModel,
+    private val communityId: Int,
     private val postRepository: PostRepository,
     private val identityRepository: IdentityRepository,
-    private val apiConfigurationRepository: ApiConfigurationRepository,
+    private val multiCommunityRepository: MultiCommunityRepository,
     private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val shareHelper: ShareHelper,
@@ -49,6 +50,11 @@ class MultiCommunityViewModel(
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch {
+            if ((uiState.value.community.id ?: 0) == 0L) {
+                val community =
+                    multiCommunityRepository.getById(communityId.toLong()) ?: MultiCommunityModel()
+                mvi.updateState { it.copy(community = community) }
+            }
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -80,20 +86,19 @@ class MultiCommunityViewModel(
                 val user = siteRepository.getCurrentUser(auth)
                 mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
-        }
-
-        mvi.scope?.launch(Dispatchers.IO) {
-            if (uiState.value.posts.isEmpty()) {
-                val settings = settingsRepository.currentSettings.value
-                val sortTypes = getSortTypesUseCase.getTypesForPosts()
-                mvi.updateState {
-                    it.copy(
-                        sortType = settings.defaultPostSortType.toSortType(),
-                        availableSortTypes = sortTypes,
-                    )
+            withContext(Dispatchers.IO) {
+                if (uiState.value.posts.isEmpty()) {
+                    val settings = settingsRepository.currentSettings.value
+                    val sortTypes = getSortTypesUseCase.getTypesForPosts()
+                    mvi.updateState {
+                        it.copy(
+                            sortType = settings.defaultPostSortType.toSortType(),
+                            availableSortTypes = sortTypes,
+                        )
+                    }
+                    paginator.setCommunities(uiState.value.community.communityIds)
+                    refresh()
                 }
-                paginator.setCommunities(community.communityIds)
-                refresh()
             }
         }
     }

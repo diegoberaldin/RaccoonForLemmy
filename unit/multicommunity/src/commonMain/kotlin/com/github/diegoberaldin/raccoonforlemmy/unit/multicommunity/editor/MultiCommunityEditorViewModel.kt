@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 class MultiCommunityEditorViewModel(
     private val mvi: DefaultMviModel<MultiCommunityEditorMviModel.Intent, MultiCommunityEditorMviModel.UiState, MultiCommunityEditorMviModel.Effect>,
-    private val editedCommunity: MultiCommunityModel? = null,
+    private val communityId: Int?,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val multiCommunityRepository: MultiCommunityRepository,
@@ -60,6 +60,9 @@ class MultiCommunityEditorViewModel(
 
     private fun populate() {
         mvi.scope?.launch(Dispatchers.IO) {
+            val editedCommunity = communityId?.toLong()?.let {
+                multiCommunityRepository.getById(it)
+            }
             val auth = identityRepository.authToken.value
             communities = communityRepository.getSubscribed(auth).sortedBy { it.name }.map { c ->
                 c to (editedCommunity?.communityIds?.contains(c.id) == true)
@@ -145,19 +148,21 @@ class MultiCommunityEditorViewModel(
             return
         }
 
-        val icon = currentState.icon
-        val communityIds = currentState.communities.filter { it.second }.map { it.first.id }
-        val multiCommunity = editedCommunity?.copy(
-            name = name,
-            icon = icon,
-            communityIds = communityIds,
-        ) ?: MultiCommunityModel(
-            name = name,
-            icon = icon,
-            communityIds = communityIds,
-        )
-
         mvi.scope?.launch(Dispatchers.IO) {
+            val icon = currentState.icon
+            val communityIds = currentState.communities.filter { it.second }.map { it.first.id }
+            val editedCommunity = communityId?.toLong()?.let {
+                multiCommunityRepository.getById(it)
+            }
+            val multiCommunity = editedCommunity?.copy(
+                name = name,
+                icon = icon,
+                communityIds = communityIds,
+            ) ?: MultiCommunityModel(
+                name = name,
+                icon = icon,
+                communityIds = communityIds,
+            )
             val accountId = accountRepository.getActive()?.id ?: return@launch
             if (multiCommunity.id == null) {
                 val id = multiCommunityRepository.create(multiCommunity, accountId)

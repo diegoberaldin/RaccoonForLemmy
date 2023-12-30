@@ -13,10 +13,9 @@ val multiCommunityModule = module {
     factory<MultiCommunityMviModel> { params ->
         MultiCommunityViewModel(
             mvi = DefaultMviModel(MultiCommunityMviModel.UiState()),
-            community = params[0],
+            communityId = params[0],
             postRepository = get(),
             identityRepository = get(),
-            apiConfigurationRepository = get(),
             siteRepository = get(),
             themeRepository = get(),
             shareHelper = get(),
@@ -26,6 +25,7 @@ val multiCommunityModule = module {
             paginator = get(),
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
+            multiCommunityRepository = get(),
         )
     }
     factory<MultiCommunityPaginator> {
@@ -36,7 +36,7 @@ val multiCommunityModule = module {
     factory<MultiCommunityEditorMviModel> { params ->
         MultiCommunityEditorViewModel(
             mvi = DefaultMviModel(MultiCommunityEditorMviModel.UiState()),
-            editedCommunity = params[0],
+            communityId = params[0],
             identityRepository = get(),
             communityRepository = get(),
             accountRepository = get(),
