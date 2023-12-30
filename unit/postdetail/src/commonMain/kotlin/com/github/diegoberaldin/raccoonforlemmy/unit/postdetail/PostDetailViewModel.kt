@@ -18,6 +18,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
 
 class PostDetailViewModel(
     private val mvi: DefaultMviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>,
-    private val post: PostModel,
+    private val postId: Int,
     private val otherInstance: String,
     private val highlightCommentId: Int?,
     private val isModerator: Boolean,
@@ -44,6 +45,7 @@ class PostDetailViewModel(
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val getSortTypesUseCase: GetSortTypesUseCase,
+    private val itemCache: LemmyItemCache,
 ) : PostDetailMviModel,
     MviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect> by mvi {
 
@@ -60,6 +62,15 @@ class PostDetailViewModel(
             )
         }
         mvi.scope?.launch {
+            if (uiState.value.post.id == 0) {
+                val post = itemCache.getPost(postId) ?: PostModel()
+                mvi.updateState {
+                    it.copy(
+                        post = post,
+                        isModerator = isModerator,
+                    )
+                }
+            }
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
             }.launchIn(this)
@@ -121,12 +132,11 @@ class PostDetailViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
             }.launchIn(this)
-        }
 
-        mvi.scope?.launch(Dispatchers.IO) {
             identityRepository.isLogged.onEach { logged ->
                 mvi.updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
+
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
@@ -135,16 +145,9 @@ class PostDetailViewModel(
                 }
             }
 
-            mvi.updateState {
-                it.copy(
-                    post = post,
-                    isModerator = isModerator,
-                )
-            }
-
             val auth = identityRepository.authToken.value
             val updatedPost = postRepository.get(
-                id = post.id,
+                id = postId,
                 auth = auth,
                 instance = otherInstance,
             )
@@ -163,7 +166,7 @@ class PostDetailViewModel(
                 highlightCommentPath = comment?.path
             }
             if (isModerator) {
-                post.community?.id?.also { communityId ->
+                uiState.value.post.community?.id?.also { communityId ->
                     val moderators = communityRepository.getModerators(
                         auth = auth,
                         id = communityId
@@ -174,7 +177,7 @@ class PostDetailViewModel(
                 }
 
             }
-            if (post.text.isEmpty() && post.title.isEmpty()) {
+            if (uiState.value.post.text.isEmpty() && uiState.value.post.title.isEmpty()) {
                 refreshPost()
             }
             if (mvi.uiState.value.comments.isEmpty()) {
@@ -315,10 +318,10 @@ class PostDetailViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             val updatedPost = postRepository.get(
-                id = post.id,
+                id = postId,
                 auth = auth,
                 instance = otherInstance,
-            ) ?: post
+            ) ?: uiState.value.post
             mvi.updateState {
                 it.copy(post = updatedPost)
             }
@@ -345,7 +348,7 @@ class PostDetailViewModel(
         val sort = currentState.sortType
         val itemList = commentRepository.getAll(
             auth = auth,
-            postId = post.id,
+            postId = postId,
             instance = otherInstance,
             page = currentPage,
             sort = sort,
@@ -633,9 +636,9 @@ class PostDetailViewModel(
     private fun deletePost() {
         mvi.scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
-            postRepository.delete(id = post.id, auth = auth)
+            postRepository.delete(id = postId, auth = auth)
             notificationCenter.send(
-                event = NotificationCenterEvent.PostDeleted(post),
+                event = NotificationCenterEvent.PostDeleted(uiState.value.post),
             )
             mvi.emitEffect(PostDetailMviModel.Effect.Close)
         }
@@ -719,6 +722,7 @@ class PostDetailViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val isModerator = uiState.value.moderators.containsId(userId)
             val auth = identityRepository.authToken.value.orEmpty()
+            val post = uiState.value.post
             val communityId = post.community?.id
             if (communityId != null) {
                 val newModerators = communityRepository.addModerator(

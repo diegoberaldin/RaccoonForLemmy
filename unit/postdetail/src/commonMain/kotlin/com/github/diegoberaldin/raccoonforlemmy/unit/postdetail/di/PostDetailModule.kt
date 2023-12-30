@@ -9,7 +9,7 @@ val postDetailModule = module {
     factory<PostDetailMviModel> { params ->
         PostDetailViewModel(
             mvi = DefaultMviModel(PostDetailMviModel.UiState()),
-            post = params[0],
+            postId = params[0],
             otherInstance = params[1],
             highlightCommentId = params[2],
             isModerator = params[3],
@@ -25,6 +25,7 @@ val postDetailModule = module {
             notificationCenter = get(),
             hapticFeedback = get(),
             getSortTypesUseCase = get(),
+            itemCache = get(),
         )
     }
 }

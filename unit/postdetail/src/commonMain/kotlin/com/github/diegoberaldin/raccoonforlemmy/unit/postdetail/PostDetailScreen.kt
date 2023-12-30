@@ -100,8 +100,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
@@ -114,14 +112,14 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class PostDetailScreen(
-    private val post: PostModel,
+    private val postId: Int,
     private val otherInstance: String = "",
     private val highlightCommentId: Int? = null,
     private val isMod: Boolean = false,
 ) : Screen {
 
     override val key: ScreenKey
-        get() = super.key + post.id.toString()
+        get() = super.key + postId.toString()
 
     @OptIn(
         ExperimentalMaterial3Api::class,
@@ -131,17 +129,16 @@ class PostDetailScreen(
     @Composable
     override fun Content() {
         val model = getScreenModel<PostDetailMviModel>(
-            tag = post.id.toString() + highlightCommentId.toString(),
+            tag = postId.toString() + highlightCommentId.toString(),
             parameters = {
                 parametersOf(
-                    post,
+                    postId,
                     otherInstance,
                     highlightCommentId,
                     isMod,
                 )
-            }
-        )
-        model.bindToLifecycle(key + post.id.toString())
+            })
+        model.bindToLifecycle(key + postId.toString())
         val uiState by model.uiState.collectAsState()
         val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
         val otherInstanceName = remember { otherInstance }
@@ -169,9 +166,6 @@ class PostDetailScreen(
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
         }
-        LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.setBottomSheetGesturesEnabled(true)
-        }
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
                 when (evt) {
@@ -193,8 +187,7 @@ class PostDetailScreen(
         }
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
@@ -268,13 +261,9 @@ class PostDetailScreen(
                                     icon = Icons.Default.Reply,
                                     text = stringResource(MR.strings.action_reply),
                                     onSelected = rememberCallback {
-                                        with(navigationCoordinator) {
-                                            setBottomSheetGesturesEnabled(false)
-                                            val screen = CreateCommentScreen(
-                                                originalPost = uiState.post,
-                                            )
-                                            showBottomSheet(screen)
-                                        }
+                                        detailOpener.openReply(
+                                            originalPost = uiState.post,
+                                        )
                                     },
                                 )
                             }
@@ -297,8 +286,7 @@ class PostDetailScreen(
                         } else {
                             it
                         }
-                    }.nestedScroll(fabNestedScrollConnection)
-                        .pullRefresh(pullRefreshState),
+                    }.nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState
@@ -357,13 +345,9 @@ class PostDetailScreen(
                                 },
                                 onReply = rememberCallback {
                                     if (uiState.isLogged && !isOnOtherInstance) {
-                                        with(navigationCoordinator) {
-                                            setBottomSheetGesturesEnabled(false)
-                                            val screen = CreateCommentScreen(
-                                                originalPost = uiState.post,
-                                            )
-                                            showBottomSheet(screen)
-                                        }
+                                        detailOpener.openReply(
+                                            originalPost = uiState.post,
+                                        )
                                     }
                                 },
                                 options = buildList {
@@ -441,12 +425,7 @@ class PostDetailScreen(
                                         OptionId.Delete -> model.reduce(PostDetailMviModel.Intent.DeletePost)
 
                                         OptionId.Edit -> {
-                                            with(navigationCoordinator) {
-                                                setBottomSheetGesturesEnabled(false)
-                                                showBottomSheet(
-                                                    CreatePostScreen(editedPost = uiState.post),
-                                                )
-                                            }
+                                            detailOpener.openCreatePost(editedPost = uiState.post)
                                         }
 
                                         OptionId.Report -> {
@@ -456,12 +435,7 @@ class PostDetailScreen(
                                         }
 
                                         OptionId.CrossPost -> {
-                                            with(navigationCoordinator) {
-                                                setBottomSheetGesturesEnabled(false)
-                                                showBottomSheet(
-                                                    CreatePostScreen(crossPost = uiState.post),
-                                                )
-                                            }
+                                            detailOpener.openCreatePost(crossPost = uiState.post)
                                         }
 
                                         OptionId.SeeRaw -> {
@@ -649,14 +623,10 @@ class PostDetailScreen(
                                                 )
                                             },
                                             onSecondDismissToStart = rememberCallback(model) {
-                                                with(navigationCoordinator) {
-                                                    setBottomSheetGesturesEnabled(false)
-                                                    val screen = CreateCommentScreen(
-                                                        originalPost = uiState.post,
-                                                        originalComment = comment,
-                                                    )
-                                                    showBottomSheet(screen)
-                                                }
+                                                detailOpener.openReply(
+                                                    originalPost = uiState.post,
+                                                    originalComment = comment,
+                                                )
                                             },
                                             onDismissToEnd = rememberCallback(model) {
                                                 model.reduce(
@@ -762,14 +732,10 @@ class PostDetailScreen(
                                                     },
                                                     onReply = rememberCallback {
                                                         if (uiState.isLogged && !isOnOtherInstance) {
-                                                            with(navigationCoordinator) {
-                                                                setBottomSheetGesturesEnabled(false)
-                                                                val screen = CreateCommentScreen(
-                                                                    originalPost = uiState.post,
-                                                                    originalComment = comment,
-                                                                )
-                                                                showBottomSheet(screen)
-                                                            }
+                                                            detailOpener.openReply(
+                                                                originalPost = uiState.post,
+                                                                originalComment = comment,
+                                                            )
                                                         }
                                                     },
                                                     onOpenCreator = rememberCallbackArgs { user, instance ->
@@ -777,8 +743,7 @@ class PostDetailScreen(
                                                     },
                                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                         detailOpener.openCommunityDetail(
-                                                            community,
-                                                            instance
+                                                            community, instance
                                                         )
                                                     },
                                                     onOpenPost = rememberCallbackArgs { p, instance ->
@@ -862,16 +827,9 @@ class PostDetailScreen(
                                                             )
 
                                                             OptionId.Edit -> {
-                                                                with(navigationCoordinator) {
-                                                                    setBottomSheetGesturesEnabled(
-                                                                        false,
-                                                                    )
-                                                                    showBottomSheet(
-                                                                        CreateCommentScreen(
-                                                                            editedComment = comment,
-                                                                        ),
-                                                                    )
-                                                                }
+                                                                detailOpener.openReply(
+                                                                    editedComment = comment,
+                                                                )
                                                             }
 
                                                             OptionId.Report -> {
@@ -979,14 +937,10 @@ class PostDetailScreen(
                                             },
                                             onReply = rememberCallback(model) {
                                                 if (uiState.isLogged && !isOnOtherInstance) {
-                                                    with(navigationCoordinator) {
-                                                        setBottomSheetGesturesEnabled(false)
-                                                        val screen = CreateCommentScreen(
-                                                            originalPost = uiState.post,
-                                                            originalComment = comment,
-                                                        )
-                                                        showBottomSheet(screen)
-                                                    }
+                                                    detailOpener.openReply(
+                                                        originalPost = uiState.post,
+                                                        originalComment = comment,
+                                                    )
                                                 }
                                             },
                                             onOpenCreator = rememberCallbackArgs { user ->
@@ -1058,14 +1012,9 @@ class PostDetailScreen(
                                                     )
 
                                                     OptionId.Edit -> {
-                                                        with(navigationCoordinator) {
-                                                            setBottomSheetGesturesEnabled(false)
-                                                            showBottomSheet(
-                                                                CreateCommentScreen(
-                                                                    editedComment = comment,
-                                                                ),
-                                                            )
-                                                        }
+                                                        detailOpener.openReply(
+                                                            editedComment = comment,
+                                                        )
                                                     }
 
                                                     OptionId.Report -> {
@@ -1174,8 +1123,7 @@ class PostDetailScreen(
                                 Column {
                                     if (uiState.post.comments == 0) {
                                         Text(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
+                                            modifier = Modifier.fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
                                             text = stringResource(MR.strings.message_empty_comments),
@@ -1184,8 +1132,7 @@ class PostDetailScreen(
                                         )
                                     } else {
                                         Text(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
+                                            modifier = Modifier.fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
                                             text = stringResource(MR.strings.message_error_loading_comments),
@@ -1240,18 +1187,14 @@ class PostDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
                         },
                     )
@@ -1268,19 +1211,15 @@ class PostDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalPost = uiState.post,
-                                        originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalPost = uiState.post,
+                                    originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
                         },
                     )
