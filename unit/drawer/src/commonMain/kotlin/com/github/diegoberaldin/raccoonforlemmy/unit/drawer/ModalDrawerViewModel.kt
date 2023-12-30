@@ -152,8 +152,9 @@ class ModalDrawerViewModel(
                 val res = it - favorites.toSet()
                 favorites + res
             }
-        val multiCommunitites = multiCommunityRepository.getAll(accountId).sortedBy { it.name }
-
+        val multiCommunitites = accountId?.let {
+            multiCommunityRepository.getAll(it).sortedBy { e -> e.name }
+        }.orEmpty()
         mvi.updateState {
             it.copy(
                 refreshing = false,
