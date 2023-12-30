@@ -69,7 +69,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -373,14 +372,11 @@ class SavedItemsScreen : Screen {
                                         )
                                     },
                                     onReply = {
-                                        with(navigationCoordinator) {
-                                            setBottomSheetGesturesEnabled(false)
-                                            val screen = CreateCommentScreen(
-                                                originalPost = PostModel(id = comment.postId),
-                                                originalComment = comment,
-                                            )
-                                            showBottomSheet(screen)
-                                        }
+                                        detailOpener.openReply(
+                                            originalPost = PostModel(id = comment.postId),
+                                            originalComment = comment,
+                                        )
+
                                     },
                                     options = buildList {
                                         add(
@@ -475,18 +471,14 @@ class SavedItemsScreen : Screen {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
                         },
                     )
@@ -503,18 +495,14 @@ class SavedItemsScreen : Screen {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
                         }
                     )
