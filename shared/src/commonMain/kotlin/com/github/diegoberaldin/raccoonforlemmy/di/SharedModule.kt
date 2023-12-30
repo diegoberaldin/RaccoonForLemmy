@@ -17,6 +17,7 @@ internal val internalSharedModule = module {
     single<DetailOpener> {
         DefaultDetailOpener(
             navigationCoordinator = get(),
+            itemCache = get(),
         )
     }
 }

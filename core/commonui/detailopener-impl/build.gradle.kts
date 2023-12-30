@@ -44,11 +44,15 @@ kotlin {
 
                 implementation(projects.core.navigation)
                 implementation(projects.core.commonui.detailopenerApi)
+
+                implementation(projects.domain.lemmy.data)
+                implementation(projects.domain.lemmy.repository)
+
                 implementation(projects.unit.postdetail)
                 implementation(projects.unit.communitydetail)
                 implementation(projects.unit.userdetail)
-
-                implementation(projects.domain.lemmy.data)
+                implementation(projects.unit.createpost)
+                implementation(projects.unit.createcomment)
 
                 implementation(projects.resources)
             }
