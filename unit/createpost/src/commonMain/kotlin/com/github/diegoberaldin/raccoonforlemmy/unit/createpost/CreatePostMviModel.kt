@@ -8,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import dev.icerock.moko.resources.desc.StringDesc
 
 @Stable
@@ -57,6 +58,8 @@ interface CreatePostMviModel :
     }
 
     data class UiState(
+        val editedPost: PostModel? = null,
+        val crossPost: PostModel? = null,
         val communityInfo: String = "",
         val communityId: Int? = null,
         val communityError: StringDesc? = null,

@@ -87,14 +87,14 @@ import org.koin.core.parameter.parametersOf
 
 class CreatePostScreen(
     private val communityId: Int? = null,
-    private val editedPost: PostModel? = null,
-    private val crossPost: PostModel? = null,
+    private val editedPostId: Int? = null,
+    private val crossPostId: Int? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<CreatePostMviModel> {
-            parametersOf(editedPost?.id)
+            parametersOf(editedPostId, crossPostId)
         }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
@@ -103,22 +103,21 @@ class CreatePostScreen(
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
         val crossPostText = stringResource(MR.strings.create_post_cross_post_text)
+        val crossPost = uiState.crossPost
+        val editedPost = uiState.editedPost
         var bodyTextFieldValue by remember {
-            val text = when {
-                crossPost != null -> buildString {
+            val text = buildString {
+                if (crossPost != null) {
                     append(crossPostText)
                     append(" ")
                     append(crossPost.originalUrl)
+                } else if (editedPost != null) {
+                    append(editedPost.text)
                 }
-
-                editedPost != null -> {
-                    editedPost.text
-                }
-
-                else -> ""
             }
             mutableStateOf(TextFieldValue(text = text))
         }
+
         val bodyFocusRequester = remember { FocusRequester() }
         val urlFocusRequester = remember { FocusRequester() }
         val focusManager = LocalFocusManager.current
@@ -137,6 +136,7 @@ class CreatePostScreen(
                 model.reduce(CreatePostMviModel.Intent.InsertImageInBody(bytes))
             }
         }
+
         var openSelectCommunity by remember { mutableStateOf(false) }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
@@ -146,7 +146,7 @@ class CreatePostScreen(
         var selectLanguageDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
-            val referencePost = editedPost ?: crossPost
+            val referencePost = uiState.editedPost ?: uiState.crossPost
             model.reduce(CreatePostMviModel.Intent.SetTitle(referencePost?.title.orEmpty()))
             model.reduce(CreatePostMviModel.Intent.SetUrl(referencePost?.url.orEmpty()))
             if (editedPost != null) {
@@ -178,7 +178,7 @@ class CreatePostScreen(
                         notificationCenter.send(
                             event = NotificationCenterEvent.PostCreated,
                         )
-                        navigationCoordinator.hideBottomSheet()
+                        navigationCoordinator.popScreen()
                     }
 
                     is CreatePostMviModel.Effect.AddImageToBody -> {
@@ -189,7 +189,8 @@ class CreatePostScreen(
                 }
             }.launchIn(this)
         }
-        LaunchedEffect(notificationCenter) {
+        LaunchedEffect(notificationCenter)
+        {
             notificationCenter.subscribe(NotificationCenterEvent.SelectCommunity::class)
                 .onEach { evt ->
                     model.reduce(CreatePostMviModel.Intent.SetCommunity(evt.model))
@@ -211,7 +212,7 @@ class CreatePostScreen(
                         Image(
                             modifier = Modifier.padding(start = Spacing.s).onClick(
                                 onClick = rememberCallback {
-                                    navigationCoordinator.hideBottomSheet()
+                                    navigationCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.Close,
@@ -232,7 +233,6 @@ class CreatePostScreen(
                             Text(
                                 text = when {
                                     editedPost != null -> stringResource(MR.strings.edit_post_title)
-
                                     else -> stringResource(MR.strings.create_post_title)
                                 },
                                 style = MaterialTheme.typography.titleLarge,
@@ -254,7 +254,8 @@ class CreatePostScreen(
                         )
                     },
                 )
-            }, snackbarHost = {
+            }, snackbarHost =
+            {
                 SnackbarHost(snackbarHostState) { data ->
                     Snackbar(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -262,7 +263,8 @@ class CreatePostScreen(
                         snackbarData = data,
                     )
                 }
-            }) { padding ->
+            })
+        { padding ->
             Column(
                 modifier = Modifier.padding(padding).verticalScroll(rememberScrollState()),
             ) {

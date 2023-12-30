@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.StringUtils.isValidUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR.strings.message_invalid_field
@@ -18,19 +19,29 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class CreatePostViewModel(
-    private val editedPostId: Int?,
     private val mvi: DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>,
+    private val editedPostId: Int?,
+    private val crossPostId: Int?,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
     private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
+    private val itemCache: LemmyItemCache,
 ) : CreatePostMviModel,
     MviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect> by mvi {
 
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch {
+            val editedPost = editedPostId?.let {
+                itemCache.getPost(it)
+            }
+            val crossPost = crossPostId?.let {
+                itemCache.getPost(it)
+            }
+            mvi.updateState { it.copy(editedPost = editedPost, crossPost = crossPost) }
+
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)

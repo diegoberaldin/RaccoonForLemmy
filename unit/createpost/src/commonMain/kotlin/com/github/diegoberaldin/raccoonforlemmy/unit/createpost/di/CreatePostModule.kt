@@ -10,11 +10,13 @@ val createPostModule = module {
         CreatePostViewModel(
             mvi = DefaultMviModel(CreatePostMviModel.UiState()),
             editedPostId = params[0],
+            crossPostId = params[1],
             identityRepository = get(),
             postRepository = get(),
             siteRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
+            itemCache = get(),
         )
     }
 }
