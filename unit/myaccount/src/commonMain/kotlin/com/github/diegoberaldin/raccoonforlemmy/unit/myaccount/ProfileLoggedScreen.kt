@@ -58,8 +58,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
@@ -259,14 +257,9 @@ object ProfileLoggedScreen : Tab {
                                             )
 
                                             OptionId.Edit -> {
-                                                with(navigationCoordinator) {
-                                                    setBottomSheetGesturesEnabled(false)
-                                                    showBottomSheet(
-                                                        CreatePostScreen(
-                                                            editedPost = post,
-                                                        )
-                                                    )
-                                                }
+                                                detailOpener.openCreatePost(
+                                                    editedPost = post,
+                                                )
                                             }
 
                                             OptionId.SeeRaw -> {
@@ -327,8 +320,7 @@ object ProfileLoggedScreen : Tab {
                                 items = uiState.comments,
                                 key = { it.id.toString() + it.updateDate },
                             ) { comment ->
-                                CommentCard(
-                                    modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                                CommentCard(modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
@@ -396,12 +388,9 @@ object ProfileLoggedScreen : Tab {
                                             }
 
                                             OptionId.Edit -> {
-                                                with(navigationCoordinator) {
-                                                    setBottomSheetGesturesEnabled(false)
-                                                    showBottomSheet(
-                                                        CreateCommentScreen(editedComment = comment)
-                                                    )
-                                                }
+                                                detailOpener.openReply(
+                                                    editedComment = comment,
+                                                )
                                             }
 
                                             OptionId.SeeRaw -> {
@@ -410,8 +399,7 @@ object ProfileLoggedScreen : Tab {
 
                                             else -> Unit
                                         }
-                                    }
-                                )
+                                    })
                                 Divider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
                                     thickness = 0.25.dp
@@ -466,8 +454,7 @@ object ProfileLoggedScreen : Tab {
         if (rawContent != null) {
             when (val content = rawContent) {
                 is PostModel -> {
-                    RawContentDialog(
-                        title = content.title,
+                    RawContentDialog(title = content.title,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         url = content.url,
@@ -478,27 +465,20 @@ object ProfileLoggedScreen : Tab {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen =
-                                        CreateCommentScreen(
-                                            originalPost = content,
-                                            initialText = buildString {
-                                                append("> ")
-                                                append(quotation)
-                                                append("\n\n")
-                                            }
-                                        )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
-                        }
-                    )
+                        })
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(
-                        text = content.text,
+                    RawContentDialog(text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = {
@@ -507,21 +487,16 @@ object ProfileLoggedScreen : Tab {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        }
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
-                        }
-                    )
+                        })
                 }
             }
         }
