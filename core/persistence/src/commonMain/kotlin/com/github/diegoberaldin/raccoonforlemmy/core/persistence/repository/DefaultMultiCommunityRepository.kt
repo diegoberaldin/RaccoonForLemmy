@@ -13,10 +13,15 @@ internal class DefaultMultiCommunityRepository(
 
     private val db = provider.getDatabase()
 
-    override suspend fun getAll(accountId: Long?): List<MultiCommunityModel> =
+    override suspend fun getAll(accountId: Long): List<MultiCommunityModel> =
         withContext(Dispatchers.IO) {
             db.multicommunitiesQueries.getAll(accountId)
                 .executeAsList().map { it.toModel() }
+        }
+
+    override suspend fun getById(id: Long): MultiCommunityModel? =
+        withContext(Dispatchers.IO) {
+            db.multicommunitiesQueries.getById(id).executeAsOneOrNull()?.toModel()
         }
 
     override suspend fun create(model: MultiCommunityModel, accountId: Long): Long =

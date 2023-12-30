@@ -18,6 +18,11 @@ SELECT *
 FROM MultiCommunityEntity
 WHERE name = ? AND account_id = ?;
 
+getById:
+SELECT *
+FROM MultiCommunityEntity
+WHERE id = ?;
+
 create:
 INSERT OR IGNORE INTO MultiCommunityEntity (
     name,
