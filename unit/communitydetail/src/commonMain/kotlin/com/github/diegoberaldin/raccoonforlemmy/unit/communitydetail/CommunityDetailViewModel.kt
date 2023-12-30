@@ -23,6 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 
 class CommunityDetailViewModel(
     private val mvi: DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>,
-    private val community: CommunityModel,
+    private val communityId: Int,
     private val otherInstance: String,
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
@@ -50,6 +51,7 @@ class CommunityDetailViewModel(
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val notificationCenter: NotificationCenter,
+    private val itemCache: LemmyItemCache,
 ) : CommunityDetailMviModel,
     MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi {
 
@@ -59,16 +61,18 @@ class CommunityDetailViewModel(
 
     override fun onStarted() {
         mvi.onStarted()
-
-        mvi.updateState {
-            it.copy(
-                community = it.community.takeIf { c -> c.id != 0 } ?: community,
-                instance = otherInstance.takeIf { n -> n.isNotEmpty() }
-                    ?: apiConfigurationRepository.instance.value,
-            )
-        }
-
         mvi.scope?.launch {
+            if (uiState.value.community.id == 0) {
+                val community = itemCache.getCommunity(communityId) ?: CommunityModel()
+                mvi.updateState {
+                    it.copy(
+                        community = community,
+                        instance = otherInstance.takeIf { n -> n.isNotEmpty() }
+                            ?: apiConfigurationRepository.instance.value,
+                    )
+                }
+            }
+
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -252,6 +256,7 @@ class CommunityDetailViewModel(
         pageCursor = null
         hideReadPosts = false
         mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        val community = uiState.value.community
         val auth = identityRepository.authToken.value
         val accountId = accountRepository.getActive()?.id
         val isFavorite = favoriteCommunityRepository.getBy(accountId, community.id) != null
@@ -298,11 +303,11 @@ class CommunityDetailViewModel(
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val sort = currentState.sortType
-        val communityId = currentState.community.id
+        val community = currentState.community
         val (itemList, nextPage) = postRepository.getAll(
             auth = auth,
             otherInstance = otherInstance,
-            communityId = communityId,
+            communityId = community.id,
             communityName = community.name,
             page = currentPage,
             pageCursor = pageCursor,
@@ -459,7 +464,7 @@ class CommunityDetailViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             communityRepository.subscribe(
                 auth = identityRepository.authToken.value,
-                id = community.id,
+                id = communityId,
             )
             // the first response isn't immediately true, simulate here
             mvi.updateState { it.copy(community = it.community.copy(subscribed = true)) }
@@ -471,7 +476,7 @@ class CommunityDetailViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val community = communityRepository.unsubscribe(
                 auth = identityRepository.authToken.value,
-                id = community.id,
+                id = communityId,
             )
             if (community != null) {
                 mvi.updateState { it.copy(community = community) }
@@ -501,7 +506,6 @@ class CommunityDetailViewModel(
         mvi.updateState { it.copy(asyncInProgress = true) }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
-                val communityId = community.id
                 val auth = identityRepository.authToken.value
                 communityRepository.block(communityId, true, auth).getOrThrow()
                 mvi.emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
@@ -517,6 +521,7 @@ class CommunityDetailViewModel(
         mvi.updateState { it.copy(asyncInProgress = true) }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
+                val community = uiState.value.community
                 val instanceId = community.instanceId
                 val auth = identityRepository.authToken.value
                 siteRepository.block(instanceId, true, auth).getOrThrow()
@@ -583,7 +588,7 @@ class CommunityDetailViewModel(
             val auth = identityRepository.authToken.value.orEmpty()
             val newModerators = communityRepository.addModerator(
                 auth = auth,
-                communityId = community.id,
+                communityId = communityId,
                 added = !isModerator,
                 userId = userId,
             )
@@ -594,10 +599,9 @@ class CommunityDetailViewModel(
     }
 
     private fun toggleFavorite() {
-        val communityId = community.id
         mvi.scope?.launch(Dispatchers.IO) {
             val accountId = accountRepository.getActive()?.id ?: 0L
-            val newValue = !community.favorite
+            val newValue = !uiState.value.community.favorite
             if (newValue) {
                 val model = FavoriteCommunityModel(communityId = communityId)
                 favoriteCommunityRepository.create(model, accountId)

@@ -101,15 +101,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.rememberKeepScreenOn
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
@@ -125,21 +122,21 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class CommunityDetailScreen(
-    private val community: CommunityModel,
+    private val communityId: Int,
     private val otherInstance: String = "",
 ) : Screen {
 
     override val key: ScreenKey
-        get() = super.key + community.id.toString()
+        get() = super.key + communityId.toString()
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<CommunityDetailMviModel>(
-            tag = community.id.toString() + community.name,
-            parameters = { parametersOf(community, otherInstance) },
+            tag = communityId.toString(),
+            parameters = { parametersOf(communityId, otherInstance) },
         )
-        model.bindToLifecycle(key + community.id.toString())
+        model.bindToLifecycle(key + communityId.toString())
         val uiState by model.uiState.collectAsState()
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
@@ -366,7 +363,7 @@ class CommunityDetailScreen(
 
                                                     OptionId.Info -> {
                                                         navigationCoordinator.showBottomSheet(
-                                                            CommunityInfoScreen(uiState.community),
+                                                            CommunityInfoScreen(uiState.community.id),
                                                         )
                                                     }
 
@@ -475,13 +472,9 @@ class CommunityDetailScreen(
                                     icon = Icons.Default.Create,
                                     text = stringResource(MR.strings.action_create_post),
                                     onSelected = rememberCallback {
-                                        with(navigationCoordinator) {
-                                            setBottomSheetGesturesEnabled(false)
-                                            val screen = CreatePostScreen(
-                                                communityId = uiState.community.id,
-                                            )
-                                            showBottomSheet(screen = screen)
-                                        }
+                                        detailOpener.openCreatePost(
+                                            communityId = uiState.community.id,
+                                        )
                                     },
                                 )
                             }
@@ -612,13 +605,9 @@ class CommunityDetailScreen(
                                     )
                                 },
                                 onSecondDismissToStart = rememberCallback(model) {
-                                    with(navigationCoordinator) {
-                                        setBottomSheetGesturesEnabled(false)
-                                        val screen = CreateCommentScreen(
-                                            originalPost = post,
-                                        )
-                                        showBottomSheet(screen)
-                                    }
+                                    detailOpener.openReply(
+                                        originalPost = post,
+                                    )
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
@@ -808,12 +797,7 @@ class CommunityDetailScreen(
                                                 )
 
                                                 OptionId.Edit -> {
-                                                    with(navigationCoordinator) {
-                                                        setBottomSheetGesturesEnabled(false)
-                                                        showBottomSheet(
-                                                            CreatePostScreen(editedPost = post),
-                                                        )
-                                                    }
+                                                    detailOpener.openCreatePost(editedPost = post)
                                                 }
 
                                                 OptionId.Report -> {
@@ -823,12 +807,7 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    with(navigationCoordinator) {
-                                                        setBottomSheetGesturesEnabled(false)
-                                                        showBottomSheet(
-                                                            CreatePostScreen(crossPost = post),
-                                                        )
-                                                    }
+                                                    detailOpener.openCreatePost(crossPost = post)
                                                 }
 
                                                 OptionId.SeeRaw -> {
@@ -943,7 +922,8 @@ class CommunityDetailScreen(
         if (rawContent != null) {
             when (val content = rawContent) {
                 is PostModel -> {
-                    RawContentDialog(title = content.title,
+                    RawContentDialog(
+                        title = content.title,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         url = content.url,
@@ -954,20 +934,17 @@ class CommunityDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
-                        })
+                        },
+                    )
                 }
 
                 is CommentModel -> {
@@ -981,16 +958,14 @@ class CommunityDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        })
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
                         },
                     )

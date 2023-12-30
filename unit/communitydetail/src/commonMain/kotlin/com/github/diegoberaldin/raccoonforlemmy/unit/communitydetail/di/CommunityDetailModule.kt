@@ -9,7 +9,7 @@ val communityDetailModule = module {
     factory<CommunityDetailMviModel> { params ->
         CommunityDetailViewModel(
             mvi = DefaultMviModel(CommunityDetailMviModel.UiState()),
-            community = params[0],
+            communityId = params[0],
             otherInstance = params[1],
             identityRepository = get(),
             apiConfigurationRepository = get(),
@@ -26,6 +26,7 @@ val communityDetailModule = module {
             getSortTypesUseCase = get(),
             accountRepository = get(),
             favoriteCommunityRepository = get(),
+            itemCache = get(),
         )
     }
 }
