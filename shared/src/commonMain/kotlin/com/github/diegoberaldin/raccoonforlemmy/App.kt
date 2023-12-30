@@ -90,7 +90,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val drawerCoordinator = remember { getDrawerCoordinator() }
     val drawerGesturesEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
-    val bottomSheetGesturesEnabled by navigationCoordinator.bottomSheetGesturesEnabled.collectAsState()
     val detailOpener = remember { getDetailOpener() }
 
     LaunchedEffect(Unit) {
@@ -203,7 +202,9 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 }
 
                 is DrawerEvent.OpenMultiCommunity -> {
-                    navigationCoordinator.pushScreen(MultiCommunityScreen(evt.community))
+                    evt.community.id?.toInt()?.also {
+                        navigationCoordinator.pushScreen(MultiCommunityScreen(it))
+                    }
                 }
 
                 DrawerEvent.ManageSubscriptions -> {
@@ -240,7 +241,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                     topEnd = CornerSize.xl
                 ),
                 sheetBackgroundColor = MaterialTheme.colorScheme.background,
-                sheetGesturesEnabled = bottomSheetGesturesEnabled,
             ) { bottomNavigator ->
                 navigationCoordinator.setBottomNavigator(bottomNavigator)
 

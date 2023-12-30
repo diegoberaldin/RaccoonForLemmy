@@ -27,7 +27,6 @@ interface NavigationCoordinator {
     val deepLinkUrl: Flow<String?>
     val canPop: StateFlow<Boolean>
     val exitMessageVisible: StateFlow<Boolean>
-    val bottomSheetGesturesEnabled: StateFlow<Boolean>
 
     fun setCurrentSection(section: TabNavigationSection)
     fun submitDeeplink(url: String)
@@ -43,7 +42,6 @@ interface NavigationCoordinator {
     fun pushScreen(screen: Screen)
     fun popScreen()
     fun setExitMessageVisible(value: Boolean)
-    fun setBottomSheetGesturesEnabled(value: Boolean)
     fun setTabNavigator(value: TabNavigator)
     fun changeTab(value: Tab)
 }
