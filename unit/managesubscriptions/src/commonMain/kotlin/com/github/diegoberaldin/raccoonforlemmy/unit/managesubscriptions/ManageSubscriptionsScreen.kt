@@ -190,9 +190,11 @@ class ManageSubscriptionsScreen : Screen {
                             modifier = Modifier.fillMaxWidth()
                                 .background(MaterialTheme.colorScheme.background).onClick(
                                     onClick = rememberCallback {
-                                        navigatorCoordinator.pushScreen(
-                                            MultiCommunityScreen(community),
-                                        )
+                                        community.id?.toInt()?.also {
+                                            navigatorCoordinator.pushScreen(
+                                                MultiCommunityScreen(it),
+                                            )
+                                        }
                                     },
                                 ),
                             community = community,
@@ -211,7 +213,7 @@ class ManageSubscriptionsScreen : Screen {
                                 when (optionId) {
                                     OptionId.Edit -> {
                                         navigatorCoordinator.pushScreen(
-                                            MultiCommunityEditorScreen(community),
+                                            MultiCommunityEditorScreen(community.id?.toInt()),
                                         )
                                     }
 
