@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAVideo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 
 data class PostModel(
@@ -33,3 +34,6 @@ val PostModel.imageUrl: String
     get() = url?.takeIf { it.looksLikeAnImage }?.takeIf { it.isNotEmpty() } ?: run {
         thumbnailUrl
     }.orEmpty()
+
+val PostModel.videoUrl: String
+    get() = url?.takeIf { it.looksLikeAVideo }?.takeIf { it.isNotEmpty() }.orEmpty()

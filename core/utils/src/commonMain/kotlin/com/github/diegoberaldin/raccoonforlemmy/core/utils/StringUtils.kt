@@ -11,6 +11,13 @@ val String.looksLikeAnImage: Boolean
         return imageExtensions.any { this.endsWith(it) }
     }
 
+val String.looksLikeAVideo: Boolean
+    get() {
+        val imageExtensions = listOf(".mp4", ".mov", ".webm", ".avi")
+        return imageExtensions.any { this.endsWith(it) }
+    }
+
+
 fun String?.ellipsize(length: Int = 100, ellipsis: String = "…"): String {
     if (isNullOrEmpty() || length == 0) {
         return ""

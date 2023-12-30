@@ -42,12 +42,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.videoUrl
 
 @Composable
 fun PostCard(
@@ -229,24 +229,34 @@ private fun CompactPost(
                     },
                 )
             }
-            PostCardImage(
-                modifier = Modifier
-                    .weight(0.25f)
-                    .clip(RoundedCornerShape(CornerSize.s)),
-                minHeight = Dp.Unspecified,
-                maxHeight = Dp.Unspecified,
-                imageUrl = post.imageUrl,
-                autoLoadImages = autoLoadImages,
-                loadButtonContent = @Composable {
-                    Icon(imageVector = Icons.Default.Download, contentDescription = null)
-                },
-                blurred = blurNsfw && post.nsfw,
-                onImageClick = onOpenImage,
-                onDoubleClick = onDoubleClick,
-                onLongClick = {
-                    optionsMenuOpen.value = true
-                },
-            )
+
+            if (post.videoUrl.isNotEmpty()) {
+                PostCardVideo(
+                    modifier = Modifier.padding(vertical = Spacing.xxs),
+                    url = post.videoUrl,
+                    blurred = blurNsfw && post.nsfw,
+                    autoLoadImages = autoLoadImages,
+                )
+            } else {
+                PostCardImage(
+                    modifier = Modifier
+                        .weight(0.25f)
+                        .clip(RoundedCornerShape(CornerSize.s)),
+                    minHeight = Dp.Unspecified,
+                    maxHeight = Dp.Unspecified,
+                    imageUrl = post.imageUrl,
+                    autoLoadImages = autoLoadImages,
+                    loadButtonContent = @Composable {
+                        Icon(imageVector = Icons.Default.Download, contentDescription = null)
+                    },
+                    blurred = blurNsfw && post.nsfw,
+                    onImageClick = onOpenImage,
+                    onDoubleClick = onDoubleClick,
+                    onLongClick = {
+                        optionsMenuOpen.value = true
+                    },
+                )
+            }
         }
         PostCardFooter(
             comments = post.comments,
@@ -353,31 +363,42 @@ private fun ExtendedPost(
             )
         }
 
-        PostCardImage(
-            modifier = Modifier
-                .padding(vertical = Spacing.xxs)
-                .let {
-                    if (roundedCornerImage) {
-                        it.clip(RoundedCornerShape(CornerSize.xl))
-                    } else {
-                        it
-                    }
-                }.let {
-                    if (fullHeightImage) {
-                        it
-                    } else {
-                        it.heightIn(max = 200.dp)
-                    }
+        if (post.videoUrl.isNotEmpty()) {
+            PostCardVideo(
+                modifier = Modifier.padding(vertical = Spacing.xxs),
+                url = post.videoUrl,
+                blurred = blurNsfw && post.nsfw,
+                autoLoadImages = autoLoadImages,
+                backgroundColor = backgroundColor,
+            )
+        } else {
+            PostCardImage(
+                modifier = Modifier
+                    .padding(vertical = Spacing.xxs)
+                    .let {
+                        if (roundedCornerImage) {
+                            it.clip(RoundedCornerShape(CornerSize.xl))
+                        } else {
+                            it
+                        }
+                    }.let {
+                        if (fullHeightImage) {
+                            it
+                        } else {
+                            it.heightIn(max = 200.dp)
+                        }
+                    },
+                imageUrl = post.imageUrl,
+                blurred = blurNsfw && post.nsfw,
+                onImageClick = onOpenImage,
+                onDoubleClick = onDoubleClick,
+                autoLoadImages = autoLoadImages,
+                onLongClick = {
+                    optionsMenuOpen.value = true
                 },
-            imageUrl = post.imageUrl,
-            blurred = blurNsfw && post.nsfw,
-            onImageClick = onOpenImage,
-            onDoubleClick = onDoubleClick,
-            autoLoadImages = autoLoadImages,
-            onLongClick = {
-                optionsMenuOpen.value = true
-            },
-        )
+            )
+        }
+
         if (showBody) {
             CustomizedContent {
                 Box(
@@ -425,7 +446,7 @@ private fun ExtendedPost(
                 }
             }
         }
-        if (post.url != post.imageUrl && !post.url.isNullOrEmpty()) {
+        if (post.url != post.imageUrl && post.url != post.videoUrl && !post.url.isNullOrEmpty()) {
             val url = post.url.orEmpty()
             val settingsRepository = remember { getSettingsRepository() }
             val uriHandler = LocalUriHandler.current
@@ -444,7 +465,7 @@ private fun ExtendedPost(
                         },
                         onDoubleClick = onDoubleClick ?: {},
                     ),
-                url = post.url?.takeIf { !it.looksLikeAnImage }.orEmpty(),
+                url = url,
             )
         }
         PostCardFooter(
