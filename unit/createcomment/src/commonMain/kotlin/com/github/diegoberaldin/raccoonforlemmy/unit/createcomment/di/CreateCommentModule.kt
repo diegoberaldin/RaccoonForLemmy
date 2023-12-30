@@ -19,6 +19,7 @@ val createCommentModule = module {
             themeRepository = get(),
             settingsRepository = get(),
             notificationCenter = get(),
+            itemCache = get(),
         )
     }
 }

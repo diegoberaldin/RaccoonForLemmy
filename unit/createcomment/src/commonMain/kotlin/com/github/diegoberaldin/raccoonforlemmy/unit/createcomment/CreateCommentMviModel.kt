@@ -6,7 +6,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import dev.icerock.moko.resources.desc.StringDesc
 
 @Stable
@@ -37,6 +39,9 @@ interface CreateCommentMviModel :
     }
 
     data class UiState(
+        val originalPost: PostModel? = null,
+        val originalComment: CommentModel? = null,
+        val editedComment: CommentModel? = null,
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,

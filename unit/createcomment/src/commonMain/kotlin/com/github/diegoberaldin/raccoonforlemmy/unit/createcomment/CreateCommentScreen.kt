@@ -82,9 +82,9 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class CreateCommentScreen(
-    private val originalPost: PostModel? = null,
-    private val originalComment: CommentModel? = null,
-    private val editedComment: CommentModel? = null,
+    private val originalPostId: Int? = null,
+    private val originalCommentId: Int? = null,
+    private val editedCommentId: Int? = null,
     private val initialText: String? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -92,9 +92,9 @@ class CreateCommentScreen(
     override fun Content() {
         val model = getScreenModel<CreateCommentMviModel> {
             parametersOf(
-                originalPost?.id,
-                originalComment?.id,
-                editedComment?.id,
+                originalPostId,
+                originalCommentId,
+                editedCommentId,
             )
         }
         model.bindToLifecycle(key)
@@ -109,7 +109,7 @@ class CreateCommentScreen(
         var textFieldValue by remember {
             mutableStateOf(
                 TextFieldValue(
-                    text = (initialText ?: editedComment?.text).orEmpty()
+                    text = (initialText ?: uiState.editedComment?.text).orEmpty()
                 )
             )
         }
@@ -122,7 +122,7 @@ class CreateCommentScreen(
         var selectLanguageDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
-            if (editedComment != null) {
+            uiState.editedComment?.also { editedComment ->
                 model.reduce(CreateCommentMviModel.Intent.ChangeLanguage(editedComment.languageId))
             }
             model.effects.onEach { effect ->
@@ -133,7 +133,7 @@ class CreateCommentScreen(
 
                     is CreateCommentMviModel.Effect.Success -> {
                         notificationCenter.send(event = NotificationCenterEvent.CommentCreated)
-                        if (originalPost != null) {
+                        uiState.originalPost?.also { originalPost ->
                             notificationCenter.send(
                                 event = NotificationCenterEvent.PostUpdated(
                                     originalPost.copy(
@@ -146,7 +146,7 @@ class CreateCommentScreen(
                                 ),
                             )
                         }
-                        navigationCoordinator.hideBottomSheet()
+                        navigationCoordinator.popScreen()
                     }
 
                     is CreateCommentMviModel.Effect.AddImageToText -> {
@@ -167,7 +167,7 @@ class CreateCommentScreen(
                         Image(
                             modifier = Modifier.padding(start = Spacing.s).onClick(
                                 onClick = rememberCallback {
-                                    navigationCoordinator.hideBottomSheet()
+                                    navigationCoordinator.popScreen()
                                 },
                             ),
                             imageVector = Icons.Default.Close,
@@ -189,7 +189,7 @@ class CreateCommentScreen(
                             BottomSheetHandle()
                             Text(
                                 text = when {
-                                    editedComment != null -> {
+                                    uiState.editedComment != null -> {
                                         stringResource(MR.strings.edit_comment_title)
                                     }
 
@@ -345,57 +345,55 @@ class CreateCommentScreen(
                 modifier = Modifier.padding(padding),
             ) {
                 item {
-                    when {
-                        originalComment != null -> {
-                            CommentCard(
-                                modifier = referenceModifier,
-                                comment = originalComment,
-                                hideIndent = true,
-                                voteFormat = uiState.voteFormat,
-                                autoLoadImages = uiState.autoLoadImages,
-                                options = buildList {
-                                    add(
-                                        Option(
-                                            OptionId.SeeRaw,
-                                            stringResource(MR.strings.post_action_see_raw)
-                                        )
+                    val originalComment = uiState.originalComment
+                    val originalPost = uiState.originalPost
+                    if (originalComment != null) {
+                        CommentCard(
+                            modifier = referenceModifier,
+                            comment = originalComment,
+                            hideIndent = true,
+                            voteFormat = uiState.voteFormat,
+                            autoLoadImages = uiState.autoLoadImages,
+                            options = buildList {
+                                add(
+                                    Option(
+                                        OptionId.SeeRaw,
+                                        stringResource(MR.strings.post_action_see_raw)
                                     )
-                                },
-                                onOptionSelected = {
-                                    rawContent = originalComment
-                                },
-                            )
-                            Divider()
-                        }
-
-                        originalPost != null -> {
-                            PostCard(
-                                modifier = referenceModifier,
-                                postLayout = if (uiState.postLayout == PostLayout.Card) {
-                                    uiState.postLayout
-                                } else {
-                                    PostLayout.Full
-                                },
-                                fullHeightImage = uiState.fullHeightImages,
-                                post = originalPost,
-                                limitBodyHeight = true,
-                                blurNsfw = false,
-                                includeFullBody = true,
-                                voteFormat = uiState.voteFormat,
-                                autoLoadImages = uiState.autoLoadImages,
-                                options = buildList {
-                                    add(
-                                        Option(
-                                            OptionId.SeeRaw,
-                                            stringResource(MR.strings.post_action_see_raw)
-                                        )
+                                )
+                            },
+                            onOptionSelected = {
+                                rawContent = originalComment
+                            },
+                        )
+                        Divider()
+                    } else if (originalPost != null) {
+                        PostCard(
+                            modifier = referenceModifier,
+                            postLayout = if (uiState.postLayout == PostLayout.Card) {
+                                uiState.postLayout
+                            } else {
+                                PostLayout.Full
+                            },
+                            fullHeightImage = uiState.fullHeightImages,
+                            post = originalPost,
+                            limitBodyHeight = true,
+                            blurNsfw = false,
+                            includeFullBody = true,
+                            voteFormat = uiState.voteFormat,
+                            autoLoadImages = uiState.autoLoadImages,
+                            options = buildList {
+                                add(
+                                    Option(
+                                        OptionId.SeeRaw,
+                                        stringResource(MR.strings.post_action_see_raw)
                                     )
-                                },
-                                onOptionSelected = {
-                                    rawContent = originalPost
-                                },
-                            )
-                        }
+                                )
+                            },
+                            onOptionSelected = {
+                                rawContent = originalPost
+                            },
+                        )
                     }
                 }
             }

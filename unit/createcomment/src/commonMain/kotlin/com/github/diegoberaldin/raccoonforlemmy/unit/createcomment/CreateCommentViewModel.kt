@@ -8,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR.strings.message_missing_field
@@ -30,15 +31,28 @@ class CreateCommentViewModel(
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
+    private val itemCache: LemmyItemCache,
 ) : CreateCommentMviModel,
     MviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect> by mvi {
 
     override fun onStarted() {
         mvi.onStarted()
         mvi.scope?.launch {
+            val originalPost = postId?.let { itemCache.getPost(it) }
+            val originalComment = parentId?.let { itemCache.getComment(it) }
+            val editedComment = editedCommentId?.let { itemCache.getComment(it) }
+            mvi.updateState {
+                it.copy(
+                    originalPost = originalPost,
+                    originalComment = originalComment,
+                    editedComment = editedComment,
+                )
+            }
+
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
+
             if (uiState.value.currentUser.isEmpty()) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUser = siteRepository.getCurrentUser(auth)
