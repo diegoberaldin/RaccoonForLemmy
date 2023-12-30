@@ -80,8 +80,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.rememberKeepScreenOn
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -345,13 +343,9 @@ class PostListScreen : Screen {
                                     model.reduce(PostListMviModel.Intent.UpVotePost(post.id))
                                 },
                                 onSecondDismissToStart = rememberCallback(model) {
-                                    with(navigationCoordinator) {
-                                        setBottomSheetGesturesEnabled(false)
-                                        val screen = CreateCommentScreen(
-                                            originalPost = post,
-                                        )
-                                        showBottomSheet(screen)
-                                    }
+                                    detailOpener.openReply(
+                                        originalPost = post,
+                                    )
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(PostListMviModel.Intent.DownVotePost(post.id))
@@ -518,12 +512,7 @@ class PostListScreen : Screen {
                                                 )
 
                                                 OptionId.Edit -> {
-                                                    with(navigationCoordinator) {
-                                                        setBottomSheetGesturesEnabled(false)
-                                                        showBottomSheet(
-                                                            CreatePostScreen(editedPost = post),
-                                                        )
-                                                    }
+                                                    detailOpener.openCreatePost(editedPost = post)
                                                 }
 
                                                 OptionId.Report -> {
@@ -533,12 +522,7 @@ class PostListScreen : Screen {
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    with(navigationCoordinator) {
-                                                        setBottomSheetGesturesEnabled(false)
-                                                        showBottomSheet(
-                                                            CreatePostScreen(crossPost = post),
-                                                        )
-                                                    }
+                                                    detailOpener.openCreatePost(crossPost = post)
                                                 }
 
                                                 OptionId.SeeRaw -> {
@@ -668,19 +652,14 @@ class PostListScreen : Screen {
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen =
-                                        CreateCommentScreen(
-                                            originalPost = content,
-                                            initialText = buildString {
-                                                append("> ")
-                                                append(quotation)
-                                                append("\n\n")
-                                            },
-                                        )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
                         }
                     )
