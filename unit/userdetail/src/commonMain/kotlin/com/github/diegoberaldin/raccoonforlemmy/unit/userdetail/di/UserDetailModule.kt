@@ -9,7 +9,7 @@ val userDetailModule = module {
     factory<UserDetailMviModel> { params ->
         UserDetailViewModel(
             mvi = DefaultMviModel(UserDetailMviModel.UiState()),
-            user = params[0],
+            userId = params[0],
             otherInstance = params[1],
             identityRepository = get(),
             apiConfigurationRepository = get(),
@@ -24,6 +24,7 @@ val userDetailModule = module {
             notificationCenter = get(),
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
+            itemCache = get(),
         )
     }
 }

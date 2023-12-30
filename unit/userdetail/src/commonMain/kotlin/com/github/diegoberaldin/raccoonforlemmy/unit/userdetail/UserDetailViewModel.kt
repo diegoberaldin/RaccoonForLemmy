@@ -20,6 +20,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
@@ -34,7 +35,7 @@ import kotlinx.coroutines.withContext
 
 class UserDetailViewModel(
     private val mvi: DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>,
-    private val user: UserModel,
+    private val userId: Int,
     private val otherInstance: String = "",
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
@@ -49,6 +50,7 @@ class UserDetailViewModel(
     private val notificationCenter: NotificationCenter,
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
+    private val itemCache: LemmyItemCache,
 ) : UserDetailMviModel,
     MviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect> by mvi {
 
@@ -63,6 +65,12 @@ class UserDetailViewModel(
             )
         }
         mvi.scope?.launch {
+            if (uiState.value.user.id == 0) {
+                val user = itemCache.getUser(userId) ?: UserModel()
+                mvi.updateState {
+                    it.copy(user = user)
+                }
+            }
             themeRepository.postLayout.onEach { layout ->
                 mvi.updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -77,11 +85,7 @@ class UserDetailViewModel(
                 shareHelper.share(evt.url)
             }.launchIn(this)
         }
-        mvi.updateState {
-            it.copy(
-                user = it.user.takeIf { u -> u.id != 0 } ?: user,
-            )
-        }
+
         mvi.scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 mvi.updateState {
@@ -236,10 +240,10 @@ class UserDetailViewModel(
         }
         val auth = identityRepository.authToken.value
         val refreshedUser = userRepository.get(
-            id = user.id,
+            id = userId,
             auth = auth,
             otherInstance = otherInstance,
-            username = user.name,
+            username = uiState.value.user.name,
         )
         if (refreshedUser != null) {
             mvi.updateState { it.copy(user = refreshedUser) }
@@ -266,7 +270,7 @@ class UserDetailViewModel(
                         id = userId,
                         page = currentPage,
                         sort = currentState.sortType,
-                        username = user.name,
+                        username = uiState.value.user.name,
                         otherInstance = otherInstance,
                     )
                 }.await()
@@ -279,7 +283,7 @@ class UserDetailViewModel(
                             id = userId,
                             page = currentPage,
                             sort = currentState.sortType,
-                            username = user.name,
+                            username = uiState.value.user.name,
                             otherInstance = otherInstance,
                         ).orEmpty()
                     } else {
@@ -502,7 +506,6 @@ class UserDetailViewModel(
         mvi.updateState { it.copy(asyncInProgress = true) }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
-                val userId = user.id
                 val auth = identityRepository.authToken.value
                 userRepository.block(userId, true, auth).getOrThrow()
                 mvi.emitEffect(UserDetailMviModel.Effect.BlockSuccess)
@@ -518,6 +521,7 @@ class UserDetailViewModel(
         mvi.updateState { it.copy(asyncInProgress = true) }
         mvi.scope?.launch(Dispatchers.IO) {
             try {
+                val user = uiState.value.user
                 val instanceId = user.instanceId
                 val auth = identityRepository.authToken.value
                 siteRepository.block(instanceId, true, auth).getOrThrow()

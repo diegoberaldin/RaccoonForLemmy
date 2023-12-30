@@ -100,12 +100,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.UserInfoScreen
@@ -118,21 +115,19 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class UserDetailScreen(
-    private val user: UserModel,
+    private val userId: Int,
     private val otherInstance: String = "",
 ) : Screen {
 
     override val key: ScreenKey
-        get() = super.key + user.id.toString()
+        get() = super.key + userId.toString()
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<UserDetailMviModel>(
-            tag = user.id.toString(),
-            parameters = { parametersOf(user, otherInstance) }
-        )
-        model.bindToLifecycle(key + user.id.toString())
+        val model = getScreenModel<UserDetailMviModel>(tag = userId.toString(),
+            parameters = { parametersOf(userId, otherInstance) })
+        model.bindToLifecycle(key + userId.toString())
         val uiState by model.uiState.collectAsState()
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
@@ -181,194 +176,185 @@ class UserDetailScreen(
             }.launchIn(this)
         }
 
-        Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
-            topBar = {
-                val userName = user.name
-                val userHost = user.host
-                val maxTopInset = Dimensions.topBarHeight.value.toInt()
-                var topInset by remember { mutableStateOf(maxTopInset) }
-                snapshotFlow { topAppBarState.collapsedFraction }.onEach {
-                    topInset = (maxTopInset * (1 - it)).toInt()
-                }.launchIn(scope)
+        Scaffold(modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            .padding(Spacing.xs), topBar = {
+            val userName = uiState.user.name
+            val userHost = uiState.user.host
+            val maxTopInset = Dimensions.topBarHeight.value.toInt()
+            var topInset by remember { mutableStateOf(maxTopInset) }
+            snapshotFlow { topAppBarState.collapsedFraction }.onEach {
+                topInset = (maxTopInset * (1 - it)).toInt()
+            }.launchIn(scope)
 
-                TopAppBar(
-                    windowInsets = if (settings.edgeToEdge) {
-                        WindowInsets(0, topInset, 0, 0)
-                    } else {
-                        TopAppBarDefaults.windowInsets
-                    },
-                    scrollBehavior = scrollBehavior,
-                    title = {
-                        Text(
-                            modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = buildString {
-                                append(userName)
-                                if (userHost.isNotEmpty()) {
-                                    append("@$userHost")
-                                }
+            TopAppBar(
+                windowInsets = if (settings.edgeToEdge) {
+                    WindowInsets(0, topInset, 0, 0)
+                } else {
+                    TopAppBarDefaults.windowInsets
+                },
+                scrollBehavior = scrollBehavior,
+                title = {
+                    Text(
+                        modifier = Modifier.padding(horizontal = Spacing.s),
+                        text = buildString {
+                            append(userName)
+                            if (userHost.isNotEmpty()) {
+                                append("@$userHost")
+                            }
+                        },
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+                actions = {
+                    // sort button
+                    Image(
+                        modifier = Modifier.onClick(
+                            onClick = rememberCallback {
+                                val sheet = SortBottomSheet(
+                                    sheetKey = key,
+                                    values = uiState.availableSortTypes,
+                                    comments = false,
+                                    expandTop = true,
+                                )
+                                navigationCoordinator.showBottomSheet(sheet)
                             },
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
+                        ),
+                        imageVector = uiState.sortType.toIcon(),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                    )
+
+                    // options menu
+                    Box {
+                        val options = listOf(
+                            Option(
+                                OptionId.Info, stringResource(MR.strings.user_detail_info)
+                            ),
+                            Option(
+                                OptionId.Block,
+                                stringResource(MR.strings.community_detail_block)
+                            ),
+                            Option(
+                                OptionId.BlockInstance,
+                                stringResource(MR.strings.community_detail_block_instance)
+                            ),
                         )
-                    },
-                    actions = {
-                        // sort button
+                        var optionsExpanded by remember { mutableStateOf(false) }
+                        var optionsOffset by remember { mutableStateOf(Offset.Zero) }
                         Image(
-                            modifier = Modifier.onClick(
+                            modifier = Modifier.onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }.padding(start = Spacing.s).onClick(
                                 onClick = rememberCallback {
-                                    val sheet = SortBottomSheet(
-                                        sheetKey = key,
-                                        values = uiState.availableSortTypes,
-                                        comments = false,
-                                        expandTop = true,
-                                    )
-                                    navigationCoordinator.showBottomSheet(sheet)
+                                    optionsExpanded = true
                                 },
                             ),
-                            imageVector = uiState.sortType.toIcon(),
+                            imageVector = Icons.Default.MoreVert,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
+                        CustomDropDown(
+                            expanded = optionsExpanded,
+                            onDismiss = {
+                                optionsExpanded = false
+                            },
+                            offset = DpOffset(
+                                x = optionsOffset.x.toLocalDp(),
+                                y = optionsOffset.y.toLocalDp(),
+                            ),
+                        ) {
+                            options.forEach { option ->
+                                Text(
+                                    modifier = Modifier.padding(
+                                        horizontal = Spacing.m,
+                                        vertical = Spacing.s,
+                                    ).onClick(
+                                        onClick = rememberCallback {
+                                            optionsExpanded = false
+                                            when (option.id) {
+                                                OptionId.BlockInstance -> model.reduce(
+                                                    UserDetailMviModel.Intent.BlockInstance
+                                                )
 
-                        // options menu
-                        Box {
-                            val options = listOf(
-                                Option(
-                                    OptionId.Info,
-                                    stringResource(MR.strings.user_detail_info)
-                                ),
-                                Option(
-                                    OptionId.Block,
-                                    stringResource(MR.strings.community_detail_block)
-                                ),
-                                Option(
-                                    OptionId.BlockInstance,
-                                    stringResource(MR.strings.community_detail_block_instance)
-                                ),
-                            )
-                            var optionsExpanded by remember { mutableStateOf(false) }
-                            var optionsOffset by remember { mutableStateOf(Offset.Zero) }
-                            Image(
-                                modifier = Modifier.onGloballyPositioned {
-                                    optionsOffset = it.positionInParent()
-                                }.padding(start = Spacing.s).onClick(
-                                    onClick = rememberCallback {
-                                        optionsExpanded = true
-                                    },
-                                ),
-                                imageVector = Icons.Default.MoreVert,
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                            )
-                            CustomDropDown(
-                                expanded = optionsExpanded,
-                                onDismiss = {
-                                    optionsExpanded = false
-                                },
-                                offset = DpOffset(
-                                    x = optionsOffset.x.toLocalDp(),
-                                    y = optionsOffset.y.toLocalDp(),
-                                ),
-                            ) {
-                                options.forEach { option ->
-                                    Text(
-                                        modifier = Modifier.padding(
-                                            horizontal = Spacing.m,
-                                            vertical = Spacing.s,
-                                        ).onClick(
-                                            onClick = rememberCallback {
-                                                optionsExpanded = false
-                                                when (option.id) {
-                                                    OptionId.BlockInstance -> model.reduce(
-                                                        UserDetailMviModel.Intent.BlockInstance
+                                                OptionId.Block -> model.reduce(
+                                                    UserDetailMviModel.Intent.Block
+                                                )
+
+                                                OptionId.Info -> {
+                                                    navigationCoordinator.showBottomSheet(
+                                                        UserInfoScreen(uiState.user.id),
                                                     )
-
-                                                    OptionId.Block -> model.reduce(
-                                                        UserDetailMviModel.Intent.Block
-                                                    )
-
-                                                    OptionId.Info -> {
-                                                        navigationCoordinator.showBottomSheet(
-                                                            UserInfoScreen(uiState.user),
-                                                        )
-                                                    }
-
-                                                    else -> Unit
                                                 }
-                                            },
-                                        ),
-                                        text = option.text,
-                                    )
-                                }
-                            }
-                        }
-                    },
-                    navigationIcon = {
-                        if (navigationCoordinator.canPop.value) {
-                            Image(
-                                modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
-                                        navigationCoordinator.popScreen()
-                                    },
-                                ),
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                            )
-                        }
-                    },
-                )
-            },
-            floatingActionButton = {
-                AnimatedVisibility(
-                    visible = isFabVisible,
-                    enter = slideInVertically(
-                        initialOffsetY = { it * 2 },
-                    ),
-                    exit = slideOutVertically(
-                        targetOffsetY = { it * 2 },
-                    ),
-                ) {
-                    FloatingActionButtonMenu(
-                        items = buildList {
-                            this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.ExpandLess,
-                                text = stringResource(MR.strings.action_back_to_top),
-                                onSelected = rememberCallback {
-                                    scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                        topAppBarState.heightOffset = 0f
-                                        topAppBarState.contentOffset = 0f
-                                    }
-                                },
-                            )
-                            if (uiState.isLogged && !isOnOtherInstance) {
-                                this += FloatingActionButtonMenuItem(
-                                    icon = Icons.Default.Chat,
-                                    text = stringResource(MR.strings.action_chat),
-                                    onSelected = rememberCallback {
-                                        val screen = InboxChatScreen(otherUserId = user.id)
-                                        navigationCoordinator.pushScreen(screen)
-                                    },
+
+                                                else -> Unit
+                                            }
+                                        },
+                                    ),
+                                    text = option.text,
                                 )
                             }
                         }
+                    }
+                },
+                navigationIcon = {
+                    if (navigationCoordinator.canPop.value) {
+                        Image(
+                            modifier = Modifier.onClick(
+                                onClick = rememberCallback {
+                                    navigationCoordinator.popScreen()
+                                },
+                            ),
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                        )
+                    }
+                },
+            )
+        }, floatingActionButton = {
+            AnimatedVisibility(
+                visible = isFabVisible,
+                enter = slideInVertically(
+                    initialOffsetY = { it * 2 },
+                ),
+                exit = slideOutVertically(
+                    targetOffsetY = { it * 2 },
+                ),
+            ) {
+                FloatingActionButtonMenu(items = buildList {
+                    this += FloatingActionButtonMenuItem(
+                        icon = Icons.Default.ExpandLess,
+                        text = stringResource(MR.strings.action_back_to_top),
+                        onSelected = rememberCallback {
+                            scope.launch {
+                                lazyListState.scrollToItem(0)
+                                topAppBarState.heightOffset = 0f
+                                topAppBarState.contentOffset = 0f
+                            }
+                        },
                     )
-                }
-            },
-            snackbarHost = {
-                SnackbarHost(snackbarHostState) { data ->
-                    Snackbar(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        snackbarData = data,
-                    )
-                }
+                    if (uiState.isLogged && !isOnOtherInstance) {
+                        this += FloatingActionButtonMenuItem(
+                            icon = Icons.Default.Chat,
+                            text = stringResource(MR.strings.action_chat),
+                            onSelected = rememberCallback {
+                                val screen = InboxChatScreen(otherUserId = userId)
+                                navigationCoordinator.pushScreen(screen)
+                            },
+                        )
+                    }
+                })
             }
-        ) { padding ->
+        }, snackbarHost = {
+            SnackbarHost(snackbarHostState) { data ->
+                Snackbar(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    snackbarData = data,
+                )
+            }
+        }) { padding ->
             val pullRefreshState = rememberPullRefreshState(
                 refreshing = uiState.refreshing,
                 onRefresh = rememberCallback(model) {
@@ -376,17 +362,13 @@ class UserDetailScreen(
                 },
             )
             Box(
-                modifier = Modifier
-                    .padding(padding)
-                    .let {
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            it
-                        }
+                modifier = Modifier.padding(padding).let {
+                    if (settings.hideNavigationBarWhileScrolling) {
+                        it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                    } else {
+                        it
                     }
-                    .nestedScroll(fabNestedScrollConnection)
-                    .pullRefresh(pullRefreshState),
+                }.nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
                     state = lazyListState,
@@ -506,13 +488,9 @@ class UserDetailScreen(
                                     )
                                 },
                                 onSecondDismissToStart = rememberCallback(model) {
-                                    with(navigationCoordinator) {
-                                        setBottomSheetGesturesEnabled(false)
-                                        val screen = CreateCommentScreen(
-                                            originalPost = post,
-                                        )
-                                        showBottomSheet(screen)
-                                    }
+                                    detailOpener.openReply(
+                                        originalPost = post,
+                                    )
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
@@ -642,12 +620,7 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    with(navigationCoordinator) {
-                                                        setBottomSheetGesturesEnabled(false)
-                                                        showBottomSheet(
-                                                            CreatePostScreen(crossPost = post),
-                                                        )
-                                                    }
+                                                    detailOpener.openCreatePost(crossPost = post)
                                                 }
 
                                                 OptionId.SeeRaw -> {
@@ -773,14 +746,10 @@ class UserDetailScreen(
                                     )
                                 },
                                 onSecondDismissToStart = rememberCallback(model) {
-                                    with(navigationCoordinator) {
-                                        setBottomSheetGesturesEnabled(false)
-                                        val screen = CreateCommentScreen(
-                                            originalPost = PostModel(id = comment.postId),
-                                            originalComment = comment,
-                                        )
-                                        showBottomSheet(screen)
-                                    }
+                                    detailOpener.openReply(
+                                        originalPost = PostModel(id = comment.postId),
+                                        originalComment = comment,
+                                    )
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
@@ -855,14 +824,10 @@ class UserDetailScreen(
                                             null
                                         } else {
                                             rememberCallback {
-                                                with(navigationCoordinator) {
-                                                    setBottomSheetGesturesEnabled(false)
-                                                    val screen = CreateCommentScreen(
-                                                        originalPost = PostModel(id = comment.postId),
-                                                        originalComment = comment,
-                                                    )
-                                                    showBottomSheet(screen)
-                                                }
+                                                detailOpener.openReply(
+                                                    originalPost = PostModel(id = comment.postId),
+                                                    originalComment = comment,
+                                                )
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
@@ -982,26 +947,21 @@ class UserDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
-                        }
+                        },
                     )
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(
-                        text = content.text,
+                    RawContentDialog(text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = {
@@ -1010,21 +970,16 @@ class UserDetailScreen(
                         onQuote = rememberCallbackArgs { quotation ->
                             rawContent = null
                             if (quotation != null) {
-                                with(navigationCoordinator) {
-                                    setBottomSheetGesturesEnabled(false)
-                                    val screen = CreateCommentScreen(
-                                        originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                    showBottomSheet(screen)
-                                }
+                                detailOpener.openReply(
+                                    originalComment = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
                             }
-                        }
-                    )
+                        })
                 }
             }
         }
