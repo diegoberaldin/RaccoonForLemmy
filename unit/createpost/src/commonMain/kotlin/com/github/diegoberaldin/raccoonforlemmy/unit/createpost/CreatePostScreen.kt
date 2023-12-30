@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -201,65 +202,67 @@ class CreatePostScreen(
             }.launchIn(this)
         }
 
-        Scaffold(topBar = {
-            TopAppBar(
-                scrollBehavior = scrollBehavior,
-                navigationIcon = {
-                    Image(
-                        modifier = Modifier.padding(start = Spacing.s).onClick(
-                            onClick = rememberCallback {
-                                navigationCoordinator.hideBottomSheet()
-                            },
-                        ),
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                    )
-                },
-                title = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth().padding(
-                            top = Spacing.s,
-                            start = Spacing.l,
-                        ),
-                        verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        BottomSheetHandle()
-                        Text(
-                            text = when {
-                                editedPost != null -> stringResource(MR.strings.edit_post_title)
-
-                                else -> stringResource(MR.strings.create_post_title)
-                            },
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
+        Scaffold(
+            modifier = Modifier.imePadding(),
+            topBar = {
+                TopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    navigationIcon = {
+                        Image(
+                            modifier = Modifier.padding(start = Spacing.s).onClick(
+                                onClick = rememberCallback {
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
-                    }
-                },
-                actions = {
-                    IconButton(
-                        content = {
-                            Icon(
-                                imageVector = Icons.Default.Send,
-                                contentDescription = null,
+                    },
+                    title = {
+                        Column(
+                            modifier = Modifier.fillMaxWidth().padding(
+                                top = Spacing.s,
+                                start = Spacing.l,
+                            ),
+                            verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            BottomSheetHandle()
+                            Text(
+                                text = when {
+                                    editedPost != null -> stringResource(MR.strings.edit_post_title)
+
+                                    else -> stringResource(MR.strings.create_post_title)
+                                },
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
-                        },
-                        onClick = rememberCallback(model) {
-                            model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
-                        },
-                    )
-                },
-            )
-        }, snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                Snackbar(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    snackbarData = data,
+                        }
+                    },
+                    actions = {
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.Send,
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = rememberCallback(model) {
+                                model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
+                            },
+                        )
+                    },
                 )
-            }
-        }) { padding ->
+            }, snackbarHost = {
+                SnackbarHost(snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        snackbarData = data,
+                    )
+                }
+            }) { padding ->
             Column(
                 modifier = Modifier.padding(padding).verticalScroll(rememberScrollState()),
             ) {
