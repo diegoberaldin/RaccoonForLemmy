@@ -9,9 +9,10 @@ val userInfoModule = module {
     factory<UserInfoMviModel> { params ->
         UserInfoViewModel(
             mvi = DefaultMviModel(UserInfoMviModel.UiState()),
-            user = params[0],
+            userId = params[0],
             userRepository = get(),
             settingsRepository = get(),
+            itemCache = get(),
         )
     }
 }

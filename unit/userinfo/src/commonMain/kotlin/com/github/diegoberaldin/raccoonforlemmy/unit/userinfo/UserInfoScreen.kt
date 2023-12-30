@@ -46,7 +46,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.components.ModeratedCommunityCell
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -57,12 +56,12 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class UserInfoScreen(
-    private val user: UserModel,
+    private val userId: Int,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<UserInfoMviModel> { parametersOf(user) }
+        val model = getScreenModel<UserInfoMviModel> { parametersOf(userId) }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
