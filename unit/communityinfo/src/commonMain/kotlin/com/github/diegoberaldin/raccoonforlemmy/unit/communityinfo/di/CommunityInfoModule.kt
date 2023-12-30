@@ -9,9 +9,10 @@ val communityInfoModule = module {
     factory<CommunityInfoMviModel> { params ->
         CommunityInfoViewModel(
             mvi = DefaultMviModel(CommunityInfoMviModel.UiState()),
-            community = params[0],
+            communityId = params[0],
             communityRepository = get(),
             settingsRepository = get(),
+            itemCache = get(),
         )
     }
 }
