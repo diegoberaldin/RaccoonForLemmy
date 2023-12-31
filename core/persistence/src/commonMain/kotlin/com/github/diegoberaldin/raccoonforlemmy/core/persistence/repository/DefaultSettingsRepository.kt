@@ -46,6 +46,7 @@ private object KeyStoreKeys {
     const val SearchPostTitleOnly = "searchPostTitleOnly"
     const val ContentFontFamily = "contentFontFamily"
     const val EdgeToEdge = "edgeToEdge"
+    const val PostBodyMaxLines = "postBodyMaxLines"
 }
 
 internal class DefaultSettingsRepository(
@@ -94,6 +95,7 @@ internal class DefaultSettingsRepository(
                 searchPostTitleOnly = if (settings.searchPostTitleOnly) 1 else 0,
                 contentFontFamily = settings.contentFontFamily.toLong(),
                 edgeToEdge = if (settings.edgeToEdge) 1 else 0,
+                postBodyMaxLines = settings.postBodyMaxLines?.toLong(),
             )
         }
 
@@ -137,6 +139,9 @@ internal class DefaultSettingsRepository(
                     searchPostTitleOnly = keyStore[KeyStoreKeys.SearchPostTitleOnly, false],
                     contentFontFamily = keyStore[KeyStoreKeys.ContentFontFamily, 0],
                     edgeToEdge = keyStore[KeyStoreKeys.EdgeToEdge, true],
+                    postBodyMaxLines = if (keyStore.containsKey(KeyStoreKeys.PostBodyMaxLines)) {
+                        keyStore[KeyStoreKeys.PostBodyMaxLines, 0]
+                    } else null,
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -224,6 +229,11 @@ internal class DefaultSettingsRepository(
                 )
                 keyStore.save(KeyStoreKeys.ContentFontFamily, settings.contentFontFamily)
                 keyStore.save(KeyStoreKeys.EdgeToEdge, settings.edgeToEdge)
+                if (settings.postBodyMaxLines != null) {
+                    keyStore.save(KeyStoreKeys.PostBodyMaxLines, settings.postBodyMaxLines)
+                } else {
+                    keyStore.remove(KeyStoreKeys.PostBodyMaxLines)
+                }
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -260,6 +270,7 @@ internal class DefaultSettingsRepository(
                     searchPostTitleOnly = if (settings.searchPostTitleOnly) 1L else 0L,
                     contentFontFamily = settings.contentFontFamily.toLong(),
                     edgeToEdge = if (settings.edgeToEdge) 1L else 0L,
+                    postBodyMaxLines = settings.postBodyMaxLines?.toLong(),
                 )
             }
         }
@@ -304,4 +315,5 @@ private fun GetBy.toModel() = SettingsModel(
     searchPostTitleOnly = searchPostTitleOnly != 0L,
     contentFontFamily = contentFontFamily.toInt(),
     edgeToEdge = edgeToEdge != 0L,
+    postBodyMaxLines = postBodyMaxLines?.toInt(),
 )

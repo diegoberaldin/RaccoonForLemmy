@@ -33,6 +33,7 @@ CREATE TABLE SettingsEntity (
     searchPostTitleOnly INTEGER NOT NULL DEFAULT 0,
     contentFontFamily INTEGER NOT NULL DEFAULT 0,
     edgeToEdge INTEGER NOT NULL DEFAULT 1,
+    postBodyMaxLines INTEGER DEFAULT NULL,
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
@@ -73,8 +74,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     searchPostTitleOnly,
     contentFontFamily,
     edgeToEdge,
+    postBodyMaxLines,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -145,7 +148,8 @@ SET theme = ?,
     replyColor = ?,
     searchPostTitleOnly = ?,
     contentFontFamily = ?,
-    edgeToEdge = ?
+    edgeToEdge = ?,
+    postBodyMaxLines = ?
 WHERE account_id = ?;
 
 getBy:
@@ -183,6 +187,7 @@ SELECT
     replyColor,
     searchPostTitleOnly,
     contentFontFamily,
-    edgeToEdge
+    edgeToEdge,
+    postBodyMaxLines
 FROM SettingsEntity
 WHERE account_id = ?;

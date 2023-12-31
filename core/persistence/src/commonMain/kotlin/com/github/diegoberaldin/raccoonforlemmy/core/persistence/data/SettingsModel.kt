@@ -39,4 +39,5 @@ data class SettingsModel(
     val replyColor: Int? = null,
     val searchPostTitleOnly: Boolean = false,
     val edgeToEdge: Boolean = true,
+    val postBodyMaxLines: Int? = null,
 )
