@@ -669,6 +669,7 @@ class SettingsViewModel(
                 defaultInboxType = value.toInboxDefaultType(),
             )
             saveSettings(settings)
+            contentResetCoordinator.resetInbox = true
         }
     }
 

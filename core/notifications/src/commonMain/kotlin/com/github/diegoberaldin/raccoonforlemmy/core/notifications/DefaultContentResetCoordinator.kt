@@ -4,4 +4,5 @@ class DefaultContentResetCoordinator : ContentResetCoordinator {
 
     override var resetHome = false
     override var resetExplore = false
+    override var resetInbox = false
 }

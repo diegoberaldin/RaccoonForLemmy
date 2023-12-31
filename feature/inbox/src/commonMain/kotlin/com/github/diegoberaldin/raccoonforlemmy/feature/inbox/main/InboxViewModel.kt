@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -22,8 +23,11 @@ class InboxViewModel(
     private val coordinator: InboxCoordinator,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
+    private val contentResetCoordinator: ContentResetCoordinator,
 ) : InboxMviModel,
     MviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect> by mvi {
+
+    private var firstLoad = true
 
     override fun onStarted() {
         mvi.onStarted()
@@ -47,10 +51,18 @@ class InboxViewModel(
                     changeUnreadOnly(evt.unreadOnly)
                 }.launchIn(this)
 
-            val settingsUnreadOnly =
-                settingsRepository.currentSettings.value.defaultInboxType.toInboxUnreadOnly()
-            if (uiState.value.unreadOnly != settingsUnreadOnly) {
-                changeUnreadOnly(settingsUnreadOnly)
+            if (contentResetCoordinator.resetInbox) {
+                contentResetCoordinator.resetInbox = false
+                // apply new inbox type
+                firstLoad = true
+            }
+            if (firstLoad) {
+                firstLoad = false
+                val settingsUnreadOnly =
+                    settingsRepository.currentSettings.value.defaultInboxType.toInboxUnreadOnly()
+                if (uiState.value.unreadOnly != settingsUnreadOnly) {
+                    changeUnreadOnly(settingsUnreadOnly)
+                }
             }
         }
     }
