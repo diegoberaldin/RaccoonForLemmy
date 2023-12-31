@@ -21,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 fun PostCardBody(
     modifier: Modifier = Modifier,
     text: String,
+    maxLines: Int? = null,
     autoLoadImages: Boolean = true,
     onClick: (() -> Unit)? = null,
     onOpenImage: ((String) -> Unit)? = null,
@@ -42,6 +43,7 @@ fun PostCardBody(
         CustomMarkdown(
             modifier = modifier,
             content = text,
+            maxLines = maxLines,
             inlineImages = false,
             autoLoadImages = autoLoadImages,
             typography = markdownTypography(

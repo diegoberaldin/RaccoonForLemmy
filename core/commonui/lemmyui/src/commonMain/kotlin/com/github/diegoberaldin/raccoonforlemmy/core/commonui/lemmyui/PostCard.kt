@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,6 +15,7 @@ import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -42,7 +40,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -78,16 +75,19 @@ fun PostCard(
     onDoubleClick: (() -> Unit)? = null,
 ) {
     Box(
-        modifier = modifier.let {
+        modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
-                it.padding(horizontal = Spacing.xs).background(
-                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                    shape = RoundedCornerShape(CornerSize.l),
-                ).padding(Spacing.s)
+                Modifier
+                    .padding(horizontal = Spacing.xs)
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                        shape = RoundedCornerShape(CornerSize.l),
+                    )
+                    .padding(Spacing.s)
             } else {
-                it
+                Modifier
             }
-        }.onClick(
+        ).onClick(
             onClick = onClick ?: {},
             onDoubleClick = onDoubleClick ?: {},
         ),
@@ -309,7 +309,12 @@ private fun ExtendedPost(
     onClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
 ) {
+    val settingsRepository = remember { getSettingsRepository() }
+    val settings by settingsRepository.currentSettings.collectAsState()
+    val uriHandler = LocalUriHandler.current
+    val navigationCoordinator = remember { getNavigationCoordinator() }
     val optionsMenuOpen = remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier.background(backgroundColor).pointerInput(Unit) {
             detectTapGestures(
@@ -375,19 +380,19 @@ private fun ExtendedPost(
             PostCardImage(
                 modifier = Modifier
                     .padding(vertical = Spacing.xxs)
-                    .let {
+                    .then(
                         if (roundedCornerImage) {
-                            it.clip(RoundedCornerShape(CornerSize.xl))
+                            Modifier.clip(RoundedCornerShape(CornerSize.xl))
                         } else {
-                            it
+                            Modifier
                         }
-                    }.let {
+                    ).then(
                         if (fullHeightImage) {
-                            it
+                            Modifier
                         } else {
-                            it.heightIn(max = 200.dp)
+                            Modifier.heightIn(max = 200.dp)
                         }
-                    },
+                    ),
                 imageUrl = post.imageUrl,
                 blurred = blurNsfw && post.nsfw,
                 onImageClick = onOpenImage,
@@ -404,20 +409,19 @@ private fun ExtendedPost(
                 Box(
                     modifier = Modifier.padding(top = Spacing.xxs)
                 ) {
-                    val maxHeight = 200.dp
-                    val maxHeightPx = maxHeight.toLocalPixel()
                     var textHeightPx by remember { mutableStateOf(0f) }
                     PostCardBody(
-                        modifier = Modifier.let {
-                            if (limitBodyHeight) {
-                                it.heightIn(max = maxHeight)
-                            } else {
-                                it
-                            }
-                        }.padding(horizontal = Spacing.xs).onGloballyPositioned {
+                        modifier = Modifier
+                            .padding(horizontal = Spacing.xs)
+                            .onGloballyPositioned {
                             textHeightPx = it.size.toSize().height
                         },
                         text = post.text,
+                        maxLines = if (limitBodyHeight) {
+                            settings.postBodyMaxLines
+                        } else {
+                            null
+                        },
                         autoLoadImages = autoLoadImages,
                         onClick = onClick,
                         onOpenCommunity = onOpenCommunity,
@@ -430,28 +434,11 @@ private fun ExtendedPost(
                             optionsMenuOpen.value = true
                         },
                     )
-                    if (limitBodyHeight && textHeightPx >= maxHeightPx) {
-                        Box(
-                            modifier = Modifier.height(Spacing.xxl).fillMaxWidth()
-                                .align(Alignment.BottomCenter).background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color.Transparent,
-                                            backgroundColor,
-                                        ),
-                                    ),
-                                ),
-                        )
-                    }
                 }
             }
         }
         if (post.url != post.imageUrl && post.url != post.videoUrl && !post.url.isNullOrEmpty()) {
             val url = post.url.orEmpty()
-            val settingsRepository = remember { getSettingsRepository() }
-            val uriHandler = LocalUriHandler.current
-            val navigationCoordinator = remember { getNavigationCoordinator() }
-
             PostLinkBanner(
                 modifier = Modifier
                     .padding(vertical = Spacing.xs)
@@ -459,7 +446,7 @@ private fun ExtendedPost(
                         onClick = rememberCallback {
                             navigationCoordinator.handleUrl(
                                 url = url,
-                                openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
+                                openExternal = settings.openUrlsInExternalBrowser,
                                 uriHandler = uriHandler
                             )
                         },

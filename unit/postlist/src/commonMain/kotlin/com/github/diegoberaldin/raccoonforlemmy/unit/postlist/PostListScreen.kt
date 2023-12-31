@@ -376,6 +376,7 @@ class PostListScreen : Screen {
                                     PostCard(
                                         post = post,
                                         postLayout = uiState.postLayout,
+                                        limitBodyHeight = true,
                                         fullHeightImage = uiState.fullHeightImages,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,

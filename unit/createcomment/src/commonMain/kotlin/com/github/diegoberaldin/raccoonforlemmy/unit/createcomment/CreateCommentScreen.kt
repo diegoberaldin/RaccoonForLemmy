@@ -377,7 +377,6 @@ class CreateCommentScreen(
                             },
                             fullHeightImage = uiState.fullHeightImages,
                             post = originalPost,
-                            limitBodyHeight = true,
                             blurNsfw = false,
                             includeFullBody = true,
                             voteFormat = uiState.voteFormat,
