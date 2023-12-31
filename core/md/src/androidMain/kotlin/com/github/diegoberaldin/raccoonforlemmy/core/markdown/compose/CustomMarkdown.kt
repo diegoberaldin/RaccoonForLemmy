@@ -47,10 +47,11 @@ import kotlinx.coroutines.delay
 @Composable
 actual fun CustomMarkdown(
     content: String,
+    modifier: Modifier,
     colors: MarkdownColors,
     typography: MarkdownTypography,
     padding: MarkdownPadding,
-    modifier: Modifier,
+    maxLines: Int?,
     onOpenUrl: ((String) -> Unit)?,
     inlineImages: Boolean,
     autoLoadImages: Boolean,
@@ -74,13 +75,11 @@ actual fun CustomMarkdown(
         BoxWithConstraints(
             modifier = modifier
         ) {
-            val style =
-                com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalMarkdownTypography.current.text
+            val style = LocalMarkdownTypography.current.text
             val fontScale = LocalDensity.current.fontScale * 1.3f
             val canvasWidthMaybe = with(LocalDensity.current) { maxWidth.toPx() }.toInt()
             val textSizeMaybe = with(LocalDensity.current) { (style.fontSize * fontScale).toPx() }
-            val defaultColor =
-                com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalMarkdownColors.current.text
+            val defaultColor = LocalMarkdownColors.current.text
             val resolver: FontFamily.Resolver = LocalFontFamilyResolver.current
             val typeface: Typeface = remember(resolver, style) {
                 resolver.resolve(
@@ -99,6 +98,7 @@ actual fun CustomMarkdown(
                             textColor = defaultColor,
                             style = style,
                             typeface = typeface,
+                            maxLines = maxLines,
                             fontSize = style.fontSize * fontScale,
                         ).apply {
                             val gestureDetector =
@@ -177,6 +177,7 @@ actual fun CustomMarkdown(
 private fun createTextView(
     context: Context,
     textColor: Color,
+    maxLines: Int? = null,
     fontSize: TextUnit = TextUnit.Unspecified,
     textAlign: TextAlign? = null,
     typeface: Typeface? = null,
@@ -194,6 +195,9 @@ private fun createTextView(
         setTextColor(textColor.toArgb())
         setTextSize(TypedValue.COMPLEX_UNIT_SP, mergedStyle.fontSize.value)
         width = maxWidth
+        if (maxLines != null) {
+            this.maxLines = maxLines
+        }
 
         viewId?.let { id = viewId }
         textAlign?.let { align ->

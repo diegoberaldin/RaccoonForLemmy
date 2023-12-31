@@ -21,7 +21,7 @@ internal fun MarkdownHeader(
 ) {
     node.findChildOfType(MarkdownTokenTypes.ATX_CONTENT)?.let {
         Text(
-            it.getTextInNode(content).trim().toString(),
+            text = it.getTextInNode(content).trim().toString(),
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
             style = style,
             color = LocalMarkdownColors.current.text,

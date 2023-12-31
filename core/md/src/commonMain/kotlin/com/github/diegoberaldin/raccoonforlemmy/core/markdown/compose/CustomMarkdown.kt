@@ -14,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.mark
 @Composable
 expect fun CustomMarkdown(
     content: String,
+    modifier: Modifier = Modifier.fillMaxSize(),
     colors: MarkdownColors = markdownColor(
         text = MaterialTheme.colorScheme.onBackground,
         backgroundCode = MaterialTheme.colorScheme.background,
@@ -29,7 +30,7 @@ expect fun CustomMarkdown(
         paragraph = MaterialTheme.typography.bodyMedium,
     ),
     padding: MarkdownPadding = markdownPadding(),
-    modifier: Modifier = Modifier.fillMaxSize(),
+    maxLines: Int? = null,
     onOpenUrl: ((String) -> Unit)? = null,
     inlineImages: Boolean = true,
     autoLoadImages: Boolean = true,

@@ -12,6 +12,7 @@ import org.intellij.markdown.ast.ASTNode
 internal fun MarkdownParagraph(
     content: String,
     node: ASTNode,
+    maxLines: Int? = null,
     style: TextStyle = LocalMarkdownTypography.current.paragraph,
     onOpenUrl: ((String) -> Unit)? = null,
     inlineImages: Boolean = true,
@@ -29,6 +30,7 @@ internal fun MarkdownParagraph(
     }
     MarkdownText(
         content = styledText,
+        maxLines = maxLines,
         style = style,
         onOpenUrl = onOpenUrl,
         inlineImages = inlineImages,

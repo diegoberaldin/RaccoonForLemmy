@@ -45,6 +45,7 @@ import dev.icerock.moko.resources.compose.stringResource
 @Composable
 internal fun MarkdownText(
     content: String,
+    maxLines: Int?,
     modifier: Modifier = Modifier,
     style: TextStyle = LocalMarkdownTypography.current.text,
     onOpenUrl: ((String) -> Unit)? = null,
@@ -54,6 +55,7 @@ internal fun MarkdownText(
 ) {
     MarkdownText(
         content = AnnotatedString(content),
+        maxLines = maxLines,
         modifier = modifier,
         style = style,
         onOpenUrl = onOpenUrl,
@@ -66,6 +68,7 @@ internal fun MarkdownText(
 @Composable
 internal fun MarkdownText(
     content: AnnotatedString,
+    maxLines: Int? = null,
     modifier: Modifier = Modifier,
     style: TextStyle = LocalMarkdownTypography.current.text,
     onOpenUrl: ((String) -> Unit)? = null,
@@ -101,6 +104,7 @@ internal fun MarkdownText(
     ) {
         if (inlineImages || content.text != imageUrl) {
             Text(
+                maxLines = maxLines ?: Int.MAX_VALUE,
                 text = content,
                 modifier = textModifier,
                 style = style,

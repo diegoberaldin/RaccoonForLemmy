@@ -50,10 +50,11 @@ import org.intellij.markdown.parser.MarkdownParser
 @Composable
 actual fun CustomMarkdown(
     content: String,
+    modifier: Modifier,
     colors: MarkdownColors,
     typography: MarkdownTypography,
     padding: MarkdownPadding,
-    modifier: Modifier,
+    maxLines: Int?,
     onOpenUrl: ((String) -> Unit)?,
     inlineImages: Boolean,
     autoLoadImages: Boolean,
@@ -108,6 +109,7 @@ actual fun CustomMarkdown(
             parsedTree.children.forEach { node ->
                 if (!node.handleElement(
                         content = mangledContent,
+                        maxLines = maxLines,
                         onOpenUrl = onOpenUrl,
                         inlineImages = inlineImages,
                         autoLoadImages = autoLoadImages,
@@ -117,6 +119,7 @@ actual fun CustomMarkdown(
                     node.children.forEach { child ->
                         child.handleElement(
                             content = mangledContent,
+                            maxLines = maxLines,
                             onOpenUrl = onOpenUrl,
                             inlineImages = inlineImages,
                             autoLoadImages = autoLoadImages,
@@ -132,6 +135,7 @@ actual fun CustomMarkdown(
 @Composable
 private fun ASTNode.handleElement(
     content: String,
+    maxLines: Int? = null,
     onOpenUrl: ((String) -> Unit)? = null,
     inlineImages: Boolean = true,
     autoLoadImages: Boolean = true,
@@ -145,6 +149,7 @@ private fun ASTNode.handleElement(
             val text = getTextInNode(content).toString()
             MarkdownText(
                 content = text,
+                maxLines =  maxLines,
                 onOpenUrl = onOpenUrl,
                 inlineImages = inlineImages,
                 onOpenImage = onOpenImage,
@@ -162,8 +167,9 @@ private fun ASTNode.handleElement(
         ATX_6 -> MarkdownHeader(content, this, typography.h6)
         BLOCK_QUOTE -> MarkdownBlockQuote(content, this)
         PARAGRAPH -> MarkdownParagraph(
-            content,
-            this,
+            content = content,
+            maxLines = maxLines,
+            node = this,
             style = typography.paragraph,
             onOpenUrl = onOpenUrl,
             inlineImages = inlineImages,
