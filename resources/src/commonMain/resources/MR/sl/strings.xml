@@ -306,4 +306,6 @@
     <string name="settings_manage_ban_action_unban">Odstrani prepoved</string>
     <string name="settings_manage_ban_section_instances">Primerki</string>
     <string name="settings_edge_to_edge">Vsebina od roba do roba</string>
+    <string name="settings_post_body_max_lines">Največje število vrstic za telo objave</string>
+    <string name="settings_post_body_max_lines_unlimited">Neomejeno</string>
 </resources>

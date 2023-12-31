@@ -308,4 +308,6 @@
     <string name="settings_manage_ban_action_unban">Pašalinti draudimą</string>
     <string name="settings_manage_ban_section_instances">Atvejai</string>
     <string name="settings_edge_to_edge">Turinys nuo krašto iki krašto</string>
+    <string name="settings_post_body_max_lines">Maksimalus pašto teksto eilučių skaičius</string>
+    <string name="settings_post_body_max_lines_unlimited">Neribota</string>
 </resources>

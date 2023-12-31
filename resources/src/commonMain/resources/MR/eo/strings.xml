@@ -305,4 +305,6 @@
     <string name="settings_manage_ban_action_unban">Forigi malpermeson</string>
     <string name="settings_manage_ban_section_instances">Ekzemploj</string>
     <string name="settings_edge_to_edge">Enhavo de rando al rando</string>
+    <string name="settings_post_body_max_lines">Maksimuma nombro da linioj por afiŝokorpo</string>
+    <string name="settings_post_body_max_lines_unlimited">Senlima</string>
 </resources>

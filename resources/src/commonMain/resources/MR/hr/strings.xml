@@ -311,4 +311,6 @@
     <string name="settings_manage_ban_action_unban">Ukloni zabranu</string>
     <string name="settings_manage_ban_section_instances">Instance</string>
     <string name="settings_edge_to_edge">Sadržaj od ruba do ruba</string>
+    <string name="settings_post_body_max_lines">Maksimalan broj redaka za tijelo posta</string>
+    <string name="settings_post_body_max_lines_unlimited">Neograničen</string>
 </resources>

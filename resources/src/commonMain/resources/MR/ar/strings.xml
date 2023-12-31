@@ -304,4 +304,6 @@
     <string name="settings_manage_ban_action_unban">إزالة الحظر</string>
     <string name="settings_manage_ban_section_instances">المثيلات</string>
     <string name="settings_edge_to_edge">محتويات الحافة إلى الحافة</string>
+    <string name="settings_post_body_max_lines">الحد الأقصى لعدد الأسطر لنص الرسالة</string>
+    <string name="settings_post_body_max_lines_unlimited">غير محدود</string>
 </resources>

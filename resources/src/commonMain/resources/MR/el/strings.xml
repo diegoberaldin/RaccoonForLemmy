@@ -317,4 +317,6 @@
     <string name="settings_manage_ban_action_unban">Κατάργηση απαγόρευσης</string>
     <string name="settings_manage_ban_section_instances">Περιπτώσεις</string>
     <string name="settings_edge_to_edge">Περιεχόμενα από άκρη σε άκρη</string>
+    <string name="settings_post_body_max_lines">Μέγιστος αριθμός γραμμών για το σώμα της ανάρτησης</string>
+    <string name="settings_post_body_max_lines_unlimited">Απεριόριστος</string>
 </resources>

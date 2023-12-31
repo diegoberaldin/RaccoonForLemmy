@@ -312,4 +312,6 @@
     <string name="settings_manage_ban_action_unban">Hiq ndalimin</string>
     <string name="settings_manage_ban_section_instances">Instancat</string>
     <string name="settings_edge_to_edge">Përmbajtja buzë në skaj</string>
+    <string name="settings_post_body_max_lines">Numri maksimal i rreshtave për trupin e postës</string>
+    <string name="settings_post_body_max_lines_unlimited">E pakufizuar</string>
 </resources>

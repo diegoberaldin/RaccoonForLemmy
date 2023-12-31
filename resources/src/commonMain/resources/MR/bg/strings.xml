@@ -314,4 +314,6 @@
     <string name="settings_manage_ban_action_unban">Премахване на забраната</string>
     <string name="settings_manage_ban_section_instances">Инстанции</string>
     <string name="settings_edge_to_edge">Съдържание от край до край</string>
+    <string name="settings_post_body_max_lines">Максимален брой редове за тялото на публикацията</string>
+    <string name="settings_post_body_max_lines_unlimited">Неограничен</string>
 </resources>

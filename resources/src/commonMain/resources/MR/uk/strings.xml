@@ -308,4 +308,6 @@
     <string name="settings_manage_ban_action_unban">Зняти бан</string>
     <string name="settings_manage_ban_section_instances">Примірники</string>
     <string name="settings_edge_to_edge">Вміст від краю до краю</string>
+    <string name="settings_post_body_max_lines">Максимальна кількість рядків для тіла повідомлення</string>
+    <string name="settings_post_body_max_lines_unlimited">Необмежений</string>
 </resources>

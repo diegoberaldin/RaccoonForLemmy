@@ -309,4 +309,6 @@
     <string name="settings_manage_ban_action_unban">Yasağı kaldır</string>
     <string name="settings_manage_ban_section_instances">Örnekler</string>
     <string name="settings_edge_to_edge">Uçtan uca içerikler</string>
+    <string name="settings_post_body_max_lines">Gönderi gövdesi için maksimum satır sayısı</string>
+    <string name="settings_post_body_max_lines_unlimited">Sınırsız</string>
 </resources>

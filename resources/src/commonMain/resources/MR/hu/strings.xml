@@ -310,4 +310,6 @@
     <string name="settings_manage_ban_action_unban">Távolítsa el a tiltást</string>
     <string name="settings_manage_ban_section_instances">Példányok</string>
     <string name="settings_edge_to_edge">Éltől szélig tartalom</string>
+    <string name="settings_post_body_max_lines">A bejegyzés törzsének maximális száma</string>
+    <string name="settings_post_body_max_lines_unlimited">Korlátlan</string>
 </resources>

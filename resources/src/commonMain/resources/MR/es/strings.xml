@@ -307,4 +307,6 @@
     <string name="settings_manage_ban_action_unban">Eliminar ban</string>
     <string name="settings_manage_ban_section_instances">Instancias</string>
     <string name="settings_edge_to_edge">Ajustar contenido a pantalla completa</string>
+    <string name="settings_post_body_max_lines">Número máximo de líneas para el cuerpo de las publicaciones</string>
+    <string name="settings_post_body_max_lines_unlimited">Ilimitado</string>
 </resources>

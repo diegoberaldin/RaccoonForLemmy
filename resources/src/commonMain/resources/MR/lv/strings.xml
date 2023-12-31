@@ -310,4 +310,6 @@
     <string name="settings_manage_ban_action_unban">Noņemt aizliegumu</string>
     <string name="settings_manage_ban_section_instances">Gadījumi</string>
     <string name="settings_edge_to_edge">Saturs no malas līdz malai</string>
+    <string name="settings_post_body_max_lines">Maksimālais rindu skaits pasta pamattekstā</string>
+    <string name="settings_post_body_max_lines_unlimited">Neierobežots</string>
 </resources>

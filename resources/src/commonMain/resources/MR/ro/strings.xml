@@ -307,4 +307,6 @@
     <string name="settings_manage_ban_action_unban">Elimină interdicția</string>
     <string name="settings_manage_ban_section_instances">Instanțe</string>
     <string name="settings_edge_to_edge">Conținut de la margine la margine</string>
+    <string name="settings_post_body_max_lines">Număr maxim de linii pentru corpul postărilor</string>
+    <string name="settings_post_body_max_lines_unlimited">Nelimitat</string>
 </resources>

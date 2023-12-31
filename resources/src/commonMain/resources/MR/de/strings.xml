@@ -314,4 +314,6 @@
     <string name="settings_manage_ban_action_unban">Verbot aufheben</string>
     <string name="settings_manage_ban_section_instances">Instanzen</string>
     <string name="settings_edge_to_edge">Rand-zu-Rand-Inhalte</string>
+    <string name="settings_post_body_max_lines">Maximale Zeilenanzahl für den Beitragstext</string>
+    <string name="settings_post_body_max_lines_unlimited">Unbegrenzt</string>
 </resources>

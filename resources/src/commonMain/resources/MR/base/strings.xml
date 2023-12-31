@@ -335,4 +335,6 @@
     <string name="settings_manage_ban_action_unban">Unban</string>
     <string name="settings_manage_ban_section_instances">Instances</string>
     <string name="settings_edge_to_edge">Edge to edge contents</string>
+    <string name="settings_post_body_max_lines">Post body max lines</string>
+    <string name="settings_post_body_max_lines_unlimited">Unlimited</string>
 </resources>

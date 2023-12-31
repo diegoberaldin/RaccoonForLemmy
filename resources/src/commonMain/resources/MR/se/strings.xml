@@ -307,4 +307,6 @@
     <string name="settings_manage_ban_action_unban">Ta bort förbudet</string>
     <string name="settings_manage_ban_section_instances">Instanser</string>
     <string name="settings_edge_to_edge">Kant till kant innehåll</string>
+    <string name="settings_post_body_max_lines">Max antal rader för postkropp</string>
+    <string name="settings_post_body_max_lines_unlimited">Obegränsat</string>
 </resources>

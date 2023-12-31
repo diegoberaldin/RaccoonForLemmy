@@ -311,4 +311,6 @@
     <string name="settings_manage_ban_action_unban">Neħħi l-projbizzjoni</string>
     <string name="settings_manage_ban_section_instances">Każijiet</string>
     <string name="settings_edge_to_edge">Kontenut tarf sa tarf</string>
+    <string name="settings_post_body_max_lines">Numru massimu ta\' linji għal post body</string>
+    <string name="settings_post_body_max_lines_unlimited">Illimitat</string>
 </resources>
