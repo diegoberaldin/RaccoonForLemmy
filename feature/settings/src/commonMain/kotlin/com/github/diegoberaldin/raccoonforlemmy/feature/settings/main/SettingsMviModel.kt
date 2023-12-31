@@ -52,6 +52,7 @@ interface SettingsMviModel :
         data class ChangeDefaultInboxUnreadOnly(val value: Boolean) : Intent
         data class ChangeSearchPostTitleOnly(val value: Boolean) : Intent
         data class ChangeEdgeToEdge(val value: Boolean) : Intent
+        data class ChangePostBodyMaxLines(val value: Int) : Intent
     }
 
     data class UiState(
@@ -93,6 +94,7 @@ interface SettingsMviModel :
         val commentBarTheme: CommentBarTheme = CommentBarTheme.Blue,
         val searchPostTitleOnly: Boolean = false,
         val edgeToEdge: Boolean = true,
+        val postBodyMaxLines: Int? = null,
     )
 
     sealed interface Effect

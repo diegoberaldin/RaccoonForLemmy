@@ -178,6 +178,10 @@ class SettingsViewModel(
                         else -> changeUpvoteColor(evt.color)
                     }
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangePostBodyMaxLines::class)
+                .onEach { evt ->
+                    changePostBodyMaxLines(evt.value)
+                }.launchIn(this)
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
             val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
@@ -213,6 +217,7 @@ class SettingsViewModel(
                 markAsReadWhileScrolling = settings.markAsReadWhileScrolling,
                 searchPostTitleOnly = settings.searchPostTitleOnly,
                 edgeToEdge = settings.edgeToEdge,
+                postBodyMaxLines = settings.postBodyMaxLines,
             )
         }
     }
@@ -349,6 +354,10 @@ class SettingsViewModel(
 
             is SettingsMviModel.Intent.ChangeEdgeToEdge -> {
                 changeEdgeToEdge(intent.value)
+            }
+
+            is SettingsMviModel.Intent.ChangePostBodyMaxLines -> {
+                changePostBodyMaxLines(intent.value)
             }
         }
     }
@@ -688,6 +697,16 @@ class SettingsViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 edgeToEdge = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changePostBodyMaxLines(value: Int?) {
+        mvi.updateState { it.copy(postBodyMaxLines = value) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                postBodyMaxLines = value
             )
             saveSettings(settings)
         }

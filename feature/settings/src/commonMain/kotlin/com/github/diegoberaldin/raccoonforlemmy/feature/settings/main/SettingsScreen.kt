@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
@@ -60,6 +61,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontScaleBo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostBodyMaxLinesBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
@@ -343,6 +345,22 @@ class SettingsScreen : Screen {
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
+
+                    // body max lines in full layout
+                    if (uiState.postLayout == PostLayout.Full) {
+                        SettingsRow(
+                            title = stringResource(MR.strings.settings_post_body_max_lines),
+                            value = if (uiState.postBodyMaxLines == null) {
+                               stringResource(MR.strings.settings_post_body_max_lines_unlimited)
+                            } else {
+                                uiState.postBodyMaxLines.toString()
+                            },
+                            onTap = rememberCallback {
+                                val screen = PostBodyMaxLinesBottomSheet()
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                    }
 
                     // vote format
                     SettingsRow(
