@@ -81,6 +81,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -174,7 +175,7 @@ class MultiCommunityScreen(
                                         onClick = rememberCallback {
                                             val sheet = SortBottomSheet(
                                                 sheetKey = key,
-                                                values = uiState.availableSortTypes,
+                                                values = uiState.availableSortTypes.map { it.toInt() },
                                                 comments = false,
                                                 expandTop = true,
                                             )

@@ -101,6 +101,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
@@ -213,7 +214,7 @@ class UserDetailScreen(
                             onClick = rememberCallback {
                                 val sheet = SortBottomSheet(
                                     sheetKey = key,
-                                    values = uiState.availableSortTypes,
+                                    values = uiState.availableSortTypes.map { it.toInt() },
                                     comments = false,
                                     expandTop = true,
                                 )

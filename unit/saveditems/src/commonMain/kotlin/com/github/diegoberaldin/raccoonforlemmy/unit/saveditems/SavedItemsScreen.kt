@@ -68,6 +68,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
@@ -114,7 +115,7 @@ class SavedItemsScreen : Screen {
                                     val sheet = SortBottomSheet(
                                         sheetKey = key,
                                         comments = false,
-                                        values = uiState.availableSortTypes,
+                                        values = uiState.availableSortTypes.map { it.toInt() },
                                     )
                                     navigatorCoordinator.showBottomSheet(sheet)
                                 },

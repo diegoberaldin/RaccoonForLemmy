@@ -79,6 +79,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.rememberKeepScreenOn
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
@@ -180,7 +181,7 @@ class PostListScreen : Screen {
                     onSelectSortType = rememberCallback {
                         val sheet = SortBottomSheet(
                             sheetKey = key,
-                            values = uiState.availableSortTypes,
+                            values = uiState.availableSortTypes.map { it.toInt() },
                             comments = false,
                             expandTop = true,
                         )

@@ -34,14 +34,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 class SortBottomSheet(
     private val sheetKey: String,
     private val comments: Boolean,
-    private val values: List<SortType>,
+    private val values: List<Int>,
     private val expandTop: Boolean = false,
 ) : Screen {
     @Composable
@@ -73,7 +75,7 @@ class SortBottomSheet(
 internal class SortBottomSheetMain(
     private val sheetKey: String,
     private val comments: Boolean,
-    private val values: List<SortType>,
+    private val values: List<Int>,
     private val expandTop: Boolean = false,
 ) : Screen {
     @Composable
@@ -99,6 +101,7 @@ internal class SortBottomSheetMain(
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
             ) {
                 for (value in values) {
+                    val sortValue = value.toSortType()
                     Row(
                         modifier = Modifier.padding(
                             horizontal = Spacing.s,
@@ -107,7 +110,7 @@ internal class SortBottomSheetMain(
                             .fillMaxWidth()
                             .onClick(
                                 onClick = rememberCallback {
-                                    if (value == SortType.Top.Generic && expandTop) {
+                                    if (sortValue == SortType.Top.Generic && expandTop) {
                                         navigator.push(
                                             SortBottomSheetTop(
                                                 comments = comments,
@@ -117,12 +120,12 @@ internal class SortBottomSheetMain(
                                     } else {
                                         val event = if (comments) {
                                             NotificationCenterEvent.ChangeCommentSortType(
-                                                value = value,
+                                                value = sortValue,
                                                 key = sheetKey,
                                             )
                                         } else {
                                             NotificationCenterEvent.ChangeSortType(
-                                                value = value,
+                                                value = sortValue,
                                                 key = sheetKey,
                                             )
                                         }
@@ -133,8 +136,8 @@ internal class SortBottomSheetMain(
                             ),
                     ) {
                         val name = buildString {
-                            append(value.toReadableName())
-                            if (value == SortType.Top.Generic && expandTop) {
+                            append(sortValue.toReadableName())
+                            if (sortValue == SortType.Top.Generic && expandTop) {
                                 append("…")
                             }
                         }
@@ -145,9 +148,9 @@ internal class SortBottomSheetMain(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Image(
-                            imageVector = if (value == SortType.Top.Generic && expandTop) {
+                            imageVector = if (sortValue == SortType.Top.Generic && expandTop) {
                                 Icons.Default.ChevronRight
-                            } else value.toIcon(),
+                            } else sortValue.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -161,7 +164,7 @@ internal class SortBottomSheetMain(
 internal class SortBottomSheetTop(
     private val sheetKey: String,
     private val comments: Boolean,
-    private val values: List<SortType> = listOf(
+    private val values: List<Int> = listOf(
         SortType.Top.PastHour,
         SortType.Top.Past6Hours,
         SortType.Top.Past12Hours,
@@ -169,7 +172,7 @@ internal class SortBottomSheetTop(
         SortType.Top.Week,
         SortType.Top.Month,
         SortType.Top.Year,
-    ),
+    ).map { it.toInt() },
 ) : Screen {
     @Composable
     override fun Content() {
@@ -208,6 +211,7 @@ internal class SortBottomSheetTop(
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
             ) {
                 for (value in values) {
+                    val sortValue = value.toSortType()
                     Row(
                         modifier = Modifier.padding(
                             horizontal = Spacing.s,
@@ -218,12 +222,12 @@ internal class SortBottomSheetTop(
                                 onClick = rememberCallback {
                                     val event = if (comments) {
                                         NotificationCenterEvent.ChangeCommentSortType(
-                                            value = value,
+                                            value = sortValue,
                                             key = sheetKey,
                                         )
                                     } else {
                                         NotificationCenterEvent.ChangeSortType(
-                                            value = value,
+                                            value = sortValue,
                                             key = sheetKey,
                                         )
                                     }
@@ -233,13 +237,13 @@ internal class SortBottomSheetTop(
                             ),
                     ) {
                         Text(
-                            text = value.toReadableName(),
+                            text = sortValue.toReadableName(),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Image(
-                            imageVector = value.toIcon(),
+                            imageVector = sortValue.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )

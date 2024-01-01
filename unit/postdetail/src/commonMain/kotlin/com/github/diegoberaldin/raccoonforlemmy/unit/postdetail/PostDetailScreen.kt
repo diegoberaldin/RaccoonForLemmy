@@ -98,6 +98,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
@@ -207,7 +208,7 @@ class PostDetailScreen(
                                     val sheet = SortBottomSheet(
                                         sheetKey = key,
                                         comments = true,
-                                        values = uiState.availableSortTypes,
+                                        values = uiState.availableSortTypes.map { it.toInt() },
                                     )
                                     navigationCoordinator.showBottomSheet(sheet)
                                 },

@@ -65,6 +65,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.components.AccountSettingsFormattedInfo
@@ -299,7 +300,7 @@ class AccountSettingsScreen : Screen {
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
                                 sheetKey = key,
-                                values = uiState.availableSortTypes,
+                                values = uiState.availableSortTypes.map { it.toInt() },
                                 expandTop = true,
                                 comments = false,
                             )

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -27,16 +28,18 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
+private val defaultChoices: List<Float> = listOf(
+    FontScale.Largest,
+    FontScale.Larger,
+    FontScale.Large,
+    FontScale.Normal,
+    FontScale.Small,
+    FontScale.Smaller,
+    FontScale.Smallest,
+).map { it.scaleFactor }
+
 class FontScaleBottomSheet(
-    private val values: List<FontScale> = listOf(
-        FontScale.Largest,
-        FontScale.Larger,
-        FontScale.Large,
-        FontScale.Normal,
-        FontScale.Small,
-        FontScale.Smaller,
-        FontScale.Smallest,
-    ),
+    private val values: List<Float> = defaultChoices,
     private val content: Boolean,
 ) : Screen {
 
@@ -73,6 +76,7 @@ class FontScaleBottomSheet(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                 ) {
                     for (value in values) {
+                        val fontScale = value.toFontScale()
                         Row(
                             modifier = Modifier.padding(
                                 horizontal = Spacing.s,
@@ -83,9 +87,9 @@ class FontScaleBottomSheet(
                                     onClick = rememberCallback {
                                         notificationCenter.send(
                                             if (content) {
-                                                NotificationCenterEvent.ChangeContentFontSize(value.scaleFactor)
+                                                NotificationCenterEvent.ChangeContentFontSize(value)
                                             } else {
-                                                NotificationCenterEvent.ChangeUiFontSize(value.scaleFactor)
+                                                NotificationCenterEvent.ChangeUiFontSize(value)
                                             }
                                         )
                                         navigationCoordinator.hideBottomSheet()
@@ -94,9 +98,9 @@ class FontScaleBottomSheet(
                         ) {
                             val originalFontSize = MaterialTheme.typography.bodyLarge.fontSize
                             Text(
-                                text = value.toReadableName(),
+                                text = fontScale.toReadableName(),
                                 style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontSize = originalFontSize * value.scaleFactor,
+                                    fontSize = originalFontSize * value,
                                 ),
                                 color = MaterialTheme.colorScheme.onBackground,
                             )

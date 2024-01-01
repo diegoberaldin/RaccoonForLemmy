@@ -45,6 +45,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
@@ -80,6 +81,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDur
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageFlag
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsColorRow
@@ -321,7 +323,7 @@ class SettingsScreen : Screen {
                                     FontScale.Large,
                                     FontScale.Normal,
                                     FontScale.Small,
-                                ),
+                                ).map { it.scaleFactor },
                                 content = false,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
@@ -419,7 +421,7 @@ class SettingsScreen : Screen {
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
                                 sheetKey = key,
-                                values = uiState.availableSortTypesForPosts,
+                                values = uiState.availableSortTypesForPosts.map { it.toInt() },
                                 expandTop = true,
                                 comments = false,
                             )
@@ -435,7 +437,7 @@ class SettingsScreen : Screen {
                             val sheet = SortBottomSheet(
                                 sheetKey = key,
                                 comments = true,
-                                values = uiState.availableSortTypesForComments,
+                                values = uiState.availableSortTypesForComments.map { it.toInt() },
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },

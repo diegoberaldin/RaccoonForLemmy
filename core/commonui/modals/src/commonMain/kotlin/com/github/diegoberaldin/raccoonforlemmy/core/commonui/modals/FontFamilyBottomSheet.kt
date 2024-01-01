@@ -16,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -28,15 +30,17 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
 
+private val defaultChoices: List<Int> = listOf(
+    UiFontFamily.Poppins,
+    UiFontFamily.TitilliumWeb,
+    UiFontFamily.NotoSans,
+    UiFontFamily.CharisSIL,
+    UiFontFamily.Comfortaa,
+    UiFontFamily.Default,
+).map { it.toInt() }
+
 class FontFamilyBottomSheet(
-    private val values: List<UiFontFamily> = listOf(
-        UiFontFamily.Poppins,
-        UiFontFamily.TitilliumWeb,
-        UiFontFamily.NotoSans,
-        UiFontFamily.CharisSIL,
-        UiFontFamily.Comfortaa,
-        UiFontFamily.Default,
-    ),
+    private val values: List<Int> = defaultChoices,
     private val content: Boolean = false,
 ) : Screen {
 
@@ -73,6 +77,7 @@ class FontFamilyBottomSheet(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                 ) {
                     for (value in values) {
+                        val family = value.toUiFontFamily()
                         Row(
                             modifier = Modifier.padding(
                                 horizontal = Spacing.s,
@@ -82,16 +87,16 @@ class FontFamilyBottomSheet(
                                 .onClick(
                                     onClick = rememberCallback {
                                         val event = if (content) {
-                                            NotificationCenterEvent.ChangeContentFontFamily(value)
+                                            NotificationCenterEvent.ChangeContentFontFamily(family)
                                         } else {
-                                            NotificationCenterEvent.ChangeFontFamily(value)
+                                            NotificationCenterEvent.ChangeFontFamily(family)
                                         }
                                         notificationCenter.send(event)
                                         navigationCoordinator.hideBottomSheet()
                                     },
                                 ),
                         ) {
-                            val fontFamily = when (value) {
+                            val fontFamily = when (family) {
                                 UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
                                 UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
                                 UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
@@ -100,7 +105,7 @@ class FontFamilyBottomSheet(
                                 UiFontFamily.Default -> FontFamily.Default
                             }
                             Text(
-                                text = value.toReadableName(),
+                                text = family.toReadableName(),
                                 style = MaterialTheme.typography.bodyLarge.copy(
                                     fontFamily = fontFamily,
                                 ),
