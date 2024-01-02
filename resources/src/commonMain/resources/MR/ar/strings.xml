@@ -306,4 +306,5 @@
     <string name="settings_edge_to_edge">محتويات الحافة إلى الحافة</string>
     <string name="settings_post_body_max_lines">الحد الأقصى لعدد الأسطر لنص الرسالة</string>
     <string name="settings_post_body_max_lines_unlimited">غير محدود</string>
+    <string name="message_content_removed">(تمت إزالة هذا المحتوى)</string>
 </resources>

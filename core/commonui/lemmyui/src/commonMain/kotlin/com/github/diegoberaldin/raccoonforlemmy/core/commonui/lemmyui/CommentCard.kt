@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,6 +31,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import dev.icerock.moko.resources.compose.stringResource
 
 private val barWidth = 1.25.dp
 private const val INDENT_AMOUNT = 3
@@ -106,18 +110,26 @@ fun CommentCard(
                     },
                     onToggleExpanded = onToggleExpanded,
                 )
-                CustomizedContent {
-                    PostCardBody(
-                        text = comment.text,
-                        autoLoadImages = autoLoadImages,
-                        onClick = onClick,
-                        onOpenImage = onImageClick,
-                        onDoubleClick = onDoubleClick,
-                        onOpenCommunity = onOpenCommunity,
-                        onOpenUser = onOpenCreator,
-                        onOpenPost = onOpenPost,
-                        onOpenWeb = onOpenWeb,
+                if (comment.removed) {
+                    Text(
+                        text = stringResource(MR.strings.message_content_removed),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                     )
+                } else {
+                    CustomizedContent {
+                        PostCardBody(
+                            text = comment.text,
+                            autoLoadImages = autoLoadImages,
+                            onClick = onClick,
+                            onOpenImage = onImageClick,
+                            onDoubleClick = onDoubleClick,
+                            onOpenCommunity = onOpenCommunity,
+                            onOpenUser = onOpenCreator,
+                            onOpenPost = onOpenPost,
+                            onOpenWeb = onOpenWeb,
+                        )
+                    }
                 }
                 PostCardFooter(
                     modifier = Modifier.padding(top = Spacing.xs),

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,6 +25,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import dev.icerock.moko.resources.compose.stringResource
 
 sealed interface InboxCardType {
     data object Mention : InboxCardType
@@ -70,18 +73,26 @@ fun InboxCard(
                 mention = mention,
                 type = type,
             )
-            CustomizedContent {
-                PostCardBody(
-                    modifier = Modifier.padding(
-                        horizontal = Spacing.xs,
-                    ),
-                    text = mention.comment.text,
-                    autoLoadImages = autoLoadImages,
-                    onOpenImage = onImageClick,
-                    onClick = {
-                        onOpenPost(mention.post)
-                    }
+            if (mention.comment.removed) {
+                Text(
+                    text = stringResource(MR.strings.message_content_removed),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                 )
+            } else {
+                CustomizedContent {
+                    PostCardBody(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.xs,
+                        ),
+                        text = mention.comment.text.substringBefore("\n"),
+                        autoLoadImages = autoLoadImages,
+                        onOpenImage = onImageClick,
+                        onClick = {
+                            onOpenPost(mention.post)
+                        }
+                    )
+                }
             }
             InboxReplySubtitle(
                 modifier = Modifier.padding(

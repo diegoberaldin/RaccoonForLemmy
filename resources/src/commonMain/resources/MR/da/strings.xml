@@ -308,4 +308,5 @@
     <string name="settings_edge_to_edge">Indhold fra kant til kant</string>
     <string name="settings_post_body_max_lines">Maks. antal linjer for postlegeme</string>
     <string name="settings_post_body_max_lines_unlimited">Ubegrænset</string>
+    <string name="message_content_removed">(dette indhold er blevet fjernet)</string>
 </resources>

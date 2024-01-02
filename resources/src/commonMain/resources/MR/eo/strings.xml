@@ -307,4 +307,5 @@
     <string name="settings_edge_to_edge">Enhavo de rando al rando</string>
     <string name="settings_post_body_max_lines">Maksimuma nombro da linioj por afiŝokorpo</string>
     <string name="settings_post_body_max_lines_unlimited">Senlima</string>
+    <string name="message_content_removed">(ĉi tiu enhavo estis forigita)</string>
 </resources>

@@ -308,4 +308,5 @@
     <string name="settings_edge_to_edge">Vsebina od roba do roba</string>
     <string name="settings_post_body_max_lines">Največje število vrstic za telo objave</string>
     <string name="settings_post_body_max_lines_unlimited">Neomejeno</string>
+    <string name="message_content_removed">(ta vsebina je bila odstranjena)</string>
 </resources>

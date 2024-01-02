@@ -13,7 +13,7 @@
     <string name="button_reset">Нулиране</string>
     <string name="button_retry">Повтаряне</string>
     <string name="comment_action_delete">Изтрий</string>
-    <string name="community_detail_block">БЛОКИРАНЕ</string>
+    <string name="community_detail_block">Блокиране</string>
     <string name="community_detail_block_instance">Блокиране на екземп</string>
     <string name="community_detail_info">Информация за общността</string>
     <string name="community_detail_instance_info">Подробности за екземпляра</string>
@@ -316,4 +316,5 @@
     <string name="settings_edge_to_edge">Съдържание от край до край</string>
     <string name="settings_post_body_max_lines">Максимален брой редове за тялото на публикацията</string>
     <string name="settings_post_body_max_lines_unlimited">Неограничен</string>
+    <string name="message_content_removed">(това съдържание е премахнато)</string>
 </resources>

@@ -311,4 +311,5 @@
     <string name="settings_edge_to_edge">Inhoud van rand tot rand</string>
     <string name="settings_post_body_max_lines">Max. aantal regels voor berichttekst</string>
     <string name="settings_post_body_max_lines_unlimited">Onbeperkt</string>
+    <string name="message_content_removed">(deze inhoud is verwijderd)</string>
 </resources>

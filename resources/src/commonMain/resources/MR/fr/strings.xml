@@ -313,4 +313,5 @@
     <string name="settings_edge_to_edge">Contenu bord à bord</string>
     <string name="settings_post_body_max_lines">Nombre max. de lignes pour le corps des publications</string>
     <string name="settings_post_body_max_lines_unlimited">Illimité</string>
+    <string name="message_content_removed">(ce contenu a été supprimé)</string>
 </resources>

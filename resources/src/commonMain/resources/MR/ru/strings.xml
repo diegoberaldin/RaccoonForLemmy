@@ -312,4 +312,5 @@
     <string name="settings_edge_to_edge">Содержимое от края до края</string>
     <string name="settings_post_body_max_lines">Максимальное количество строк в теле сообщения</string>
     <string name="settings_post_body_max_lines_unlimited">Безлимитный</string>
+    <string name="message_content_removed">(этот контент был удален)</string>
 </resources>

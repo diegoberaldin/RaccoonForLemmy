@@ -309,4 +309,5 @@
     <string name="settings_edge_to_edge">Ajustar contenido a pantalla completa</string>
     <string name="settings_post_body_max_lines">Número máximo de líneas para el cuerpo de las publicaciones</string>
     <string name="settings_post_body_max_lines_unlimited">Ilimitado</string>
+    <string name="message_content_removed">(este contenido ha sido eliminado)</string>
 </resources>

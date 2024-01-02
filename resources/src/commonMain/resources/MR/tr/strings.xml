@@ -311,4 +311,5 @@
     <string name="settings_edge_to_edge">Uçtan uca içerikler</string>
     <string name="settings_post_body_max_lines">Gönderi gövdesi için maksimum satır sayısı</string>
     <string name="settings_post_body_max_lines_unlimited">Sınırsız</string>
+    <string name="message_content_removed">(bu içerik kaldırıldı)</string>
 </resources>

@@ -308,4 +308,5 @@
     <string name="settings_edge_to_edge">Obsah od okraje k okraji</string>
     <string name="settings_post_body_max_lines">Maximální počet řádků pro tělo příspěvku</string>
     <string name="settings_post_body_max_lines_unlimited">Neomezený</string>
+    <string name="message_content_removed">(tento obsah byl odstraněn)</string>
 </resources>
