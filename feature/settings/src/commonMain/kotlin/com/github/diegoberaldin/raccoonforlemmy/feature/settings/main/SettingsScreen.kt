@@ -473,6 +473,17 @@ class SettingsScreen : Screen {
                         },
                     )
 
+                    // infinite scrolling
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_infinite_scroll_enabled),
+                        value = uiState.infiniteScrollEnabled,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeInfiniteScrollEnabled(value)
+                            )
+                        },
+                    )
+
                     // mark as read while scrolling
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_mark_as_read_while_scrolling),
