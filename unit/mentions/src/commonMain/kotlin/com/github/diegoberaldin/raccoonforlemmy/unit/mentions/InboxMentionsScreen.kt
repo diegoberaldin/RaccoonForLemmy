@@ -192,6 +192,9 @@ class InboxMentionsScreen : Tab {
                                 onOpenCommunity = rememberCallbackArgs { community ->
                                     detailOpener.openCommunityDetail(community, "")
                                 },
+                                onImageClick = rememberCallbackArgs { url ->
+                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                },
                                 onUpVote = rememberCallbackArgs(model) { _ ->
                                     model.reduce(InboxMentionsMviModel.Intent.UpVoteComment(mention.id))
                                 },
@@ -225,11 +228,6 @@ class InboxMentionsScreen : Tab {
 
                                         else -> Unit
                                     }
-                                },
-                                onImageClick = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(
-                                        ZoomableImageScreen(url)
-                                    )
                                 },
                             )
                         },

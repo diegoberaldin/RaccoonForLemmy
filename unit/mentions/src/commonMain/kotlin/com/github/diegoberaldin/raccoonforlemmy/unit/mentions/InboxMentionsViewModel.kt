@@ -77,7 +77,6 @@ class InboxMentionsViewModel(
 
             InboxMentionsMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
                 refresh()
-                mvi.emitEffect(InboxMentionsMviModel.Effect.BackToTop)
             }
 
             is InboxMentionsMviModel.Intent.MarkAsRead -> {
@@ -160,6 +159,20 @@ class InboxMentionsViewModel(
         }
     }
 
+    private fun handleItemUpdate(item: PersonMentionModel) {
+        mvi.updateState {
+            it.copy(
+                mentions = it.mentions.map { i ->
+                    if (i.id == item.id) {
+                        item
+                    } else {
+                        i
+                    }
+                }
+            )
+        }
+    }
+
     private fun markAsRead(read: Boolean, mention: PersonMentionModel) {
         val auth = identityRepository.authToken.value
         mvi.scope?.launch(Dispatchers.IO) {
@@ -178,17 +191,8 @@ class InboxMentionsViewModel(
                     )
                 }
             } else {
-                mvi.updateState {
-                    it.copy(
-                        mentions = currentState.mentions.map { m ->
-                            if (m.id == mention.id) {
-                                m.copy(read = read)
-                            } else {
-                                m
-                            }
-                        }
-                    )
-                }
+                val newMention = mention.copy(read = read)
+                handleItemUpdate(newMention)
             }
             updateUnreadItems()
         }
@@ -200,20 +204,11 @@ class InboxMentionsViewModel(
             comment = mention.comment,
             voted = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                mentions = it.mentions.map { m ->
-                    if (m.comment.id != mention.comment.id) {
-                        m
-                    } else {
-                        m.copy(
-                            myVote = newComment.myVote,
-                            score = newComment.score,
-                        )
-                    }
-                },
-            )
-        }
+        val newMention = mention.copy(
+            myVote = newComment.myVote,
+            score = newComment.score,
+        )
+        handleItemUpdate(newMention)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -223,18 +218,7 @@ class InboxMentionsViewModel(
                     voted = newValue,
                 )
             } catch (e: Throwable) {
-                e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        mentions = it.mentions.map { m ->
-                            if (m.comment.id != mention.comment.id) {
-                                m
-                            } else {
-                                mention
-                            }
-                        },
-                    )
-                }
+                handleItemUpdate(mention)
             }
         }
     }
@@ -242,20 +226,11 @@ class InboxMentionsViewModel(
     private fun toggleDownVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote >= 0
         val newComment = commentRepository.asDownVoted(mention.comment, newValue)
-        mvi.updateState {
-            it.copy(
-                mentions = it.mentions.map { m ->
-                    if (m.comment.id != mention.comment.id) {
-                        m
-                    } else {
-                        m.copy(
-                            myVote = newComment.myVote,
-                            score = newComment.score
-                        )
-                    }
-                },
-            )
-        }
+        val newMention = mention.copy(
+            myVote = newComment.myVote,
+            score = newComment.score,
+        )
+        handleItemUpdate(newMention)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -265,18 +240,7 @@ class InboxMentionsViewModel(
                     downVoted = newValue,
                 )
             } catch (e: Throwable) {
-                e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        mentions = it.mentions.map { m ->
-                            if (m.comment.id != mention.comment.id) {
-                                m
-                            } else {
-                                mention
-                            }
-                        },
-                    )
-                }
+                handleItemUpdate(mention)
             }
         }
     }
