@@ -40,4 +40,5 @@ data class SettingsModel(
     val searchPostTitleOnly: Boolean = false,
     val edgeToEdge: Boolean = true,
     val postBodyMaxLines: Int? = null,
+    val infiniteScrollEnabled: Boolean = true,
 )

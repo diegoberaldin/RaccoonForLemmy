@@ -34,6 +34,7 @@ CREATE TABLE SettingsEntity (
     contentFontFamily INTEGER NOT NULL DEFAULT 0,
     edgeToEdge INTEGER NOT NULL DEFAULT 1,
     postBodyMaxLines INTEGER DEFAULT NULL,
+    infiniteScrollEnabled INTEGER NOT NULL DEFAULT 1,
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
@@ -75,8 +76,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     contentFontFamily,
     edgeToEdge,
     postBodyMaxLines,
+    infiniteScrollEnabled,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -149,7 +152,8 @@ SET theme = ?,
     searchPostTitleOnly = ?,
     contentFontFamily = ?,
     edgeToEdge = ?,
-    postBodyMaxLines = ?
+    postBodyMaxLines = ?,
+    infiniteScrollEnabled = ?
 WHERE account_id = ?;
 
 getBy:
@@ -188,6 +192,7 @@ SELECT
     searchPostTitleOnly,
     contentFontFamily,
     edgeToEdge,
-    postBodyMaxLines
+    postBodyMaxLines,
+    infiniteScrollEnabled
 FROM SettingsEntity
 WHERE account_id = ?;

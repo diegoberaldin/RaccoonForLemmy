@@ -47,6 +47,7 @@ private object KeyStoreKeys {
     const val ContentFontFamily = "contentFontFamily"
     const val EdgeToEdge = "edgeToEdge"
     const val PostBodyMaxLines = "postBodyMaxLines"
+    const val InfiniteScrollEnabled = "infiniteScrollEnabled"
 }
 
 internal class DefaultSettingsRepository(
@@ -96,6 +97,7 @@ internal class DefaultSettingsRepository(
                 contentFontFamily = settings.contentFontFamily.toLong(),
                 edgeToEdge = if (settings.edgeToEdge) 1 else 0,
                 postBodyMaxLines = settings.postBodyMaxLines?.toLong(),
+                infiniteScrollEnabled = if (settings.infiniteScrollEnabled) 1 else 0,
             )
         }
 
@@ -142,6 +144,7 @@ internal class DefaultSettingsRepository(
                     postBodyMaxLines = if (keyStore.containsKey(KeyStoreKeys.PostBodyMaxLines)) {
                         keyStore[KeyStoreKeys.PostBodyMaxLines, 0]
                     } else null,
+                    infiniteScrollEnabled = keyStore[KeyStoreKeys.InfiniteScrollEnabled, true],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -234,6 +237,7 @@ internal class DefaultSettingsRepository(
                 } else {
                     keyStore.remove(KeyStoreKeys.PostBodyMaxLines)
                 }
+                keyStore.save(KeyStoreKeys.InfiniteScrollEnabled, settings.infiniteScrollEnabled)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -271,6 +275,7 @@ internal class DefaultSettingsRepository(
                     contentFontFamily = settings.contentFontFamily.toLong(),
                     edgeToEdge = if (settings.edgeToEdge) 1L else 0L,
                     postBodyMaxLines = settings.postBodyMaxLines?.toLong(),
+                    infiniteScrollEnabled = if (settings.infiniteScrollEnabled) 1L else 0L,
                 )
             }
         }
@@ -316,4 +321,5 @@ private fun GetBy.toModel() = SettingsModel(
     contentFontFamily = contentFontFamily.toInt(),
     edgeToEdge = edgeToEdge != 0L,
     postBodyMaxLines = postBodyMaxLines?.toInt(),
+    infiniteScrollEnabled = edgeToEdge != 0L,
 )
