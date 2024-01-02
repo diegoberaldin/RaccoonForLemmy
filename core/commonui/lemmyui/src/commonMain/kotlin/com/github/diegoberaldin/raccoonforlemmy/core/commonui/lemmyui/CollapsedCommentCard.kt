@@ -35,6 +35,7 @@ fun CollapsedCommentCard(
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     autoLoadImages: Boolean = true,
     actionButtonsActive: Boolean = true,
+    isOp: Boolean = false,
     options: List<Option> = emptyList(),
     onClick: (() -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
@@ -78,6 +79,8 @@ fun CollapsedCommentCard(
                     iconSize = IconSize.s,
                     creator = comment.creator,
                     indicatorExpanded = comment.expanded,
+                    distinguished =  comment.distinguished,
+                    isOp = isOp,
                     autoLoadImages = autoLoadImages,
                     onToggleExpanded = {
                         onToggleExpanded?.invoke()

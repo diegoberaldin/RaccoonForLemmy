@@ -43,6 +43,7 @@ fun CommentCard(
     hideIndent: Boolean = false,
     autoLoadImages: Boolean = true,
     actionButtonsActive: Boolean = true,
+    isOp: Boolean = false,
     options: List<Option> = emptyList(),
     onClick: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
@@ -91,10 +92,12 @@ fun CommentCard(
                 CommunityAndCreatorInfo(
                     modifier = Modifier.padding(top = Spacing.xxs),
                     iconSize = IconSize.s,
+                    autoLoadImages = autoLoadImages,
                     creator = comment.creator.takeIf { !hideAuthor },
                     community = comment.community.takeIf { !hideCommunity },
                     indicatorExpanded = comment.expanded,
-                    autoLoadImages = autoLoadImages,
+                    distinguished = comment.distinguished,
+                    isOp = isOp,
                     onOpenCreator = rememberCallbackArgs { user ->
                         onOpenCreator?.invoke(user, "")
                     },
@@ -102,7 +105,6 @@ fun CommentCard(
                         onOpenCommunity?.invoke(community, "")
                     },
                     onToggleExpanded = onToggleExpanded,
-                    distinguished = comment.distinguished,
                 )
                 CustomizedContent {
                     PostCardBody(

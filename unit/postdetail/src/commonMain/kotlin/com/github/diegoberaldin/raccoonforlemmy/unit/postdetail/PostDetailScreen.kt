@@ -675,6 +675,7 @@ class PostDetailScreen(
                                                             }
                                                         },
                                                     comment = comment,
+                                                    isOp = comment.creator?.id == uiState.post.creator?.id,
                                                     voteFormat = uiState.voteFormat,
                                                     autoLoadImages = uiState.autoLoadImages,
                                                     actionButtonsActive = uiState.isLogged,
@@ -893,6 +894,7 @@ class PostDetailScreen(
                                     } else {
                                         CollapsedCommentCard(
                                             comment = comment,
+                                            isOp = comment.creator?.id == uiState.post.creator?.id,
                                             actionButtonsActive = uiState.isLogged,
                                             onToggleExpanded = rememberCallback(model) {
                                                 model.reduce(
