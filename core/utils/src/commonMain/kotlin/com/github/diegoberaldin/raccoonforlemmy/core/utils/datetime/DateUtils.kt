@@ -11,7 +11,7 @@ fun String.prettifyDate(): String = let {
     when {
         it.isEmpty() -> it
         !it.endsWith("Z") -> {
-            DateTime.getPrettyDate(
+            getPrettyDate(
                 iso8601Timestamp = it + "Z",
                 yearLabel = stringResource(
                     MR.strings.profile_year_short
@@ -33,7 +33,7 @@ fun String.prettifyDate(): String = let {
         }
 
         else -> {
-            DateTime.getPrettyDate(
+            getPrettyDate(
                 iso8601Timestamp = it,
                 yearLabel = stringResource(
                     MR.strings.profile_year_short

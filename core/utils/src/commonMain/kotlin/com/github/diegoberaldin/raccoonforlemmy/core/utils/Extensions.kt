@@ -146,4 +146,28 @@ fun String.md5(): String {
 }
 
 fun Int.toInboxUnreadOnly(): Boolean = this == 0
+
 fun Boolean.toInboxDefaultType(): Int = if (this) 0 else 1
+
+val String.looksLikeAnImage: Boolean
+    get() {
+        val imageExtensions = listOf(".jpeg", ".jpg", ".png", ".webp", ".gif")
+        return imageExtensions.any { this.endsWith(it) }
+    }
+
+val String.looksLikeAVideo: Boolean
+    get() {
+        val imageExtensions = listOf(".mp4", ".mov", ".webm", ".avi")
+        return imageExtensions.any { this.endsWith(it) }
+    }
+
+
+fun String?.ellipsize(length: Int = 100, ellipsis: String = "…"): String {
+    if (isNullOrEmpty() || length == 0) {
+        return ""
+    }
+    if (this.length < length) {
+        return this
+    }
+    return take(length - 1) + ellipsis
+}

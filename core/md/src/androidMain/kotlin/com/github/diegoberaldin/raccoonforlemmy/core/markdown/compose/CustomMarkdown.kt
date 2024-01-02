@@ -36,7 +36,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.Mark
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.ReferenceLinkHandlerImpl
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.di.getMarkwonProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.provider.MarkwonProvider
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.DateTime
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
 import io.noties.markwon.image.AsyncDrawableSpan
 import kotlinx.coroutines.delay
 
@@ -109,7 +109,7 @@ actual fun CustomMarkdown(
                                         private var lastClickTime = 0L
 
                                         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                                            val currentTime = DateTime.epochMillis()
+                                            val currentTime = epochMillis()
                                             if ((currentTime - lastClickTime) < 300) return false
                                             lastClickTime = currentTime
                                             if (!markwonProvider.blockClickPropagation.value) {
@@ -120,7 +120,7 @@ actual fun CustomMarkdown(
                                         }
 
                                         override fun onDoubleTap(e: MotionEvent): Boolean {
-                                            val currentTime = DateTime.epochMillis()
+                                            val currentTime = epochMillis()
                                             if ((currentTime - lastClickTime) < 300) return false
                                             lastClickTime = currentTime
                                             if (!markwonProvider.blockClickPropagation.value) {

@@ -3,7 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.Log
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.logDebug
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.AuthRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -31,7 +31,7 @@ internal class DefaultLoginUseCase(
             totp2faToken = totp2faToken,
         )
         return response.onFailure {
-            Log.d("Login failure: ${it.message}")
+            logDebug("Login failure: ${it.message}")
         }.map {
             val auth = it.token
             if (auth == null) {

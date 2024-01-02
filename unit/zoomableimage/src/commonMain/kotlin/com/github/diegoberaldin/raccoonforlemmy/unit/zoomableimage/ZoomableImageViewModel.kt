@@ -3,7 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.DateTime
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.GalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.download
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
@@ -51,7 +51,7 @@ class ZoomableImageViewModel(
                     val idx = s.lastIndexOf(".").takeIf { it >= 0 } ?: s.length
                     s.substring(idx).takeIf { it.isNotEmpty() } ?: ".jpeg"
                 }
-                galleryHelper.saveToGallery(bytes, "${DateTime.epochMillis()}.$extension")
+                galleryHelper.saveToGallery(bytes, "${epochMillis()}.$extension")
                 mvi.emitEffect(ZoomableImageMviModel.Effect.ShareSuccess)
             } catch (e: Throwable) {
                 e.printStackTrace()
