@@ -190,6 +190,9 @@ class InboxRepliesScreen : Tab {
                                 onOpenCommunity = rememberCallbackArgs { community ->
                                     detailOpener.openCommunityDetail(community, "")
                                 },
+                                onImageClick = rememberCallbackArgs { url ->
+                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                },
                                 onUpVote = rememberCallbackArgs(model) { _ ->
                                     model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
                                 },
@@ -219,11 +222,6 @@ class InboxRepliesScreen : Tab {
 
                                         else -> Unit
                                     }
-                                },
-                                onImageClick = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(
-                                        ZoomableImageScreen(url)
-                                    )
                                 },
                             )
                         },

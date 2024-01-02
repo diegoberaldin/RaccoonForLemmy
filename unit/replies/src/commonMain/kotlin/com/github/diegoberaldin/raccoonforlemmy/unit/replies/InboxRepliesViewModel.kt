@@ -80,7 +80,6 @@ class InboxRepliesViewModel(
 
             InboxRepliesMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
                 refresh()
-                mvi.emitEffect(InboxRepliesMviModel.Effect.BackToTop)
             }
 
             is InboxRepliesMviModel.Intent.MarkAsRead -> {
@@ -170,6 +169,20 @@ class InboxRepliesViewModel(
         }
     }
 
+    private fun handleItemUpdate(item: PersonMentionModel) {
+        mvi.updateState {
+            it.copy(
+                replies = it.replies.map { i ->
+                    if (i.id == item.id) {
+                        item
+                    } else {
+                        i
+                    }
+                }
+            )
+        }
+    }
+
     private fun markAsRead(read: Boolean, reply: PersonMentionModel) {
         val auth = identityRepository.authToken.value
         mvi.scope?.launch(Dispatchers.IO) {
@@ -188,17 +201,8 @@ class InboxRepliesViewModel(
                     )
                 }
             } else {
-                mvi.updateState {
-                    it.copy(
-                        replies = currentState.replies.map { r ->
-                            if (r.id == reply.id) {
-                                r.copy(read = read)
-                            } else {
-                                r
-                            }
-                        }
-                    )
-                }
+                val newItem = reply.copy(read = read)
+                handleItemUpdate(newItem)
             }
             updateUnreadItems()
         }
@@ -210,17 +214,7 @@ class InboxRepliesViewModel(
             mention = mention,
             voted = newValue,
         )
-        mvi.updateState {
-            it.copy(
-                replies = it.replies.map { m ->
-                    if (m.comment.id != mention.comment.id) {
-                        m
-                    } else {
-                        newMention
-                    }
-                },
-            )
-        }
+        handleItemUpdate(newMention)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -230,18 +224,7 @@ class InboxRepliesViewModel(
                     voted = newValue,
                 )
             } catch (e: Throwable) {
-                e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        replies = it.replies.map { m ->
-                            if (m.comment.id != mention.comment.id) {
-                                m
-                            } else {
-                                mention
-                            }
-                        },
-                    )
-                }
+                handleItemUpdate(mention)
             }
         }
     }
@@ -252,17 +235,7 @@ class InboxRepliesViewModel(
             mention = mention,
             downVoted = newValue
         )
-        mvi.updateState {
-            it.copy(
-                replies = it.replies.map { m ->
-                    if (m.comment.id != mention.comment.id) {
-                        m
-                    } else {
-                        newMention
-                    }
-                },
-            )
-        }
+        handleItemUpdate(newMention)
         mvi.scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -272,18 +245,7 @@ class InboxRepliesViewModel(
                     downVoted = newValue,
                 )
             } catch (e: Throwable) {
-                e.printStackTrace()
-                mvi.updateState {
-                    it.copy(
-                        replies = it.replies.map { m ->
-                            if (m.comment.id != mention.comment.id) {
-                                m
-                            } else {
-                                mention
-                            }
-                        },
-                    )
-                }
+                handleItemUpdate(mention)
             }
         }
     }
