@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,8 +26,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
@@ -35,6 +40,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import dev.icerock.moko.resources.compose.fontFamilyResource
 
 @Composable
 fun CommunityAndCreatorInfo(
@@ -48,6 +55,7 @@ fun CommunityAndCreatorInfo(
     featured: Boolean = false,
     locked: Boolean = false,
     isFromModerator: Boolean = false,
+    isOp: Boolean = false,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
@@ -185,6 +193,11 @@ fun CommunityAndCreatorInfo(
                 )
             }
         }
+        if (isOp) {
+            OpIndicator(
+                modifier = Modifier.align(Alignment.CenterVertically),
+            )
+        }
         Spacer(modifier = Modifier.weight(1f))
         val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
         if (isFromModerator) {
@@ -236,5 +249,33 @@ fun CommunityAndCreatorInfo(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun OpIndicator(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .border(
+                color = MaterialTheme.colorScheme.onBackground,
+                width = Dp.Hairline,
+                shape = RoundedCornerShape(CornerSize.m)
+            )
+            .padding(
+                vertical = Spacing.xxxs,
+                horizontal = Spacing.xs,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = "OP",
+            style = MaterialTheme.typography.labelSmall,
+            fontSize = 8.sp,
+            fontFamily = fontFamilyResource(MR.fonts.TitilliumWeb.regular),
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
     }
 }
