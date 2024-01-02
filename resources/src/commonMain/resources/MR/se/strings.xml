@@ -310,4 +310,6 @@
     <string name="settings_post_body_max_lines">Max antal rader för postkropp</string>
     <string name="settings_post_body_max_lines_unlimited">Obegränsat</string>
     <string name="message_content_removed">(detta innehåll har tagits bort)</string>
+    <string name="post_list_load_more_posts">Ladda fler inlägg</string>
+    <string name="settings_infinite_scroll_enabled">Aktivera oändlig rullning</string>
 </resources>

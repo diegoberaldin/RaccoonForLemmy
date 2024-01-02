@@ -311,4 +311,6 @@
     <string name="settings_post_body_max_lines">Maks antall linjer for postkropp</string>
     <string name="settings_post_body_max_lines_unlimited">Ubegrenset</string>
     <string name="message_content_removed">(dette innholdet er fjernet)</string>
+    <string name="post_list_load_more_posts">Last inn flere innlegg</string>
+    <string name="settings_infinite_scroll_enabled">Aktiver uendelig rulling</string>
 </resources>

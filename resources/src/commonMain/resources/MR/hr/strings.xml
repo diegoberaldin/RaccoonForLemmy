@@ -314,4 +314,6 @@
     <string name="settings_post_body_max_lines">Maksimalan broj redaka za tijelo posta</string>
     <string name="settings_post_body_max_lines_unlimited">Neograničen</string>
     <string name="message_content_removed">(ovaj sadržaj je uklonjen)</string>
+    <string name="post_list_load_more_posts">Učitaj još postova</string>
+    <string name="settings_infinite_scroll_enabled">Omogućite beskonačno pomicanje</string>
 </resources>

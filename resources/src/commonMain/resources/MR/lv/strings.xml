@@ -313,4 +313,6 @@
     <string name="settings_post_body_max_lines">Maksimālais rindu skaits pasta pamattekstā</string>
     <string name="settings_post_body_max_lines_unlimited">Neierobežots</string>
     <string name="message_content_removed">(šis saturs ir noņemts)</string>
+    <string name="post_list_load_more_posts">Ielādēt vairāk ziņu</string>
+    <string name="settings_infinite_scroll_enabled">Iespējot bezgalīgu ritināšanu</string>
 </resources>

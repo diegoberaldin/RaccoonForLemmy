@@ -338,4 +338,6 @@
     <string name="settings_post_body_max_lines">Post body max lines</string>
     <string name="settings_post_body_max_lines_unlimited">Unlimited</string>
     <string name="message_content_removed">(this content has been removed)</string>
+    <string name="post_list_load_more_posts">Load more posts</string>
+    <string name="settings_infinite_scroll_enabled">Enable infinite scrolling</string>
 </resources>

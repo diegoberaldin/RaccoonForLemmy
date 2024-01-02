@@ -317,4 +317,6 @@
     <string name="settings_post_body_max_lines">Максимален брой редове за тялото на публикацията</string>
     <string name="settings_post_body_max_lines_unlimited">Неограничен</string>
     <string name="message_content_removed">(това съдържание е премахнато)</string>
+    <string name="post_list_load_more_posts">Зареди още публикации</string>
+    <string name="settings_infinite_scroll_enabled">Активиране на безкрайно превъртане</string>
 </resources>

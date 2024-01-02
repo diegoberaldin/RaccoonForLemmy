@@ -312,4 +312,6 @@
     <string name="settings_post_body_max_lines">Maksymalna liczba wierszy w treści postu</string>
     <string name="settings_post_body_max_lines_unlimited">Nieograniczony</string>
     <string name="message_content_removed">(ta treść została usunięta)</string>
+    <string name="post_list_load_more_posts">Załaduj więcej postów</string>
+    <string name="settings_infinite_scroll_enabled">Włącz nieskończone przewijanie</string>
 </resources>

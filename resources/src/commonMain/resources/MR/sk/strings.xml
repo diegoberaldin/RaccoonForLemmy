@@ -311,4 +311,6 @@
     <string name="settings_post_body_max_lines">Maximálny počet riadkov pre telo príspevku</string>
     <string name="settings_post_body_max_lines_unlimited">Neobmedzené</string>
     <string name="message_content_removed">(tento obsah bol odstránený)</string>
+    <string name="post_list_load_more_posts">Načítať viac príspevkov</string>
+    <string name="settings_infinite_scroll_enabled">Povoliť nekonečné posúvanie</string>
 </resources>
