@@ -93,9 +93,7 @@ class ProfileLoggedViewModel(
 
             if (uiState.value.posts.isEmpty()) {
                 withContext(Dispatchers.IO) {
-                    launch {
-                        refreshUser()
-                    }
+                    refreshUser()
                     refresh(initial = true)
                 }
             }
@@ -265,6 +263,9 @@ class ProfileLoggedViewModel(
                         refreshing = false,
                     )
                 }
+                if (!itemList.isNullOrEmpty()) {
+                    currentPage++
+                }
             }
         } else {
             val itemList = userRepository.getComments(
@@ -274,21 +275,23 @@ class ProfileLoggedViewModel(
                 sort = SortType.New,
             )
             mvi.updateState {
-                val newcomments = if (refreshing) {
+                val newComments = if (refreshing) {
                     itemList.orEmpty()
                 } else {
                     it.comments + itemList.orEmpty()
                 }
                 it.copy(
-                    comments = newcomments,
+                    comments = newComments,
                     loading = false,
                     canFetchMore = itemList?.isEmpty() != true,
                     refreshing = false,
                     initial = false,
                 )
             }
+            if (!itemList.isNullOrEmpty()) {
+                currentPage++
+            }
         }
-        currentPage++
     }
 
     private fun toggleUpVotePost(post: PostModel) {

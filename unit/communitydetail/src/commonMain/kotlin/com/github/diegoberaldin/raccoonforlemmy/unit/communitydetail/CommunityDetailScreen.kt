@@ -7,8 +7,10 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,6 +40,7 @@ import androidx.compose.material.icons.outlined.Pending
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
@@ -886,7 +889,25 @@ class CommunityDetailScreen(
                         }
                         item {
                             if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
-                                model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
+                                if (settings.infiniteScrollEnabled) {
+                                    model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
+                                } else {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                                        horizontalArrangement = Arrangement.Center,
+                                    ) {
+                                        Button(
+                                            onClick = rememberCallback(model) {
+                                                model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
+                                            },
+                                        ) {
+                                            Text(
+                                                text = stringResource(MR.strings.post_list_load_more_posts),
+                                                style = MaterialTheme.typography.labelSmall,
+                                            )
+                                        }
+                                    }
+                                }
                             }
                             if (uiState.loading && !uiState.refreshing) {
                                 Box(
@@ -901,7 +922,7 @@ class CommunityDetailScreen(
                             }
                         }
                         item {
-                            Spacer(modifier = Modifier.height(Spacing.s))
+                            Spacer(modifier = Modifier.height(Spacing.xxl))
                         }
                     }
 

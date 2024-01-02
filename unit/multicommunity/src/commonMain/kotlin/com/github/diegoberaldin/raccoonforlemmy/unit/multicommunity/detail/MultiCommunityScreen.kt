@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
@@ -471,7 +473,25 @@ class MultiCommunityScreen(
                     }
                     item {
                         if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
-                            model.reduce(MultiCommunityMviModel.Intent.LoadNextPage)
+                            if (settings.infiniteScrollEnabled) {
+                                model.reduce(MultiCommunityMviModel.Intent.LoadNextPage)
+                            } else {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                                    horizontalArrangement = Arrangement.Center,
+                                ) {
+                                    Button(
+                                        onClick = rememberCallback(model) {
+                                            model.reduce(MultiCommunityMviModel.Intent.LoadNextPage)
+                                        },
+                                    ) {
+                                        Text(
+                                            text = stringResource(MR.strings.post_list_load_more_posts),
+                                            style = MaterialTheme.typography.labelSmall,
+                                        )
+                                    }
+                                }
+                            }
                         }
                         if (uiState.loading && !uiState.refreshing) {
                             Box(
@@ -488,7 +508,7 @@ class MultiCommunityScreen(
 
                     if (uiState.posts.isEmpty() && !uiState.loading) {
                         item {
-                            androidx.compose.material.Text(
+                            Text(
                                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                 textAlign = TextAlign.Center,
                                 text = stringResource(MR.strings.message_empty_list),
@@ -499,7 +519,7 @@ class MultiCommunityScreen(
                     }
 
                     item {
-                        Spacer(modifier = Modifier.height(Spacing.xxxl))
+                        Spacer(modifier = Modifier.height(Spacing.xxl))
                     }
                 }
 

@@ -1085,8 +1085,10 @@ class PostDetailScreen(
 
                                 // load more button
                                 if (comment.loadMoreButtonVisible) {
-                                    Row {
-                                        Spacer(modifier = Modifier.weight(1f))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center,
+                                    ) {
                                         Button(
                                             onClick = rememberCallback(model) {
                                                 model.reduce(
@@ -1098,9 +1100,9 @@ class PostDetailScreen(
                                         ) {
                                             Text(
                                                 text = stringResource(MR.strings.post_detail_load_more_comments),
+                                                style = MaterialTheme.typography.labelSmall,
                                             )
                                         }
-                                        Spacer(modifier = Modifier.weight(1f))
                                     }
                                 }
                             }

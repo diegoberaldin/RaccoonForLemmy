@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +55,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSec
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
@@ -84,6 +87,8 @@ object ProfileLoggedScreen : Tab {
         val lazyListState = rememberLazyListState()
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val detailOpener = remember { getDetailOpener() }
+        val settingsRepository = remember { getSettingsRepository() }
+        val settings by settingsRepository.currentSettings.collectAsState()
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -420,11 +425,30 @@ object ProfileLoggedScreen : Tab {
                             }
                         }
                         item {
-                            Spacer(modifier = Modifier.height(Spacing.xxxl))
-                        }
-                        item {
                             if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
-                                model.reduce(ProfileLoggedMviModel.Intent.LoadNextPage)
+                                if (settings.infiniteScrollEnabled) {
+                                    model.reduce(ProfileLoggedMviModel.Intent.LoadNextPage)
+                                } else {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                                        horizontalArrangement = Arrangement.Center,
+                                    ) {
+                                        Button(
+                                            onClick = rememberCallback(model) {
+                                                model.reduce(ProfileLoggedMviModel.Intent.LoadNextPage)
+                                            },
+                                        ) {
+                                            Text(
+                                                text = if (uiState.section == ProfileLoggedSection.Posts) {
+                                                    stringResource(MR.strings.post_list_load_more_posts)
+                                                } else {
+                                                    stringResource(MR.strings.post_detail_load_more_comments)
+                                                },
+                                                style = MaterialTheme.typography.labelSmall,
+                                            )
+                                        }
+                                    }
+                                }
                             }
                             if (uiState.loading && !uiState.refreshing) {
                                 Box(
@@ -437,6 +461,9 @@ object ProfileLoggedScreen : Tab {
                                     )
                                 }
                             }
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(Spacing.xxxl))
                         }
                     }
 
@@ -454,7 +481,8 @@ object ProfileLoggedScreen : Tab {
         if (rawContent != null) {
             when (val content = rawContent) {
                 is PostModel -> {
-                    RawContentDialog(title = content.title,
+                    RawContentDialog(
+                        title = content.title,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         url = content.url,
@@ -474,11 +502,13 @@ object ProfileLoggedScreen : Tab {
                                     },
                                 )
                             }
-                        })
+                        },
+                    )
                 }
 
                 is CommentModel -> {
-                    RawContentDialog(text = content.text,
+                    RawContentDialog(
+                        text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = {
@@ -496,7 +526,8 @@ object ProfileLoggedScreen : Tab {
                                     },
                                 )
                             }
-                        })
+                        },
+                    )
                 }
             }
         }

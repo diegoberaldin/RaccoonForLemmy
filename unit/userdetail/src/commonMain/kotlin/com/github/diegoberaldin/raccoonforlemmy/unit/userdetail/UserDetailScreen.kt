@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +31,7 @@ import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
@@ -901,7 +903,29 @@ class UserDetailScreen(
                     }
                     item {
                         if (!uiState.initial && !uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
-                            model.reduce(UserDetailMviModel.Intent.LoadNextPage)
+                            if (settings.infiniteScrollEnabled) {
+                                model.reduce(UserDetailMviModel.Intent.LoadNextPage)
+                            } else {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                                    horizontalArrangement = Arrangement.Center,
+                                ) {
+                                    Button(
+                                        onClick = rememberCallback(model) {
+                                            model.reduce(UserDetailMviModel.Intent.LoadNextPage)
+                                        },
+                                    ) {
+                                        Text(
+                                            text = if (uiState.section == UserDetailSection.Posts) {
+                                                stringResource(MR.strings.post_list_load_more_posts)
+                                            } else {
+                                                stringResource(MR.strings.post_detail_load_more_comments)
+                                            },
+                                            style = MaterialTheme.typography.labelSmall,
+                                        )
+                                    }
+                                }
+                            }
                         }
                         if (uiState.loading && !uiState.refreshing) {
                             Box(
@@ -916,7 +940,7 @@ class UserDetailScreen(
                         }
                     }
                     item {
-                        Spacer(modifier = Modifier.height(Spacing.s))
+                        Spacer(modifier = Modifier.height(Spacing.xxl))
                     }
                 }
                 PullRefreshIndicator(
