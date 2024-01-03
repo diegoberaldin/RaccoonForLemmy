@@ -19,14 +19,14 @@ interface PrivateMessageRepository {
     suspend fun create(
         message: String,
         auth: String? = null,
-        recipiendId: Int,
-    )
+        recipientId: Int,
+    ): PrivateMessageModel?
 
     suspend fun edit(
         messageId: Int,
         message: String,
         auth: String? = null,
-    )
+    ): PrivateMessageModel?
 
     suspend fun markAsRead(
         messageId: Int,
