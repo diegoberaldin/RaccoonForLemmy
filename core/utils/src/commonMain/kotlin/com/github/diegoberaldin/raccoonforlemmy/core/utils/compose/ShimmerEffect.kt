@@ -6,21 +6,22 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 
+@Composable
 fun Modifier.shimmerEffect(
     duration: Int = 1000,
-): Modifier = composed {
+): Modifier {
     val c1 = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
     val c2 = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
     val colors = listOf(c1, c2, c1)
@@ -36,7 +37,7 @@ fun Modifier.shimmerEffect(
         )
     )
 
-    background(
+    return this then background(
         brush = Brush.linearGradient(
             colors = colors,
             start = Offset(startOffsetX, 0f),
