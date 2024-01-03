@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -46,6 +47,8 @@ fun TextFormattingBar(
     currentLanguageId: Int? = null,
     availableLanguages: List<LanguageModel> = emptyList(),
     onSelectLanguage: (() -> Unit)? = null,
+    lastActionIcon: ImageVector? = null,
+    onLastAction: (() -> Unit)? = null,
 ) {
     val textPlaceholder = "text here"
     val urlPlaceholder = "URL"
@@ -413,6 +416,20 @@ fun TextFormattingBar(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
+            }
+        }
+
+        if (lastActionIcon != null && onLastAction != null) {
+            item {
+                Icon(
+                    modifier = Modifier.onClick(
+                        onClick = {
+                            onLastAction()
+                        }),
+                    imageVector = lastActionIcon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                )
             }
         }
     }
