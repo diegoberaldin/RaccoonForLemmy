@@ -4,7 +4,7 @@ import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.entities.AppDatabase
-import net.sqlcipher.database.SupportFactory
+import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 
 internal class DefaultDriverFactory(
     private val context: Context,
@@ -16,8 +16,9 @@ internal class DefaultDriverFactory(
     }
 
     override fun createDriver(): SqlDriver {
+        System.loadLibrary("sqlcipher")
         val key = keyProvider.getKey()
-        val supportFactory = SupportFactory(key)
+        val supportFactory = SupportOpenHelperFactory(key)
         return AndroidSqliteDriver(
             factory = supportFactory,
             schema = AppDatabase.Schema,

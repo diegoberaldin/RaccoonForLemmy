@@ -28,7 +28,7 @@ markwon = "4.6.2"
 materialKolor = "1.3.0"
 moko_resources = "0.23.0"
 multiplatform_settings = "1.1.1"
-sqlcipher = "4.5.4"
+sqlcipher = "4.5.5"
 sqldelight = "2.0.1"
 voyager = "1.0.0"
 
@@ -92,7 +92,7 @@ voyager_transition = { module = "cafe.adriel.voyager:voyager-transitions", versi
 voyager_koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager_androidx = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 
-sqlcipher = { module = "net.zetetic:android-database-sqlcipher", version.ref = "sqlcipher" }
+sqlcipher = { module = "net.zetetic:sqlcipher-android", version.ref = "sqlcipher" }
 sqldelight_android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight_native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 
