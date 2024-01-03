@@ -121,6 +121,7 @@ class PostListScreen : Screen {
         val settings by settingsRepository.currentSettings.collectAsState()
         val keepScreenOn = rememberKeepScreenOn()
         val detailOpener = remember { getDetailOpener() }
+        val connection = navigationCoordinator.getBottomBarScrollConnection()
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -263,21 +264,19 @@ class PostListScreen : Screen {
                     modifier = Modifier
                         .padding(padding)
                         .fillMaxWidth()
-                        .let {
-                            val connection = navigationCoordinator.getBottomBarScrollConnection()
+                        .then(
                             if (connection != null && settings.hideNavigationBarWhileScrolling) {
-                                it.nestedScroll(connection)
+                                Modifier.nestedScroll(connection)
                             } else {
-                                it
+                                Modifier
                             }
-                        }
-                        .let {
+                        ).then(
                             if (settings.hideNavigationBarWhileScrolling) {
-                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
-                                it
+                                Modifier
                             }
-                        }
+                        )
                         .nestedScroll(fabNestedScrollConnection)
                         .pullRefresh(pullRefreshState),
                 ) {

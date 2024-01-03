@@ -281,13 +281,13 @@ class PostDetailScreen(
                     },
                 )
                 Box(
-                    modifier = Modifier.padding(padding).let {
+                    modifier = Modifier.padding(padding).then(
                         if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
-                            it
+                            Modifier
                         }
-                    }.nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
+                    ).nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState
@@ -660,20 +660,19 @@ class PostDetailScreen(
                                             },
                                             content = {
                                                 CommentCard(
-                                                    modifier = Modifier.background(MaterialTheme.colorScheme.background)
-                                                        .let {
+                                                    modifier = Modifier
+                                                        .background(MaterialTheme.colorScheme.background)
+                                                        .then(
                                                             if (comment.id == commentIdToHighlight) {
-                                                                it.background(
+                                                                Modifier.background(
                                                                     MaterialTheme.colorScheme.surfaceColorAtElevation(
                                                                         5.dp
-                                                                    ).copy(
-                                                                        alpha = 0.75f
-                                                                    )
+                                                                    ).copy(alpha = 0.75f)
                                                                 )
                                                             } else {
-                                                                it
+                                                                Modifier
                                                             }
-                                                        },
+                                                        ),
                                                     comment = comment,
                                                     isOp = comment.creator?.id == uiState.post.creator?.id,
                                                     voteFormat = uiState.voteFormat,

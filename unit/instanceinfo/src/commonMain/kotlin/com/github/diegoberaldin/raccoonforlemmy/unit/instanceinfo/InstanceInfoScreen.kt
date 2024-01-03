@@ -159,13 +159,13 @@ class InstanceInfoScreen(
             )
             Box(
                 modifier = Modifier
-                    .let {
+                    .then(
                         if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
-                            it
+                            Modifier
                         }
-                    }
+                    )
                     .padding(paddingValues)
                     .pullRefresh(pullRefreshState),
             ) {

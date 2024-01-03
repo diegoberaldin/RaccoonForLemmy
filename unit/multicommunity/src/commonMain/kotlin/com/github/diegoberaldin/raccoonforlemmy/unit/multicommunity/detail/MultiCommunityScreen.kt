@@ -241,13 +241,13 @@ class MultiCommunityScreen(
                 modifier = Modifier
                     .padding(padding)
                     .fillMaxWidth()
-                    .let {
+                    .then(
                         if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
-                            it
+                            Modifier
                         }
-                    }
+                    )
                     .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {

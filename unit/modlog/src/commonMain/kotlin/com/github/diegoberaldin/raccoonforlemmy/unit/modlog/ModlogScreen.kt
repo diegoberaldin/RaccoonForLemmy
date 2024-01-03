@@ -124,24 +124,26 @@ class ModlogScreen(
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier.padding(paddingValues).let {
-                    if (settings.hideNavigationBarWhileScrolling) {
-                        it.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    } else {
-                        it
-                    }
-                },
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .then(
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            Modifier
+                        }
+                    ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Box(
                     modifier = Modifier
-                        .let {
+                        .then(
                             if (settings.hideNavigationBarWhileScrolling) {
-                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
-                                it
+                                Modifier
                             }
-                        }
+                        )
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(

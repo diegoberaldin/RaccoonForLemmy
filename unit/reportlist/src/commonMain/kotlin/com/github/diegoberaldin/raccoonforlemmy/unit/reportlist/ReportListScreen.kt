@@ -156,13 +156,13 @@ class ReportListScreen(
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier.padding(paddingValues).let {
+                modifier = Modifier.padding(paddingValues).then(
                     if (settings.hideNavigationBarWhileScrolling) {
-                        it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                     } else {
-                        it
+                        Modifier
                     }
-                },
+                ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
@@ -186,13 +186,13 @@ class ReportListScreen(
 
                 Box(
                     modifier = Modifier
-                        .let {
+                        .then(
                             if (settings.hideNavigationBarWhileScrolling) {
-                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
-                                it
+                                Modifier
                             }
-                        }
+                        )
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(

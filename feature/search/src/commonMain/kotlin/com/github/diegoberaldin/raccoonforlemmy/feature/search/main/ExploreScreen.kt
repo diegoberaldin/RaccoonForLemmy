@@ -275,13 +275,13 @@ class ExploreScreen : Screen {
                     { model.reduce(ExploreMviModel.Intent.Refresh) },
                 )
                 Box(
-                    modifier = Modifier.padding(Spacing.xxs).let {
+                    modifier = Modifier.padding(Spacing.xxs).then(
                         if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
-                            it
+                            Modifier
                         }
-                    }.nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
+                    ).nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState,

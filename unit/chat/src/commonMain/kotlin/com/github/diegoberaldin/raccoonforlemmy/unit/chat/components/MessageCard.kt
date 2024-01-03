@@ -67,13 +67,13 @@ internal fun MessageCard(
 
     Box {
         Canvas(
-            modifier = Modifier.size(mediumDistance).let {
+            modifier = Modifier.size(mediumDistance).then(
                 if (isMyMessage) {
-                    it.align(Alignment.TopEnd)
+                    Modifier.align(Alignment.TopEnd)
                 } else {
-                    it.align(Alignment.TopStart)
+                    Modifier.align(Alignment.TopStart)
                 }
-            }
+            )
         ) {
             if (isMyMessage) {
                 val path = Path().apply {
@@ -94,13 +94,13 @@ internal fun MessageCard(
             }
         }
         Box(
-            modifier = Modifier.let {
+            modifier = Modifier.then(
                 if (isMyMessage) {
-                    it.padding(start = longDistance, end = mediumDistance)
+                    Modifier.padding(start = longDistance, end = mediumDistance)
                 } else {
-                    it.padding(end = longDistance, start = mediumDistance)
+                    Modifier.padding(end = longDistance, start = mediumDistance)
                 }
-            }.background(
+            ).background(
                 color = color, shape = RoundedCornerShape(
                     topStart = if (isMyMessage) CornerSize.m else 0.dp,
                     topEnd = if (isMyMessage) 0.dp else CornerSize.m,

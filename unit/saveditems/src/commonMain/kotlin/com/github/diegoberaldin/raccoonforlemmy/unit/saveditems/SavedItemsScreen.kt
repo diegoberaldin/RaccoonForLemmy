@@ -166,13 +166,13 @@ class SavedItemsScreen : Screen {
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier.padding(paddingValues).let {
+                modifier = Modifier.padding(paddingValues).then(
                     if (settings.hideNavigationBarWhileScrolling) {
-                        it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                     } else {
-                        it
+                        Modifier
                     }
-                }.nestedScroll(fabNestedScrollConnection),
+                ).nestedScroll(fabNestedScrollConnection),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(

@@ -365,13 +365,13 @@ class UserDetailScreen(
                 },
             )
             Box(
-                modifier = Modifier.padding(padding).let {
+                modifier = Modifier.padding(padding).then(
                     if (settings.hideNavigationBarWhileScrolling) {
-                        it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                     } else {
-                        it
+                        Modifier
                     }
-                }.nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
+                ).nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
                     state = lazyListState,
@@ -385,7 +385,11 @@ class UserDetailScreen(
                                 user = uiState.user,
                                 autoLoadImages = uiState.autoLoadImages,
                                 onOpenImage = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                    navigationCoordinator.pushScreen(
+                                        ZoomableImageScreen(
+                                            url
+                                        )
+                                    )
                                 },
                             )
                             SectionSelector(
@@ -402,7 +406,11 @@ class UserDetailScreen(
                                         1 -> UserDetailSection.Comments
                                         else -> UserDetailSection.Posts
                                     }
-                                    model.reduce(UserDetailMviModel.Intent.ChangeSection(section))
+                                    model.reduce(
+                                        UserDetailMviModel.Intent.ChangeSection(
+                                            section
+                                        )
+                                    )
                                 },
                             )
                             Spacer(modifier = Modifier.height(Spacing.m))
@@ -421,7 +429,9 @@ class UserDetailScreen(
                                 }
                             }
                         }
-                        items(uiState.posts, { it.id.toString() + it.updateDate }) { post ->
+                        items(
+                            uiState.posts,
+                            { it.id.toString() + it.updateDate }) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
@@ -559,7 +569,10 @@ class UserDetailScreen(
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            detailOpener.openCommunityDetail(community, instance)
+                                            detailOpener.openCommunityDetail(
+                                                community,
+                                                instance
+                                            )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
                                             detailOpener.openUserDetail(user, instance)
@@ -623,7 +636,9 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    detailOpener.openCreatePost(crossPost = post)
+                                                    detailOpener.openCreatePost(
+                                                        crossPost = post
+                                                    )
                                                 }
 
                                                 OptionId.SeeRaw -> {
@@ -642,8 +657,11 @@ class UserDetailScreen(
                                                             )
                                                         )
                                                     } else {
-                                                        val screen = ShareBottomSheet(urls = urls)
-                                                        navigationCoordinator.showBottomSheet(screen)
+                                                        val screen =
+                                                            ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(
+                                                            screen
+                                                        )
                                                     }
                                                 }
 
@@ -662,7 +680,8 @@ class UserDetailScreen(
                         if (uiState.posts.isEmpty() && !uiState.loading) {
                             item {
                                 Text(
-                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
                                     text = stringResource(MR.strings.message_empty_list),
                                     style = MaterialTheme.typography.bodyLarge,
@@ -680,7 +699,9 @@ class UserDetailScreen(
                                 )
                             }
                         }
-                        items(uiState.comments, { it.id.toString() + it.updateDate }) { comment ->
+                        items(
+                            uiState.comments,
+                            { it.id.toString() + it.updateDate }) { comment ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
@@ -756,7 +777,9 @@ class UserDetailScreen(
                                 },
                                 onDismissToEnd = rememberCallback(model) {
                                     model.reduce(
-                                        UserDetailMviModel.Intent.DownVoteComment(comment.id),
+                                        UserDetailMviModel.Intent.DownVoteComment(
+                                            comment.id
+                                        ),
                                     )
                                 },
                                 content = {
@@ -776,7 +799,9 @@ class UserDetailScreen(
                                             )
                                         },
                                         onImageClick = rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                            navigationCoordinator.pushScreen(
+                                                ZoomableImageScreen(url)
+                                            )
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled) {
                                             null
@@ -834,7 +859,10 @@ class UserDetailScreen(
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            detailOpener.openCommunityDetail(community, instance)
+                                            detailOpener.openCommunityDetail(
+                                                community,
+                                                instance
+                                            )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
                                             detailOpener.openUserDetail(user, instance)
@@ -892,7 +920,8 @@ class UserDetailScreen(
                         if (uiState.comments.isEmpty() && !uiState.loading) {
                             item {
                                 Text(
-                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
                                     text = stringResource(MR.strings.message_empty_list),
                                     style = MaterialTheme.typography.bodyLarge,
@@ -907,7 +936,8 @@ class UserDetailScreen(
                                 model.reduce(UserDetailMviModel.Intent.LoadNextPage)
                             } else {
                                 Row(
-                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = Spacing.s),
                                     horizontalArrangement = Arrangement.Center,
                                 ) {
                                     Button(

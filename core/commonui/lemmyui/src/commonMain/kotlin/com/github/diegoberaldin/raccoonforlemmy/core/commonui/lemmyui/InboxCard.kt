@@ -50,17 +50,19 @@ fun InboxCard(
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     Box(
-        modifier = Modifier.let {
+        modifier = Modifier.then(
             if (postLayout == PostLayout.Card) {
-                it.padding(horizontal = Spacing.xs)
+                Modifier
+                    .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),
-                    ).padding(Spacing.s)
+                    )
+                    .padding(Spacing.s)
             } else {
-                it.background(MaterialTheme.colorScheme.background)
+                Modifier.background(MaterialTheme.colorScheme.background)
             }
-        }.onClick(
+        ).onClick(
             onClick = rememberCallback {
                 onOpenPost(mention.post)
             },

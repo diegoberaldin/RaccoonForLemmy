@@ -25,16 +25,19 @@ internal fun ReportCardPlaceHolder(
     postLayout: PostLayout = PostLayout.Card,
 ) {
     Column(
-        modifier = Modifier.let {
+        modifier = Modifier.then(
             if (postLayout == PostLayout.Card) {
-                it.padding(horizontal = Spacing.xs).background(
-                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                    shape = RoundedCornerShape(CornerSize.l),
-                ).padding(Spacing.s)
+                Modifier
+                    .padding(horizontal = Spacing.xs)
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                        shape = RoundedCornerShape(CornerSize.l),
+                    )
+                    .padding(Spacing.s)
             } else {
-                it
+                Modifier
             }
-        },
+        ),
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
         Box(

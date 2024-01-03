@@ -145,13 +145,13 @@ class ManageSubscriptionsScreen : Screen {
             Box(
                 modifier = Modifier
                     .padding(paddingValues)
-                    .let {
+                    .then(
                         if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
-                            it
+                            Modifier
                         }
-                    }
+                    )
                     .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
             ) {

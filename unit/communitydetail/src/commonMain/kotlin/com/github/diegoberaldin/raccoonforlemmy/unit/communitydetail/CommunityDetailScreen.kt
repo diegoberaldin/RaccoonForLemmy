@@ -497,13 +497,13 @@ class CommunityDetailScreen(
                 Box(
                     modifier = Modifier
                         .padding(padding)
-                        .let {
+                        .then(
                             if (settings.hideNavigationBarWhileScrolling) {
-                                it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
-                                it
+                                Modifier
                             }
-                        }
+                        )
                         .nestedScroll(fabNestedScrollConnection)
                         .pullRefresh(pullRefreshState),
                 ) {

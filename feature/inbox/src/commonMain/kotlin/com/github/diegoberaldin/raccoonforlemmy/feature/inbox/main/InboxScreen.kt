@@ -153,13 +153,13 @@ object InboxScreen : Tab {
                     Column(
                         modifier = Modifier
                             .padding(paddingValues)
-                            .let {
+                            .then(
                                 if (settings.hideNavigationBarWhileScrolling) {
-                                    it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                                 } else {
-                                    it
+                                    Modifier
                                 }
-                            },
+                            ),
                         verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     ) {
                         SectionSelector(

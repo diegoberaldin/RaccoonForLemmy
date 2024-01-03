@@ -149,17 +149,17 @@ internal object ProfileMainScreen : Tab {
                     },
                 )
             },
-        ) { paddinValues ->
+        ) { paddingValues ->
             Box(
                 modifier = Modifier
-                    .padding(paddinValues)
-                    .let {
+                    .padding(paddingValues)
+                    .then(
                         if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
-                            it
+                            Modifier
                         }
-                    },
+                    ),
                 contentAlignment = Alignment.Center,
             ) {
                 // wait until logging status is determined

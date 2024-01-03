@@ -185,13 +185,13 @@ class AccountSettingsScreen : Screen {
             Box(
                 modifier = Modifier
                     .padding(paddingValues)
-                    .let {
+                    .then(
                         if (settings.hideNavigationBarWhileScrolling) {
-                            it.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
-                            it
+                            Modifier
                         }
-                    },
+                    )
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),

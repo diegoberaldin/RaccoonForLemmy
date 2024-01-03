@@ -69,17 +69,19 @@ internal fun InnerReportCard(
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     Box(
-        modifier = modifier.let {
+        modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
-                it.padding(horizontal = Spacing.xs)
+                Modifier
+                    .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),
-                    ).padding(Spacing.s)
+                    )
+                    .padding(Spacing.s)
             } else {
-                it.background(MaterialTheme.colorScheme.background)
+                Modifier.background(MaterialTheme.colorScheme.background)
             }
-        },
+        ),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
