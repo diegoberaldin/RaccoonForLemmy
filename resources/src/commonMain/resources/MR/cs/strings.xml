@@ -310,5 +310,5 @@
     <string name="settings_post_body_max_lines_unlimited">Neomezený</string>
     <string name="message_content_removed">(tento obsah byl odstraněn)</string>
     <string name="post_list_load_more_posts">Načíst další příspěvky</string>
-    <string name="settings_infinite_scroll_enabled">Povolit nekonečné posouvání</string>
+    <string name="settings_infinite_scroll_disabled">Zakázat nekonečné posouvání</string>
 </resources>

@@ -310,5 +310,5 @@
     <string name="settings_post_body_max_lines_unlimited">Rajoittamaton</string>
     <string name="message_content_removed">(tämä sisältö on poistettu)</string>
     <string name="post_list_load_more_posts">Lataa lisää viestejä</string>
-    <string name="settings_infinite_scroll_enabled">Ota käyttöön loputon vieritys</string>
+    <string name="settings_infinite_scroll_disabled">Poista loputon vieritys käytöstä</string>
 </resources>

@@ -53,7 +53,7 @@ interface SettingsMviModel :
         data class ChangeSearchPostTitleOnly(val value: Boolean) : Intent
         data class ChangeEdgeToEdge(val value: Boolean) : Intent
         data class ChangePostBodyMaxLines(val value: Int) : Intent
-        data class ChangeInfiniteScrollEnabled(val value: Boolean) : Intent
+        data class ChangeInfiniteScrollDisabled(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -96,7 +96,7 @@ interface SettingsMviModel :
         val searchPostTitleOnly: Boolean = false,
         val edgeToEdge: Boolean = true,
         val postBodyMaxLines: Int? = null,
-        val infiniteScrollEnabled: Boolean = true,
+        val infiniteScrollDisabled: Boolean = false,
     )
 
     sealed interface Effect

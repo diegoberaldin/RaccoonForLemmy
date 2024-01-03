@@ -321,5 +321,5 @@
     <string name="settings_post_body_max_lines_unlimited">Απεριόριστος</string>
     <string name="message_content_removed">(αυτό το περιεχόμενο έχει αφαιρεθεί)</string>
     <string name="post_list_load_more_posts">Φόρτωση περισσότερων αναρτήσεων</string>
-    <string name="settings_infinite_scroll_enabled">Ενεργοποίηση άπειρης κύλισης</string>
+    <string name="settings_infinite_scroll_disabled">Απενεργοποιήστε άπειρης κύλισης</string>
 </resources>

@@ -318,5 +318,5 @@
     <string name="settings_post_body_max_lines_unlimited">Unbegrenzt</string>
     <string name="message_content_removed">(dieser Inhalt wurde entfernt)</string>
     <string name="post_list_load_more_posts">Mehr Beiträge laden</string>
-    <string name="settings_infinite_scroll_enabled">Aktivieren Sie unendliches Scrollen</string>
+    <string name="settings_infinite_scroll_disabled">Deaktivieren Sie das unendliche Scrollen</string>
 </resources>

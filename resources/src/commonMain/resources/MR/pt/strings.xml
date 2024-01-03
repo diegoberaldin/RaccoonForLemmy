@@ -312,5 +312,5 @@
     <string name="settings_post_body_max_lines_unlimited">Ilimitado</string>
     <string name="message_content_removed">(este conteúdo foi removido)</string>
     <string name="post_list_load_more_posts">Carregar mais postagens</string>
-    <string name="settings_infinite_scroll_enabled">Ativar rolagem infinita</string>
+    <string name="settings_infinite_scroll_disabled">Desativar rolagem infinita</string>
 </resources>

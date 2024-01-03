@@ -313,5 +313,5 @@
     <string name="settings_post_body_max_lines_unlimited">Onbeperkt</string>
     <string name="message_content_removed">(deze inhoud is verwijderd)</string>
     <string name="post_list_load_more_posts">Laad meer berichten</string>
-    <string name="settings_infinite_scroll_enabled">Schakel oneindig scrollen in</string>
+    <string name="settings_infinite_scroll_disabled">Schakel oneindig scrollen uit</string>
 </resources>

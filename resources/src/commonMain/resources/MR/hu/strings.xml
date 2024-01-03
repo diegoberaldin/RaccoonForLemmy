@@ -314,5 +314,5 @@
     <string name="settings_post_body_max_lines_unlimited">Korlátlan</string>
     <string name="message_content_removed">(ezt a tartalmat eltávolítottuk)</string>
     <string name="post_list_load_more_posts">További bejegyzések betöltése</string>
-    <string name="settings_infinite_scroll_enabled">Engedélyezze a végtelen görgetést</string>
+    <string name="settings_infinite_scroll_disabled">A végtelen görgetés letiltása</string>
 </resources>

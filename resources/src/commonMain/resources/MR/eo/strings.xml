@@ -309,5 +309,5 @@
     <string name="settings_post_body_max_lines_unlimited">Senlima</string>
     <string name="message_content_removed">(ĉi tiu enhavo estis forigita)</string>
     <string name="post_list_load_more_posts">Ŝarĝi pli da afiŝoj</string>
-    <string name="settings_infinite_scroll_enabled">Ebligi senfinan movadadon</string>
+    <string name="settings_infinite_scroll_disabled">Malebligi senfinan movadadon</string>
 </resources>

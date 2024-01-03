@@ -312,5 +312,5 @@
     <string name="settings_post_body_max_lines_unlimited">Необмежений</string>
     <string name="message_content_removed">(цей вміст було видалено)</string>
     <string name="post_list_load_more_posts">Завантажити більше дописів</string>
-    <string name="settings_infinite_scroll_enabled">Увімкніть нескінченне прокручування</string>
+    <string name="settings_infinite_scroll_disabled">Вимкнути нескінченне прокручування</string>
 </resources>

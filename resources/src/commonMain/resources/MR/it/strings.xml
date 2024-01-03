@@ -314,5 +314,5 @@
     <string name="settings_post_body_max_lines_unlimited">Illimitato</string>
     <string name="message_content_removed">(questo contenuto è stato rimosso)</string>
     <string name="post_list_load_more_posts">Carica altri post</string>
-    <string name="settings_infinite_scroll_enabled">Abilita scorrimento infinito</string>
+    <string name="settings_infinite_scroll_disabled">Disabilita scorrimento infinito</string>
 </resources>

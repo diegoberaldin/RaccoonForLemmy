@@ -218,7 +218,7 @@ class SettingsViewModel(
                 searchPostTitleOnly = settings.searchPostTitleOnly,
                 edgeToEdge = settings.edgeToEdge,
                 postBodyMaxLines = settings.postBodyMaxLines,
-                infiniteScrollEnabled = settings.infiniteScrollEnabled,
+                infiniteScrollDisabled = !settings.infiniteScrollEnabled,
             )
         }
     }
@@ -361,8 +361,8 @@ class SettingsViewModel(
                 changePostBodyMaxLines(intent.value)
             }
 
-            is SettingsMviModel.Intent.ChangeInfiniteScrollEnabled -> {
-                changeInfiniteScrollEnabled(intent.value)
+            is SettingsMviModel.Intent.ChangeInfiniteScrollDisabled -> {
+                changeInfiniteScrollDisabled(intent.value)
             }
         }
     }
@@ -708,11 +708,11 @@ class SettingsViewModel(
         }
     }
 
-    private fun changeInfiniteScrollEnabled(value: Boolean) {
-        mvi.updateState { it.copy(infiniteScrollEnabled = value) }
+    private fun changeInfiniteScrollDisabled(value: Boolean) {
+        mvi.updateState { it.copy(infiniteScrollDisabled = value) }
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                infiniteScrollEnabled = value
+                infiniteScrollEnabled = !value
             )
             saveSettings(settings)
         }
