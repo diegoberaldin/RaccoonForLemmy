@@ -10,19 +10,20 @@ import androidx.compose.ui.Modifier
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Modifier.onClick(
+    key: Any = Unit,
     onClick: () -> Unit = {},
     onDoubleClick: () -> Unit = {},
     onLongClick: () -> Unit = {},
 ): Modifier = combinedClickable(
     indication = null,
     interactionSource = remember { MutableInteractionSource() },
-    onClick = rememberCallback {
+    onClick = rememberCallback(key) {
         onClick()
     },
-    onDoubleClick = rememberCallback {
+    onDoubleClick = rememberCallback(key) {
         onDoubleClick()
     },
-    onLongClick = rememberCallback {
+    onLongClick = rememberCallback(key) {
         onLongClick()
     }
 )

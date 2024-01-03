@@ -109,7 +109,7 @@ class CreateCommentScreen(
         var textFieldValue by remember {
             mutableStateOf(
                 TextFieldValue(
-                    text = (initialText ?: uiState.editedComment?.text).orEmpty()
+                    text = (initialText ?: uiState.editedComment?.text).orEmpty(),
                 )
             )
         }
