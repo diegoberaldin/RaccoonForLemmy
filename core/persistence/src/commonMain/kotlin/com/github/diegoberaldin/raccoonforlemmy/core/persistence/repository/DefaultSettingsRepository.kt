@@ -321,5 +321,5 @@ private fun GetBy.toModel() = SettingsModel(
     contentFontFamily = contentFontFamily.toInt(),
     edgeToEdge = edgeToEdge != 0L,
     postBodyMaxLines = postBodyMaxLines?.toInt(),
-    infiniteScrollEnabled = edgeToEdge != 0L,
+    infiniteScrollEnabled = infiniteScrollEnabled != 0L,
 )
