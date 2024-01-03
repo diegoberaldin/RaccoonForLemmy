@@ -4,16 +4,19 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -21,8 +24,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,7 +44,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -86,7 +86,6 @@ class InboxChatScreen(
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val focusManager = LocalFocusManager.current
         val galleryHelper = remember { getGalleryHelper() }
         var openImagePicker by remember { mutableStateOf(false) }
         var textFieldValue by remember {
@@ -98,6 +97,7 @@ class InboxChatScreen(
         val contentFontFamily by themeRepository.contentFontFamily.collectAsState()
         val typography = contentFontFamily.toTypography()
         var rawContent by remember { mutableStateOf<Any?>(null) }
+        val lazyListState = rememberLazyListState()
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -106,6 +106,10 @@ class InboxChatScreen(
                         textFieldValue = textFieldValue.let {
                             it.copy(text = it.text + "\n![](${effect.url})")
                         }
+                    }
+
+                    InboxChatMviModel.Effect.ScrollToBottom -> {
+                        lazyListState.scrollToItem(0)
                     }
                 }
             }.launchIn(this)
@@ -157,11 +161,31 @@ class InboxChatScreen(
                 )
             },
             bottomBar = {
-                Box(
-                    modifier = Modifier.padding(bottom = Spacing.s),
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                 ) {
+                    TextFormattingBar(
+                        textFieldValue = textFieldValue,
+                        onTextFieldValueChanged = {
+                            textFieldValue = it
+                        },
+                        onSelectImage = {
+                            openImagePicker = true
+                        },
+                        lastActionIcon = Icons.Default.Send,
+                        onLastAction = rememberCallback {
+                            model.reduce(
+                                InboxChatMviModel.Intent.SubmitNewMessage(
+                                    textFieldValue.text
+                                )
+                            )
+                            textFieldValue = TextFieldValue(text = "")
+                        },
+                    )
                     TextField(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 400.dp),
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
@@ -180,24 +204,6 @@ class InboxChatScreen(
                                 style = typography.bodyMedium,
                             )
                         },
-                        trailingIcon = {
-                            IconButton(
-                                onClick = {
-                                    model.reduce(
-                                        InboxChatMviModel.Intent.SubmitNewMessage(
-                                            textFieldValue.text
-                                        )
-                                    )
-                                    textFieldValue = TextFieldValue(text = "")
-                                    focusManager.clearFocus()
-                                },
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Send,
-                                    contentDescription = null,
-                                )
-                            }
-                        },
                         textStyle = typography.bodyMedium,
                         value = textFieldValue,
                         keyboardOptions = KeyboardOptions(
@@ -207,17 +213,6 @@ class InboxChatScreen(
                         ),
                         onValueChange = { value ->
                             textFieldValue = value
-                        },
-                        supportingText = {
-                            TextFormattingBar(
-                                textFieldValue = textFieldValue,
-                                onTextFieldValueChanged = {
-                                    textFieldValue = it
-                                },
-                                onSelectImage = {
-                                    openImagePicker = true
-                                }
-                            )
                         },
                     )
                 }
@@ -231,6 +226,7 @@ class InboxChatScreen(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                         reverseLayout = true,
+                        state = lazyListState,
                     ) {
                         item {
                             Spacer(modifier = Modifier.height(Spacing.s))
@@ -240,7 +236,10 @@ class InboxChatScreen(
                                 MessageCardPlaceholder()
                             }
                         }
-                        items(uiState.messages) { message ->
+                        items(
+                            items = uiState.messages,
+                            key = { it.id.toString() + it.updateDate },
+                        ) { message ->
                             val isMyMessage = message.creator?.id == uiState.currentUserId
                             val content = message.content.orEmpty()
                             val date = message.publishDate.orEmpty()

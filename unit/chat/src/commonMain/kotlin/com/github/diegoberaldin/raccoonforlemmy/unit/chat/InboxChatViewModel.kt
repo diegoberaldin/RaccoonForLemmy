@@ -214,27 +214,43 @@ class InboxChatViewModel(
 
     private fun submitNewMessage(text: String) {
         val editedMessageId = uiState.value.editedMessageId
+        val isEditing = editedMessageId != null
         if (text.isNotEmpty()) {
             mvi.scope?.launch(Dispatchers.IO) {
                 val auth = identityRepository.authToken.value
-                if (editedMessageId == null) {
-                    messageRepository.create(
+                val newMessage = if (isEditing) {
+                    messageRepository.edit(
+                        messageId = editedMessageId ?: 0,
                         message = text,
-                        recipiendId = otherUserId,
                         auth = auth,
                     )
                 } else {
-                    messageRepository.edit(
-                        messageId = editedMessageId,
+                    messageRepository.create(
                         message = text,
+                        recipientId = otherUserId,
                         auth = auth,
                     )
                 }
-
-                mvi.updateState {
-                    it.copy(editedMessageId = null)
+                val newMessages = if (isEditing) {
+                    uiState.value.messages.map { msg ->
+                        if (msg.id == newMessage?.id) {
+                            newMessage
+                        } else {
+                            msg
+                        }
+                    }
+                } else {
+                    (newMessage?.let { listOf(it) } ?: emptyList()) + uiState.value.messages
                 }
-                refresh()
+                mvi.updateState {
+                    it.copy(
+                        messages = newMessages,
+                        editedMessageId = null,
+                    )
+                }
+                if (!isEditing) {
+                    mvi.emitEffect(InboxChatMviModel.Effect.ScrollToBottom)
+                }
             }
         }
     }

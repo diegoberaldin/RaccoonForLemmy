@@ -49,5 +49,7 @@ interface InboxChatMviModel :
 
     sealed interface Effect {
         data class AddImageToText(val url: String) : Effect
+
+        data object ScrollToBottom : Effect
     }
 }
