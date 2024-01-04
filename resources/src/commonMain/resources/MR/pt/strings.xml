@@ -17,7 +17,7 @@
     <string name="community_detail_block_instance">Bloquear instância</string>
     <string name="community_detail_info">Informações da comunidade</string>
     <string name="community_detail_instance_info">Detalhes da instância</string>
-    <string name="community_info_comments">Comentários</string>
+    <string name="community_info_comments">comentários</string>
     <string name="community_info_daily_active_users">usuários activos (día)</string>
     <string name="community_info_monthly_active_users">usuários activos (mês)</string>
     <string name="community_info_posts">publicações</string>
@@ -90,7 +90,7 @@
     <string name="inbox_action_mark_read">Marcar como lido</string>
     <string name="inbox_action_mark_unread">Marcar como não lido</string>
     <string name="inbox_not_logged_message">Atualmente, não tem sessão iniciada.\nAdicione uma conta
-        a partir do ecrã de perfil para ver a sua caixa de entrada.
+        a partir do ecrã de perfil para ver as mensagens.
     </string>
     <string name="inbox_section_mentions">Menções</string>
     <string name="inbox_section_messages">Mensagens</string>
@@ -220,7 +220,7 @@
     <string name="settings_hide_navigation_bar">Ocultar a barra de navegação ao rolar</string>
     <string name="settings_zombie_mode_interval">Duração do intervalo do modo zumbi</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
-    <string name="settings_mark_as_read_while_scrolling">Marcar postagens como lidas durante ao
+    <string name="settings_mark_as_read_while_scrolling">Marcar publicações como lidas durante ao
         rolar
     </string>
     <string name="action_quote">Citar</string>

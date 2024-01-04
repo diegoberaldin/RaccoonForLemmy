@@ -197,7 +197,8 @@
     <string name="settings_full_height_images">Imagens em tamanho real</string>
     <string name="settings_include_nsfw">Incluir conteúdo NSFW</string>
     <string name="settings_language">Idioma</string>
-    <string name="settings_navigation_bar_titles_visible">Mostrar nomes na barra de navegação</string>
+    <string name="settings_navigation_bar_titles_visible">Mostrar nomes na barra de navegação
+    </string>
     <string name="settings_open_url_external">Abrir links em navegador externo</string>
     <string name="settings_points_short">pt_rBR</string>
     <string name="settings_post_layout">Formato de posts</string>
@@ -219,7 +220,8 @@
     <string name="settings_hide_navigation_bar">Esconder a barra de navegação ao deslizar</string>
     <string name="settings_zombie_mode_interval">Duração de intervalo no modo zumbi</string>
     <string name="settings_zombie_mode_scroll_amount">Grau de movimento no modo zumbi</string>
-    <string name="settings_mark_as_read_while_scrolling">Marcar posts como lidas ao deslizar</string>
+    <string name="settings_mark_as_read_while_scrolling">Marcar posts como lidos ao deslizar
+    </string>
     <string name="action_quote">Citar</string>
     <string name="mod_action_allow">Permitir usuário novamente</string>
     <string name="mod_action_ban">Banir usuário</string>
@@ -238,8 +240,8 @@
     <string name="report_action_resolve">Marcar como resolvido</string>
     <string name="report_action_unresolve">Marcar como não resolvido</string>
     <string name="sidebar_not_logged_message">Bem-vindo ao Raccoon for Lemmy!\n\nNo modo anônimo
-    você pode mudar de instância tocando no triângulo (▼) acima.\n\nTambém pode entrar na
-    sua conta usando ícone de perfil na barra de navegação.\n\nCurte aí o Lemmy!
+        você pode mudar de instância tocando no triângulo (▼) acima.\n\nTambém pode entrar na
+        sua conta usando ícone de perfil na barra de navegação.\n\nCurte aí o Lemmy!
     </string>
     <string name="settings_default_inbox_type">Padrão da caixa</string>
     <string name="mod_action_add_mod">Adicionar moderador</string>

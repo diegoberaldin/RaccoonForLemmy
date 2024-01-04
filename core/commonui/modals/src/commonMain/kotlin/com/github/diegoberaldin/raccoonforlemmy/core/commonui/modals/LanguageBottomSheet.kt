@@ -80,6 +80,7 @@ class LanguageBottomSheet : Screen {
                     "no",
                     "pl",
                     "pt",
+                    "pt-BR",
                     "ro",
                     "ru",
                     "sk",
