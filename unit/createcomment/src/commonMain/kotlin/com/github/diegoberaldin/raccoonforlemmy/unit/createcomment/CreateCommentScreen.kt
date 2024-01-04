@@ -108,9 +108,7 @@ class CreateCommentScreen(
         var rawContent by remember { mutableStateOf<Any?>(null) }
         var textFieldValue by remember {
             mutableStateOf(
-                TextFieldValue(
-                    text = (initialText ?: uiState.editedComment?.text).orEmpty(),
-                )
+                TextFieldValue(text = initialText.orEmpty())
             )
         }
         val commentFocusRequester = remember { FocusRequester() }
@@ -121,10 +119,13 @@ class CreateCommentScreen(
         val typography = contentFontFamily.toTypography()
         var selectLanguageDialogOpen by remember { mutableStateOf(false) }
 
-        LaunchedEffect(model) {
+        LaunchedEffect(uiState.editedComment) {
             uiState.editedComment?.also { editedComment ->
                 model.reduce(CreateCommentMviModel.Intent.ChangeLanguage(editedComment.languageId))
+                textFieldValue = TextFieldValue(text = editedComment.text)
             }
+        }
+        LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
                     is CreateCommentMviModel.Effect.Failure -> {
