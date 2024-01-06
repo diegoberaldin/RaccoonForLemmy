@@ -19,11 +19,22 @@ class SpoilerCloseSpan
  * Originally inspired by:
  * https://github.com/dessalines/jerboa/blob/main/app/src/main/java/com/jerboa/util/markwon/MarkwonSpoilerPlugin.kt
  */
-class MarkwonSpoilerPlugin private constructor(private val enableInteraction: Boolean) :
+class MarkwonSpoilerPlugin private constructor(
+    private val enableInteraction: Boolean,
+    private val onInteraction: () -> Unit,
+) :
     AbstractMarkwonPlugin() {
 
     companion object {
-        fun create(enableInteraction: Boolean) = MarkwonSpoilerPlugin(enableInteraction)
+        fun create(
+            enableInteraction: Boolean = true,
+            onInteraction: () -> Unit = {},
+        ): MarkwonSpoilerPlugin {
+            return MarkwonSpoilerPlugin(
+                enableInteraction = enableInteraction,
+                onInteraction = onInteraction,
+            )
+        }
     }
 
     override fun configure(registry: MarkwonPlugin.Registry) {
@@ -72,6 +83,7 @@ class MarkwonSpoilerPlugin private constructor(private val enableInteraction: Bo
                         textView = textView,
                         spoilerTitle = startSpan.title.toString(),
                         spoilerContent = spoilerContent.toString(),
+                        onInteraction = onInteraction,
                     )
 
                     // Set spoiler block type as ClickableSpan
@@ -101,12 +113,14 @@ private class SpoilerClickableSpan(
     private val textView: TextView,
     private val spoilerTitle: String,
     private val spoilerContent: String,
+    private val onInteraction: () -> Unit,
 ) : ClickableSpan() {
 
     private var open = false
 
     override fun onClick(view: View) {
         if (enableInteraction) {
+            onInteraction()
             textView.cancelPendingInputEvents()
             val spanned = SpannableStringBuilder(textView.text)
             val title = getSpoilerTitle(open, spoilerTitle)

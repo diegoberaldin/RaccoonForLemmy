@@ -42,18 +42,28 @@ class DefaultMarkwonProvider(
             .usePlugin(StrikethroughPlugin.create())
             .usePlugin(TablePlugin.create(context))
             .usePlugin(HtmlPlugin.create())
-            .usePlugin(MarkwonSpoilerPlugin.create(true))
+            .usePlugin(
+                MarkwonSpoilerPlugin.create(
+                    onInteraction =  {
+                        blockClickPropagation.value = true
+                        scope.launch {
+                            delay(OPEN_LINK_DELAY)
+                            blockClickPropagation.value = false
+                        }
+                    }
+                )
+            )
             .run {
                 val imageLoader = getCoilImageLoader(context)
                 usePlugin(CoilImagesPlugin.create(context, imageLoader))
             }
             .usePlugin(object : AbstractMarkwonPlugin() {
                 override fun beforeSetText(textView: TextView, markdown: Spanned) {
-                    AsyncDrawableScheduler.unschedule(textView);
+                    AsyncDrawableScheduler.unschedule(textView)
                 }
 
                 override fun afterSetText(textView: TextView) {
-                    AsyncDrawableScheduler.schedule(textView);
+                    AsyncDrawableScheduler.schedule(textView)
                 }
             })
             .usePlugin(
