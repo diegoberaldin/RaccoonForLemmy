@@ -81,23 +81,27 @@ internal object MainScreen : Screen {
             }.launchIn(this)
         }
 
-        LaunchedEffect(navigationCoordinator) {
-            val scrollConnection = object : NestedScrollConnection {
+        val scrollConnection = remember {
+            object : NestedScrollConnection {
+
                 override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                     val delta = available.y
                     val newOffset =
                         (uiState.bottomBarOffsetHeightPx + delta).coerceIn(
                             -bottomBarHeightPx,
-                            0f
+                            0f,
                         )
                     model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(newOffset))
                     return Offset.Zero
                 }
             }
+        }
+        navigationCoordinator.setBottomBarScrollConnection(scrollConnection)
+
+        LaunchedEffect(navigationCoordinator) {
             with(navigationCoordinator) {
-                setBottomBarScrollConnection(scrollConnection)
                 if (currentSection.value == null) {
-                    setCurrentSection(TabNavigationSection.Home)
+                    navigationCoordinator.setCurrentSection(TabNavigationSection.Home)
                 }
             }
 
@@ -143,7 +147,7 @@ internal object MainScreen : Screen {
                             }
                         }
 
-                        else -> null
+                        else -> Unit
                     }
                 }.launchIn(this)
             }
@@ -181,7 +185,9 @@ internal object MainScreen : Screen {
                             BottomAppBar(
                                 modifier = Modifier
                                     .onGloballyPositioned {
-                                        bottomBarHeightPx = it.size.toSize().height
+                                        if (bottomBarHeightPx == 0f) {
+                                            bottomBarHeightPx = it.size.toSize().height
+                                        }
                                     }
                                     .offset {
                                         IntOffset(
