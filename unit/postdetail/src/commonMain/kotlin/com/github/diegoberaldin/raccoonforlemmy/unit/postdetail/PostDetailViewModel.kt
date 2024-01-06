@@ -102,7 +102,6 @@ class PostDetailViewModel(
                     it.copy(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        sortType = settings.defaultCommentSortType.toSortType(),
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
@@ -183,7 +182,14 @@ class PostDetailViewModel(
             if (mvi.uiState.value.comments.isEmpty()) {
                 val sortTypes =
                     getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
-                mvi.updateState { it.copy(availableSortTypes = sortTypes) }
+                val defaultCommentSortType =
+                    settingsRepository.currentSettings.value.defaultCommentSortType.toSortType()
+                mvi.updateState {
+                    it.copy(
+                        sortType = defaultCommentSortType,
+                        availableSortTypes = sortTypes,
+                    )
+                }
                 refresh()
             }
         }

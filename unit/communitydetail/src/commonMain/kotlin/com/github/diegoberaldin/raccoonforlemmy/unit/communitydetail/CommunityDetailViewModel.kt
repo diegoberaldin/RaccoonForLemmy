@@ -87,7 +87,6 @@ class CommunityDetailViewModel(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        sortType = settings.defaultPostSortType.toSortType(),
                         fullHeightImages = settings.fullHeightImages,
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
@@ -148,6 +147,9 @@ class CommunityDetailViewModel(
                 mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
             if (mvi.uiState.value.posts.isEmpty()) {
+                val defaultPostSortType =
+                    settingsRepository.currentSettings.value.defaultPostSortType
+                mvi.updateState { it.copy(sortType = defaultPostSortType.toSortType()) }
                 refresh()
             }
         }

@@ -93,7 +93,6 @@ class UserDetailViewModel(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        sortType = settings.defaultPostSortType.toSortType(),
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
@@ -115,6 +114,10 @@ class UserDetailViewModel(
             }
 
             if (uiState.value.posts.isEmpty()) {
+                val defaultPostSortType =
+                    settingsRepository.currentSettings.value.defaultPostSortType
+                mvi.updateState { it.copy(sortType = defaultPostSortType.toSortType()) }
+
                 withContext(Dispatchers.IO) {
                     refresh(initial = true)
                 }
