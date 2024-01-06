@@ -165,6 +165,7 @@ A special thank to all those who contributed so far:
 - [u/rb_c@discuss.tchncs.de](https://discuss.tchncs.de/u/rb_c)
 - [u/heyazorin@lemmy.ml](https://lemmy.ml/u/heyazorin)
 - [u/thegiddystitcher@lemm.ee](https://lemm.ee/u/thegiddystitcher)
+- [outerair](https://github.com/outerair)
 - all those who reported feedback and ideas through the Lemmy community, GitHub issues, emails,
   private messages, homing pidgeons and every other imaginable media.
 
