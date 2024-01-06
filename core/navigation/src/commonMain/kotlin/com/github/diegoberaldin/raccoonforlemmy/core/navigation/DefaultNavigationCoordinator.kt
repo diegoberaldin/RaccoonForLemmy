@@ -27,8 +27,6 @@ import kotlinx.coroutines.launch
 private sealed interface NavigationEvent {
 
     data class Show(val screen: Screen) : NavigationEvent
-
-    data object Hide : NavigationEvent
 }
 
 @OptIn(FlowPreview::class)
@@ -58,22 +56,19 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     init {
         scope.launch {
-            bottomSheetChannel.receiveAsFlow().let { flow ->
-                merge(
-                    flow.take(1),
-                    flow.drop(1).debounce(BOTTOM_NAVIGATION_DELAY)
-                )
-            }.onEach { evt ->
-                when (evt) {
-                    is NavigationEvent.Show -> {
-                        bottomNavigator?.show(evt.screen)
+            bottomSheetChannel.receiveAsFlow()
+                .let { flow ->
+                    merge(
+                        flow.take(1),
+                        flow.drop(1).debounce(BOTTOM_NAVIGATION_DELAY)
+                    )
+                }.onEach { evt ->
+                    when (evt) {
+                        is NavigationEvent.Show -> {
+                            bottomNavigator?.show(evt.screen)
+                        }
                     }
-
-                    NavigationEvent.Hide -> {
-                        bottomNavigator?.hide()
-                    }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
             screenChannel.receiveAsFlow()
                 .let { flow ->
                     merge(
@@ -88,11 +83,6 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
                                 navigator?.push(evt.screen)
                                 canPop.value = navigator?.canPop == true
                             }
-                        }
-
-                        NavigationEvent.Hide -> {
-                            navigator?.pop()
-                            canPop.value = navigator?.canPop == true
                         }
                     }
                 }.launchIn(this)
@@ -158,15 +148,12 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     }
 
     override fun hideBottomSheet() {
-        scope.launch {
-            bottomSheetChannel.send(NavigationEvent.Hide)
-        }
+        bottomNavigator?.hide()
     }
 
     override fun popScreen() {
-        scope.launch {
-            screenChannel.send(NavigationEvent.Hide)
-        }
+        navigator?.pop()
+        canPop.value = navigator?.canPop == true
     }
 
     override fun setExitMessageVisible(value: Boolean) {
