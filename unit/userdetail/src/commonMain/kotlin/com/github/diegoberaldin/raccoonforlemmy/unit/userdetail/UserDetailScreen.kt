@@ -515,6 +515,7 @@ class UserDetailScreen(
                                         post = post,
                                         hideAuthor = true,
                                         postLayout = uiState.postLayout,
+                                        limitBodyHeight = true,
                                         fullHeightImage = uiState.fullHeightImages,
                                         blurNsfw = uiState.blurNsfw,
                                         voteFormat = uiState.voteFormat,

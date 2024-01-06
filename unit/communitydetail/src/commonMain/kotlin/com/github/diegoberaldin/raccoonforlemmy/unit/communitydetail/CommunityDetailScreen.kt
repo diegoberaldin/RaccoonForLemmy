@@ -623,6 +623,7 @@ class CommunityDetailScreen(
                                         post = post,
                                         isFromModerator = uiState.moderators.containsId(post.creator?.id),
                                         postLayout = uiState.postLayout,
+                                        limitBodyHeight = true,
                                         fullHeightImage = uiState.fullHeightImages,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,

@@ -359,6 +359,7 @@ class ExploreScreen : Screen {
                                             PostCard(
                                                 post = result.model,
                                                 postLayout = uiState.postLayout,
+                                                limitBodyHeight = true,
                                                 fullHeightImage = uiState.fullHeightImages,
                                                 voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
