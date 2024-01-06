@@ -139,7 +139,9 @@ class InboxMentionsViewModel(
             page = currentPage,
             unreadOnly = unreadOnly,
             sort = SortType.New,
-        )
+        )?.map {
+            it.copy(isCommentReply = it.comment.depth > 0)
+        }
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }

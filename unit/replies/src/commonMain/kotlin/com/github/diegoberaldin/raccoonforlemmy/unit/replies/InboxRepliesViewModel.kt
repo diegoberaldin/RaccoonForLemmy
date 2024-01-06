@@ -146,8 +146,7 @@ class InboxRepliesViewModel(
             unreadOnly = unreadOnly,
             sort = SortType.New,
         )?.map {
-            val isOwnPost = it.post.creator?.id == currentUserId
-            it.copy(isOwnPost = isOwnPost)
+            it.copy(isCommentReply = it.comment.depth > 0)
         }
 
         if (!itemList.isNullOrEmpty()) {

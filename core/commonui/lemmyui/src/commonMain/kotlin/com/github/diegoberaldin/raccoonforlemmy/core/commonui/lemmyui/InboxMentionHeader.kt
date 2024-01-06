@@ -40,10 +40,11 @@ fun InboxCardHeader(
                 }
 
                 InboxCardType.Reply -> {
-                    if (mention.isOwnPost) {
-                        append(stringResource(MR.strings.inbox_item_reply_post))
-                    } else {
+                    if (mention.isCommentReply) {
                         append(stringResource(MR.strings.inbox_item_reply_comment))
+                    } else {
+                        append(stringResource(MR.strings.inbox_item_reply_post))
+
                     }
                 }
             }

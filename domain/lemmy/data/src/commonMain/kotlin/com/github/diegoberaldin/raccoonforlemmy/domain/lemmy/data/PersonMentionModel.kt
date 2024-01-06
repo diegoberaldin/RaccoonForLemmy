@@ -11,7 +11,7 @@ data class PersonMentionModel(
     val downvotes: Int,
     val myVote: Int,
     val saved: Boolean,
-    val isOwnPost: Boolean = false,
+    val isCommentReply: Boolean = false,
     val publishDate: String? = null,
     val read: Boolean = false,
 )
