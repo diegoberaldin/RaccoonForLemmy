@@ -44,7 +44,7 @@ class MainApplication : Application(), ImageLoaderFactory {
                         val stackTrace = exception.stackTraceToString()
                         crashReportWriter.write(stackTrace)
                     }
-                    original.uncaughtException(t, exception)
+                    original?.uncaughtException(t, exception)
                 }
             }
         }
