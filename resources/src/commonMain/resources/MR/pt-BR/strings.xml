@@ -2,9 +2,9 @@
 <resources>
     <string name="action_back_to_top">Voltar pra cima</string>
     <string name="action_chat">Enviar mensagem</string>
-    <string name="action_clear_read">Limpar lidas</string>
+    <string name="action_clear_read">Excluir lidos</string>
     <string name="action_create_post">Criar post</string>
-    <string name="action_reply">Responder</string>
+    <string name="action_reply">Comentar</string>
     <string name="action_activate_zombie_mode">Ativar modo zumbi</string>
     <string name="action_deactivate_zombie_mode">Desativar modo zumbi</string>
     <string name="button_close">Fechar</string>
@@ -15,7 +15,7 @@
     <string name="comment_action_delete">Apagar</string>
     <string name="community_detail_block">Bloquear</string>
     <string name="community_detail_block_instance">Bloquear instância</string>
-    <string name="community_detail_info">Info sobre comunidade</string>
+    <string name="community_detail_info">Sobre a comunidade</string>
     <string name="community_detail_instance_info">Detalhes da instância</string>
     <string name="community_info_comments">comentários</string>
     <string name="community_info_daily_active_users">usuários activos (día)</string>
@@ -84,13 +84,13 @@
     <string name="inbox_action_mark_unread">Marcar como não lido</string>
     <string name="inbox_chat_message">Mensagem</string>
     <string name="inbox_item_mention">mencionou você em</string>
-    <string name="inbox_item_reply_comment">respondeu ao seu comentário em</string>
-    <string name="inbox_item_reply_post">respondeu ao seu post em</string>
-    <string name="inbox_listing_type_all">Todos</string>
+    <string name="inbox_item_reply_comment">respondeu ao seu comentário sobre</string>
+    <string name="inbox_item_reply_post">respondeu ao seu post sobre</string>
+    <string name="inbox_listing_type_all">Todas</string>
     <string name="inbox_listing_type_title">Padrão da caixa</string>
     <string name="inbox_listing_type_unread">Não lidas</string>
     <string name="inbox_not_logged_message">Você não está logado.\nPor favor, entre na sua conta
-        na tela de perfil para ver as mensagens.
+        via ícone de perfil abaixo, para ver as mensagens.
     </string>
     <string name="inbox_section_mentions">Menções</string>
     <string name="inbox_section_messages">Mensagens</string>
@@ -102,7 +102,7 @@
     <string name="login_field_label_optional">(opcional)</string>
     <string name="login_field_password">Senha</string>
     <string name="login_field_token">Token TOTP 2FA</string>
-    <string name="login_field_user_name">Nome de usuário (ou email)</string>
+    <string name="login_field_user_name">Nome do usuário (ou email)</string>
     <string name="manage_accounts_button_add">Adicionar uma conta</string>
     <string name="manage_accounts_title">Gerenciar as contas</string>
     <string name="manage_subscriptions_header_multicommunities">Múltiplas comunidades</string>
@@ -128,8 +128,8 @@
     <string name="navigation_inbox">Caixa de entrada</string>
     <string name="navigation_profile">Perfil</string>
     <string name="navigation_search">Explorar</string>
-    <string name="navigation_settings">Configurações</string>
-    <string name="post_action_cross_post">Post cruzado</string>
+    <string name="navigation_settings">Configurar</string>
+    <string name="post_action_cross_post">Postar cruzado</string>
     <string name="post_action_edit">Editar</string>
     <string name="post_action_hide">Esconder</string>
     <string name="post_action_report">Denunciar</string>
@@ -176,7 +176,7 @@
     <string name="settings_color_pink">🦄 Unicórnio único</string>
     <string name="settings_color_purple">🐙 Polvo oceânico</string>
     <string name="settings_color_red">🦀 Caranguejo crocante</string>
-    <string name="settings_color_white">🐼 Urso Urso bamboleante</string>
+    <string name="settings_color_white">🐼 Urso bamboleante</string>
     <string name="settings_content_font_large">Grande</string>
     <string name="settings_content_font_larger">Extragrande</string>
     <string name="settings_content_font_largest">Super extragrande</string>
@@ -224,7 +224,7 @@
     </string>
     <string name="action_quote">Citar</string>
     <string name="mod_action_allow">Permitir usuário novamente</string>
-    <string name="mod_action_ban">Banir usuário</string>
+    <string name="mod_action_ban">Bloquear usuário</string>
     <string name="mod_action_open_reports">Abrir relatórios</string>
     <string name="mod_action_mark_as_featured">Marcar como destacado</string>
     <string name="mod_action_unmark_as_featured">Desmarcar como destacado</string>
@@ -251,13 +251,13 @@
     <string name="settings_vote_format_separated">Separado</string>
     <string name="settings_vote_format_percentage">Percentagem</string>
     <string name="settings_font_family_default">Sistema</string>
-    <string name="post_reply_source_account">por:</string>
+    <string name="post_reply_source_account">via:</string>
     <string name="settings_comment_bar_theme">Tema da barra de comentários</string>
     <string name="settings_comment_bar_theme_blue">🌊 Oceano</string>
     <string name="settings_comment_bar_theme_green">🥑 Abacate</string>
     <string name="settings_comment_bar_theme_red">🍓 Morango</string>
     <string name="settings_comment_bar_theme_multi">🌈 Arco-íris</string>
-    <string name="message_confirm_exit">Toque em 🔙 outra vez para sair</string>
+    <string name="message_confirm_exit">Toque no 🔙 outra vez para sair</string>
     <string name="community_action_unsubscribe">Cancelar subscrição</string>
     <string name="settings_search_posts_title_only">Buscar posts apenas por títulos</string>
     <string name="settings_content_font_family">Família de fonte para conteúdo</string>
@@ -268,8 +268,8 @@
     <string name="modlog_title">Registro de moderação</string>
     <string name="modlog_item_mod_added">foi adicionado como moderador</string>
     <string name="modlog_item_mod_removed">foi removido como moderador</string>
-    <string name="modlog_item_user_banned">foi banido</string>
-    <string name="modlog_item_user_unbanned">banimento desfeito</string>
+    <string name="modlog_item_user_banned">foi bloqueado</string>
+    <string name="modlog_item_user_unbanned">bloqueio desfeito</string>
     <string name="modlog_item_post_featured">foi marcado como post em destaque</string>
     <string name="modlog_item_post_unfeatured">foi marcado como post sem destaque</string>
     <string name="modlog_item_post_locked">foi bloqueado</string>
@@ -296,14 +296,14 @@
     <string name="settings_web_bio">Biografia</string>
     <string name="settings_web_bot">Robô</string>
     <string name="settings_web_display_name">Nome mostrado</string>
-    <string name="settings_web_matrix">ID de usuário Matrix</string>
+    <string name="settings_web_matrix">ID de usuário no Matrix</string>
     <string name="settings_web_email">Email</string>
     <string name="settings_web_show_bot">Mostrar contas do robô</string>
     <string name="settings_web_show_nsfw">Mostrar NSFW</string>
     <string name="settings_web_show_read">Mostrar posts lidos</string>
     <string name="settings_web_email_notifications">Enviar notificações por email</string>
-    <string name="settings_manage_ban">Banimentos e filtros</string>
-    <string name="settings_manage_ban_action_unban">Remover banimento</string>
+    <string name="settings_manage_ban">Bloqueios e filtros</string>
+    <string name="settings_manage_ban_action_unban">Remover bloqueio</string>
     <string name="settings_manage_ban_section_instances">Instâncias</string>
     <string name="settings_edge_to_edge">Conteúdo de borda a borda</string>
     <string name="settings_post_body_max_lines">Número máximo de linhas do corpo de post</string>
