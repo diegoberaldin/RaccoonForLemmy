@@ -14,8 +14,6 @@ interface ModalDrawerMviModel :
     ScreenModel {
     sealed interface Intent {
         data object Refresh : Intent
-        data class ChangeInstanceName(val value: String) : Intent
-        data object SubmitChangeInstance : Intent
     }
 
     data class UiState(
@@ -25,12 +23,7 @@ interface ModalDrawerMviModel :
         val instance: String? = null,
         val communities: List<CommunityModel> = emptyList(),
         val multiCommunities: List<MultiCommunityModel> = emptyList(),
-        val changeInstanceloading: Boolean = false,
-        val changeInstanceName: String = "",
-        val changeInstanceNameError: StringDesc? = null,
     )
 
-    sealed interface Effect {
-        data object CloseChangeInstanceDialog : Effect
-    }
+    sealed interface Effect
 }

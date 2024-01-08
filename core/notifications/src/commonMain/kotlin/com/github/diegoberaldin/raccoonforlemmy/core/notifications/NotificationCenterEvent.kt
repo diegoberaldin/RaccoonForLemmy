@@ -61,4 +61,5 @@ sealed interface NotificationCenterEvent {
 
     data class Share(val url: String) : NotificationCenterEvent
     data class ChangePostBodyMaxLines(val value: Int?) : NotificationCenterEvent
+    data class InstanceSelected(val value: String) : NotificationCenterEvent
 }

@@ -38,6 +38,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.MultiCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -47,7 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerHeader
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerShortcut
-import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.dialog.ChangeInstanceDialog
+import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.SelectInstanceBottomSheet
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
@@ -69,24 +72,11 @@ object ModalDrawerContent : Tab {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val coordinator = remember { getDrawerCoordinator() }
-        var changeInstanceDialogOpen by remember {
-            mutableStateOf(false)
-        }
         val languageRepository = remember { getLanguageRepository() }
         val themeRepository = remember { getThemeRepository() }
         val scope = rememberCoroutineScope()
-
-        LaunchedEffect(model) {
-            model.effects.onEach { evt ->
-                when (evt) {
-                    ModalDrawerMviModel.Effect.CloseChangeInstanceDialog -> {
-                        changeInstanceDialogOpen = false
-                        // closes the navigation drawer after instance change
-                        coordinator.toggleDrawer()
-                    }
-                }
-            }.launchIn(this)
-        }
+        val navigationCoordinator = remember { getNavigationCoordinator() }
+        val notificationCenter = remember { getNotificationCenter() }
 
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
         LaunchedEffect(themeRepository) {
@@ -106,6 +96,12 @@ object ModalDrawerContent : Tab {
         if (!uiFontSizeWorkaround) {
             return
         }
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.subscribe(NotificationCenterEvent.InstanceSelected::class).onEach {
+                // closes the navigation drawer after instance change
+                coordinator.toggleDrawer()
+            }.launchIn(this)
+        }
 
         Column(
             modifier = Modifier.fillMaxWidth(0.9f)
@@ -115,13 +111,7 @@ object ModalDrawerContent : Tab {
                 instance = uiState.instance,
                 autoLoadImages = uiState.autoLoadImages,
                 onOpenChangeInstance = rememberCallback(model) {
-                    // suggests current instance
-                    model.reduce(
-                        ModalDrawerMviModel.Intent.ChangeInstanceName(
-                            uiState.instance.orEmpty()
-                        )
-                    )
-                    changeInstanceDialogOpen = true
+                   navigationCoordinator.showBottomSheet(SelectInstanceBottomSheet())
                 },
             )
 
@@ -131,6 +121,7 @@ object ModalDrawerContent : Tab {
                     bottom = Spacing.s,
                 )
             )
+
             if (uiState.user != null) {
                 val pullRefreshState = rememberPullRefreshState(
                     refreshing = uiState.refreshing,
@@ -278,23 +269,6 @@ object ModalDrawerContent : Tab {
                     }
                 }
             }
-        }
-
-        if (changeInstanceDialogOpen) {
-            ChangeInstanceDialog(
-                instanceName = uiState.changeInstanceName,
-                instanceNameError = uiState.changeInstanceNameError,
-                loading = uiState.changeInstanceloading,
-                onClose = {
-                    changeInstanceDialogOpen = false
-                },
-                onChangeInstanceName = { value ->
-                    model.reduce(ModalDrawerMviModel.Intent.ChangeInstanceName(value))
-                },
-                onSubmit = {
-                    model.reduce(ModalDrawerMviModel.Intent.SubmitChangeInstance)
-                },
-            )
         }
     }
 }

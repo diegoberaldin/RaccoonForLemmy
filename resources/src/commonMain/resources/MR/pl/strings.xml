@@ -314,4 +314,5 @@
     <string name="message_content_removed">(ta treść została usunięta)</string>
     <string name="post_list_load_more_posts">Załaduj więcej postów</string>
     <string name="settings_infinite_scroll_disabled">Wyłącz nieskończone przewijanie</string>
+    <string name="dialog_title_add_instance">Dodaj instancję</string>
 </resources>

@@ -320,4 +320,5 @@
     <string name="message_content_removed">(tá an t-ábhar seo bainte)</string>
     <string name="post_list_load_more_posts">Luchtaigh tuilleadh post</string>
     <string name="settings_infinite_scroll_disabled">Díchumasaigh scrollaigh gan teorainn</string>
+    <string name="dialog_title_add_instance">Cuir shampla</string>
 </resources>

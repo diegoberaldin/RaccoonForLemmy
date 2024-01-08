@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.drawer.dialog
+package com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -49,14 +49,16 @@ internal fun ChangeInstanceDialog(
         },
     ) {
         Column(
-            modifier = Modifier.background(color = MaterialTheme.colorScheme.surface)
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.surface)
                 .padding(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
-                text = stringResource(MR.strings.dialog_title_change_instance),
+                text = stringResource(MR.strings.dialog_title_add_instance),
                 style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground,
             )
             TextField(
                 colors = TextFieldDefaults.colors(

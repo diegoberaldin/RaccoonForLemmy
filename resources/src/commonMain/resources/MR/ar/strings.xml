@@ -309,4 +309,5 @@
     <string name="message_content_removed">(تمت إزالة هذا المحتوى)</string>
     <string name="post_list_load_more_posts">تحميل المزيد من المشاركات</string>
     <string name="settings_infinite_scroll_disabled">تعطيل التمرير اللانهائي</string>
+    <string name="dialog_title_add_instance">إضافة مثيل</string>
 </resources>

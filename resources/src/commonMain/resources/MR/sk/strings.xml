@@ -313,4 +313,5 @@
     <string name="message_content_removed">(tento obsah bol odstránený)</string>
     <string name="post_list_load_more_posts">Načítať viac príspevkov</string>
     <string name="settings_infinite_scroll_disabled">Zakázať nekonečné posúvanie</string>
+    <string name="dialog_title_add_instance">Pridať inštanciu</string>
 </resources>

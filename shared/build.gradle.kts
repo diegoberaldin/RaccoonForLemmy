@@ -84,6 +84,7 @@ kotlin {
                 implementation(projects.unit.modlog)
                 implementation(projects.unit.accountsettings)
                 implementation(projects.unit.manageban)
+                implementation(projects.unit.selectinstance)
 
                 api(projects.resources)
                 api(projects.feature.home)

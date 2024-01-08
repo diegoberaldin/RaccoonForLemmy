@@ -21,7 +21,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "drawer"
+            baseName = "selectinstance"
         }
     }
 
@@ -37,7 +37,6 @@ kotlin {
                 implementation(compose.materialIconsExtended)
 
                 implementation(libs.koin.core)
-                implementation(libs.voyager.tab)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.koin)
@@ -48,14 +47,12 @@ kotlin {
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.lemmyui)
                 implementation(projects.core.navigation)
-                implementation(projects.core.notifications)
                 implementation(projects.core.persistence)
+                implementation(projects.core.notifications)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
-
-                implementation(projects.unit.selectinstance)
 
                 implementation(projects.resources)
             }
@@ -69,7 +66,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.drawer"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

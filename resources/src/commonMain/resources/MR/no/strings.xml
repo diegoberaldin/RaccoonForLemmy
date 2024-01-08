@@ -313,4 +313,5 @@
     <string name="message_content_removed">(dette innholdet er fjernet)</string>
     <string name="post_list_load_more_posts">Last inn flere innlegg</string>
     <string name="settings_infinite_scroll_disabled">Deaktiver uendelig rulling</string>
+    <string name="dialog_title_add_instance">Legg til forekomst</string>
 </resources>

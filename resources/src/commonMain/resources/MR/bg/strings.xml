@@ -319,4 +319,5 @@
     <string name="message_content_removed">(това съдържание е премахнато)</string>
     <string name="post_list_load_more_posts">Зареди още публикации</string>
     <string name="settings_infinite_scroll_disabled">Деактивирайте безкрайното превъртане</string>
+    <string name="dialog_title_add_instance">Добавете екземпляр</string>
 </resources>

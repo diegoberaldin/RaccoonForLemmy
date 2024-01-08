@@ -93,7 +93,7 @@ class CreateReportScreen(
                     Column(
                         modifier = Modifier.align(Alignment.TopCenter),
                         verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         BottomSheetHandle()
                         val title = when {

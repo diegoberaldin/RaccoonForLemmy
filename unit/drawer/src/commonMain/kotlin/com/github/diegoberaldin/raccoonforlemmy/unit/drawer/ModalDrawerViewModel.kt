@@ -102,12 +102,6 @@ class ModalDrawerViewModel(
             ModalDrawerMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
                 refresh()
             }
-
-            is ModalDrawerMviModel.Intent.ChangeInstanceName -> mvi.updateState {
-                it.copy(changeInstanceName = intent.value)
-            }
-
-            ModalDrawerMviModel.Intent.SubmitChangeInstance -> submitChangeInstance()
         }
     }
 
@@ -160,46 +154,6 @@ class ModalDrawerViewModel(
                 communities = communities,
                 multiCommunities = multiCommunitites,
             )
-        }
-    }
-
-    private fun submitChangeInstance() {
-        mvi.updateState { it.copy(changeInstanceNameError = null) }
-        var valid = true
-        val instanceName = uiState.value.changeInstanceName
-        if (instanceName.isEmpty()) {
-            mvi.updateState { it.copy(changeInstanceNameError = MR.strings.message_missing_field.desc()) }
-            valid = false
-        }
-        if (!valid) {
-            return
-        }
-
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(changeInstanceloading = true) }
-            val res = communityRepository.getAll(
-                instance = instanceName,
-                page = 1,
-                limit = 1
-            ) ?: emptyList()
-            if (res.isEmpty()) {
-                mvi.updateState {
-                    it.copy(
-                        changeInstanceNameError = MR.strings.message_invalid_field.desc(),
-                        changeInstanceloading = false,
-                    )
-                }
-                return@launch
-            }
-
-            apiConfigurationRepository.changeInstance(instanceName)
-            mvi.updateState {
-                it.copy(
-                    changeInstanceloading = false,
-                    changeInstanceName = "",
-                )
-            }
-            mvi.emitEffect(ModalDrawerMviModel.Effect.CloseChangeInstanceDialog)
         }
     }
 }

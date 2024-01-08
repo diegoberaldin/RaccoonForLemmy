@@ -316,4 +316,5 @@
     <string name="message_content_removed">(ce contenu a été supprimé)</string>
     <string name="post_list_load_more_posts">Charger plus de messages</string>
     <string name="settings_infinite_scroll_disabled">Désactiver le défilement infini</string>
+    <string name="dialog_title_add_instance">Ajouter instance</string>
 </resources>

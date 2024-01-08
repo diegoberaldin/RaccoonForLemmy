@@ -312,4 +312,5 @@
     <string name="message_content_removed">(detta innehåll har tagits bort)</string>
     <string name="post_list_load_more_posts">Ladda fler inlägg</string>
     <string name="settings_infinite_scroll_disabled">Inaktivera oändlig rullning</string>
+    <string name="dialog_title_add_instance">Lägg till instans</string>
 </resources>
