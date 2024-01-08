@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
+package com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,6 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toDownVoteColor
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReplyColor
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUpVoteColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -39,7 +44,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
-class ColorBottomSheet : Screen {
+class VoteThemeBottomSheet(
+    val actionType: Int,
+) : Screen {
 
     @Composable
     override fun Content() {
@@ -47,6 +54,10 @@ class ColorBottomSheet : Screen {
         val notificationCenter = remember { getNotificationCenter() }
         var customPickerDialogOpened by remember { mutableStateOf(false) }
         val settingsRepository = remember { getSettingsRepository() }
+        val defaultUpvoteColor = MaterialTheme.colorScheme.primary
+        val defaultReplyColor = MaterialTheme.colorScheme.secondary
+        val defaultDownvoteColor = MaterialTheme.colorScheme.tertiary
+
         Column(
             modifier = Modifier.padding(
                 top = Spacing.s,
@@ -67,32 +78,34 @@ class ColorBottomSheet : Screen {
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.settings_custom_seed_color),
+                    text = when (actionType) {
+                        2 -> stringResource(MR.strings.settings_reply_color)
+                        1 -> stringResource(MR.strings.settings_downvote_color)
+                        else -> stringResource(MR.strings.settings_upvote_color)
+                    },
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
             }
             val customText = stringResource(MR.strings.settings_color_custom)
-            val values: List<Pair<Color?, String>> = listOf(
-                Color(0xFF001F7D) to stringResource(MR.strings.settings_color_blue),
-                Color(0xFF36B3B3) to stringResource(MR.strings.settings_color_aquamarine),
-                Color(0xFF884DFF) to stringResource(MR.strings.settings_color_purple),
-                Color(0xFF00B300) to stringResource(MR.strings.settings_color_green),
-                Color(0xFFFF0000) to stringResource(MR.strings.settings_color_red),
-                Color(0xFFFF66600) to stringResource(MR.strings.settings_color_orange),
-                Color(0x94786818) to stringResource(MR.strings.settings_color_banana),
-                Color(0xFFFC0FC0) to stringResource(MR.strings.settings_color_pink),
-                Color(0xFF303B47) to stringResource(MR.strings.settings_color_gray),
-                Color(0xFFd7d7d7) to stringResource(MR.strings.settings_color_white),
-                null to customText,
-                null to stringResource(MR.strings.button_reset),
+            val values: List<CommentBarTheme?> = listOf(
+                CommentBarTheme.Blue,
+                CommentBarTheme.Green,
+                CommentBarTheme.Red,
+                CommentBarTheme.Rainbow,
+                null,
+                null,
             )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
             ) {
-                for (value in values) {
-                    val text = value.second
+                values.forEachIndexed { idx, value ->
+                    val text = if (idx == values.lastIndex) {
+                        stringResource(MR.strings.button_reset)
+                    } else {
+                        value.toReadableName()
+                    }
                     val isChooseCustom = text == customText
                     Row(
                         modifier = Modifier.padding(
@@ -102,8 +115,21 @@ class ColorBottomSheet : Screen {
                             onClick = rememberCallback {
                                 if (!isChooseCustom) {
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeColor(
-                                            value.first
+                                        NotificationCenterEvent.ChangeActionColor(
+                                            color = when (actionType) {
+                                                2 -> {
+                                                    value?.toReplyColor() ?: defaultReplyColor
+                                                }
+
+                                                1 -> {
+                                                    value?.toDownVoteColor() ?: defaultDownvoteColor
+                                                }
+
+                                                else -> {
+                                                    value?.toUpVoteColor() ?: defaultUpvoteColor
+                                                }
+                                            },
+                                            actionType = actionType,
                                         )
                                     )
                                     navigationCoordinator.hideBottomSheet()
@@ -125,7 +151,11 @@ class ColorBottomSheet : Screen {
                                 modifier = Modifier
                                     .size(36.dp)
                                     .background(
-                                        color = value.first ?: Color.Transparent,
+                                        color = when (actionType) {
+                                            2 -> value.toReplyColor()
+                                            1 -> value.toDownVoteColor()
+                                            else -> value.toUpVoteColor()
+                                        },
                                         shape = CircleShape
                                     )
                             )
@@ -142,15 +172,31 @@ class ColorBottomSheet : Screen {
         }
 
         if (customPickerDialogOpened) {
-            val current =
-                settingsRepository.currentSettings.value.customSeedColor?.let { Color(it) }
+            val current = when (actionType) {
+                2 -> {
+                    settingsRepository.currentSettings.value.replyColor?.let { Color(it) }
+                }
+
+                1 -> {
+                    settingsRepository.currentSettings.value.downvoteColor?.let { Color(it) }
+                }
+
+                else -> {
+                    settingsRepository.currentSettings.value.upvoteColor?.let { Color(it) }
+                }
+            }
             ColorPickerDialog(
                 initialValue = current ?: MaterialTheme.colorScheme.primary,
                 onClose = {
                     customPickerDialogOpened = false
                 },
                 onSubmit = { color ->
-                    notificationCenter.send(NotificationCenterEvent.ChangeColor(color))
+                    notificationCenter.send(
+                        NotificationCenterEvent.ChangeActionColor(
+                            color = color,
+                            actionType = actionType,
+                        )
+                    )
                     navigationCoordinator.hideBottomSheet()
                 }
             )
