@@ -118,4 +118,18 @@ interface TemporaryKeyStore {
      * Remove the given key from the repository.
      */
     fun remove(key: String)
+
+    /**
+     * Retrieve a string list given its key.
+     */
+    fun get(
+        key: String,
+        default: List<String> = emptyList(),
+        delimiter: String = ", ",
+    ): List<String>
+
+    /**
+     * Save a string list under a given key.
+     */
+    fun save(key: String, value: List<String>, delimiter: String = ", ")
 }

@@ -46,6 +46,18 @@ internal class DefaultTemporaryKeyStore(
 
     override fun get(key: String, default: Long): Long = settings[key, default]
 
+    override fun get(key: String, default: List<String>, delimiter: String): List<String> {
+        if (!settings.hasKey(key)) {
+            return default
+        }
+        val joined = settings[key, ""]
+        return joined.split(delimiter)
+    }
+
+    override fun save(key: String, value: List<String>, delimiter: String) {
+        settings[key] = value.joinToString(delimiter)
+    }
+
     override fun remove(key: String) {
         settings.remove(key)
     }
