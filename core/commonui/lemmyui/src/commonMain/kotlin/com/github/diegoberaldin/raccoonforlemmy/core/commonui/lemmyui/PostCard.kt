@@ -450,7 +450,11 @@ private fun ExtendedPost(
                             navigationCoordinator.handleUrl(
                                 url = url,
                                 openExternal = settings.openUrlsInExternalBrowser,
-                                uriHandler = uriHandler
+                                uriHandler = uriHandler,
+                                onOpenWeb = onOpenWeb,
+                                onOpenCommunity = onOpenCommunity,
+                                onOpenPost = onOpenPost,
+                                onOpenUser = onOpenCreator,
                             )
                         },
                         onDoubleClick = onDoubleClick ?: {},
