@@ -68,6 +68,7 @@ kotlin {
                 implementation(projects.unit.createreport)
                 implementation(projects.unit.reportlist)
                 implementation(projects.unit.rawcontent)
+                implementation(projects.unit.selectinstance)
 
                 implementation(projects.resources)
             }

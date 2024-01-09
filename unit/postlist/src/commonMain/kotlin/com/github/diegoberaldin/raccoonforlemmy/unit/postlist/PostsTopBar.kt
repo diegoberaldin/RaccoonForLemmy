@@ -52,6 +52,7 @@ internal fun PostsTopBar(
     sortType: SortType?,
     edgeToEdge: Boolean = true,
     onSelectListingType: (() -> Unit)? = null,
+    onSelectInstance: (() -> Unit)? = null,
     onSelectSortType: (() -> Unit)? = null,
     onHamburgerTapped: (() -> Unit)? = null,
 ) {
@@ -116,11 +117,21 @@ internal fun PostsTopBar(
                     ),
             ) {
                 Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = listingType?.toReadableName().orEmpty(),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
                 Text(
+                    modifier = Modifier.fillMaxWidth().then(
+                        if (onSelectInstance != null) {
+                            Modifier.onClick(
+                                onClick = rememberCallback {
+                                    onSelectInstance.invoke()
+                                },
+                            )
+                        } else Modifier
+                    ),
                     text = stringResource(
                         MR.strings.home_instance_via,
                         currentInstance,
