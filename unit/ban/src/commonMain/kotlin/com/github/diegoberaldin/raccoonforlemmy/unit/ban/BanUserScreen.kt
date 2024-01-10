@@ -85,100 +85,96 @@ class BanUserScreen(
             }.launchIn(this)
         }
 
-        Box(
+        Column(
             modifier = Modifier.imePadding(),
-            contentAlignment = Alignment.BottomCenter,
+            verticalArrangement = Arrangement.spacedBy(Spacing.s),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                horizontalAlignment = Alignment.CenterHorizontally,
+            Box(
+                modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
             ) {
-                Box(
-                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                Column(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(
-                        modifier = Modifier.align(Alignment.TopCenter),
-                        verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        BottomSheetHandle()
-                        val title = if (newValue) {
-                            stringResource(MR.strings.mod_action_ban)
-                        } else {
-                            stringResource(MR.strings.mod_action_allow)
-                        }
-                        Text(
-                            text = title,
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-
+                    BottomSheetHandle()
+                    val title = if (newValue) {
+                        stringResource(MR.strings.mod_action_ban)
+                    } else {
+                        stringResource(MR.strings.mod_action_allow)
                     }
-                    IconButton(
-                        modifier = Modifier.align(Alignment.TopEnd),
-                        content = {
-                            Icon(
-                                imageVector = Icons.Default.Send,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onBackground,
-                            )
-                        },
-                        onClick = {
-                            model.reduce(BanUserMviModel.Intent.Submit)
-                        },
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
+
                 }
-
-                val commentFocusRequester = remember { FocusRequester() }
-                TextField(
-                    modifier = Modifier
-                        .focusRequester(commentFocusRequester)
-                        .heightIn(min = 300.dp, max = 500.dp)
-                        .fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                    ),
-                    label = {
-                        Text(text = stringResource(MR.strings.create_report_placeholder))
+                IconButton(
+                    modifier = Modifier.align(Alignment.TopEnd),
+                    content = {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground,
+                        )
                     },
-                    textStyle = MaterialTheme.typography.bodyMedium,
-                    value = uiState.text,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        autoCorrect = true,
-                    ),
-                    onValueChange = { value ->
-                        model.reduce(BanUserMviModel.Intent.SetText(value))
-                    },
-                    isError = uiState.textError != null,
-                    supportingText = {
-                        if (uiState.textError != null) {
-                            Text(
-                                text = uiState.textError?.localized().orEmpty(),
-                                color = MaterialTheme.colorScheme.error,
-                            )
-                        }
+                    onClick = {
+                        model.reduce(BanUserMviModel.Intent.Submit)
                     },
                 )
-                Spacer(Modifier.height(Spacing.xxl))
             }
 
-            if (uiState.loading) {
-                ProgressHud()
-            }
+            val commentFocusRequester = remember { FocusRequester() }
+            TextField(
+                modifier = Modifier
+                    .focusRequester(commentFocusRequester)
+                    .heightIn(min = 300.dp, max = 500.dp)
+                    .fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                ),
+                label = {
+                    Text(text = stringResource(MR.strings.create_report_placeholder))
+                },
+                textStyle = MaterialTheme.typography.bodyMedium,
+                value = uiState.text,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    autoCorrect = true,
+                ),
+                onValueChange = { value ->
+                    model.reduce(BanUserMviModel.Intent.SetText(value))
+                },
+                isError = uiState.textError != null,
+                supportingText = {
+                    if (uiState.textError != null) {
+                        Text(
+                            text = uiState.textError?.localized().orEmpty(),
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+                },
+            )
+            Spacer(Modifier.height(Spacing.xxl))
+        }
 
-            SnackbarHost(
-                modifier = Modifier.padding(bottom = Spacing.xxxl),
-                hostState = snackbarHostState
-            ) { data ->
-                Snackbar(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    snackbarData = data,
-                )
-            }
+        if (uiState.loading) {
+            ProgressHud()
+        }
+
+        SnackbarHost(
+            modifier = Modifier.padding(bottom = Spacing.xxxl),
+            hostState = snackbarHostState
+        ) { data ->
+            Snackbar(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                snackbarData = data,
+            )
         }
     }
 }
