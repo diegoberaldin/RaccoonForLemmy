@@ -9,7 +9,11 @@ class DefaultDrawerCoordinator : DrawerCoordinator {
     override val gesturesEnabled = MutableStateFlow(true)
 
     override suspend fun toggleDrawer() {
-        events.emit(DrawerEvent.Toggled)
+        events.emit(DrawerEvent.Toggle)
+    }
+
+    override suspend fun closeDrawer() {
+        events.emit(DrawerEvent.Close)
     }
 
     override suspend fun sendEvent(event: DrawerEvent) {

@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 sealed interface DrawerEvent {
-    data object Toggled : DrawerEvent
+    data object Toggle : DrawerEvent
+    data object Close : DrawerEvent
     data class OpenCommunity(val community: CommunityModel) : DrawerEvent
     data class OpenMultiCommunity(val community: MultiCommunityModel) : DrawerEvent
     data object ManageSubscriptions : DrawerEvent
@@ -20,7 +21,9 @@ sealed interface DrawerEvent {
 interface DrawerCoordinator {
     val events: SharedFlow<DrawerEvent>
     val gesturesEnabled: StateFlow<Boolean>
+
     suspend fun toggleDrawer()
+    suspend fun closeDrawer()
     suspend fun sendEvent(event: DrawerEvent)
     fun setGesturesEnabled(value: Boolean)
 }

@@ -185,12 +185,22 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     LaunchedEffect(drawerCoordinator) {
         drawerCoordinator.events.onEach { evt ->
             when (evt) {
-                DrawerEvent.Toggled -> {
+                DrawerEvent.Toggle -> {
                     drawerState.apply {
                         launch {
                             if (isClosed) {
                                 open()
                             } else {
+                                close()
+                            }
+                        }
+                    }
+                }
+
+                DrawerEvent.Close -> {
+                    drawerState.apply {
+                        launch {
+                            if (!isClosed) {
                                 close()
                             }
                         }

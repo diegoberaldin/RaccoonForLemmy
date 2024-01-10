@@ -99,7 +99,7 @@ object ModalDrawerContent : Tab {
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe(NotificationCenterEvent.InstanceSelected::class).onEach {
                 // closes the navigation drawer after instance change
-                coordinator.toggleDrawer()
+                coordinator.closeDrawer()
             }.launchIn(this)
         }
 
