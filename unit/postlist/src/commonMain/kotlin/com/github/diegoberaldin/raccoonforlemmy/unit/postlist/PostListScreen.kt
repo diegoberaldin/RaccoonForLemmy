@@ -85,6 +85,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.postlist.components.PostsTopBar
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.SelectInstanceBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen

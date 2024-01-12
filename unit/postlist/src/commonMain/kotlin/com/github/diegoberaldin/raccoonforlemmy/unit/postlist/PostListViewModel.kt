@@ -26,7 +26,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -63,10 +63,6 @@ class PostListViewModel(
                 mvi.updateState {
                     it.copy(instance = instance)
                 }
-            }.launchIn(this)
-            apiConfigurationRepository.instance.drop(1).onEach { _ ->
-                refresh()
-                mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
@@ -111,6 +107,11 @@ class PostListViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.InstanceSelected::class).onEach {
+                refresh()
+                delay(100)
+                mvi.emitEffect(PostListMviModel.Effect.BackToTop)
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.BlockActionSelected::class)
                 .onEach { evt ->

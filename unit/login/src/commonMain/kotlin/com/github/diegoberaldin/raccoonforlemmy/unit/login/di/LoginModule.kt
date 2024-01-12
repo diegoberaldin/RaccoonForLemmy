@@ -15,6 +15,7 @@ val loginModule = module {
             siteRepository = get(),
             communityRepository = get(),
             apiConfigurationRepository = get(),
+            contentResetCoordinator = get(),
         )
     }
 }

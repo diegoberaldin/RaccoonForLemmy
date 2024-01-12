@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -22,6 +23,7 @@ class ManageAccountsViewModel(
     private val switchAccount: SwitchAccountUseCase,
     private val logout: LogoutUseCase,
     private val deleteAccount: DeleteAccountUseCase,
+    private val contentResetCoordinator: ContentResetCoordinator,
 ) : ManageAccountsMviModel,
     MviModel<ManageAccountsMviModel.Intent, ManageAccountsMviModel.UiState, ManageAccountsMviModel.Effect> by mvi {
 
@@ -75,6 +77,9 @@ class ManageAccountsViewModel(
         }
         mvi.scope?.launch(Dispatchers.IO) {
             switchAccount(account)
+            contentResetCoordinator.resetHome = true
+            contentResetCoordinator.resetExplore = true
+            contentResetCoordinator.resetInbox = true
             close()
         }
     }

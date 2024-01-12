@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.login
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -24,6 +25,7 @@ class LoginViewModel(
     private val accountRepository: AccountRepository,
     private val siteRepository: SiteRepository,
     private val communityRepository: CommunityRepository,
+    private val contentResetCoordinator: ContentResetCoordinator,
 ) : LoginMviModel,
     MviModel<LoginMviModel.Intent, LoginMviModel.UiState, LoginMviModel.Effect> by mvi {
 
@@ -158,6 +160,8 @@ class LoginViewModel(
                         jwt = auth
                     )
                 }
+                contentResetCoordinator.resetHome = true
+                contentResetCoordinator.resetExplore = true
                 withContext(Dispatchers.Main) {
                     mvi.emitEffect(LoginMviModel.Effect.LoginSuccess)
                 }
