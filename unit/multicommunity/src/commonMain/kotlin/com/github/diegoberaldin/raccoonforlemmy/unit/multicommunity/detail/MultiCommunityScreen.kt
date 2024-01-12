@@ -266,7 +266,7 @@ class MultiCommunityScreen(
                             }
                         }
                     }
-                    items(uiState.posts, { it.id.toString() + it.updateDate }) { post ->
+                    items(uiState.posts, { it.id.toString() + (it.updateDate ?: it.publishDate) }) { post ->
                         LaunchedEffect(post.id) {
                             if (settings.markAsReadWhileScrolling && !post.read) {
                                 model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))

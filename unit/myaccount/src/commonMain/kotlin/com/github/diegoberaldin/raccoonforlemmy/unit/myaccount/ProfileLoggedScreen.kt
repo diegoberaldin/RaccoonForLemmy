@@ -176,7 +176,7 @@ object ProfileLoggedScreen : Tab {
                             }
                             items(
                                 items = uiState.posts,
-                                key = { it.id.toString() + it.updateDate },
+                                key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { post ->
                                 PostCard(
                                     post = post,
@@ -324,7 +324,7 @@ object ProfileLoggedScreen : Tab {
                             }
                             items(
                                 items = uiState.comments,
-                                key = { it.id.toString() + it.updateDate },
+                                key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { comment ->
                                 CommentCard(modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,

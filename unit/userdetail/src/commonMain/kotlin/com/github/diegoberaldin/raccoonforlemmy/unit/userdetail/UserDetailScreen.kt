@@ -431,7 +431,7 @@ class UserDetailScreen(
                         }
                         items(
                             uiState.posts,
-                            { it.id.toString() + it.updateDate }) { post ->
+                            { it.id.toString() + (it.updateDate ?: it.publishDate) }) { post ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
@@ -701,8 +701,9 @@ class UserDetailScreen(
                             }
                         }
                         items(
-                            uiState.comments,
-                            { it.id.toString() + it.updateDate }) { comment ->
+                            items = uiState.comments,
+                            key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
+                        ) { comment ->
                             SwipeableCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,

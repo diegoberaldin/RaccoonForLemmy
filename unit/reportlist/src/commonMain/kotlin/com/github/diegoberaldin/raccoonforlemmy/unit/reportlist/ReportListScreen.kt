@@ -223,7 +223,7 @@ class ReportListScreen(
                             }
                             items(
                                 items = uiState.postReports,
-                                key = { it.id.toString() + it.updateDate + it.resolved + uiState.unresolvedOnly },
+                                key = { it.id.toString() + (it.updateDate ?: it.publishDate) + it.resolved + uiState.unresolvedOnly },
                             ) { report ->
                                 val endColor = MaterialTheme.colorScheme.secondary
                                 SwipeableCard(
@@ -331,7 +331,7 @@ class ReportListScreen(
                             }
                             items(
                                 uiState.commentReports,
-                                { it.id.toString() + it.updateDate },
+                                { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { report ->
                                 val endColor = MaterialTheme.colorScheme.secondary
                                 SwipeableCard(

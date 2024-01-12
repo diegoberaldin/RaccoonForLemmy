@@ -566,7 +566,7 @@ class PostDetailScreen(
                         }
                         items(
                             items = uiState.comments.filter { it.visible },
-                            key = { c -> c.id.toString() + c.updateDate },
+                            key = { c -> c.id.toString() + (c.updateDate ?: c.publishDate) },
                         ) { comment ->
                             Column {
                                 AnimatedContent(

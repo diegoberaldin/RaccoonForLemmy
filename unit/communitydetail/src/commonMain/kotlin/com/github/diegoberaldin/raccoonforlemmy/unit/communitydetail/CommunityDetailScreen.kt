@@ -535,7 +535,10 @@ class CommunityDetailScreen(
                                 }
                             }
                         }
-                        items(uiState.posts, { it.id.toString() + it.updateDate }) { post ->
+                        items(
+                            items = uiState.posts,
+                            key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
+                        ) { post ->
                             LaunchedEffect(post.id) {
                                 if (settings.markAsReadWhileScrolling && !post.read) {
                                     model.reduce(CommunityDetailMviModel.Intent.MarkAsRead(post.id))
