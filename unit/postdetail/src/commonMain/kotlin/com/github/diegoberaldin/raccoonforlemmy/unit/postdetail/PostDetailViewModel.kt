@@ -22,7 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyIte
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.populateLoadMoreComments
-import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.processCommentsToGetNestedOrder
+import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.sortToNestedOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -360,24 +360,25 @@ class PostDetailViewModel(
             instance = otherInstance,
             page = currentPage,
             sort = sort,
-        )?.processCommentsToGetNestedOrder(
-            ancestorId = null,
-        )?.populateLoadMoreComments()?.let { list ->
-            if (refreshing) {
-                list
-            } else {
-                list.filter { c1 ->
-                    // prevents accidental duplication
-                    currentState.comments.none { c2 -> c1.id == c2.id }
+        )
+            ?.sortToNestedOrder()
+            ?.populateLoadMoreComments()
+            ?.let { list ->
+                if (refreshing) {
+                    list
+                } else {
+                    list.filter { c1 ->
+                        // prevents accidental duplication
+                        currentState.comments.none { c2 -> c1.id == c2.id }
+                    }
                 }
+            }?.map {
+                it.copy(
+                    expanded = autoExpandComments,
+                    // only first level are visible and can be expanded
+                    visible = autoExpandComments || it.depth == 0
+                )
             }
-        }?.map {
-            it.copy(
-                expanded = autoExpandComments,
-                // only first level are visible and can be expanded
-                visible = autoExpandComments || it.depth == 0
-            )
-        }
 
         if (!itemList.isNullOrEmpty()) {
             currentPage++
@@ -429,12 +430,14 @@ class PostDetailViewModel(
                 parentId = parentId,
                 instance = otherInstance,
                 sort = sort,
-            )?.processCommentsToGetNestedOrder(
-                ancestorId = parentId.toString(),
-            )?.filter { c1 ->
-                // prevents accidental duplication
-                currentState.comments.none { c2 -> c2.id == c1.id }
-            }
+            )
+                ?.sortToNestedOrder(
+                    ancestorId = parentId,
+                )
+                ?.filter { c1 ->
+                    // prevents accidental duplication
+                    currentState.comments.none { c2 -> c2.id == c1.id }
+                }
 
             val commentsToInsert = fetchResult.orEmpty()
             if (commentsToInsert.isEmpty()) {
