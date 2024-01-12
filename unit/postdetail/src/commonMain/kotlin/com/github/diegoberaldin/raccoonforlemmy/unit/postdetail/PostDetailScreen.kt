@@ -1085,7 +1085,7 @@ class PostDetailScreen(
                                 )
 
                                 // load more button
-                                if (comment.loadMoreButtonVisible) {
+                                if (comment.loadMoreButtonVisible && comment.expanded) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.Center,

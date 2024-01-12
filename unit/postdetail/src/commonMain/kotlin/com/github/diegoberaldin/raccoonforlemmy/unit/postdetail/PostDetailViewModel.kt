@@ -21,6 +21,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortT
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
+import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.populateLoadMoreComments
+import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.processCommentsToGetNestedOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -664,7 +666,7 @@ class PostDetailViewModel(
                         }
 
                         c.path.contains(".$commentId.") && c.depth > comment.depth -> {
-                            // if expanded, make all childern visible and expanded
+                            // if expanded, make all children visible and expanded
                             // otherwise, make all children not visible (doesn't matter expanded)
                             if (newExpanded) {
                                 c.copy(visible = true, expanded = true)

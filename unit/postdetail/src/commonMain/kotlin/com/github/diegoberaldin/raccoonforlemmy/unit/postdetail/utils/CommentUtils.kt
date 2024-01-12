@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.postdetail
+package com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils
 
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 
