@@ -18,21 +18,19 @@ project in under continuous development and evolution (hopefully), so is this gu
 will be added and new answers will be provided as long as questions are submitted.
 
 - [section 1](#1-project-overview) will provide a general overview about the project and its
-  contributors: who we are, what we are trying to achieve, why are we doing it and how.
+  contributors: who we are, what we are trying to achieve, why are we doing it and how;
 - [section 2](#2-community) illustrates the core values that are behind this project, its key goals
-  and an acknowledgement to all the people who helped us to achieve those targets.
+  and an acknowledgement to all the people who helped us to achieve those targets;
 - [section 3](#3-how-tos) is a collection of operative instructions for those who want to
   contribute, either reporting bugs, asking for new features, submitting feedback, contributing with
-  code,
-  documentation or translations
+  code, documentation or translations;
 - [section 4](#4-setup-the-development-environment) is dedicated to developers wanting to build the
-  project locally in order to submit pull requests
+  project locally in order to submit pull requests;
 - [section 5](#5-project-structure) contains a technical illustration of the tech stack used in the
-  project, the architectural design used in the various features and how the project is broken down
-  into discrete components that interact with each other
-- [section 6](#6-coding-conventions) contains the coding conventions that you should follow when
-  submitting PRs, because readability and consistency matter and there are some rules (with
-  exceptions) that should ideally be followed everywhere.
+  project how the project is broken down into discrete components that interact with each other;
+- [section 6](#6-coding-conventions) contains the architectural patterns used in the project and the
+  coding conventions you should follow when submitting PRs, because readability and consistency
+  matter and there are some rules (with exceptions) that should ideally be followed everywhere.
 
 ## 1 Project overview
 
@@ -358,22 +356,202 @@ support custom Markdown features, such as Lemmy spoilers. For this reason, the A
 has been completely refactored and migrated to the <a href="https://github.com/noties/Markwon">Markwon</a>
 library which is more flexible/extensible albeit more complicated to use, especially if called from 
 a multiplatform environment with `expect`/`actual` functions (and image opening/URL opening/custom links
-like Lemmy URL references have to be managed). The big star here is MarkwonProvider and its implementation
+like Lemmy URL references have to be managed). The big star here is `MarkwonProvider` and its implementation
 <a href="https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/md/src/androidMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/markdown/provider/DefaultMarkwonProvider.kt">DefaultMarkwonProvider.kt</a>.
 Parts of the Markwon configuration and usage is inspired by <a href="https://github.com/dessalines/jerboa">Jerboa for Lemmy</a>.
+</dd>
+<dt>Video playback</dt>
+<dd>
+This had to be native, the Android implementation relies on `Exoplayer` whereas the iOS implementation
+on `AVPlayer` as usual.
+</dd>
+<dt>Theme generation</dt>
+<dd>
+The application allows to select a custom color and generate a Material 3 color scheme as a
+palette originate from that seed color. This is achieved by using the <a href="https://github.com/jordond/MaterialKolor">MaterialKolor</a>
+library which was designed to be multiplatform and works as a charm for the purpose. Thanks!
 </dd>
 </dl>
 
 ### 5.2 Module overview and dependencies
 
-### 5.3 Architectural patterns
+The project is organized as a multi-module Gradle projects, meaning that it is split into a series
+of interdependent Gradle subprojects and that there is a module hierarchy in which multiple levels.
+
+The modules can be grouped into five groups:
+
+- **top-level and special modules**: these modules are tied to the project setup and contain either
+  the entry point of the app (include everything) or expose the application resources (are included
+  by everyone and do not include anyone).
+- **feature modules**: these that correspond to the main functions of the application, i.e. the
+  five tabs that can be found in the tab bar that live independently and made up the basic
+  structure. Feature modules can be included by top-level modules but can not include each other.
+  They can include domain modules, unit modules or core modules.
+- **domain modules**: a series of purely business logic modules containing code related to specific
+  domains such as user identity management, all the Lemmy specific business logic (APIs and inbox).
+  Domain modules can only include core modules and can be included by feature modules, unit modules
+  or top-level ones.
+- **unit modules**: reusable parts of the application containing UI components and a thin layer of
+  presentation logic that are used to render the various screens, bottom sheets and dialogs of the
+  application, grouped by feature so that each block can be called from multiple points. Unit
+  modules are used by feature modules and can include domain modules, core modules or in some
+  limited cases other unit modules (but never cyclically!).
+- **core modules** are the foundational layer of the application. They are included by unit modules,
+  feature modules, domain modules and top-level modules. They should not include anything except the
+  `:resources` modules and, in some rare occasions, other core modules (but never cyclically!). A
+  notable example of this is the `:core:md module` (Markdown rendering) that includes
+  `:core:commonui:components` because Markdown requires some custom UI components to be rendered.
+
+#### 5.2.1 Special and top-level modules
+
+The main module (Android-specific) is `:androidApp`, which contains the Application
+subclass (`MainApplication`) and the main activity (`MainActivity`). The latter in
+its `onCreate(Bundle?)` invokes the `MainView` Composable function which in turns calls `App`, the
+main entry point of the multiplatform application which is defined in the `:shared` module.
+
+`:shared` is the top module of the multiplatform application, which includes all the other modules
+and is not included by anything (except `:androidApp`). In its `commonMain` source set, this module
+contains `App`, the application entry point, the definition on the `MainScreen` (and its ViewModel)
+hosting the main navigation with the bottom tab bar. Another important part of this module resides
+in the platform specific source sets (`androidMain` and `iosMain` respectively) where
+two `DiHelper.kt` files (one for each platform) can be found, which contain the setup of the root of
+the project's dependency injection in a platform specific way, an initialization function on iOS and
+a Koin module for Android (which is included in `MainApplication`).
+
+Another special module is `:resources`, which in turn is a terminal module, included by every other
+module and not including anyone. It is the module that contains the app resources (drawables, fonts,
+l10ns) and uses the moko-resources library to generate the `MR` object that exposes resource
+descriptors to all other multiplatform subprojects.
+
+#### 5.2.2 Feature modules
+
+These modules correspond to the main functions of the application, i.e. the sections of the main
+bottom navigation. In particular:
+
+- `:feature:home` contains the post list tab;
+- `:feature:search` contains the Explore tab;
+- `:feature:inbox` contains the Inbox tab;
+- `:feature:profile` contains the Profile tab;
+- `:feature:settings` contains the Settings tab.
+
+#### 5.2.3 Domain modules
+
+These are purely business logic modules that can be reused to provide application main parts:
+
+- `:domain:identity` contains the repositories and use cases that are related to user identity,
+  authorization and API configuration;
+- `:domain:lemmy` contains all the Lemmy API interaction logic and is divided into two submodules:
+    - `:data` contains all the domain models for Lemmy entities (posts, comments, communities,
+      users,
+      etc);
+    - `:repository` contains the repositories that access Lemmy APIs (through the :core:api module)
+      and are used to manage the entities contained in the :data module;
+- `:domain:inbox` contains some uses cases needed to interact with the replies, mentions and private
+  messages repositories and coordinate the interaction between inbox-related app components.
+
+#### 5.2.4 Unit modules
+
+These modules are the building blocks that are used to create user-visible parts of the application,
+i.e. the various screens, some of which are reusable in multiple points (e.g. the user detail,
+community detail or post detail, but also report/post/comment creation forms, etc.). In some cases
+even a dialog or a bottom-sheet can become a "unit", especially if it is used in multiple points or
+contains a little more than pure UI (e.g. some presentation logic); simple pure-UI dialogs and
+sheets are located in the `:core:commonui:modals` module instead (but are being progressively
+converted to separate units).
+
+Here is a list of the main unit modules and their purpose:
+
+- `:unit:about` contains the About this app dialog
+- `:unit:accountsettings` contains the screen of the remote account settings (web preferences)
+- `:unit:ban` contains the modal bottom sheet used to ban a user from a community
+- `:unit:chat` contains the chat conversation screen
+- `:unit:choosecolor` contains the dialogs and bottom sheets used for theme/color selection
+- `:unit:communitydetail` contains the community detail screen
+- `:unit:communityinfo` contains the community info bottom sheet accessible from community detail
+- `:unit:createcomment` contains the create comment form
+- `:unit:createpost` contains the create post form
+- `:unit:drawer` contains the navigation drawer
+- `:unit:instanceinfo` contains the instance info bottom sheet with the list of communities
+- `:unit:login` contains the login modal bottom sheet
+- `:unit:manageaccounts` contains the modal bottom sheet used to change account
+- `:unit:manageban` contains the ban management screen
+- `:unit:managesubscriptions` contains the subscription management screen
+- `:unit:mentions` contains the mentions section of the Inbox tab
+- `:unit:messages` contains the private messages section of the Inbox tab
+- `:unit:modlog` contains the moderation log screen
+- `:unit:multicommunity` contains the multi-community detail and multi-community editor screens
+- `:unit:myaccount` contains the profile logged section of the Profile tab
+- `:unit:postdetail` contains the post detail screen
+- `:unit:postlist` contains the post list (home) screen
+- `:unit:rawcontent` contains the "Raw content" dialog with the custom (Android) text toolbar
+- `:unit:remove` contains the modal bottom sheet to remove a content (for moderators)
+- `:unit:replies` contains the replies section of the Inbox tab
+- `:unit:reportlist` contains the report list screen (for moderators)
+- `:unit:saveditems` contains the saved items screen
+- `:unit:selectcommunity` contains the dialog used to select communities (for cross-posts)
+- `:unit:selectinstance` contains the bottom sheet used to change instance in anonymous mode
+- `:unit:userdetail` contains the user detail screen
+- `:unit:userinfo` contains the user information bottom sheet accessible from user detail
+- `:unit:web` contains the internal WebView screen
+- `:unit:zoomableimage` contains the image detail screen used to display full-screen images.
+
+#### 5.2.5 Core modules
+
+These are the foundational blocks containing the design system and various reusable utilities that
+are called throughout the whole project. Here is a short description of them:
+
+- `:core:api` contains the Ktorfit services used to interact with Lemmy APIs and all the data
+  transfer objects (DTOs) used to send and receive data from the APIs;
+- `:core:appearance` contains the look and feel repository which exposes the information about the
+  current theme as observable states and allows to change them;
+- `:core:architecture` contains the building blocks for the Model-View-Intent architecture used in
+  all the screens of the application (see the section
+  about [architectural patterns](#61-architectural-patterns));
+- `:core:commonui` contains a series of sub-modules that are used to define UI components used in
+  the app and reusable UI blocks:
+    - `:components`: a collection of components that represent graphical widgets
+    - `:detailopener-api` : a utility module used to expose an API to centralize content opening (
+      post detail, community, detail, user detail, comment creation and post creation)
+    - `:detailopener-impl`: implementation of the detail opener, this is an exception to the module
+      architecture because it is a core module which includes unit modules so the important thing is
+      that no one **ever** include this module except for `:shared`;
+    - `:lemmyui`: graphical components used to represent Lemmy UI (posts, comments, inbox items,
+      etc.) and reusable sub-components such as different types of headers, footers, cards, etc.
+    - `:modals`: definition of modal bottom sheets and dialogs that have no presentation logic. This
+      module was historically much bigger and over time components were migrated to separate units
+      modules;
+- `:core:md` contains Markdown rendering components;
+- `:core:navigation` contains the navigation manager used for stack navigation, bottom sheet
+  navigation and a coordinator for the events originated by the navigation drawer;
+- `:core:notifications` contains the NotificationCenter contract and implementation as well as the
+  event definition, this is used as an event bus throughout the whole project;
+- `:core:persistence` contains the local database (primary storage) management logic as well as
+  SQLDelight definitions of entities and migrations, plus all the local data sources that are used
+  to access the database;
+- `:core:preferences` contains the shared preferences/user defaults (secondary storage) and relies
+  on the multiplatform-settings library to offer a temporary key-value store;
+- `:core:utils`: contains a series of helper and utility functions/classes that are used in the
+  project but were not big enough to be converted to separate domain/core modules on their own.
+
+On second thoughts:
+
+- the `:resources `module could have been a `:core:xxx` module but I followed the guide of the
+  moko-resources library and thought it was wiser not to divert too much from the standard
+  configuration;
+- `:core:commonui` has still too much in it, especially `:modals` packages should become unit
+  modules;
+- `:core:persistence` belongs more to domain modules, e.g. `:domain:accounts`/`:domain:settings` but
+  it is implemented as a core module because is is strongly tied to SQLDelight and its generated
+  code which provides the named queries to fetch/save data to the local DB.
 
 ## 6. Coding conventions
 
-### 6.1 Modularization strategy
+### 6.1 Architectural patterns
 
-### 6.2 General Kotlin rules
+### 6.2 Modularization strategy
 
-### 6.3 Compose rules
+### 6.3 General Kotlin rules
 
-### 6.4 Test structure
+### 6.4 Compose rules
+
+### 6.5 Test structure
