@@ -70,7 +70,7 @@ fun InboxReplySubtitle(
     onDownVote: (() -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
+    val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
     val themeRepository = remember { getThemeRepository() }
     val upvoteColor by themeRepository.upvoteColor.collectAsState()
     val downvoteColor by themeRepository.downvoteColor.collectAsState()
@@ -181,18 +181,23 @@ fun InboxReplySubtitle(
         Box {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                Icon(
-                    modifier = buttonModifier,
-                    imageVector = Icons.Default.Schedule,
-                    contentDescription = null,
-                    tint = ancillaryColor,
-                )
-                Text(
-                    text = date?.prettifyDate() ?: "",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = ancillaryColor,
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        modifier = buttonModifier,
+                        imageVector = Icons.Default.Schedule,
+                        contentDescription = null,
+                        tint = ancillaryColor,
+                    )
+                    Text(
+                        text = date?.prettifyDate() ?: "",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = ancillaryColor,
+                    )
+                }
                 if (options.isNotEmpty()) {
                     Icon(
                         modifier = Modifier.size(IconSize.m)
@@ -212,10 +217,7 @@ fun InboxReplySubtitle(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 FeedbackButton(
-                    modifier = buttonModifier
-                        .onClick(
-
-                        ),
+                    modifier = buttonModifier.onClick(),
                     imageVector = Icons.Default.ArrowCircleUp,
                     tintColor = if (upVoted) {
                         upvoteColor ?: defaultUpvoteColor
@@ -241,10 +243,7 @@ fun InboxReplySubtitle(
                     color = ancillaryColor,
                 )
                 FeedbackButton(
-                    modifier = buttonModifier
-                        .onClick(
-
-                        ),
+                    modifier = buttonModifier.onClick(),
                     imageVector = Icons.Default.ArrowCircleDown,
                     tintColor = if (downVoted) {
                         downvoteColor ?: defaultDownVoteColor

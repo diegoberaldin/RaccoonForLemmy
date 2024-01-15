@@ -117,7 +117,7 @@ internal fun MessageCard(
                     )
                     Box {
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                            horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             if (options.isNotEmpty()) {
@@ -140,18 +140,22 @@ internal fun MessageCard(
                             Spacer(modifier = Modifier.weight(1f))
 
                             if (date.isNotEmpty()) {
-                                val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
-                                Icon(
-                                    modifier = buttonModifier,
-                                    imageVector = Icons.Default.Schedule,
-                                    contentDescription = null,
-                                    tint = ancillaryColor,
-                                )
-                                Text(
-                                    text = date.prettifyDate(),
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = ancillaryColor,
-                                )
+                                val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Icon(
+                                        modifier = buttonModifier,
+                                        imageVector = Icons.Default.Schedule,
+                                        contentDescription = null,
+                                        tint = ancillaryColor,
+                                    )
+                                    Text(
+                                        text = date.prettifyDate(),
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = ancillaryColor,
+                                    )
+                                }
                             } else {
                                 Text(
                                     text = "",

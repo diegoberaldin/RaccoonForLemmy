@@ -156,18 +156,22 @@ internal fun ChatCard(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
-                        Icon(
-                            modifier = buttonModifier.padding(1.dp),
-                            imageVector = Icons.Default.Schedule,
-                            contentDescription = null,
-                            tint = ancillaryColor,
-                        )
-                        Text(
-                            text = lastMessageDate.prettifyDate(),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = ancillaryColor,
-                        )
+                        val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                modifier = buttonModifier.padding(1.dp),
+                                imageVector = Icons.Default.Schedule,
+                                contentDescription = null,
+                                tint = ancillaryColor,
+                            )
+                            Text(
+                                text = lastMessageDate.prettifyDate(),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = ancillaryColor,
+                            )
+                        }
                         Spacer(modifier = Modifier.weight(1f))
                         if (options.isNotEmpty()) {
                             Icon(

@@ -182,7 +182,7 @@ private fun ReportFooter(
     onOpenResolve: (() -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
+    val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
@@ -190,18 +190,23 @@ private fun ReportFooter(
     Box {
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
-            Icon(
-                modifier = buttonModifier,
-                imageVector = Icons.Default.Schedule,
-                contentDescription = null,
-                tint = ancillaryColor,
-            )
-            Text(
-                text = date?.prettifyDate() ?: "",
-                style = MaterialTheme.typography.labelLarge,
-                color = ancillaryColor,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    modifier = buttonModifier,
+                    imageVector = Icons.Default.Schedule,
+                    contentDescription = null,
+                    tint = ancillaryColor,
+                )
+                Text(
+                    text = date?.prettifyDate() ?: "",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = ancillaryColor,
+                )
+            }
             if (options.isNotEmpty()) {
                 Icon(
                     modifier = Modifier.size(IconSize.m)

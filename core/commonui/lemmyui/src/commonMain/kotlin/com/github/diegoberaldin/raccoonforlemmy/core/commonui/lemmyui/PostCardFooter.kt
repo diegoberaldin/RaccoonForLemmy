@@ -81,38 +81,46 @@ fun PostCardFooter(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
-            val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
+            val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
             if (comments != null) {
-                Image(
-                    modifier = buttonModifier.padding(1.dp)
-                        .onClick(
-                            onClick = rememberCallback {
-                                onReply?.invoke()
-                            },
-                        ),
-                    imageVector = Icons.Default.Chat,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(color = ancillaryColor),
-                )
-                Text(
-                    modifier = Modifier.padding(end = Spacing.s),
-                    text = "$comments",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = ancillaryColor,
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Image(
+                        modifier = buttonModifier.padding(1.dp)
+                            .onClick(
+                                onClick = rememberCallback {
+                                    onReply?.invoke()
+                                },
+                            ),
+                        imageVector = Icons.Default.Chat,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(color = ancillaryColor),
+                    )
+                    Text(
+                        modifier = Modifier.padding(end = Spacing.s),
+                        text = "$comments",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = ancillaryColor,
+                    )
+                }
             }
             if (date != null) {
-                Icon(
-                    modifier = buttonModifier.padding(1.dp),
-                    imageVector = Icons.Default.Schedule,
-                    contentDescription = null,
-                    tint = ancillaryColor,
-                )
-                Text(
-                    text = date.prettifyDate(),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = ancillaryColor,
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        modifier = buttonModifier,
+                        imageVector = Icons.Default.Schedule,
+                        contentDescription = null,
+                        tint = ancillaryColor,
+                    )
+                    Text(
+                        text = date.prettifyDate(),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = ancillaryColor,
+                    )
+                }
             }
             if (options.isNotEmpty()) {
                 Icon(
