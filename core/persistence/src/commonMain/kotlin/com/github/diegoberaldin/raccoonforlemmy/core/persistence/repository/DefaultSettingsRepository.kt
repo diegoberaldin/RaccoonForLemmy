@@ -35,7 +35,7 @@ private object KeyStoreKeys {
     const val AutoLoadImages = "autoLoadImages"
     const val AutoExpandComments = "autoExpandComments"
     const val FullHeightImages = "fullHeightImages"
-    const val UpvoteColor = "upvoteColor"
+    const val UpVoteColor = "upVoteColor"
     const val DownVoteColor = "downVoteColor"
     const val HideNavigationBarWhileScrolling = "hideNavigationBarWhileScrolling"
     const val ZombieModeInterval = "zombieModeInterval"
@@ -85,8 +85,8 @@ internal class DefaultSettingsRepository(
                 autoLoadImages = if (settings.autoLoadImages) 1 else 0,
                 autoExpandComments = if (settings.autoExpandComments) 1 else 0,
                 fullHeightImages = if (settings.fullHeightImages) 1 else 0,
-                upvoteColor = settings.upvoteColor?.toLong(),
-                downvoteColor = settings.downvoteColor?.toLong(),
+                upvoteColor = settings.upVoteColor?.toLong(),
+                downvoteColor = settings.downVoteColor?.toLong(),
                 hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1 else 0,
                 zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
                 zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
@@ -130,8 +130,8 @@ internal class DefaultSettingsRepository(
                     autoLoadImages = keyStore[KeyStoreKeys.AutoLoadImages, true],
                     autoExpandComments = keyStore[KeyStoreKeys.AutoExpandComments, true],
                     fullHeightImages = keyStore[KeyStoreKeys.FullHeightImages, true],
-                    upvoteColor = if (!keyStore.containsKey(KeyStoreKeys.UpvoteColor)) null else keyStore[KeyStoreKeys.UpvoteColor, 0],
-                    downvoteColor = if (!keyStore.containsKey(KeyStoreKeys.DownVoteColor)) null else keyStore[KeyStoreKeys.DownVoteColor, 0],
+                    upVoteColor = if (!keyStore.containsKey(KeyStoreKeys.UpVoteColor)) null else keyStore[KeyStoreKeys.UpVoteColor, 0],
+                    downVoteColor = if (!keyStore.containsKey(KeyStoreKeys.DownVoteColor)) null else keyStore[KeyStoreKeys.DownVoteColor, 0],
                     hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HideNavigationBarWhileScrolling, true],
                     zombieModeInterval = keyStore[KeyStoreKeys.ZombieModeInterval, 1000].milliseconds,
                     zombieModeScrollAmount = keyStore[KeyStoreKeys.ZombieModeScrollAmount, 55f],
@@ -194,13 +194,13 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.AutoLoadImages, settings.autoLoadImages)
                 keyStore.save(KeyStoreKeys.AutoExpandComments, settings.autoExpandComments)
                 keyStore.save(KeyStoreKeys.FullHeightImages, settings.fullHeightImages)
-                if (settings.upvoteColor != null) {
-                    keyStore.save(KeyStoreKeys.UpvoteColor, settings.upvoteColor)
+                if (settings.upVoteColor != null) {
+                    keyStore.save(KeyStoreKeys.UpVoteColor, settings.upVoteColor)
                 } else {
-                    keyStore.remove(KeyStoreKeys.UpvoteColor)
+                    keyStore.remove(KeyStoreKeys.UpVoteColor)
                 }
-                if (settings.downvoteColor != null) {
-                    keyStore.save(KeyStoreKeys.DownVoteColor, settings.downvoteColor)
+                if (settings.downVoteColor != null) {
+                    keyStore.save(KeyStoreKeys.DownVoteColor, settings.downVoteColor)
                 } else {
                     keyStore.remove(KeyStoreKeys.DownVoteColor)
                 }
@@ -263,8 +263,8 @@ internal class DefaultSettingsRepository(
                     autoExpandComments = if (settings.autoExpandComments) 1L else 0L,
                     fullHeightImages = if (settings.fullHeightImages) 1L else 0L,
                     account_id = accountId,
-                    upvoteColor = settings.upvoteColor?.toLong(),
-                    downvoteColor = settings.downvoteColor?.toLong(),
+                    upvoteColor = settings.upVoteColor?.toLong(),
+                    downvoteColor = settings.downVoteColor?.toLong(),
                     hideNavigationBarWhileScrolling = if (settings.hideNavigationBarWhileScrolling) 1L else 0L,
                     zombieModeInterval = settings.zombieModeInterval.inWholeMilliseconds,
                     zombieModeScrollAmount = settings.zombieModeScrollAmount.toDouble(),
@@ -309,8 +309,8 @@ private fun GetBy.toModel() = SettingsModel(
     autoLoadImages = autoLoadImages != 0L,
     autoExpandComments = autoExpandComments != 0L,
     fullHeightImages = fullHeightImages != 0L,
-    upvoteColor = upvoteColor?.toInt(),
-    downvoteColor = downvoteColor?.toInt(),
+    upVoteColor = upvoteColor?.toInt(),
+    downVoteColor = downvoteColor?.toInt(),
     hideNavigationBarWhileScrolling = hideNavigationBarWhileScrolling != 0L,
     zombieModeInterval = zombieModeInterval.milliseconds,
     zombieModeScrollAmount = zombieModeScrollAmount.toFloat(),

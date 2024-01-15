@@ -144,8 +144,8 @@ class UserDetailScreen(
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val themeRepository = remember { getThemeRepository() }
-        val upvoteColor by themeRepository.upvoteColor.collectAsState()
-        val downvoteColor by themeRepository.downvoteColor.collectAsState()
+        val upVoteColor by themeRepository.upVoteColor.collectAsState()
+        val downVoteColor by themeRepository.downVoteColor.collectAsState()
         val replyColor by themeRepository.replyColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultReplyColor = MaterialTheme.colorScheme.secondary
@@ -452,10 +452,10 @@ class UserDetailScreen(
                                 },
                                 backgroundColor = rememberCallbackArgs { direction ->
                                     when (direction) {
-                                        DismissValue.DismissedToStart -> upvoteColor
+                                        DismissValue.DismissedToStart -> upVoteColor
                                             ?: defaultUpvoteColor
 
-                                        DismissValue.DismissedToEnd -> downvoteColor
+                                        DismissValue.DismissedToEnd -> downVoteColor
                                             ?: defaultDownVoteColor
 
                                         else -> Color.Transparent
@@ -724,10 +724,10 @@ class UserDetailScreen(
                                 },
                                 backgroundColor = rememberCallbackArgs { direction ->
                                     when (direction) {
-                                        DismissValue.DismissedToStart -> upvoteColor
+                                        DismissValue.DismissedToStart -> upVoteColor
                                             ?: defaultUpvoteColor
 
-                                        DismissValue.DismissedToEnd -> downvoteColor
+                                        DismissValue.DismissedToEnd -> downVoteColor
                                             ?: defaultDownVoteColor
 
                                         else -> Color.Transparent

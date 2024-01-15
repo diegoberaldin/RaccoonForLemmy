@@ -54,8 +54,8 @@ fun PostCardFooter(
     comments: Int? = null,
     date: String? = null,
     score: Int = 0,
-    upvotes: Int = 0,
-    downvotes: Int = 0,
+    upVotes: Int = 0,
+    downVotes: Int = 0,
     saved: Boolean = false,
     upVoted: Boolean = false,
     downVoted: Boolean = false,
@@ -70,8 +70,8 @@ fun PostCardFooter(
 ) {
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     val themeRepository = remember { getThemeRepository() }
-    val upvoteColor by themeRepository.upvoteColor.collectAsState()
-    val downvoteColor by themeRepository.downvoteColor.collectAsState()
+    val upVoteColor by themeRepository.upVoteColor.collectAsState()
+    val downVoteColor by themeRepository.downVoteColor.collectAsState()
     val defaultUpvoteColor = MaterialTheme.colorScheme.primary
     val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
@@ -166,7 +166,7 @@ fun PostCardFooter(
                     Icons.Default.ArrowUpward
                 },
                 tintColor = if (upVoted) {
-                    upvoteColor ?: defaultUpvoteColor
+                    upVoteColor ?: defaultUpvoteColor
                 } else {
                     ancillaryColor
                 },
@@ -178,10 +178,10 @@ fun PostCardFooter(
                 text = formatToReadableValue(
                     voteFormat = voteFormat,
                     score = score,
-                    upvotes = upvotes,
-                    downvotes = downvotes,
-                    upvoteColor = upvoteColor ?: defaultUpvoteColor,
-                    downvoteColor = downvoteColor ?: defaultDownVoteColor,
+                    upVotes = upVotes,
+                    downVotes = downVotes,
+                    upVoteColor = upVoteColor ?: defaultUpvoteColor,
+                    downVoteColor = downVoteColor ?: defaultDownVoteColor,
                     upVoted = upVoted,
                     downVoted = downVoted,
                 ),
@@ -196,7 +196,7 @@ fun PostCardFooter(
                     Icons.Default.ArrowDownward
                 },
                 tintColor = if (downVoted) {
-                    downvoteColor ?: defaultDownVoteColor
+                    downVoteColor ?: defaultDownVoteColor
                 } else {
                     ancillaryColor
                 },

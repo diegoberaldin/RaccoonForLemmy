@@ -36,28 +36,28 @@ fun VoteFormat.toReadableName(): String = when (this) {
 fun formatToReadableValue(
     voteFormat: VoteFormat,
     score: Int,
-    upvotes: Int,
-    downvotes: Int,
-    upvoteColor: Color,
-    downvoteColor: Color,
+    upVotes: Int,
+    downVotes: Int,
+    upVoteColor: Color,
+    downVoteColor: Color,
     upVoted: Boolean = false,
     downVoted: Boolean = false,
 ): AnnotatedString = buildAnnotatedString {
     when (voteFormat) {
         VoteFormat.Percentage -> {
-            val totalVotes = upvotes + downvotes
-            val percVote = if (totalVotes == 0) 0.0 else upvotes.toDouble() / totalVotes
+            val totalVotes = upVotes + downVotes
+            val percVote = if (totalVotes == 0) 0.0 else upVotes.toDouble() / totalVotes
             val text = "${(percVote * 100).toInt()} %"
             append(text)
             if (upVoted) {
                 addStyle(
-                    style = SpanStyle(color = upvoteColor),
+                    style = SpanStyle(color = upVoteColor),
                     start = 0,
                     end = text.length
                 )
             } else if (downVoted) {
                 addStyle(
-                    style = SpanStyle(color = downvoteColor),
+                    style = SpanStyle(color = downVoteColor),
                     start = 0,
                     end = length
                 )
@@ -65,21 +65,21 @@ fun formatToReadableValue(
         }
 
         VoteFormat.Separated -> {
-            val upvoteText = upvotes.toString()
+            val upvoteText = upVotes.toString()
             append(upvoteText)
             if (upVoted) {
                 addStyle(
-                    style = SpanStyle(color = upvoteColor),
+                    style = SpanStyle(color = upVoteColor),
                     start = 0,
                     end = upvoteText.length
                 )
             }
             append(" / ")
-            val downvoteText = downvotes.toString()
+            val downvoteText = downVotes.toString()
             append(downvoteText)
             if (downVoted) {
                 addStyle(
-                    style = SpanStyle(color = downvoteColor),
+                    style = SpanStyle(color = downVoteColor),
                     start = upvoteText.length + 3,
                     end = upvoteText.length + 3 + downvoteText.length
                 )
@@ -91,13 +91,13 @@ fun formatToReadableValue(
             append(text)
             if (upVoted) {
                 addStyle(
-                    style = SpanStyle(color = upvoteColor),
+                    style = SpanStyle(color = upVoteColor),
                     start = 0,
                     end = text.length
                 )
             } else if (downVoted) {
                 addStyle(
-                    style = SpanStyle(color = downvoteColor),
+                    style = SpanStyle(color = downVoteColor),
                     start = 0,
                     end = length
                 )

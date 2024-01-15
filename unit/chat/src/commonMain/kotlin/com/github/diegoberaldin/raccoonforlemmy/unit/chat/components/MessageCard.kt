@@ -38,7 +38,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Customi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
-import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
@@ -63,7 +62,6 @@ internal fun MessageCard(
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
-    val navigationCoordinator = remember { getNavigationCoordinator() }
 
     Box {
         Canvas(

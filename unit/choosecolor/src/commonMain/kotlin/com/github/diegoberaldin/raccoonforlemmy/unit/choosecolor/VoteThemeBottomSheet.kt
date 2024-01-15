@@ -178,11 +178,11 @@ class VoteThemeBottomSheet(
                 }
 
                 1 -> {
-                    settingsRepository.currentSettings.value.downvoteColor?.let { Color(it) }
+                    settingsRepository.currentSettings.value.downVoteColor?.let { Color(it) }
                 }
 
                 else -> {
-                    settingsRepository.currentSettings.value.upvoteColor?.let { Color(it) }
+                    settingsRepository.currentSettings.value.upVoteColor?.let { Color(it) }
                 }
             }
             ColorPickerDialog(

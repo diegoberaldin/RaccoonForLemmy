@@ -151,8 +151,8 @@ class PostDetailScreen(
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
         val themeRepository = remember { getThemeRepository() }
-        val upvoteColor by themeRepository.upvoteColor.collectAsState()
-        val downvoteColor by themeRepository.downvoteColor.collectAsState()
+        val upVoteColor by themeRepository.upVoteColor.collectAsState()
+        val downVoteColor by themeRepository.downVoteColor.collectAsState()
         val replyColor by themeRepository.replyColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultReplyColor = MaterialTheme.colorScheme.secondary
@@ -596,10 +596,10 @@ class PostDetailScreen(
                                             },
                                             backgroundColor = rememberCallbackArgs { direction ->
                                                 when (direction) {
-                                                    DismissValue.DismissedToStart -> upvoteColor
+                                                    DismissValue.DismissedToStart -> upVoteColor
                                                         ?: defaultUpvoteColor
 
-                                                    DismissValue.DismissedToEnd -> downvoteColor
+                                                    DismissValue.DismissedToEnd -> downVoteColor
                                                         ?: defaultDownVoteColor
 
                                                     DismissValue.Default -> Color.Transparent

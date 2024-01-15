@@ -110,8 +110,8 @@ class MultiCommunityScreen(
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val themeRepository = remember { getThemeRepository() }
-        val upvoteColor by themeRepository.upvoteColor.collectAsState()
-        val downvoteColor by themeRepository.downvoteColor.collectAsState()
+        val upVoteColor by themeRepository.upVoteColor.collectAsState()
+        val downVoteColor by themeRepository.downVoteColor.collectAsState()
         val replyColor by themeRepository.replyColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultReplyColor = MaterialTheme.colorScheme.secondary
@@ -284,10 +284,10 @@ class MultiCommunityScreen(
                             },
                             backgroundColor = {
                                 when (it) {
-                                    DismissValue.DismissedToStart -> upvoteColor
+                                    DismissValue.DismissedToStart -> upVoteColor
                                         ?: defaultUpvoteColor
 
-                                    DismissValue.DismissedToEnd -> downvoteColor
+                                    DismissValue.DismissedToEnd -> downVoteColor
                                         ?: defaultDownVoteColor
 
                                     DismissValue.Default -> Color.Transparent

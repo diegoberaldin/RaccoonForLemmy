@@ -84,11 +84,11 @@ class SettingsViewModel(
             themeRepository.postLayout.onEach { value ->
                 mvi.updateState { it.copy(postLayout = value) }
             }.launchIn(this)
-            themeRepository.upvoteColor.onEach { value ->
-                mvi.updateState { it.copy(upvoteColor = value) }
+            themeRepository.upVoteColor.onEach { value ->
+                mvi.updateState { it.copy(upVoteColor = value) }
             }.launchIn(this)
-            themeRepository.downvoteColor.onEach { value ->
-                mvi.updateState { it.copy(downvoteColor = value) }
+            themeRepository.downVoteColor.onEach { value ->
+                mvi.updateState { it.copy(downVoteColor = value) }
             }.launchIn(this)
             themeRepository.replyColor.onEach { value ->
                 mvi.updateState { it.copy(replyColor = value) }
@@ -515,7 +515,7 @@ class SettingsViewModel(
         themeRepository.changeUpvoteColor(value)
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                upvoteColor = value?.toArgb()
+                upVoteColor = value?.toArgb()
             )
             saveSettings(settings)
         }
@@ -525,7 +525,7 @@ class SettingsViewModel(
         themeRepository.changeDownvoteColor(value)
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                downvoteColor = value?.toArgb()
+                downVoteColor = value?.toArgb()
             )
             saveSettings(settings)
         }

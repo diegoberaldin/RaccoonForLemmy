@@ -19,8 +19,8 @@ interface ThemeRepository {
     val navItemTitles: StateFlow<Boolean>
     val dynamicColors: StateFlow<Boolean>
     val customSeedColor: StateFlow<Color?>
-    val upvoteColor: StateFlow<Color?>
-    val downvoteColor: StateFlow<Color?>
+    val upVoteColor: StateFlow<Color?>
+    val downVoteColor: StateFlow<Color?>
     val replyColor: StateFlow<Color?>
     val postLayout: StateFlow<PostLayout>
     val commentBarTheme: StateFlow<CommentBarTheme>

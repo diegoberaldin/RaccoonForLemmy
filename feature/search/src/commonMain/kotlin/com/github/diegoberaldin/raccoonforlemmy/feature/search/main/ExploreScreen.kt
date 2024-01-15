@@ -116,8 +116,8 @@ class ExploreScreen : Screen {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val themeRepository = remember { getThemeRepository() }
-        val upvoteColor by themeRepository.upvoteColor.collectAsState()
-        val downvoteColor by themeRepository.downvoteColor.collectAsState()
+        val upVoteColor by themeRepository.upVoteColor.collectAsState()
+        val downVoteColor by themeRepository.downVoteColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
@@ -326,10 +326,10 @@ class ExploreScreen : Screen {
                                         },
                                         backgroundColor = rememberCallbackArgs { direction ->
                                             when (direction) {
-                                                DismissValue.DismissedToStart -> upvoteColor
+                                                DismissValue.DismissedToStart -> upVoteColor
                                                     ?: defaultUpvoteColor
 
-                                                DismissValue.DismissedToEnd -> downvoteColor
+                                                DismissValue.DismissedToEnd -> downVoteColor
                                                     ?: defaultDownVoteColor
 
                                                 DismissValue.Default -> Color.Transparent
@@ -456,10 +456,10 @@ class ExploreScreen : Screen {
                                         },
                                         backgroundColor = rememberCallbackArgs { direction ->
                                             when (direction) {
-                                                DismissValue.DismissedToStart -> upvoteColor
+                                                DismissValue.DismissedToStart -> upVoteColor
                                                     ?: defaultUpvoteColor
 
-                                                DismissValue.DismissedToEnd -> downvoteColor
+                                                DismissValue.DismissedToEnd -> downVoteColor
                                                     ?: defaultDownVoteColor
 
                                                 DismissValue.Default -> Color.Transparent

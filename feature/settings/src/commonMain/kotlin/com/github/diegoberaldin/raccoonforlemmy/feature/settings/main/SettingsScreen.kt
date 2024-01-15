@@ -256,7 +256,7 @@ class SettingsScreen : Screen {
                     // upvote and downvote colors
                     SettingsColorRow(
                         title = stringResource(MR.strings.settings_upvote_color),
-                        value = uiState.upvoteColor ?: MaterialTheme.colorScheme.primary,
+                        value = uiState.upVoteColor ?: MaterialTheme.colorScheme.primary,
                         onTap = rememberCallback {
                             val screen = VoteThemeBottomSheet(
                                 actionType = 0,
@@ -266,7 +266,7 @@ class SettingsScreen : Screen {
                     )
                     SettingsColorRow(
                         title = stringResource(MR.strings.settings_downvote_color),
-                        value = uiState.downvoteColor ?: MaterialTheme.colorScheme.tertiary,
+                        value = uiState.downVoteColor ?: MaterialTheme.colorScheme.tertiary,
                         onTap = rememberCallback {
                             val screen = VoteThemeBottomSheet(
                                 actionType = 1,
