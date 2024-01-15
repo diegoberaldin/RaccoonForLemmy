@@ -32,5 +32,5 @@ object IconSize {
 }
 
 object Dimensions {
-    val topBarHeight = 50.dp
+    val topBarHeight = 64.dp
 }
