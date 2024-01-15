@@ -146,7 +146,8 @@ fun CommentCard(
                     onDownVote = onDownVote,
                     onSave = onSave,
                     onReply = onReply,
-                    date = comment.publishDate,
+                    publishDate = comment.publishDate,
+                    updateDate = comment.updateDate,
                     options = options,
                     onOptionSelected = onOptionSelected,
                 )

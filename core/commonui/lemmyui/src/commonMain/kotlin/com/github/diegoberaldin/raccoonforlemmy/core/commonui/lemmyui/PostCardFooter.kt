@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Icon
@@ -52,7 +53,8 @@ fun PostCardFooter(
     modifier: Modifier = Modifier,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     comments: Int? = null,
-    date: String? = null,
+    publishDate: String? = null,
+    updateDate: String? = null,
     score: Int = 0,
     upVotes: Int = 0,
     downVotes: Int = 0,
@@ -105,7 +107,7 @@ fun PostCardFooter(
                     )
                 }
             }
-            if (date != null) {
+            if (publishDate != null) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -116,7 +118,24 @@ fun PostCardFooter(
                         tint = ancillaryColor,
                     )
                     Text(
-                        text = date.prettifyDate(),
+                        text = publishDate.prettifyDate(),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = ancillaryColor,
+                    )
+                }
+            }
+            if (updateDate != null) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        modifier = buttonModifier,
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = null,
+                        tint = ancillaryColor,
+                    )
+                    Text(
+                        text = updateDate.prettifyDate(),
                         style = MaterialTheme.typography.labelLarge,
                         color = ancillaryColor,
                     )
