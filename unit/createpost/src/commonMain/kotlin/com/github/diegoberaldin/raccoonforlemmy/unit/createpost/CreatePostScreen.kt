@@ -105,7 +105,7 @@ class CreatePostScreen(
         val crossPostText = stringResource(MR.strings.create_post_cross_post_text)
         val crossPost = uiState.crossPost
         val editedPost = uiState.editedPost
-        var bodyTextFieldValue by remember {
+        var bodyTextFieldValue by remember(crossPost, editedPost) {
             val text = buildString {
                 if (crossPost != null) {
                     append(crossPostText)
