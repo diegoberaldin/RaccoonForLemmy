@@ -4,12 +4,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.LEMMY_COMMUNITY_INSTANCE
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.LEMMY_COMMUNITY_NAME
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 
 class AboutDialogViewModel(
@@ -32,25 +36,48 @@ class AboutDialogViewModel(
         when (intent) {
             AboutDialogMviModel.Intent.OpenOwnCommunity -> {
                 mvi.scope?.launch(Dispatchers.IO) {
-                    val auth = identityRepository.authToken.value
-                    val (community, instance) = (communityRepository.getSubscribed(auth)
-                        .firstOrNull { it.name == LEMMY_COMMUNITY_NAME } to "").let {
-                        if (it.first == null) {
+                    val (community, instance) = searchCommunity().let { community ->
+                        if (community != null) {
+                            community to ""
+                        } else {
                             communityRepository.get(
-                                name = LEMMY_COMMUNITY_NAME, instance = LEMMY_COMMUNITY_INSTANCE
+                                name = LEMMY_COMMUNITY_NAME,
+                                instance = LEMMY_COMMUNITY_INSTANCE
                             ) to LEMMY_COMMUNITY_INSTANCE
-                        } else it
+                        }
                     }
 
                     if (community != null) {
                         mvi.emitEffect(
                             AboutDialogMviModel.Effect.OpenCommunity(
-                                community = community, instance = instance
+                                community = community,
+                                instance = instance
                             )
                         )
                     }
                 }
             }
+        }
+    }
+
+    private suspend fun searchCommunity(): CommunityModel? {
+        val auth = identityRepository.authToken.value
+        suspend fun searchRec(page: Int = 0): CommunityModel? {
+            return communityRepository.getAll(
+                auth = auth,
+                query = LEMMY_COMMUNITY_NAME,
+                resultType = SearchResultType.Communities,
+                page = page,
+                limit = 50,
+            )
+                ?.filterIsInstance<SearchResult.Community>()
+                ?.firstOrNull {
+                    it.model.name == LEMMY_COMMUNITY_NAME
+                }?.model ?: searchRec(page + 1)
+        }
+        return withTimeoutOrNull(5000) {
+            // start recursive search
+            searchRec()
         }
     }
 }
