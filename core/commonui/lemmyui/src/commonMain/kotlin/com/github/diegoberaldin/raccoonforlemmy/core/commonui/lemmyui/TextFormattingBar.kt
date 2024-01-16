@@ -220,6 +220,7 @@ fun TextFormattingBar(
         item {
             Icon(
                 modifier = Modifier.onClick(
+                    key = textFieldValue,
                     onClick = {
                         val newValue = textFieldValue.let {
                             val selection = it.selection
