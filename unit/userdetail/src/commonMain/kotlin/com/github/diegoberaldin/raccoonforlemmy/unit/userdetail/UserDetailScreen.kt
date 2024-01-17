@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -179,185 +180,198 @@ class UserDetailScreen(
             }.launchIn(this)
         }
 
-        Scaffold(modifier = Modifier.background(MaterialTheme.colorScheme.background)
-            .padding(Spacing.xs), topBar = {
-            val userName = uiState.user.name
-            val userHost = uiState.user.host
-            val maxTopInset = Dimensions.topBarHeight.value.toInt()
-            var topInset by remember { mutableStateOf(maxTopInset) }
-            snapshotFlow { topAppBarState.collapsedFraction }.onEach {
-                topInset = (maxTopInset * (1 - it)).toInt()
-            }.launchIn(scope)
+        Scaffold(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(Spacing.xs),
+            contentWindowInsets = if (settings.edgeToEdge) {
+                WindowInsets(0, 0, 0, 0)
+            } else {
+                WindowInsets.navigationBars
+            },
+            topBar = {
+                val userName = uiState.user.name
+                val userHost = uiState.user.host
+                val maxTopInset = Dimensions.topBarHeight.value.toInt()
+                var topInset by remember { mutableStateOf(maxTopInset) }
+                snapshotFlow { topAppBarState.collapsedFraction }.onEach {
+                    topInset = (maxTopInset * (1 - it)).toInt()
+                }.launchIn(scope)
 
-            TopAppBar(
-                windowInsets = if (settings.edgeToEdge) {
-                    WindowInsets(0, topInset, 0, 0)
-                } else {
-                    TopAppBarDefaults.windowInsets
-                },
-                scrollBehavior = scrollBehavior,
-                title = {
-                    Text(
-                        modifier = Modifier.padding(horizontal = Spacing.s),
-                        text = buildString {
-                            append(userName)
-                            if (userHost.isNotEmpty()) {
-                                append("@$userHost")
-                            }
-                        },
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
-                actions = {
-                    // sort button
-                    Image(
-                        modifier = Modifier.onClick(
-                            onClick = rememberCallback {
-                                val sheet = SortBottomSheet(
-                                    sheetKey = key,
-                                    values = uiState.availableSortTypes.map { it.toInt() },
-                                    comments = false,
-                                    expandTop = true,
-                                )
-                                navigationCoordinator.showBottomSheet(sheet)
+                TopAppBar(
+                    windowInsets = if (settings.edgeToEdge) {
+                        WindowInsets(0, topInset, 0, 0)
+                    } else {
+                        TopAppBarDefaults.windowInsets
+                    },
+                    scrollBehavior = scrollBehavior,
+                    title = {
+                        Text(
+                            modifier = Modifier.padding(horizontal = Spacing.s),
+                            text = buildString {
+                                append(userName)
+                                if (userHost.isNotEmpty()) {
+                                    append("@$userHost")
+                                }
                             },
-                        ),
-                        imageVector = uiState.sortType.toIcon(),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                    )
-
-                    // options menu
-                    Box {
-                        val options = listOf(
-                            Option(
-                                OptionId.Info, stringResource(MR.strings.user_detail_info)
-                            ),
-                            Option(
-                                OptionId.Block,
-                                stringResource(MR.strings.community_detail_block)
-                            ),
-                            Option(
-                                OptionId.BlockInstance,
-                                stringResource(MR.strings.community_detail_block_instance)
-                            ),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                         )
-                        var optionsExpanded by remember { mutableStateOf(false) }
-                        var optionsOffset by remember { mutableStateOf(Offset.Zero) }
-                        Image(
-                            modifier = Modifier.onGloballyPositioned {
-                                optionsOffset = it.positionInParent()
-                            }.padding(start = Spacing.s).onClick(
-                                onClick = rememberCallback {
-                                    optionsExpanded = true
-                                },
-                            ),
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                        )
-                        CustomDropDown(
-                            expanded = optionsExpanded,
-                            onDismiss = {
-                                optionsExpanded = false
-                            },
-                            offset = DpOffset(
-                                x = optionsOffset.x.toLocalDp(),
-                                y = optionsOffset.y.toLocalDp(),
-                            ),
-                        ) {
-                            options.forEach { option ->
-                                Text(
-                                    modifier = Modifier.padding(
-                                        horizontal = Spacing.m,
-                                        vertical = Spacing.s,
-                                    ).onClick(
-                                        onClick = rememberCallback {
-                                            optionsExpanded = false
-                                            when (option.id) {
-                                                OptionId.BlockInstance -> model.reduce(
-                                                    UserDetailMviModel.Intent.BlockInstance
-                                                )
-
-                                                OptionId.Block -> model.reduce(
-                                                    UserDetailMviModel.Intent.Block
-                                                )
-
-                                                OptionId.Info -> {
-                                                    navigationCoordinator.showBottomSheet(
-                                                        UserInfoScreen(uiState.user.id),
-                                                    )
-                                                }
-
-                                                else -> Unit
-                                            }
-                                        },
-                                    ),
-                                    text = option.text,
-                                )
-                            }
-                        }
-                    }
-                },
-                navigationIcon = {
-                    if (navigationCoordinator.canPop.value) {
+                    },
+                    actions = {
+                        // sort button
                         Image(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
-                                    navigationCoordinator.popScreen()
+                                    val sheet = SortBottomSheet(
+                                        sheetKey = key,
+                                        values = uiState.availableSortTypes.map { it.toInt() },
+                                        comments = false,
+                                        expandTop = true,
+                                    )
+                                    navigationCoordinator.showBottomSheet(sheet)
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
-                    }
-                },
-            )
-        }, floatingActionButton = {
-            AnimatedVisibility(
-                visible = isFabVisible,
-                enter = slideInVertically(
-                    initialOffsetY = { it * 2 },
-                ),
-                exit = slideOutVertically(
-                    targetOffsetY = { it * 2 },
-                ),
-            ) {
-                FloatingActionButtonMenu(items = buildList {
-                    this += FloatingActionButtonMenuItem(
-                        icon = Icons.Default.ExpandLess,
-                        text = stringResource(MR.strings.action_back_to_top),
-                        onSelected = rememberCallback {
-                            scope.launch {
-                                lazyListState.scrollToItem(0)
-                                topAppBarState.heightOffset = 0f
-                                topAppBarState.contentOffset = 0f
+
+                        // options menu
+                        Box {
+                            val options = listOf(
+                                Option(
+                                    OptionId.Info, stringResource(MR.strings.user_detail_info)
+                                ),
+                                Option(
+                                    OptionId.Block,
+                                    stringResource(MR.strings.community_detail_block)
+                                ),
+                                Option(
+                                    OptionId.BlockInstance,
+                                    stringResource(MR.strings.community_detail_block_instance)
+                                ),
+                            )
+                            var optionsExpanded by remember { mutableStateOf(false) }
+                            var optionsOffset by remember { mutableStateOf(Offset.Zero) }
+                            Image(
+                                modifier = Modifier.onGloballyPositioned {
+                                    optionsOffset = it.positionInParent()
+                                }.padding(start = Spacing.s).onClick(
+                                    onClick = rememberCallback {
+                                        optionsExpanded = true
+                                    },
+                                ),
+                                imageVector = Icons.Default.MoreVert,
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+                            CustomDropDown(
+                                expanded = optionsExpanded,
+                                onDismiss = {
+                                    optionsExpanded = false
+                                },
+                                offset = DpOffset(
+                                    x = optionsOffset.x.toLocalDp(),
+                                    y = optionsOffset.y.toLocalDp(),
+                                ),
+                            ) {
+                                options.forEach { option ->
+                                    Text(
+                                        modifier = Modifier.padding(
+                                            horizontal = Spacing.m,
+                                            vertical = Spacing.s,
+                                        ).onClick(
+                                            onClick = rememberCallback {
+                                                optionsExpanded = false
+                                                when (option.id) {
+                                                    OptionId.BlockInstance -> model.reduce(
+                                                        UserDetailMviModel.Intent.BlockInstance
+                                                    )
+
+                                                    OptionId.Block -> model.reduce(
+                                                        UserDetailMviModel.Intent.Block
+                                                    )
+
+                                                    OptionId.Info -> {
+                                                        navigationCoordinator.showBottomSheet(
+                                                            UserInfoScreen(uiState.user.id),
+                                                        )
+                                                    }
+
+                                                    else -> Unit
+                                                }
+                                            },
+                                        ),
+                                        text = option.text,
+                                    )
+                                }
+                            }
+                        }
+                    },
+                    navigationIcon = {
+                        if (navigationCoordinator.canPop.value) {
+                            Image(
+                                modifier = Modifier.onClick(
+                                    onClick = rememberCallback {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+                        }
+                    },
+                )
+            },
+            floatingActionButton = {
+                AnimatedVisibility(
+                    visible = isFabVisible,
+                    enter = slideInVertically(
+                        initialOffsetY = { it * 2 },
+                    ),
+                    exit = slideOutVertically(
+                        targetOffsetY = { it * 2 },
+                    ),
+                ) {
+                    FloatingActionButtonMenu(
+                        items = buildList {
+                            this += FloatingActionButtonMenuItem(
+                                icon = Icons.Default.ExpandLess,
+                                text = stringResource(MR.strings.action_back_to_top),
+                                onSelected = rememberCallback {
+                                    scope.launch {
+                                        lazyListState.scrollToItem(0)
+                                        topAppBarState.heightOffset = 0f
+                                        topAppBarState.contentOffset = 0f
+                                    }
+                                },
+                            )
+                            if (uiState.isLogged && !isOnOtherInstance) {
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.Default.Chat,
+                                    text = stringResource(MR.strings.action_chat),
+                                    onSelected = rememberCallback {
+                                        val screen = InboxChatScreen(otherUserId = userId)
+                                        navigationCoordinator.pushScreen(screen)
+                                    },
+                                )
                             }
                         },
                     )
-                    if (uiState.isLogged && !isOnOtherInstance) {
-                        this += FloatingActionButtonMenuItem(
-                            icon = Icons.Default.Chat,
-                            text = stringResource(MR.strings.action_chat),
-                            onSelected = rememberCallback {
-                                val screen = InboxChatScreen(otherUserId = userId)
-                                navigationCoordinator.pushScreen(screen)
-                            },
-                        )
-                    }
-                })
-            }
-        }, snackbarHost = {
-            SnackbarHost(snackbarHostState) { data ->
-                Snackbar(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    snackbarData = data,
-                )
-            }
-        }) { padding ->
+                }
+            },
+            snackbarHost = {
+                SnackbarHost(snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        snackbarData = data,
+                    )
+                }
+            },
+        ) { padding ->
             val pullRefreshState = rememberPullRefreshState(
                 refreshing = uiState.refreshing,
                 onRefresh = rememberCallback(model) {
