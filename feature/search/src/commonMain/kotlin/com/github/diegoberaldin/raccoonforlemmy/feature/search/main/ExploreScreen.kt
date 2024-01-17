@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -122,6 +124,7 @@ class ExploreScreen : Screen {
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val detailOpener = remember { getDetailOpener() }
+        val connection = navigationCoordinator.getBottomBarScrollConnection()
         val scope = rememberCoroutineScope()
 
         LaunchedEffect(navigationCoordinator) {
@@ -147,6 +150,11 @@ class ExploreScreen : Screen {
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
+            contentWindowInsets = if (settings.edgeToEdge) {
+                WindowInsets(0, 0, 0, 0)
+            } else {
+                WindowInsets.navigationBars
+            },
             topBar = {
                 ExploreTopBar(
                     scrollBehavior = scrollBehavior,
@@ -275,13 +283,22 @@ class ExploreScreen : Screen {
                     { model.reduce(ExploreMviModel.Intent.Refresh) },
                 )
                 Box(
-                    modifier = Modifier.padding(Spacing.xxs).then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        }
-                    ).nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
+                    modifier = Modifier
+                        .padding(Spacing.xxs)
+                        .then(
+                            if (connection != null && settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(connection)
+                            } else {
+                                Modifier
+                            }
+                        )
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            }
+                        ).nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState,
