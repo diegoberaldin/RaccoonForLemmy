@@ -184,6 +184,7 @@ flowchart LR
     :feature:settings --> :unit:about
     :feature:settings --> :unit:accountsettings
     :feature:settings --> :unit:choosecolor
+    :feature:settings --> :unit:choosefont
     :feature:settings --> :unit:manageban
     :feature:settings --> :unit:web
     :feature:settings --> :resources
@@ -302,6 +303,16 @@ flowchart LR
     :unit:choosecolor --> :core:notifications
     :unit:choosecolor --> :core:persistence
     :unit:choosecolor --> :resources
+```
+
+```mermaid
+flowchart LR
+    :unit:choosefont --> :core:appearance
+    :unit:choosefont --> :core:commonui:components
+    :unit:choosefont --> :core:navigation
+    :unit:choosefont --> :core:notifications
+    :unit:choosefont --> :core:persistence
+    :unit:choosefont --> :resources
 ```
 
 ```mermaid

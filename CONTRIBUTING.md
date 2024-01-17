@@ -485,6 +485,7 @@ Here is a list of the main unit modules and their purpose:
 - `:unit:ban` contains the modal bottom sheet used to ban a user from a community
 - `:unit:chat` contains the chat conversation screen
 - `:unit:choosecolor` contains the dialogs and bottom sheets used for theme/color selection
+- `:unit:choosefont` contains the bottom sheets used for font selection
 - `:unit:communitydetail` contains the community detail screen
 - `:unit:communityinfo` contains the community info bottom sheet accessible from community detail
 - `:unit:createcomment` contains the create comment form
