@@ -17,8 +17,10 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -118,7 +120,6 @@ class PostDetailScreen(
     private val highlightCommentId: Int? = null,
     private val isMod: Boolean = false,
 ) : Screen {
-
     override val key: ScreenKey
         get() = super.key + postId.toString()
 
@@ -188,8 +189,14 @@ class PostDetailScreen(
         }
 
         Scaffold(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
+            contentWindowInsets = if (settings.edgeToEdge) {
+                WindowInsets(0, 0, 0, 0)
+            } else {
+                WindowInsets.navigationBars
+            },
             topBar = {
                 TopAppBar(
                     title = {
@@ -1102,11 +1109,12 @@ class PostDetailScreen(
                                             Text(
                                                 text = buildString {
                                                     append(stringResource(MR.strings.post_detail_load_more_comments))
-                                                    comment.comments?.takeIf { it > 0 }?.also { count ->
-                                                        append(" (")
-                                                        append(count)
-                                                        append(")")
-                                                    }
+                                                    comment.comments?.takeIf { it > 0 }
+                                                        ?.also { count ->
+                                                            append(" (")
+                                                            append(count)
+                                                            append(")")
+                                                        }
                                                 },
                                                 style = MaterialTheme.typography.labelSmall,
                                             )
