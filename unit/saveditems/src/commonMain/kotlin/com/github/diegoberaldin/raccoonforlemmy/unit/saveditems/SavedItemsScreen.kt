@@ -149,19 +149,21 @@ class SavedItemsScreen : Screen {
                         targetOffsetY = { it * 2 },
                     ),
                 ) {
-                    FloatingActionButtonMenu(items = buildList {
-                        this += FloatingActionButtonMenuItem(
-                            icon = Icons.Default.ExpandLess,
-                            text = stringResource(MR.strings.action_back_to_top),
-                            onSelected = rememberCallback {
-                                scope.launch {
-                                    lazyListState.scrollToItem(0)
-                                    topAppBarState.heightOffset = 0f
-                                    topAppBarState.contentOffset = 0f
-                                }
-                            },
-                        )
-                    })
+                    FloatingActionButtonMenu(
+                        items = buildList {
+                            this += FloatingActionButtonMenuItem(
+                                icon = Icons.Default.ExpandLess,
+                                text = stringResource(MR.strings.action_back_to_top),
+                                onSelected = rememberCallback {
+                                    scope.launch {
+                                        lazyListState.scrollToItem(0)
+                                        topAppBarState.heightOffset = 0f
+                                        topAppBarState.contentOffset = 0f
+                                    }
+                                },
+                            )
+                        },
+                    )
                 }
             },
         ) { paddingValues ->
