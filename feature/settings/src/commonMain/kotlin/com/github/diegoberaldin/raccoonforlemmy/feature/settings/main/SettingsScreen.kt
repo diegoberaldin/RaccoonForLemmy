@@ -54,11 +54,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
-import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.ColorBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.CommentBarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontFamilyBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.FontScaleBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
@@ -68,7 +64,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBotto
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.VoteThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -91,6 +86,11 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageReposito
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.ColorBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.CommentBarThemeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.VoteThemeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosefont.FontFamilyBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosefont.FontScaleBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.desc

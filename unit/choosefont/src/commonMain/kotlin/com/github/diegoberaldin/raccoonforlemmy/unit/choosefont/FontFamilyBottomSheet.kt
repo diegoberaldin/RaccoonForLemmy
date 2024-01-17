@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
+package com.github.diegoberaldin.raccoonforlemmy.unit.choosefont
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,11 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import cafe.adriel.voyager.core.screen.Screen
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -26,21 +27,23 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
 
-private val defaultChoices: List<Float> = listOf(
-    FontScale.Largest,
-    FontScale.Larger,
-    FontScale.Large,
-    FontScale.Normal,
-    FontScale.Small,
-    FontScale.Smaller,
-    FontScale.Smallest,
-).map { it.scaleFactor }
+private val defaultChoices: List<Int> = listOf(
+    UiFontFamily.Poppins,
+    UiFontFamily.TitilliumWeb,
+    UiFontFamily.NotoSans,
+    UiFontFamily.CharisSIL,
+    UiFontFamily.Comfortaa,
+    UiFontFamily.Default,
+).map { it.toInt() }
 
-class FontScaleBottomSheet(
-    private val values: List<Float> = defaultChoices,
-    private val content: Boolean,
+
+
+class FontFamilyBottomSheet(
+    private val values: List<Int> = defaultChoices,
+    private val content: Boolean = false,
 ) : Screen {
 
     @Composable
@@ -58,7 +61,7 @@ class FontScaleBottomSheet(
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 BottomSheetHandle()
                 Text(
@@ -67,7 +70,7 @@ class FontScaleBottomSheet(
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.settings_content_font_scale),
+                    text = stringResource(MR.strings.settings_ui_font_family),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -76,7 +79,7 @@ class FontScaleBottomSheet(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                 ) {
                     for (value in values) {
-                        val fontScale = value.toFontScale()
+                        val family = value.toUiFontFamily()
                         Row(
                             modifier = Modifier.padding(
                                 horizontal = Spacing.s,
@@ -85,22 +88,28 @@ class FontScaleBottomSheet(
                                 .fillMaxWidth()
                                 .onClick(
                                     onClick = rememberCallback {
-                                        notificationCenter.send(
-                                            if (content) {
-                                                NotificationCenterEvent.ChangeContentFontSize(value)
-                                            } else {
-                                                NotificationCenterEvent.ChangeUiFontSize(value)
-                                            }
-                                        )
+                                        val event = if (content) {
+                                            NotificationCenterEvent.ChangeContentFontFamily(family)
+                                        } else {
+                                            NotificationCenterEvent.ChangeFontFamily(family)
+                                        }
+                                        notificationCenter.send(event)
                                         navigationCoordinator.hideBottomSheet()
                                     },
                                 ),
                         ) {
-                            val originalFontSize = MaterialTheme.typography.bodyLarge.fontSize
+                            val fontFamily = when (family) {
+                                UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
+                                UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
+                                UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
+                                UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
+                                UiFontFamily.TitilliumWeb -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
+                                UiFontFamily.Default -> FontFamily.Default
+                            }
                             Text(
-                                text = fontScale.toReadableName(),
+                                text = family.toReadableName(),
                                 style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontSize = originalFontSize * value,
+                                    fontFamily = fontFamily,
                                 ),
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
