@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -125,6 +126,11 @@ class MultiCommunityScreen(
         val detailOpener = remember { getDetailOpener() }
 
         Scaffold(
+            contentWindowInsets = if (settings.edgeToEdge) {
+                WindowInsets(0, 0, 0, 0)
+            } else {
+                WindowInsets.navigationBars
+            },
             topBar = {
                 val sortType = uiState.sortType
                 val maxTopInset = Dimensions.topBarHeight.value.toInt()

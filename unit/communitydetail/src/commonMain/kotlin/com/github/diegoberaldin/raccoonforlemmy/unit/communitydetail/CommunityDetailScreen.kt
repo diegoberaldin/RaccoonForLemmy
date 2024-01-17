@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -211,6 +212,11 @@ class CommunityDetailScreen(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
+            contentWindowInsets = if (settings.edgeToEdge) {
+                WindowInsets(0, 0, 0, 0)
+            } else {
+                WindowInsets.navigationBars
+            },
             topBar = {
                 val maxTopInset = Dimensions.topBarHeight.value.toInt()
                 var topInset by remember { mutableStateOf(maxTopInset) }
