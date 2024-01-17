@@ -1,6 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material3.MaterialTheme
@@ -70,6 +73,9 @@ internal object MainScreen : Screen {
         val exitMessage = stringResource(MR.strings.message_confirm_exit)
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
+        val bottomNavigationInset = with(LocalDensity.current) {
+            WindowInsets.navigationBars.getBottom(this).toDp()
+        }
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -199,7 +205,7 @@ internal object MainScreen : Screen {
                                     start = 0.dp,
                                     top = 0.dp,
                                     end = 0.dp,
-                                    bottom = Spacing.m,
+                                    bottom = bottomNavigationInset,
                                 ),
                                 backgroundColor = MaterialTheme.colorScheme.background,
                             ) {
