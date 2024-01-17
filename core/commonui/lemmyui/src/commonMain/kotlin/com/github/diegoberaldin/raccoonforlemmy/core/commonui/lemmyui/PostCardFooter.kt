@@ -107,7 +107,12 @@ fun PostCardFooter(
                     )
                 }
             }
-            if (publishDate != null) {
+            listOf(
+                updateDate.orEmpty(),
+                publishDate.orEmpty(),
+            ).firstOrNull {
+                it.isNotBlank()
+            }?.also { publishDate ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -124,22 +129,13 @@ fun PostCardFooter(
                     )
                 }
             }
-            if (updateDate != null) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        modifier = buttonModifier,
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = null,
-                        tint = ancillaryColor,
-                    )
-                    Text(
-                        text = updateDate.prettifyDate(),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = ancillaryColor,
-                    )
-                }
+            if (updateDate.orEmpty().isNotBlank()) {
+                Icon(
+                    modifier = buttonModifier,
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = null,
+                    tint = ancillaryColor,
+                )
             }
             if (options.isNotEmpty()) {
                 Icon(
