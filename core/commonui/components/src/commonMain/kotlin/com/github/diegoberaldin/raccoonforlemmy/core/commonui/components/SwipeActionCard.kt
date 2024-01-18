@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -49,31 +50,88 @@ fun SwipeableCard(
     onDismissToStart: (() -> Unit)? = null,
     onSecondDismissToStart: (() -> Unit)? = null,
 ) {
+    SwipeActionCard(
+        modifier = modifier,
+        enabled = enabled,
+        content = content,
+        onGestureBegin = onGestureBegin,
+        swipeToStartActions = buildList {
+            if (directions.contains(DismissDirection.EndToStart)) {
+                this += SwipeAction(
+                    swipeContent = { swipeContent(DismissDirection.EndToStart) },
+                    backgroundColor = backgroundColor(DismissValue.DismissedToStart),
+                    onTriggered = rememberCallback { onDismissToStart?.invoke() },
+                )
+                if (enableSecondAction(DismissValue.DismissedToStart)) {
+                    this += SwipeAction(
+                        swipeContent = { secondSwipeContent?.invoke(DismissDirection.EndToStart) },
+                        backgroundColor = secondBackgroundColor?.invoke(DismissValue.DismissedToStart)
+                            ?: backgroundColor(DismissValue.DismissedToStart),
+                        onTriggered = rememberCallback { onSecondDismissToStart?.invoke() },
+                    )
+                }
+            }
+        },
+        swipeToEndActions = buildList {
+            if (directions.contains(DismissDirection.StartToEnd)) {
+                this += SwipeAction(
+                    swipeContent = { swipeContent(DismissDirection.StartToEnd) },
+                    backgroundColor = backgroundColor(DismissValue.DismissedToEnd),
+                    onTriggered = rememberCallback { onDismissToEnd?.invoke() },
+                )
+                if (enableSecondAction(DismissValue.DismissedToEnd)) {
+                    this += SwipeAction(
+                        swipeContent = { secondSwipeContent?.invoke(DismissDirection.StartToEnd) },
+                        backgroundColor = secondBackgroundColor?.invoke(DismissValue.DismissedToEnd)
+                            ?: backgroundColor(DismissValue.DismissedToEnd),
+                        onTriggered = rememberCallback { onSecondDismissToEnd?.invoke() },
+                    )
+                }
+            }
+        },
+    )
+}
+
+data class SwipeAction(
+    val swipeContent: @Composable () -> Unit,
+    val backgroundColor: Color,
+    val onTriggered: () -> Unit,
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SwipeActionCard(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    content: @Composable () -> Unit,
+    onGestureBegin: (() -> Unit)? = null,
+    swipeToStartActions: List<SwipeAction> = emptyList(),
+    swipeToEndActions: List<SwipeAction> = emptyList(),
+) {
     if (enabled) {
         var notified by remember { mutableStateOf(false) }
         var secondNotified by remember { mutableStateOf(false) }
-        val dismissToEndCallback by rememberUpdatedState(onDismissToEnd)
-        val dismissToStartCallback by rememberUpdatedState(onDismissToStart)
-        val secondDismissToEndCallback by rememberUpdatedState(onSecondDismissToEnd)
-        val secondDismissToStartCallback by rememberUpdatedState(onSecondDismissToStart)
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
         var lastProgress by remember { mutableStateOf(0.0f) }
         val dismissState = rememberDismissState(
             confirmValueChange = rememberCallbackArgs { value ->
                 when (value) {
                     DismissValue.DismissedToEnd -> {
-                        if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction(value) && secondNotified) {
-                            secondDismissToEndCallback?.invoke()
+                        val enableSecondAction = swipeToEndActions.size > 1
+                        if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction && secondNotified) {
+                            swipeToEndActions.getOrNull(1)?.onTriggered?.invoke()
                         } else {
-                            dismissToEndCallback?.invoke()
+                            swipeToEndActions.firstOrNull()?.onTriggered?.invoke()
+
                         }
                     }
 
                     DismissValue.DismissedToStart -> {
-                        if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction(value) && secondNotified) {
-                            secondDismissToStartCallback?.invoke()
+                        val enableSecondAction = swipeToStartActions.size > 1
+                        if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction && secondNotified) {
+                            swipeToStartActions.getOrNull(1)?.onTriggered?.invoke()
                         } else {
-                            dismissToStartCallback?.invoke()
+                            swipeToStartActions.firstOrNull()?.onTriggered?.invoke()
                         }
                     }
 
@@ -86,9 +144,15 @@ fun SwipeableCard(
             },
             positionalThreshold = { _ -> 56.dp.toPx() }
         )
-        LaunchedEffect(dismissState) {
+        LaunchedEffect(dismissState, swipeToEndActions, swipeToEndActions) {
             snapshotFlow { dismissState.progress }.onEach { progress ->
-                if (!enableSecondAction(dismissState.targetValue)) {
+                val enableSecondAction = when (dismissState.targetValue) {
+                    DismissValue.Default -> false
+                    DismissValue.DismissedToEnd -> swipeToEndActions.size > 1
+                    DismissValue.DismissedToStart -> swipeToStartActions.size > 1
+                }
+
+                if (!enableSecondAction) {
                     when {
                         progress in 0.0f..<1.0f && !notified -> {
                             notified = true
@@ -115,19 +179,31 @@ fun SwipeableCard(
         SwipeToDismiss(
             modifier = modifier,
             state = dismissState,
-            directions = directions,
+            directions = buildSet {
+                if (swipeToEndActions.isNotEmpty()) {
+                    this += DismissDirection.StartToEnd
+                }
+                if (swipeToStartActions.isNotEmpty()) {
+                    this += DismissDirection.EndToStart
+                }
+            },
             background = {
                 val direction = dismissState.dismissDirection ?: DismissDirection.StartToEnd
+                val actions = when (dismissState.targetValue) {
+                    DismissValue.Default -> listOf()
+                    DismissValue.DismissedToEnd -> swipeToEndActions
+                    DismissValue.DismissedToStart -> swipeToStartActions
+                }
+                val enableSecondAction = actions.size > 1
                 val bgColor by animateColorAsState(
                     targetValue = if (
                         dismissState.progress < SECOND_ACTION_THRESHOLD
                         || dismissState.targetValue == DismissValue.Default
-                        || !enableSecondAction(dismissState.targetValue)
+                        || !enableSecondAction
                     ) {
-                        backgroundColor(dismissState.targetValue)
+                        actions.firstOrNull()?.backgroundColor ?: Color.Transparent
                     } else {
-                        secondBackgroundColor?.invoke(dismissState.targetValue)
-                            ?: backgroundColor(dismissState.targetValue)
+                        actions.getOrNull(1)?.backgroundColor ?: Color.Transparent
                     },
                 )
                 val alignment = when (direction) {
@@ -141,12 +217,11 @@ fun SwipeableCard(
                     contentAlignment = alignment,
                 ) {
                     if (
-                        dismissState.progress < SECOND_ACTION_THRESHOLD
-                        || !enableSecondAction(dismissState.targetValue)
+                        dismissState.progress < SECOND_ACTION_THRESHOLD || !enableSecondAction
                     ) {
-                        swipeContent(direction)
+                        actions.firstOrNull()?.swipeContent?.invoke()
                     } else {
-                        secondSwipeContent?.invoke(direction)
+                        actions.getOrNull(1)?.swipeContent?.invoke()
                     }
                 }
             },
