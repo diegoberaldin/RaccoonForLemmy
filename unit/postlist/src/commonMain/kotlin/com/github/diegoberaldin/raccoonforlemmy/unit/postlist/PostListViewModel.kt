@@ -85,6 +85,8 @@ class PostListViewModel(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
+                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
                     )
                 }
             }.launchIn(this)

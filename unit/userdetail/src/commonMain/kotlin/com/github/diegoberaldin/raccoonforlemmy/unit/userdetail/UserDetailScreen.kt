@@ -20,11 +20,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.MoreVert
@@ -36,6 +36,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -95,6 +96,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -445,15 +447,12 @@ class UserDetailScreen(
                         items(
                             uiState.posts,
                             { it.id.toString() + (it.updateDate ?: it.publishDate) }) { post ->
-                            SwipeActionCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                enabled = uiState.swipeActionsEnabled,
-                                onGestureBegin = rememberCallback(model) {
-                                    model.reduce(UserDetailMviModel.Intent.HapticIndication)
-                                },
-                                swipeToStartActions = buildList {
-                                    if (uiState.isLogged && !isOnOtherInstance) {
-                                        this += SwipeAction(
+
+                            @Composable
+                            fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
+                                mapNotNull {
+                                    when (it) {
+                                        ActionOnSwipe.UpVote -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
                                                     imageVector = Icons.Default.ArrowCircleUp,
@@ -461,33 +460,16 @@ class UserDetailScreen(
                                                     tint = Color.White,
                                                 )
                                             },
-                                            backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                            backgroundColor = upVoteColor
+                                                ?: defaultUpvoteColor,
                                             onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.UpVotePost(
-                                                        post.id
-                                                    )
+                                                UserDetailMviModel.Intent.UpVotePost(
+                                                    post.id,
                                                 )
                                             },
                                         )
-                                        this += SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Reply,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = replyColor ?: defaultReplyColor,
-                                            onTriggered = rememberCallback {
-                                                detailOpener.openReply(originalPost = post)
-                                            },
-                                        )
-                                    }
-                                },
-                                swipeToEndActions = buildList {
-                                    if (uiState.isLogged && !isOnOtherInstance) {
-                                        this += SwipeAction(
+
+                                        ActionOnSwipe.DownVote -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
                                                     imageVector = Icons.Default.ArrowCircleDown,
@@ -495,16 +477,71 @@ class UserDetailScreen(
                                                     tint = Color.White,
                                                 )
                                             },
-                                            backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                            backgroundColor = downVoteColor
+                                                ?: defaultDownVoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.DownVotePost(
-                                                        post.id
+                                                        post.id,
                                                     )
                                                 )
                                             },
                                         )
+
+                                        ActionOnSwipe.Reply -> SwipeAction(
+                                            swipeContent = {
+                                                androidx.compose.material.Icon(
+                                                    imageVector = Icons.Default.Reply,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor
+                                                ?: defaultReplyColor,
+                                            onTriggered = rememberCallback {
+                                                detailOpener.openReply(originalPost = post)
+                                            },
+                                        )
+
+                                        ActionOnSwipe.Save -> SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Bookmark,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor
+                                                ?: defaultReplyColor,
+                                            onTriggered = rememberCallback {
+                                                model.reduce(
+                                                    UserDetailMviModel.Intent.SavePost(
+                                                        id = post.id,
+                                                    ),
+                                                )
+                                            },
+                                        )
+
+
+                                        else -> null
                                     }
+                                }
+
+                            SwipeActionCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                enabled = uiState.swipeActionsEnabled,
+                                onGestureBegin = rememberCallback(model) {
+                                    model.reduce(UserDetailMviModel.Intent.HapticIndication)
+                                },
+                                swipeToStartActions = if (uiState.isLogged && !isOnOtherInstance) {
+                                    uiState.actionsOnSwipeToStartPosts.toSwipeActions()
+                                } else {
+                                    emptyList()
+                                },
+                                swipeToEndActions = if (uiState.isLogged && !isOnOtherInstance) {
+                                    uiState.actionsOnSwipeToEndPosts.toSwipeActions()
+                                } else {
+                                    emptyList()
                                 },
                                 content = {
                                     PostCard(
@@ -700,15 +737,11 @@ class UserDetailScreen(
                             items = uiState.comments,
                             key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                         ) { comment ->
-                            SwipeActionCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                enabled = uiState.swipeActionsEnabled,
-                                onGestureBegin = rememberCallback(model) {
-                                    model.reduce(UserDetailMviModel.Intent.HapticIndication)
-                                },
-                                swipeToStartActions = buildList {
-                                    if (uiState.isLogged && !isOnOtherInstance) {
-                                        this += SwipeAction(
+                            @Composable
+                            fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
+                                mapNotNull {
+                                    when (it) {
+                                        ActionOnSwipe.UpVote -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
                                                     imageVector = Icons.Default.ArrowCircleUp,
@@ -726,28 +759,8 @@ class UserDetailScreen(
                                                 )
                                             },
                                         )
-                                        this += SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Reply,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = replyColor
-                                                ?: defaultReplyColor,
-                                            onTriggered = rememberCallback {
-                                                detailOpener.openReply(
-                                                    originalPost = PostModel(id = comment.postId),
-                                                    originalComment = comment,
-                                                )
-                                            },
-                                        )
-                                    }
-                                },
-                                swipeToEndActions = buildList {
-                                    if (uiState.isLogged && !isOnOtherInstance) {
-                                        this += SwipeAction(
+
+                                        ActionOnSwipe.DownVote -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
                                                     imageVector = Icons.Default.ArrowCircleDown,
@@ -765,7 +778,64 @@ class UserDetailScreen(
                                                 )
                                             },
                                         )
+
+                                        ActionOnSwipe.Reply -> SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Reply,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor
+                                                ?: defaultReplyColor,
+                                            onTriggered = rememberCallback {
+                                                detailOpener.openReply(
+                                                    originalPost = PostModel(id = comment.postId),
+                                                    originalComment = comment,
+                                                )
+                                            },
+                                        )
+
+                                        ActionOnSwipe.Save -> SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Bookmark,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor
+                                                ?: defaultReplyColor,
+                                            onTriggered = rememberCallback {
+                                                model.reduce(
+                                                    UserDetailMviModel.Intent.SaveComment(
+                                                        id = comment.id,
+                                                    ),
+                                                )
+                                            },
+                                        )
+
+
+                                        else -> null
                                     }
+                                }
+
+                            SwipeActionCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                enabled = uiState.swipeActionsEnabled,
+                                onGestureBegin = rememberCallback(model) {
+                                    model.reduce(UserDetailMviModel.Intent.HapticIndication)
+                                },
+                                swipeToStartActions = if (uiState.isLogged && !isOnOtherInstance) {
+                                    uiState.actionsOnSwipeToStartComments.toSwipeActions()
+                                } else {
+                                    emptyList()
+                                },
+                                swipeToEndActions = if (uiState.isLogged && !isOnOtherInstance) {
+                                    uiState.actionsOnSwipeToEndComments.toSwipeActions()
+                                } else {
+                                    emptyList()
                                 },
                                 content = {
                                     CommentCard(

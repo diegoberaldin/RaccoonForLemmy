@@ -96,6 +96,10 @@ class UserDetailViewModel(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
+                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                        actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
+                        actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
                     )
                 }
             }.launchIn(this)

@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 
 @Stable
@@ -32,6 +33,8 @@ interface InboxRepliesMviModel :
         val swipeActionsEnabled: Boolean = true,
         val autoLoadImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
+        val actionsOnSwipeToStartInbox: List<ActionOnSwipe> = emptyList(),
+        val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = emptyList(),
     )
 
     sealed interface Effect {

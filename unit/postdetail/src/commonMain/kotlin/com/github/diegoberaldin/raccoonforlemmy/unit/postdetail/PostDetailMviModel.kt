@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -58,6 +59,8 @@ interface PostDetailMviModel :
         val autoLoadImages: Boolean = true,
         val moderators: List<UserModel> = emptyList(),
         val availableSortTypes: List<SortType> = emptyList(),
+        val actionsOnSwipeToStartComments: List<ActionOnSwipe> = emptyList(),
+        val actionsOnSwipeToEndComments: List<ActionOnSwipe> = emptyList(),
     )
 
     sealed interface Effect {

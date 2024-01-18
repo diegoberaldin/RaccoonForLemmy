@@ -76,6 +76,10 @@ class ExploreViewModel(
                         fullHeightImages = settings.fullHeightImages,
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
+                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                        actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
+                        actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
                     )
                 }
             }.launchIn(this)

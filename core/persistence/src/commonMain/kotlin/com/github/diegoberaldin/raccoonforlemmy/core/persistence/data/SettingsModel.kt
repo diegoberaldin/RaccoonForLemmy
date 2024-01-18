@@ -41,4 +41,27 @@ data class SettingsModel(
     val edgeToEdge: Boolean = true,
     val postBodyMaxLines: Int? = null,
     val infiniteScrollEnabled: Boolean = true,
+    val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = listOf(
+        ActionOnSwipe.UpVote,
+        ActionOnSwipe.Save,
+    ),
+    val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = listOf(
+        ActionOnSwipe.DownVote,
+        ActionOnSwipe.Reply,
+    ),
+    val actionsOnSwipeToStartComments: List<ActionOnSwipe> = listOf(
+        ActionOnSwipe.UpVote,
+        ActionOnSwipe.Save,
+    ),
+    val actionsOnSwipeToEndComments: List<ActionOnSwipe> = listOf(
+        ActionOnSwipe.DownVote,
+        ActionOnSwipe.Reply,
+    ),
+    val actionsOnSwipeToStartInbox: List<ActionOnSwipe> = listOf(
+        ActionOnSwipe.UpVote,
+        ActionOnSwipe.ToggleRead,
+    ),
+    val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = listOf(
+        ActionOnSwipe.DownVote,
+    ),
 )

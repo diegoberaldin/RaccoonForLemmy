@@ -19,10 +19,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Reply
@@ -35,6 +35,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -63,8 +64,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAction
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
@@ -78,6 +79,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -323,15 +325,12 @@ class PostListScreen : Screen {
                                     model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
                                 }
                             }
-                            SwipeActionCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                enabled = uiState.swipeActionsEnabled,
-                                onGestureBegin = rememberCallback(model) {
-                                    model.reduce(PostListMviModel.Intent.HapticIndication)
-                                },
-                                swipeToStartActions = buildList {
-                                    if (uiState.isLogged) {
-                                        this += SwipeAction(
+
+                            @Composable
+                            fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
+                                mapNotNull {
+                                    when (it) {
+                                        ActionOnSwipe.UpVote -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
                                                     imageVector = Icons.Default.ArrowCircleUp,
@@ -344,24 +343,8 @@ class PostListScreen : Screen {
                                                 model.reduce(PostListMviModel.Intent.UpVotePost(post.id))
                                             },
                                         )
-                                        this += SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Reply,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = replyColor ?: defaultReplyColor,
-                                            onTriggered = rememberCallback {
-                                                detailOpener.openReply(originalPost = post)
-                                            },
-                                        )
-                                    }
-                                },
-                                swipeToEndActions = buildList {
-                                    if (uiState.isLogged) {
-                                        this += SwipeAction(
+
+                                        ActionOnSwipe.DownVote -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
                                                     imageVector = Icons.Default.ArrowCircleDown,
@@ -378,7 +361,55 @@ class PostListScreen : Screen {
                                                 )
                                             },
                                         )
+
+                                        ActionOnSwipe.Reply -> SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Reply,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor ?: defaultReplyColor,
+                                            onTriggered = rememberCallback {
+                                                detailOpener.openReply(originalPost = post)
+                                            },
+                                        )
+
+                                        ActionOnSwipe.Save -> SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Bookmark,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor ?: defaultReplyColor,
+                                            onTriggered = rememberCallback {
+                                                model.reduce(PostListMviModel.Intent.SavePost(post.id))
+                                            },
+                                        )
+
+
+                                        else -> null
                                     }
+                                }
+
+                            SwipeActionCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                enabled = uiState.swipeActionsEnabled,
+                                onGestureBegin = rememberCallback(model) {
+                                    model.reduce(PostListMviModel.Intent.HapticIndication)
+                                },
+                                swipeToStartActions = if (uiState.isLogged) {
+                                    uiState.actionsOnSwipeToStartPosts.toSwipeActions()
+                                } else {
+                                    emptyList()
+                                },
+                                swipeToEndActions = if (uiState.isLogged) {
+                                    uiState.actionsOnSwipeToEndPosts.toSwipeActions()
+                                } else {
+                                    emptyList()
                                 },
                                 content = {
                                     PostCard(
@@ -406,7 +437,10 @@ class PostListScreen : Screen {
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            detailOpener.openCommunityDetail(community, instance)
+                                            detailOpener.openCommunityDetail(
+                                                community,
+                                                instance
+                                            )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
                                             detailOpener.openUserDetail(user, instance)
@@ -448,7 +482,11 @@ class PostListScreen : Screen {
                                         },
                                         onReply = rememberCallback(model) {
                                             if (uiState.isLogged) {
-                                                model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
+                                                model.reduce(
+                                                    PostListMviModel.Intent.MarkAsRead(
+                                                        post.id
+                                                    )
+                                                )
                                                 detailOpener.openPostDetail(post)
                                             }
                                         },
@@ -556,8 +594,11 @@ class PostListScreen : Screen {
                                                             )
                                                         )
                                                     } else {
-                                                        val screen = ShareBottomSheet(urls = urls)
-                                                        navigationCoordinator.showBottomSheet(screen)
+                                                        val screen =
+                                                            ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(
+                                                            screen
+                                                        )
                                                     }
                                                 }
 
@@ -609,7 +650,8 @@ class PostListScreen : Screen {
                                     model.reduce(PostListMviModel.Intent.LoadNextPage)
                                 } else {
                                     Row(
-                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(top = Spacing.s),
                                         horizontalArrangement = Arrangement.Center,
                                     ) {
                                         Button(
@@ -640,7 +682,8 @@ class PostListScreen : Screen {
                         if (uiState.posts.isEmpty() && !uiState.loading) {
                             item {
                                 Text(
-                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
                                     text = stringResource(MR.strings.message_empty_list),
                                     style = MaterialTheme.typography.bodyLarge,

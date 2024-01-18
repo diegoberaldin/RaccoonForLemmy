@@ -90,6 +90,8 @@ class CommunityDetailViewModel(
                         fullHeightImages = settings.fullHeightImages,
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
+                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
                     )
                 }
             }.launchIn(this)

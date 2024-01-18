@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Report
@@ -24,6 +23,7 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -99,6 +99,7 @@ class ReportListScreen(
             },
         )
         val detailOpener = remember { getDetailOpener() }
+        val defaultResolveColor = MaterialTheme.colorScheme.secondary
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -227,7 +228,6 @@ class ReportListScreen(
                                         ?: it.publishDate) + it.resolved + uiState.unresolvedOnly
                                 },
                             ) { report ->
-                                val endColor = MaterialTheme.colorScheme.secondary
                                 SwipeActionCard(
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = uiState.swipeActionsEnabled,
@@ -247,7 +247,7 @@ class ReportListScreen(
                                                     tint = Color.White,
                                                 )
                                             },
-                                            backgroundColor = endColor,
+                                            backgroundColor = defaultResolveColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
                                                     ReportListMviModel.Intent.ResolvePost(report.id),
@@ -332,7 +332,6 @@ class ReportListScreen(
                                 uiState.commentReports,
                                 { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { report ->
-                                val endColor = MaterialTheme.colorScheme.secondary
                                 SwipeActionCard(
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = uiState.swipeActionsEnabled,
@@ -352,7 +351,7 @@ class ReportListScreen(
                                                     tint = Color.White,
                                                 )
                                             },
-                                            backgroundColor = endColor,
+                                            backgroundColor = defaultResolveColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
                                                     ReportListMviModel.Intent.ResolveComment(report.id),

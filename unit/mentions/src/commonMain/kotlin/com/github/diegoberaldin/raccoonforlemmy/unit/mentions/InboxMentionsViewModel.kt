@@ -56,6 +56,8 @@ class InboxMentionsViewModel(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         autoLoadImages = settings.autoLoadImages,
                         voteFormat = settings.voteFormat,
+                        actionsOnSwipeToStartInbox = settings.actionsOnSwipeToStartInbox,
+                        actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox,
                     )
                 }
             }.launchIn(this)

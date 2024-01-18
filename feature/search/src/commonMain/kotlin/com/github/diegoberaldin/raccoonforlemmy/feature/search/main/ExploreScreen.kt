@@ -22,7 +22,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -77,6 +79,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -119,7 +122,9 @@ class ExploreScreen : Screen {
         val themeRepository = remember { getThemeRepository() }
         val upVoteColor by themeRepository.upVoteColor.collectAsState()
         val downVoteColor by themeRepository.downVoteColor.collectAsState()
+        val replyColor by themeRepository.replyColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
+        val defaultReplyColor = MaterialTheme.colorScheme.secondary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val detailOpener = remember { getDetailOpener() }
@@ -329,15 +334,11 @@ class ExploreScreen : Screen {
                                 }
 
                                 is SearchResult.Post -> {
-                                    SwipeActionCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        enabled = uiState.swipeActionsEnabled,
-                                        onGestureBegin = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.HapticIndication)
-                                        },
-                                        swipeToStartActions = buildList {
-                                            if (uiState.isLogged) {
-                                                this += SwipeAction(
+                                    @Composable
+                                    fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
+                                        mapNotNull {
+                                            when (it) {
+                                                ActionOnSwipe.UpVote -> SwipeAction(
                                                     swipeContent = {
                                                         androidx.compose.material.Icon(
                                                             imageVector = Icons.Default.ArrowCircleUp,
@@ -348,18 +349,13 @@ class ExploreScreen : Screen {
                                                     backgroundColor = upVoteColor
                                                         ?: defaultUpvoteColor,
                                                     onTriggered = rememberCallback {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.UpVotePost(
-                                                                result.model.id
-                                                            )
+                                                        ExploreMviModel.Intent.UpVotePost(
+                                                            result.model.id
                                                         )
                                                     },
                                                 )
-                                            }
-                                        },
-                                        swipeToEndActions = buildList {
-                                            if (uiState.isLogged) {
-                                                this += SwipeAction(
+
+                                                ActionOnSwipe.DownVote -> SwipeAction(
                                                     swipeContent = {
                                                         androidx.compose.material.Icon(
                                                             imageVector = Icons.Default.ArrowCircleDown,
@@ -377,7 +373,61 @@ class ExploreScreen : Screen {
                                                         )
                                                     },
                                                 )
+
+                                                ActionOnSwipe.Reply -> SwipeAction(
+                                                    swipeContent = {
+                                                        androidx.compose.material.Icon(
+                                                            imageVector = Icons.Default.Reply,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = replyColor
+                                                        ?: defaultReplyColor,
+                                                    onTriggered = rememberCallback {
+                                                        detailOpener.openReply(originalPost = result.model)
+                                                    },
+                                                )
+
+                                                ActionOnSwipe.Save -> SwipeAction(
+                                                    swipeContent = {
+                                                        androidx.compose.material.Icon(
+                                                            imageVector = Icons.Default.Bookmark,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = replyColor
+                                                        ?: defaultReplyColor,
+                                                    onTriggered = rememberCallback {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.SavePost(
+                                                                id = result.model.id,
+                                                            ),
+                                                        )
+                                                    },
+                                                )
+
+
+                                                else -> null
                                             }
+                                        }
+
+                                    SwipeActionCard(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        enabled = uiState.swipeActionsEnabled,
+                                        onGestureBegin = rememberCallback(model) {
+                                            model.reduce(ExploreMviModel.Intent.HapticIndication)
+                                        },
+                                        swipeToStartActions = if (uiState.isLogged) {
+                                            uiState.actionsOnSwipeToStartPosts.toSwipeActions()
+                                        } else {
+                                            emptyList()
+                                        },
+                                        swipeToEndActions = if (uiState.isLogged) {
+                                            uiState.actionsOnSwipeToEndPosts.toSwipeActions()
+                                        } else {
+                                            emptyList()
                                         },
                                         content = {
                                             PostCard(
@@ -467,15 +517,11 @@ class ExploreScreen : Screen {
                                 }
 
                                 is SearchResult.Comment -> {
-                                    SwipeActionCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        enabled = uiState.swipeActionsEnabled,
-                                        onGestureBegin = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.HapticIndication)
-                                        },
-                                        swipeToStartActions = buildList {
-                                            if (uiState.isLogged) {
-                                                this += SwipeAction(
+                                    @Composable
+                                    fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
+                                        mapNotNull {
+                                            when (it) {
+                                                ActionOnSwipe.UpVote -> SwipeAction(
                                                     swipeContent = {
                                                         androidx.compose.material.Icon(
                                                             imageVector = Icons.Default.ArrowCircleUp,
@@ -493,11 +539,8 @@ class ExploreScreen : Screen {
                                                         )
                                                     },
                                                 )
-                                            }
-                                        },
-                                        swipeToEndActions = buildList {
-                                            if (uiState.isLogged) {
-                                                this += SwipeAction(
+
+                                                ActionOnSwipe.DownVote -> SwipeAction(
                                                     swipeContent = {
                                                         androidx.compose.material.Icon(
                                                             imageVector = Icons.Default.ArrowCircleDown,
@@ -515,7 +558,64 @@ class ExploreScreen : Screen {
                                                         )
                                                     },
                                                 )
+
+                                                ActionOnSwipe.Reply -> SwipeAction(
+                                                    swipeContent = {
+                                                        androidx.compose.material.Icon(
+                                                            imageVector = Icons.Default.Reply,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = replyColor
+                                                        ?: defaultReplyColor,
+                                                    onTriggered = rememberCallback {
+                                                        detailOpener.openPostDetail(
+                                                            post = PostModel(id = result.model.postId),
+                                                            highlightCommentId = result.model.id,
+                                                        )
+                                                    },
+                                                )
+
+                                                ActionOnSwipe.Save -> SwipeAction(
+                                                    swipeContent = {
+                                                        androidx.compose.material.Icon(
+                                                            imageVector = Icons.Default.Bookmark,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = replyColor
+                                                        ?: defaultReplyColor,
+                                                    onTriggered = rememberCallback {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.SaveComment(
+                                                                id = result.model.id,
+                                                            ),
+                                                        )
+                                                    },
+                                                )
+
+
+                                                else -> null
                                             }
+                                        }
+
+                                    SwipeActionCard(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        enabled = uiState.swipeActionsEnabled,
+                                        onGestureBegin = rememberCallback(model) {
+                                            model.reduce(ExploreMviModel.Intent.HapticIndication)
+                                        },
+                                        swipeToStartActions = if (uiState.isLogged) {
+                                            uiState.actionsOnSwipeToStartComments.toSwipeActions()
+                                        } else {
+                                            emptyList()
+                                        },
+                                        swipeToEndActions = if (uiState.isLogged) {
+                                            uiState.actionsOnSwipeToEndComments.toSwipeActions()
+                                        } else {
+                                            emptyList()
                                         },
                                         content = {
                                             CommentCard(

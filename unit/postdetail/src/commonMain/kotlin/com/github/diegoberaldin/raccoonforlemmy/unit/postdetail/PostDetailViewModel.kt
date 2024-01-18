@@ -107,6 +107,8 @@ class PostDetailViewModel(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
+                        actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
+                        actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
                     )
                 }
             }.launchIn(this)
