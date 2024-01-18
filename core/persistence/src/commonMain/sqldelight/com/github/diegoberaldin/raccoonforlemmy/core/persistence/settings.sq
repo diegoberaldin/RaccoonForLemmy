@@ -36,6 +36,12 @@ CREATE TABLE SettingsEntity (
     postBodyMaxLines INTEGER DEFAULT NULL,
     infiniteScrollEnabled INTEGER NOT NULL DEFAULT 1,
     account_id INTEGER,
+    actionsOnSwipeToStartPosts TEXT DEFAULT NULL,
+    actionsOnSwipeToEndPosts TEXT DEFAULT NULL,
+    actionsOnSwipeToStartComments TEXT DEFAULT NULL,
+    actionsOnSwipeToEndComments TEXT DEFAULT NULL,
+    actionsOnSwipeToStartInbox TEXT DEFAULT NULL,
+    actionsOnSwipeToEndInbox TEXT DEFAULT NULL,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
 );
@@ -77,8 +83,20 @@ INSERT OR IGNORE INTO SettingsEntity (
     edgeToEdge,
     postBodyMaxLines,
     infiniteScrollEnabled,
+    actionsOnSwipeToStartPosts,
+    actionsOnSwipeToEndPosts,
+    actionsOnSwipeToStartComments,
+    actionsOnSwipeToEndComments,
+    actionsOnSwipeToStartInbox,
+    actionsOnSwipeToEndInbox,
     account_id
 ) VALUES (
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
     ?,
     ?,
     ?,
@@ -153,7 +171,13 @@ SET theme = ?,
     contentFontFamily = ?,
     edgeToEdge = ?,
     postBodyMaxLines = ?,
-    infiniteScrollEnabled = ?
+    infiniteScrollEnabled = ?,
+    actionsOnSwipeToStartPosts = ?,
+    actionsOnSwipeToEndPosts = ?,
+    actionsOnSwipeToStartComments = ?,
+    actionsOnSwipeToEndComments = ?,
+    actionsOnSwipeToStartInbox = ?,
+    actionsOnSwipeToEndInbox = ?
 WHERE account_id = ?;
 
 getBy:
@@ -193,6 +217,12 @@ SELECT
     contentFontFamily,
     edgeToEdge,
     postBodyMaxLines,
-    infiniteScrollEnabled
+    infiniteScrollEnabled,
+    actionsOnSwipeToStartPosts,
+    actionsOnSwipeToEndPosts,
+    actionsOnSwipeToStartComments,
+    actionsOnSwipeToEndComments,
+    actionsOnSwipeToStartInbox,
+    actionsOnSwipeToEndInbox
 FROM SettingsEntity
 WHERE account_id = ?;

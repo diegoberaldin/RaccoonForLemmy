@@ -1,0 +1,17 @@
+ALTER TABLE SettingsEntity
+ADD COLUMN  actionsOnSwipeToStartPosts TEXT DEFAULT NULL;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  actionsOnSwipeToEndPosts TEXT DEFAULT NULL;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  actionsOnSwipeToStartComments TEXT DEFAULT NULL;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  actionsOnSwipeToEndComments TEXT DEFAULT NULL;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  actionsOnSwipeToStartInbox TEXT DEFAULT NULL;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  actionsOnSwipeToEndInbox TEXT DEFAULT NULL;

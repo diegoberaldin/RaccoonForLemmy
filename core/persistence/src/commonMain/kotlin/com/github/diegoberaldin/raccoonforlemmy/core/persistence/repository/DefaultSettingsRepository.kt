@@ -4,7 +4,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toLong
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toVoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DatabaseProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.GetBy
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.toActionOnSwipe
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -13,41 +16,41 @@ import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.milliseconds
 
 private object KeyStoreKeys {
-    const val UiTheme = "uiTheme"
-    const val UiFontFamily = "uiFontFamily"
-    const val UiFontScale = "uiFontSize"
-    const val ContentFontScale = "contentFontSize"
-    const val Locale = "locale"
-    const val DefaultListingType = "defaultListingType"
-    const val DefaultPostSortType = "defaultPostSortType"
-    const val DefaultInboxType = "defaultInboxType"
-    const val DefaultCommentSortType = "defaultCommentSortType"
-    const val IncludeNsfw = "includeNsfw"
-    const val BlurNsfw = "blurNsfw"
-    const val NavItemTitlesVisible = "navItemTitlesVisible"
-    const val DynamicColors = "dynamicColors"
-    const val OpenUrlsInExternalBrowser = "openUrlsInExternalBrowser"
-    const val EnableSwipeActions = "enableSwipeActions"
-    const val EnableDoubleTapAction = "enableDoubleTapAction"
-    const val CustomSeedColor = "customPrimaryColor"
-    const val PostLayout = "postLayout"
-    const val SeparateUpAndDownVotes = "separateUpAndDownVotes"
-    const val AutoLoadImages = "autoLoadImages"
-    const val AutoExpandComments = "autoExpandComments"
-    const val FullHeightImages = "fullHeightImages"
-    const val UpVoteColor = "upVoteColor"
-    const val DownVoteColor = "downVoteColor"
-    const val HideNavigationBarWhileScrolling = "hideNavigationBarWhileScrolling"
-    const val ZombieModeInterval = "zombieModeInterval"
-    const val ZombieModeScrollAmount = "zombieModeScrollAmount"
-    const val MarkAsReadWhileScrolling = "markAsReadWhileScrolling"
-    const val CommentBarTheme = "commentBarTheme"
-    const val ReplyColor = "replyColor"
-    const val SearchPostTitleOnly = "searchPostTitleOnly"
-    const val ContentFontFamily = "contentFontFamily"
-    const val EdgeToEdge = "edgeToEdge"
-    const val PostBodyMaxLines = "postBodyMaxLines"
-    const val InfiniteScrollEnabled = "infiniteScrollEnabled"
+    const val UI_THEME = "uiTheme"
+    const val UI_FONT_FAMILY = "uiFontFamily"
+    const val UI_FONT_SCALE = "uiFontSize"
+    const val CONTENT_FONT_SCALE = "contentFontSize"
+    const val LOCALE = "locale"
+    const val DEFAULT_LISTING_TYPE = "defaultListingType"
+    const val DEFAULT_POST_SORT_TYPE = "defaultPostSortType"
+    const val DEFAULT_INBOX_TYPE = "defaultInboxType"
+    const val DEFAULT_COMMENT_SORT_TYPE = "defaultCommentSortType"
+    const val INCLUDE_NSFW = "includeNsfw"
+    const val BLUR_NSFW = "blurNsfw"
+    const val NAV_ITEM_TITLES_VISIBLE = "navItemTitlesVisible"
+    const val DYNAMIC_COLORS = "dynamicColors"
+    const val OPEN_URLS_IN_EXTERNAL_BROWSER = "openUrlsInExternalBrowser"
+    const val ENABLE_SWIPE_ACTIONS = "enableSwipeActions"
+    const val ENABLE_DOUBLE_TAP_ACTION = "enableDoubleTapAction"
+    const val CUSTOM_SEED_COLOR = "customPrimaryColor"
+    const val POST_LAYOUT = "postLayout"
+    const val SEPARATE_UP_AND_DOWN_VOTES = "separateUpAndDownVotes"
+    const val AUTO_LOAD_IMAGES = "autoLoadImages"
+    const val AUTO_EXPAND_COMMENTS = "autoExpandComments"
+    const val FULL_HEIGHT_IMAGES = "fullHeightImages"
+    const val UP_VOTE_COLOR = "upVoteColor"
+    const val DOWN_VOTE_COLOR = "downVoteColor"
+    const val HIDE_NAVIGATION_BAR_WHILE_SCROLLING = "hideNavigationBarWhileScrolling"
+    const val ZOMBIE_MODE_INTERVAL = "zombieModeInterval"
+    const val ZOMBIE_MODE_SCROLL_AMOUNT = "zombieModeScrollAmount"
+    const val MARK_AS_READ_WHILE_SCROLLING = "markAsReadWhileScrolling"
+    const val COMMENT_BAR_THEME = "commentBarTheme"
+    const val REPLY_COLOR = "replyColor"
+    const val SEARCH_POST_TITLE_ONLY = "searchPostTitleOnly"
+    const val CONTENT_FONT_FAMILY = "contentFontFamily"
+    const val EDGE_TO_EDGE = "edgeToEdge"
+    const val POST_BODY_MAX_LINES = "postBodyMaxLines"
+    const val INFINITE_SCROLL_ENABLED = "infiniteScrollEnabled"
 }
 
 internal class DefaultSettingsRepository(
@@ -98,6 +101,18 @@ internal class DefaultSettingsRepository(
                 edgeToEdge = if (settings.edgeToEdge) 1 else 0,
                 postBodyMaxLines = settings.postBodyMaxLines?.toLong(),
                 infiniteScrollEnabled = if (settings.infiniteScrollEnabled) 1 else 0,
+                actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts.map { it.toInt() }
+                    .joinToString(","),
+                actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts.map { it.toInt() }
+                    .joinToString(","),
+                actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments.map { it.toInt() }
+                    .joinToString(","),
+                actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments.map { it.toInt() }
+                    .joinToString(","),
+                actionsOnSwipeToStartInbox = settings.actionsOnSwipeToStartInbox.map { it.toInt() }
+                    .joinToString(","),
+                actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox.map { it.toInt() }
+                    .joinToString(","),
             )
         }
 
@@ -106,45 +121,45 @@ internal class DefaultSettingsRepository(
             if (accountId == null) {
                 // anonymous user, reading from keystore
                 SettingsModel(
-                    theme = if (keyStore.containsKey(KeyStoreKeys.UiTheme)) {
-                        keyStore[KeyStoreKeys.UiTheme, 0]
+                    theme = if (keyStore.containsKey(KeyStoreKeys.UI_THEME)) {
+                        keyStore[KeyStoreKeys.UI_THEME, 0]
                     } else null,
-                    uiFontScale = keyStore[KeyStoreKeys.UiFontScale, 1f],
-                    uiFontFamily = keyStore[KeyStoreKeys.UiFontFamily, 0],
-                    contentFontScale = keyStore[KeyStoreKeys.ContentFontScale, 1f],
-                    locale = keyStore[KeyStoreKeys.Locale, ""].takeIf { it.isNotEmpty() },
-                    defaultListingType = keyStore[KeyStoreKeys.DefaultListingType, 2],
-                    defaultPostSortType = keyStore[KeyStoreKeys.DefaultPostSortType, 1],
-                    defaultCommentSortType = keyStore[KeyStoreKeys.DefaultCommentSortType, 3],
-                    defaultInboxType = keyStore[KeyStoreKeys.DefaultInboxType, 0],
-                    includeNsfw = keyStore[KeyStoreKeys.IncludeNsfw, false],
-                    blurNsfw = keyStore[KeyStoreKeys.BlurNsfw, true],
-                    navigationTitlesVisible = keyStore[KeyStoreKeys.NavItemTitlesVisible, true],
-                    dynamicColors = keyStore[KeyStoreKeys.DynamicColors, false],
-                    openUrlsInExternalBrowser = keyStore[KeyStoreKeys.OpenUrlsInExternalBrowser, true],
-                    enableSwipeActions = keyStore[KeyStoreKeys.EnableSwipeActions, true],
-                    enableDoubleTapAction = keyStore[KeyStoreKeys.EnableDoubleTapAction, false],
-                    customSeedColor = if (!keyStore.containsKey(KeyStoreKeys.CustomSeedColor)) null else keyStore[KeyStoreKeys.CustomSeedColor, 0],
-                    postLayout = keyStore[KeyStoreKeys.PostLayout, 0],
-                    voteFormat = keyStore[KeyStoreKeys.SeparateUpAndDownVotes, 0L].toVoteFormat(),
-                    autoLoadImages = keyStore[KeyStoreKeys.AutoLoadImages, true],
-                    autoExpandComments = keyStore[KeyStoreKeys.AutoExpandComments, true],
-                    fullHeightImages = keyStore[KeyStoreKeys.FullHeightImages, true],
-                    upVoteColor = if (!keyStore.containsKey(KeyStoreKeys.UpVoteColor)) null else keyStore[KeyStoreKeys.UpVoteColor, 0],
-                    downVoteColor = if (!keyStore.containsKey(KeyStoreKeys.DownVoteColor)) null else keyStore[KeyStoreKeys.DownVoteColor, 0],
-                    hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HideNavigationBarWhileScrolling, true],
-                    zombieModeInterval = keyStore[KeyStoreKeys.ZombieModeInterval, 1000].milliseconds,
-                    zombieModeScrollAmount = keyStore[KeyStoreKeys.ZombieModeScrollAmount, 55f],
-                    markAsReadWhileScrolling = keyStore[KeyStoreKeys.MarkAsReadWhileScrolling, false],
-                    commentBarTheme = keyStore[KeyStoreKeys.CommentBarTheme, 0],
-                    replyColor = if (!keyStore.containsKey(KeyStoreKeys.ReplyColor)) null else keyStore[KeyStoreKeys.ReplyColor, 0],
-                    searchPostTitleOnly = keyStore[KeyStoreKeys.SearchPostTitleOnly, false],
-                    contentFontFamily = keyStore[KeyStoreKeys.ContentFontFamily, 0],
-                    edgeToEdge = keyStore[KeyStoreKeys.EdgeToEdge, true],
-                    postBodyMaxLines = if (keyStore.containsKey(KeyStoreKeys.PostBodyMaxLines)) {
-                        keyStore[KeyStoreKeys.PostBodyMaxLines, 0]
+                    uiFontScale = keyStore[KeyStoreKeys.UI_FONT_SCALE, 1f],
+                    uiFontFamily = keyStore[KeyStoreKeys.UI_FONT_FAMILY, 0],
+                    contentFontScale = keyStore[KeyStoreKeys.CONTENT_FONT_SCALE, 1f],
+                    locale = keyStore[KeyStoreKeys.LOCALE, ""].takeIf { it.isNotEmpty() },
+                    defaultListingType = keyStore[KeyStoreKeys.DEFAULT_LISTING_TYPE, 2],
+                    defaultPostSortType = keyStore[KeyStoreKeys.DEFAULT_POST_SORT_TYPE, 1],
+                    defaultCommentSortType = keyStore[KeyStoreKeys.DEFAULT_COMMENT_SORT_TYPE, 3],
+                    defaultInboxType = keyStore[KeyStoreKeys.DEFAULT_INBOX_TYPE, 0],
+                    includeNsfw = keyStore[KeyStoreKeys.INCLUDE_NSFW, false],
+                    blurNsfw = keyStore[KeyStoreKeys.BLUR_NSFW, true],
+                    navigationTitlesVisible = keyStore[KeyStoreKeys.NAV_ITEM_TITLES_VISIBLE, true],
+                    dynamicColors = keyStore[KeyStoreKeys.DYNAMIC_COLORS, false],
+                    openUrlsInExternalBrowser = keyStore[KeyStoreKeys.OPEN_URLS_IN_EXTERNAL_BROWSER, true],
+                    enableSwipeActions = keyStore[KeyStoreKeys.ENABLE_SWIPE_ACTIONS, true],
+                    enableDoubleTapAction = keyStore[KeyStoreKeys.ENABLE_DOUBLE_TAP_ACTION, false],
+                    customSeedColor = if (!keyStore.containsKey(KeyStoreKeys.CUSTOM_SEED_COLOR)) null else keyStore[KeyStoreKeys.CUSTOM_SEED_COLOR, 0],
+                    postLayout = keyStore[KeyStoreKeys.POST_LAYOUT, 0],
+                    voteFormat = keyStore[KeyStoreKeys.SEPARATE_UP_AND_DOWN_VOTES, 0L].toVoteFormat(),
+                    autoLoadImages = keyStore[KeyStoreKeys.AUTO_LOAD_IMAGES, true],
+                    autoExpandComments = keyStore[KeyStoreKeys.AUTO_EXPAND_COMMENTS, true],
+                    fullHeightImages = keyStore[KeyStoreKeys.FULL_HEIGHT_IMAGES, true],
+                    upVoteColor = if (!keyStore.containsKey(KeyStoreKeys.UP_VOTE_COLOR)) null else keyStore[KeyStoreKeys.UP_VOTE_COLOR, 0],
+                    downVoteColor = if (!keyStore.containsKey(KeyStoreKeys.DOWN_VOTE_COLOR)) null else keyStore[KeyStoreKeys.DOWN_VOTE_COLOR, 0],
+                    hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HIDE_NAVIGATION_BAR_WHILE_SCROLLING, true],
+                    zombieModeInterval = keyStore[KeyStoreKeys.ZOMBIE_MODE_INTERVAL, 1000].milliseconds,
+                    zombieModeScrollAmount = keyStore[KeyStoreKeys.ZOMBIE_MODE_SCROLL_AMOUNT, 55f],
+                    markAsReadWhileScrolling = keyStore[KeyStoreKeys.MARK_AS_READ_WHILE_SCROLLING, false],
+                    commentBarTheme = keyStore[KeyStoreKeys.COMMENT_BAR_THEME, 0],
+                    replyColor = if (!keyStore.containsKey(KeyStoreKeys.REPLY_COLOR)) null else keyStore[KeyStoreKeys.REPLY_COLOR, 0],
+                    searchPostTitleOnly = keyStore[KeyStoreKeys.SEARCH_POST_TITLE_ONLY, false],
+                    contentFontFamily = keyStore[KeyStoreKeys.CONTENT_FONT_FAMILY, 0],
+                    edgeToEdge = keyStore[KeyStoreKeys.EDGE_TO_EDGE, true],
+                    postBodyMaxLines = if (keyStore.containsKey(KeyStoreKeys.POST_BODY_MAX_LINES)) {
+                        keyStore[KeyStoreKeys.POST_BODY_MAX_LINES, 0]
                     } else null,
-                    infiniteScrollEnabled = keyStore[KeyStoreKeys.InfiniteScrollEnabled, true],
+                    infiniteScrollEnabled = keyStore[KeyStoreKeys.INFINITE_SCROLL_ENABLED, true],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -158,86 +173,92 @@ internal class DefaultSettingsRepository(
             if (accountId == null) {
                 // anonymous user, storing into keystore
                 if (settings.theme != null) {
-                    keyStore.save(KeyStoreKeys.UiTheme, settings.theme)
+                    keyStore.save(KeyStoreKeys.UI_THEME, settings.theme)
                 } else {
-                    keyStore.remove(KeyStoreKeys.UiTheme)
+                    keyStore.remove(KeyStoreKeys.UI_THEME)
                 }
-                keyStore.save(KeyStoreKeys.UiFontScale, settings.uiFontScale)
-                keyStore.save(KeyStoreKeys.UiFontFamily, settings.uiFontFamily)
-                keyStore.save(KeyStoreKeys.ContentFontScale, settings.contentFontScale)
+                keyStore.save(KeyStoreKeys.UI_FONT_SCALE, settings.uiFontScale)
+                keyStore.save(KeyStoreKeys.UI_FONT_FAMILY, settings.uiFontFamily)
+                keyStore.save(KeyStoreKeys.CONTENT_FONT_SCALE, settings.contentFontScale)
                 if (!settings.locale.isNullOrEmpty()) {
-                    keyStore.save(KeyStoreKeys.Locale, settings.locale)
+                    keyStore.save(KeyStoreKeys.LOCALE, settings.locale)
                 } else {
-                    keyStore.remove(KeyStoreKeys.Locale)
+                    keyStore.remove(KeyStoreKeys.LOCALE)
                 }
-                keyStore.save(KeyStoreKeys.DefaultListingType, settings.defaultListingType)
-                keyStore.save(KeyStoreKeys.DefaultPostSortType, settings.defaultPostSortType)
-                keyStore.save(KeyStoreKeys.DefaultCommentSortType, settings.defaultCommentSortType)
-                keyStore.save(KeyStoreKeys.DefaultInboxType, settings.defaultInboxType)
-                keyStore.save(KeyStoreKeys.IncludeNsfw, settings.includeNsfw)
-                keyStore.save(KeyStoreKeys.BlurNsfw, settings.blurNsfw)
-                keyStore.save(KeyStoreKeys.NavItemTitlesVisible, settings.navigationTitlesVisible)
-                keyStore.save(KeyStoreKeys.DynamicColors, settings.dynamicColors)
+                keyStore.save(KeyStoreKeys.DEFAULT_LISTING_TYPE, settings.defaultListingType)
+                keyStore.save(KeyStoreKeys.DEFAULT_POST_SORT_TYPE, settings.defaultPostSortType)
                 keyStore.save(
-                    key = KeyStoreKeys.OpenUrlsInExternalBrowser,
+                    KeyStoreKeys.DEFAULT_COMMENT_SORT_TYPE,
+                    settings.defaultCommentSortType
+                )
+                keyStore.save(KeyStoreKeys.DEFAULT_INBOX_TYPE, settings.defaultInboxType)
+                keyStore.save(KeyStoreKeys.INCLUDE_NSFW, settings.includeNsfw)
+                keyStore.save(KeyStoreKeys.BLUR_NSFW, settings.blurNsfw)
+                keyStore.save(
+                    KeyStoreKeys.NAV_ITEM_TITLES_VISIBLE,
+                    settings.navigationTitlesVisible
+                )
+                keyStore.save(KeyStoreKeys.DYNAMIC_COLORS, settings.dynamicColors)
+                keyStore.save(
+                    key = KeyStoreKeys.OPEN_URLS_IN_EXTERNAL_BROWSER,
                     value = settings.openUrlsInExternalBrowser
                 )
-                keyStore.save(KeyStoreKeys.EnableSwipeActions, settings.enableSwipeActions)
-                keyStore.save(KeyStoreKeys.EnableDoubleTapAction, settings.enableDoubleTapAction)
+                keyStore.save(KeyStoreKeys.ENABLE_SWIPE_ACTIONS, settings.enableSwipeActions)
+                keyStore.save(KeyStoreKeys.ENABLE_DOUBLE_TAP_ACTION, settings.enableDoubleTapAction)
                 if (settings.customSeedColor != null) {
-                    keyStore.save(KeyStoreKeys.CustomSeedColor, settings.customSeedColor)
+                    keyStore.save(KeyStoreKeys.CUSTOM_SEED_COLOR, settings.customSeedColor)
                 } else {
-                    keyStore.remove(KeyStoreKeys.CustomSeedColor)
+                    keyStore.remove(KeyStoreKeys.CUSTOM_SEED_COLOR)
                 }
-                keyStore.save(KeyStoreKeys.PostLayout, settings.postLayout)
-                keyStore.save(KeyStoreKeys.SeparateUpAndDownVotes, settings.voteFormat.toLong())
-                keyStore.save(KeyStoreKeys.AutoLoadImages, settings.autoLoadImages)
-                keyStore.save(KeyStoreKeys.AutoExpandComments, settings.autoExpandComments)
-                keyStore.save(KeyStoreKeys.FullHeightImages, settings.fullHeightImages)
+                keyStore.save(KeyStoreKeys.POST_LAYOUT, settings.postLayout)
+                keyStore.save(KeyStoreKeys.SEPARATE_UP_AND_DOWN_VOTES, settings.voteFormat.toLong())
+                keyStore.save(KeyStoreKeys.AUTO_LOAD_IMAGES, settings.autoLoadImages)
+                keyStore.save(KeyStoreKeys.AUTO_EXPAND_COMMENTS, settings.autoExpandComments)
+                keyStore.save(KeyStoreKeys.FULL_HEIGHT_IMAGES, settings.fullHeightImages)
                 if (settings.upVoteColor != null) {
-                    keyStore.save(KeyStoreKeys.UpVoteColor, settings.upVoteColor)
+                    keyStore.save(KeyStoreKeys.UP_VOTE_COLOR, settings.upVoteColor)
                 } else {
-                    keyStore.remove(KeyStoreKeys.UpVoteColor)
+                    keyStore.remove(KeyStoreKeys.UP_VOTE_COLOR)
                 }
                 if (settings.downVoteColor != null) {
-                    keyStore.save(KeyStoreKeys.DownVoteColor, settings.downVoteColor)
+                    keyStore.save(KeyStoreKeys.DOWN_VOTE_COLOR, settings.downVoteColor)
                 } else {
-                    keyStore.remove(KeyStoreKeys.DownVoteColor)
+                    keyStore.remove(KeyStoreKeys.DOWN_VOTE_COLOR)
                 }
                 keyStore.save(
-                    KeyStoreKeys.HideNavigationBarWhileScrolling,
+                    KeyStoreKeys.HIDE_NAVIGATION_BAR_WHILE_SCROLLING,
                     settings.hideNavigationBarWhileScrolling
                 )
                 keyStore.save(
-                    KeyStoreKeys.ZombieModeInterval,
+                    KeyStoreKeys.ZOMBIE_MODE_INTERVAL,
                     settings.zombieModeInterval.inWholeMilliseconds,
                 )
                 keyStore.save(
-                    KeyStoreKeys.ZombieModeScrollAmount,
+                    KeyStoreKeys.ZOMBIE_MODE_SCROLL_AMOUNT,
                     settings.zombieModeScrollAmount,
                 )
                 keyStore.save(
-                    KeyStoreKeys.MarkAsReadWhileScrolling,
+                    KeyStoreKeys.MARK_AS_READ_WHILE_SCROLLING,
                     settings.markAsReadWhileScrolling,
                 )
-                keyStore.save(KeyStoreKeys.CommentBarTheme, settings.commentBarTheme)
+                keyStore.save(KeyStoreKeys.COMMENT_BAR_THEME, settings.commentBarTheme)
                 if (settings.replyColor != null) {
-                    keyStore.save(KeyStoreKeys.ReplyColor, settings.replyColor)
+                    keyStore.save(KeyStoreKeys.REPLY_COLOR, settings.replyColor)
                 } else {
-                    keyStore.remove(KeyStoreKeys.ReplyColor)
+                    keyStore.remove(KeyStoreKeys.REPLY_COLOR)
                 }
                 keyStore.save(
-                    KeyStoreKeys.SearchPostTitleOnly,
+                    KeyStoreKeys.SEARCH_POST_TITLE_ONLY,
                     settings.searchPostTitleOnly,
                 )
-                keyStore.save(KeyStoreKeys.ContentFontFamily, settings.contentFontFamily)
-                keyStore.save(KeyStoreKeys.EdgeToEdge, settings.edgeToEdge)
+                keyStore.save(KeyStoreKeys.CONTENT_FONT_FAMILY, settings.contentFontFamily)
+                keyStore.save(KeyStoreKeys.EDGE_TO_EDGE, settings.edgeToEdge)
                 if (settings.postBodyMaxLines != null) {
-                    keyStore.save(KeyStoreKeys.PostBodyMaxLines, settings.postBodyMaxLines)
+                    keyStore.save(KeyStoreKeys.POST_BODY_MAX_LINES, settings.postBodyMaxLines)
                 } else {
-                    keyStore.remove(KeyStoreKeys.PostBodyMaxLines)
+                    keyStore.remove(KeyStoreKeys.POST_BODY_MAX_LINES)
                 }
-                keyStore.save(KeyStoreKeys.InfiniteScrollEnabled, settings.infiniteScrollEnabled)
+                keyStore.save(KeyStoreKeys.INFINITE_SCROLL_ENABLED, settings.infiniteScrollEnabled)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -276,6 +297,18 @@ internal class DefaultSettingsRepository(
                     edgeToEdge = if (settings.edgeToEdge) 1L else 0L,
                     postBodyMaxLines = settings.postBodyMaxLines?.toLong(),
                     infiniteScrollEnabled = if (settings.infiniteScrollEnabled) 1L else 0L,
+                    actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts.map { it.toInt() }
+                        .joinToString(","),
+                    actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts.map { it.toInt() }
+                        .joinToString(","),
+                    actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments.map { it.toInt() }
+                        .joinToString(","),
+                    actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments.map { it.toInt() }
+                        .joinToString(","),
+                    actionsOnSwipeToStartInbox = settings.actionsOnSwipeToStartInbox.map { it.toInt() }
+                        .joinToString(","),
+                    actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox.map { it.toInt() }
+                        .joinToString(","),
                 )
             }
         }
@@ -322,4 +355,33 @@ private fun GetBy.toModel() = SettingsModel(
     edgeToEdge = edgeToEdge != 0L,
     postBodyMaxLines = postBodyMaxLines?.toInt(),
     infiniteScrollEnabled = infiniteScrollEnabled != 0L,
+    actionsOnSwipeToStartPosts = actionsOnSwipeToStartPosts?.split(",")
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
+        ActionOnSwipe.UpVote,
+        ActionOnSwipe.Save,
+    ),
+    actionsOnSwipeToEndPosts = actionsOnSwipeToEndPosts?.split(",")
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
+        ActionOnSwipe.DownVote,
+        ActionOnSwipe.Reply,
+    ),
+    actionsOnSwipeToStartComments = actionsOnSwipeToStartComments?.split(",")
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
+        ActionOnSwipe.UpVote,
+        ActionOnSwipe.Save,
+    ),
+    actionsOnSwipeToEndComments = actionsOnSwipeToEndComments?.split(",")
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
+        ActionOnSwipe.DownVote,
+        ActionOnSwipe.Reply,
+    ),
+    actionsOnSwipeToStartInbox = actionsOnSwipeToStartInbox?.split(",")
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
+        ActionOnSwipe.UpVote,
+        ActionOnSwipe.ToggleRead,
+    ),
+    actionsOnSwipeToEndInbox = actionsOnSwipeToEndInbox?.split(",")
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
+        ActionOnSwipe.DownVote,
+    ),
 )
