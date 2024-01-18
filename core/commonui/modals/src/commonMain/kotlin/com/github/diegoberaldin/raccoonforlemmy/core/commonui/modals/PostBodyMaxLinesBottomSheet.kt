@@ -65,7 +65,7 @@ class PostBodyMaxLinesBottomSheet(
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.settings_zombie_mode_interval),
+                    text = stringResource(MR.strings.settings_post_body_max_lines),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
