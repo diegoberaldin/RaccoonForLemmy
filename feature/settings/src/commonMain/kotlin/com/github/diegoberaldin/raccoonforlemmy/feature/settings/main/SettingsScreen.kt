@@ -91,6 +91,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.VoteThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.choosefont.FontFamilyBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.choosefont.FontScaleBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ConfigureSwipeActionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.desc
@@ -353,7 +354,7 @@ class SettingsScreen : Screen {
                         SettingsRow(
                             title = stringResource(MR.strings.settings_post_body_max_lines),
                             value = if (uiState.postBodyMaxLines == null) {
-                               stringResource(MR.strings.settings_post_body_max_lines_unlimited)
+                                stringResource(MR.strings.settings_post_body_max_lines_unlimited)
                             } else {
                                 uiState.postBodyMaxLines.toString()
                             },
@@ -537,6 +538,16 @@ class SettingsScreen : Screen {
                             )
                         },
                     )
+                    if (uiState.isLogged) {
+                        SettingsRow(
+                            title = stringResource(MR.strings.settings_configure_swipe_actions),
+                            disclosureIndicator = true,
+                            onTap = rememberCallback {
+                                val screen = ConfigureSwipeActionsScreen()
+                                navigationCoordinator.pushScreen(screen)
+                            },
+                        )
+                    }
 
                     // double tap
                     SettingsSwitchRow(

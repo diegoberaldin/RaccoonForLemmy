@@ -85,6 +85,7 @@ kotlin {
                 implementation(projects.unit.accountsettings)
                 implementation(projects.unit.manageban)
                 implementation(projects.unit.selectinstance)
+                implementation(projects.unit.configureswipeactions)
 
                 api(projects.resources)
                 api(projects.feature.home)

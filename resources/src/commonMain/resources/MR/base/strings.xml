@@ -342,4 +342,5 @@
     <string name="post_list_load_more_posts">Load more posts</string>
     <string name="settings_infinite_scroll_disabled">Disable infinite scrolling</string>
     <string name="dialog_title_add_instance">Add instance</string>
+    <string name="settings_configure_swipe_actions">Configure swipe actions</string>
 </resources>

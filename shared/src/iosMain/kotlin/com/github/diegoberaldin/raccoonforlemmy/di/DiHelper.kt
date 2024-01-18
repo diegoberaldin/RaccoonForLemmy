@@ -28,6 +28,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.di.communityDetailModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.di.communityInfoModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.di.configureSwipeActionsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.di.createCommentModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.di.createPostModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.di.createReportModule
@@ -96,6 +97,7 @@ fun initKoin() {
             accountSettingsModule,
             manageBanModule,
             selectInstanceModule,
+            configureSwipeActionsModule,
         )
     }
 

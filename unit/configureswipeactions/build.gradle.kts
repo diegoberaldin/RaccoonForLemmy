@@ -21,7 +21,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "settings"
+            baseName = "configureswipeactions"
         }
     }
 
@@ -30,41 +30,23 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
+                implementation(compose.material)
                 implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
 
                 implementation(libs.koin.core)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.koin)
-                implementation(libs.voyager.tab)
-                implementation(libs.voyager.bottomsheet)
 
-                implementation(projects.core.appearance)
-                implementation(projects.core.preferences)
-                implementation(projects.core.persistence)
-                implementation(projects.core.architecture)
                 implementation(projects.core.utils)
-                implementation(projects.core.navigation)
+                implementation(projects.core.appearance)
+                implementation(projects.core.architecture)
                 implementation(projects.core.commonui.components)
-                implementation(projects.core.commonui.lemmyui)
-                implementation(projects.core.commonui.modals)
-                implementation(projects.core.commonui.detailopenerApi)
-                implementation(projects.core.notifications)
-
-                implementation(projects.domain.lemmy.data)
-                implementation(projects.domain.lemmy.repository)
-                implementation(projects.domain.identity)
-
-                implementation(projects.unit.web)
-                implementation(projects.unit.about)
-                implementation(projects.unit.accountsettings)
-                implementation(projects.unit.manageban)
-                implementation(projects.unit.choosecolor)
-                implementation(projects.unit.choosefont)
-                implementation(projects.unit.configureswipeactions)
+                implementation(projects.core.navigation)
+                implementation(projects.core.persistence)
 
                 implementation(projects.resources)
             }
@@ -78,7 +60,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.settings"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
