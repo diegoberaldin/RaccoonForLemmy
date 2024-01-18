@@ -34,8 +34,6 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -80,7 +78,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Floatin
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAction
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
@@ -446,83 +445,66 @@ class UserDetailScreen(
                         items(
                             uiState.posts,
                             { it.id.toString() + (it.updateDate ?: it.publishDate) }) { post ->
-                            SwipeableCard(
+                            SwipeActionCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
-                                directions = if (!uiState.isLogged || isOnOtherInstance) {
-                                    emptySet()
-                                } else {
-                                    setOf(
-                                        DismissDirection.StartToEnd,
-                                        DismissDirection.EndToStart,
-                                    )
-                                },
-                                enableSecondAction = rememberCallbackArgs { value ->
-                                    if (!uiState.isLogged) {
-                                        false
-                                    } else {
-                                        value == DismissValue.DismissedToStart
-                                    }
-                                },
-                                backgroundColor = rememberCallbackArgs { direction ->
-                                    when (direction) {
-                                        DismissValue.DismissedToStart -> upVoteColor
-                                            ?: defaultUpvoteColor
-
-                                        DismissValue.DismissedToEnd -> downVoteColor
-                                            ?: defaultDownVoteColor
-
-                                        else -> Color.Transparent
-                                    }
-                                },
-                                secondBackgroundColor = rememberCallbackArgs { direction ->
-                                    when (direction) {
-                                        DismissValue.DismissedToStart -> replyColor
-                                            ?: defaultReplyColor
-
-                                        else -> Color.Transparent
-                                    }
-                                },
-                                swipeContent = { direction ->
-                                    val icon = when (direction) {
-                                        DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
-                                        DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
-                                    }
-
-                                    Icon(
-                                        imageVector = icon,
-                                        contentDescription = null,
-                                        tint = Color.White,
-                                    )
-                                },
-                                secondSwipeContent = { direction ->
-                                    val icon = when (direction) {
-                                        DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
-                                        DismissDirection.EndToStart -> Icons.Default.Reply
-                                    }
-                                    Icon(
-                                        imageVector = icon,
-                                        contentDescription = null,
-                                        tint = Color.White,
-                                    )
-                                },
                                 onGestureBegin = rememberCallback(model) {
                                     model.reduce(UserDetailMviModel.Intent.HapticIndication)
                                 },
-                                onDismissToStart = rememberCallback(model) {
-                                    model.reduce(
-                                        UserDetailMviModel.Intent.UpVotePost(post.id),
-                                    )
+                                swipeToStartActions = buildList {
+                                    if (uiState.isLogged && !isOnOtherInstance) {
+                                        this += SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowCircleUp,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                            onTriggered = rememberCallback {
+                                                model.reduce(
+                                                    UserDetailMviModel.Intent.UpVotePost(
+                                                        post.id
+                                                    )
+                                                )
+                                            },
+                                        )
+                                        this += SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Reply,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor ?: defaultReplyColor,
+                                            onTriggered = rememberCallback {
+                                                detailOpener.openReply(originalPost = post)
+                                            },
+                                        )
+                                    }
                                 },
-                                onSecondDismissToStart = rememberCallback(model) {
-                                    detailOpener.openReply(
-                                        originalPost = post,
-                                    )
-                                },
-                                onDismissToEnd = rememberCallback(model) {
-                                    model.reduce(
-                                        UserDetailMviModel.Intent.DownVotePost(post.id),
-                                    )
+                                swipeToEndActions = buildList {
+                                    if (uiState.isLogged && !isOnOtherInstance) {
+                                        this += SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowCircleDown,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                            onTriggered = rememberCallback {
+                                                model.reduce(
+                                                    UserDetailMviModel.Intent.DownVotePost(
+                                                        post.id
+                                                    )
+                                                )
+                                            },
+                                        )
+                                    }
                                 },
                                 content = {
                                     PostCard(
@@ -718,85 +700,72 @@ class UserDetailScreen(
                             items = uiState.comments,
                             key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                         ) { comment ->
-                            SwipeableCard(
+                            SwipeActionCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
-                                directions = if (!uiState.isLogged || isOnOtherInstance) {
-                                    emptySet()
-                                } else {
-                                    setOf(
-                                        DismissDirection.StartToEnd,
-                                        DismissDirection.EndToStart,
-                                    )
-                                },
-                                enableSecondAction = rememberCallbackArgs { value ->
-                                    if (!uiState.isLogged) {
-                                        false
-                                    } else {
-                                        value == DismissValue.DismissedToStart
-                                    }
-                                },
-                                backgroundColor = rememberCallbackArgs { direction ->
-                                    when (direction) {
-                                        DismissValue.DismissedToStart -> upVoteColor
-                                            ?: defaultUpvoteColor
-
-                                        DismissValue.DismissedToEnd -> downVoteColor
-                                            ?: defaultDownVoteColor
-
-                                        else -> Color.Transparent
-                                    }
-                                },
-                                secondBackgroundColor = rememberCallbackArgs { direction ->
-                                    when (direction) {
-                                        DismissValue.DismissedToStart -> replyColor
-                                            ?: defaultReplyColor
-
-                                        else -> Color.Transparent
-                                    }
-                                },
-                                swipeContent = { direction ->
-                                    val icon = when (direction) {
-                                        DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
-                                        DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
-                                    }
-                                    Icon(
-                                        imageVector = icon,
-                                        contentDescription = null,
-                                        tint = Color.White,
-                                    )
-                                },
-                                secondSwipeContent = { direction ->
-                                    val icon = when (direction) {
-                                        DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
-                                        DismissDirection.EndToStart -> Icons.Default.Reply
-                                    }
-                                    Icon(
-                                        imageVector = icon,
-                                        contentDescription = null,
-                                        tint = Color.White,
-                                    )
-                                },
                                 onGestureBegin = rememberCallback(model) {
                                     model.reduce(UserDetailMviModel.Intent.HapticIndication)
                                 },
-                                onDismissToStart = rememberCallback(model) {
-                                    model.reduce(
-                                        UserDetailMviModel.Intent.UpVoteComment(comment.id),
-                                    )
+                                swipeToStartActions = buildList {
+                                    if (uiState.isLogged && !isOnOtherInstance) {
+                                        this += SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowCircleUp,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = upVoteColor
+                                                ?: defaultUpvoteColor,
+                                            onTriggered = rememberCallback {
+                                                model.reduce(
+                                                    UserDetailMviModel.Intent.UpVoteComment(
+                                                        comment.id
+                                                    )
+                                                )
+                                            },
+                                        )
+                                        this += SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Reply,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor
+                                                ?: defaultReplyColor,
+                                            onTriggered = rememberCallback {
+                                                detailOpener.openReply(
+                                                    originalPost = PostModel(id = comment.postId),
+                                                    originalComment = comment,
+                                                )
+                                            },
+                                        )
+                                    }
                                 },
-                                onSecondDismissToStart = rememberCallback(model) {
-                                    detailOpener.openReply(
-                                        originalPost = PostModel(id = comment.postId),
-                                        originalComment = comment,
-                                    )
-                                },
-                                onDismissToEnd = rememberCallback(model) {
-                                    model.reduce(
-                                        UserDetailMviModel.Intent.DownVoteComment(
-                                            comment.id
-                                        ),
-                                    )
+                                swipeToEndActions = buildList {
+                                    if (uiState.isLogged && !isOnOtherInstance) {
+                                        this += SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowCircleDown,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = downVoteColor
+                                                ?: defaultDownVoteColor,
+                                            onTriggered = rememberCallback {
+                                                model.reduce(
+                                                    UserDetailMviModel.Intent.DownVoteComment(
+                                                        comment.id
+                                                    ),
+                                                )
+                                            },
+                                        )
+                                    }
                                 },
                                 content = {
                                     CommentCard(

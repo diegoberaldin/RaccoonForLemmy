@@ -28,8 +28,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -66,7 +64,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAction
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
@@ -330,47 +329,55 @@ class ExploreScreen : Screen {
                                 }
 
                                 is SearchResult.Post -> {
-                                    SwipeableCard(
+                                    SwipeActionCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         enabled = uiState.swipeActionsEnabled,
-                                        directions = if (!uiState.isLogged) {
-                                            emptySet()
-                                        } else {
-                                            setOf(
-                                                DismissDirection.StartToEnd,
-                                                DismissDirection.EndToStart,
-                                            )
-                                        },
-                                        backgroundColor = rememberCallbackArgs { direction ->
-                                            when (direction) {
-                                                DismissValue.DismissedToStart -> upVoteColor
-                                                    ?: defaultUpvoteColor
-
-                                                DismissValue.DismissedToEnd -> downVoteColor
-                                                    ?: defaultDownVoteColor
-
-                                                DismissValue.Default -> Color.Transparent
-                                            }
-                                        },
                                         onGestureBegin = rememberCallback(model) {
                                             model.reduce(ExploreMviModel.Intent.HapticIndication)
                                         },
-                                        onDismissToStart = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.UpVotePost(result.model.id))
-                                        },
-                                        onDismissToEnd = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.DownVotePost(result.model.id))
-                                        },
-                                        swipeContent = { direction ->
-                                            val icon = when (direction) {
-                                                DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
-                                                DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
+                                        swipeToStartActions = buildList {
+                                            if (uiState.isLogged) {
+                                                this += SwipeAction(
+                                                    swipeContent = {
+                                                        androidx.compose.material.Icon(
+                                                            imageVector = Icons.Default.ArrowCircleUp,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = upVoteColor
+                                                        ?: defaultUpvoteColor,
+                                                    onTriggered = rememberCallback {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.UpVotePost(
+                                                                result.model.id
+                                                            )
+                                                        )
+                                                    },
+                                                )
                                             }
-                                            androidx.compose.material.Icon(
-                                                imageVector = icon,
-                                                contentDescription = null,
-                                                tint = Color.White,
-                                            )
+                                        },
+                                        swipeToEndActions = buildList {
+                                            if (uiState.isLogged) {
+                                                this += SwipeAction(
+                                                    swipeContent = {
+                                                        androidx.compose.material.Icon(
+                                                            imageVector = Icons.Default.ArrowCircleDown,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = downVoteColor
+                                                        ?: defaultDownVoteColor,
+                                                    onTriggered = rememberCallback {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.DownVotePost(
+                                                                result.model.id
+                                                            )
+                                                        )
+                                                    },
+                                                )
+                                            }
                                         },
                                         content = {
                                             PostCard(
@@ -460,55 +467,55 @@ class ExploreScreen : Screen {
                                 }
 
                                 is SearchResult.Comment -> {
-                                    SwipeableCard(
+                                    SwipeActionCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         enabled = uiState.swipeActionsEnabled,
-                                        directions = if (!uiState.isLogged) {
-                                            emptySet()
-                                        } else {
-                                            setOf(
-                                                DismissDirection.StartToEnd,
-                                                DismissDirection.EndToStart,
-                                            )
-                                        },
-                                        backgroundColor = rememberCallbackArgs { direction ->
-                                            when (direction) {
-                                                DismissValue.DismissedToStart -> upVoteColor
-                                                    ?: defaultUpvoteColor
-
-                                                DismissValue.DismissedToEnd -> downVoteColor
-                                                    ?: defaultDownVoteColor
-
-                                                DismissValue.Default -> Color.Transparent
-                                            }
-                                        },
                                         onGestureBegin = rememberCallback(model) {
                                             model.reduce(ExploreMviModel.Intent.HapticIndication)
                                         },
-                                        onDismissToStart = rememberCallback(model) {
-                                            model.reduce(
-                                                ExploreMviModel.Intent.UpVoteComment(
-                                                    id = result.model.id
-                                                ),
-                                            )
-                                        },
-                                        onDismissToEnd = rememberCallback(model) {
-                                            model.reduce(
-                                                ExploreMviModel.Intent.DownVoteComment(
-                                                    id = result.model.id
-                                                ),
-                                            )
-                                        },
-                                        swipeContent = { direction ->
-                                            val icon = when (direction) {
-                                                DismissDirection.StartToEnd -> Icons.Default.ArrowCircleDown
-                                                DismissDirection.EndToStart -> Icons.Default.ArrowCircleUp
+                                        swipeToStartActions = buildList {
+                                            if (uiState.isLogged) {
+                                                this += SwipeAction(
+                                                    swipeContent = {
+                                                        androidx.compose.material.Icon(
+                                                            imageVector = Icons.Default.ArrowCircleUp,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = upVoteColor
+                                                        ?: defaultUpvoteColor,
+                                                    onTriggered = rememberCallback {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.UpVoteComment(
+                                                                result.model.id
+                                                            )
+                                                        )
+                                                    },
+                                                )
                                             }
-                                            androidx.compose.material.Icon(
-                                                imageVector = icon,
-                                                contentDescription = null,
-                                                tint = Color.White,
-                                            )
+                                        },
+                                        swipeToEndActions = buildList {
+                                            if (uiState.isLogged) {
+                                                this += SwipeAction(
+                                                    swipeContent = {
+                                                        androidx.compose.material.Icon(
+                                                            imageVector = Icons.Default.ArrowCircleDown,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = downVoteColor
+                                                        ?: defaultDownVoteColor,
+                                                    onTriggered = rememberCallback {
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.DownVoteComment(
+                                                                result.model.id
+                                                            ),
+                                                        )
+                                                    },
+                                                )
+                                            }
                                         },
                                         content = {
                                             CommentCard(

@@ -21,8 +21,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +40,8 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeableCard
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAction
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardPlaceholder
@@ -138,37 +137,34 @@ class InboxRepliesScreen : Tab {
                     key = { it.id.toString() + it.read + uiState.unreadOnly },
                 ) { reply ->
                     val endColor = MaterialTheme.colorScheme.secondary
-                    SwipeableCard(
+                    SwipeActionCard(
                         modifier = Modifier.fillMaxWidth(),
-                        directions = setOf(DismissDirection.EndToStart),
                         enabled = uiState.swipeActionsEnabled,
-                        backgroundColor = rememberCallbackArgs { direction ->
-                            when (direction) {
-                                DismissValue.DismissedToStart -> endColor
-                                else -> Color.Transparent
-                            }
-                        },
                         onGestureBegin = rememberCallback(model) {
                             model.reduce(InboxRepliesMviModel.Intent.HapticIndication)
                         },
-                        onDismissToStart = rememberCallback(model) {
-                            model.reduce(
-                                InboxRepliesMviModel.Intent.MarkAsRead(
-                                    read = !reply.read,
-                                    id = reply.id,
-                                ),
-                            )
-                        },
-                        swipeContent = { _ ->
-                            val icon = when {
-                                reply.read -> Icons.Default.MarkChatUnread
-                                else -> Icons.Default.MarkChatRead
-                            }
-                            Icon(
-                                modifier = Modifier.padding(Spacing.xs),
-                                imageVector = icon,
-                                contentDescription = null,
-                                tint = Color.White,
+                        swipeToStartActions = buildList {
+                            this += SwipeAction(
+                                swipeContent = {
+                                    val icon = when {
+                                        reply.read -> Icons.Default.MarkChatUnread
+                                        else -> Icons.Default.MarkChatRead
+                                    }
+                                    Icon(
+                                        imageVector = icon,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                    )
+                                },
+                                backgroundColor = endColor,
+                                onTriggered = rememberCallback {
+                                    model.reduce(
+                                        InboxRepliesMviModel.Intent.MarkAsRead(
+                                            read = !reply.read,
+                                            id = reply.id,
+                                        ),
+                                    )
+                                },
                             )
                         },
                         content = {

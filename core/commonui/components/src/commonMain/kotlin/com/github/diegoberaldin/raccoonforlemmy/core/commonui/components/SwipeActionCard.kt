@@ -22,75 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 private const val SECOND_ACTION_THRESHOLD = 0.38f
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SwipeableCard(
-    modifier: Modifier = Modifier,
-    directions: Set<DismissDirection> = setOf(
-        DismissDirection.StartToEnd,
-        DismissDirection.EndToStart,
-    ),
-    enabled: Boolean = true,
-    enableSecondAction: (DismissValue) -> Boolean = { false },
-    content: @Composable () -> Unit,
-    swipeContent: @Composable (DismissDirection) -> Unit,
-    secondSwipeContent: @Composable ((DismissDirection) -> Unit)? = null,
-    backgroundColor: (DismissValue) -> Color,
-    secondBackgroundColor: ((DismissValue) -> Color)? = null,
-    onGestureBegin: (() -> Unit)? = null,
-    onDismissToEnd: (() -> Unit)? = null,
-    onSecondDismissToEnd: (() -> Unit)? = null,
-    onDismissToStart: (() -> Unit)? = null,
-    onSecondDismissToStart: (() -> Unit)? = null,
-) {
-    SwipeActionCard(
-        modifier = modifier,
-        enabled = enabled,
-        content = content,
-        onGestureBegin = onGestureBegin,
-        swipeToStartActions = buildList {
-            if (directions.contains(DismissDirection.EndToStart)) {
-                this += SwipeAction(
-                    swipeContent = { swipeContent(DismissDirection.EndToStart) },
-                    backgroundColor = backgroundColor(DismissValue.DismissedToStart),
-                    onTriggered = rememberCallback { onDismissToStart?.invoke() },
-                )
-                if (enableSecondAction(DismissValue.DismissedToStart)) {
-                    this += SwipeAction(
-                        swipeContent = { secondSwipeContent?.invoke(DismissDirection.EndToStart) },
-                        backgroundColor = secondBackgroundColor?.invoke(DismissValue.DismissedToStart)
-                            ?: backgroundColor(DismissValue.DismissedToStart),
-                        onTriggered = rememberCallback { onSecondDismissToStart?.invoke() },
-                    )
-                }
-            }
-        },
-        swipeToEndActions = buildList {
-            if (directions.contains(DismissDirection.StartToEnd)) {
-                this += SwipeAction(
-                    swipeContent = { swipeContent(DismissDirection.StartToEnd) },
-                    backgroundColor = backgroundColor(DismissValue.DismissedToEnd),
-                    onTriggered = rememberCallback { onDismissToEnd?.invoke() },
-                )
-                if (enableSecondAction(DismissValue.DismissedToEnd)) {
-                    this += SwipeAction(
-                        swipeContent = { secondSwipeContent?.invoke(DismissDirection.StartToEnd) },
-                        backgroundColor = secondBackgroundColor?.invoke(DismissValue.DismissedToEnd)
-                            ?: backgroundColor(DismissValue.DismissedToEnd),
-                        onTriggered = rememberCallback { onSecondDismissToEnd?.invoke() },
-                    )
-                }
-            }
-        },
-    )
-}
 
 data class SwipeAction(
     val swipeContent: @Composable () -> Unit,
