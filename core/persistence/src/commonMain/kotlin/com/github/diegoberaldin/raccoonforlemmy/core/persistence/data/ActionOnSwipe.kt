@@ -1,6 +1,13 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.data
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowCircleDown
+import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.MarkChatUnread
+import androidx.compose.material.icons.filled.Reply
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -75,10 +82,20 @@ internal fun Int.toActionOnSwipe(): ActionOnSwipe = when (this) {
 
 @Composable
 fun ActionOnSwipe.toReadableName(): String = when (this) {
-    ActionOnSwipe.DownVote -> stringResource(MR.strings.action_upvote)
+    ActionOnSwipe.DownVote -> stringResource(MR.strings.action_downvote)
     ActionOnSwipe.None -> ""
     ActionOnSwipe.Reply -> stringResource(MR.strings.action_reply)
     ActionOnSwipe.Save -> stringResource(MR.strings.action_save)
     ActionOnSwipe.ToggleRead -> stringResource(MR.strings.action_toggle_read)
     ActionOnSwipe.UpVote -> stringResource(MR.strings.action_upvote)
+}
+
+@Composable
+fun ActionOnSwipe.toIcon(): ImageVector? = when (this) {
+    ActionOnSwipe.DownVote -> Icons.Default.ArrowCircleDown
+    ActionOnSwipe.None -> null
+    ActionOnSwipe.Reply -> Icons.Default.Reply
+    ActionOnSwipe.Save -> Icons.Default.Bookmark
+    ActionOnSwipe.ToggleRead -> Icons.Default.MarkChatUnread
+    ActionOnSwipe.UpVote -> Icons.Default.ArrowCircleUp
 }

@@ -43,6 +43,8 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
                 implementation(libs.kotlinx.coroutines)
 
                 implementation(libs.koin.core)

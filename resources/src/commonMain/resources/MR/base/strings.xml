@@ -343,4 +343,11 @@
     <string name="settings_infinite_scroll_disabled">Disable infinite scrolling</string>
     <string name="dialog_title_add_instance">Add instance</string>
     <string name="settings_configure_swipe_actions">Configure swipe actions</string>
+    <string name="action_upvote">Upvote</string>
+    <string name="action_downvote">Downvote</string>
+    <string name="action_save">Save</string>
+    <string name="action_toggle_read">Read/unread</string>
+    <string name="configure_actions_side_start">Actions on the left side</string>
+    <string name="configure_actions_side_end">Actions on the right side</string>
+    <string name="select_action_title">Select an action</string>
 </resources>
