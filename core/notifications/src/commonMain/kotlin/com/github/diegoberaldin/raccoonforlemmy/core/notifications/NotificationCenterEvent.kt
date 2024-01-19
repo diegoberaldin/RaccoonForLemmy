@@ -6,6 +6,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeDirection
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeTarget
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -62,4 +65,10 @@ sealed interface NotificationCenterEvent {
     data class Share(val url: String) : NotificationCenterEvent
     data class ChangePostBodyMaxLines(val value: Int?) : NotificationCenterEvent
     data class InstanceSelected(val value: String) : NotificationCenterEvent
+
+    data class ActionsOnSwipeSelected(
+        val value: ActionOnSwipe,
+        val direction: ActionOnSwipeDirection,
+        val target: ActionOnSwipeTarget,
+    ) : NotificationCenterEvent
 }

@@ -356,32 +356,21 @@ private fun GetBy.toModel() = SettingsModel(
     postBodyMaxLines = postBodyMaxLines?.toInt(),
     infiniteScrollEnabled = infiniteScrollEnabled != 0L,
     actionsOnSwipeToStartPosts = actionsOnSwipeToStartPosts?.split(",")
-        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
-        ActionOnSwipe.UpVote,
-        ActionOnSwipe.Save,
-    ),
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
+        ?: ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS,
     actionsOnSwipeToEndPosts = actionsOnSwipeToEndPosts?.split(",")
-        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
-        ActionOnSwipe.DownVote,
-        ActionOnSwipe.Reply,
-    ),
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
+        ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_POSTS,
     actionsOnSwipeToStartComments = actionsOnSwipeToStartComments?.split(",")
-        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
-        ActionOnSwipe.UpVote,
-        ActionOnSwipe.Save,
-    ),
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
+        ?: ActionOnSwipe.DEFAULT_SWIPE_TO_START_COMMENTS,
     actionsOnSwipeToEndComments = actionsOnSwipeToEndComments?.split(",")
-        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
-        ActionOnSwipe.DownVote,
-        ActionOnSwipe.Reply,
-    ),
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
+        ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_COMMENTS,
     actionsOnSwipeToStartInbox = actionsOnSwipeToStartInbox?.split(",")
-        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
-        ActionOnSwipe.UpVote,
-        ActionOnSwipe.ToggleRead,
-    ),
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
+        ?: ActionOnSwipe.DEFAULT_SWIPE_TO_START_INBOX,
     actionsOnSwipeToEndInbox = actionsOnSwipeToEndInbox?.split(",")
-        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() } ?: listOf(
-        ActionOnSwipe.DownVote,
-    ),
+        ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
+        ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
 )

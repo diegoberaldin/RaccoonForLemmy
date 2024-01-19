@@ -50,6 +50,8 @@ kotlin {
                 implementation(projects.core.appearance)
                 implementation(projects.core.preferences)
                 implementation(projects.core.utils)
+
+                implementation(projects.resources)
             }
         }
         val commonTest by getting {

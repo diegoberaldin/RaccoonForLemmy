@@ -10,6 +10,8 @@ val configureSwipeActionsModule = module {
         ConfigureSwipeActionsViewModel(
             mvi = DefaultMviModel(ConfigureSwipeActionsMviModel.UiState()),
             settingsRepository = get(),
+            accountRepository = get(),
+            notificationCenter = get(),
         )
     }
 }

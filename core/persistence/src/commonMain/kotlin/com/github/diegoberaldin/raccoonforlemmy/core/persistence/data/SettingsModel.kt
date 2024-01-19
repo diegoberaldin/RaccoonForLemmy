@@ -41,27 +41,10 @@ data class SettingsModel(
     val edgeToEdge: Boolean = true,
     val postBodyMaxLines: Int? = null,
     val infiniteScrollEnabled: Boolean = true,
-    val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = listOf(
-        ActionOnSwipe.UpVote,
-        ActionOnSwipe.Save,
-    ),
-    val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = listOf(
-        ActionOnSwipe.DownVote,
-        ActionOnSwipe.Reply,
-    ),
-    val actionsOnSwipeToStartComments: List<ActionOnSwipe> = listOf(
-        ActionOnSwipe.UpVote,
-        ActionOnSwipe.Save,
-    ),
-    val actionsOnSwipeToEndComments: List<ActionOnSwipe> = listOf(
-        ActionOnSwipe.DownVote,
-        ActionOnSwipe.Reply,
-    ),
-    val actionsOnSwipeToStartInbox: List<ActionOnSwipe> = listOf(
-        ActionOnSwipe.UpVote,
-        ActionOnSwipe.ToggleRead,
-    ),
-    val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = listOf(
-        ActionOnSwipe.DownVote,
-    ),
+    val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS,
+    val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_END_POSTS,
+    val actionsOnSwipeToStartComments: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_START_COMMENTS,
+    val actionsOnSwipeToEndComments: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_END_COMMENTS,
+    val actionsOnSwipeToStartInbox: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_START_INBOX,
+    val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
 )
