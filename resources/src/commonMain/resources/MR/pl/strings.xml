@@ -315,4 +315,14 @@
     <string name="post_list_load_more_posts">Załaduj więcej postów</string>
     <string name="settings_infinite_scroll_disabled">Wyłącz nieskończone przewijanie</string>
     <string name="dialog_title_add_instance">Dodaj instancję</string>
+    <string name="settings_save_color">Kolor akcji zapisu</string>
+    <string name="settings_configure_swipe_actions">Skonfiguruj akcje przesuwania</string>
+    <string name="action_upvote">Głosuj za</string>
+    <string name="action_downvote">Głosuj przeciw</string>
+    <string name="action_save">Ratować</string>
+    <string name="action_toggle_read">Przeczytane/nieprzeczytane</string>
+    <string name="configure_actions_side_start">Działania po lewej stronie</string>
+    <string name="configure_actions_side_end">Działania po prawej stronie</string>
+    <string name="select_action_title">Wybierz akcję</string>
+    <string name="button_add">Dodaj nowe</string>
 </resources>

@@ -318,4 +318,14 @@
     <string name="post_list_load_more_posts">Ngarko më shumë postime</string>
     <string name="settings_infinite_scroll_disabled">Çaktivizo lëvizjen e pafund</string>
     <string name="dialog_title_add_instance">Shto shembull</string>
+    <string name="settings_save_color">Ngjyra e veprimit të ruajtjes</string>
+    <string name="settings_configure_swipe_actions">Konfiguro veprimet e rrëshqitjes</string>
+    <string name="action_upvote">Voto pro</string>
+    <string name="action_downvote">Voto kundër</string>
+    <string name="action_save">Ruaj</string>
+    <string name="action_toggle_read">Të lexuara/të palexuara</string>
+    <string name="configure_actions_side_start">Veprimet në anën e majtë</string>
+    <string name="configure_actions_side_end">Veprimet në anën e djathtë</string>
+    <string name="select_action_title">Zgjidhni një veprim</string>
+    <string name="button_add">Shto nje te ri</string>
 </resources>

@@ -314,4 +314,14 @@
     <string name="post_list_load_more_posts">Įkelti daugiau pranešimų</string>
     <string name="settings_infinite_scroll_disabled">Išjungti begalinį slinkimą</string>
     <string name="dialog_title_add_instance">Pridėti egzempliorių</string>
+    <string name="settings_save_color">Išsaugojimo veiksmo spalva</string>
+    <string name="settings_configure_swipe_actions">Konfigūruokite braukimo veiksmus</string>
+    <string name="action_upvote">Balsuoti už</string>
+    <string name="action_downvote">Balsuoti prieš</string>
+    <string name="action_save">Sutaupyti</string>
+    <string name="action_toggle_read">Skaityta/neskaityta</string>
+    <string name="configure_actions_side_start">Veiksmai kairėje pusėje</string>
+    <string name="configure_actions_side_end">Veiksmai dešinėje pusėje</string>
+    <string name="select_action_title">Pasirinkite veiksmą</string>
+    <string name="button_add">Pridėti naują</string>
 </resources>

@@ -317,4 +317,14 @@
     <string name="post_list_load_more_posts">Učitaj još postova</string>
     <string name="settings_infinite_scroll_disabled">Onemogući beskonačno pomicanje</string>
     <string name="dialog_title_add_instance">Dodaj instancu</string>
+    <string name="settings_save_color">Boja akcije spremanja</string>
+    <string name="settings_configure_swipe_actions">Konfigurirajte radnje prijelaza</string>
+    <string name="action_upvote">Glasaj za</string>
+    <string name="action_downvote">Glasaj protiv</string>
+    <string name="action_save">Uštedjeti</string>
+    <string name="action_toggle_read">Pročitano/nepročitano</string>
+    <string name="configure_actions_side_start">Akcije na lijevoj strani</string>
+    <string name="configure_actions_side_end">Akcije na desnoj strani</string>
+    <string name="select_action_title">Odaberite radnju</string>
+    <string name="button_add">Dodaj novi</string>
 </resources>

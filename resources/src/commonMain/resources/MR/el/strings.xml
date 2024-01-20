@@ -323,4 +323,14 @@
     <string name="post_list_load_more_posts">Φόρτωση περισσότερων αναρτήσεων</string>
     <string name="settings_infinite_scroll_disabled">Απενεργοποιήστε άπειρης κύλισης</string>
     <string name="dialog_title_add_instance">Προσθήκη στιγμιότυπου</string>
+    <string name="settings_save_color">Χρώμα της ενέργειας αποθήκευσης</string>
+    <string name="settings_configure_swipe_actions">Διαμόρφωση ενεργειών ολίσθησης</string>
+    <string name="action_upvote">Υπερψήφιση</string>
+    <string name="action_downvote">Καταψηφίστε</string>
+    <string name="action_save">Αποθηκεύσετε</string>
+    <string name="action_toggle_read">Αναγνωσμένο/μη αναγνωσμένο</string>
+    <string name="configure_actions_side_start">Ενέργειες στην αριστερή πλευρά</string>
+    <string name="configure_actions_side_end">Ενέργειες στη δεξιά πλευρά</string>
+    <string name="select_action_title">Επιλέξτε μια ενέργεια</string>
+    <string name="button_add">Πρόσθεσε νέο</string>
 </resources>

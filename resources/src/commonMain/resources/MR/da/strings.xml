@@ -312,4 +312,14 @@
     <string name="post_list_load_more_posts">Indlæs flere indlæg</string>
     <string name="settings_infinite_scroll_disabled">Deaktiver uendelig rulning</string>
     <string name="dialog_title_add_instance">Tilføj forekomst</string>
+    <string name="settings_save_color">Farve på gemmehandlingen</string>
+    <string name="settings_configure_swipe_actions">Konfigurer swipe-handlinger</string>
+    <string name="action_upvote">Stem op</string>
+    <string name="action_downvote">Stem ned</string>
+    <string name="action_save">Gemme</string>
+    <string name="action_toggle_read">Læst/ulæst</string>
+    <string name="configure_actions_side_start">Handlinger i venstre side</string>
+    <string name="configure_actions_side_end">Handlinger på højre side</string>
+    <string name="select_action_title">Vælg en handling</string>
+    <string name="button_add">Tilføj ny</string>
 </resources>

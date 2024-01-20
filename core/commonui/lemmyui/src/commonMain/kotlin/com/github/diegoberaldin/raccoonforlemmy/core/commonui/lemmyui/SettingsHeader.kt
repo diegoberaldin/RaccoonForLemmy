@@ -14,19 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
 fun SettingsHeader(
     title: String,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
-    rightButton: ImageVector? = null,
-    onRightButtonClicked: (() -> Unit)? = null,
+    rightButton: @Composable (() -> Unit)? = null,
 ) {
     val fullColor = MaterialTheme.colorScheme.onBackground
-    val ancillaryColor = fullColor.copy(alpha = 0.75f)
     Row(
         modifier = modifier.padding(
             top = Spacing.xxs,
@@ -52,17 +48,7 @@ fun SettingsHeader(
         )
         Spacer(modifier = Modifier.weight(1f))
         if (rightButton != null) {
-            Icon(
-                modifier = Modifier.size(IconSize.m)
-                    .onClick(
-                        onClick = rememberCallback {
-                            onRightButtonClicked?.invoke()
-                        },
-                    ),
-                imageVector = rightButton,
-                contentDescription = null,
-                tint = ancillaryColor,
-            )
+            rightButton()
         }
     }
 }

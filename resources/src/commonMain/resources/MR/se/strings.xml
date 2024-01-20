@@ -313,4 +313,14 @@
     <string name="post_list_load_more_posts">Ladda fler inlägg</string>
     <string name="settings_infinite_scroll_disabled">Inaktivera oändlig rullning</string>
     <string name="dialog_title_add_instance">Lägg till instans</string>
+    <string name="settings_save_color">Färg på sparåtgärden</string>
+    <string name="settings_configure_swipe_actions">Konfigurera svepåtgärder</string>
+    <string name="action_upvote">Rösta upp</string>
+    <string name="action_downvote">Rösta ned</string>
+    <string name="action_save">Spara</string>
+    <string name="action_toggle_read">Läst/oläst</string>
+    <string name="configure_actions_side_start">Åtgärder på vänster sida</string>
+    <string name="configure_actions_side_end">Åtgärder på höger sida</string>
+    <string name="select_action_title">Välj en åtgärd</string>
+    <string name="button_add">Lägg till ny</string>
 </resources>

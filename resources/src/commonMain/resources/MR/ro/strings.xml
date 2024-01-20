@@ -313,4 +313,14 @@
     <string name="post_list_load_more_posts">Încărcă mai multe postări</string>
     <string name="settings_infinite_scroll_disabled">Dezactivează derularea infinită</string>
     <string name="dialog_title_add_instance">Adăugă instanță</string>
+    <string name="settings_save_color">Culoare acțiunii de salvare</string>
+    <string name="settings_configure_swipe_actions">Configură acțiunile de glisare</string>
+    <string name="action_upvote">Vot pozitiv</string>
+    <string name="action_downvote">Vot negativ</string>
+    <string name="action_save">Salvă</string>
+    <string name="action_toggle_read">Citit/necitit</string>
+    <string name="configure_actions_side_start">Acțiuni în partea stângă</string>
+    <string name="configure_actions_side_end">Acțiuni pe partea dreaptă</string>
+    <string name="select_action_title">Selectează o acțiune</string>
+    <string name="button_add">Adăugă nou</string>
 </resources>

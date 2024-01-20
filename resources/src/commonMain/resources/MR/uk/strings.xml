@@ -314,4 +314,14 @@
     <string name="post_list_load_more_posts">Завантажити більше дописів</string>
     <string name="settings_infinite_scroll_disabled">Вимкнути нескінченне прокручування</string>
     <string name="dialog_title_add_instance">Додати примірник</string>
+    <string name="settings_save_color">Колір дії збереження</string>
+    <string name="settings_configure_swipe_actions">Налаштувати дії пальцем</string>
+    <string name="action_upvote">Проголосуйте за</string>
+    <string name="action_downvote">Голосуйте проти</string>
+    <string name="action_save">зберегти</string>
+    <string name="action_toggle_read">Прочитане/непрочитане</string>
+    <string name="configure_actions_side_start">Дії з лівого боку</string>
+    <string name="configure_actions_side_end">Дії з правого боку</string>
+    <string name="select_action_title">Виберіть дію</string>
+    <string name="button_add">Додати новий</string>
 </resources>

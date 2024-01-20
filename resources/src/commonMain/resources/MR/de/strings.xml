@@ -320,4 +320,14 @@
     <string name="post_list_load_more_posts">Mehr Beiträge laden</string>
     <string name="settings_infinite_scroll_disabled">Deaktivieren Sie das unendliche Scrollen</string>
     <string name="dialog_title_add_instance">Instanz hinzufügen</string>
+    <string name="settings_save_color">Farbe der Speicheraktion</string>
+    <string name="settings_configure_swipe_actions">Wischaktionen konfigurieren</string>
+    <string name="action_upvote">Upvote</string>
+    <string name="action_downvote">Ablehnen</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_toggle_read">Gelesen/ungelesen</string>
+    <string name="configure_actions_side_start">Aktionen auf der linken Seite</string>
+    <string name="configure_actions_side_end">Aktionen auf der rechten Seite</string>
+    <string name="select_action_title">Wählen Sie eine Aktion aus</string>
+    <string name="button_add">Neue hinzufügen</string>
 </resources>

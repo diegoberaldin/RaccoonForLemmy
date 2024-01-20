@@ -312,4 +312,14 @@
     <string name="post_list_load_more_posts">Načíst další příspěvky</string>
     <string name="settings_infinite_scroll_disabled">Zakázat nekonečné posouvání</string>
     <string name="dialog_title_add_instance">Přidat instanci</string>
+    <string name="settings_save_color">Barva akce uložení</string>
+    <string name="settings_configure_swipe_actions">Konfigurace akcí přejetí</string>
+    <string name="action_upvote">Hlasujte pro</string>
+    <string name="action_downvote">Hlasovat proti</string>
+    <string name="action_save">Uložit</string>
+    <string name="action_toggle_read">Přečteno/nepřečteno</string>
+    <string name="configure_actions_side_start">Akce na levé straně</string>
+    <string name="configure_actions_side_end">Akce na pravé straně</string>
+    <string name="select_action_title">Vyberte akci</string>
+    <string name="button_add">Přidat nový</string>
 </resources>

@@ -311,4 +311,14 @@
     <string name="post_list_load_more_posts">Ŝarĝi pli da afiŝoj</string>
     <string name="settings_infinite_scroll_disabled">Malebligi senfinan movadadon</string>
     <string name="dialog_title_add_instance">Aldoni nodon</string>
+    <string name="settings_save_color">Koloro de la konserva ago</string>
+    <string name="settings_configure_swipe_actions">Agordi glitajn agojn</string>
+    <string name="action_upvote">Favora voĉdono</string>
+    <string name="action_downvote"> Malfavora voĉdono</string>
+    <string name="action_save">Savi</string>
+    <string name="action_toggle_read">Legita/nelegita</string>
+    <string name="configure_actions_side_start">Agoj sur la maldekstra flanko</string>
+    <string name="configure_actions_side_end">Agoj sur la dekstra flanko</string>
+    <string name="select_action_title">Elekti agon</string>
+    <string name="button_add">Aldoni novan</string>
 </resources>

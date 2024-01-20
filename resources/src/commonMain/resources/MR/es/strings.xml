@@ -313,4 +313,14 @@
     <string name="post_list_load_more_posts">Cargar más publicaciones</string>
     <string name="settings_infinite_scroll_disabled">Desactivar desplazamiento infinito</string>
     <string name="dialog_title_add_instance">Añadir instancia</string>
+    <string name="settings_save_color">Color de la acción de guardar</string>
+    <string name="settings_configure_swipe_actions">Configurar acciones de deslizamiento</string>
+    <string name="action_upvote">Voto positivo</string>
+    <string name="action_downvote">Voto negativo</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_toggle_read">Leído/no leído</string>
+    <string name="configure_actions_side_start">Acciones en el lado izquierdo</string>
+    <string name="configure_actions_side_end">Acciones en el lado derecho</string>
+    <string name="select_action_title">Seleccionar una acción</string>
+    <string name="button_add">Añadir nuevo</string>
 </resources>

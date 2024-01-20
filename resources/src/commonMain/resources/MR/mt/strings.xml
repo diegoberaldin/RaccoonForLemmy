@@ -317,4 +317,14 @@
     <string name="post_list_load_more_posts">Tagħbija aktar postijiet</string>
     <string name="settings_infinite_scroll_disabled">Itfi scrolling infinit</string>
     <string name="dialog_title_add_instance">Żid istanza</string>
+    <string name="settings_save_color">Kulur ta \'l-azzjoni ta\' salvataġġ</string>
+    <string name="settings_configure_swipe_actions">Ikkonfigura azzjonijiet ta\' swipe</string>
+    <string name="action_upvote">Ivvota</string>
+    <string name="action_downvote">Votazzjoni negattiva</string>
+    <string name="action_save">Ħlief</string>
+    <string name="action_toggle_read">Aqra/mhux moqrija</string>
+    <string name="configure_actions_side_start">Azzjonijiet fuq in-naħa tax-xellug</string>
+    <string name="configure_actions_side_end">Azzjonijiet fuq in-naħa tal-lemin</string>
+    <string name="select_action_title">Agħżel azzjoni</string>
+    <string name="button_add">Żid ġdid</string>
 </resources>

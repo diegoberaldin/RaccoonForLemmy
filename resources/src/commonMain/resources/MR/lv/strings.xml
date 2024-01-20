@@ -316,4 +316,14 @@
     <string name="post_list_load_more_posts">Ielādēt vairāk ziņu</string>
     <string name="settings_infinite_scroll_disabled">Atspējot bezgalīgu ritināšanu</string>
     <string name="dialog_title_add_instance">Pievienojiet gadījumu</string>
+    <string name="settings_save_color">Saglabāšanas darbības krāsa</string>
+    <string name="settings_configure_swipe_actions">Konfigurējiet vilkšanas darbības</string>
+    <string name="action_upvote">Apbalvot</string>
+    <string name="action_downvote">Negatīvs balsojums</string>
+    <string name="action_save">Saglabāt</string>
+    <string name="action_toggle_read">Lasīts/nelasīts</string>
+    <string name="configure_actions_side_start">Darbības kreisajā pusē</string>
+    <string name="configure_actions_side_end">Darbības labajā pusē</string>
+    <string name="select_action_title">Izvēlieties darbību</string>
+    <string name="button_add">Pievieno jaunu</string>
 </resources>

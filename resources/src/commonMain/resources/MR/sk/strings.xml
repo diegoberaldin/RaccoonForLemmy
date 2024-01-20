@@ -314,4 +314,14 @@
     <string name="post_list_load_more_posts">Načítať viac príspevkov</string>
     <string name="settings_infinite_scroll_disabled">Zakázať nekonečné posúvanie</string>
     <string name="dialog_title_add_instance">Pridať inštanciu</string>
+    <string name="settings_save_color">Farba akcie uloženia</string>
+    <string name="settings_configure_swipe_actions">Nakonfigurujte akcie potiahnutia prstom</string>
+    <string name="action_upvote">Hlasujte za</string>
+    <string name="action_downvote">Hlasovať proti</string>
+    <string name="action_save">Uložiť</string>
+    <string name="action_toggle_read">Prečítané/neprečítané</string>
+    <string name="configure_actions_side_start">Akcie na ľavej strane</string>
+    <string name="configure_actions_side_end">Akcie na pravej strane</string>
+    <string name="select_action_title">Vyberte akciu</string>
+    <string name="button_add">Pridať nové</string>
 </resources>

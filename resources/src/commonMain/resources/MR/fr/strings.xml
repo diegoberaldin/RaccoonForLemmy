@@ -317,4 +317,14 @@
     <string name="post_list_load_more_posts">Charger plus de messages</string>
     <string name="settings_infinite_scroll_disabled">Désactiver le défilement infini</string>
     <string name="dialog_title_add_instance">Ajouter instance</string>
+    <string name="settings_save_color">Couleur de l\'action de sauvegarde</string>
+    <string name="settings_configure_swipe_actions">Configurer les actions de balayage</string>
+    <string name="action_upvote">Vote positif</string>
+    <string name="action_downvote">Vote négatif</string>
+    <string name="action_save">Sauvegarder</string>
+    <string name="action_toggle_read">Lu/non lu</string>
+    <string name="configure_actions_side_start">Actions sur le côté gauche</string>
+    <string name="configure_actions_side_end">Actions du côté droit</string>
+    <string name="select_action_title">Sélectionnez une action</string>
+    <string name="button_add">Ajouter nouveau</string>
 </resources>

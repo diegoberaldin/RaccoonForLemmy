@@ -314,4 +314,14 @@
     <string name="post_list_load_more_posts">Last inn flere innlegg</string>
     <string name="settings_infinite_scroll_disabled">Deaktiver uendelig rulling</string>
     <string name="dialog_title_add_instance">Legg til forekomst</string>
+    <string name="settings_save_color">Farge på lagringshandlingen</string>
+    <string name="settings_configure_swipe_actions">Konfigurer sveipehandlinger</string>
+    <string name="action_upvote">Stem opp</string>
+    <string name="action_downvote">Stem ned</string>
+    <string name="action_save">Lagre</string>
+    <string name="action_toggle_read">Lest/ulest</string>
+    <string name="configure_actions_side_start">Handlinger på venstre side</string>
+    <string name="configure_actions_side_end">Handlinger på høyre side</string>
+    <string name="select_action_title">Velg en handling</string>
+    <string name="button_add">Legg til ny</string>
 </resources>

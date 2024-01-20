@@ -315,4 +315,14 @@
     <string name="post_list_load_more_posts">Laad meer berichten</string>
     <string name="settings_infinite_scroll_disabled">Schakel oneindig scrollen uit</string>
     <string name="dialog_title_add_instance">Instantie toevoegen</string>
+    <string name="settings_save_color">Kleur van de opslagactie</string>
+    <string name="settings_configure_swipe_actions">Configureer swipe-acties</string>
+    <string name="action_upvote">Stem omhoog</string>
+    <string name="action_downvote">Stem af</string>
+    <string name="action_save">Redden</string>
+    <string name="action_toggle_read">Gelezen/ongelezen</string>
+    <string name="configure_actions_side_start">Acties aan de linkerkant</string>
+    <string name="configure_actions_side_end">Acties aan de rechterkant</string>
+    <string name="select_action_title">Selecteer een actie</string>
+    <string name="button_add">Nieuw toevoegen</string>
 </resources>

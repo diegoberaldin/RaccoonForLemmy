@@ -321,4 +321,14 @@
     <string name="post_list_load_more_posts">Luchtaigh tuilleadh post</string>
     <string name="settings_infinite_scroll_disabled">Díchumasaigh scrollaigh gan teorainn</string>
     <string name="dialog_title_add_instance">Cuir shampla</string>
+    <string name="settings_save_color">Dath an ghnímh shábháil</string>
+    <string name="settings_configure_swipe_actions">Cumraigh gníomhartha swipe</string>
+    <string name="action_upvote">vótáil suas</string>
+    <string name="action_downvote">Vótáil síos</string>
+    <string name="action_save">Sábháil</string>
+    <string name="action_toggle_read">Léamh/neamhléite</string>
+    <string name="configure_actions_side_start">Gníomhartha ar an taobh clé</string>
+    <string name="configure_actions_side_end">Gníomhartha ar an taobh deas</string>
+    <string name="select_action_title">Roghnaigh gníomh</string>
+    <string name="button_add">Cuir nua leis</string>
 </resources>

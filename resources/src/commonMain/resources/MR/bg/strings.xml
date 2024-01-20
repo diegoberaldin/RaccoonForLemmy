@@ -320,4 +320,14 @@
     <string name="post_list_load_more_posts">Зареди още публикации</string>
     <string name="settings_infinite_scroll_disabled">Деактивирайте безкрайното превъртане</string>
     <string name="dialog_title_add_instance">Добавете екземпляр</string>
+    <string name="settings_save_color">Цвят на действието за запазване</string>
+    <string name="settings_configure_swipe_actions">Конфигуриране на действия с плъзгане</string>
+    <string name="action_upvote">Гласувайте за</string>
+    <string name="action_downvote">Гласувай против</string>
+    <string name="action_save">Запазване</string>
+    <string name="action_toggle_read">Прочетено/непрочетено</string>
+    <string name="configure_actions_side_start">Действия от лявата страна</string>
+    <string name="configure_actions_side_end">Действия от дясната страна</string>
+    <string name="select_action_title">Изберете действие</string>
+    <string name="button_add">Добави нов</string>
 </resources>
