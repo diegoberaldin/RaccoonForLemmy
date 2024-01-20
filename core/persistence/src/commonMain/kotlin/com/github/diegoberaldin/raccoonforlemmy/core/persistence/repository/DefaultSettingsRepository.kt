@@ -38,14 +38,11 @@ private object KeyStoreKeys {
     const val AUTO_LOAD_IMAGES = "autoLoadImages"
     const val AUTO_EXPAND_COMMENTS = "autoExpandComments"
     const val FULL_HEIGHT_IMAGES = "fullHeightImages"
-    const val UP_VOTE_COLOR = "upVoteColor"
-    const val DOWN_VOTE_COLOR = "downVoteColor"
     const val HIDE_NAVIGATION_BAR_WHILE_SCROLLING = "hideNavigationBarWhileScrolling"
     const val ZOMBIE_MODE_INTERVAL = "zombieModeInterval"
     const val ZOMBIE_MODE_SCROLL_AMOUNT = "zombieModeScrollAmount"
     const val MARK_AS_READ_WHILE_SCROLLING = "markAsReadWhileScrolling"
     const val COMMENT_BAR_THEME = "commentBarTheme"
-    const val REPLY_COLOR = "replyColor"
     const val SEARCH_POST_TITLE_ONLY = "searchPostTitleOnly"
     const val CONTENT_FONT_FAMILY = "contentFontFamily"
     const val EDGE_TO_EDGE = "edgeToEdge"
@@ -96,6 +93,7 @@ internal class DefaultSettingsRepository(
                 markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1 else 0,
                 commentBarTheme = settings.commentBarTheme.toLong(),
                 replyColor = settings.replyColor?.toLong(),
+                saveColor = settings.saveColor?.toLong(),
                 searchPostTitleOnly = if (settings.searchPostTitleOnly) 1 else 0,
                 contentFontFamily = settings.contentFontFamily.toLong(),
                 edgeToEdge = if (settings.edgeToEdge) 1 else 0,
@@ -145,14 +143,11 @@ internal class DefaultSettingsRepository(
                     autoLoadImages = keyStore[KeyStoreKeys.AUTO_LOAD_IMAGES, true],
                     autoExpandComments = keyStore[KeyStoreKeys.AUTO_EXPAND_COMMENTS, true],
                     fullHeightImages = keyStore[KeyStoreKeys.FULL_HEIGHT_IMAGES, true],
-                    upVoteColor = if (!keyStore.containsKey(KeyStoreKeys.UP_VOTE_COLOR)) null else keyStore[KeyStoreKeys.UP_VOTE_COLOR, 0],
-                    downVoteColor = if (!keyStore.containsKey(KeyStoreKeys.DOWN_VOTE_COLOR)) null else keyStore[KeyStoreKeys.DOWN_VOTE_COLOR, 0],
                     hideNavigationBarWhileScrolling = keyStore[KeyStoreKeys.HIDE_NAVIGATION_BAR_WHILE_SCROLLING, true],
                     zombieModeInterval = keyStore[KeyStoreKeys.ZOMBIE_MODE_INTERVAL, 1000].milliseconds,
                     zombieModeScrollAmount = keyStore[KeyStoreKeys.ZOMBIE_MODE_SCROLL_AMOUNT, 55f],
                     markAsReadWhileScrolling = keyStore[KeyStoreKeys.MARK_AS_READ_WHILE_SCROLLING, false],
                     commentBarTheme = keyStore[KeyStoreKeys.COMMENT_BAR_THEME, 0],
-                    replyColor = if (!keyStore.containsKey(KeyStoreKeys.REPLY_COLOR)) null else keyStore[KeyStoreKeys.REPLY_COLOR, 0],
                     searchPostTitleOnly = keyStore[KeyStoreKeys.SEARCH_POST_TITLE_ONLY, false],
                     contentFontFamily = keyStore[KeyStoreKeys.CONTENT_FONT_FAMILY, 0],
                     edgeToEdge = keyStore[KeyStoreKeys.EDGE_TO_EDGE, true],
@@ -215,16 +210,6 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.AUTO_LOAD_IMAGES, settings.autoLoadImages)
                 keyStore.save(KeyStoreKeys.AUTO_EXPAND_COMMENTS, settings.autoExpandComments)
                 keyStore.save(KeyStoreKeys.FULL_HEIGHT_IMAGES, settings.fullHeightImages)
-                if (settings.upVoteColor != null) {
-                    keyStore.save(KeyStoreKeys.UP_VOTE_COLOR, settings.upVoteColor)
-                } else {
-                    keyStore.remove(KeyStoreKeys.UP_VOTE_COLOR)
-                }
-                if (settings.downVoteColor != null) {
-                    keyStore.save(KeyStoreKeys.DOWN_VOTE_COLOR, settings.downVoteColor)
-                } else {
-                    keyStore.remove(KeyStoreKeys.DOWN_VOTE_COLOR)
-                }
                 keyStore.save(
                     KeyStoreKeys.HIDE_NAVIGATION_BAR_WHILE_SCROLLING,
                     settings.hideNavigationBarWhileScrolling
@@ -242,11 +227,6 @@ internal class DefaultSettingsRepository(
                     settings.markAsReadWhileScrolling,
                 )
                 keyStore.save(KeyStoreKeys.COMMENT_BAR_THEME, settings.commentBarTheme)
-                if (settings.replyColor != null) {
-                    keyStore.save(KeyStoreKeys.REPLY_COLOR, settings.replyColor)
-                } else {
-                    keyStore.remove(KeyStoreKeys.REPLY_COLOR)
-                }
                 keyStore.save(
                     KeyStoreKeys.SEARCH_POST_TITLE_ONLY,
                     settings.searchPostTitleOnly,
@@ -292,6 +272,7 @@ internal class DefaultSettingsRepository(
                     markAsReadWhileScrolling = if (settings.markAsReadWhileScrolling) 1L else 0L,
                     commentBarTheme = settings.commentBarTheme.toLong(),
                     replyColor = settings.replyColor?.toLong(),
+                    saveColor = settings.saveColor?.toLong(),
                     searchPostTitleOnly = if (settings.searchPostTitleOnly) 1L else 0L,
                     contentFontFamily = settings.contentFontFamily.toLong(),
                     edgeToEdge = if (settings.edgeToEdge) 1L else 0L,
@@ -350,6 +331,7 @@ private fun GetBy.toModel() = SettingsModel(
     markAsReadWhileScrolling = markAsReadWhileScrolling != 0L,
     commentBarTheme = commentBarTheme.toInt(),
     replyColor = replyColor?.toInt(),
+    saveColor = saveColor?.toInt(),
     searchPostTitleOnly = searchPostTitleOnly != 0L,
     contentFontFamily = contentFontFamily.toInt(),
     edgeToEdge = edgeToEdge != 0L,

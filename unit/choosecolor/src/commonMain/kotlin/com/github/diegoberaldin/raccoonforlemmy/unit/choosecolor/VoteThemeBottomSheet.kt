@@ -32,6 +32,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarT
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toDownVoteColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReplyColor
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toSaveColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUpVoteColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -79,6 +80,7 @@ class VoteThemeBottomSheet(
                         end = Spacing.s,
                     ),
                     text = when (actionType) {
+                        3 -> stringResource(MR.strings.settings_save_color)
                         2 -> stringResource(MR.strings.settings_reply_color)
                         1 -> stringResource(MR.strings.settings_downvote_color)
                         else -> stringResource(MR.strings.settings_upvote_color)
@@ -117,6 +119,10 @@ class VoteThemeBottomSheet(
                                     notificationCenter.send(
                                         NotificationCenterEvent.ChangeActionColor(
                                             color = when (actionType) {
+                                                3 -> {
+                                                    value?.toSaveColor() ?: defaultReplyColor
+                                                }
+
                                                 2 -> {
                                                     value?.toReplyColor() ?: defaultReplyColor
                                                 }
@@ -152,6 +158,7 @@ class VoteThemeBottomSheet(
                                     .size(36.dp)
                                     .background(
                                         color = when (actionType) {
+                                            3 -> value.toSaveColor()
                                             2 -> value.toReplyColor()
                                             1 -> value.toDownVoteColor()
                                             else -> value.toUpVoteColor()
@@ -173,6 +180,10 @@ class VoteThemeBottomSheet(
 
         if (customPickerDialogOpened) {
             val current = when (actionType) {
+                3 -> {
+                    settingsRepository.currentSettings.value.saveColor?.let { Color(it) }
+                }
+
                 2 -> {
                     settingsRepository.currentSettings.value.replyColor?.let { Color(it) }
                 }

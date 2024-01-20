@@ -80,6 +80,7 @@ class InboxRepliesScreen : Tab {
         val themeRepository = remember { getThemeRepository() }
         val upVoteColor by themeRepository.upVoteColor.collectAsState()
         val downVoteColor by themeRepository.downVoteColor.collectAsState()
+        val toggleReadColor by themeRepository.saveColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultToggleReadColor = MaterialTheme.colorScheme.secondary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
@@ -195,7 +196,7 @@ class InboxRepliesScreen : Tab {
                                             tint = Color.White,
                                         )
                                     },
-                                    backgroundColor = defaultToggleReadColor,
+                                    backgroundColor = toggleReadColor ?: defaultToggleReadColor,
                                     onTriggered = rememberCallback {
                                         model.reduce(
                                             InboxRepliesMviModel.Intent.MarkAsRead(

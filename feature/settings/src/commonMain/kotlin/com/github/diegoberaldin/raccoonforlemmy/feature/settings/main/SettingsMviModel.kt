@@ -64,6 +64,7 @@ interface SettingsMviModel :
         val upVoteColor: Color? = null,
         val downVoteColor: Color? = null,
         val replyColor: Color? = null,
+        val saveColor: Color? = null,
         val uiFontScale: FontScale = FontScale.Normal,
         val contentFontScale: FontScale = FontScale.Normal,
         val contentFontFamily: UiFontFamily = UiFontFamily.Poppins,

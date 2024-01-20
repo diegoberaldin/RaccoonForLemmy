@@ -149,8 +149,10 @@ class UserDetailScreen(
         val upVoteColor by themeRepository.upVoteColor.collectAsState()
         val downVoteColor by themeRepository.downVoteColor.collectAsState()
         val replyColor by themeRepository.replyColor.collectAsState()
+        val saveColor by themeRepository.saveColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultReplyColor = MaterialTheme.colorScheme.secondary
+        val defaultSaveColor = MaterialTheme.colorScheme.secondaryContainer
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val navigationCoordinator = remember { getNavigationCoordinator() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
@@ -511,8 +513,8 @@ class UserDetailScreen(
                                                     tint = Color.White,
                                                 )
                                             },
-                                            backgroundColor = replyColor
-                                                ?: defaultReplyColor,
+                                            backgroundColor = saveColor
+                                                ?: defaultSaveColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.SavePost(
@@ -805,8 +807,8 @@ class UserDetailScreen(
                                                     tint = Color.White,
                                                 )
                                             },
-                                            backgroundColor = replyColor
-                                                ?: defaultReplyColor,
+                                            backgroundColor = saveColor
+                                                ?: defaultSaveColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.SaveComment(

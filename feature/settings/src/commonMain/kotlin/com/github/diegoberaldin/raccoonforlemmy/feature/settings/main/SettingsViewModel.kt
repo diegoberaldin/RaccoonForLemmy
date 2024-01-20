@@ -93,6 +93,9 @@ class SettingsViewModel(
             themeRepository.replyColor.onEach { value ->
                 mvi.updateState { it.copy(replyColor = value) }
             }.launchIn(this)
+            themeRepository.saveColor.onEach { value ->
+                mvi.updateState { it.copy(saveColor = value) }
+            }.launchIn(this)
             themeRepository.commentBarTheme.onEach { value ->
                 mvi.updateState { it.copy(commentBarTheme = value) }
             }.launchIn(this)
@@ -173,6 +176,7 @@ class SettingsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeActionColor::class)
                 .onEach { evt ->
                     when (evt.actionType) {
+                        3 -> changeSaveColor(evt.color)
                         2 -> changeReplyColor(evt.color)
                         1 -> changeDownvoteColor(evt.color)
                         else -> changeUpvoteColor(evt.color)
@@ -536,6 +540,16 @@ class SettingsViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 replyColor = value?.toArgb()
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeSaveColor(value: Color?) {
+        themeRepository.changeSaveColor(value)
+        mvi.scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                saveColor = value?.toArgb()
             )
             saveSettings(settings)
         }

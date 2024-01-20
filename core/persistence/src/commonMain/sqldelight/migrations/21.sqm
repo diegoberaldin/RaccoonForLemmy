@@ -15,3 +15,6 @@ ADD COLUMN  actionsOnSwipeToStartInbox TEXT DEFAULT NULL;
 
 ALTER TABLE SettingsEntity
 ADD COLUMN  actionsOnSwipeToEndInbox TEXT DEFAULT NULL;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  saveColor INTEGER DEFAULT NULL;

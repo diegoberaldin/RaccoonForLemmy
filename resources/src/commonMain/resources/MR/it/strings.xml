@@ -316,6 +316,7 @@
     <string name="post_list_load_more_posts">Carica altri post</string>
     <string name="settings_infinite_scroll_disabled">Disabilita scorrimento infinito</string>
     <string name="dialog_title_add_instance">Aggiungi istanza</string>
+    <string name="settings_save_color">Colore azione salva</string>
     <string name="settings_configure_swipe_actions">Configura azioni allo swipe</string>
     <string name="action_upvote">Voto positivo</string>
     <string name="action_downvote">Voto negativo</string>

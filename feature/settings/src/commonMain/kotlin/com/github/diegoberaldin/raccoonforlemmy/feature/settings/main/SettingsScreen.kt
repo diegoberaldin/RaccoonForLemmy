@@ -254,37 +254,52 @@ class SettingsScreen : Screen {
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
-                    // upvote and downvote colors
-                    SettingsColorRow(
-                        title = stringResource(MR.strings.settings_upvote_color),
-                        value = uiState.upVoteColor ?: MaterialTheme.colorScheme.primary,
-                        onTap = rememberCallback {
-                            val screen = VoteThemeBottomSheet(
-                                actionType = 0,
-                            )
-                            navigationCoordinator.showBottomSheet(screen)
-                        },
-                    )
-                    SettingsColorRow(
-                        title = stringResource(MR.strings.settings_downvote_color),
-                        value = uiState.downVoteColor ?: MaterialTheme.colorScheme.tertiary,
-                        onTap = rememberCallback {
-                            val screen = VoteThemeBottomSheet(
-                                actionType = 1,
-                            )
-                            navigationCoordinator.showBottomSheet(screen)
-                        },
-                    )
-                    SettingsColorRow(
-                        title = stringResource(MR.strings.settings_reply_color),
-                        value = uiState.replyColor ?: MaterialTheme.colorScheme.secondary,
-                        onTap = rememberCallback {
-                            val screen = VoteThemeBottomSheet(
-                                actionType = 2,
-                            )
-                            navigationCoordinator.showBottomSheet(screen)
-                        },
-                    )
+
+                    // action colors
+                    if (uiState.isLogged) {
+                        SettingsColorRow(
+                            title = stringResource(MR.strings.settings_upvote_color),
+                            value = uiState.upVoteColor ?: MaterialTheme.colorScheme.primary,
+                            onTap = rememberCallback {
+                                val screen = VoteThemeBottomSheet(
+                                    actionType = 0,
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                        SettingsColorRow(
+                            title = stringResource(MR.strings.settings_downvote_color),
+                            value = uiState.downVoteColor ?: MaterialTheme.colorScheme.tertiary,
+                            onTap = rememberCallback {
+                                val screen = VoteThemeBottomSheet(
+                                    actionType = 1,
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                        SettingsColorRow(
+                            title = stringResource(MR.strings.settings_reply_color),
+                            value = uiState.replyColor ?: MaterialTheme.colorScheme.secondary,
+                            onTap = rememberCallback {
+                                val screen = VoteThemeBottomSheet(
+                                    actionType = 2,
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                        SettingsColorRow(
+                            title = stringResource(MR.strings.settings_save_color),
+                            value = uiState.saveColor
+                                ?: MaterialTheme.colorScheme.secondaryContainer,
+                            onTap = rememberCallback {
+                                val screen = VoteThemeBottomSheet(
+                                    actionType = 3,
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                    }
+
                     // comment bar theme
                     val commentBarColors =
                         themeRepository.getCommentBarColors(uiState.commentBarTheme)

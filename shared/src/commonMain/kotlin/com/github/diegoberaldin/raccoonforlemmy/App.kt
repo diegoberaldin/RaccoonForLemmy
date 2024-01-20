@@ -120,6 +120,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 changeUpvoteColor(currentSettings.upVoteColor?.let { Color(it) })
                 changeDownvoteColor(currentSettings.downVoteColor?.let { Color(it) })
                 changeReplyColor(currentSettings.replyColor?.let { Color(it) })
+                changeSaveColor(currentSettings.saveColor?.let { Color(it) })
             }
         }
 
@@ -154,6 +155,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 changeUpvoteColor(settings.upVoteColor?.let { Color(it) })
                 changeDownvoteColor(settings.downVoteColor?.let { Color(it) })
                 changeReplyColor(settings.replyColor?.let { Color(it) })
+                changeSaveColor(settings.saveColor?.let { Color(it) })
             }
         }
     }

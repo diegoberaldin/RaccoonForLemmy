@@ -37,6 +37,7 @@ data class SettingsModel(
     val markAsReadWhileScrolling: Boolean = false,
     val commentBarTheme: Int = 0,
     val replyColor: Int? = null,
+    val saveColor: Int? = null,
     val searchPostTitleOnly: Boolean = false,
     val edgeToEdge: Boolean = true,
     val postBodyMaxLines: Int? = null,

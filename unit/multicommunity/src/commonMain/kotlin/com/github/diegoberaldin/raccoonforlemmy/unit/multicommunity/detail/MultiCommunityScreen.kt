@@ -115,9 +115,11 @@ class MultiCommunityScreen(
         val upVoteColor by themeRepository.upVoteColor.collectAsState()
         val downVoteColor by themeRepository.downVoteColor.collectAsState()
         val replyColor by themeRepository.replyColor.collectAsState()
+        val saveColor by themeRepository.saveColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultReplyColor = MaterialTheme.colorScheme.secondary
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
+        val defaultSaveColor = MaterialTheme.colorScheme.secondaryContainer
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
@@ -342,7 +344,7 @@ class MultiCommunityScreen(
                                                 tint = Color.White,
                                             )
                                         },
-                                        backgroundColor = replyColor ?: defaultReplyColor,
+                                        backgroundColor = saveColor ?: defaultSaveColor,
                                         onTriggered = rememberCallback {
                                             model.reduce(
                                                 MultiCommunityMviModel.Intent.SavePost(

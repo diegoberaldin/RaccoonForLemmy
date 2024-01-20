@@ -58,3 +58,11 @@ fun CommentBarTheme?.toReplyColor(): Color = when (this) {
     CommentBarTheme.Blue -> Color(0xFF388E3C)
     else -> Color.Transparent
 }
+
+fun CommentBarTheme?.toSaveColor(): Color = when (this) {
+    CommentBarTheme.Rainbow -> Color(0xFFE040FB)
+    CommentBarTheme.Red -> Color(0xFFFFC107)
+    CommentBarTheme.Green -> Color(0xFF388E3C)
+    CommentBarTheme.Blue -> Color(0xFF7C4DFF)
+    else -> Color.Transparent
+}

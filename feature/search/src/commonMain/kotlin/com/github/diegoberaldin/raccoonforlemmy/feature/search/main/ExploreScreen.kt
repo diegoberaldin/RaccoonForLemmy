@@ -123,8 +123,10 @@ class ExploreScreen : Screen {
         val upVoteColor by themeRepository.upVoteColor.collectAsState()
         val downVoteColor by themeRepository.downVoteColor.collectAsState()
         val replyColor by themeRepository.replyColor.collectAsState()
+        val saveColor by themeRepository.saveColor.collectAsState()
         val defaultUpvoteColor = MaterialTheme.colorScheme.primary
         val defaultReplyColor = MaterialTheme.colorScheme.secondary
+        val defaultSaveColor = MaterialTheme.colorScheme.secondaryContainer
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val detailOpener = remember { getDetailOpener() }
@@ -397,8 +399,8 @@ class ExploreScreen : Screen {
                                                             tint = Color.White,
                                                         )
                                                     },
-                                                    backgroundColor = replyColor
-                                                        ?: defaultReplyColor,
+                                                    backgroundColor = saveColor
+                                                        ?: defaultSaveColor,
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.SavePost(
@@ -585,8 +587,8 @@ class ExploreScreen : Screen {
                                                             tint = Color.White,
                                                         )
                                                     },
-                                                    backgroundColor = replyColor
-                                                        ?: defaultReplyColor,
+                                                    backgroundColor = saveColor
+                                                        ?: defaultSaveColor,
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.SaveComment(
