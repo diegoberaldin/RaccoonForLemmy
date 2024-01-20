@@ -211,12 +211,8 @@ class CreateCommentScreen(
                                     contentDescription = null,
                                 )
                             },
-                            onClick = {
-                                model.reduce(
-                                    CreateCommentMviModel.Intent.Send(
-                                        textFieldValue.text
-                                    )
-                                )
+                            onClick = rememberCallback(model, textFieldValue) {
+                                model.reduce(CreateCommentMviModel.Intent.Send(textFieldValue.text))
                             },
                         )
                     }
@@ -235,7 +231,7 @@ class CreateCommentScreen(
                             CreatePostSection.Preview -> 1
                             else -> 0
                         },
-                        onSectionSelected = {
+                        onSectionSelected = rememberCallbackArgs { it ->
                             val section = when (it) {
                                 1 -> CreatePostSection.Preview
                                 else -> CreatePostSection.Edit

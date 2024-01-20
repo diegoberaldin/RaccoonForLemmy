@@ -248,7 +248,7 @@ class CreatePostScreen(
                                     contentDescription = null,
                                 )
                             },
-                            onClick = rememberCallback(model) {
+                            onClick = rememberCallback(model, bodyTextFieldValue) {
                                 model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
                             },
                         )
@@ -338,7 +338,7 @@ class CreatePostScreen(
                     keyboardActions = KeyboardActions(onNext = {
                         urlFocusRequester.requestFocus()
                     }),
-                    onValueChange = { value ->
+                    onValueChange = rememberCallbackArgs(model) { value ->
                         model.reduce(CreatePostMviModel.Intent.SetTitle(value))
                     },
                     isError = uiState.titleError != null,
@@ -390,7 +390,7 @@ class CreatePostScreen(
                     keyboardActions = KeyboardActions(onNext = {
                         bodyFocusRequester.requestFocus()
                     }),
-                    onValueChange = { value ->
+                    onValueChange = rememberCallbackArgs(model) { value ->
                         model.reduce(CreatePostMviModel.Intent.SetUrl(value))
                     },
                     isError = uiState.urlError != null,
@@ -417,27 +417,34 @@ class CreatePostScreen(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                     Spacer(modifier = Modifier.weight(1f))
-                    Switch(checked = uiState.nsfw, onCheckedChange = {
-                        model.reduce(CreatePostMviModel.Intent.ChangeNsfw(it))
-                    })
+                    Switch(
+                        checked = uiState.nsfw,
+                        onCheckedChange = rememberCallbackArgs(model) { it ->
+                            model.reduce(CreatePostMviModel.Intent.ChangeNsfw(it))
+                        },
+                    )
                 }
 
                 Column(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs)
                 ) {
-                    SectionSelector(titles = listOf(
-                        stringResource(MR.strings.create_post_tab_editor),
-                        stringResource(MR.strings.create_post_tab_preview),
-                    ), currentSection = when (uiState.section) {
-                        CreatePostSection.Preview -> 1
-                        else -> 0
-                    }, onSectionSelected = {
-                        val section = when (it) {
-                            1 -> CreatePostSection.Preview
-                            else -> CreatePostSection.Edit
-                        }
-                        model.reduce(CreatePostMviModel.Intent.ChangeSection(section))
-                    })
+                    SectionSelector(
+                        titles = listOf(
+                            stringResource(MR.strings.create_post_tab_editor),
+                            stringResource(MR.strings.create_post_tab_preview),
+                        ),
+                        currentSection = when (uiState.section) {
+                            CreatePostSection.Preview -> 1
+                            else -> 0
+                        },
+                        onSectionSelected = rememberCallbackArgs(model) { it ->
+                            val section = when (it) {
+                                1 -> CreatePostSection.Preview
+                                else -> CreatePostSection.Edit
+                            }
+                            model.reduce(CreatePostMviModel.Intent.ChangeSection(section))
+                        },
+                    )
 
                     if (uiState.section == CreatePostSection.Edit) {
                         TextFormattingBar(
