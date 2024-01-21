@@ -32,8 +32,12 @@ class CommunityInfoViewModel(
             }.launchIn(this)
 
             if (uiState.value.moderators.isEmpty()) {
+                val community = communityRepository.get(id = communityId)
+                if (community != null) {
+                    mvi.updateState { it.copy(community = community) }
+                }
                 val moderators = communityRepository.getModerators(
-                    id = communityId
+                    id = communityId,
                 )
                 mvi.updateState { it.copy(moderators = moderators) }
             }
