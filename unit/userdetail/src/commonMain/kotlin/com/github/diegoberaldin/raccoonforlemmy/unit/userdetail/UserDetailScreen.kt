@@ -104,6 +104,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -193,8 +194,7 @@ class UserDetailScreen(
                 WindowInsets.navigationBars
             },
             topBar = {
-                val userName = uiState.user.name
-                val userHost = uiState.user.host
+                val userName = uiState.user.readableName
                 val maxTopInset = Dimensions.topBarHeight.value.toInt()
                 var topInset by remember { mutableStateOf(maxTopInset) }
                 snapshotFlow { topAppBarState.collapsedFraction }.onEach {
@@ -211,12 +211,7 @@ class UserDetailScreen(
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = buildString {
-                                append(userName)
-                                if (userHost.isNotEmpty()) {
-                                    append("@$userHost")
-                                }
-                            },
+                            text = userName,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )

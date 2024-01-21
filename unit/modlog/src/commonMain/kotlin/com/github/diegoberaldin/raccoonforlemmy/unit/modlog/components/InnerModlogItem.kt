@@ -52,6 +52,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 @Composable
 internal fun InnerModlogItem(
@@ -128,9 +129,8 @@ private fun ModlogHeader(
     iconSize: Dp = IconSize.s,
     onOpenCreator: ((UserModel) -> Unit)? = null,
 ) {
-    val creatorName = creator?.name.orEmpty()
+    val creatorName = creator?.readableName.orEmpty()
     val creatorAvatar = creator?.avatar.orEmpty()
-    val creatorHost = creator?.host.orEmpty()
     if (creatorName.isNotEmpty()) {
         Row(
             modifier = modifier
@@ -157,12 +157,7 @@ private fun ModlogHeader(
             }
             Text(
                 modifier = Modifier.padding(vertical = Spacing.xs),
-                text = buildString {
-                    append(creatorName)
-                    if (creatorHost.isNotEmpty()) {
-                        append("@$creatorHost")
-                    }
-                },
+                text = creatorName,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onBackground,
                 overflow = TextOverflow.Ellipsis,

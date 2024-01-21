@@ -45,6 +45,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.components.ModeratedCommunityCell
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -90,12 +91,7 @@ class UserInfoScreen(
                     ) {
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = buildString {
-                                append(uiState.user.name)
-                                if (uiState.user.host.isNotEmpty()) {
-                                    append("@${uiState.user.host}")
-                                }
-                            },
+                            text = uiState.user.readableName,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )

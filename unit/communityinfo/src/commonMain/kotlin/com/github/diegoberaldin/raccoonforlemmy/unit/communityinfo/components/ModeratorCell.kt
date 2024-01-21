@@ -31,7 +31,7 @@ internal fun ModeratorCell(
     autoLoadImages: Boolean = true,
     onOpenUser: ((UserModel) -> Unit)? = null,
 ) {
-    val creatorName = user.name
+    val creatorName = user.displayName.takeIf { it.isNotEmpty() } ?: user.name
     val creatorHost = user.host
     val creatorAvatar = user.avatar.orEmpty()
     val iconSize = IconSize.xl

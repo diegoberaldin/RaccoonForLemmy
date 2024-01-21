@@ -44,6 +44,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 @Composable
 internal fun ChatCard(
@@ -60,8 +61,7 @@ internal fun ChatCard(
 ) {
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
-    val creatorName = user?.name.orEmpty()
-    val creatorHost = user?.host.orEmpty()
+    val creatorName = user?.readableName.orEmpty()
     val creatorAvatar = user?.avatar.orEmpty()
     val iconSize = IconSize.xl
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
@@ -120,12 +120,7 @@ internal fun ChatCard(
                 // user name
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = buildString {
-                        append(creatorName)
-                        if (creatorHost.isNotEmpty()) {
-                            append("@$creatorHost")
-                        }
-                    },
+                    text = creatorName,
                     style = MaterialTheme.typography.bodySmall,
                     color = ancillaryColor,
                 )

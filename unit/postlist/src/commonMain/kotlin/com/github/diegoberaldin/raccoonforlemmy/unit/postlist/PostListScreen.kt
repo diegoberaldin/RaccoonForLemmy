@@ -85,6 +85,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.rememberKeepScreenOn
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
@@ -606,15 +607,7 @@ class PostListScreen : Screen {
 
                                                 OptionId.Block -> {
                                                     val screen = BlockBottomSheet(
-                                                        userName = buildString {
-                                                            post.creator?.also {
-                                                                append(it.name)
-                                                                if (it.host.isNotEmpty()) {
-                                                                    append("@")
-                                                                    append(it.host)
-                                                                }
-                                                            }
-                                                        },
+                                                        userName = post.creator?.readableName,
                                                         userId = post.creator?.id,
                                                         communityName = buildString {
                                                             post.community?.also {

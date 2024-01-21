@@ -18,3 +18,11 @@ data class UserModel(
 )
 
 fun List<UserModel>.containsId(value: Int?): Boolean = any { it.id == value }
+
+val UserModel.readableName: String
+    get() = displayName.takeIf { it.isNotEmpty() } ?: buildString {
+        append(name)
+        if (host.isNotEmpty()) {
+            append("@$host")
+        }
+    }

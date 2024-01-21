@@ -40,6 +40,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
 
@@ -65,9 +66,8 @@ fun CommunityAndCreatorInfo(
     val communityName = community?.name.orEmpty()
     val communityIcon = community?.icon.orEmpty()
     val communityHost = community?.host.orEmpty()
-    val creatorName = creator?.name.orEmpty()
+    val creatorName = creator?.readableName.orEmpty()
     val creatorAvatar = creator?.avatar.orEmpty()
-    val creatorHost = creator?.host.orEmpty()
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
@@ -182,12 +182,7 @@ fun CommunityAndCreatorInfo(
                             onDoubleClick = onDoubleClick ?: {},
                             onLongClick = onLongClick ?: {},
                         ),
-                    text = buildString {
-                        append(creatorName)
-                        if (creatorHost.isNotEmpty()) {
-                            append("@$creatorHost")
-                        }
-                    },
+                    text = creatorName,
                     style = MaterialTheme.typography.bodySmall,
                     color = ancillaryColor,
                 )

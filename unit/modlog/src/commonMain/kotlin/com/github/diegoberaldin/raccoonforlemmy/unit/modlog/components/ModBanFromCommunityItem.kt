@@ -12,6 +12,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -39,13 +40,8 @@ internal fun ModBanFromCommunityItem(
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.user?.name.orEmpty()
-                        val host = item.user?.host.orEmpty()
+                        val name = item.user?.readableName.orEmpty()
                         append(name)
-                        if (host.isNotEmpty()) {
-                            append("@")
-                            append(host)
-                        }
                     }
                     append(" ")
                     if (item.banned) {
