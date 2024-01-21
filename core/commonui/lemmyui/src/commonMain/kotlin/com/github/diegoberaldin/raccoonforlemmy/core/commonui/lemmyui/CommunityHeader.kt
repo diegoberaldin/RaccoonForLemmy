@@ -36,6 +36,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableSimpleName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -82,8 +83,6 @@ fun CommunityHeader(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.m)
         ) {
-            val title = community.title.replace("&amp;", "&")
-            val communityName = community.readableName
             val communityIcon = community.icon.orEmpty()
 
             // avatar
@@ -105,7 +104,7 @@ fun CommunityHeader(
             } else {
                 PlaceholderImage(
                     size = IconSize.xxl,
-                    title = communityName,
+                    title = community.readableName,
                 )
             }
 
@@ -114,19 +113,19 @@ fun CommunityHeader(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = title.replace("&amp;", "&"),
+                    text = community.readableName,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
-
-                Text(
-                    modifier = Modifier.padding(horizontal = Spacing.s),
-                    text = communityName,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+                if (community.readableSimpleName != community.readableName) {
+                    Text(
+                        text = community.readableSimpleName,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
 
                 // stats and age
                 val iconSize = 22.dp

@@ -36,6 +36,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableSimpleName
 
 @Composable
 fun UserItem(
@@ -45,9 +47,7 @@ fun UserItem(
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val name = user.name
     val avatar = user.avatar.orEmpty()
-    val host = user.host
     val iconSize = 30.dp
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
@@ -73,18 +73,13 @@ fun UserItem(
         } else {
             PlaceholderImage(
                 size = iconSize,
-                title = name,
+                title = user.readableName,
             )
         }
 
         CustomizedContent {
             Text(
-                text = buildString {
-                    append(name)
-                    if (host.isNotEmpty()) {
-                        append("@$host")
-                    }
-                },
+                text = user.readableSimpleName,
                 style = MaterialTheme.typography.bodySmall,
                 color = fullColor,
             )

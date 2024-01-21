@@ -31,7 +31,7 @@ internal fun ModeratedCommunityCell(
     autoLoadImages: Boolean = true,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
 ) {
-    val name = community.name
+    val name = community.title.takeIf { it.isNotEmpty() }?.replace("&amp;", "&") ?: community.name
     val host = community.host
     val icon = community.icon.orEmpty()
     val iconSize = IconSize.xl

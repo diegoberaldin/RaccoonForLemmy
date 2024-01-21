@@ -42,6 +42,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableSimpleName
 
 @Composable
 fun CommunityItem(
@@ -54,8 +55,8 @@ fun CommunityItem(
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val title = community.title.replace("&amp;", "&")
-    val communityName = community.readableName
+    val title = community.readableName
+    val communityName = community.readableSimpleName
     val communityIcon = community.icon.orEmpty()
     val iconSize = if (small) IconSize.m else IconSize.l
     val fullColor = MaterialTheme.colorScheme.onBackground
@@ -188,5 +189,3 @@ fun CommunityItem(
         }
     }
 }
-
-

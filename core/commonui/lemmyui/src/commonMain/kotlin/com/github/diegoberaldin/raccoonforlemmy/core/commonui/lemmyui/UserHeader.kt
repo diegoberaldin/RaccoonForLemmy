@@ -39,6 +39,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableSimpleName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -111,27 +113,19 @@ fun UserHeader(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = buildString {
-                        if (user.displayName.isNotEmpty()) {
-                            append(user.displayName)
-                        } else {
-                            append(user.name)
-                        }
-                    },
+                    text = user.readableName,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
-                Text(
-                    text = buildString {
-                        append(user.name)
-                        append("@")
-                        append(user.host)
-                    },
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+                if (user.readableSimpleName != user.readableName) {
+                    Text(
+                        text = user.readableSimpleName,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
 
                 // stats and age
                 val iconSize = 22.dp

@@ -25,6 +25,9 @@ data class CommunityModel(
 )
 
 val CommunityModel.readableName: String
+    get() = title.takeIf { it.isNotEmpty() }?.replace("&amp;", "&") ?: readableSimpleName
+
+val CommunityModel.readableSimpleName: String
     get() = buildString {
         append(name)
         if (host.isNotEmpty()) {
