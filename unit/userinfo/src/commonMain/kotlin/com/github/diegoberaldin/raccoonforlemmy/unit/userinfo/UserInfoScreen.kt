@@ -21,7 +21,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -82,36 +81,33 @@ class UserInfoScreen(
                 )
                 .fillMaxHeight(0.9f)
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHandle(modifier = Modifier.align(Alignment.CenterHorizontally))
-
             Scaffold(
                 topBar = {
-                    TopAppBar(
-                        title = {
-                            Row {
-                                Spacer(modifier = Modifier.weight(1f))
-                                Text(
-                                    text = buildString {
-                                        append(uiState.user.name)
-                                        if (uiState.user.host.isNotEmpty()) {
-                                            append("@${uiState.user.host}")
-                                        }
-                                    },
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                )
-                                Spacer(modifier = Modifier.weight(1f))
-                            }
-                        })
-                },
+                    Row(
+                        modifier = Modifier.padding(top = Spacing.s),
+                    ) {
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = buildString {
+                                append(uiState.user.name)
+                                if (uiState.user.host.isNotEmpty()) {
+                                    append("@${uiState.user.host}")
+                                }
+                            },
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
             ) { paddingValues ->
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
-                        .padding(top = Spacing.m, start = Spacing.m, end = Spacing.m),
+                        .padding(top = Spacing.xs, start = Spacing.m, end = Spacing.m),
                     verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 ) {
                     item {

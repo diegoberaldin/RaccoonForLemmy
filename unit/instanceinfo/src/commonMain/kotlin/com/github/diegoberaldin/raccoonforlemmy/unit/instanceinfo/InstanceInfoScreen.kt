@@ -170,7 +170,7 @@ class InstanceInfoScreen(
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(top = Spacing.m),
+                    modifier = Modifier.padding(top = Spacing.xs, start = Spacing.m, end = Spacing.m),
                     state = listState,
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {

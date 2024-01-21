@@ -23,7 +23,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -73,43 +72,40 @@ class CommunityInfoScreen(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .padding(
-                    top = Spacing.s,
+                    top = Spacing.m,
                     start = Spacing.s,
                     end = Spacing.s,
                     bottom = Spacing.m,
                 )
                 .fillMaxHeight(0.9f)
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHandle(modifier = Modifier.align(Alignment.CenterHorizontally))
-
             Scaffold(
                 topBar = {
-                    TopAppBar(
-                        title = {
-                            Row {
-                                Spacer(modifier = Modifier.weight(1f))
-                                Text(
-                                    text = buildString {
-                                        append(uiState.community.name)
-                                        if (uiState.community.host.isNotEmpty()) {
-                                            append("@${uiState.community.host}")
-                                        }
-                                    },
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                )
-                                Spacer(modifier = Modifier.weight(1f))
-                            }
-                        })
-                },
+                    Row(
+                        modifier = Modifier.padding(top = Spacing.s),
+                    ) {
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(
+                            text = buildString {
+                                append(uiState.community.name)
+                                if (uiState.community.host.isNotEmpty()) {
+                                    append("@${uiState.community.host}")
+                                }
+                            },
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
             ) { paddingValues ->
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
-                        .padding(top = Spacing.m),
+                        .padding(top = Spacing.xs, start = Spacing.m, end = Spacing.m),
                     verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
