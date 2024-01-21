@@ -160,8 +160,8 @@ internal fun PersonView.toModel() = person.toModel().copy(
 )
 
 internal fun PersonAggregates.toModel() = UserScoreModel(
-    postScore = postScore ?: 0,
-    commentScore = commentScore ?: 0,
+    postScore = postScore ?: postCount,
+    commentScore = commentScore ?: commentCount,
 )
 
 internal fun PostView.toModel() = post.toModel().copy(
