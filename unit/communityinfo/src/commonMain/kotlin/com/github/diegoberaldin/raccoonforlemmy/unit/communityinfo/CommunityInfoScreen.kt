@@ -43,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.components.ModeratorCell
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -88,12 +89,7 @@ class CommunityInfoScreen(
                     ) {
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = buildString {
-                                append(uiState.community.name)
-                                if (uiState.community.host.isNotEmpty()) {
-                                    append("@${uiState.community.host}")
-                                }
-                            },
+                            text = uiState.community.readableName,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )

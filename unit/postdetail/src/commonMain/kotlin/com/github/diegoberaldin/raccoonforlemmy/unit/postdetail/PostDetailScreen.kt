@@ -99,6 +99,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -535,9 +536,7 @@ class PostDetailScreen(
                                         if (community != null) {
                                             val string = buildAnnotatedString {
                                                 withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
-                                                    append(community.name)
-                                                    append("@")
-                                                    append(community.host)
+                                                    append(community.readableName)
                                                 }
                                                 if (index < uiState.post.crossPosts.lastIndex) {
                                                     append(", ")

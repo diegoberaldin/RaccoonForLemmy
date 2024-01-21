@@ -609,15 +609,7 @@ class PostListScreen : Screen {
                                                     val screen = BlockBottomSheet(
                                                         userName = post.creator?.readableName,
                                                         userId = post.creator?.id,
-                                                        communityName = buildString {
-                                                            post.community?.also {
-                                                                append(it.name)
-                                                                if (it.host.isNotEmpty()) {
-                                                                    append("@")
-                                                                    append(it.host)
-                                                                }
-                                                            }
-                                                        },
+                                                        communityName = post.community?.readableName,
                                                         communityId = post.community?.id,
                                                         instanceName = post.community?.host,
                                                         instanceId = post.community?.instanceId,

@@ -84,9 +84,8 @@ fun InboxReplySubtitle(
     Column(
         modifier = modifier,
     ) {
-        val communityName = community?.name.orEmpty()
+        val communityName = community?.readableName.orEmpty()
         val communityIcon = community?.icon.orEmpty()
-        val communityHost = community?.host.orEmpty()
         val creatorName = creator?.readableName.orEmpty()
         val creatorAvatar = creator?.avatar.orEmpty()
         if (communityName.isNotEmpty() || creatorName.isNotEmpty()) {
@@ -157,12 +156,7 @@ fun InboxReplySubtitle(
                         }
                         Text(
                             modifier = Modifier.padding(vertical = Spacing.xs),
-                            text = buildString {
-                                append(communityName)
-                                if (communityHost.isNotEmpty()) {
-                                    append("@$communityHost")
-                                }
-                            },
+                            text = communityName,
                             style = MaterialTheme.typography.bodySmall,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,

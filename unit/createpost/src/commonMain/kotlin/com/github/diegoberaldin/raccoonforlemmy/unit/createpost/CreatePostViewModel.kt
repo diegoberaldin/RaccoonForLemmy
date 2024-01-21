@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.isValidUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
@@ -79,11 +80,7 @@ class CreatePostViewModel(
                 mvi.updateState {
                     it.copy(
                         communityId = community.id,
-                        communityInfo = buildString {
-                            append(community.name)
-                            append("@")
-                            append(community.host)
-                        },
+                        communityInfo = community.readableName,
                     )
                 }
             }

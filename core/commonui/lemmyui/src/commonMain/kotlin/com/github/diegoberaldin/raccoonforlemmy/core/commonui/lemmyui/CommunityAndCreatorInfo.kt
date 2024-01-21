@@ -63,9 +63,8 @@ fun CommunityAndCreatorInfo(
     onDoubleClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
 ) {
-    val communityName = community?.name.orEmpty()
+    val communityName = community?.readableName.orEmpty()
     val communityIcon = community?.icon.orEmpty()
-    val communityHost = community?.host.orEmpty()
     val creatorName = creator?.readableName.orEmpty()
     val creatorAvatar = creator?.avatar.orEmpty()
     val fullColor = MaterialTheme.colorScheme.onBackground
@@ -156,12 +155,7 @@ fun CommunityAndCreatorInfo(
                             onDoubleClick = onDoubleClick ?: {},
                             onLongClick = onLongClick ?: {},
                         ),
-                    text = buildString {
-                        append(communityName)
-                        if (communityHost.isNotEmpty()) {
-                            append("@$communityHost")
-                        }
-                    },
+                    text = communityName,
                     style = MaterialTheme.typography.bodySmall,
                     color = if (creator == null) ancillaryColor else fullColor,
                 )

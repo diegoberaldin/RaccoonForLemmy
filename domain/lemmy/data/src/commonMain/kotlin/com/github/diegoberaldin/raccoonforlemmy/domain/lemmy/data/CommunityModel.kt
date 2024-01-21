@@ -23,3 +23,11 @@ data class CommunityModel(
     val creationDate: String? = null,
     @Transient val favorite: Boolean = false,
 )
+
+val CommunityModel.readableName: String
+    get() = buildString {
+        append(name)
+        if (host.isNotEmpty()) {
+            append("@$host")
+        }
+    }

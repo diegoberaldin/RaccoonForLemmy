@@ -41,6 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 @Composable
 fun CommunityItem(
@@ -54,9 +55,8 @@ fun CommunityItem(
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     val title = community.title.replace("&amp;", "&")
-    val communityName = community.name
+    val communityName = community.readableName
     val communityIcon = community.icon.orEmpty()
-    val communityHost = community.host
     val iconSize = if (small) IconSize.m else IconSize.l
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
@@ -105,9 +105,6 @@ fun CommunityItem(
                     text = buildString {
                         append("!")
                         append(communityName)
-                        if (communityHost.isNotEmpty()) {
-                            append("@$communityHost")
-                        }
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = ancillaryColor,

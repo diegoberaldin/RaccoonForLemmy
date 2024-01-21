@@ -35,6 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -82,9 +83,8 @@ fun CommunityHeader(
             horizontalArrangement = Arrangement.spacedBy(Spacing.m)
         ) {
             val title = community.title.replace("&amp;", "&")
-            val communityName = community.name
+            val communityName = community.readableName
             val communityIcon = community.icon.orEmpty()
-            val communityHost = community.host
 
             // avatar
             if (communityIcon.isNotEmpty() && autoLoadImages) {
@@ -121,12 +121,7 @@ fun CommunityHeader(
 
                 Text(
                     modifier = Modifier.padding(horizontal = Spacing.s),
-                    text = buildString {
-                        append(communityName)
-                        if (communityHost.isNotEmpty()) {
-                            append("@$communityHost")
-                        }
-                    },
+                    text = communityName,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleSmall,
