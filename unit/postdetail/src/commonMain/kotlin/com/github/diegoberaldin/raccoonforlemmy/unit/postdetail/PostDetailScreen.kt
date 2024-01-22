@@ -41,6 +41,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -590,7 +591,7 @@ class PostDetailScreen(
                                             when (it) {
                                                 ActionOnSwipe.UpVote -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.ArrowCircleUp,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -609,7 +610,7 @@ class PostDetailScreen(
 
                                                 ActionOnSwipe.DownVote -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.ArrowCircleDown,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -628,7 +629,7 @@ class PostDetailScreen(
 
                                                 ActionOnSwipe.Reply -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.Reply,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -646,7 +647,7 @@ class PostDetailScreen(
 
                                                 ActionOnSwipe.Save -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.Bookmark,
                                                             contentDescription = null,
                                                             tint = Color.White,

@@ -489,7 +489,7 @@ class UserDetailScreen(
 
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
-                                                androidx.compose.material.Icon(
+                                                Icon(
                                                     imageVector = Icons.Default.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,

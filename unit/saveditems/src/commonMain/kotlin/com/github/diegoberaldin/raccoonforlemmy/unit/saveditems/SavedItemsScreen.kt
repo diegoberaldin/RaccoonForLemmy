@@ -328,7 +328,7 @@ class SavedItemsScreen : Screen {
 
                             if (uiState.posts.isEmpty() && !uiState.loading) {
                                 item {
-                                    androidx.compose.material.Text(
+                                    Text(
                                         modifier = Modifier.fillMaxWidth()
                                             .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
@@ -420,7 +420,7 @@ class SavedItemsScreen : Screen {
 
                             if (uiState.comments.isEmpty() && !uiState.loading) {
                                 item {
-                                    androidx.compose.material.Text(
+                                    Text(
                                         modifier = Modifier.fillMaxWidth()
                                             .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
