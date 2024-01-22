@@ -913,10 +913,7 @@ class UserDetailScreen(
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            detailOpener.openCommunityDetail(
-                                                community,
-                                                instance
-                                            )
+                                            detailOpener.openCommunityDetail(community, instance)
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
                                             detailOpener.openUserDetail(user, instance)
@@ -925,9 +922,7 @@ class UserDetailScreen(
                                             detailOpener.openPostDetail(post, instance)
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(
-                                                WebViewScreen(url)
-                                            )
+                                            navigationCoordinator.pushScreen(WebViewScreen(url))
                                         },
                                         options = buildList {
                                             add(

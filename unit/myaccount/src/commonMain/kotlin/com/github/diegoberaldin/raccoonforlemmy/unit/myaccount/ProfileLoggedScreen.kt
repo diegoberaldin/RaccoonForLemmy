@@ -336,6 +336,9 @@ object ProfileLoggedScreen : Tab {
                                     onImageClick = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                     },
+                                    onOpenCommunity = rememberCallbackArgs { community, instance ->
+                                        detailOpener.openCommunityDetail(community, instance)
+                                    },
                                     onClick = rememberCallback {
                                         detailOpener.openPostDetail(
                                             post = PostModel(id = comment.postId),
