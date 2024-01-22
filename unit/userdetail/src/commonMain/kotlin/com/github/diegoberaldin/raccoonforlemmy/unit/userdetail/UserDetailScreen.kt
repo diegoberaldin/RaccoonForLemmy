@@ -460,8 +460,10 @@ class UserDetailScreen(
                                             backgroundColor = upVoteColor
                                                 ?: defaultUpvoteColor,
                                             onTriggered = rememberCallback {
-                                                UserDetailMviModel.Intent.UpVotePost(
-                                                    post.id,
+                                                model.reduce(
+                                                    UserDetailMviModel.Intent.UpVotePost(
+                                                        post.id,
+                                                    ),
                                                 )
                                             },
                                         )
