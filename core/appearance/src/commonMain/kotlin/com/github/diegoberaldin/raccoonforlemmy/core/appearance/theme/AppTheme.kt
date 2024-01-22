@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getBarColorProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
@@ -16,7 +17,7 @@ fun AppTheme(
     theme: UiTheme?,
     contentFontScale: Float,
     useDynamicColors: Boolean,
-    transparent: Boolean = false,
+    barTheme: UiBarTheme = UiBarTheme.Solid,
     content: @Composable () -> Unit,
 ) {
     val repository = remember {
@@ -47,7 +48,7 @@ fun AppTheme(
     val barColorProvider = remember { getBarColorProvider() }
     barColorProvider.setBarColorAccordingToTheme(
         theme = theme ?: defaultTheme,
-        transparent = transparent,
+        barTheme = barTheme,
     )
 
     MaterialTheme(

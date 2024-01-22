@@ -326,4 +326,7 @@
     <string name="configure_actions_side_end">Azioni lato destro</string>
     <string name="select_action_title">Seleziona un\'azione</string>
     <string name="button_add">Aggiungi nuovo</string>
+    <string name="bar_theme_opaque">Opaco</string>
+    <string name="bar_theme_transparent">Trasparente</string>
+    <string name="settings_bar_theme">Tema barra di stato e di navigazione</string>
 </resources>

@@ -325,4 +325,7 @@
     <string name="configure_actions_side_end">Sağ taraftaki eylemler</string>
     <string name="select_action_title">Bir eylem seçin</string>
     <string name="button_add">Yeni ekle</string>
+    <string name="bar_theme_opaque">Opak</string>
+    <string name="bar_theme_transparent">Şeffaf</string>
+    <string name="settings_bar_theme">Durum ve gezinme çubuğunun teması</string>
 </resources>

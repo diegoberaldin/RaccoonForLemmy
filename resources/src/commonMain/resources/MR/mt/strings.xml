@@ -327,4 +327,7 @@
     <string name="configure_actions_side_end">Azzjonijiet fuq in-naħa tal-lemin</string>
     <string name="select_action_title">Agħżel azzjoni</string>
     <string name="button_add">Żid ġdid</string>
+    <string name="bar_theme_opaque">Opaki</string>
+    <string name="bar_theme_transparent">Trasparenti</string>
+    <string name="settings_bar_theme">Tema tal-istatus u l-bar tan-navigazzjoni</string>
 </resources>

@@ -43,6 +43,7 @@ CREATE TABLE SettingsEntity (
     actionsOnSwipeToEndComments TEXT DEFAULT NULL,
     actionsOnSwipeToStartInbox TEXT DEFAULT NULL,
     actionsOnSwipeToEndInbox TEXT DEFAULT NULL,
+    opaqueSystemBars INTEGER DEFAULT NULL,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
 );
@@ -91,8 +92,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     actionsOnSwipeToEndComments,
     actionsOnSwipeToStartInbox,
     actionsOnSwipeToEndInbox,
+    opaqueSystemBars,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -181,7 +184,8 @@ SET theme = ?,
     actionsOnSwipeToStartComments = ?,
     actionsOnSwipeToEndComments = ?,
     actionsOnSwipeToStartInbox = ?,
-    actionsOnSwipeToEndInbox = ?
+    actionsOnSwipeToEndInbox = ?,
+    opaqueSystemBars = ?
 WHERE account_id = ?;
 
 getBy:
@@ -228,6 +232,7 @@ SELECT
     actionsOnSwipeToStartComments,
     actionsOnSwipeToEndComments,
     actionsOnSwipeToStartInbox,
-    actionsOnSwipeToEndInbox
+    actionsOnSwipeToEndInbox,
+    opaqueSystemBars
 FROM SettingsEntity
 WHERE account_id = ?;

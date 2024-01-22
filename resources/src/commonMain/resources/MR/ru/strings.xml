@@ -326,4 +326,7 @@
     <string name="configure_actions_side_end">Действия с правой стороны</string>
     <string name="select_action_title">Выберите действие</string>
     <string name="button_add">Добавить новое</string>
+    <string name="bar_theme_opaque">Непрозрачный</string>
+    <string name="bar_theme_transparent">Прозрачный</string>
+    <string name="settings_bar_theme">Тема статусной и навигационной панели</string>
 </resources>

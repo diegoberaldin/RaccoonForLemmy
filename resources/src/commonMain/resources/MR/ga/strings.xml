@@ -331,4 +331,7 @@
     <string name="configure_actions_side_end">Gníomhartha ar an taobh deas</string>
     <string name="select_action_title">Roghnaigh gníomh</string>
     <string name="button_add">Cuir nua leis</string>
+    <string name="bar_theme_opaque">Teimhneach</string>
+    <string name="bar_theme_transparent">Trédhearcach</string>
+    <string name="settings_bar_theme">Téama an bharra stádais agus nascleanúna</string>
 </resources>

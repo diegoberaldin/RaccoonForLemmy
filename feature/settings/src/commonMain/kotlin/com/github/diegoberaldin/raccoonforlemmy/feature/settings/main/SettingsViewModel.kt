@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
@@ -186,6 +187,10 @@ class SettingsViewModel(
                 .onEach { evt ->
                     changePostBodyMaxLines(evt.value)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class)
+                .onEach { evt ->
+                    changeSystemBarTheme(evt.value)
+                }.launchIn(this)
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
             val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
@@ -223,6 +228,7 @@ class SettingsViewModel(
                 edgeToEdge = settings.edgeToEdge,
                 postBodyMaxLines = settings.postBodyMaxLines,
                 infiniteScrollDisabled = !settings.infiniteScrollEnabled,
+                opaqueSystemBars = settings.opaqueSystemBars,
             )
         }
     }
@@ -737,6 +743,20 @@ class SettingsViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 postBodyMaxLines = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeSystemBarTheme(value: UiBarTheme) {
+        val opaque = when (value) {
+            UiBarTheme.Opaque -> true
+            else -> false
+        }
+        mvi.updateState { it.copy(opaqueSystemBars = opaque) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                opaqueSystemBars = opaque
             )
             saveSettings(settings)
         }

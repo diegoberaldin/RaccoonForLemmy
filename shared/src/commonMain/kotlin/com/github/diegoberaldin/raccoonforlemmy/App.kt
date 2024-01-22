@@ -26,6 +26,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.transitions.SlideTransition
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toCommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
@@ -232,11 +233,16 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         }.launchIn(this)
     }
 
+    val barTheme: UiBarTheme = when {
+        settings.edgeToEdge && settings.opaqueSystemBars -> UiBarTheme.Opaque
+        settings.edgeToEdge && !settings.opaqueSystemBars -> UiBarTheme.Transparent
+        else -> UiBarTheme.Solid
+    }
     AppTheme(
         theme = currentTheme,
         contentFontScale = fontScale,
         useDynamicColors = useDynamicColors,
-        transparent = true,
+        barTheme = barTheme,
     ) {
         val lang by languageRepository.currentLanguage.collectAsState()
         LaunchedEffect(lang) {}

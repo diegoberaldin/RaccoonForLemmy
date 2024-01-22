@@ -8,26 +8,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 
 class DefaultBarColorProvider : BarColorProvider {
     @Composable
-    override fun setBarColorAccordingToTheme(theme: UiTheme, transparent: Boolean) {
+    override fun setBarColorAccordingToTheme(theme: UiTheme, barTheme: UiBarTheme) {
         val view = LocalView.current
-        LaunchedEffect(theme, transparent) {
+        LaunchedEffect(theme, barTheme) {
             (view.context as? Activity)?.window?.apply {
-                statusBarColor = when {
-                    transparent -> Color.Transparent
-                    theme == UiTheme.Light -> Color.White
+                val baseColor = when (theme) {
+                    UiTheme.Light -> Color.White
                     else -> Color.Black
+                }
+                val barColor = when (barTheme) {
+                    UiBarTheme.Opaque -> baseColor.copy(alpha = 0.25f)
+                    UiBarTheme.Transparent -> Color.Transparent
+                    else -> baseColor
                 }.toArgb()
-                navigationBarColor = when {
-                    transparent -> Color.Transparent
-                    theme == UiTheme.Light -> Color.White
-                    else -> Color.Black
-                }.toArgb()
+                statusBarColor = barColor
+                navigationBarColor = barColor
 
-                if (transparent) {
+                if (barTheme != UiBarTheme.Solid) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         setDecorFitsSystemWindows(false)
                     }

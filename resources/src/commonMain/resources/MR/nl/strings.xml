@@ -325,4 +325,7 @@
     <string name="configure_actions_side_end">Acties aan de rechterkant</string>
     <string name="select_action_title">Selecteer een actie</string>
     <string name="button_add">Nieuw toevoegen</string>
+    <string name="bar_theme_opaque">Ondoorzichtig</string>
+    <string name="bar_theme_transparent">Transparant</string>
+    <string name="settings_bar_theme">Thema van de status- en navigatiebalk</string>
 </resources>

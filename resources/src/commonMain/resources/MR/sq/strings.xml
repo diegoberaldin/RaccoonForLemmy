@@ -328,4 +328,7 @@
     <string name="configure_actions_side_end">Veprimet në anën e djathtë</string>
     <string name="select_action_title">Zgjidhni një veprim</string>
     <string name="button_add">Shto nje te ri</string>
+    <string name="bar_theme_opaque">I errët</string>
+    <string name="bar_theme_transparent">Transparente</string>
+    <string name="settings_bar_theme">Tema e shiritit të statusit dhe navigimit</string>
 </resources>

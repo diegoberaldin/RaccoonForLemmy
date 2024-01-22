@@ -323,4 +323,7 @@
     <string name="configure_actions_side_end">Åtgärder på höger sida</string>
     <string name="select_action_title">Välj en åtgärd</string>
     <string name="button_add">Lägg till ny</string>
+    <string name="bar_theme_opaque">Ogenomskinlig</string>
+    <string name="bar_theme_transparent">Transparent</string>
+    <string name="settings_bar_theme">Tema för status- och navigeringsfältet</string>
 </resources>

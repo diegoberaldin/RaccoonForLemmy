@@ -326,4 +326,7 @@
     <string name="configure_actions_side_end">Műveletek a jobb oldalon</string>
     <string name="select_action_title">Válasszon ki egy műveletet</string>
     <string name="button_add">Új hozzáadása</string>
+    <string name="bar_theme_opaque">Áttetsző</string>
+    <string name="bar_theme_transparent">Átlátszó</string>
+    <string name="settings_bar_theme">Az állapot és a navigációs sáv témája</string>
 </resources>

@@ -48,6 +48,7 @@ private object KeyStoreKeys {
     const val EDGE_TO_EDGE = "edgeToEdge"
     const val POST_BODY_MAX_LINES = "postBodyMaxLines"
     const val INFINITE_SCROLL_ENABLED = "infiniteScrollEnabled"
+    const val OPAQUE_SYSTEM_BARS = "opaqueSystemBars"
 }
 
 internal class DefaultSettingsRepository(
@@ -111,6 +112,7 @@ internal class DefaultSettingsRepository(
                     .joinToString(","),
                 actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox.map { it.toInt() }
                     .joinToString(","),
+                opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
             )
         }
 
@@ -155,6 +157,7 @@ internal class DefaultSettingsRepository(
                         keyStore[KeyStoreKeys.POST_BODY_MAX_LINES, 0]
                     } else null,
                     infiniteScrollEnabled = keyStore[KeyStoreKeys.INFINITE_SCROLL_ENABLED, true],
+                    opaqueSystemBars = keyStore[KeyStoreKeys.OPAQUE_SYSTEM_BARS, false],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -239,6 +242,7 @@ internal class DefaultSettingsRepository(
                     keyStore.remove(KeyStoreKeys.POST_BODY_MAX_LINES)
                 }
                 keyStore.save(KeyStoreKeys.INFINITE_SCROLL_ENABLED, settings.infiniteScrollEnabled)
+                keyStore.save(KeyStoreKeys.OPAQUE_SYSTEM_BARS, settings.opaqueSystemBars)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -290,6 +294,7 @@ internal class DefaultSettingsRepository(
                         .joinToString(","),
                     actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox.map { it.toInt() }
                         .joinToString(","),
+                    opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
                 )
             }
         }
@@ -355,4 +360,5 @@ private fun GetBy.toModel() = SettingsModel(
     actionsOnSwipeToEndInbox = actionsOnSwipeToEndInbox?.split(",")
         ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
         ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
+    opaqueSystemBars = opaqueSystemBars == 1L,
 )

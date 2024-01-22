@@ -323,4 +323,7 @@
     <string name="configure_actions_side_end">Acțiuni pe partea dreaptă</string>
     <string name="select_action_title">Selectează o acțiune</string>
     <string name="button_add">Adăugă nou</string>
+    <string name="bar_theme_opaque">Opac</string>
+    <string name="bar_theme_transparent">Transparent</string>
+    <string name="settings_bar_theme">Tema barei de stare și navigare</string>
 </resources>

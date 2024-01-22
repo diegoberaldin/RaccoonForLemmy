@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.notifications
 import androidx.compose.ui.graphics.Color
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
@@ -65,10 +66,11 @@ sealed interface NotificationCenterEvent {
     data class Share(val url: String) : NotificationCenterEvent
     data class ChangePostBodyMaxLines(val value: Int?) : NotificationCenterEvent
     data class InstanceSelected(val value: String) : NotificationCenterEvent
-
     data class ActionsOnSwipeSelected(
         val value: ActionOnSwipe,
         val direction: ActionOnSwipeDirection,
         val target: ActionOnSwipeTarget,
     ) : NotificationCenterEvent
+
+    data class ChangeSystemBarTheme(val value: UiBarTheme) : NotificationCenterEvent
 }

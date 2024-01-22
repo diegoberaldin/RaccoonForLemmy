@@ -324,4 +324,7 @@
     <string name="configure_actions_side_end">Handlinger på høyre side</string>
     <string name="select_action_title">Velg en handling</string>
     <string name="button_add">Legg til ny</string>
+    <string name="bar_theme_opaque">Ugjennomsiktig</string>
+    <string name="bar_theme_transparent">Gjennomsiktig</string>
+    <string name="settings_bar_theme">Tema for status- og navigasjonslinjen</string>
 </resources>

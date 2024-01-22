@@ -321,4 +321,7 @@
     <string name="configure_actions_side_end">Agoj sur la dekstra flanko</string>
     <string name="select_action_title">Elekti agon</string>
     <string name="button_add">Aldoni novan</string>
+    <string name="bar_theme_opaque">Opaka</string>
+    <string name="bar_theme_transparent">Travidebla</string>
+    <string name="settings_bar_theme">Temo de la statuso kaj navigadbreto</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -29,14 +30,14 @@ fun UiTheme?.toInt(): Int? = when (this) {
 }
 
 @Composable
-fun UiTheme?.toReadableName() = when (this) {
+fun UiTheme?.toReadableName(): String = when (this) {
     UiTheme.Black -> stringResource(MR.strings.settings_theme_black)
     UiTheme.Dark -> stringResource(MR.strings.settings_theme_dark)
     UiTheme.Light -> stringResource(MR.strings.settings_theme_light)
     else -> stringResource(MR.strings.settings_font_family_default)
 }
 
-fun UiTheme.toIcon() = when (this) {
+fun UiTheme.toIcon(): ImageVector = when (this) {
     UiTheme.Black -> Icons.Default.DarkMode
     UiTheme.Dark -> Icons.Outlined.DarkMode
     UiTheme.Light -> Icons.Default.LightMode

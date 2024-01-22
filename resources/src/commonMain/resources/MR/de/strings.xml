@@ -330,4 +330,7 @@
     <string name="configure_actions_side_end">Aktionen auf der rechten Seite</string>
     <string name="select_action_title">Wählen Sie eine Aktion aus</string>
     <string name="button_add">Neue hinzufügen</string>
+    <string name="bar_theme_opaque">Undurchsichtig</string>
+    <string name="bar_theme_transparent">Transparent</string>
+    <string name="settings_bar_theme">Thema der Status- und Navigationsleiste</string>
 </resources>

@@ -322,4 +322,7 @@
     <string name="configure_actions_side_end">Toimenpiteet oikealla puolella</string>
     <string name="select_action_title">Valitse toiminto</string>
     <string name="button_add">Lisää uusi</string>
+    <string name="bar_theme_opaque">Läpinäkymätön</string>
+    <string name="bar_theme_transparent">Läpinäkyvä</string>
+    <string name="settings_bar_theme">Tila- ja navigointipalkin teema</string>
 </resources>

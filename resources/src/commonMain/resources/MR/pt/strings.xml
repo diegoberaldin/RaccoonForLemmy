@@ -324,4 +324,7 @@
     <string name="configure_actions_side_end">Ações do lado direito</string>
     <string name="select_action_title">Selecionar uma ação</string>
     <string name="button_add">Adicionar novo</string>
+    <string name="bar_theme_opaque">Opaco</string>
+    <string name="bar_theme_transparent">Transparente</string>
+    <string name="settings_bar_theme">Tema da barra de status e navegação</string>
 </resources>

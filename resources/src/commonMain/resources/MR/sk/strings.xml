@@ -324,4 +324,7 @@
     <string name="configure_actions_side_end">Akcie na pravej strane</string>
     <string name="select_action_title">Vyberte akciu</string>
     <string name="button_add">Pridať nové</string>
+    <string name="bar_theme_opaque">Nepriehľadné</string>
+    <string name="bar_theme_transparent">Transparentné</string>
+    <string name="settings_bar_theme">Téma stavovej a navigačnej lišty</string>
 </resources>

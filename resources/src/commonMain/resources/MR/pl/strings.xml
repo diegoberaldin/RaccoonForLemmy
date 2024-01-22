@@ -325,4 +325,7 @@
     <string name="configure_actions_side_end">Działania po prawej stronie</string>
     <string name="select_action_title">Wybierz akcję</string>
     <string name="button_add">Dodaj nowe</string>
+    <string name="bar_theme_opaque">Nieprzejrzysty</string>
+    <string name="bar_theme_transparent">Przezroczysty</string>
+    <string name="settings_bar_theme">Motyw paska stanu i nawigacji</string>
 </resources>

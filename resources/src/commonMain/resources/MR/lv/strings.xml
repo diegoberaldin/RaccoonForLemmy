@@ -326,4 +326,7 @@
     <string name="configure_actions_side_end">Darbības labajā pusē</string>
     <string name="select_action_title">Izvēlieties darbību</string>
     <string name="button_add">Pievieno jaunu</string>
+    <string name="bar_theme_opaque">Necaurspīdīgs</string>
+    <string name="bar_theme_transparent">Caurspīdīgs</string>
+    <string name="settings_bar_theme">Statusa un navigācijas joslas motīvs</string>
 </resources>

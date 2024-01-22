@@ -44,6 +44,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
@@ -54,6 +55,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBottomSheet
@@ -228,6 +230,36 @@ class SettingsScreen : Screen {
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
+
+                    // dynamic colors
+                    if (uiState.supportsDynamicColors) {
+                        SettingsSwitchRow(
+                            title = stringResource(MR.strings.settings_dynamic_colors),
+                            value = uiState.dynamicColors,
+                            onValueChanged = rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    SettingsMviModel.Intent.ChangeDynamicColors(value)
+                                )
+                            },
+                        )
+                    }
+
+                    // system bar theme
+                    if (uiState.edgeToEdge) {
+                        val barThemeName = if (uiState.opaqueSystemBars) {
+                            UiBarTheme.Opaque.toReadableName()
+                        } else {
+                            UiBarTheme.Transparent.toReadableName()
+                        }
+                        SettingsRow(
+                            title = stringResource(MR.strings.settings_bar_theme),
+                            value = barThemeName,
+                            onTap = rememberCallback {
+                                val sheet = BarThemeBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
+                        )
+                    }
 
                     // dynamic colors
                     if (uiState.supportsDynamicColors) {

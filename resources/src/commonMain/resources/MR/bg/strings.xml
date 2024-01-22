@@ -330,4 +330,7 @@
     <string name="configure_actions_side_end">Действия от дясната страна</string>
     <string name="select_action_title">Изберете действие</string>
     <string name="button_add">Добави нов</string>
+    <string name="bar_theme_opaque">Непрозрачен</string>
+    <string name="bar_theme_transparent">Прозрачен</string>
+    <string name="settings_bar_theme">Тема на лентата за състояние и навигация</string>
 </resources>

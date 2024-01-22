@@ -324,4 +324,7 @@
     <string name="configure_actions_side_end">Veiksmai dešinėje pusėje</string>
     <string name="select_action_title">Pasirinkite veiksmą</string>
     <string name="button_add">Pridėti naują</string>
+    <string name="bar_theme_opaque">Nepermatomas</string>
+    <string name="bar_theme_transparent">Skaidrus</string>
+    <string name="settings_bar_theme">Būsenos ir naršymo juostos tema</string>
 </resources>

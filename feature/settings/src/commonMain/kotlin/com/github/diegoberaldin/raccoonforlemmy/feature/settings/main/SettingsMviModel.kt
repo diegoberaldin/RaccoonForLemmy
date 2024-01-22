@@ -98,6 +98,7 @@ interface SettingsMviModel :
         val edgeToEdge: Boolean = true,
         val postBodyMaxLines: Int? = null,
         val infiniteScrollDisabled: Boolean = false,
+        val opaqueSystemBars: Boolean = false,
     )
 
     sealed interface Effect
