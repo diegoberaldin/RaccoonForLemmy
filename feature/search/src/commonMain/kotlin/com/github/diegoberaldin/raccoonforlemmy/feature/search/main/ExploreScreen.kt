@@ -342,7 +342,7 @@ class ExploreScreen : Screen {
                                             when (it) {
                                                 ActionOnSwipe.UpVote -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.ArrowCircleUp,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -351,15 +351,17 @@ class ExploreScreen : Screen {
                                                     backgroundColor = upVoteColor
                                                         ?: defaultUpvoteColor,
                                                     onTriggered = rememberCallback {
-                                                        ExploreMviModel.Intent.UpVotePost(
-                                                            result.model.id
+                                                        model.reduce(
+                                                            ExploreMviModel.Intent.UpVotePost(
+                                                                result.model.id,
+                                                            ),
                                                         )
                                                     },
                                                 )
 
                                                 ActionOnSwipe.DownVote -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.ArrowCircleDown,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -378,7 +380,7 @@ class ExploreScreen : Screen {
 
                                                 ActionOnSwipe.Reply -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.Reply,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -393,7 +395,7 @@ class ExploreScreen : Screen {
 
                                                 ActionOnSwipe.Save -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.Bookmark,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -525,7 +527,7 @@ class ExploreScreen : Screen {
                                             when (it) {
                                                 ActionOnSwipe.UpVote -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.ArrowCircleUp,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -544,7 +546,7 @@ class ExploreScreen : Screen {
 
                                                 ActionOnSwipe.DownVote -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.ArrowCircleDown,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -563,7 +565,7 @@ class ExploreScreen : Screen {
 
                                                 ActionOnSwipe.Reply -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.Reply,
                                                             contentDescription = null,
                                                             tint = Color.White,
@@ -581,7 +583,7 @@ class ExploreScreen : Screen {
 
                                                 ActionOnSwipe.Save -> SwipeAction(
                                                     swipeContent = {
-                                                        androidx.compose.material.Icon(
+                                                        Icon(
                                                             imageVector = Icons.Default.Bookmark,
                                                             contentDescription = null,
                                                             tint = Color.White,
