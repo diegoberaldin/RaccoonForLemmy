@@ -65,12 +65,12 @@ localization are first-class citizens in this project.
 
 Lemmy users used to refer to themselves as "lemmings" and the platform logo clearly recalls that
 animal, so there was this tradition in the early days to use animals names for clients or at least
-the original developers of this app thought so (some examples being Jerboa and Fennec). And they
-really liked raccoons so they choose that. Raccoons are cunning animals that adapt to live in harsh
-conditions, finding a way to survive even with what we consider "trash". They look like masked
+the original developers of this app thought so (some examples being Lemmur, Jerboa and Fennec). And
+they really liked raccoons so they choose that. Raccoons are cunning animals that adapt to live in
+harsh conditions, finding a way to survive even with what we consider "trash". They look like masked
 criminals but do not harm anyone, they are lazy and chubby and so cute in the end.
 
-In this group, we often quote every raccoon's motto: «Live Fast, Eat Trash» (abbreviated LFET).
+In this group, we often quote every raccoon's motto: «Live Fast, Eat Trash» (abbreviated L.F.E.T.).
 
 ## 2 Community
 
