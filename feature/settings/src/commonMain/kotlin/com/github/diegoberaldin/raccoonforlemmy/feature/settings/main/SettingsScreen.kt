@@ -261,19 +261,6 @@ class SettingsScreen : Screen {
                         )
                     }
 
-                    // dynamic colors
-                    if (uiState.supportsDynamicColors) {
-                        SettingsSwitchRow(
-                            title = stringResource(MR.strings.settings_dynamic_colors),
-                            value = uiState.dynamicColors,
-                            onValueChanged = rememberCallbackArgs(model) { value ->
-                                model.reduce(
-                                    SettingsMviModel.Intent.ChangeDynamicColors(value)
-                                )
-                            },
-                        )
-                    }
-
                     // custom scheme seed color
                     SettingsColorRow(
                         title = stringResource(MR.strings.settings_custom_seed_color),
