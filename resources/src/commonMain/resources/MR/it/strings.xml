@@ -328,5 +328,5 @@
     <string name="button_add">Aggiungi nuovo</string>
     <string name="bar_theme_opaque">Opaco</string>
     <string name="bar_theme_transparent">Trasparente</string>
-    <string name="settings_bar_theme">Tema barra di stato e di navigazione</string>
+    <string name="settings_bar_theme">Tema barra notifiche di sistema e navigazione</string>
 </resources>
