@@ -136,8 +136,7 @@ are called throughout the whole project. Here is a short description of them:
 - `:core:appearance` contains the look and feel repository which exposes the information about the
   current theme as observable states and allows to change them;
 - `:core:architecture` contains the building blocks for the Model-View-Intent architecture used in
-  all the screens of the application (see the section
-  about [architectural patterns](#61-architectural-patterns));
+  all the screens of the application;
 - `:core:commonui` contains a series of sub-modules that are used to define UI components used in
   the app and reusable UI blocks:
     - `:components`: a collection of components that represent graphical widgets
