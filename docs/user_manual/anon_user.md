@@ -86,6 +86,58 @@ an account.
 
 The settings screen allows you to customize the look and behaviour of your app.
 
+- Look and feel:
+    - Language: choose UI language (app specific);
+    - UI theme: choose between light, dark, totally dark or system theme;
+    - Use dynamic colors: (on Android 12+) generate a palette based on your background dominant
+      color;
+    - System notification and navigation bar theme: if you enable edge-to-edge display, choosing "
+      Transparent" makes the status and nav bar completely transparent, otherwise they have the
+      system color with a slight alpha to make them more visible;
+    - Custom theme color: (requires "Use dynamic color" off to be applied) generate a palette by
+      choosing a seed color from a predefined list or custom color;
+    - Comment bar theme: palette of colors used to distinguish nested comments;
+    - UI font family: typeface used for the app UI elements (menus, labels, etc);
+    - Content font family: typeface used for post and comments on Lemmy;
+    - UI text size: scale factor to apply to the app UI elements;
+    - Content text size: scale factor to apply to posts and comments on Lemmy;
+    - Post layout: choose a layout (Card, Compact, Full) for posts
+    - Vote format: see the score of posts and comments as aggregated (`upvotes - downvotes`), split
+      or percentage (`upvotes / (upvotes + downvotes) * 100`);
+    - Full height images: show images with scaled width and full height (instead of capping the
+      height) in the feed;
+    - Show navigation bar titles: include the section titles in the bottom navigation bar;
+- Post and comments:
+    - Default feed type: listing type for the home screen applied by default
+    - Default post sort type: sort type for the home, community detail and user detail applied by
+      default;
+    - Default comment sort type: sort type for post detail applied by default to comments;
+- Behaviour:
+    - Edge to edge contents: enable the view from top to bottom edge for home, community detail,
+      user detail, post detail and profile to maximize the space dedicated to contents;
+    - Disable infinite scrolling: if this option is enabled, instead of automatically fetching new
+      contents while scrolling (in home, community detail, post detail, user detail) an explicit "
+      Load more" button is shown, in order to prevent the "doom scrolling" effect;
+    - Mark posts as read when scrolling: instead of marking posts read with an explicit interaction,
+      posts are marked as read on the fly as they become visible while scrolling;
+    - Zombie mode interval duration: amount of time between automatic scroll in "lazy mode";
+    - Zombie mode scroll amount: translation amount for the automatic scroll in "lazy mode";
+    - Hide navigation bar while scrolling: makes the bottom navigation bar invisible while scrolling
+      down to maximize the space dedicated to contents;
+    - Open links in external browser: rely on the external browser instead of in-app web view;
+    - Automatically expand comments: expand all comment threads while opening the post detail;
+    - Automatically load images: load images and videos automatically in post and comments;
+    - Search posts only in title: enable exact match in the Explore section while searching posts;
+- NSFW:
+    - Include NSFW contents: determine whether NSFW contents are included in the feed by default;
+    - Blur NSFW images: in home feed and community (unless the community is marked as NSFW as a
+      whole) and user detail when a post is marked as NSFW, and the URL contains an image, the image
+      is blurred;
+- Debug:
+    - Enable crash reporting: send anonymous reports about crash events;
+    - About this app: shows a dialog with the app versions and some useful shortcuts to reach out to
+      the developers or other members of the community.
+
 ![settings](images/anon_settings_1.png)
 ![settings](images/anon_settings_2.png)
 ![settings](images/anon_settings_3.png)
