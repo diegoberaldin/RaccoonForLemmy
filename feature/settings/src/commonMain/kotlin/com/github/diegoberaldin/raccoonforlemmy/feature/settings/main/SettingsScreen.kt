@@ -274,8 +274,8 @@ class SettingsScreen : Screen {
                         },
                     )
 
-                    // action colors
                     if (uiState.isLogged) {
+                        // action colors
                         SettingsColorRow(
                             title = stringResource(MR.strings.settings_upvote_color),
                             value = uiState.upVoteColor ?: MaterialTheme.colorScheme.primary,
@@ -478,19 +478,21 @@ class SettingsScreen : Screen {
                         },
                     )
 
-                    // default inbox type
-                    SettingsRow(
-                        title = stringResource(MR.strings.settings_default_inbox_type),
-                        value = if (uiState.defaultInboxUnreadOnly) {
-                            stringResource(MR.strings.inbox_listing_type_unread)
-                        } else {
-                            stringResource(MR.strings.inbox_listing_type_all)
-                        },
-                        onTap = rememberCallback {
-                            val sheet = InboxTypeSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
+                    if (uiState.isLogged) {
+                        // default inbox type
+                        SettingsRow(
+                            title = stringResource(MR.strings.settings_default_inbox_type),
+                            value = if (uiState.defaultInboxUnreadOnly) {
+                                stringResource(MR.strings.inbox_listing_type_unread)
+                            } else {
+                                stringResource(MR.strings.inbox_listing_type_all)
+                            },
+                            onTap = rememberCallback {
+                                val sheet = InboxTypeSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
+                        )
+                    }
 
                     SettingsHeader(
                         icon = Icons.Default.SettingsApplications,
@@ -562,17 +564,17 @@ class SettingsScreen : Screen {
                         },
                     )
 
-                    // swipe actions
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_enable_swipe_actions),
-                        value = uiState.enableSwipeActions,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeEnableSwipeActions(value)
-                            )
-                        },
-                    )
                     if (uiState.isLogged) {
+                        // swipe actions
+                        SettingsSwitchRow(
+                            title = stringResource(MR.strings.settings_enable_swipe_actions),
+                            value = uiState.enableSwipeActions,
+                            onValueChanged = rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    SettingsMviModel.Intent.ChangeEnableSwipeActions(value)
+                                )
+                            },
+                        )
                         SettingsRow(
                             title = stringResource(MR.strings.settings_configure_swipe_actions),
                             disclosureIndicator = true,
@@ -581,18 +583,18 @@ class SettingsScreen : Screen {
                                 navigationCoordinator.pushScreen(screen)
                             },
                         )
-                    }
 
-                    // double tap
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_enable_double_tap),
-                        value = uiState.enableDoubleTapAction,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeEnableDoubleTapAction(value)
-                            )
-                        },
-                    )
+                        // double tap
+                        SettingsSwitchRow(
+                            title = stringResource(MR.strings.settings_enable_double_tap),
+                            value = uiState.enableDoubleTapAction,
+                            onValueChanged = rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    SettingsMviModel.Intent.ChangeEnableDoubleTapAction(value)
+                                )
+                            },
+                        )
+                    }
 
                     // bottom navigation hiding
                     SettingsSwitchRow(
