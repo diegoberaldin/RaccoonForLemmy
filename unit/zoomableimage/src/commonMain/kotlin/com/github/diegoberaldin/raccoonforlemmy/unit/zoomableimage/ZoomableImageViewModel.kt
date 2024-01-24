@@ -34,7 +34,7 @@ class ZoomableImageViewModel(
         when (intent) {
             is ZoomableImageMviModel.Intent.Share -> {
                 runCatching {
-                    shareHelper.share(intent.url, "image/*")
+                    shareHelper.share(intent.url)
                 }
             }
 
