@@ -500,63 +500,47 @@ class PostListScreen : Screen {
                                             )
                                         },
                                         options = buildList {
-                                            add(
-                                                Option(
-                                                    OptionId.Share,
-                                                    stringResource(MR.strings.post_action_share),
-                                                ),
+                                            this += Option(
+                                                OptionId.Share,
+                                                stringResource(MR.strings.post_action_share),
                                             )
                                             if (uiState.isLogged) {
-                                                add(
-                                                    Option(
-                                                        OptionId.Hide,
-                                                        stringResource(MR.strings.post_action_hide),
-                                                    ),
+                                                this += Option(
+                                                    OptionId.Hide,
+                                                    stringResource(MR.strings.post_action_hide),
                                                 )
-                                                add(
-                                                    Option(
-                                                        OptionId.Block,
-                                                        stringResource(MR.strings.community_detail_block),
-                                                    ),
+                                                this += Option(
+                                                    OptionId.Block,
+                                                    stringResource(MR.strings.community_detail_block),
                                                 )
                                             }
-                                            add(
-                                                Option(
-                                                    OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw),
-                                                ),
+                                            this += Option(
+                                                OptionId.SeeRaw,
+                                                stringResource(MR.strings.post_action_see_raw),
                                             )
                                             if (uiState.isLogged) {
-                                                add(
-                                                    Option(
-                                                        OptionId.CrossPost,
-                                                        stringResource(MR.strings.post_action_cross_post),
-                                                    ),
+                                                this += Option(
+                                                    OptionId.CrossPost,
+                                                    stringResource(MR.strings.post_action_cross_post),
                                                 )
-                                                add(
-                                                    Option(
-                                                        OptionId.Report,
-                                                        stringResource(MR.strings.post_action_report),
-                                                    ),
+                                                this += Option(
+                                                    OptionId.Report,
+                                                    stringResource(MR.strings.post_action_report),
                                                 )
                                             }
                                             if (post.creator?.id == uiState.currentUserId) {
-                                                add(
-                                                    Option(
-                                                        OptionId.Edit,
-                                                        stringResource(MR.strings.post_action_edit),
-                                                    ),
+                                                this += Option(
+                                                    OptionId.Edit,
+                                                    stringResource(MR.strings.post_action_edit),
                                                 )
-                                                add(
-                                                    Option(
-                                                        OptionId.Delete,
-                                                        stringResource(MR.strings.comment_action_delete),
-                                                    ),
+                                                this += Option(
+                                                    OptionId.Delete,
+                                                    stringResource(MR.strings.comment_action_delete),
                                                 )
                                             }
                                         },
-                                        onOptionSelected = rememberCallbackArgs(model) { optinId ->
-                                            when (optinId) {
+                                        onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                            when (optionId) {
                                                 OptionId.Delete -> model.reduce(
                                                     PostListMviModel.Intent.DeletePost(post.id)
                                                 )

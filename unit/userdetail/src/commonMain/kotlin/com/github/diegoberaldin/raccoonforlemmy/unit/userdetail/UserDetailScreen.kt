@@ -237,19 +237,21 @@ class UserDetailScreen(
 
                         // options menu
                         Box {
-                            val options = listOf(
-                                Option(
+                            val options = buildList {
+                                this += Option(
                                     OptionId.Info, stringResource(MR.strings.user_detail_info)
-                                ),
-                                Option(
-                                    OptionId.Block,
-                                    stringResource(MR.strings.community_detail_block)
-                                ),
-                                Option(
-                                    OptionId.BlockInstance,
-                                    stringResource(MR.strings.community_detail_block_instance)
-                                ),
-                            )
+                                )
+                                if (uiState.isLogged) {
+                                    this += Option(
+                                        OptionId.Block,
+                                        stringResource(MR.strings.community_detail_block)
+                                    )
+                                    this += Option(
+                                        OptionId.BlockInstance,
+                                        stringResource(MR.strings.community_detail_block_instance)
+                                    )
+                                }
+                            }
                             var optionsExpanded by remember { mutableStateOf(false) }
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
                             Image(

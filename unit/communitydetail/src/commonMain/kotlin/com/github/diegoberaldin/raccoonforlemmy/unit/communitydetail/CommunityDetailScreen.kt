@@ -294,14 +294,16 @@ class CommunityDetailScreen(
                                     OptionId.InfoInstance,
                                     stringResource(MR.strings.community_detail_instance_info)
                                 )
-                                this += Option(
-                                    OptionId.Block,
-                                    stringResource(MR.strings.community_detail_block)
-                                )
-                                this += Option(
-                                    OptionId.BlockInstance,
-                                    stringResource(MR.strings.community_detail_block_instance)
-                                )
+                                if (uiState.isLogged) {
+                                    this += Option(
+                                        OptionId.Block,
+                                        stringResource(MR.strings.community_detail_block)
+                                    )
+                                    this += Option(
+                                        OptionId.BlockInstance,
+                                        stringResource(MR.strings.community_detail_block_instance)
+                                    )
+                                }
                                 if (uiState.currentUserId != null && otherInstanceName.isEmpty()) {
                                     this += Option(
                                         OptionId.Favorite,
