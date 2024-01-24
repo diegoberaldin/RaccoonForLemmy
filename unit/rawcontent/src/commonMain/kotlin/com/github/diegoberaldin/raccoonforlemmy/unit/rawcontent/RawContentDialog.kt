@@ -46,6 +46,7 @@ fun RawContentDialog(
     title: String? = null,
     url: String? = null,
     text: String? = null,
+    isLogged: Boolean = true,
     onDismiss: (() -> Unit)? = null,
     onQuote: ((String?) -> Unit)? = null,
 ) {
@@ -92,6 +93,7 @@ fun RawContentDialog(
                             )
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
+                                    isLogged = isLogged,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
                                 )
@@ -121,6 +123,7 @@ fun RawContentDialog(
                             )
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
+                                    isLogged = isLogged,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
                                 )
@@ -151,6 +154,7 @@ fun RawContentDialog(
 
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
+                                    isLogged = isLogged,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
                                 )

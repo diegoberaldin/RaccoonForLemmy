@@ -7,11 +7,13 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.CustomTextToolba
 
 @Composable
 actual fun getCustomTextToolbar(
+    isLogged: Boolean,
     onShare: () -> Unit,
     onQuote: () -> Unit,
 ): TextToolbar {
     return CustomTextToolbar(
         view = LocalView.current,
+        isLogged = isLogged,
         onShare = onShare,
         onQuote = onQuote,
     )

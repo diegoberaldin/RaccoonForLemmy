@@ -16,6 +16,7 @@ private const val GROUP_ID = 0
 
 class CustomTextToolbar(
     private val view: View,
+    private val isLogged: Boolean,
     private val onShare: () -> Unit,
     private val onQuote: () -> Unit,
 ) : TextToolbar {
@@ -42,6 +43,7 @@ class CustomTextToolbar(
             actionMode = view.startActionMode(
                 CustomTextActionModeCallback(
                     rect = rect,
+                    isLogged = isLogged,
                     onCopy = {
                         onCopyRequested?.invoke()
                     },
@@ -63,8 +65,9 @@ class CustomTextToolbar(
     }
 }
 
-internal class CustomTextActionModeCallback(
+private class CustomTextActionModeCallback(
     private val rect: Rect,
+    private val isLogged: Boolean,
     private val onCopy: () -> Unit,
     private val onShare: () -> Unit,
     private val onQuote: () -> Unit,
@@ -72,12 +75,14 @@ internal class CustomTextActionModeCallback(
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         menu?.apply {
-            add(
-                GROUP_ID,
-                ACTION_ID_QUOTE,
-                0, // position
-                MR.strings.action_quote.resourceId
-            ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            if (isLogged) {
+                add(
+                    GROUP_ID,
+                    ACTION_ID_QUOTE,
+                    0, // position
+                    MR.strings.action_quote.resourceId
+                ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            }
             add(
                 GROUP_ID,
                 ACTION_ID_COPY,

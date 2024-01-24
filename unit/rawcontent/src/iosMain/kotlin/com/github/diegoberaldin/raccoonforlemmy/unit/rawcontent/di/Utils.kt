@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.TextToolbar
 
 @Composable
 actual fun getCustomTextToolbar(
+    isLogged:Boolean,
     onShare: () -> Unit,
     onQuote: () -> Unit,
 ): TextToolbar {

@@ -978,6 +978,7 @@ class CommunityDetailScreen(
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
+                        isLogged = uiState.isLogged,
                         onDismiss = rememberCallback {
                             rawContent = null
                         },
@@ -1000,6 +1001,7 @@ class CommunityDetailScreen(
                 is CommentModel -> {
                     RawContentDialog(
                         text = content.text,
+                        isLogged = uiState.isLogged,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = rememberCallback {
