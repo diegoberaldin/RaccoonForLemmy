@@ -3,8 +3,11 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +37,7 @@ class BarThemeBottomSheet : Screen {
         val notificationCenter = remember { getNotificationCenter() }
         Column(
             modifier = Modifier
+                .windowInsetsPadding(WindowInsets.navigationBars)
                 .padding(
                     top = Spacing.s,
                     start = Spacing.s,
