@@ -9,8 +9,6 @@ val aboutModule = module {
     factory<AboutDialogMviModel> {
         AboutDialogViewModel(
             mvi = DefaultMviModel(AboutDialogMviModel.UiState()),
-            identityRepository = get(),
-            communityRepository = get(),
         )
     }
 }

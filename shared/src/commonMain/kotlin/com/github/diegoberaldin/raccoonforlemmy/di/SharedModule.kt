@@ -18,6 +18,8 @@ internal val internalSharedModule = module {
         DefaultDetailOpener(
             navigationCoordinator = get(),
             itemCache = get(),
+            identityRepository = get(),
+            communityRepository = get(),
         )
     }
 }

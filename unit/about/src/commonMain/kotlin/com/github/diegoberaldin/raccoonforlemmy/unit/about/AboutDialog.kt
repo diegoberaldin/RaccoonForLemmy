@@ -20,7 +20,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -44,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.CHANGELOG_URL
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.REPORT_EMAIL_ADDRESS
@@ -52,8 +52,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.WEBSIT
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 class AboutDialog : Screen {
 
@@ -71,19 +69,6 @@ class AboutDialog : Screen {
         val uiState by viewModel.uiState.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
         val detailOpener = remember { getDetailOpener() }
-
-        LaunchedEffect(viewModel) {
-            viewModel.effects.onEach { effect ->
-                when (effect) {
-                    is AboutDialogMviModel.Effect.OpenCommunity -> {
-                        detailOpener.openCommunityDetail(
-                            community = effect.community,
-                            otherInstance = effect.instance,
-                        )
-                    }
-                }
-            }.launchIn(this)
-        }
 
         AlertDialog(
             onDismissRequest = {
@@ -187,7 +172,10 @@ class AboutDialog : Screen {
                             text = stringResource(MR.strings.settings_about_view_lemmy),
                             textDecoration = TextDecoration.Underline,
                             onClick = {
-                                viewModel.reduce(AboutDialogMviModel.Intent.OpenOwnCommunity)
+                                detailOpener.openCommunityDetail(
+                                    community = CommunityModel(name = AboutConstants.LEMMY_COMMUNITY_NAME),
+                                    otherInstance = AboutConstants.LEMMY_COMMUNITY_INSTANCE
+                                )
                             },
                         )
                     }
@@ -199,7 +187,6 @@ class AboutDialog : Screen {
                             onClick = {
                                 runCatching {
                                     uriHandler.openUri(AboutConstants.MATRIX_URL)
-                                    viewModel.reduce(AboutDialogMviModel.Intent.OpenOwnCommunity)
                                 }
                             },
                         )
