@@ -430,7 +430,7 @@ class ReportListScreen(
                             }
                         }
                         item {
-                            Spacer(modifier = Modifier.height(Spacing.s))
+                            Spacer(modifier = Modifier.height(Spacing.xxl))
                         }
                     }
 
