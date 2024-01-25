@@ -71,8 +71,11 @@ internal object MainScreen : Screen {
         val exitMessage = stringResource(MR.strings.message_confirm_exit)
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
+        val bottomNavigationInsetPx = with(LocalDensity.current) {
+            WindowInsets.navigationBars.getBottom(this)
+        }
         val bottomNavigationInset = with(LocalDensity.current) {
-            WindowInsets.navigationBars.getBottom(this).toDp()
+            bottomNavigationInsetPx.toDp()
         }
 
         LaunchedEffect(model) {
@@ -92,7 +95,7 @@ internal object MainScreen : Screen {
                     val delta = available.y
                     val newOffset =
                         (uiState.bottomBarOffsetHeightPx + delta).coerceIn(
-                            -bottomBarHeightPx,
+                            -(bottomBarHeightPx + bottomNavigationInsetPx),
                             0f,
                         )
                     model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(newOffset))
