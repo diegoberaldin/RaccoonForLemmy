@@ -325,4 +325,5 @@
     <string name="bar_theme_opaque">Läpinäkymätön</string>
     <string name="bar_theme_transparent">Läpinäkyvä</string>
     <string name="settings_bar_theme">Tila- ja navigointipalkin teema</string>
+    <string name="settings_colors_and_fonts">Värit ja fontit</string>
 </resources>

@@ -333,4 +333,5 @@
     <string name="bar_theme_opaque">Непрозрачен</string>
     <string name="bar_theme_transparent">Прозрачен</string>
     <string name="settings_bar_theme">Тема на лентата за състояние и навигация</string>
+    <string name="settings_colors_and_fonts">Цветове и шрифтове</string>
 </resources>

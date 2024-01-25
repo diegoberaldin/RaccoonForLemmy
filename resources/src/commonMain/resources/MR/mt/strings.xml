@@ -330,4 +330,5 @@
     <string name="bar_theme_opaque">Opaki</string>
     <string name="bar_theme_transparent">Trasparenti</string>
     <string name="settings_bar_theme">Tema tal-istatus u l-bar tan-navigazzjoni</string>
+    <string name="settings_colors_and_fonts">Kuluri u fonts</string>
 </resources>

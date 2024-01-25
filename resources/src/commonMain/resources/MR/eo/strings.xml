@@ -324,4 +324,5 @@
     <string name="bar_theme_opaque">Opaka</string>
     <string name="bar_theme_transparent">Travidebla</string>
     <string name="settings_bar_theme">Temo de la statuso kaj navigadbreto</string>
+    <string name="settings_colors_and_fonts">Koloroj kaj tiparoj</string>
 </resources>

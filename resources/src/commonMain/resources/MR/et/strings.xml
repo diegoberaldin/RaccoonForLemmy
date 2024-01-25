@@ -325,4 +325,5 @@
     <string name="bar_theme_opaque">Läbipaistmatu</string>
     <string name="bar_theme_transparent">Läbipaistev</string>
     <string name="settings_bar_theme">Oleku- ja navigeerimisriba teema</string>
+    <string name="settings_colors_and_fonts">Värvid ja fondid</string>
 </resources>

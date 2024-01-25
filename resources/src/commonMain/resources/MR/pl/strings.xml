@@ -328,4 +328,5 @@
     <string name="bar_theme_opaque">Nieprzejrzysty</string>
     <string name="bar_theme_transparent">Przezroczysty</string>
     <string name="settings_bar_theme">Motyw paska stanu i nawigacji</string>
+    <string name="settings_colors_and_fonts">Kolory i czcionki</string>
 </resources>

@@ -1,17 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.main
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
@@ -42,7 +36,6 @@ import kotlin.time.Duration
 class SettingsViewModel(
     private val mvi: DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>,
     private val themeRepository: ThemeRepository,
-    private val colorSchemeProvider: ColorSchemeProvider,
     private val languageRepository: LanguageRepository,
     private val identityRepository: IdentityRepository,
     private val settingsRepository: SettingsRepository,
@@ -61,44 +54,11 @@ class SettingsViewModel(
             themeRepository.uiTheme.onEach { value ->
                 mvi.updateState { it.copy(uiTheme = value) }
             }.launchIn(this)
-            themeRepository.uiFontFamily.onEach { value ->
-                mvi.updateState { it.copy(uiFontFamily = value) }
-            }.launchIn(this)
-            themeRepository.contentFontScale.onEach { value ->
-                mvi.updateState { it.copy(contentFontScale = value.toFontScale()) }
-            }.launchIn(this)
-            themeRepository.contentFontFamily.onEach { value ->
-                mvi.updateState { it.copy(contentFontFamily = value) }
-            }.launchIn(this)
-            themeRepository.uiFontScale.onEach { value ->
-                mvi.updateState { it.copy(uiFontScale = value.toFontScale()) }
-            }.launchIn(this)
             themeRepository.navItemTitles.onEach { value ->
                 mvi.updateState { it.copy(navBarTitlesVisible = value) }
             }.launchIn(this)
-            themeRepository.dynamicColors.onEach { value ->
-                mvi.updateState { it.copy(dynamicColors = value) }
-            }.launchIn(this)
-            themeRepository.customSeedColor.onEach { value ->
-                mvi.updateState { it.copy(customSeedColor = value) }
-            }.launchIn(this)
             themeRepository.postLayout.onEach { value ->
                 mvi.updateState { it.copy(postLayout = value) }
-            }.launchIn(this)
-            themeRepository.upVoteColor.onEach { value ->
-                mvi.updateState { it.copy(upVoteColor = value) }
-            }.launchIn(this)
-            themeRepository.downVoteColor.onEach { value ->
-                mvi.updateState { it.copy(downVoteColor = value) }
-            }.launchIn(this)
-            themeRepository.replyColor.onEach { value ->
-                mvi.updateState { it.copy(replyColor = value) }
-            }.launchIn(this)
-            themeRepository.saveColor.onEach { value ->
-                mvi.updateState { it.copy(saveColor = value) }
-            }.launchIn(this)
-            themeRepository.commentBarTheme.onEach { value ->
-                mvi.updateState { it.copy(commentBarTheme = value) }
             }.launchIn(this)
 
             languageRepository.currentLanguage.onEach { lang ->
@@ -119,25 +79,6 @@ class SettingsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeTheme::class).onEach { evt ->
                 changeTheme(evt.value)
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeColor::class).onEach { evt ->
-                changeCustomSeedColor(evt.color)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFontFamily::class)
-                .onEach { evt ->
-                    changeFontFamily(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
-                .onEach { evt ->
-                    changeContentFontScale(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontFamily::class)
-                .onEach { evt ->
-                    changeContentFontFamily(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeUiFontSize::class)
-                .onEach { evt ->
-                    changeUiFontScale(evt.value)
-                }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangePostLayout::class)
                 .onEach { evt ->
                     changePostLayout(evt.value)
@@ -170,19 +111,6 @@ class SettingsViewModel(
                 .onEach { evt ->
                     changeVoteFormat(evt.value)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentBarTheme::class)
-                .onEach { evt ->
-                    changeCommentBarTheme(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeActionColor::class)
-                .onEach { evt ->
-                    when (evt.actionType) {
-                        3 -> changeSaveColor(evt.color)
-                        2 -> changeReplyColor(evt.color)
-                        1 -> changeDownvoteColor(evt.color)
-                        else -> changeUpvoteColor(evt.color)
-                    }
-                }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangePostBodyMaxLines::class)
                 .onEach { evt ->
                     changePostBodyMaxLines(evt.value)
@@ -211,7 +139,6 @@ class SettingsViewModel(
                 defaultInboxUnreadOnly = settings.defaultInboxType.toInboxUnreadOnly(),
                 includeNsfw = settings.includeNsfw,
                 blurNsfw = settings.blurNsfw,
-                supportsDynamicColors = colorSchemeProvider.supportsDynamicColors,
                 openUrlsInExternalBrowser = settings.openUrlsInExternalBrowser,
                 enableSwipeActions = settings.enableSwipeActions,
                 enableDoubleTapAction = settings.enableDoubleTapAction,
@@ -235,145 +162,47 @@ class SettingsViewModel(
 
     override fun reduce(intent: SettingsMviModel.Intent) {
         when (intent) {
-            is SettingsMviModel.Intent.ChangeUiTheme -> {
-                changeTheme(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeUiFontFamily -> {
-                changeFontFamily(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeContentFontSize -> {
-                changeContentFontScale(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeContentFontFamily -> {
-                changeContentFontFamily(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeUiFontSize -> {
-                changeUiFontScale(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeLanguage -> {
-                changeLanguage(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeDefaultCommentSortType -> {
+            is SettingsMviModel.Intent.ChangeUiTheme -> changeTheme(intent.value)
+            is SettingsMviModel.Intent.ChangeLanguage -> changeLanguage(intent.value)
+            is SettingsMviModel.Intent.ChangeDefaultCommentSortType ->
                 changeDefaultCommentSortType(intent.value)
-            }
 
-            is SettingsMviModel.Intent.ChangeDefaultListingType -> {
-                changeDefaultListingType(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeDefaultPostSortType -> {
-                changeDefaultPostSortType(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeBlurNsfw -> {
-                changeBlurNsfw(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeIncludeNsfw -> {
-                changeIncludeNsfw(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeNavBarTitlesVisible -> {
-                changeNavBarTitlesVisible(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeDynamicColors -> {
-                changeDynamicColors(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser -> {
+            is SettingsMviModel.Intent.ChangeDefaultListingType -> changeDefaultListingType(intent.value)
+            is SettingsMviModel.Intent.ChangeDefaultPostSortType -> changeDefaultPostSortType(intent.value)
+            is SettingsMviModel.Intent.ChangeBlurNsfw -> changeBlurNsfw(intent.value)
+            is SettingsMviModel.Intent.ChangeIncludeNsfw -> changeIncludeNsfw(intent.value)
+            is SettingsMviModel.Intent.ChangeNavBarTitlesVisible -> changeNavBarTitlesVisible(intent.value)
+            is SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser ->
                 changeOpenUrlsInExternalBrowser(intent.value)
-            }
 
-            is SettingsMviModel.Intent.ChangeEnableSwipeActions -> {
-                changeEnableSwipeActions(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeEnableDoubleTapAction -> {
+            is SettingsMviModel.Intent.ChangeEnableSwipeActions -> changeEnableSwipeActions(intent.value)
+            is SettingsMviModel.Intent.ChangeEnableDoubleTapAction ->
                 changeEnableDoubleTapAction(intent.value)
-            }
 
-            is SettingsMviModel.Intent.ChangeCustomSeedColor -> {
-                changeCustomSeedColor(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangePostLayout -> {
-                changePostLayout(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeCrashReportEnabled -> {
-                changeCrashReportEnabled(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeVoteFormat -> {
-                changeVoteFormat(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeAutoLoadImages -> {
-                changeAutoLoadImages(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeAutoExpandComments -> {
-                changeAutoExpandComments(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeFullHeightImages -> {
-                changeFullHeightImages(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeUpvoteColor -> {
-                changeUpvoteColor(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeDownvoteColor -> {
-                changeDownvoteColor(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeReplyColor -> {
-                changeReplyColor(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling -> {
+            is SettingsMviModel.Intent.ChangePostLayout -> changePostLayout(intent.value)
+            is SettingsMviModel.Intent.ChangeCrashReportEnabled -> changeCrashReportEnabled(intent.value)
+            is SettingsMviModel.Intent.ChangeVoteFormat -> changeVoteFormat(intent.value)
+            is SettingsMviModel.Intent.ChangeAutoLoadImages -> changeAutoLoadImages(intent.value)
+            is SettingsMviModel.Intent.ChangeAutoExpandComments -> changeAutoExpandComments(intent.value)
+            is SettingsMviModel.Intent.ChangeFullHeightImages -> changeFullHeightImages(intent.value)
+            is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling ->
                 changeHideNavigationBarWhileScrolling(intent.value)
-            }
 
-            is SettingsMviModel.Intent.ChangeZombieModeInterval -> {
-                changeZombieModeInterval(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeZombieModeScrollAmount -> {
+            is SettingsMviModel.Intent.ChangeZombieModeInterval -> changeZombieModeInterval(intent.value)
+            is SettingsMviModel.Intent.ChangeZombieModeScrollAmount ->
                 changeZombieModeScrollAmount(intent.value)
-            }
 
-            is SettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling -> {
+            is SettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling ->
                 changeMarkAsReadWhileScrolling(intent.value)
-            }
 
-            is SettingsMviModel.Intent.ChangeDefaultInboxUnreadOnly -> {
+            is SettingsMviModel.Intent.ChangeDefaultInboxUnreadOnly ->
                 changeDefaultInboxUnreadOnly(intent.value)
-            }
 
-            is SettingsMviModel.Intent.ChangeSearchPostTitleOnly -> {
-                changeSearchPostTitleOnly(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeEdgeToEdge -> {
-                changeEdgeToEdge(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangePostBodyMaxLines -> {
-                changePostBodyMaxLines(intent.value)
-            }
-
-            is SettingsMviModel.Intent.ChangeInfiniteScrollDisabled -> {
+            is SettingsMviModel.Intent.ChangeSearchPostTitleOnly -> changeSearchPostTitleOnly(intent.value)
+            is SettingsMviModel.Intent.ChangeEdgeToEdge -> changeEdgeToEdge(intent.value)
+            is SettingsMviModel.Intent.ChangePostBodyMaxLines -> changePostBodyMaxLines(intent.value)
+            is SettingsMviModel.Intent.ChangeInfiniteScrollDisabled ->
                 changeInfiniteScrollDisabled(intent.value)
-            }
         }
     }
 
@@ -382,46 +211,6 @@ class SettingsViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 theme = value?.toInt()
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeFontFamily(value: UiFontFamily) {
-        themeRepository.changeUiFontFamily(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                uiFontFamily = value.toInt()
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeUiFontScale(value: Float) {
-        themeRepository.changeUiFontScale(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                uiFontScale = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeContentFontScale(value: Float) {
-        themeRepository.changeContentFontScale(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                contentFontScale = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeContentFontFamily(value: UiFontFamily) {
-        themeRepository.changeContentFontFamily(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                contentFontFamily = value.toInt()
             )
             saveSettings(settings)
         }
@@ -496,66 +285,6 @@ class SettingsViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 blurNsfw = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeDynamicColors(value: Boolean) {
-        themeRepository.changeDynamicColors(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                dynamicColors = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeCustomSeedColor(value: Color?) {
-        themeRepository.changeCustomSeedColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                customSeedColor = value?.toArgb()
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeUpvoteColor(value: Color?) {
-        themeRepository.changeUpvoteColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                upVoteColor = value?.toArgb()
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeDownvoteColor(value: Color?) {
-        themeRepository.changeDownvoteColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                downVoteColor = value?.toArgb()
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeReplyColor(value: Color?) {
-        themeRepository.changeReplyColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                replyColor = value?.toArgb()
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeSaveColor(value: Color?) {
-        themeRepository.changeSaveColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                saveColor = value?.toArgb()
             )
             saveSettings(settings)
         }
@@ -695,16 +424,6 @@ class SettingsViewModel(
             )
             saveSettings(settings)
             contentResetCoordinator.resetInbox = true
-        }
-    }
-
-    private fun changeCommentBarTheme(value: CommentBarTheme) {
-        themeRepository.changeCommentBarTheme(value)
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                commentBarTheme = value.toInt()
-            )
-            saveSettings(settings)
         }
     }
 

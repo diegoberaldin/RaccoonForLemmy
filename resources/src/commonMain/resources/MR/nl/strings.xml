@@ -328,4 +328,5 @@
     <string name="bar_theme_opaque">Ondoorzichtig</string>
     <string name="bar_theme_transparent">Transparant</string>
     <string name="settings_bar_theme">Thema van de status- en navigatiebalk</string>
+    <string name="settings_colors_and_fonts">Kleuren en lettertypen</string>
 </resources>

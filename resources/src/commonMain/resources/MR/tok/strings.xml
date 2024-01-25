@@ -324,4 +324,5 @@
     <string name="bar_theme_opaque">lukin ala</string>
     <string name="bar_theme_transparent">lukin</string>
     <string name="settings_bar_theme">nasin lukin pi linja sewi pi linja anpa</string>
+    <string name="settings_colors_and_fonts">Kule en sitelen</string>
 </resources>

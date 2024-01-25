@@ -327,4 +327,5 @@
     <string name="bar_theme_opaque">Ugjennomsiktig</string>
     <string name="bar_theme_transparent">Gjennomsiktig</string>
     <string name="settings_bar_theme">Tema for status- og navigasjonslinjen</string>
+    <string name="settings_colors_and_fonts">Farger og fonter</string>
 </resources>

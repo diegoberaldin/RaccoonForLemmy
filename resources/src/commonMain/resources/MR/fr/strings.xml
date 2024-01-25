@@ -330,4 +330,5 @@
     <string name="bar_theme_opaque">Opaque</string>
     <string name="bar_theme_transparent">Transparent</string>
     <string name="settings_bar_theme">Thème barre d\'état et de navigation</string>
+    <string name="settings_colors_and_fonts">Couleurs et polices</string>
 </resources>

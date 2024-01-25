@@ -328,4 +328,5 @@
     <string name="bar_theme_opaque">Opak</string>
     <string name="bar_theme_transparent">Şeffaf</string>
     <string name="settings_bar_theme">Durum ve gezinme çubuğunun teması</string>
+    <string name="settings_colors_and_fonts">Renkler ve yazı tipleri</string>
 </resources>

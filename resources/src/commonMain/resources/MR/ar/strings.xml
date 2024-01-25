@@ -323,4 +323,5 @@
     <string name="bar_theme_opaque">مبهمة</string>
     <string name="bar_theme_transparent">شفاف</string>
     <string name="settings_bar_theme">موضوع الحالة وشريط التنقل</string>
+    <string name="settings_colors_and_fonts">الألوان والخطوط</string>
 </resources>

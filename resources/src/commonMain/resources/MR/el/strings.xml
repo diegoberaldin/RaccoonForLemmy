@@ -336,4 +336,5 @@
     <string name="bar_theme_opaque">Αδιαφανής</string>
     <string name="bar_theme_transparent">Διαφανής</string>
     <string name="settings_bar_theme">Θέμα της γραμμής κατάστασης και πλοήγησης</string>
+    <string name="settings_colors_and_fonts">Χρώματα και γραμματοσειρές</string>
 </resources>

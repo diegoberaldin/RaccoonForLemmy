@@ -334,4 +334,5 @@
     <string name="bar_theme_opaque">Teimhneach</string>
     <string name="bar_theme_transparent">Trédhearcach</string>
     <string name="settings_bar_theme">Téama an bharra stádais agus nascleanúna</string>
+    <string name="settings_colors_and_fonts">Dathanna agus clónna</string>
 </resources>

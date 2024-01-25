@@ -327,4 +327,5 @@
     <string name="bar_theme_opaque">Nepermatomas</string>
     <string name="bar_theme_transparent">Skaidrus</string>
     <string name="settings_bar_theme">Būsenos ir naršymo juostos tema</string>
+    <string name="settings_colors_and_fonts">Spalvos ir šriftai</string>
 </resources>

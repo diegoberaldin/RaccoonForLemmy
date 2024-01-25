@@ -1,0 +1,263 @@
+package com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsColorRow
+import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsMultiColorRow
+import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.ColorBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.CommentBarThemeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.VoteThemeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosefont.FontFamilyBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.unit.choosefont.FontScaleBottomSheet
+import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+
+class SettingsColorAndFontScreen : Screen {
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    override fun Content() {
+        val model = getScreenModel<SettingsColorAndFontMviModel>()
+        model.bindToLifecycle(key)
+        val uiState by model.uiState.collectAsState()
+        val navigationCoordinator = remember { getNavigationCoordinator() }
+        val topAppBarState = rememberTopAppBarState()
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
+        val themeRepository = remember { getThemeRepository() }
+        val scrollState = rememberScrollState()
+        val colorSchemeProvider = remember { getColorSchemeProvider() }
+        val defaultTheme = if (isSystemInDarkTheme()) {
+            UiTheme.Dark
+        } else {
+            UiTheme.Light
+        }
+        var uiFontSizeWorkaround by remember { mutableStateOf(true) }
+
+        LaunchedEffect(themeRepository) {
+            themeRepository.uiFontScale.drop(1).onEach {
+                uiFontSizeWorkaround = false
+                delay(50)
+                uiFontSizeWorkaround = true
+            }.launchIn(this)
+        }
+
+        if (!uiFontSizeWorkaround) {
+            return
+        }
+
+        Scaffold(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(Spacing.xs),
+            topBar = {
+                TopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    title = {
+                        Text(
+                            modifier = Modifier.padding(horizontal = Spacing.s),
+                            text = stringResource(MR.strings.settings_colors_and_fonts),
+                        )
+                    },
+                    navigationIcon = {
+                        if (navigationCoordinator.canPop.value) {
+                            Image(
+                                modifier = Modifier.onClick(
+                                    onClick = rememberCallback {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+                        }
+                    },
+                )
+            },
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .nestedScroll(scrollBehavior.nestedScrollConnection),
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+                ) {
+                    // dynamic colors
+                    if (uiState.supportsDynamicColors) {
+                        SettingsSwitchRow(
+                            title = stringResource(MR.strings.settings_dynamic_colors),
+                            value = uiState.dynamicColors,
+                            onValueChanged = rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    SettingsColorAndFontMviModel.Intent.ChangeDynamicColors(value)
+                                )
+                            },
+                        )
+                    }
+
+                    // custom scheme seed color
+                    SettingsColorRow(
+                        title = stringResource(MR.strings.settings_custom_seed_color),
+                        value = uiState.customSeedColor ?: colorSchemeProvider.getColorScheme(
+                            theme = uiState.uiTheme ?: defaultTheme,
+                            dynamic = uiState.dynamicColors,
+                        ).primary,
+                        onTap = rememberCallback {
+                            val sheet = ColorBottomSheet()
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+
+                    if (uiState.isLogged) {
+                        // action colors
+                        SettingsColorRow(
+                            title = stringResource(MR.strings.settings_upvote_color),
+                            value = uiState.upVoteColor ?: MaterialTheme.colorScheme.primary,
+                            onTap = rememberCallback {
+                                val screen = VoteThemeBottomSheet(
+                                    actionType = 0,
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                        SettingsColorRow(
+                            title = stringResource(MR.strings.settings_downvote_color),
+                            value = uiState.downVoteColor ?: MaterialTheme.colorScheme.tertiary,
+                            onTap = rememberCallback {
+                                val screen = VoteThemeBottomSheet(
+                                    actionType = 1,
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                        SettingsColorRow(
+                            title = stringResource(MR.strings.settings_reply_color),
+                            value = uiState.replyColor ?: MaterialTheme.colorScheme.secondary,
+                            onTap = rememberCallback {
+                                val screen = VoteThemeBottomSheet(
+                                    actionType = 2,
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                        SettingsColorRow(
+                            title = stringResource(MR.strings.settings_save_color),
+                            value = uiState.saveColor
+                                ?: MaterialTheme.colorScheme.secondaryContainer,
+                            onTap = rememberCallback {
+                                val screen = VoteThemeBottomSheet(
+                                    actionType = 3,
+                                )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
+                        )
+                    }
+
+                    // comment bar theme
+                    val commentBarColors =
+                        themeRepository.getCommentBarColors(uiState.commentBarTheme)
+                    SettingsMultiColorRow(
+                        title = stringResource(MR.strings.settings_comment_bar_theme),
+                        values = commentBarColors,
+                        onTap = rememberCallback {
+                            val screen = CommentBarThemeBottomSheet()
+                            navigationCoordinator.showBottomSheet(screen)
+                        }
+                    )
+
+                    // font family
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_ui_font_family),
+                        value = uiState.uiFontFamily.toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet = FontFamilyBottomSheet()
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_content_font_family),
+                        value = uiState.contentFontFamily.toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet = FontFamilyBottomSheet(content = true)
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+                    // font scale
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_ui_font_scale),
+                        value = uiState.uiFontScale.toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet = FontScaleBottomSheet(
+                                values = listOf(
+                                    FontScale.Large,
+                                    FontScale.Normal,
+                                    FontScale.Small,
+                                ).map { it.scaleFactor },
+                                content = false,
+                            )
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_content_font_scale),
+                        value = uiState.contentFontScale.toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet = FontScaleBottomSheet(content = true)
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+                }
+            }
+        }
+    }
+}
