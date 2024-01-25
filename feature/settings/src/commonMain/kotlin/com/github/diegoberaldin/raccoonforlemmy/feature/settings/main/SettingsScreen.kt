@@ -244,23 +244,6 @@ class SettingsScreen : Screen {
                         )
                     }
 
-                    // system bar theme
-                    if (uiState.edgeToEdge) {
-                        val barThemeName = if (uiState.opaqueSystemBars) {
-                            UiBarTheme.Opaque.toReadableName()
-                        } else {
-                            UiBarTheme.Transparent.toReadableName()
-                        }
-                        SettingsRow(
-                            title = stringResource(MR.strings.settings_bar_theme),
-                            value = barThemeName,
-                            onTap = rememberCallback {
-                                val sheet = BarThemeBottomSheet()
-                                navigationCoordinator.showBottomSheet(sheet)
-                            },
-                        )
-                    }
-
                     // custom scheme seed color
                     SettingsColorRow(
                         title = stringResource(MR.strings.settings_custom_seed_color),
@@ -340,6 +323,7 @@ class SettingsScreen : Screen {
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
+
                     SettingsRow(
                         title = stringResource(MR.strings.settings_content_font_family),
                         value = uiState.contentFontFamily.toReadableName(),
@@ -373,6 +357,61 @@ class SettingsScreen : Screen {
                         },
                     )
 
+                    // navigation bar titles
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_navigation_bar_titles_visible),
+                        value = uiState.navBarTitlesVisible,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeNavBarTitlesVisible(value)
+                            )
+                        },
+                    )
+
+                    // edge to edge
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_edge_to_edge),
+                        value = uiState.edgeToEdge,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeEdgeToEdge(value)
+                            )
+                        },
+                    )
+
+                    // system bar theme
+                    if (uiState.edgeToEdge) {
+                        val barThemeName = if (uiState.opaqueSystemBars) {
+                            UiBarTheme.Opaque.toReadableName()
+                        } else {
+                            UiBarTheme.Transparent.toReadableName()
+                        }
+                        SettingsRow(
+                            title = stringResource(MR.strings.settings_bar_theme),
+                            value = barThemeName,
+                            onTap = rememberCallback {
+                                val sheet = BarThemeBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
+                        )
+                    }
+
+                    // bottom navigation hiding
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_hide_navigation_bar),
+                        value = uiState.hideNavigationBarWhileScrolling,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(value)
+                            )
+                        },
+                    )
+
+                    SettingsHeader(
+                        icon = Icons.Default.Dashboard,
+                        title = stringResource(MR.strings.settings_section_feed),
+                    )
+
                     // post layout
                     SettingsRow(
                         title = stringResource(MR.strings.settings_post_layout),
@@ -399,16 +438,6 @@ class SettingsScreen : Screen {
                         )
                     }
 
-                    // vote format
-                    SettingsRow(
-                        title = stringResource(MR.strings.settings_vote_format),
-                        value = uiState.voteFormat.toReadableName(),
-                        onTap = {
-                            val sheet = VoteFormatBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
-
                     // full height images
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_full_height_images),
@@ -420,20 +449,25 @@ class SettingsScreen : Screen {
                         },
                     )
 
-                    // navigation bar titles
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_navigation_bar_titles_visible),
-                        value = uiState.navBarTitlesVisible,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeNavBarTitlesVisible(value)
-                            )
+                    // vote format
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_vote_format),
+                        value = uiState.voteFormat.toReadableName(),
+                        onTap = {
+                            val sheet = VoteFormatBottomSheet()
+                            navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
 
-                    SettingsHeader(
-                        icon = Icons.Default.Dashboard,
-                        title = stringResource(MR.strings.settings_section_feed),
+                    // auto-expand comments
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_auto_expand_comments),
+                        value = uiState.autoExpandComments,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeAutoExpandComments(value)
+                            )
+                        },
                     )
 
                     // default listing type
@@ -497,17 +531,6 @@ class SettingsScreen : Screen {
                     SettingsHeader(
                         icon = Icons.Default.SettingsApplications,
                         title = stringResource(MR.strings.settings_section_behaviour),
-                    )
-
-                    // edge to edge
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_edge_to_edge),
-                        value = uiState.edgeToEdge,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeEdgeToEdge(value)
-                            )
-                        },
                     )
 
                     // infinite scrolling
@@ -598,17 +621,6 @@ class SettingsScreen : Screen {
                         )
                     }
 
-                    // bottom navigation hiding
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_hide_navigation_bar),
-                        value = uiState.hideNavigationBarWhileScrolling,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(value)
-                            )
-                        },
-                    )
-
                     // URL open
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_open_url_external),
@@ -616,17 +628,6 @@ class SettingsScreen : Screen {
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser(value)
-                            )
-                        },
-                    )
-
-                    // auto-expand comments
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_auto_expand_comments),
-                        value = uiState.autoExpandComments,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeAutoExpandComments(value)
                             )
                         },
                     )
