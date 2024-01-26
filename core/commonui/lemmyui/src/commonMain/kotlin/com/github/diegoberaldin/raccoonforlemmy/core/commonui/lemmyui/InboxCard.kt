@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
@@ -54,6 +56,8 @@ fun InboxCard(
             if (postLayout == PostLayout.Card) {
                 Modifier
                     .padding(horizontal = Spacing.xs)
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                    .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),

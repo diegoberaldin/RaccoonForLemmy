@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
@@ -72,6 +73,8 @@ internal fun InnerModlogItem(
         modifier = modifier.let {
             if (postLayout == PostLayout.Card) {
                 it.padding(horizontal = Spacing.xs)
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                    .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),

@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -81,10 +82,11 @@ fun PostCard(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                    .clip(RoundedCornerShape(CornerSize.l))
                     .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                        shape = RoundedCornerShape(CornerSize.l),
                     )
                     .padding(Spacing.s)
             } else {
@@ -386,7 +388,8 @@ private fun ExtendedPost(
                     .padding(vertical = Spacing.xxs)
                     .then(
                         if (roundedCornerImage) {
-                            Modifier.clip(RoundedCornerShape(CornerSize.xl))
+                            Modifier
+                                .clip(RoundedCornerShape(CornerSize.xl))
                         } else {
                             Modifier
                         }
