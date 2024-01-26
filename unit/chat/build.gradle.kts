@@ -47,11 +47,13 @@ kotlin {
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.lemmyui)
                 implementation(projects.core.commonui.modals)
+                implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.navigation)
                 implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
                 implementation(projects.unit.zoomableimage)
                 implementation(projects.unit.rawcontent)
+                implementation(projects.unit.web)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)

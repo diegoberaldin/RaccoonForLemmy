@@ -57,6 +57,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
@@ -70,6 +71,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.components.MessageCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.components.MessageCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
+import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
@@ -98,6 +100,7 @@ class InboxChatScreen(
         val typography = contentFontFamily.toTypography()
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val lazyListState = rememberLazyListState()
+        val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -249,6 +252,26 @@ class InboxChatScreen(
                                 date = date,
                                 onOpenImage = rememberCallbackArgs { url ->
                                     navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                },
+                                onOpenCommunity = rememberCallbackArgs { community, instance ->
+                                    detailOpener.openCommunityDetail(
+                                        community,
+                                        instance
+                                    )
+                                },
+                                onOpenUser = rememberCallbackArgs { user, instance ->
+                                    detailOpener.openUserDetail(user, instance)
+                                },
+                                onOpenPost = rememberCallbackArgs { post, instance ->
+                                    detailOpener.openPostDetail(
+                                        post = post,
+                                        otherInstance = instance,
+                                    )
+                                },
+                                onOpenWeb = rememberCallbackArgs { url ->
+                                    navigationCoordinator.pushScreen(
+                                        WebViewScreen(url)
+                                    )
                                 },
                                 options = buildList {
                                     this += Option(

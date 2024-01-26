@@ -35,7 +35,7 @@ class DefaultDetailOpener(
     override fun openCommunityDetail(community: CommunityModel, otherInstance: String) {
         scope.launch {
             val (actualCommunity, actualInstance) = withContext(Dispatchers.IO) {
-                val found = searchCommunity(community.name, otherInstance)
+                val found = searchCommunity(name = community.name, host = otherInstance)
                 if (found != null) {
                     found to ""
                 } else {
@@ -145,8 +145,8 @@ class DefaultDetailOpener(
             val found = results.firstOrNull {
                 it.model.name == name && it.model.host == host
             }?.model
-            // iterates for no more than 20 pages before giving up
-            if (found != null || page >= 20) {
+            // iterates for no more than 10 pages before giving up
+            if (found != null || page >= 10) {
                 return found
             }
 

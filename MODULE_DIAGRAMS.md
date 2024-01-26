@@ -282,6 +282,7 @@ flowchart LR
     :unit:chat --> :core:appearance
     :unit:chat --> :core:architecture
     :unit:chat --> :core:commonui:components
+    :unit:chat --> :core:commonui:detailOpenerApi
     :unit:chat --> :core:commonui:lemmyui
     :unit:chat --> :core:commonui:modals
     :unit:chat --> :core:navigation
@@ -292,6 +293,7 @@ flowchart LR
     :unit:chat --> :domain:lemmy:data
     :unit:chat --> :domain:lemmy:repository
     :unit:chat --> :unit:rawcontent
+    :unit:chat --> :unit:web
     :unit:chat --> :unit:zoomableimage
     :unit:chat --> :resources
 ```

@@ -42,12 +42,19 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 @Composable
 internal fun MessageCard(
     isMyMessage: Boolean = false,
     content: String = "",
     date: String = "",
+    onOpenCommunity: ((CommunityModel, String) -> Unit)? = null,
+    onOpenUser: ((UserModel, String) -> Unit)? = null,
+    onOpenPost: ((PostModel, String) -> Unit)? = null,
+    onOpenWeb: ((String) -> Unit)? = null,
     onOpenImage: ((String) -> Unit)? = null,
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
@@ -112,6 +119,10 @@ internal fun MessageCard(
                     PostCardBody(
                         text = content,
                         onOpenImage = onOpenImage,
+                        onOpenCommunity = onOpenCommunity,
+                        onOpenUser = onOpenUser,
+                        onOpenPost = onOpenPost,
+                        onOpenWeb = onOpenWeb,
                     )
                     Box {
                         Row(
