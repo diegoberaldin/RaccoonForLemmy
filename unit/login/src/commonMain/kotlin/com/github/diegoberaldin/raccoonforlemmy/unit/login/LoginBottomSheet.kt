@@ -38,7 +38,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.ColorFilter
@@ -56,6 +58,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomS
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.autofill
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
@@ -71,6 +74,7 @@ class LoginBottomSheet : Screen {
         private const val HELP_URL = "https://join-lemmy.org/docs/users/01-getting-started.html"
     }
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<LoginMviModel>()
@@ -100,252 +104,273 @@ class LoginBottomSheet : Screen {
         val uriHandler = LocalUriHandler.current
         val settingsRepository = remember { getSettingsRepository() }
 
-        Column(
-            modifier = Modifier
-                .imePadding()
-                .verticalScroll(rememberScrollState())
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
-            verticalArrangement = Arrangement.spacedBy(Spacing.s),
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Box(
+            modifier = Modifier.imePadding(),
+            contentAlignment = Alignment.BottomCenter,
         ) {
-            Box {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    BottomSheetHandle()
-                    Text(
-                        modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
-                        text = stringResource(MR.strings.profile_button_login),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
+                verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Box {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        BottomSheetHandle()
+                        Text(
+                            modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
+                            text = stringResource(MR.strings.profile_button_login),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+                    IconButton(
+                        modifier = Modifier.align(Alignment.TopEnd),
+                        onClick = rememberCallback {
+                            navigationCoordinator.hideBottomSheet()
+                            navigationCoordinator.handleUrl(
+                                url = HELP_URL,
+                                openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
+                                uriHandler = uriHandler,
+                                onOpenWeb = { url ->
+                                    navigationCoordinator.pushScreen(WebViewScreen(url))
+                                }
+                            )
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.HelpOutline,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
                 }
-                IconButton(
-                    modifier = Modifier.align(Alignment.TopEnd),
-                    onClick = rememberCallback {
-                        navigationCoordinator.hideBottomSheet()
-                        navigationCoordinator.handleUrl(
-                            url = HELP_URL,
-                            openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
-                            uriHandler = uriHandler,
-                            onOpenWeb = { url ->
-                                navigationCoordinator.pushScreen(WebViewScreen(url))
+
+                val instanceFocusRequester = remember { FocusRequester() }
+                val usernameFocusRequester = remember { FocusRequester() }
+                val passwordFocusRequester = remember { FocusRequester() }
+                val tokenFocusRequester = remember { FocusRequester() }
+
+                // instance name
+                TextField(
+                    modifier = Modifier.focusRequester(instanceFocusRequester),
+                    label = {
+                        Text(text = stringResource(MR.strings.login_field_instance_name))
+                    },
+                    singleLine = true,
+                    value = uiState.instanceName,
+                    isError = uiState.instanceNameError != null,
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            usernameFocusRequester.requestFocus()
+                        },
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        autoCorrect = false,
+                        imeAction = ImeAction.Next,
+                    ),
+                    onValueChange = rememberCallbackArgs(model) { value ->
+                        model.reduce(LoginMviModel.Intent.SetInstanceName(value))
+                    },
+                    supportingText = {
+                        if (uiState.instanceNameError != null) {
+                            Text(
+                                text = uiState.instanceNameError?.localized().orEmpty(),
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
+                    },
+                    trailingIcon = {
+                        if (uiState.instanceName.isNotEmpty()) {
+                            Icon(
+                                modifier = Modifier.onClick(
+                                    onClick = rememberCallback(model) {
+                                        model.reduce(
+                                            LoginMviModel.Intent.SetInstanceName("")
+                                        )
+                                    },
+                                ),
+                                imageVector = Icons.Default.Clear,
+                                contentDescription = null,
+                            )
+                        }
+                    },
+                )
+
+                // user name
+                TextField(
+                    modifier = Modifier
+                        .autofill(
+                            autofillTypes = listOf(
+                                AutofillType.Username,
+                                AutofillType.EmailAddress,
+                            ),
+                            onFill = { value ->
+                                model.reduce(LoginMviModel.Intent.SetUsername(value))
                             }
                         )
+                        .focusRequester(usernameFocusRequester),
+                    label = {
+                        Text(text = stringResource(MR.strings.login_field_user_name))
                     },
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.HelpOutline,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground,
-                    )
+                    singleLine = true,
+                    value = uiState.username,
+                    isError = uiState.usernameError != null,
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            passwordFocusRequester.requestFocus()
+                        },
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        autoCorrect = false,
+                        imeAction = ImeAction.Next,
+                    ),
+                    onValueChange = rememberCallbackArgs(model) { value ->
+                        model.reduce(LoginMviModel.Intent.SetUsername(value))
+                    },
+                    supportingText = {
+                        if (uiState.usernameError != null) {
+                            Text(
+                                text = uiState.usernameError?.localized().orEmpty(),
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
+                    },
+                )
+
+                // password
+                var transformation: VisualTransformation by remember {
+                    mutableStateOf(PasswordVisualTransformation())
                 }
-            }
-
-            val instanceFocusRequester = remember { FocusRequester() }
-            val usernameFocusRequester = remember { FocusRequester() }
-            val passwordFocusRequester = remember { FocusRequester() }
-            val tokenFocusRequester = remember { FocusRequester() }
-
-            // instance name
-            TextField(
-                modifier = Modifier.focusRequester(instanceFocusRequester),
-                label = {
-                    Text(text = stringResource(MR.strings.login_field_instance_name))
-                },
-                singleLine = true,
-                value = uiState.instanceName,
-                isError = uiState.instanceNameError != null,
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        usernameFocusRequester.requestFocus()
-                    },
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
-                    autoCorrect = false,
-                    imeAction = ImeAction.Next,
-                ),
-                onValueChange = rememberCallbackArgs(model) { value ->
-                    model.reduce(LoginMviModel.Intent.SetInstanceName(value))
-                },
-                supportingText = {
-                    if (uiState.instanceNameError != null) {
-                        Text(
-                            text = uiState.instanceNameError?.localized().orEmpty(),
-                            color = MaterialTheme.colorScheme.error,
+                TextField(
+                    modifier = Modifier
+                        .autofill(
+                            autofillTypes = listOf(AutofillType.Password),
+                            onFill = { value ->
+                                model.reduce(LoginMviModel.Intent.SetPassword(value))
+                            }
                         )
-                    }
-                },
-                trailingIcon = {
-                    if (uiState.instanceName.isNotEmpty()) {
-                        Icon(
+                        .focusRequester(passwordFocusRequester),
+                    label = {
+                        Text(text = stringResource(MR.strings.login_field_password))
+                    },
+                    singleLine = true,
+                    value = uiState.password,
+                    isError = uiState.passwordError != null,
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            tokenFocusRequester.requestFocus()
+                        },
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next,
+                    ),
+                    onValueChange = rememberCallbackArgs(model) { value ->
+                        model.reduce(LoginMviModel.Intent.SetPassword(value))
+                    },
+                    visualTransformation = transformation,
+                    trailingIcon = {
+                        Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback(model) {
-                                    model.reduce(
-                                        LoginMviModel.Intent.SetInstanceName("")
-                                    )
+                                onClick = rememberCallback {
+                                    transformation =
+                                        if (transformation == VisualTransformation.None) {
+                                            PasswordVisualTransformation()
+                                        } else {
+                                            VisualTransformation.None
+                                        }
                                 },
                             ),
-                            imageVector = Icons.Default.Clear,
-                            contentDescription = null,
-                        )
-                    }
-                },
-            )
-
-            // user name
-            TextField(
-                modifier = Modifier.focusRequester(usernameFocusRequester),
-                label = {
-                    Text(text = stringResource(MR.strings.login_field_user_name))
-                },
-                singleLine = true,
-                value = uiState.username,
-                isError = uiState.usernameError != null,
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        passwordFocusRequester.requestFocus()
-                    },
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
-                    autoCorrect = false,
-                    imeAction = ImeAction.Next,
-                ),
-                onValueChange = rememberCallbackArgs(model) { value ->
-                    model.reduce(LoginMviModel.Intent.SetUsername(value))
-                },
-                supportingText = {
-                    if (uiState.usernameError != null) {
-                        Text(
-                            text = uiState.usernameError?.localized().orEmpty(),
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
-                },
-            )
-
-            // password
-            var transformation: VisualTransformation by remember {
-                mutableStateOf(PasswordVisualTransformation())
-            }
-            TextField(
-                modifier = Modifier.focusRequester(passwordFocusRequester),
-                label = {
-                    Text(text = stringResource(MR.strings.login_field_password))
-                },
-                singleLine = true,
-                value = uiState.password,
-                isError = uiState.passwordError != null,
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        tokenFocusRequester.requestFocus()
-                    },
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next,
-                ),
-                onValueChange = rememberCallbackArgs(model) { value ->
-                    model.reduce(LoginMviModel.Intent.SetPassword(value))
-                },
-                visualTransformation = transformation,
-                trailingIcon = {
-                    Image(
-                        modifier = Modifier.onClick(
-                            onClick = rememberCallback {
-                                transformation =
-                                    if (transformation == VisualTransformation.None) {
-                                        PasswordVisualTransformation()
-                                    } else {
-                                        VisualTransformation.None
-                                    }
+                            imageVector = if (transformation == VisualTransformation.None) {
+                                Icons.Default.VisibilityOff
+                            } else {
+                                Icons.Default.Visibility
                             },
-                        ),
-                        imageVector = if (transformation == VisualTransformation.None) {
-                            Icons.Default.VisibilityOff
-                        } else {
-                            Icons.Default.Visibility
-                        },
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
-                    )
-                },
-                supportingText = {
-                    if (uiState.passwordError != null) {
-                        Text(
-                            text = uiState.passwordError?.localized().orEmpty(),
-                            color = MaterialTheme.colorScheme.error,
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
                         )
-                    }
-                },
-            )
+                    },
+                    supportingText = {
+                        if (uiState.passwordError != null) {
+                            Text(
+                                text = uiState.passwordError?.localized().orEmpty(),
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
+                    },
+                )
 
-            // TOTP 2FA token
-            TextField(
-                modifier = Modifier.focusRequester(tokenFocusRequester),
-                label = {
+                // TOTP 2FA token
+                TextField(
+                    modifier = Modifier.focusRequester(tokenFocusRequester),
+                    label = {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(Spacing.s),
+                            verticalAlignment = Alignment.Bottom,
+                        ) {
+                            Text(text = stringResource(MR.strings.login_field_token))
+                            Text(
+                                text = stringResource(MR.strings.login_field_label_optional),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
+                        }
+                    },
+                    singleLine = true,
+                    value = uiState.totp2faToken,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done,
+                    ),
+                    onValueChange = rememberCallbackArgs(model) { value ->
+                        model.reduce(LoginMviModel.Intent.SetTotp2faToken(value))
+                    },
+                    visualTransformation = PasswordVisualTransformation(),
+                )
+                Spacer(modifier = Modifier.height(Spacing.m))
+                Button(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onClick = rememberCallback(model) {
+                        model.reduce(LoginMviModel.Intent.Confirm)
+                    },
+                ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
-                        verticalAlignment = Alignment.Bottom,
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text(text = stringResource(MR.strings.login_field_token))
-                        Text(
-                            text = stringResource(MR.strings.login_field_label_optional),
-                            style = MaterialTheme.typography.labelSmall,
-                        )
+                        if (uiState.loading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(IconSize.s),
+                                color = MaterialTheme.colorScheme.onPrimary,
+                            )
+                        }
+                        Text(stringResource(MR.strings.button_confirm))
                     }
-                },
-                singleLine = true,
-                value = uiState.totp2faToken,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done,
-                ),
-                onValueChange = rememberCallbackArgs(model) { value ->
-                    model.reduce(LoginMviModel.Intent.SetTotp2faToken(value))
-                },
-                visualTransformation = PasswordVisualTransformation(),
-            )
-            Spacer(modifier = Modifier.height(Spacing.m))
-            Button(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onClick = rememberCallback(model) {
-                    model.reduce(LoginMviModel.Intent.Confirm)
-                },
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.s),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    if (uiState.loading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(IconSize.s),
-                            color = MaterialTheme.colorScheme.onPrimary,
-                        )
-                    }
-                    Text(stringResource(MR.strings.button_confirm))
                 }
+                Spacer(modifier = Modifier.height(Spacing.m))
             }
-            Spacer(modifier = Modifier.height(Spacing.m))
-        }
 
-        SnackbarHost(
-            modifier = Modifier.padding(bottom = Spacing.xxxl),
-            hostState = snackbarHostState
-        ) { data ->
-            Snackbar(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                snackbarData = data,
-            )
+            SnackbarHost(
+                hostState = snackbarHostState
+            ) { data ->
+                Snackbar(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    snackbarData = data,
+                )
+            }
         }
     }
 }
