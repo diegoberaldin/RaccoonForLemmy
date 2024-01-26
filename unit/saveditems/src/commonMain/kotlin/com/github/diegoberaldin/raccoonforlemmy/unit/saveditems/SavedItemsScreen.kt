@@ -178,7 +178,7 @@ class SavedItemsScreen : Screen {
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
-                    modifier = Modifier.padding(vertical = Spacing.s),
+                    modifier = Modifier.padding(vertical = Spacing.xs),
                     titles = listOf(
                         stringResource(MR.strings.profile_section_posts),
                         stringResource(MR.strings.profile_section_comments),

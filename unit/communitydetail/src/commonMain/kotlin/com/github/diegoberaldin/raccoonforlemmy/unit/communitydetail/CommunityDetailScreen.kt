@@ -214,7 +214,7 @@ class CommunityDetailScreen(
         Scaffold(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+                .padding(Spacing.xxs),
             contentWindowInsets = if (settings.edgeToEdge) {
                 WindowInsets(0, 0, 0, 0)
             } else {

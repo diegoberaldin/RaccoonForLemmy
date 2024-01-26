@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
@@ -94,10 +95,13 @@ fun PostCardPlaceholder(
         PostLayout.Card -> {
             Column(
                 modifier = Modifier
-                    .padding(horizontal = Spacing.xs).background(
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                    .clip(RoundedCornerShape(CornerSize.l))
+                    .padding(horizontal = Spacing.xs)
+                    .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                        shape = RoundedCornerShape(CornerSize.l),
-                    ).padding(Spacing.s),
+                    )
+                    .padding(Spacing.s),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 Row(

@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.mentions
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -119,7 +118,6 @@ class InboxMentionsScreen : Tab {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = lazyListState,
-                verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 if (uiState.mentions.isEmpty() && uiState.initial) {
                     items(3) {

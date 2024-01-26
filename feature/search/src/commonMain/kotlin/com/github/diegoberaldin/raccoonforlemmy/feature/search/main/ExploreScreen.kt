@@ -249,40 +249,44 @@ class ExploreScreen : Screen {
                     }
                     model.reduce(ExploreMviModel.Intent.SetResultType(section))
                 }
-                ScrollableTabRow(selectedTabIndex = currentSection, edgePadding = 0.dp, tabs = {
-                    listOf(
-                        stringResource(MR.strings.explore_result_type_all),
-                        stringResource(MR.strings.explore_result_type_posts),
-                        stringResource(MR.strings.explore_result_type_comments),
-                        stringResource(MR.strings.explore_result_type_communities),
-                        stringResource(MR.strings.explore_result_type_users),
-                    ).forEachIndexed { i, title ->
-                        Tab(
-                            modifier = Modifier.draggable(state = draggableState,
-                                orientation = Orientation.Horizontal,
-                                onDragStopped = {
-                                    if (isTowardsStart) {
-                                        onSectionSelected((currentSection - 1).coerceAtLeast(0))
-                                    } else {
-                                        onSectionSelected(
-                                            (currentSection + 1).coerceAtMost(4)
-                                        )
-                                    }
-                                }),
-                            selected = i == currentSection,
-                            text = {
-                                Text(
-                                    text = title,
-                                    style = MaterialTheme.typography.titleSmall,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                )
-                            },
-                            onClick = rememberCallback {
-                                onSectionSelected(i)
-                            },
-                        )
-                    }
-                })
+                ScrollableTabRow(
+                    selectedTabIndex = currentSection,
+                    edgePadding = 0.dp,
+                    tabs = {
+                        listOf(
+                            stringResource(MR.strings.explore_result_type_all),
+                            stringResource(MR.strings.explore_result_type_posts),
+                            stringResource(MR.strings.explore_result_type_comments),
+                            stringResource(MR.strings.explore_result_type_communities),
+                            stringResource(MR.strings.explore_result_type_users),
+                        ).forEachIndexed { i, title ->
+                            Tab(
+                                modifier = Modifier.draggable(state = draggableState,
+                                    orientation = Orientation.Horizontal,
+                                    onDragStopped = {
+                                        if (isTowardsStart) {
+                                            onSectionSelected((currentSection - 1).coerceAtLeast(0))
+                                        } else {
+                                            onSectionSelected(
+                                                (currentSection + 1).coerceAtMost(4)
+                                            )
+                                        }
+                                    }),
+                                selected = i == currentSection,
+                                text = {
+                                    Text(
+                                        text = title,
+                                        style = MaterialTheme.typography.titleSmall,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                },
+                                onClick = rememberCallback {
+                                    onSectionSelected(i)
+                                },
+                            )
+                        }
+                    },
+                )
 
                 val pullRefreshState = rememberPullRefreshState(
                     uiState.refreshing,
@@ -290,7 +294,7 @@ class ExploreScreen : Screen {
                 )
                 Box(
                     modifier = Modifier
-                        .padding(Spacing.xxs)
+                        .padding(top = Spacing.xs)
                         .then(
                             if (connection != null && settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(connection)

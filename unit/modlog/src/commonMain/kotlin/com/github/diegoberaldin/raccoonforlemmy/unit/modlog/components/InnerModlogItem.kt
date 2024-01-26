@@ -72,13 +72,14 @@ internal fun InnerModlogItem(
     Box(
         modifier = modifier.let {
             if (postLayout == PostLayout.Card) {
-                it.padding(horizontal = Spacing.xs)
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                it.shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
                     .clip(RoundedCornerShape(CornerSize.l))
+                    .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),
-                    ).padding(Spacing.s)
+                    )
+                    .padding(Spacing.xs)
             } else {
                 it.background(MaterialTheme.colorScheme.background)
             }

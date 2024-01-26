@@ -158,7 +158,7 @@ object ProfileLoggedScreen : Tab {
                                         )
                                     },
                                 )
-                                Spacer(modifier = Modifier.height(Spacing.m))
+                                Spacer(modifier = Modifier.height(Spacing.xs))
                             }
                         }
                         if (uiState.section == ProfileLoggedSection.Posts) {

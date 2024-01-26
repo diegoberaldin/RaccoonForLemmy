@@ -125,7 +125,7 @@ class ManageBanScreen : Screen {
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
-                    modifier = Modifier.padding(vertical = Spacing.s),
+                    modifier = Modifier.padding(vertical = Spacing.xs),
                     titles = listOf(
                         stringResource(MR.strings.explore_result_type_users),
                         stringResource(MR.strings.explore_result_type_communities),

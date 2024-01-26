@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.modlog
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -97,7 +98,9 @@ class ModlogScreen(
         }
 
         Scaffold(
-            modifier = Modifier.padding(Spacing.xxs),
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(Spacing.xxs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -148,7 +151,7 @@ class ModlogScreen(
                 ) {
                     LazyColumn(
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.s)
+                        verticalArrangement = Arrangement.spacedBy(Spacing.lHalf)
                     ) {
                         if (uiState.items.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {

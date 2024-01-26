@@ -74,14 +74,14 @@ internal fun InnerReportCard(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
-                    .padding(horizontal = Spacing.xs)
                     .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
                     .clip(RoundedCornerShape(CornerSize.l))
+                    .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),
                     )
-                    .padding(Spacing.s)
+                    .padding(Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }

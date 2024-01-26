@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -114,7 +115,9 @@ class ReportListScreen(
         }
 
         Scaffold(
-            modifier = Modifier.padding(Spacing.xxs),
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(Spacing.xxs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -166,7 +169,7 @@ class ReportListScreen(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
-                    modifier = Modifier.padding(vertical = Spacing.s),
+                    modifier = Modifier.padding(vertical = Spacing.xs),
                     titles = listOf(
                         stringResource(MR.strings.profile_section_posts),
                         stringResource(MR.strings.profile_section_comments),
@@ -197,7 +200,7 @@ class ReportListScreen(
                 ) {
                     LazyColumn(
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.s)
+                        verticalArrangement = Arrangement.spacedBy(Spacing.lHalf)
                     ) {
                         if (uiState.section == ReportListSection.Posts) {
                             if (uiState.postReports.isEmpty() && uiState.loading && uiState.initial) {

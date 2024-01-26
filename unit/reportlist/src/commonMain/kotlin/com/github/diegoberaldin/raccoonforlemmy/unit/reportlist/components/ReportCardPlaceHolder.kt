@@ -13,6 +13,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
@@ -28,10 +29,11 @@ internal fun ReportCardPlaceHolder(
         modifier = Modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                    .clip(RoundedCornerShape(CornerSize.l))
                     .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                        shape = RoundedCornerShape(CornerSize.l),
                     )
                     .padding(Spacing.s)
             } else {

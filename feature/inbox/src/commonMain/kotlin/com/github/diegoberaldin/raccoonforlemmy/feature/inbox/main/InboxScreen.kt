@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,7 +73,9 @@ object InboxScreen : Tab {
         val scope = rememberCoroutineScope()
 
         Scaffold(
-            modifier = Modifier.padding(Spacing.xxs),
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(Spacing.xxs),
             topBar = {
                 val languageRepository = remember { getLanguageRepository() }
                 val lang by languageRepository.currentLanguage.collectAsState()
@@ -163,7 +166,7 @@ object InboxScreen : Tab {
                         verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     ) {
                         SectionSelector(
-                            modifier = Modifier.padding(vertical = Spacing.s),
+                            modifier = Modifier.padding(vertical = Spacing.xs),
                             titles = listOf(
                                 buildString {
                                     append(stringResource(MR.strings.inbox_section_replies))

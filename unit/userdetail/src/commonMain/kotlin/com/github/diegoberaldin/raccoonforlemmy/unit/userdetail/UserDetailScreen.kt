@@ -187,7 +187,7 @@ class UserDetailScreen(
         Scaffold(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+                .padding(Spacing.xxs),
             contentWindowInsets = if (settings.edgeToEdge) {
                 WindowInsets(0, 0, 0, 0)
             } else {
@@ -379,13 +379,17 @@ class UserDetailScreen(
                 },
             )
             Box(
-                modifier = Modifier.padding(padding).then(
-                    if (settings.hideNavigationBarWhileScrolling) {
-                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    } else {
-                        Modifier
-                    }
-                ).nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
+                modifier = Modifier
+                    .padding(padding)
+                    .then(
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            Modifier
+                        }
+                    )
+                    .nestedScroll(fabNestedScrollConnection)
+                    .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
                     state = lazyListState,
@@ -427,7 +431,7 @@ class UserDetailScreen(
                                     )
                                 },
                             )
-                            Spacer(modifier = Modifier.height(Spacing.m))
+                            Spacer(modifier = Modifier.height(Spacing.xs))
                         }
                     }
                     if (uiState.section == UserDetailSection.Posts) {

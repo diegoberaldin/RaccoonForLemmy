@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.replies
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -118,7 +117,6 @@ class InboxRepliesScreen : Tab {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = lazyListState,
-                verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 if (uiState.replies.isEmpty() && uiState.initial) {
                     items(3) {
