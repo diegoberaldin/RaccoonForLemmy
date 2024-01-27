@@ -328,4 +328,6 @@
     <string name="bar_theme_transparent">Gjennomsiktig</string>
     <string name="settings_bar_theme">Tema for status- og navigasjonslinjen</string>
     <string name="settings_colors_and_fonts">Farger og fonter</string>
+    <string name="settings_about_view_google_play">Se på Google Play</string>
+    <string name="settings_user_manual">Brukermanual</string>
 </resources>

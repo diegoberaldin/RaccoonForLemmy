@@ -326,4 +326,6 @@
     <string name="bar_theme_transparent">Průhledný</string>
     <string name="settings_bar_theme">Téma stavové a navigační lišty</string>
     <string name="settings_colors_and_fonts">Barvy a písma</string>
+    <string name="settings_about_view_google_play">Zobrazit na Google Play</string>
+    <string name="settings_user_manual">Uživatelský manuál</string>
 </resources>

@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.screen.Screen
@@ -49,6 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
@@ -82,6 +84,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ConfigureSwipeActionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import dev.icerock.moko.resources.compose.stringResource
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.flow.launchIn
@@ -107,6 +110,7 @@ class SettingsScreen : Screen {
         val lang by languageRepository.currentLanguage.collectAsState()
         var infoDialogOpened by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
+        val uriHandler = LocalUriHandler.current
 
         LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -569,8 +573,26 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = stringResource(MR.strings.settings_about),
                         value = "",
+                        disclosureIndicator = true,
                         onTap = rememberCallback {
                             infoDialogOpened = true
+                        },
+                    )
+
+                    // user manual
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_user_manual),
+                        value = "",
+                        disclosureIndicator = true,
+                        onTap = rememberCallback {
+                            navigationCoordinator.handleUrl(
+                                url = "https://diegoberaldin.github.io/RaccoonForLemmy/user_manual/main",
+                                openExternal = uiState.openUrlsInExternalBrowser,
+                                uriHandler = uriHandler,
+                                onOpenWeb = { url ->
+                                    navigationCoordinator.pushScreen(WebViewScreen(url))
+                                },
+                            )
                         },
                     )
 

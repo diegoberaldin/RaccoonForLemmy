@@ -331,4 +331,6 @@
     <string name="bar_theme_transparent">Transparentan</string>
     <string name="settings_bar_theme">Tema statusne i navigacijske trake</string>
     <string name="settings_colors_and_fonts">Boje i fontovi</string>
+    <string name="settings_about_view_google_play">Pogledajte na Google Playu</string>
+    <string name="settings_user_manual">Korisnički priručnik</string>
 </resources>

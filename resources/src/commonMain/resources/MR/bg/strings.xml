@@ -334,4 +334,6 @@
     <string name="bar_theme_transparent">Прозрачен</string>
     <string name="settings_bar_theme">Тема на лентата за състояние и навигация</string>
     <string name="settings_colors_and_fonts">Цветове и шрифтове</string>
+    <string name="settings_about_view_google_play">Вижте в Google Play</string>
+    <string name="settings_user_manual">Ръководство за употреба</string>
 </resources>

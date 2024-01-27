@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.OpenInBrowser
+import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,10 +46,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.CHANGELOG_URL
-import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.REPORT_EMAIL_ADDRESS
-import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.REPORT_URL
-import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutConstants.WEBSITE_URL
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
@@ -106,7 +103,7 @@ class AboutDialog : Screen {
                             textDecoration = TextDecoration.Underline,
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url = CHANGELOG_URL,
+                                    url =  AboutConstants.CHANGELOG_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->
@@ -120,7 +117,7 @@ class AboutDialog : Screen {
                         Button(
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url = REPORT_URL,
+                                    url =  AboutConstants.REPORT_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->
@@ -138,7 +135,7 @@ class AboutDialog : Screen {
                         Button(
                             onClick = {
                                 runCatching {
-                                    uriHandler.openUri("mailto:$REPORT_EMAIL_ADDRESS")
+                                    uriHandler.openUri("mailto:${ AboutConstants.REPORT_EMAIL_ADDRESS}")
                                 }
                             },
                         ) {
@@ -156,7 +153,24 @@ class AboutDialog : Screen {
                             textDecoration = TextDecoration.Underline,
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url = WEBSITE_URL,
+                                    url =  AboutConstants.WEBSITE_URL,
+                                    openExternal = settings.openUrlsInExternalBrowser,
+                                    uriHandler = uriHandler,
+                                    onOpenWeb = { url ->
+                                        navigationCoordinator.pushScreen(WebViewScreen(url))
+                                    },
+                                )
+                            },
+                        )
+                    }
+                    item {
+                        AboutItem(
+                            vector = Icons.Default.Shop,
+                            text = stringResource(MR.strings.settings_about_view_google_play),
+                            textDecoration = TextDecoration.Underline,
+                            onClick = rememberCallback {
+                                navigationCoordinator.handleUrl(
+                                    url = AboutConstants.GOOGLE_PLAY_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->

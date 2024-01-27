@@ -326,4 +326,6 @@
     <string name="bar_theme_transparent">Läbipaistev</string>
     <string name="settings_bar_theme">Oleku- ja navigeerimisriba teema</string>
     <string name="settings_colors_and_fonts">Värvid ja fondid</string>
+    <string name="settings_about_view_google_play">Vaata Google Plays</string>
+    <string name="settings_user_manual">Kasutusjuhend</string>
 </resources>

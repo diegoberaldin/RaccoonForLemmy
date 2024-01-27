@@ -337,4 +337,6 @@
     <string name="bar_theme_transparent">Διαφανής</string>
     <string name="settings_bar_theme">Θέμα της γραμμής κατάστασης και πλοήγησης</string>
     <string name="settings_colors_and_fonts">Χρώματα και γραμματοσειρές</string>
+    <string name="settings_about_view_google_play">Προβολή στο Google Play</string>
+    <string name="settings_user_manual">Εγχειρίδιο χρήστη</string>
 </resources>

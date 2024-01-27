@@ -326,4 +326,6 @@
     <string name="bar_theme_transparent">Läpinäkyvä</string>
     <string name="settings_bar_theme">Tila- ja navigointipalkin teema</string>
     <string name="settings_colors_and_fonts">Värit ja fontit</string>
+    <string name="settings_about_view_google_play">Katso Google Playssa</string>
+    <string name="settings_user_manual">Ohjekirja</string>
 </resources>

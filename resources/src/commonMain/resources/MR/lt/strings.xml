@@ -328,4 +328,6 @@
     <string name="bar_theme_transparent">Skaidrus</string>
     <string name="settings_bar_theme">Būsenos ir naršymo juostos tema</string>
     <string name="settings_colors_and_fonts">Spalvos ir šriftai</string>
+    <string name="settings_about_view_google_play">Žiūrėti Google Play</string>
+    <string name="settings_user_manual">Vartotojo vadovas</string>
 </resources>

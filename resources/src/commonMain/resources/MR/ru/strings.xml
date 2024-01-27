@@ -330,4 +330,6 @@
     <string name="bar_theme_transparent">Прозрачный</string>
     <string name="settings_bar_theme">Тема статусной и навигационной панели</string>
     <string name="settings_colors_and_fonts">Цвета и шрифты</string>
+    <string name="settings_about_view_google_play">Посмотреть в Google Play</string>
+    <string name="settings_user_manual">Руководство пользователя</string>
 </resources>

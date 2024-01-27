@@ -157,7 +157,7 @@
     <string name="settings_about_report_github">o moli e pipi (GitHub)</string>
     <string name="settings_about_report_email">o moli e pipi (lipu toki)</string>
     <string name="settings_about_view_github">o lukin lon ilo Kitapu</string>
-    <string name="settings_about_view_lemmy">kulupu pi ilo Lemi</string>
+    <string name="settings_about_view_lemmy">kulupu pi ma Lemi</string>
     <string name="settings_auto_expand_comments">o suli e toki lili kepeken jan ala</string>
     <string name="settings_auto_load_images">o kama jo e sitelen kepeken jan ala</string>
     <string name="settings_blur_nsfw">o lukin ala e sitelen NSFW</string>
@@ -238,9 +238,9 @@
     <string name="report_list_type_unresolved">wile weka</string>
     <string name="report_action_resolve">o weka</string>
     <string name="report_action_unresolve">o weka ala</string>
-    <string name="sidebar_not_logged_message">o kama pona lon ilo Rakun tawa ilo Lemi!\n\nsina tawa
+    <string name="sidebar_not_logged_message">o kama pona lon ilo Rakun tawa ma Lemi!\n\nsina tawa
         insa ala la, o kepeken e ilo (▼) tawa ante e ilo nanpa.\n\nwile la, tenpo ale la, sina ken
-        tawa insa e ilo nanpa sina lon lipo \&quot;sona jan\&quot;.\n\no musi lon ilo Lemi!
+        tawa insa e ilo nanpa sina lon lipo \&quot;sona jan\&quot;.\n\no musi lon ma Lemi!
     </string>
     <string name="settings_default_inbox_type">nasin pi poki toki</string>
     <string name="mod_action_add_mod">o sin e jan lawa</string>
@@ -325,4 +325,6 @@
     <string name="bar_theme_transparent">lukin</string>
     <string name="settings_bar_theme">nasin lukin pi linja sewi pi linja anpa</string>
     <string name="settings_colors_and_fonts">Kule en sitelen</string>
+    <string name="settings_about_view_google_play">o lukin lon ma Kuko Pileji</string>
+    <string name="settings_user_manual">lipu sona pi ilo ni</string>
 </resources>

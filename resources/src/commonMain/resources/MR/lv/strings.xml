@@ -330,4 +330,6 @@
     <string name="bar_theme_transparent">Caurspīdīgs</string>
     <string name="settings_bar_theme">Statusa un navigācijas joslas motīvs</string>
     <string name="settings_colors_and_fonts">Krāsas un fonti</string>
+    <string name="settings_about_view_google_play">Skatīt pakalpojumā Google Play</string>
+    <string name="settings_user_manual">Lietotāja rokasgrāmata</string>
 </resources>
