@@ -50,6 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerHeader
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerShortcut
+import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.ManageAccountsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.SelectInstanceBottomSheet
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
@@ -111,7 +112,10 @@ object ModalDrawerContent : Tab {
                 instance = uiState.instance,
                 autoLoadImages = uiState.autoLoadImages,
                 onOpenChangeInstance = rememberCallback(model) {
-                   navigationCoordinator.showBottomSheet(SelectInstanceBottomSheet())
+                    navigationCoordinator.showBottomSheet(SelectInstanceBottomSheet())
+                },
+                onOpenSwitchAccount = {
+                    navigationCoordinator.showBottomSheet(ManageAccountsScreen())
                 },
             )
 

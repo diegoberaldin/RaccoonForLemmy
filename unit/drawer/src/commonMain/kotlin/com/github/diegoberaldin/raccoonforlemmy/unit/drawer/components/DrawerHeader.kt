@@ -35,6 +35,7 @@ internal fun DrawerHeader(
     instance: String? = null,
     autoLoadImages: Boolean = true,
     onOpenChangeInstance: (() -> Unit)? = null,
+    onOpenSwitchAccount: (() -> Unit)? = null,
 ) {
     val avatarSize = 52.dp
     val fullColor = MaterialTheme.colorScheme.onBackground
@@ -68,30 +69,42 @@ internal fun DrawerHeader(
                 )
             }
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
-            ) {
-                Text(
-                    text = buildString {
-                        if (user.displayName.isNotEmpty()) {
-                            append(user.displayName)
-                        } else {
+            Row {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                ) {
+                    Text(
+                        text = buildString {
+                            if (user.displayName.isNotEmpty()) {
+                                append(user.displayName)
+                            } else {
+                                append(user.name)
+                            }
+                        },
+                        style = MaterialTheme.typography.titleLarge,
+                        color = fullColor,
+                    )
+                    Text(
+                        text = buildString {
                             append(user.name)
-                        }
-                    },
-                    style = MaterialTheme.typography.titleLarge,
-                    color = fullColor,
-                )
-                Text(
-                    text = buildString {
-                        append(user.name)
-                        append("@")
-                        append(user.host)
-                    },
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = ancillaryColor,
+                            append("@")
+                            append(user.host)
+                        },
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = ancillaryColor,
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    modifier = Modifier.onClick(
+                        onClick = rememberCallback {
+                            onOpenSwitchAccount?.invoke()
+                        },
+                    ),
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = null,
                 )
             }
         } else {
