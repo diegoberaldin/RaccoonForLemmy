@@ -558,6 +558,7 @@ class UserDetailScreen(
                                         blurNsfw = uiState.blurNsfw,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        showScores = uiState.showScores,
                                         actionButtonsActive = uiState.isLogged,
                                         onClick = rememberCallback {
                                             detailOpener.openPostDetail(post)
@@ -848,6 +849,7 @@ class UserDetailScreen(
                                         comment = comment,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        showScores = uiState.showScores,
                                         hideCommunity = false,
                                         hideAuthor = true,
                                         hideIndent = true,

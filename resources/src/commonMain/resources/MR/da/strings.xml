@@ -328,4 +328,5 @@
     <string name="settings_colors_and_fonts">Farver og skrifttyper</string>
     <string name="settings_about_view_google_play">Se på Google Play</string>
     <string name="settings_user_manual">Brugermanual</string>
+    <string name="settings_show_scores">Vis point</string>
 </resources>

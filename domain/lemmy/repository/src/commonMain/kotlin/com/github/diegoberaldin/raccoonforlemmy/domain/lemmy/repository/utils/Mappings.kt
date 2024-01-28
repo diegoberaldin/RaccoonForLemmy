@@ -435,6 +435,7 @@ internal fun LocalUser.toModel() = AccountSettingsModel(
     sendNotificationsToEmail = sendNotificationsToEmail,
     showBotAccounts = showBotAccounts,
     showNsfw = showNsfw,
+    showScores = showScores,
     showReadPosts = showReadPosts,
 )
 
@@ -451,6 +452,7 @@ internal fun AccountSettingsModel.toDto() = SaveUserSettingsForm(
     sendNotificationsToEmail = sendNotificationsToEmail,
     showBotAccounts = showBotAccounts,
     showNsfw = showNsfw,
+    showScores = showScores,
     showReadPosts = showReadPosts,
 )
 

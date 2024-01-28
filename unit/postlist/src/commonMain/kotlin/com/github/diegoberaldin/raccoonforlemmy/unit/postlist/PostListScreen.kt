@@ -425,6 +425,7 @@ class PostListScreen : Screen {
                                         fullHeightImage = uiState.fullHeightImages,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        showScores = uiState.showScores,
                                         actionButtonsActive = uiState.isLogged,
                                         blurNsfw = uiState.blurNsfw,
                                         onClick = rememberCallback(model) {

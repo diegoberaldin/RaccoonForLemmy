@@ -59,6 +59,7 @@ interface CommunityDetailMviModel :
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
+        val showScores: Boolean = true,
         val zombieModeActive: Boolean = false,
         val moderators: List<UserModel> = emptyList(),
         val availableSortTypes: List<SortType> = emptyList(),

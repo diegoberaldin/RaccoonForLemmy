@@ -331,4 +331,5 @@
     <string name="settings_colors_and_fonts">Renkler ve yazı tipleri</string>
     <string name="settings_about_view_google_play">Google Play\'de görüntüle</string>
     <string name="settings_user_manual">Kullanım kılavuzu</string>
+    <string name="settings_show_scores">Puanları göster</string>
 </resources>

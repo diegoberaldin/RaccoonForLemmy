@@ -50,6 +50,7 @@ fun CommentCard(
     hideCommunity: Boolean = true,
     hideIndent: Boolean = false,
     autoLoadImages: Boolean = true,
+    showScores: Boolean = true,
     actionButtonsActive: Boolean = true,
     isOp: Boolean = false,
     options: List<Option> = emptyList(),
@@ -146,6 +147,7 @@ fun CommentCard(
                 }
                 PostCardFooter(
                     score = comment.score,
+                    showScores = showScores,
                     voteFormat = voteFormat,
                     upVotes = comment.upvotes,
                     downVotes = comment.downvotes,

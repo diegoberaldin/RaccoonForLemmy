@@ -445,6 +445,7 @@ class ExploreScreen : Screen {
                                                 fullHeightImage = uiState.fullHeightImages,
                                                 voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
+                                                showScores = uiState.showScores,
                                                 blurNsfw = uiState.blurNsfw,
                                                 actionButtonsActive = uiState.isLogged,
                                                 onClick = rememberCallback {
@@ -631,6 +632,7 @@ class ExploreScreen : Screen {
                                                 comment = result.model,
                                                 voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
+                                                showScores = uiState.showScores,
                                                 hideIndent = true,
                                                 actionButtonsActive = uiState.isLogged,
                                                 onClick = rememberCallback {

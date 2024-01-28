@@ -49,4 +49,5 @@ data class SettingsModel(
     val actionsOnSwipeToStartInbox: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_START_INBOX,
     val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
     val opaqueSystemBars: Boolean = false,
+    val showScores: Boolean = true,
 )

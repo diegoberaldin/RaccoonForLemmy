@@ -359,4 +359,5 @@
     <string name="settings_colors_and_fonts">Colors and fonts</string>
     <string name="settings_about_view_google_play">View on Google Play</string>
     <string name="settings_user_manual">User manual</string>
+    <string name="settings_show_scores">Show scores</string>
 </resources>

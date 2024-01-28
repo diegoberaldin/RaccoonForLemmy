@@ -43,6 +43,7 @@ interface ProfileLoggedMviModel :
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
+        val showScores: Boolean = true,
     )
 
     sealed interface Effect

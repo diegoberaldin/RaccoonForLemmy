@@ -12,6 +12,7 @@ data class AccountSettingsModel(
     val showBotAccounts: Boolean? = null,
     val showReadPosts: Boolean? = null,
     val showNsfw: Boolean? = null,
+    val showScores: Boolean? = null,
     val defaultListingType: ListingType? = null,
     val defaultSortType: SortType? = null,
 )

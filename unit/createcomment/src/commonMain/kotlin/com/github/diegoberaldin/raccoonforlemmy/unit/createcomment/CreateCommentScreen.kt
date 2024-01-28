@@ -351,6 +351,7 @@ class CreateCommentScreen(
                             hideIndent = true,
                             voteFormat = uiState.voteFormat,
                             autoLoadImages = uiState.autoLoadImages,
+                            showScores = uiState.showScores,
                             options = buildList {
                                 add(
                                     Option(
@@ -378,6 +379,7 @@ class CreateCommentScreen(
                             includeFullBody = true,
                             voteFormat = uiState.voteFormat,
                             autoLoadImages = uiState.autoLoadImages,
+                            showScores = uiState.showScores,
                             options = buildList {
                                 add(
                                     Option(

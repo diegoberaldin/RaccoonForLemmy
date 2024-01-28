@@ -217,6 +217,7 @@ class SavedItemsScreen : Screen {
                                     fullHeightImage = uiState.fullHeightImages,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
+                                    showScores = uiState.showScores,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = rememberCallback {
                                         detailOpener.openPostDetail(post)
@@ -344,6 +345,7 @@ class SavedItemsScreen : Screen {
                                     comment = comment,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
+                                    showScores = uiState.showScores,
                                     hideIndent = true,
                                     onClick = {
                                         detailOpener.openPostDetail(

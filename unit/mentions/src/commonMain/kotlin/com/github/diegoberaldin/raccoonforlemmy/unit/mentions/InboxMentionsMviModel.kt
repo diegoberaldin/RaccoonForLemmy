@@ -32,6 +32,7 @@ interface InboxMentionsMviModel :
         val swipeActionsEnabled: Boolean = true,
         val postLayout: PostLayout = PostLayout.Card,
         val autoLoadImages: Boolean = true,
+        val showScores: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val actionsOnSwipeToStartInbox: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = emptyList(),

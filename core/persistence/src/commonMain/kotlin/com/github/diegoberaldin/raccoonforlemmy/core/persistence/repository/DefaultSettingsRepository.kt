@@ -49,6 +49,7 @@ private object KeyStoreKeys {
     const val POST_BODY_MAX_LINES = "postBodyMaxLines"
     const val INFINITE_SCROLL_ENABLED = "infiniteScrollEnabled"
     const val OPAQUE_SYSTEM_BARS = "opaqueSystemBars"
+    const val SHOW_SCORES = "showScores"
 }
 
 internal class DefaultSettingsRepository(
@@ -113,6 +114,7 @@ internal class DefaultSettingsRepository(
                 actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox.map { it.toInt() }
                     .joinToString(","),
                 opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
+                showScores = if (settings.showScores) 1L else 0L,
             )
         }
 
@@ -158,6 +160,7 @@ internal class DefaultSettingsRepository(
                     } else null,
                     infiniteScrollEnabled = keyStore[KeyStoreKeys.INFINITE_SCROLL_ENABLED, true],
                     opaqueSystemBars = keyStore[KeyStoreKeys.OPAQUE_SYSTEM_BARS, false],
+                    showScores = keyStore[KeyStoreKeys.SHOW_SCORES, true],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -243,6 +246,7 @@ internal class DefaultSettingsRepository(
                 }
                 keyStore.save(KeyStoreKeys.INFINITE_SCROLL_ENABLED, settings.infiniteScrollEnabled)
                 keyStore.save(KeyStoreKeys.OPAQUE_SYSTEM_BARS, settings.opaqueSystemBars)
+                keyStore.save(KeyStoreKeys.SHOW_SCORES, settings.showScores)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -295,6 +299,7 @@ internal class DefaultSettingsRepository(
                     actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox.map { it.toInt() }
                         .joinToString(","),
                     opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
+                    showScores = if (settings.showScores) 1L else 0L,
                 )
             }
         }
@@ -361,4 +366,5 @@ private fun GetBy.toModel() = SettingsModel(
         ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
         ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
     opaqueSystemBars = opaqueSystemBars == 1L,
+    showScores = showScores == 1L,
 )

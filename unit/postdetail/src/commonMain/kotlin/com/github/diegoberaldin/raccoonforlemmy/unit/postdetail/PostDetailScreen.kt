@@ -318,6 +318,7 @@ class PostDetailScreen(
                                 includeFullBody = true,
                                 voteFormat = uiState.voteFormat,
                                 autoLoadImages = uiState.autoLoadImages,
+                                showScores = uiState.showScores,
                                 actionButtonsActive = uiState.isLogged,
                                 blurNsfw = false,
                                 onOpenCommunity = rememberCallbackArgs { community, _ ->
@@ -705,6 +706,7 @@ class PostDetailScreen(
                                                     isOp = comment.creator?.id == uiState.post.creator?.id,
                                                     voteFormat = uiState.voteFormat,
                                                     autoLoadImages = uiState.autoLoadImages,
+                                                    showScores = uiState.showScores,
                                                     actionButtonsActive = uiState.isLogged,
                                                     onToggleExpanded = rememberCallback(model) {
                                                         model.reduce(
@@ -924,6 +926,7 @@ class PostDetailScreen(
                                             isOp = comment.creator?.id == uiState.post.creator?.id,
                                             voteFormat = uiState.voteFormat,
                                             autoLoadImages = uiState.autoLoadImages,
+                                            showScores = uiState.showScores,
                                             actionButtonsActive = uiState.isLogged,
                                             onToggleExpanded = rememberCallback(model) {
                                                 model.reduce(

@@ -84,6 +84,10 @@ class AccountSettingsViewModel(
                 mvi.updateState { it.copy(showNsfw = intent.value) }
             }
 
+            is AccountSettingsMviModel.Intent.ChangeShowScores -> {
+                mvi.updateState { it.copy(showScores = intent.value) }
+            }
+
             is AccountSettingsMviModel.Intent.ChangeShowReadPosts -> {
                 mvi.updateState { it.copy(showReadPosts = intent.value) }
             }
@@ -118,6 +122,7 @@ class AccountSettingsViewModel(
                 showBotAccounts = accountSettings?.showBotAccounts ?: false,
                 showReadPosts = accountSettings?.showReadPosts ?: false,
                 showNsfw = accountSettings?.showNsfw ?: false,
+                showScores = accountSettings?.showScores ?: true,
                 defaultListingType = accountSettings?.defaultListingType ?: ListingType.All,
                 defaultSortType = accountSettings?.defaultSortType ?: SortType.Active,
             )
@@ -177,6 +182,7 @@ class AccountSettingsViewModel(
             sendNotificationsToEmail = currentState.sendNotificationsToEmail,
             showBotAccounts = currentState.showBotAccounts,
             showNsfw = currentState.showNsfw,
+            showScores = currentState.showScores,
             showReadPosts = currentState.showReadPosts,
         ) ?: return
         mvi.updateState { it.copy(loading = true) }

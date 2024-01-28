@@ -100,6 +100,7 @@ class UserDetailViewModel(
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
                         actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
                         actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
+                        showScores = settings.showScores,
                     )
                 }
             }.launchIn(this)

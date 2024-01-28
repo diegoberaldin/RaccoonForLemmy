@@ -326,4 +326,5 @@
     <string name="settings_colors_and_fonts">الألوان والخطوط</string>
     <string name="settings_about_view_google_play">عرض على جوجل بلاي</string>
     <string name="settings_user_manual">دليل الاستخدام</string>
+    <string name="settings_show_scores">أظهر التقييمات</string>
 </resources>

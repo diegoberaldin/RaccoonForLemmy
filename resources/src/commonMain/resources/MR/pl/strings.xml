@@ -331,4 +331,5 @@
     <string name="settings_colors_and_fonts">Kolory i czcionki</string>
     <string name="settings_about_view_google_play">Zobacz w Google Play</string>
     <string name="settings_user_manual">Instrukcja obsługi</string>
+    <string name="settings_show_scores">Pokaż statystyki</string>
 </resources>

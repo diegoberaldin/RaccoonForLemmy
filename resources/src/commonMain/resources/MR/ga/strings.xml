@@ -337,4 +337,5 @@
     <string name="settings_colors_and_fonts">Dathanna agus clónna</string>
     <string name="settings_about_view_google_play">Amharc ar Google Play</string>
     <string name="settings_user_manual">Lámhleabhar úsáideora</string>
+    <string name="settings_show_scores">Taispeáin scóir</string>
 </resources>

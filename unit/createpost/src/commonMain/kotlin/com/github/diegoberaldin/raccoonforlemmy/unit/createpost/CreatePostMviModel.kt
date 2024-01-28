@@ -75,6 +75,7 @@ interface CreatePostMviModel :
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
+        val showScores: Boolean = true,
         val currentInstance: String = "",
         val currentUser: String = "",
         val currentLanguageId: Int? = null,

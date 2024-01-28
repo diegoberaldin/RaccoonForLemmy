@@ -61,6 +61,7 @@ class InboxRepliesViewModel(
                         voteFormat = settings.voteFormat,
                         actionsOnSwipeToStartInbox = settings.actionsOnSwipeToStartInbox,
                         actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox,
+                        showScores = settings.showScores,
                     )
                 }
             }.launchIn(this)

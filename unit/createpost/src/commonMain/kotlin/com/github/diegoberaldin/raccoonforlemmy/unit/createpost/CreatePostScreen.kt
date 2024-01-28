@@ -537,6 +537,7 @@ class CreatePostScreen(
                             includeFullBody = true,
                             voteFormat = uiState.voteFormat,
                             autoLoadImages = uiState.autoLoadImages,
+                            showScores = uiState.showScores,
                         )
                     }
                 }

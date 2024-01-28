@@ -266,7 +266,7 @@ class AccountSettingsScreen : Screen {
                         },
                     )
 
-                    // show bots
+                    // bots account
                     SettingsSwitchRow(
                         title = stringResource(MR.strings.settings_web_bot),
                         value = uiState.bot,
@@ -323,6 +323,15 @@ class AccountSettingsScreen : Screen {
                         value = uiState.showNsfw,
                         onValueChanged = rememberCallbackArgs { value ->
                             model.reduce(AccountSettingsMviModel.Intent.ChangeShowNsfw(value))
+                        },
+                    )
+
+                    // show scores
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_show_scores),
+                        value = uiState.showScores,
+                        onValueChanged = rememberCallbackArgs { value ->
+                            model.reduce(AccountSettingsMviModel.Intent.ChangeShowScores(value))
                         },
                     )
 

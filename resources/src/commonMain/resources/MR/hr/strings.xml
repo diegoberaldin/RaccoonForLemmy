@@ -333,4 +333,5 @@
     <string name="settings_colors_and_fonts">Boje i fontovi</string>
     <string name="settings_about_view_google_play">Pogledajte na Google Playu</string>
     <string name="settings_user_manual">Korisnički priručnik</string>
+    <string name="settings_show_scores">Prikaži rezultate</string>
 </resources>

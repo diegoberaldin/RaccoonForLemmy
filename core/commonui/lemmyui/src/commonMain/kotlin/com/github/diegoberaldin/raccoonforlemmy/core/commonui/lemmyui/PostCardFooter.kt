@@ -56,6 +56,7 @@ fun PostCardFooter(
     publishDate: String? = null,
     updateDate: String? = null,
     score: Int = 0,
+    showScores: Boolean = true,
     upVotes: Int = 0,
     downVotes: Int = 0,
     saved: Boolean = false,
@@ -189,20 +190,22 @@ fun PostCardFooter(
                     onUpVote?.invoke()
                 },
             )
-            Text(
-                text = formatToReadableValue(
-                    voteFormat = voteFormat,
-                    score = score,
-                    upVotes = upVotes,
-                    downVotes = downVotes,
-                    upVoteColor = upVoteColor ?: defaultUpvoteColor,
-                    downVoteColor = downVoteColor ?: defaultDownVoteColor,
-                    upVoted = upVoted,
-                    downVoted = downVoted,
-                ),
-                style = MaterialTheme.typography.labelLarge,
-                color = ancillaryColor,
-            )
+            if (showScores) {
+                Text(
+                    text = formatToReadableValue(
+                        voteFormat = voteFormat,
+                        score = score,
+                        upVotes = upVotes,
+                        downVotes = downVotes,
+                        upVoteColor = upVoteColor ?: defaultUpvoteColor,
+                        downVoteColor = downVoteColor ?: defaultDownVoteColor,
+                        upVoted = upVoted,
+                        downVoted = downVoted,
+                    ),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = ancillaryColor,
+                )
+            }
             FeedbackButton(
                 modifier = buttonModifier,
                 imageVector = if (actionButtonsActive) {

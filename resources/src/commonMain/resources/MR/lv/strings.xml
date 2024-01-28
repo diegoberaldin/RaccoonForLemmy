@@ -332,4 +332,5 @@
     <string name="settings_colors_and_fonts">Krāsas un fonti</string>
     <string name="settings_about_view_google_play">Skatīt pakalpojumā Google Play</string>
     <string name="settings_user_manual">Lietotāja rokasgrāmata</string>
+    <string name="settings_show_scores">Rādīt rezultātus</string>
 </resources>

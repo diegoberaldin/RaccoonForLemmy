@@ -331,4 +331,5 @@
     <string name="settings_colors_and_fonts">Kleuren en lettertypen</string>
     <string name="settings_about_view_google_play">Bekijk op Google Play</string>
     <string name="settings_user_manual">Handleiding</string>
+    <string name="settings_show_scores">Scores tonen</string>
 </resources>

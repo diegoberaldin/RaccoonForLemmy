@@ -21,6 +21,7 @@ interface AccountSettingsMviModel :
         data class ChangeShowBotAccounts(val value: Boolean) : Intent
         data class ChangeShowReadPosts(val value: Boolean) : Intent
         data class ChangeShowNsfw(val value: Boolean) : Intent
+        data class ChangeShowScores(val value: Boolean) : Intent
         data class AvatarSelected(val value: ByteArray) : Intent {
             override fun equals(other: Any?): Boolean {
                 if (this === other) return true
@@ -71,6 +72,7 @@ interface AccountSettingsMviModel :
         val showBotAccounts: Boolean = false,
         val showReadPosts: Boolean = false,
         val showNsfw: Boolean = false,
+        val showScores: Boolean = true,
         val defaultListingType: ListingType = ListingType.All,
         val availableSortTypes: List<SortType> = emptyList(),
         val defaultSortType: SortType = SortType.Active,

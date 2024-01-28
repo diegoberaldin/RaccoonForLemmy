@@ -185,6 +185,7 @@ object ProfileLoggedScreen : Tab {
                                     fullHeightImage = uiState.fullHeightImages,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
+                                    showScores = uiState.showScores,
                                     hideAuthor = true,
                                     blurNsfw = false,
                                     onClick = rememberCallback {
@@ -330,6 +331,7 @@ object ProfileLoggedScreen : Tab {
                                     comment = comment,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
+                                    showScores = uiState.showScores,
                                     hideCommunity = false,
                                     hideAuthor = true,
                                     hideIndent = true,

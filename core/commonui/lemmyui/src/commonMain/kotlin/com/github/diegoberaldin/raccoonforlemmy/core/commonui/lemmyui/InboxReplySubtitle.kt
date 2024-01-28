@@ -59,6 +59,7 @@ fun InboxReplySubtitle(
     iconSize: Dp = IconSize.s,
     date: String? = null,
     score: Int = 0,
+    showScores: Boolean = true,
     upVotes: Int = 0,
     downVotes: Int = 0,
     options: List<Option> = emptyList(),
@@ -217,20 +218,22 @@ fun InboxReplySubtitle(
                         onUpVote?.invoke()
                     },
                 )
-                Text(
-                    text = formatToReadableValue(
-                        voteFormat = voteFormat,
-                        score = score,
-                        upVotes = upVotes,
-                        downVotes = downVotes,
-                        upVoteColor = upVoteColor ?: defaultUpvoteColor,
-                        downVoteColor = downVoteColor ?: defaultDownVoteColor,
-                        upVoted = upVoted,
-                        downVoted = downVoted,
-                    ),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = ancillaryColor,
-                )
+                if (showScores) {
+                    Text(
+                        text = formatToReadableValue(
+                            voteFormat = voteFormat,
+                            score = score,
+                            upVotes = upVotes,
+                            downVotes = downVotes,
+                            upVoteColor = upVoteColor ?: defaultUpvoteColor,
+                            downVoteColor = downVoteColor ?: defaultDownVoteColor,
+                            upVoted = upVoted,
+                            downVoted = downVoted,
+                        ),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = ancillaryColor,
+                    )
+                }
                 FeedbackButton(
                     modifier = buttonModifier.onClick(),
                     imageVector = Icons.Default.ArrowCircleDown,

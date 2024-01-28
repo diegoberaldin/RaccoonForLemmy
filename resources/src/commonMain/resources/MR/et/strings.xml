@@ -328,4 +328,5 @@
     <string name="settings_colors_and_fonts">Värvid ja fondid</string>
     <string name="settings_about_view_google_play">Vaata Google Plays</string>
     <string name="settings_user_manual">Kasutusjuhend</string>
+    <string name="settings_show_scores">Kuva skoorid</string>
 </resources>

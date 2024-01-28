@@ -339,4 +339,5 @@
     <string name="settings_colors_and_fonts">Χρώματα και γραμματοσειρές</string>
     <string name="settings_about_view_google_play">Προβολή στο Google Play</string>
     <string name="settings_user_manual">Εγχειρίδιο χρήστη</string>
+    <string name="settings_show_scores">Προβολή σκορ</string>
 </resources>

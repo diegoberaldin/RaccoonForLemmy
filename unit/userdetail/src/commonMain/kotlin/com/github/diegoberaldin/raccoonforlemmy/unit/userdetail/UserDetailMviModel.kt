@@ -55,6 +55,7 @@ interface UserDetailMviModel :
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
+        val showScores: Boolean = true,
         val availableSortTypes: List<SortType> = emptyList(),
         val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = emptyList(),

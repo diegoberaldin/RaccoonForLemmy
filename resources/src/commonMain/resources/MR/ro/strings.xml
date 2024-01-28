@@ -329,4 +329,5 @@
     <string name="settings_colors_and_fonts">Culori și fonturi</string>
     <string name="settings_about_view_google_play">Vizualizează pe Google Play</string>
     <string name="settings_user_manual">Manual de utilizare</string>
+    <string name="settings_show_scores">Arată scoruri</string>
 </resources>

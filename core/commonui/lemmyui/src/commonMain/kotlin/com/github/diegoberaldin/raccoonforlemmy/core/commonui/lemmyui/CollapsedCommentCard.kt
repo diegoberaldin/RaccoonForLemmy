@@ -34,6 +34,7 @@ fun CollapsedCommentCard(
     modifier: Modifier = Modifier,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     autoLoadImages: Boolean = true,
+    showScores: Boolean = true,
     actionButtonsActive: Boolean = true,
     isOp: Boolean = false,
     options: List<Option> = emptyList(),
@@ -90,6 +91,7 @@ fun CollapsedCommentCard(
                 PostCardFooter(
                     modifier = Modifier.padding(top = Spacing.xs),
                     score = comment.score,
+                    showScores = showScores,
                     voteFormat = voteFormat,
                     upVotes = comment.upvotes,
                     downVotes = comment.downvotes,

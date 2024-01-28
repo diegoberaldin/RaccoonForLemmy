@@ -92,6 +92,7 @@ class CommunityDetailViewModel(
                         autoLoadImages = settings.autoLoadImages,
                         actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                        showScores = settings.showScores,
                     )
                 }
             }.launchIn(this)

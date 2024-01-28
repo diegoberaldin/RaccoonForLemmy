@@ -109,6 +109,7 @@ class PostDetailViewModel(
                         fullHeightImages = settings.fullHeightImages,
                         actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
                         actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
+                        showScores = settings.showScores,
                     )
                 }
             }.launchIn(this)

@@ -330,4 +330,5 @@
     <string name="settings_colors_and_fonts">Farby a písma</string>
     <string name="settings_about_view_google_play">Zobraziť v službe Google Play</string>
     <string name="settings_user_manual">Používateľská príručka</string>
+    <string name="settings_show_scores">Zobraziť skóre</string>
 </resources>

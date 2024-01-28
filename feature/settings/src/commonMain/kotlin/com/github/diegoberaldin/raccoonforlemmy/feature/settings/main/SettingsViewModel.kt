@@ -156,6 +156,7 @@ class SettingsViewModel(
                 postBodyMaxLines = settings.postBodyMaxLines,
                 infiniteScrollDisabled = !settings.infiniteScrollEnabled,
                 opaqueSystemBars = settings.opaqueSystemBars,
+                showScores = settings.showScores,
             )
         }
     }
@@ -203,6 +204,9 @@ class SettingsViewModel(
             is SettingsMviModel.Intent.ChangePostBodyMaxLines -> changePostBodyMaxLines(intent.value)
             is SettingsMviModel.Intent.ChangeInfiniteScrollDisabled ->
                 changeInfiniteScrollDisabled(intent.value)
+
+            is SettingsMviModel.Intent.ChangeShowScores ->
+                changeShowScores(intent.value)
         }
     }
 
@@ -453,6 +457,14 @@ class SettingsViewModel(
             val settings = settingsRepository.currentSettings.value.copy(
                 infiniteScrollEnabled = !value
             )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeShowScores(value: Boolean) {
+        mvi.updateState { it.copy(showScores = value) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(showScores = value)
             saveSettings(settings)
         }
     }

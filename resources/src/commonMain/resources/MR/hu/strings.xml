@@ -332,4 +332,5 @@
     <string name="settings_colors_and_fonts">Színek és betűtípusok</string>
     <string name="settings_about_view_google_play">Megtekintés a Google Playen</string>
     <string name="settings_user_manual">Használati utasítás</string>
+    <string name="settings_show_scores">Pontok megjelenítése</string>
 </resources>

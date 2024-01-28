@@ -56,6 +56,7 @@ class SavedItemsViewModel(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         fullHeightImages = settings.fullHeightImages,
+                        showScores = settings.showScores,
                     )
                 }
             }.launchIn(this)

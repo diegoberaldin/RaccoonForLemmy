@@ -69,6 +69,7 @@ class MultiCommunityViewModel(
                         fullHeightImages = settings.fullHeightImages,
                         actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                        showScores = settings.showScores,
                     )
                 }
             }.launchIn(this)
