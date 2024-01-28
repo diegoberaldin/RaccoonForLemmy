@@ -41,6 +41,7 @@ val coreIdentityModule = module {
             identityRepository = get(),
             accountRepository = get(),
             settingsRepository = get(),
+            siteRepository = get(),
         )
     }
     single<LogoutUseCase> {

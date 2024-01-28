@@ -36,8 +36,11 @@ kotlin {
                 implementation(projects.core.preferences)
                 implementation(projects.core.api)
                 implementation(projects.core.utils)
+                implementation(projects.core.appearance)
                 implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
+                implementation(projects.domain.lemmy.repository)
+                implementation(projects.domain.lemmy.data)
             }
         }
         val commonTest by getting {

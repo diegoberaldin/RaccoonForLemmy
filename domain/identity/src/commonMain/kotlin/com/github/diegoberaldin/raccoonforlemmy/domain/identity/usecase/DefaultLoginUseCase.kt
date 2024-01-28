@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.logDebug
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.AuthRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 
 internal class DefaultLoginUseCase(
     private val authRepository: AuthRepository,
@@ -14,6 +15,7 @@ internal class DefaultLoginUseCase(
     private val identityRepository: IdentityRepository,
     private val accountRepository: AccountRepository,
     private val settingsRepository: SettingsRepository,
+    private val siteRepository: SiteRepository,
 ) : LoginUseCase {
 
     override suspend operator fun invoke(
@@ -37,6 +39,7 @@ internal class DefaultLoginUseCase(
             if (auth == null) {
                 apiConfigurationRepository.changeInstance(oldInstance)
             } else {
+                val accountSettings = siteRepository.getAccountSettings(auth)
                 identityRepository.storeToken(auth)
 
                 val account = AccountModel(
@@ -47,11 +50,16 @@ internal class DefaultLoginUseCase(
                 val existingId = accountRepository.getBy(username, instance)?.id
                 val id = existingId ?: run {
                     // new account with a copy of the anonymous settings
+                    // (except a couple of fields from the Lemmy accounts)
                     val res = accountRepository.createAccount(account)
                     val anonymousSettings = settingsRepository.getSettings(null)
+                        .copy(
+                            showScores = accountSettings?.showScores ?: true,
+                            includeNsfw = accountSettings?.showNsfw ?: false,
+                        )
                     settingsRepository.createSettings(
                         settings = anonymousSettings,
-                        accountId = res
+                        accountId = res,
                     )
                     res
                 }
