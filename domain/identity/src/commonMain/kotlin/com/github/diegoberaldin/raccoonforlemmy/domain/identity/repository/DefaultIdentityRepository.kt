@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
@@ -10,13 +11,19 @@ import kotlinx.coroutines.launch
 
 internal class DefaultIdentityRepository(
     private val accountRepository: AccountRepository,
+    private val siteRepository: SiteRepository,
 ) : IdentityRepository {
 
     private val scope = CoroutineScope(SupervisorJob())
     override val authToken = MutableStateFlow<String?>(null)
 
-    override val isLogged: Flow<Boolean?> = authToken.map {
-        it?.isNotEmpty()
+    override val isLogged: Flow<Boolean?> = authToken.map { authOrNull ->
+        if (authOrNull.isNullOrEmpty()) {
+            false
+        } else {
+            val currentUser = siteRepository.getCurrentUser(authOrNull)
+            currentUser != null
+        }
     }
 
     init {

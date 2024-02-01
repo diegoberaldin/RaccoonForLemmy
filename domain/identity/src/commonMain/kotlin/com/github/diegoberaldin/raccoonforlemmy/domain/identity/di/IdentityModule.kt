@@ -27,6 +27,7 @@ val coreIdentityModule = module {
     single<IdentityRepository> {
         DefaultIdentityRepository(
             accountRepository = get(),
+            siteRepository = get(),
         )
     }
     single<AuthRepository> {
