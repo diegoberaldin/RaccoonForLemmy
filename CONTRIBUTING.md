@@ -235,10 +235,10 @@ This project uses the Gradle build tool. The recommended development environment
 with the Kotlin Multiplatform Mobile plugin installed, which will automatically detect the build
 tool and download a Gradle distribution for you.
 
-Since the project is using Gradle 8.2.1 with the Android Gradle Plugin (AGP) version 8.2.1 please
-make sure that you are using Android Studio Hedgehog or later (have a
+Since the project is using Gradle 8.5 with the Android Gradle Plugin (AGP) version 8.2.2, please
+make sure that you are using Android Studio Hedgehog or later -- have a
 look [here](https://developer.android.com/build/releases/gradle-plugin?hl=en#android_gradle_plugin_and_android_studio_compatibility)
-for a compatibility matrix between versions of Gradle, AGP and Android Studio).
+for a compatibility matrix between versions of Gradle, AGP and Android Studio.
 
 In order for Gradle to build, you will need a JDK installed on your local development machine, if
 you are using stock Android Studio it ships with the JetBrains runtime. If you want to use your
