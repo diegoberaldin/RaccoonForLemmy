@@ -12,9 +12,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.HotelClass
 import androidx.compose.material.icons.filled.LocalPolice
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.PushPin
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.ShieldMoon
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -54,6 +59,7 @@ fun CommunityAndCreatorInfo(
     creator: UserModel? = null,
     distinguished: Boolean = false,
     featured: Boolean = false,
+    featuredLocal: Boolean = false,
     locked: Boolean = false,
     isFromModerator: Boolean = false,
     isOp: Boolean = false,
@@ -205,7 +211,13 @@ fun CommunityAndCreatorInfo(
         } else if (featured) {
             Icon(
                 modifier = buttonModifier,
-                imageVector = Icons.Default.PushPin,
+                imageVector = Icons.Filled.Star,
+                contentDescription = null,
+            )
+        } else if (featuredLocal) {
+            Icon(
+                modifier = buttonModifier,
+                imageVector = Icons.Filled.HotelClass,
                 contentDescription = null,
             )
         }

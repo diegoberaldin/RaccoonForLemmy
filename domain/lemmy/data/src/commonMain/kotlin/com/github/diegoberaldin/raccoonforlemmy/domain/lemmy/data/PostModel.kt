@@ -25,6 +25,7 @@ data class PostModel(
     val read: Boolean = false,
     val crossPosts: List<PostModel> = emptyList(),
     val featuredCommunity: Boolean = false,
+    val featuredLocal: Boolean = false,
     val removed: Boolean = false,
     val locked: Boolean = false,
     val languageId: Int = 0,

@@ -202,6 +202,7 @@ private fun CompactPost(
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
             featured = post.featuredCommunity,
+            featuredLocal = post.featuredLocal,
             locked = post.locked,
             isFromModerator = isFromModerator,
             onOpenCommunity = rememberCallbackArgs { community ->
@@ -345,6 +346,7 @@ private fun ExtendedPost(
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
             featured = post.featuredCommunity,
+            featuredLocal = post.featuredLocal,
             locked = post.locked,
             isFromModerator = isFromModerator,
             onOpenCommunity = rememberCallbackArgs { community ->

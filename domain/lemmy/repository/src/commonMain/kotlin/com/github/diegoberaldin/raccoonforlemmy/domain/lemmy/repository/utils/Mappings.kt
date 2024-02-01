@@ -188,6 +188,7 @@ internal fun Post.toModel() = PostModel(
     nsfw = nsfw,
     embedVideoUrl = embedVideoUrl,
     featuredCommunity = featuredCommunity,
+    featuredLocal = featuredLocal,
     removed = removed,
     locked = locked,
     languageId = languageId,
