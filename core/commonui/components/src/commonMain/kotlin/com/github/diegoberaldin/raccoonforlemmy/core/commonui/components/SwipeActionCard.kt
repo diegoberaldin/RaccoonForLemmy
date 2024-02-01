@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SwipeToDismiss
-import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,7 +47,7 @@ fun SwipeActionCard(
         var secondNotified by remember { mutableStateOf(false) }
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
         var lastProgress by remember { mutableStateOf(0.0f) }
-        val dismissState = rememberDismissState(
+        val dismissState = rememberNoFlingDismissState(
             confirmValueChange = rememberCallbackArgs { value ->
                 when (value) {
                     DismissValue.DismissedToEnd -> {
@@ -112,7 +110,7 @@ fun SwipeActionCard(
             }.launchIn(this)
         }
 
-        SwipeToDismiss(
+        NoFlingSwipeToDismiss(
             modifier = modifier,
             state = dismissState,
             directions = buildSet {
