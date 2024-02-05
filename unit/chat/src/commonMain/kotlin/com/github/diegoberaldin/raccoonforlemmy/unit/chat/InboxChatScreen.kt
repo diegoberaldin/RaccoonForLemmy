@@ -256,7 +256,7 @@ class InboxChatScreen(
                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
                                     detailOpener.openCommunityDetail(
                                         community,
-                                        instance
+                                        instance,
                                     )
                                 },
                                 onOpenUser = rememberCallbackArgs { user, instance ->

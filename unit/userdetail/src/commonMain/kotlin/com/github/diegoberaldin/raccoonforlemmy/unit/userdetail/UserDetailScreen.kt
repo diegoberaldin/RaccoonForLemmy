@@ -611,7 +611,7 @@ class UserDetailScreen(
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
                                             detailOpener.openCommunityDetail(
                                                 community,
-                                                instance
+                                                instance,
                                             )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->

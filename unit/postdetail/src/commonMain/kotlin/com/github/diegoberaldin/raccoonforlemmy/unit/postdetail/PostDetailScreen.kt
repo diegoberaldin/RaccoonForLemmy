@@ -321,11 +321,11 @@ class PostDetailScreen(
                                 showScores = uiState.showScores,
                                 actionButtonsActive = uiState.isLogged,
                                 blurNsfw = false,
-                                onOpenCommunity = rememberCallbackArgs { community, _ ->
-                                    detailOpener.openCommunityDetail(community, otherInstanceName)
+                                onOpenCommunity = rememberCallbackArgs { community, instance ->
+                                    detailOpener.openCommunityDetail(community, instance)
                                 },
-                                onOpenCreator = rememberCallbackArgs { user, _ ->
-                                    detailOpener.openUserDetail(user, otherInstanceName)
+                                onOpenCreator = rememberCallbackArgs { user, instance ->
+                                    detailOpener.openUserDetail(user, instance)
                                 },
                                 onOpenPost = rememberCallbackArgs { p, instance ->
                                     detailOpener.openPostDetail(p, instance)
@@ -774,7 +774,8 @@ class PostDetailScreen(
                                                     },
                                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                         detailOpener.openCommunityDetail(
-                                                            community, instance
+                                                            community,
+                                                            instance,
                                                         )
                                                     },
                                                     onOpenPost = rememberCallbackArgs { p, instance ->

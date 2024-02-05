@@ -185,7 +185,7 @@ class UserInfoScreen(
                                                 delay(100)
                                                 detailOpener.openCommunityDetail(
                                                     community,
-                                                    instance
+                                                    instance,
                                                 )
 
                                             }

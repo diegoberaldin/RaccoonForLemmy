@@ -468,7 +468,7 @@ class ExploreScreen : Screen {
                                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                     detailOpener.openCommunityDetail(
                                                         community,
-                                                        instance
+                                                        instance,
                                                     )
                                                 },
                                                 onOpenCreator = rememberCallbackArgs { user, instance ->
@@ -685,7 +685,7 @@ class ExploreScreen : Screen {
                                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                     detailOpener.openCommunityDetail(
                                                         community,
-                                                        instance
+                                                        instance,
                                                     )
                                                 },
                                                 onOpenCreator = rememberCallbackArgs { user, instance ->
