@@ -32,7 +32,6 @@ import dev.icerock.moko.resources.compose.stringResource
 
 private val defaultChoices: List<Int> = listOf(
     UiFontFamily.Poppins,
-    UiFontFamily.TitilliumWeb,
     UiFontFamily.NotoSans,
     UiFontFamily.CharisSIL,
     UiFontFamily.Comfortaa,
@@ -103,7 +102,6 @@ class FontFamilyBottomSheet(
                                 UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
                                 UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
                                 UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
-                                UiFontFamily.TitilliumWeb -> fontFamilyResource(MR.fonts.TitilliumWeb.regular)
                                 UiFontFamily.Default -> FontFamily.Default
                             }
                             Text(

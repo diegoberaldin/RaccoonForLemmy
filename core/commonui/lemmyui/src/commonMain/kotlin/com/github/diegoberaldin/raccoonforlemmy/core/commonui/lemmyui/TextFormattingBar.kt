@@ -427,7 +427,7 @@ fun TextFormattingBar(
                     Text(
                         text = languageCode,
                         style = MaterialTheme.typography.labelSmall,
-                        fontFamily = fontFamilyResource(MR.fonts.TitilliumWeb.regular),
+                        fontFamily = fontFamilyResource(MR.fonts.NotoSans.regular),
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onBackground,
                     )

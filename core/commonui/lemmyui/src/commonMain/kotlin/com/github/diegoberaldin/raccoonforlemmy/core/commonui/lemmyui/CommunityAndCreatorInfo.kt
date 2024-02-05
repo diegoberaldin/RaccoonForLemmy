@@ -15,10 +15,6 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.HotelClass
 import androidx.compose.material.icons.filled.LocalPolice
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.NewReleases
-import androidx.compose.material.icons.filled.PushPin
-import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material.icons.filled.ShieldMoon
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.Icon
@@ -274,7 +270,7 @@ private fun OpIndicator(
             text = "OP",
             style = MaterialTheme.typography.labelSmall,
             fontSize = 8.sp,
-            fontFamily = fontFamilyResource(MR.fonts.TitilliumWeb.regular),
+            fontFamily = fontFamilyResource(MR.fonts.NotoSans.regular),
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onBackground,
         )

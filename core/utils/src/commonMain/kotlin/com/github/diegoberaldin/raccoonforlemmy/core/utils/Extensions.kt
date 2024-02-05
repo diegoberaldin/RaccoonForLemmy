@@ -89,7 +89,7 @@ fun String.toLanguageFlag(): AnnotatedString = when (this) {
 }.let {
     AnnotatedString(
         text = it,
-        spanStyle = SpanStyle(fontFamily = fontFamilyResource(MR.fonts.TitilliumWeb.regular))
+        spanStyle = SpanStyle(fontFamily = fontFamilyResource(MR.fonts.NotoSans.regular))
     )
 }
 
