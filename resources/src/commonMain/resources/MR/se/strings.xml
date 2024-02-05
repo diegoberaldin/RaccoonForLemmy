@@ -330,4 +330,5 @@
     <string name="settings_about_view_google_play">Visa på Google Play</string>
     <string name="settings_user_manual">Användarmanual</string>
     <string name="settings_show_scores">Visa betyg</string>
+    <string name="settings_vote_format_hidden">Dold</string>
 </resources>

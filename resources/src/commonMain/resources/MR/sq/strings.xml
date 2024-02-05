@@ -335,4 +335,5 @@
     <string name="settings_about_view_google_play">Shikoni në Google Play</string>
     <string name="settings_user_manual">Manuali i perdoruesit</string>
     <string name="settings_show_scores">Trego rezultatet</string>
+    <string name="settings_vote_format_hidden">I fshehur</string>
 </resources>

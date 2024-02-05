@@ -333,5 +333,6 @@
     <string name="settings_colors_and_fonts">Couleurs et polices</string>
     <string name="settings_about_view_google_play">Voir sur Google Play</string>
     <string name="settings_user_manual">Manuel de l\'utilisateur</string>
-    <string name="settings_show_scores">Afficher les scores</string>
+    <string name="settings_show_scores">Afficher les votes</string>
+    <string name="settings_vote_format_hidden">Caché</string>
 </resources>

@@ -329,4 +329,5 @@
     <string name="settings_about_view_google_play">Ver no Google Play</string>
     <string name="settings_user_manual">Manual do usuário</string>
     <string name="settings_show_scores">Mostrar pontoações</string>
+    <string name="settings_vote_format_hidden">Escondido</string>
 </resources>

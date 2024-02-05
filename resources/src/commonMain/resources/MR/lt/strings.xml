@@ -331,4 +331,5 @@
     <string name="settings_about_view_google_play">Žiūrėti Google Play</string>
     <string name="settings_user_manual">Vartotojo vadovas</string>
     <string name="settings_show_scores">Rodyti įverčius</string>
+    <string name="settings_vote_format_hidden">Paslėpta</string>
 </resources>

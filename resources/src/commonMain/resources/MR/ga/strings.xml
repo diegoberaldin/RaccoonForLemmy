@@ -338,4 +338,5 @@
     <string name="settings_about_view_google_play">Amharc ar Google Play</string>
     <string name="settings_user_manual">Lámhleabhar úsáideora</string>
     <string name="settings_show_scores">Taispeáin scóir</string>
+    <string name="settings_vote_format_hidden">I bhfolach</string>
 </resources>

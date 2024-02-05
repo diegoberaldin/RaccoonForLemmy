@@ -12,25 +12,29 @@ sealed interface VoteFormat {
     data object Aggregated : VoteFormat
     data object Separated : VoteFormat
     data object Percentage : VoteFormat
+    data object Hidden : VoteFormat
 }
 
 fun VoteFormat.toLong(): Long = when (this) {
     VoteFormat.Percentage -> 2L
     VoteFormat.Separated -> 1L
     VoteFormat.Aggregated -> 0L
+    VoteFormat.Hidden -> -1L
 }
 
 fun Long.toVoteFormat(): VoteFormat = when (this) {
     2L -> VoteFormat.Percentage
     1L -> VoteFormat.Separated
+    -1L -> VoteFormat.Hidden
     else -> VoteFormat.Aggregated
 }
 
 @Composable
 fun VoteFormat.toReadableName(): String = when (this) {
-    VoteFormat.Aggregated -> stringResource(MR.strings.settings_vote_format_aggregated)
     VoteFormat.Percentage -> stringResource(MR.strings.settings_vote_format_percentage)
     VoteFormat.Separated -> stringResource(MR.strings.settings_vote_format_separated)
+    VoteFormat.Hidden -> stringResource(MR.strings.settings_vote_format_hidden)
+    else -> stringResource(MR.strings.settings_vote_format_aggregated)
 }
 
 fun formatToReadableValue(

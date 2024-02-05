@@ -327,4 +327,5 @@
     <string name="settings_about_view_google_play">عرض على جوجل بلاي</string>
     <string name="settings_user_manual">دليل الاستخدام</string>
     <string name="settings_show_scores">أظهر التقييمات</string>
+    <string name="settings_vote_format_hidden">مختفي</string>
 </resources>

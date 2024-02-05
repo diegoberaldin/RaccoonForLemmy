@@ -333,4 +333,5 @@
     <string name="settings_about_view_google_play">Посмотреть в Google Play</string>
     <string name="settings_user_manual">Руководство пользователя</string>
     <string name="settings_show_scores">Показать оценки</string>
+    <string name="settings_vote_format_hidden">Скрытый</string>
 </resources>

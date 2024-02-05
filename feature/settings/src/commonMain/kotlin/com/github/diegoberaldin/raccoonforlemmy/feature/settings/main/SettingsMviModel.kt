@@ -41,7 +41,6 @@ interface SettingsMviModel :
         data class ChangeEdgeToEdge(val value: Boolean) : Intent
         data class ChangePostBodyMaxLines(val value: Int) : Intent
         data class ChangeInfiniteScrollDisabled(val value: Boolean) : Intent
-        data class ChangeShowScores(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -62,7 +61,6 @@ interface SettingsMviModel :
         val crashReportEnabled: Boolean = false,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = false,
-        val showScores: Boolean = false,
         val autoExpandComments: Boolean = false,
         val fullHeightImages: Boolean = false,
         val hideNavigationBarWhileScrolling: Boolean = true,

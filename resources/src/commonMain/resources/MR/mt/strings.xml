@@ -334,4 +334,5 @@
     <string name="settings_about_view_google_play">Ara fuq Google Play</string>
     <string name="settings_user_manual">Manwal għall-utent</string>
     <string name="settings_show_scores">Uri punteġġi</string>
+    <string name="settings_vote_format_hidden">Moħbija</string>
 </resources>

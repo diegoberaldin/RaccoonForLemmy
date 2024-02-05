@@ -332,4 +332,5 @@
     <string name="settings_about_view_google_play">Google Play\'de görüntüle</string>
     <string name="settings_user_manual">Kullanım kılavuzu</string>
     <string name="settings_show_scores">Puanları göster</string>
+    <string name="settings_vote_format_hidden">Gizlenmiş</string>
 </resources>

@@ -329,4 +329,5 @@
     <string name="settings_about_view_google_play">Katso Google Playssa</string>
     <string name="settings_user_manual">Ohjekirja</string>
     <string name="settings_show_scores">Näytä pisteet</string>
+    <string name="settings_vote_format_hidden">Piilotettu</string>
 </resources>

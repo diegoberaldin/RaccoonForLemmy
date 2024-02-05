@@ -255,7 +255,7 @@
     <string name="settings_default_inbox_type">Προεπιλεγμένος τύπος εισερχομένων</string>
     <string name="mod_action_add_mod">Προσθήκη συντονιστή</string>
     <string name="mod_action_remove_mod">Κατάργηση συντονιστή</string>
-    <string name="settings_vote_format">Μορφή ψηφοφορίας</string>
+    <string name="settings_vote_format">Μορφή ψηφοφοριών</string>
     <string name="settings_vote_format_aggregated">Σύνολο</string>
     <string name="settings_vote_format_separated">Ξεχωριστό</string>
     <string name="settings_vote_format_percentage">Ποσοστό</string>
@@ -339,5 +339,6 @@
     <string name="settings_colors_and_fonts">Χρώματα και γραμματοσειρές</string>
     <string name="settings_about_view_google_play">Προβολή στο Google Play</string>
     <string name="settings_user_manual">Εγχειρίδιο χρήστη</string>
-    <string name="settings_show_scores">Προβολή σκορ</string>
+    <string name="settings_show_scores">Προβολή ψήφους</string>
+    <string name="settings_vote_format_hidden">Κρυμμένο</string>
 </resources>

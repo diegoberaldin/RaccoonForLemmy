@@ -143,7 +143,7 @@ class SettingsViewModel(
                 enableSwipeActions = settings.enableSwipeActions,
                 enableDoubleTapAction = settings.enableDoubleTapAction,
                 crashReportEnabled = crashReportConfiguration.isEnabled(),
-                voteFormat = settings.voteFormat,
+                voteFormat = if (!settings.showScores) VoteFormat.Hidden else settings.voteFormat,
                 autoLoadImages = settings.autoLoadImages,
                 autoExpandComments = settings.autoExpandComments,
                 fullHeightImages = settings.fullHeightImages,
@@ -156,7 +156,6 @@ class SettingsViewModel(
                 postBodyMaxLines = settings.postBodyMaxLines,
                 infiniteScrollDisabled = !settings.infiniteScrollEnabled,
                 opaqueSystemBars = settings.opaqueSystemBars,
-                showScores = settings.showScores,
             )
         }
     }
@@ -204,9 +203,6 @@ class SettingsViewModel(
             is SettingsMviModel.Intent.ChangePostBodyMaxLines -> changePostBodyMaxLines(intent.value)
             is SettingsMviModel.Intent.ChangeInfiniteScrollDisabled ->
                 changeInfiniteScrollDisabled(intent.value)
-
-            is SettingsMviModel.Intent.ChangeShowScores ->
-                changeShowScores(intent.value)
         }
     }
 
@@ -343,9 +339,16 @@ class SettingsViewModel(
     private fun changeVoteFormat(value: VoteFormat) {
         mvi.updateState { it.copy(voteFormat = value) }
         mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                voteFormat = value
-            )
+            val settings = settingsRepository.currentSettings.value.let {
+                if (value == VoteFormat.Hidden) {
+                    it.copy(showScores = false)
+                } else {
+                    it.copy(
+                        voteFormat = value,
+                        showScores = true,
+                    )
+                }
+            }
             saveSettings(settings)
         }
     }
@@ -457,14 +460,6 @@ class SettingsViewModel(
             val settings = settingsRepository.currentSettings.value.copy(
                 infiniteScrollEnabled = !value
             )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeShowScores(value: Boolean) {
-        mvi.updateState { it.copy(showScores = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(showScores = value)
             saveSettings(settings)
         }
     }

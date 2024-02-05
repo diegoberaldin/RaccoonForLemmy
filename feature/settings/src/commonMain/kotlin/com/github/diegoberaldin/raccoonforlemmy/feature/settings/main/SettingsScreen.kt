@@ -304,15 +304,6 @@ class SettingsScreen : Screen {
                     )
 
                     // vote format
-                    SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_show_scores),
-                        value = uiState.showScores,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(SettingsMviModel.Intent.ChangeShowScores(value))
-                        }
-                    )
-
-                    // vote format
                     SettingsRow(
                         title = stringResource(MR.strings.settings_vote_format),
                         value = uiState.voteFormat.toReadableName(),
