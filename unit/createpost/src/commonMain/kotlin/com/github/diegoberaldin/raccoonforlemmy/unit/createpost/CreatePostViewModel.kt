@@ -156,9 +156,7 @@ class CreatePostViewModel(
                 mvi.emitEffect(CreatePostMviModel.Effect.AddImageToBody(url))
             }
             mvi.updateState {
-                it.copy(
-                    loading = false,
-                )
+                it.copy(loading = false)
             }
         }
     }

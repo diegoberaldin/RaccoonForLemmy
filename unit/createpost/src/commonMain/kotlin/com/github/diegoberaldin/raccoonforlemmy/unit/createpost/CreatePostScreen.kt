@@ -145,27 +145,23 @@ class CreatePostScreen(
         val typography = contentFontFamily.toTypography()
         var selectLanguageDialogOpen by remember { mutableStateOf(false) }
 
-        LaunchedEffect(model) {
+        LaunchedEffect(editedPost) {
+            editedPost?.community?.id?.also { communityId ->
+                model.reduce(
+                    CreatePostMviModel.Intent.SetCommunity(
+                        CommunityModel(id = communityId)
+                    )
+                )
+            }
             val referencePost = uiState.editedPost ?: uiState.crossPost
             model.reduce(CreatePostMviModel.Intent.SetTitle(referencePost?.title.orEmpty()))
             model.reduce(CreatePostMviModel.Intent.SetUrl(referencePost?.url.orEmpty()))
-            if (editedPost != null) {
-                model.reduce(CreatePostMviModel.Intent.ChangeLanguage(editedPost.languageId))
-            }
-            when {
-                communityId != null -> model.reduce(
-                    CreatePostMviModel.Intent.SetCommunity(CommunityModel(id = communityId))
-                )
+            model.reduce(CreatePostMviModel.Intent.ChangeLanguage(referencePost?.languageId))
+        }
 
-                editedPost != null -> editedPost.community?.id?.also { communityId ->
-                    model.reduce(
-                        CreatePostMviModel.Intent.SetCommunity(
-                            CommunityModel(
-                                id = communityId
-                            )
-                        )
-                    )
-                }
+        LaunchedEffect(model) {
+            communityId?.also { communityId ->
+                CreatePostMviModel.Intent.SetCommunity(CommunityModel(id = communityId))
             }
 
             model.effects.onEach { effect ->
