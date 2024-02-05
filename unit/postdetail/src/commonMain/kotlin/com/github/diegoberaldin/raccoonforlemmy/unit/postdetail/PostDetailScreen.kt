@@ -847,9 +847,7 @@ class PostDetailScreen(
                                                             }
                                                         }
                                                     },
-                                                    onOptionSelected = rememberCallbackArgs(
-                                                        model
-                                                    ) { optionId ->
+                                                    onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                                         when (optionId) {
                                                             OptionId.Delete -> model.reduce(
                                                                 PostDetailMviModel.Intent.DeleteComment(

@@ -21,6 +21,7 @@ internal class DefaultLruCache<T>(val size: Int) : LruCache<T> {
         val old = values[key]
         if (old != null) {
             // already existing element
+            values[key] = value
             moveAtTheBeginning(key)
         } else {
             // new element
