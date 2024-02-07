@@ -5,7 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 internal fun List<CommentModel>.populateLoadMoreComments() = mapIndexed { idx, comment ->
     val hasMoreComments = (comment.comments ?: 0) > 0
     val isNextCommentNotChild =
-        idx < lastIndex && this[idx + 1].depth <= comment.depth
+        (idx < lastIndex && this[idx + 1].depth <= comment.depth) || idx == lastIndex
     comment.copy(loadMoreButtonVisible = hasMoreComments && isNextCommentNotChild)
 }
 
