@@ -336,4 +336,6 @@
     <string name="settings_user_manual">Manuali i perdoruesit</string>
     <string name="settings_show_scores">Trego rezultatet</string>
     <string name="settings_vote_format_hidden">I fshehur</string>
+    <string name="settings_comment_bar_thickness">Trashësia e shiritit të komenteve</string>
+    <string name="settings_prefer_user_nicknames">Përdorni emra të shfaqur për përdoruesit dhe komunitetet</string>
 </resources>

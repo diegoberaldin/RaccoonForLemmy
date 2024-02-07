@@ -328,4 +328,6 @@
     <string name="settings_user_manual">دليل الاستخدام</string>
     <string name="settings_show_scores">أظهر التقييمات</string>
     <string name="settings_vote_format_hidden">مختفي</string>
+    <string name="settings_comment_bar_thickness">سمك شريط التعليق</string>
+    <string name="settings_prefer_user_nicknames">استخدم أسماء العرض للمستخدمين والمجتمعات</string>
 </resources>

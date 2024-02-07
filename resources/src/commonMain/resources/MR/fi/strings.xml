@@ -330,4 +330,6 @@
     <string name="settings_user_manual">Ohjekirja</string>
     <string name="settings_show_scores">Näytä pisteet</string>
     <string name="settings_vote_format_hidden">Piilotettu</string>
+    <string name="settings_comment_bar_thickness">Kommenttipalkin paksuus</string>
+    <string name="settings_prefer_user_nicknames">Käytä näyttönimiä käyttäjille ja yhteisöille</string>
 </resources>

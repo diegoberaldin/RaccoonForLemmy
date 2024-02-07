@@ -334,4 +334,6 @@
     <string name="settings_user_manual">Lietotāja rokasgrāmata</string>
     <string name="settings_show_scores">Rādīt rezultātus</string>
     <string name="settings_vote_format_hidden">Slēpts</string>
+    <string name="settings_comment_bar_thickness">Komentāru joslas biezums</string>
+    <string name="settings_prefer_user_nicknames">Izmantojiet parādāmos vārdus lietotājiem un kopienām</string>
 </resources>

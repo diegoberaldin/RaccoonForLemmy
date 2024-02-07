@@ -331,4 +331,6 @@
     <string name="settings_user_manual">Användarmanual</string>
     <string name="settings_show_scores">Visa betyg</string>
     <string name="settings_vote_format_hidden">Dold</string>
+    <string name="settings_comment_bar_thickness">Kommentarstapelns tjocklek</string>
+    <string name="settings_prefer_user_nicknames">Använd visningsnamn för användare och gemenskaper</string>
 </resources>

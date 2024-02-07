@@ -335,4 +335,6 @@
     <string name="settings_user_manual">Korisnički priručnik</string>
     <string name="settings_show_scores">Prikaži rezultate</string>
     <string name="settings_vote_format_hidden">Skriven</string>
+    <string name="settings_comment_bar_thickness">Debljina trake komentara</string>
+    <string name="settings_prefer_user_nicknames">Koristite imena za prikaz za korisnike i zajednice</string>
 </resources>

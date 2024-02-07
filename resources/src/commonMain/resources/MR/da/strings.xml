@@ -330,4 +330,6 @@
     <string name="settings_user_manual">Brugermanual</string>
     <string name="settings_show_scores">Vis point</string>
     <string name="settings_vote_format_hidden">Skjult</string>
+    <string name="settings_comment_bar_thickness">Kommentarbjælketykkelse</string>
+    <string name="settings_prefer_user_nicknames">Brug visningsnavne til brugere og fællesskaber</string>
 </resources>

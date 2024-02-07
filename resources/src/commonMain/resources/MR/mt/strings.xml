@@ -335,4 +335,6 @@
     <string name="settings_user_manual">Manwal għall-utent</string>
     <string name="settings_show_scores">Uri punteġġi</string>
     <string name="settings_vote_format_hidden">Moħbija</string>
+    <string name="settings_comment_bar_thickness">Ħxuna tal-bar tal-kumment</string>
+    <string name="settings_prefer_user_nicknames">Uża ismijiet tal-wiri għall-utenti u l-komunitajiet</string>
 </resources>

@@ -338,4 +338,6 @@
     <string name="settings_user_manual">Ръководство за употреба</string>
     <string name="settings_show_scores">Показване на точките</string>
     <string name="settings_vote_format_hidden">Скрити</string>
+    <string name="settings_comment_bar_thickness">Дебелина на лентата за коментари</string>
+    <string name="settings_prefer_user_nicknames">Използвайте показвани имена за потребители и общности</string>
 </resources>

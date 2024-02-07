@@ -330,4 +330,6 @@
     <string name="settings_user_manual">Uživatelský manuál</string>
     <string name="settings_show_scores">Zobrazit skóre</string>
     <string name="settings_vote_format_hidden">Skrytý</string>
+    <string name="settings_comment_bar_thickness">Komentář tloušťka tyče</string>
+    <string name="settings_prefer_user_nicknames">Používejte zobrazovaná jména pro uživatele a komunity</string>
 </resources>

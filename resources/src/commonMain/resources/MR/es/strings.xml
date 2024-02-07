@@ -331,4 +331,6 @@
     <string name="settings_user_manual">Manual de usuario</string>
     <string name="settings_show_scores">Mostrar puntuaciones</string>
     <string name="settings_vote_format_hidden">Escondido</string>
+    <string name="settings_comment_bar_thickness">Grosor de la barra de comentarios</string>
+    <string name="settings_prefer_user_nicknames">Utilizar nombres para mostrar para usuarios y comunidades</string>
 </resources>

@@ -333,4 +333,6 @@
     <string name="settings_user_manual">Handleiding</string>
     <string name="settings_show_scores">Scores tonen</string>
     <string name="settings_vote_format_hidden">Verborgen</string>
+    <string name="settings_comment_bar_thickness">Opmerking staafdikte</string>
+    <string name="settings_prefer_user_nicknames">Gebruik weergavenamen voor gebruikers en community\'s</string>
 </resources>

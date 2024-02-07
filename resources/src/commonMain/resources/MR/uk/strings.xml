@@ -333,4 +333,6 @@
     <string name="settings_user_manual">Посібник користувача</string>
     <string name="settings_show_scores">Показати бали</string>
     <string name="settings_vote_format_hidden">Прихований</string>
+    <string name="settings_comment_bar_thickness">Товщина панелі коментарів</string>
+    <string name="settings_prefer_user_nicknames">Використовуйте відображувані імена для користувачів і спільнот</string>
 </resources>

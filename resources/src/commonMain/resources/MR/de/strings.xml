@@ -338,4 +338,6 @@
     <string name="settings_user_manual">Benutzerhandbuch</string>
     <string name="settings_show_scores">Bewertungen anzeigen</string>
     <string name="settings_vote_format_hidden">Versteckt</string>
+    <string name="settings_comment_bar_thickness">Dicke der Kommentarleiste</string>
+    <string name="settings_prefer_user_nicknames">Verwenden Sie Anzeigenamen für Benutzer und Communities</string>
 </resources>

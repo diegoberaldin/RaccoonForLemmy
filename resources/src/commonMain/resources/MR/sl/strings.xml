@@ -330,4 +330,6 @@
     <string name="settings_user_manual">Navodila za uporabo</string>
     <string name="settings_show_scores">Pokaži rezultate</string>
     <string name="settings_vote_format_hidden">Skrito</string>
+    <string name="settings_comment_bar_thickness">Debelina vrstice za komentarje</string>
+    <string name="settings_prefer_user_nicknames">Uporabite prikazna imena za uporabnike in skupnosti</string>
 </resources>

@@ -332,4 +332,6 @@
     <string name="settings_user_manual">Vartotojo vadovas</string>
     <string name="settings_show_scores">Rodyti įverčius</string>
     <string name="settings_vote_format_hidden">Paslėpta</string>
+    <string name="settings_comment_bar_thickness">Komentarų juostos storis</string>
+    <string name="settings_prefer_user_nicknames">Naudokite rodomus vardus naudotojams ir bendruomenėms</string>
 </resources>

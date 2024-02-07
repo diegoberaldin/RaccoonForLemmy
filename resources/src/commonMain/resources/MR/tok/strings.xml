@@ -328,5 +328,7 @@
     <string name="settings_about_view_google_play">o lukin lon ma Kuko Pileji</string>
     <string name="settings_user_manual">lipu sona pi ilo ni</string>
     <string name="settings_show_scores">o lukin e pana wile</string>
-    <string name="settings_vote_format_hidden">Ala</string>
+    <string name="settings_vote_format_hidden">ala</string>
+    <string name="settings_comment_bar_thickness">suli pi linja pi toki lili</string>
+    <string name="settings_prefer_user_nicknames">o lukin e nimi lili tan jan tan kulupu</string>
 </resources>

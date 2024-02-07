@@ -334,4 +334,6 @@
     <string name="settings_user_manual">Manuale utente</string>
     <string name="settings_show_scores">Mostra voti</string>
     <string name="settings_vote_format_hidden">Nascosto</string>
+    <string name="settings_comment_bar_thickness">Spessore barra dei commenti</string>
+    <string name="settings_prefer_user_nicknames">Utilizza nome visualizzato per utenti e comunità</string>
 </resources>

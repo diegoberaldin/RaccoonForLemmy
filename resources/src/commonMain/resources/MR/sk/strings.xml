@@ -332,4 +332,6 @@
     <string name="settings_user_manual">Používateľská príručka</string>
     <string name="settings_show_scores">Zobraziť skóre</string>
     <string name="settings_vote_format_hidden">Skryté</string>
+    <string name="settings_comment_bar_thickness">Komentár hrúbka pruhu</string>
+    <string name="settings_prefer_user_nicknames">Používať zobrazované mená pre používateľov a komunity</string>
 </resources>

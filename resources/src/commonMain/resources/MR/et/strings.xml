@@ -330,4 +330,6 @@
     <string name="settings_user_manual">Kasutusjuhend</string>
     <string name="settings_show_scores">Kuva skoorid</string>
     <string name="settings_vote_format_hidden">Peidetud</string>
+    <string name="settings_comment_bar_thickness">Kommentaari riba paksus</string>
+    <string name="settings_prefer_user_nicknames">Kasutage kasutajate ja kogukondade jaoks kuvatavaid nimesid</string>
 </resources>

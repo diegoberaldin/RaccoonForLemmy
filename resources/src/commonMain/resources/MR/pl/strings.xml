@@ -333,4 +333,6 @@
     <string name="settings_user_manual">Instrukcja obsługi</string>
     <string name="settings_show_scores">Pokaż statystyki</string>
     <string name="settings_vote_format_hidden">Ukryty</string>
+    <string name="settings_comment_bar_thickness">Grubość paska komentarza</string>
+    <string name="settings_prefer_user_nicknames">Używaj nazw wyświetlanych dla użytkowników i społeczności</string>
 </resources>

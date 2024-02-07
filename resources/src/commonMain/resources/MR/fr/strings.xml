@@ -335,4 +335,6 @@
     <string name="settings_user_manual">Manuel de l\'utilisateur</string>
     <string name="settings_show_scores">Afficher les votes</string>
     <string name="settings_vote_format_hidden">Caché</string>
+    <string name="settings_comment_bar_thickness">Épaisseur de la barre de commentaires</string>
+    <string name="settings_prefer_user_nicknames">Utiliser des noms d\'affichage pour les utilisateurs et les communautés</string>
 </resources>

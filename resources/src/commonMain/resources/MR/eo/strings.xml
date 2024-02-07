@@ -329,4 +329,6 @@
     <string name="settings_user_manual">Uzantmanlibro</string>
     <string name="settings_show_scores">Montri votojn</string>
     <string name="settings_vote_format_hidden">Kaŝita</string>
+    <string name="settings_comment_bar_thickness">Komento trinkejo dikeco</string>
+    <string name="settings_prefer_user_nicknames">Uzu vidnomojn por uzantoj kaj komunumoj</string>
 </resources>

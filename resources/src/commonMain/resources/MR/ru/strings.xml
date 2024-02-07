@@ -334,4 +334,6 @@
     <string name="settings_user_manual">Руководство пользователя</string>
     <string name="settings_show_scores">Показать оценки</string>
     <string name="settings_vote_format_hidden">Скрытый</string>
+    <string name="settings_comment_bar_thickness">Толщина панели комментариев</string>
+    <string name="settings_prefer_user_nicknames">Используйте отображаемые имена для пользователей и сообществ</string>
 </resources>
