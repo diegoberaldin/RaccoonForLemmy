@@ -50,6 +50,8 @@ private object KeyStoreKeys {
     const val INFINITE_SCROLL_ENABLED = "infiniteScrollEnabled"
     const val OPAQUE_SYSTEM_BARS = "opaqueSystemBars"
     const val SHOW_SCORES = "showScores"
+    const val PREFER_USER_NICKNAMES = "preferUserNicknames"
+    const val COMMENT_BAR_THICKNESS = "commentBarThickness"
 }
 
 internal class DefaultSettingsRepository(
@@ -115,6 +117,8 @@ internal class DefaultSettingsRepository(
                     .joinToString(","),
                 opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
                 showScores = if (settings.showScores) 1L else 0L,
+                preferUserNicknames = if (settings.preferUserNicknames) 1L else 0L,
+                commentBarThickness = settings.commentBarThickness.toLong()
             )
         }
 
@@ -161,6 +165,8 @@ internal class DefaultSettingsRepository(
                     infiniteScrollEnabled = keyStore[KeyStoreKeys.INFINITE_SCROLL_ENABLED, true],
                     opaqueSystemBars = keyStore[KeyStoreKeys.OPAQUE_SYSTEM_BARS, false],
                     showScores = keyStore[KeyStoreKeys.SHOW_SCORES, true],
+                    preferUserNicknames = keyStore[KeyStoreKeys.PREFER_USER_NICKNAMES, true],
+                    commentBarThickness = keyStore[KeyStoreKeys.COMMENT_BAR_THICKNESS, 0],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -247,6 +253,8 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.INFINITE_SCROLL_ENABLED, settings.infiniteScrollEnabled)
                 keyStore.save(KeyStoreKeys.OPAQUE_SYSTEM_BARS, settings.opaqueSystemBars)
                 keyStore.save(KeyStoreKeys.SHOW_SCORES, settings.showScores)
+                keyStore.save(KeyStoreKeys.PREFER_USER_NICKNAMES, settings.preferUserNicknames)
+                keyStore.save(KeyStoreKeys.COMMENT_BAR_THICKNESS, settings.commentBarThickness)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -300,6 +308,8 @@ internal class DefaultSettingsRepository(
                         .joinToString(","),
                     opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
                     showScores = if (settings.showScores) 1L else 0L,
+                    preferUserNicknames = if (settings.preferUserNicknames) 1L else 0L,
+                    commentBarThickness = settings.commentBarThickness.toLong(),
                 )
             }
         }
@@ -367,4 +377,6 @@ private fun GetBy.toModel() = SettingsModel(
         ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
     opaqueSystemBars = opaqueSystemBars == 1L,
     showScores = showScores == 1L,
+    preferUserNicknames = preferUserNicknames == 1L,
+    commentBarThickness = commentBarThickness.toInt(),
 )

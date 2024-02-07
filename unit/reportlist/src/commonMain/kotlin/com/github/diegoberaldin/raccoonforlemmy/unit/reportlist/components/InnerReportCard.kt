@@ -61,6 +61,7 @@ internal fun InnerReportCard(
     modifier: Modifier = Modifier,
     reason: String,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     date: String? = null,
     creator: UserModel? = null,
     postLayout: PostLayout = PostLayout.Card,
@@ -94,6 +95,7 @@ internal fun InnerReportCard(
                 creator = creator,
                 autoLoadImages = autoLoadImages,
                 onOpenCreator = onOpenCreator,
+                preferNicknames = preferNicknames,
             )
             CustomizedContent {
                 PostCardBody(
@@ -132,10 +134,11 @@ private fun ReportHeader(
     modifier: Modifier = Modifier,
     creator: UserModel? = null,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     iconSize: Dp = IconSize.s,
     onOpenCreator: ((UserModel) -> Unit)? = null,
 ) {
-    val creatorName = creator?.readableName.orEmpty()
+    val creatorName = creator?.readableName(preferNicknames).orEmpty()
     val creatorAvatar = creator?.avatar.orEmpty()
     if (creatorName.isNotEmpty()) {
         Row(

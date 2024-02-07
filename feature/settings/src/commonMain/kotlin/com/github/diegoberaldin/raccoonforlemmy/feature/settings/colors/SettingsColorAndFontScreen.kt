@@ -41,6 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CommentBarThicknessBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -210,6 +211,16 @@ class SettingsColorAndFontScreen : Screen {
                         values = commentBarColors,
                         onTap = rememberCallback {
                             val screen = CommentBarThemeBottomSheet()
+                            navigationCoordinator.showBottomSheet(screen)
+                        }
+                    )
+
+                    // comment bar thickness
+                    SettingsRow(
+                        title = stringResource(MR.strings.settings_comment_bar_thickness),
+                        value = uiState.commentBarThickness.toString(),
+                        onTap = rememberCallback {
+                            val screen = CommentBarThicknessBottomSheet()
                             navigationCoordinator.showBottomSheet(screen)
                         }
                     )

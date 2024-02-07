@@ -425,6 +425,7 @@ class PostListScreen : Screen {
                                         fullHeightImage = uiState.fullHeightImages,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        preferNicknames = uiState.preferNicknames,
                                         showScores = uiState.showScores,
                                         actionButtonsActive = uiState.isLogged,
                                         blurNsfw = uiState.blurNsfw,
@@ -595,9 +596,9 @@ class PostListScreen : Screen {
 
                                                 OptionId.Block -> {
                                                     val screen = BlockBottomSheet(
-                                                        userName = post.creator?.readableName,
+                                                        userName = post.creator?.readableName(uiState.preferNicknames),
                                                         userId = post.creator?.id,
-                                                        communityName = post.community?.readableName,
+                                                        communityName = post.community?.readableName(uiState.preferNicknames),
                                                         communityId = post.community?.id,
                                                         instanceName = post.community?.host,
                                                         instanceId = post.community?.instanceId,

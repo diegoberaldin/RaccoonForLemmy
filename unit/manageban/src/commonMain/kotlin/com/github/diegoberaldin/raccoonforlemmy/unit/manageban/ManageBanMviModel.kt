@@ -31,6 +31,7 @@ interface ManageBanMviModel :
         val refreshing: Boolean = false,
         val initial: Boolean = true,
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val bannedUsers: List<UserModel> = emptyList(),
         val bannedCommunities: List<CommunityModel> = emptyList(),
         val bannedInstances: List<InstanceModel> = emptyList(),

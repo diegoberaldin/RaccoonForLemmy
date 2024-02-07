@@ -16,6 +16,7 @@ interface SelectCommunityMviModel :
         val communities: List<CommunityModel> = emptyList(),
         val searchText: String = "",
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
     )
 
     sealed interface Effect

@@ -223,6 +223,7 @@ class InboxRepliesScreen : Tab {
                                 postLayout = uiState.postLayout,
                                 type = InboxCardType.Reply,
                                 autoLoadImages = uiState.autoLoadImages,
+                                preferNicknames = uiState.preferNicknames,
                                 showScores = uiState.showScores,
                                 voteFormat = uiState.voteFormat,
                                 onOpenPost = rememberCallbackArgs { post ->

@@ -24,10 +24,15 @@ data class CommunityModel(
     @Transient val favorite: Boolean = false,
 )
 
-val CommunityModel.readableName: String
-    get() = title.takeIf { it.isNotEmpty() }?.replace("&amp;", "&") ?: readableSimpleName
+fun CommunityModel.readableName(preferNickname: Boolean): String {
+    return if (preferNickname) {
+        title.takeIf { it.isNotEmpty() }?.replace("&amp;", "&") ?: readableHandle
+    } else {
+        readableHandle
+    }
+}
 
-val CommunityModel.readableSimpleName: String
+val CommunityModel.readableHandle: String
     get() = buildString {
         append(name)
         if (host.isNotEmpty()) {

@@ -106,6 +106,7 @@ class PostDetailViewModel(
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
                         actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
                         actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,

@@ -58,6 +58,7 @@ class InboxRepliesViewModel(
                     it.copy(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                         voteFormat = settings.voteFormat,
                         actionsOnSwipeToStartInbox = settings.actionsOnSwipeToStartInbox,
                         actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox,

@@ -16,6 +16,7 @@ interface CommunityInfoMviModel :
     data class UiState(
         val community: CommunityModel = CommunityModel(),
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val moderators: List<UserModel> = emptyList(),
     )
 

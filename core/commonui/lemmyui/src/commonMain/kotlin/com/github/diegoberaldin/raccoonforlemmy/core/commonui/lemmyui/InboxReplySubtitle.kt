@@ -54,6 +54,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 fun InboxReplySubtitle(
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     creator: UserModel? = null,
     community: CommunityModel? = null,
     iconSize: Dp = IconSize.s,
@@ -85,9 +86,9 @@ fun InboxReplySubtitle(
     Column(
         modifier = modifier,
     ) {
-        val communityName = community?.readableName.orEmpty()
+        val communityName = community?.readableName(preferNicknames).orEmpty()
         val communityIcon = community?.icon.orEmpty()
-        val creatorName = creator?.readableName.orEmpty()
+        val creatorName = creator?.readableName(preferNicknames).orEmpty()
         val creatorAvatar = creator?.avatar.orEmpty()
         if (communityName.isNotEmpty() || creatorName.isNotEmpty()) {
             Row(

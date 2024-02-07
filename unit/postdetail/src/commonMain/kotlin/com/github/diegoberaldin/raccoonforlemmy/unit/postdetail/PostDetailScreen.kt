@@ -318,6 +318,7 @@ class PostDetailScreen(
                                 includeFullBody = true,
                                 voteFormat = uiState.voteFormat,
                                 autoLoadImages = uiState.autoLoadImages,
+                                preferNicknames = uiState.preferNicknames,
                                 showScores = uiState.showScores,
                                 actionButtonsActive = uiState.isLogged,
                                 blurNsfw = false,
@@ -538,7 +539,7 @@ class PostDetailScreen(
                                         if (community != null) {
                                             val string = buildAnnotatedString {
                                                 withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
-                                                    append(community.readableName)
+                                                    append(community.readableName(uiState.preferNicknames))
                                                 }
                                                 if (index < uiState.post.crossPosts.lastIndex) {
                                                     append(", ")
@@ -706,6 +707,7 @@ class PostDetailScreen(
                                                     isOp = comment.creator?.id == uiState.post.creator?.id,
                                                     voteFormat = uiState.voteFormat,
                                                     autoLoadImages = uiState.autoLoadImages,
+                                                    preferNicknames = uiState.preferNicknames,
                                                     showScores = uiState.showScores,
                                                     actionButtonsActive = uiState.isLogged,
                                                     onToggleExpanded = rememberCallback(model) {

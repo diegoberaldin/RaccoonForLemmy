@@ -21,6 +21,7 @@ internal fun ModBanFromCommunityItem(
     item: ModlogItem.ModBanFromCommunity,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     postLayout: PostLayout = PostLayout.Card,
     onOpenUser: ((UserModel) -> Unit)? = null,
 ) {
@@ -40,7 +41,7 @@ internal fun ModBanFromCommunityItem(
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.user?.readableName.orEmpty()
+                        val name = item.user?.readableName(preferNicknames).orEmpty()
                         append(name)
                     }
                     append(" ")

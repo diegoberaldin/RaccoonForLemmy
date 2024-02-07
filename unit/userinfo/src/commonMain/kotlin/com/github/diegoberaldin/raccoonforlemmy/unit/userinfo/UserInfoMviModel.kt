@@ -16,6 +16,7 @@ interface UserInfoMviModel :
     data class UiState(
         val user: UserModel = UserModel(),
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val moderatedCommunities: List<CommunityModel> = emptyList(),
     )
 

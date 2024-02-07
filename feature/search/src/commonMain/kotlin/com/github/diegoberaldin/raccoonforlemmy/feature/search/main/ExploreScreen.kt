@@ -336,6 +336,7 @@ class ExploreScreen : Screen {
                                         ),
                                         community = result.model,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        preferNicknames = uiState.preferNicknames,
                                     )
                                 }
 
@@ -445,6 +446,7 @@ class ExploreScreen : Screen {
                                                 fullHeightImage = uiState.fullHeightImages,
                                                 voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
+                                                preferNicknames = uiState.preferNicknames,
                                                 showScores = uiState.showScores,
                                                 blurNsfw = uiState.blurNsfw,
                                                 actionButtonsActive = uiState.isLogged,
@@ -632,6 +634,7 @@ class ExploreScreen : Screen {
                                                 comment = result.model,
                                                 voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
+                                                preferNicknames = uiState.preferNicknames,
                                                 showScores = uiState.showScores,
                                                 hideIndent = true,
                                                 actionButtonsActive = uiState.isLogged,
@@ -719,6 +722,7 @@ class ExploreScreen : Screen {
                                             },
                                         ),
                                         user = result.model,
+                                        preferNicknames = uiState.preferNicknames,
                                     )
                                 }
                             }

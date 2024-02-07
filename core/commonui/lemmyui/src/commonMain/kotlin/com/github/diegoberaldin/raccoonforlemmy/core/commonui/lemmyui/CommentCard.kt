@@ -50,6 +50,7 @@ fun CommentCard(
     hideCommunity: Boolean = true,
     hideIndent: Boolean = false,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     showScores: Boolean = true,
     actionButtonsActive: Boolean = true,
     isOp: Boolean = false,
@@ -71,6 +72,7 @@ fun CommentCard(
     val themeRepository = remember { getThemeRepository() }
     var commentHeight by remember { mutableStateOf(0f) }
     val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
+    val commentBarThickness by themeRepository.commentBarThickness.collectAsState()
     val barColor = themeRepository.getCommentBarColor(
         depth = comment.depth,
         commentBarTheme = commentBarTheme,
@@ -103,6 +105,7 @@ fun CommentCard(
                     modifier = Modifier.padding(top = Spacing.xxs),
                     iconSize = IconSize.s,
                     autoLoadImages = autoLoadImages,
+                    preferNicknames = preferNicknames,
                     creator = comment.creator.takeIf { !hideAuthor },
                     community = comment.community.takeIf { !hideCommunity },
                     indicatorExpanded = comment.expanded,
@@ -170,7 +173,7 @@ fun CommentCard(
                 Box(
                     modifier = Modifier
                         .padding(top = Spacing.xxs)
-                        .width(barWidth)
+                        .width(barWidth * commentBarThickness)
                         .height(commentHeight.toLocalDp())
                         .background(color = barColor)
                 )

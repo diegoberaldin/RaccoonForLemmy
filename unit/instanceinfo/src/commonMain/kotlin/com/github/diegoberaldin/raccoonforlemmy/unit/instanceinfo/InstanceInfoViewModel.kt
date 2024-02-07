@@ -37,7 +37,12 @@ class InstanceInfoViewModel(
         mvi.onStarted()
         mvi.scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
+                mvi.updateState {
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
+                    )
+                }
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->

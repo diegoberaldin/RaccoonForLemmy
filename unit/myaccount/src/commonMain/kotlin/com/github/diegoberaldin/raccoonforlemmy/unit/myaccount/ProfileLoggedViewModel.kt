@@ -77,6 +77,7 @@ class ProfileLoggedViewModel(
                     it.copy(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
                         showScores = settings.showScores,
                     )

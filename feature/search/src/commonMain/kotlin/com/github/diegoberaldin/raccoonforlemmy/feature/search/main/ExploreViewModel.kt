@@ -73,6 +73,7 @@ class ExploreViewModel(
                         blurNsfw = settings.blurNsfw,
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,

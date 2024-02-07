@@ -35,8 +35,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableSimpleName
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -45,6 +45,7 @@ fun CommunityHeader(
     community: CommunityModel,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     onOpenImage: ((String) -> Unit)? = null,
 ) {
     Box(
@@ -104,7 +105,7 @@ fun CommunityHeader(
             } else {
                 PlaceholderImage(
                     size = IconSize.xxl,
-                    title = community.readableName,
+                    title = community.readableName(preferNicknames),
                 )
             }
 
@@ -113,13 +114,13 @@ fun CommunityHeader(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = community.readableName,
+                    text = community.readableName(preferNicknames),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
-                if (community.readableSimpleName != community.readableName) {
+                if (community.readableHandle != community.readableName(preferNicknames)) {
                     Text(
-                        text = community.readableSimpleName,
+                        text = community.readableHandle,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleSmall,

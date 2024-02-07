@@ -50,6 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 internal fun ChatCard(
     user: UserModel?,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     read: Boolean = true,
     lastMessage: String,
     lastMessageDate: String? = null,
@@ -61,7 +62,7 @@ internal fun ChatCard(
 ) {
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
-    val creatorName = user?.readableName.orEmpty()
+    val creatorName = user?.readableName(preferNicknames).orEmpty()
     val creatorAvatar = user?.avatar.orEmpty()
     val iconSize = IconSize.xl
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)

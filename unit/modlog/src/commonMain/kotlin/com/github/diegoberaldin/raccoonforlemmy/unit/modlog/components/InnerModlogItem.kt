@@ -60,6 +60,7 @@ internal fun InnerModlogItem(
     modifier: Modifier = Modifier,
     reason: String? = null,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     date: String? = null,
     moderator: UserModel? = null,
     postLayout: PostLayout = PostLayout.Card,
@@ -91,6 +92,7 @@ internal fun InnerModlogItem(
             ModlogHeader(
                 creator = moderator,
                 autoLoadImages = autoLoadImages,
+                preferNicknames = preferNicknames,
                 onOpenCreator = onOpenUser,
             )
             CustomizedContent {
@@ -130,10 +132,11 @@ private fun ModlogHeader(
     modifier: Modifier = Modifier,
     creator: UserModel? = null,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     iconSize: Dp = IconSize.s,
     onOpenCreator: ((UserModel) -> Unit)? = null,
 ) {
-    val creatorName = creator?.readableName.orEmpty()
+    val creatorName = creator?.readableName(preferNicknames).orEmpty()
     val creatorAvatar = creator?.avatar.orEmpty()
     if (creatorName.isNotEmpty()) {
         Row(

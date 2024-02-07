@@ -219,6 +219,7 @@ class InstanceInfoScreen(
                             ),
                             community = community,
                             autoLoadImages = uiState.autoLoadImages,
+                            preferNicknames = uiState.preferNicknames,
                             showSubscribers = true,
                         )
                     }

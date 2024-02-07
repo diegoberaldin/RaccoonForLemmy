@@ -48,6 +48,7 @@ interface ExploreMviModel :
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val showScores: Boolean = true,
         val availableSortTypes: List<SortType> = emptyList(),
         val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = emptyList(),

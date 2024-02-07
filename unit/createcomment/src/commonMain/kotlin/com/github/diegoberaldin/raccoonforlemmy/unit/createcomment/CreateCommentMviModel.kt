@@ -49,6 +49,7 @@ interface CreateCommentMviModel :
         val loading: Boolean = false,
         val section: CreatePostSection = CreatePostSection.Edit,
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val showScores: Boolean = true,
         val currentInstance: String = "",
         val currentUser: String = "",

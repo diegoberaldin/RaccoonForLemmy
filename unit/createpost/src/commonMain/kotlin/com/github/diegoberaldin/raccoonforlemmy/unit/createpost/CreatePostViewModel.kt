@@ -51,6 +51,7 @@ class CreatePostViewModel(
                     it.copy(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
                         showScores = settings.showScores,
                     )
@@ -78,10 +79,11 @@ class CreatePostViewModel(
         when (intent) {
             is CreatePostMviModel.Intent.SetCommunity -> {
                 val community = intent.value
+                val preferNicknames = uiState.value.preferNicknames
                 mvi.updateState {
                     it.copy(
                         communityId = community.id,
-                        communityInfo = community.readableName,
+                        communityInfo = community.readableName(preferNicknames),
                     )
                 }
             }

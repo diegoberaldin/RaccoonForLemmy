@@ -72,6 +72,9 @@ class SettingsColorAndFontViewModel(
             themeRepository.commentBarTheme.onEach { value ->
                 mvi.updateState { it.copy(commentBarTheme = value) }
             }.launchIn(this)
+            themeRepository.commentBarThickness.onEach { value ->
+                mvi.updateState { it.copy(commentBarThickness = value) }
+            }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
                 mvi.updateState { it.copy(isLogged = logged ?: false) }
@@ -99,6 +102,10 @@ class SettingsColorAndFontViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentBarTheme::class)
                 .onEach { evt ->
                     changeCommentBarTheme(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentBarThickness::class)
+                .onEach { evt ->
+                    changeCommentBarThickness(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeActionColor::class)
                 .onEach { evt ->
@@ -186,7 +193,7 @@ class SettingsColorAndFontViewModel(
     }
 
     private fun changeUpVoteColor(value: Color?) {
-        themeRepository.changeUpvoteColor(value)
+        themeRepository.changeUpVoteColor(value)
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 upVoteColor = value?.toArgb()
@@ -196,7 +203,7 @@ class SettingsColorAndFontViewModel(
     }
 
     private fun changeDownVoteColor(value: Color?) {
-        themeRepository.changeDownvoteColor(value)
+        themeRepository.changeDownVoteColor(value)
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 downVoteColor = value?.toArgb()
@@ -230,6 +237,16 @@ class SettingsColorAndFontViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 commentBarTheme = value.toInt()
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeCommentBarThickness(value: Int) {
+        themeRepository.changeCommentBarThickness(value)
+        mvi.scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                commentBarThickness = value
             )
             saveSettings(settings)
         }

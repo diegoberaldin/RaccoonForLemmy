@@ -44,7 +44,12 @@ class InboxMessagesViewModel(
                 }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
+                mvi.updateState {
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
+                    )
+                }
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()

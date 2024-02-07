@@ -276,6 +276,17 @@ class SettingsScreen : Screen {
                         },
                     )
 
+                    // prefer user nicknames
+                    SettingsSwitchRow(
+                        title = stringResource(MR.strings.settings_prefer_user_nicknames),
+                        value = uiState.preferUserNicknames,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangePreferUserNicknames(value)
+                            )
+                        },
+                    )
+
                     // body max lines in full layout
                     if (uiState.postLayout == PostLayout.Full) {
                         SettingsRow(

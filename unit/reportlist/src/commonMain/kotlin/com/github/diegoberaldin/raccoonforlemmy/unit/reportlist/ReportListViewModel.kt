@@ -45,6 +45,7 @@ class ReportListViewModel(
                 mvi.updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                         swipeActionsEnabled = settings.enableSwipeActions,
                     )
                 }

@@ -348,6 +348,7 @@ class CreateCommentScreen(
                         CommentCard(
                             modifier = referenceModifier,
                             comment = originalComment,
+                            preferNicknames = uiState.preferNicknames,
                             hideIndent = true,
                             voteFormat = uiState.voteFormat,
                             autoLoadImages = uiState.autoLoadImages,
@@ -379,6 +380,7 @@ class CreateCommentScreen(
                             includeFullBody = true,
                             voteFormat = uiState.voteFormat,
                             autoLoadImages = uiState.autoLoadImages,
+                            preferNicknames = uiState.preferNicknames,
                             showScores = uiState.showScores,
                             options = buildList {
                                 add(

@@ -51,6 +51,7 @@ fun CommunityAndCreatorInfo(
     iconSize: Dp = IconSize.l,
     indicatorExpanded: Boolean? = null,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     community: CommunityModel? = null,
     creator: UserModel? = null,
     distinguished: Boolean = false,
@@ -65,9 +66,9 @@ fun CommunityAndCreatorInfo(
     onDoubleClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
 ) {
-    val communityName = community?.readableName.orEmpty()
+    val communityName = community?.readableName(preferNicknames).orEmpty()
     val communityIcon = community?.icon.orEmpty()
-    val creatorName = creator?.readableName.orEmpty()
+    val creatorName = creator?.readableName(preferNicknames).orEmpty()
     val creatorAvatar = creator?.avatar.orEmpty()
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)

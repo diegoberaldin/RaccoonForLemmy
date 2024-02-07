@@ -34,6 +34,7 @@ class ModlogViewModel(
                 mvi.updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                     )
                 }
             }

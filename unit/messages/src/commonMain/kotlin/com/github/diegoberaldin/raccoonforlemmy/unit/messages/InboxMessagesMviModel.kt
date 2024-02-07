@@ -24,6 +24,7 @@ interface InboxMessagesMviModel :
         val currentUserId: Int = 0,
         val chats: List<PrivateMessageModel> = emptyList(),
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
     )
 
     sealed interface Effect {

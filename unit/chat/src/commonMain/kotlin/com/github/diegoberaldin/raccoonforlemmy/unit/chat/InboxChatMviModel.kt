@@ -44,6 +44,7 @@ interface InboxChatMviModel :
         val otherUserAvatar: String? = null,
         val messages: List<PrivateMessageModel> = emptyList(),
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val editedMessageId: Int? = null,
     )
 

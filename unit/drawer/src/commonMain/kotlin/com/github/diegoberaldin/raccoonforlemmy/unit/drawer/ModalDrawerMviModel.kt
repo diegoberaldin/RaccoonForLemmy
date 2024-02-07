@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import dev.icerock.moko.resources.desc.StringDesc
 
 @Stable
 interface ModalDrawerMviModel :
@@ -19,6 +18,7 @@ interface ModalDrawerMviModel :
     data class UiState(
         val user: UserModel? = null,
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val refreshing: Boolean = false,
         val instance: String? = null,
         val communities: List<CommunityModel> = emptyList(),

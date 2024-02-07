@@ -25,6 +25,7 @@ interface ThemeRepository {
     val saveColor: StateFlow<Color?>
     val postLayout: StateFlow<PostLayout>
     val commentBarTheme: StateFlow<CommentBarTheme>
+    val commentBarThickness: StateFlow<Int>
 
     fun changeUiTheme(value: UiTheme?)
 
@@ -44,9 +45,9 @@ interface ThemeRepository {
 
     fun changeCustomSeedColor(color: Color?)
 
-    fun changeUpvoteColor(color: Color?)
+    fun changeUpVoteColor(color: Color?)
 
-    fun changeDownvoteColor(color: Color?)
+    fun changeDownVoteColor(color: Color?)
 
     fun changeReplyColor(color: Color?)
     fun changeSaveColor(color: Color?)
@@ -54,6 +55,7 @@ interface ThemeRepository {
     fun changePostLayout(value: PostLayout)
 
     fun changeCommentBarTheme(value: CommentBarTheme)
+    fun changeCommentBarThickness(value: Int)
 
     fun getCommentBarColors(commentBarTheme: CommentBarTheme): List<Color>
 }

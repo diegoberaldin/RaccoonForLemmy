@@ -116,10 +116,11 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             changeUiFontFamily(currentSettings.uiFontFamily.toUiFontFamily())
             changeContentFontFamily(currentSettings.contentFontFamily.toUiFontFamily())
             changeCommentBarTheme(currentSettings.commentBarTheme.toCommentBarTheme())
+            changeCommentBarThickness(currentSettings.commentBarThickness)
 
             with(themeRepository) {
-                changeUpvoteColor(currentSettings.upVoteColor?.let { Color(it) })
-                changeDownvoteColor(currentSettings.downVoteColor?.let { Color(it) })
+                changeUpVoteColor(currentSettings.upVoteColor?.let { Color(it) })
+                changeDownVoteColor(currentSettings.downVoteColor?.let { Color(it) })
                 changeReplyColor(currentSettings.replyColor?.let { Color(it) })
                 changeSaveColor(currentSettings.saveColor?.let { Color(it) })
             }
@@ -153,8 +154,8 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             changeContentFontFamily(settings.contentFontFamily.toUiFontFamily())
 
             with(themeRepository) {
-                changeUpvoteColor(settings.upVoteColor?.let { Color(it) })
-                changeDownvoteColor(settings.downVoteColor?.let { Color(it) })
+                changeUpVoteColor(settings.upVoteColor?.let { Color(it) })
+                changeDownVoteColor(settings.downVoteColor?.let { Color(it) })
                 changeReplyColor(settings.replyColor?.let { Color(it) })
                 changeSaveColor(settings.saveColor?.let { Color(it) })
             }

@@ -56,6 +56,7 @@ fun PostCard(
     post: PostModel,
     isFromModerator: Boolean = false,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     showScores: Boolean = true,
     hideAuthor: Boolean = false,
     postLayout: PostLayout = PostLayout.Card,
@@ -111,6 +112,7 @@ fun PostCard(
                 limitBodyHeight = limitBodyHeight,
                 voteFormat = voteFormat,
                 autoLoadImages = autoLoadImages,
+                preferNicknames = preferNicknames,
                 showScores = showScores,
                 roundedCornerImage = postLayout == PostLayout.Card,
                 fullHeightImage = fullHeightImage,
@@ -138,6 +140,7 @@ fun PostCard(
                 blurNsfw = blurNsfw,
                 voteFormat = voteFormat,
                 autoLoadImages = autoLoadImages,
+                preferNicknames = preferNicknames,
                 showScores = showScores,
                 actionButtonsActive = actionButtonsActive,
                 options = options,
@@ -164,6 +167,7 @@ private fun CompactPost(
     post: PostModel,
     isFromModerator: Boolean = false,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     showScores: Boolean = true,
     hideAuthor: Boolean,
     blurNsfw: Boolean,
@@ -212,6 +216,7 @@ private fun CompactPost(
                 onOpenCreator?.invoke(user, "")
             },
             autoLoadImages = autoLoadImages,
+            preferNicknames = preferNicknames,
             onDoubleClick = onDoubleClick,
             onLongClick = rememberCallback {
                 optionsMenuOpen.value = true
@@ -298,6 +303,7 @@ private fun ExtendedPost(
     post: PostModel,
     isFromModerator: Boolean = false,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     showScores: Boolean = true,
     hideAuthor: Boolean = false,
     blurNsfw: Boolean = true,
@@ -356,6 +362,7 @@ private fun ExtendedPost(
                 onOpenCreator?.invoke(user, "")
             },
             autoLoadImages = autoLoadImages,
+            preferNicknames = preferNicknames,
             onDoubleClick = onDoubleClick,
             onLongClick = rememberCallback {
                 optionsMenuOpen.value = true

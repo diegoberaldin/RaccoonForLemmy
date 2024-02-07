@@ -50,4 +50,6 @@ data class SettingsModel(
     val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
     val opaqueSystemBars: Boolean = false,
     val showScores: Boolean = true,
+    val preferUserNicknames: Boolean = true,
+    val commentBarThickness: Int = 0,
 )

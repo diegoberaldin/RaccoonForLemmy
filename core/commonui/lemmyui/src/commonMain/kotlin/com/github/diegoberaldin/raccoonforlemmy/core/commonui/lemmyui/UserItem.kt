@@ -36,14 +36,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableSimpleName
 
 @Composable
 fun UserItem(
     user: UserModel,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
@@ -73,13 +74,13 @@ fun UserItem(
         } else {
             PlaceholderImage(
                 size = iconSize,
-                title = user.readableName,
+                title = user.readableName(preferNicknames),
             )
         }
 
         CustomizedContent {
             Text(
-                text = user.readableSimpleName,
+                text = user.readableHandle,
                 style = MaterialTheme.typography.bodySmall,
                 color = fullColor,
             )

@@ -185,6 +185,7 @@ object ProfileLoggedScreen : Tab {
                                     fullHeightImage = uiState.fullHeightImages,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
+                                    preferNicknames = uiState.preferNicknames,
                                     showScores = uiState.showScores,
                                     hideAuthor = true,
                                     blurNsfw = false,

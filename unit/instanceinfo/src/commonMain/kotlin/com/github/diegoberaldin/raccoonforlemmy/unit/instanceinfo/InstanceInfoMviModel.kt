@@ -23,6 +23,7 @@ interface InstanceInfoMviModel :
         val canFetchMore: Boolean = true,
         val refreshing: Boolean = false,
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val loading: Boolean = false,
         val sortType: SortType = SortType.Active,
         val communities: List<CommunityModel> = emptyList(),

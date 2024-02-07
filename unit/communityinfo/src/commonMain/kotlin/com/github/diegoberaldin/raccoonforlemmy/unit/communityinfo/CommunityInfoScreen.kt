@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.CalendarViewWeek
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Reply
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -56,7 +55,7 @@ import org.koin.core.parameter.parametersOf
 class CommunityInfoScreen(
     private val communityId: Int,
 ) : Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
+
     @Composable
     override fun Content() {
         val model = getScreenModel<CommunityInfoMviModel>(
@@ -89,7 +88,7 @@ class CommunityInfoScreen(
                     ) {
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = uiState.community.readableName,
+                            text = uiState.community.readableName(uiState.preferNicknames),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )

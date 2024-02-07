@@ -95,6 +95,7 @@ class UserDetailViewModel(
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
                         actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,

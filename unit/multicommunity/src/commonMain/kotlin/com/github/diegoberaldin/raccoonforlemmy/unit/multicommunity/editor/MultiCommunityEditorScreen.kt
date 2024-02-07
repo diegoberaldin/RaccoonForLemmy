@@ -327,6 +327,7 @@ class MultiCommunityEditorScreen(
                                 modifier = Modifier.fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.background),
                                 community = community,
+                                preferNicknames = uiState.preferNicknames,
                             )
                             Checkbox(
                                 checked = selected,

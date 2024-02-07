@@ -263,6 +263,7 @@ class ReportListScreen(
                                             report = report,
                                             postLayout = uiState.postLayout,
                                             autoLoadImages = uiState.autoLoadImages,
+                                            preferNicknames = uiState.preferNicknames,
                                             onOpen = rememberCallback {
                                                 detailOpener.openPostDetail(
                                                     post = PostModel(id = report.postId),
@@ -367,6 +368,7 @@ class ReportListScreen(
                                             report = report,
                                             postLayout = uiState.postLayout,
                                             autoLoadImages = uiState.autoLoadImages,
+                                            preferNicknames  = uiState.preferNicknames,
                                             onOpen = rememberCallback {
                                                 detailOpener.openPostDetail(
                                                     post = PostModel(id = report.postId),

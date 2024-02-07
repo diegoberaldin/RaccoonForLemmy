@@ -19,10 +19,15 @@ data class UserModel(
 
 fun List<UserModel>.containsId(value: Int?): Boolean = any { it.id == value }
 
-val UserModel.readableName: String
-    get() = displayName.takeIf { it.isNotEmpty() } ?: readableSimpleName
+fun UserModel.readableName(preferNickname: Boolean): String {
+    return if (preferNickname) {
+        displayName.takeIf { it.isNotEmpty() } ?: readableHandle
+    } else {
+        readableHandle
+    }
+}
 
-val UserModel.readableSimpleName: String
+val UserModel.readableHandle: String
     get() = buildString {
         append(name)
         if (host.isNotEmpty()) {

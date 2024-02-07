@@ -383,7 +383,8 @@ class MultiCommunityScreen(
                                     fullHeightImage = uiState.fullHeightImages,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
-                                    showScores = uiState.autoLoadImages,
+                                    preferNicknames = uiState.preferNicknames,
+                                    showScores = uiState.showScores,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = rememberCallback {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))

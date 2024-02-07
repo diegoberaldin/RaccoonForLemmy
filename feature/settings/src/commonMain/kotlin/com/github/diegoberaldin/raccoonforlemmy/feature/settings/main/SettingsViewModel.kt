@@ -156,6 +156,7 @@ class SettingsViewModel(
                 postBodyMaxLines = settings.postBodyMaxLines,
                 infiniteScrollDisabled = !settings.infiniteScrollEnabled,
                 opaqueSystemBars = settings.opaqueSystemBars,
+                preferUserNicknames = settings.preferUserNicknames,
             )
         }
     }
@@ -203,6 +204,8 @@ class SettingsViewModel(
             is SettingsMviModel.Intent.ChangePostBodyMaxLines -> changePostBodyMaxLines(intent.value)
             is SettingsMviModel.Intent.ChangeInfiniteScrollDisabled ->
                 changeInfiniteScrollDisabled(intent.value)
+
+            is SettingsMviModel.Intent.ChangePreferUserNicknames -> changePreferUserNicknames(intent.value)
         }
     }
 
@@ -459,6 +462,16 @@ class SettingsViewModel(
         mvi.scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 infiniteScrollEnabled = !value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changePreferUserNicknames(value: Boolean) {
+        mvi.updateState { it.copy(preferUserNicknames = value) }
+        mvi.scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                preferUserNicknames = value
             )
             saveSettings(settings)
         }

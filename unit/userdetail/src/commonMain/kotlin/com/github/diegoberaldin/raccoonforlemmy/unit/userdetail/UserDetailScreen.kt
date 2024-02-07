@@ -194,7 +194,7 @@ class UserDetailScreen(
                 WindowInsets.navigationBars
             },
             topBar = {
-                val userName = uiState.user.readableName
+                val userName = uiState.user.readableName(uiState.preferNicknames)
                 val maxTopInset = Dimensions.topBarHeight.value.toInt()
                 var topInset by remember { mutableStateOf(maxTopInset) }
                 snapshotFlow { topAppBarState.collapsedFraction }.onEach {
@@ -558,6 +558,7 @@ class UserDetailScreen(
                                         blurNsfw = uiState.blurNsfw,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        preferNicknames = uiState.preferNicknames,
                                         showScores = uiState.showScores,
                                         actionButtonsActive = uiState.isLogged,
                                         onClick = rememberCallback {
@@ -849,6 +850,7 @@ class UserDetailScreen(
                                         comment = comment,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
+                                        preferNicknames = uiState.preferNicknames,
                                         showScores = uiState.showScores,
                                         hideCommunity = false,
                                         hideAuthor = true,

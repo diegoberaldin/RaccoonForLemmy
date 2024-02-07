@@ -361,4 +361,6 @@
     <string name="settings_user_manual">User manual</string>
     <string name="settings_show_scores">Show scores</string>
     <string name="settings_vote_format_hidden">Hidden</string>
+    <string name="settings_comment_bar_thickness">Comment bar thickness</string>
+    <string name="settings_prefer_user_nicknames">Prefer user nicknames</string>
 </resources>

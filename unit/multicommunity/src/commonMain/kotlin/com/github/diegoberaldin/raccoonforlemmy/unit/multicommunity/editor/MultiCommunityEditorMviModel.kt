@@ -19,6 +19,7 @@ interface MultiCommunityEditorMviModel :
     data class UiState(
         val name: String = "",
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val nameError: StringDesc? = null,
         val icon: String? = null,
         val availableIcons: List<String> = emptyList(),

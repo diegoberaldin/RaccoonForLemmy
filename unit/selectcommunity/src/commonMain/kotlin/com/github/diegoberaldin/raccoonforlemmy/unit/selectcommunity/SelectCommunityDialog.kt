@@ -135,6 +135,7 @@ class SelectCommunityDialog : Screen {
                                         },
                                     ),
                                 autoLoadImages = uiState.autoLoadImages,
+                                preferNicknames = uiState.preferNicknames,
                                 community = community,
                             )
                         }

@@ -15,6 +15,7 @@ interface ManageAccountsMviModel :
     data class UiState(
         val accounts: List<AccountModel> = emptyList(),
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
     )
 
     sealed interface Effect {

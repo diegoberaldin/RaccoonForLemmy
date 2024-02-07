@@ -34,6 +34,7 @@ fun CollapsedCommentCard(
     modifier: Modifier = Modifier,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     showScores: Boolean = true,
     actionButtonsActive: Boolean = true,
     isOp: Boolean = false,
@@ -83,6 +84,7 @@ fun CollapsedCommentCard(
                     distinguished =  comment.distinguished,
                     isOp = isOp,
                     autoLoadImages = autoLoadImages,
+                    preferNicknames = preferNicknames,
                     onToggleExpanded = {
                         onToggleExpanded?.invoke()
                     },

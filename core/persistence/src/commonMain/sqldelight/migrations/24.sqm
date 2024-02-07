@@ -1,0 +1,5 @@
+ALTER TABLE SettingsEntity
+ADD COLUMN  preferUserNicknames INTEGER NOT NULL DEFAULT 1;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN commentBarThickness INTEGER NOT NULL DEFAULT 1;

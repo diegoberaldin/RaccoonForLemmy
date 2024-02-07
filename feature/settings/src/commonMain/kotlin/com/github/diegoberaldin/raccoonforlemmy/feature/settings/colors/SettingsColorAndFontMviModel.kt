@@ -27,6 +27,7 @@ interface SettingsColorAndFontMviModel :
         val replyColor: Color? = null,
         val saveColor: Color? = null,
         val commentBarTheme: CommentBarTheme = CommentBarTheme.Blue,
+        val commentBarThickness: Int = 1,
         val uiFontScale: FontScale = FontScale.Normal,
         val uiFontFamily: UiFontFamily = UiFontFamily.Poppins,
         val contentFontScale: FontScale = FontScale.Normal,

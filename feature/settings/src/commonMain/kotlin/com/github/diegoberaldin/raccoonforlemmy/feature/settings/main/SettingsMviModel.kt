@@ -41,6 +41,7 @@ interface SettingsMviModel :
         data class ChangeEdgeToEdge(val value: Boolean) : Intent
         data class ChangePostBodyMaxLines(val value: Int) : Intent
         data class ChangeInfiniteScrollDisabled(val value: Boolean) : Intent
+        data class ChangePreferUserNicknames(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -74,6 +75,7 @@ interface SettingsMviModel :
         val postBodyMaxLines: Int? = null,
         val infiniteScrollDisabled: Boolean = false,
         val opaqueSystemBars: Boolean = false,
+        val preferUserNicknames: Boolean = true,
     )
 
     sealed interface Effect

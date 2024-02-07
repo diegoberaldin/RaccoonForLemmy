@@ -224,6 +224,7 @@ object ModalDrawerContent : Tab {
                                 small = true,
                                 showFavorite = true,
                                 autoLoadImages = uiState.autoLoadImages,
+                                preferNicknames = uiState.preferNicknames,
                             )
                         }
                     }

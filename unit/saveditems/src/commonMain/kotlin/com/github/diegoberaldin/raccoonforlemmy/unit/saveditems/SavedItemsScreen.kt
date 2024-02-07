@@ -217,6 +217,7 @@ class SavedItemsScreen : Screen {
                                     fullHeightImage = uiState.fullHeightImages,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
+                                    preferNicknames = uiState.preferNicknames,
                                     showScores = uiState.showScores,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = rememberCallback {
@@ -345,6 +346,7 @@ class SavedItemsScreen : Screen {
                                     comment = comment,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
+                                    preferNicknames = uiState.preferNicknames,
                                     showScores = uiState.showScores,
                                     hideIndent = true,
                                     onClick = {

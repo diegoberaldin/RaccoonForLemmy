@@ -186,6 +186,7 @@ class ManageBanScreen : Screen {
                                         UserItem(
                                             user = user,
                                             autoLoadImages = uiState.autoLoadImages,
+                                            preferNicknames = uiState.preferNicknames,
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.Unban,
@@ -234,6 +235,7 @@ class ManageBanScreen : Screen {
                                         CommunityItem(
                                             community = community,
                                             autoLoadImages = uiState.autoLoadImages,
+                                            preferNicknames = uiState.preferNicknames,
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.Unban,

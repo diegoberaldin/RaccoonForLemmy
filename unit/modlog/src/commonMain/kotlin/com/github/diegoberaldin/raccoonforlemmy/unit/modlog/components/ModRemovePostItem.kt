@@ -20,12 +20,14 @@ internal fun ModRemovePostItem(
     item: ModlogItem.ModRemovePost,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     postLayout: PostLayout = PostLayout.Card,
     onOpenUser: ((UserModel) -> Unit)? = null,
 ) {
     InnerModlogItem(
         modifier = modifier,
         autoLoadImages = autoLoadImages,
+        preferNicknames = preferNicknames,
         date = item.date,
         postLayout = postLayout,
         moderator = item.moderator,

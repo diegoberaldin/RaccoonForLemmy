@@ -90,6 +90,7 @@ class CommunityDetailViewModel(
                         fullHeightImages = settings.fullHeightImages,
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
                         actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
                         showScores = settings.showScores,

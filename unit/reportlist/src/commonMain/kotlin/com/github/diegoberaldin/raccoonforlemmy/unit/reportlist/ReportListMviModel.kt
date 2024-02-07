@@ -34,6 +34,7 @@ interface ReportListMviModel :
         val asyncInProgress: Boolean = false,
         val swipeActionsEnabled: Boolean = true,
         val autoLoadImages: Boolean = true,
+        val preferNicknames: Boolean = true,
         val postLayout: PostLayout = PostLayout.Card,
         val canFetchMore: Boolean = true,
         val postReports: List<PostReportModel> = emptyList(),

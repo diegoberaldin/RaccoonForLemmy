@@ -10,8 +10,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiCo
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -57,7 +55,12 @@ class ModalDrawerViewModel(
                 refresh()
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
+                mvi.updateState {
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
+                    )
+                }
             }.launchIn(this)
 
             observeChangesInFavoriteCommunities()

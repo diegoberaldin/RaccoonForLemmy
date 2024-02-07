@@ -21,12 +21,14 @@ internal fun ModAddItem(
     item: ModlogItem.ModAdd,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
+    preferNicknames: Boolean = true,
     postLayout: PostLayout = PostLayout.Card,
     onOpenUser: ((UserModel) -> Unit)? = null,
 ) {
     InnerModlogItem(
         modifier = modifier,
         autoLoadImages = autoLoadImages,
+        preferNicknames = preferNicknames,
         date = item.date,
         postLayout = postLayout,
         moderator = item.moderator,
@@ -40,7 +42,7 @@ internal fun ModAddItem(
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.user?.readableName.orEmpty()
+                        val name = item.user?.readableName(preferNicknames).orEmpty()
                         append(name)
                     }
                     append(" ")

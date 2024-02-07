@@ -227,6 +227,7 @@ class InboxMentionsScreen : Tab {
                                 postLayout = uiState.postLayout,
                                 type = InboxCardType.Mention,
                                 autoLoadImages = uiState.autoLoadImages,
+                                preferNicknames = uiState.preferNicknames,
                                 showScores = uiState.showScores,
                                 voteFormat = uiState.voteFormat,
                                 onOpenPost = rememberCallbackArgs { post ->
