@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.createcomment
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -23,7 +22,6 @@ class CreateCommentViewModel(
     private val postId: Int?,
     private val parentId: Int?,
     private val editedCommentId: Int?,
-    private val mvi: DefaultMviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val commentRepository: CommentRepository,
     private val postRepository: PostRepository,
@@ -33,15 +31,17 @@ class CreateCommentViewModel(
     private val notificationCenter: NotificationCenter,
     private val itemCache: LemmyItemCache,
 ) : CreateCommentMviModel,
-    MviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect> by mvi {
+    DefaultMviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect>(
+        initialState = CreateCommentMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             val originalPost = postId?.let { itemCache.getPost(it) }
             val originalComment = parentId?.let { itemCache.getComment(it) }
             val editedComment = editedCommentId?.let { itemCache.getComment(it) }
-            mvi.updateState {
+            updateState {
                 it.copy(
                     originalPost = originalPost,
                     originalComment = originalComment,
@@ -50,7 +50,7 @@ class CreateCommentViewModel(
             }
 
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
             if (uiState.value.currentUser.isEmpty()) {
@@ -58,7 +58,7 @@ class CreateCommentViewModel(
                 val currentUser = siteRepository.getCurrentUser(auth)
                 val languages = siteRepository.getLanguages(auth)
                 if (currentUser != null) {
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             currentUser = currentUser.name,
                             currentInstance = currentUser.host,
@@ -68,7 +68,7 @@ class CreateCommentViewModel(
                 }
             }
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
@@ -84,7 +84,7 @@ class CreateCommentViewModel(
     override fun reduce(intent: CreateCommentMviModel.Intent) {
         when (intent) {
             is CreateCommentMviModel.Intent.ChangeSection -> {
-                mvi.updateState { it.copy(section = intent.value) }
+                updateState { it.copy(section = intent.value) }
             }
 
             is CreateCommentMviModel.Intent.ImageSelected -> {
@@ -92,7 +92,7 @@ class CreateCommentViewModel(
             }
 
             is CreateCommentMviModel.Intent.ChangeLanguage -> {
-                mvi.updateState { it.copy(currentLanguageId = intent.value) }
+                updateState { it.copy(currentLanguageId = intent.value) }
             }
 
             is CreateCommentMviModel.Intent.Send -> submit(intent.text)
@@ -100,11 +100,11 @@ class CreateCommentViewModel(
     }
 
     private fun submit(text: String) {
-        if (mvi.uiState.value.loading) {
+        if (uiState.value.loading) {
             return
         }
 
-        mvi.updateState {
+        updateState {
             it.copy(
                 textError = null,
             )
@@ -112,7 +112,7 @@ class CreateCommentViewModel(
         var valid = true
         val languageId = uiState.value.currentLanguageId
         if (text.isEmpty()) {
-            mvi.updateState {
+            updateState {
                 it.copy(
                     textError = message_missing_field.desc(),
                 )
@@ -123,8 +123,8 @@ class CreateCommentViewModel(
             return
         }
 
-        mvi.updateState { it.copy(loading = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 if (postId != null) {
@@ -145,12 +145,12 @@ class CreateCommentViewModel(
                 }
                 // the comment count has changed, emits update
                 emitPostUpdateNotification()
-                mvi.emitEffect(CreateCommentMviModel.Effect.Success(new = editedCommentId == null))
+                emitEffect(CreateCommentMviModel.Effect.Success(new = editedCommentId == null))
             } catch (e: Throwable) {
                 val message = e.message
-                mvi.emitEffect(CreateCommentMviModel.Effect.Failure(message))
+                emitEffect(CreateCommentMviModel.Effect.Failure(message))
             } finally {
-                mvi.updateState { it.copy(loading = false) }
+                updateState { it.copy(loading = false) }
             }
         }
     }
@@ -170,14 +170,14 @@ class CreateCommentViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
             if (url != null) {
-                mvi.emitEffect(CreateCommentMviModel.Effect.AddImageToText(url))
+                emitEffect(CreateCommentMviModel.Effect.AddImageToText(url))
             }
-            mvi.updateState {
+            updateState {
                 it.copy(
                     loading = false,
                 )

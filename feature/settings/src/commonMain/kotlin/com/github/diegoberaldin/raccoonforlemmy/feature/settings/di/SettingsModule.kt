@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors.SettingsColorAndFontMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors.SettingsColorAndFontViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.main.SettingsMviModel
@@ -12,7 +11,6 @@ val settingsTabModule = module {
     includes(aboutModule)
     factory<SettingsMviModel> {
         SettingsViewModel(
-            mvi = DefaultMviModel(SettingsMviModel.UiState()),
             settingsRepository = get(),
             accountRepository = get(),
             themeRepository = get(),
@@ -27,7 +25,6 @@ val settingsTabModule = module {
     }
     factory<SettingsColorAndFontMviModel> {
         SettingsColorAndFontViewModel(
-            mvi = DefaultMviModel(SettingsColorAndFontMviModel.UiState()),
             settingsRepository = get(),
             accountRepository = get(),
             themeRepository = get(),

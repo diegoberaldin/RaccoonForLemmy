@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.myaccount
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ProfileLoggedSection
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -34,7 +33,6 @@ import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
 
 class ProfileLoggedViewModel(
-    private val mvi: DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val siteRepository: SiteRepository,
@@ -47,22 +45,24 @@ class ProfileLoggedViewModel(
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
 ) : ProfileLoggedMviModel,
-    MviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect> by mvi {
+    DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>(
+        initialState = ProfileLoggedMviModel.UiState()
+    ) {
 
     private var currentPage = 1
 
     @OptIn(FlowPreview::class)
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
-        mvi.scope?.launch {
+        super.onStarted()
+        updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
+        scope?.launch {
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
             identityRepository.isLogged.drop(1).debounce(250).onEach { logged ->
                 if (logged == true) {
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             posts = emptyList(),
                             comments = emptyList(),
@@ -73,7 +73,7 @@ class ProfileLoggedViewModel(
                 }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
@@ -107,11 +107,11 @@ class ProfileLoggedViewModel(
             is ProfileLoggedMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is ProfileLoggedMviModel.Intent.DeleteComment -> deleteComment(intent.id)
             is ProfileLoggedMviModel.Intent.DeletePost -> deletePost(intent.id)
-            ProfileLoggedMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            ProfileLoggedMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            ProfileLoggedMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+            ProfileLoggedMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -178,7 +178,7 @@ class ProfileLoggedViewModel(
     private suspend fun refreshUser() {
         val auth = identityRepository.authToken.value.orEmpty()
         if (auth.isEmpty()) {
-            mvi.updateState { it.copy(user = null) }
+            updateState { it.copy(user = null) }
         } else {
             var user = siteRepository.getCurrentUser(auth)
             runCatching {
@@ -189,7 +189,7 @@ class ProfileLoggedViewModel(
                         user = siteRepository.getCurrentUser(auth)
                         yield()
                     }
-                    mvi.updateState { it.copy(user = user) }
+                    updateState { it.copy(user = user) }
                 }
             }
         }
@@ -197,7 +197,7 @@ class ProfileLoggedViewModel(
 
     private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 canFetchMore = true,
                 refreshing = true,
@@ -208,7 +208,7 @@ class ProfileLoggedViewModel(
     }
 
     private fun changeSection(section: ProfileLoggedSection) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 section = section,
             )
@@ -216,13 +216,13 @@ class ProfileLoggedViewModel(
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading || currentState.user == null) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val userId = currentState.user.id
@@ -251,7 +251,7 @@ class ProfileLoggedViewModel(
                         currentState.comments
                     }
                 }.await()
-                mvi.updateState {
+                updateState {
                     val newPosts = if (refreshing) {
                         itemList.orEmpty()
                     } else {
@@ -276,7 +276,7 @@ class ProfileLoggedViewModel(
                 page = currentPage,
                 sort = SortType.New,
             )
-            mvi.updateState {
+            updateState {
                 val newComments = if (refreshing) {
                     itemList.orEmpty()
                 } else {
@@ -303,7 +303,7 @@ class ProfileLoggedViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -325,7 +325,7 @@ class ProfileLoggedViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -347,7 +347,7 @@ class ProfileLoggedViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -369,7 +369,7 @@ class ProfileLoggedViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -388,7 +388,7 @@ class ProfileLoggedViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -410,7 +410,7 @@ class ProfileLoggedViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -426,7 +426,7 @@ class ProfileLoggedViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 posts = it.posts.map { p ->
                     if (p.id == post.id) {
@@ -440,7 +440,7 @@ class ProfileLoggedViewModel(
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 comments = it.comments.map { c ->
                     if (c.id == comment.id) {
@@ -454,11 +454,11 @@ class ProfileLoggedViewModel(
     }
 
     private fun handlePostDelete(id: Int) {
-        mvi.updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+        updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
     }
 
     private fun deletePost(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = id, auth = auth)
             handlePostDelete(id)
@@ -466,7 +466,7 @@ class ProfileLoggedViewModel(
     }
 
     private fun deleteComment(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             refresh()

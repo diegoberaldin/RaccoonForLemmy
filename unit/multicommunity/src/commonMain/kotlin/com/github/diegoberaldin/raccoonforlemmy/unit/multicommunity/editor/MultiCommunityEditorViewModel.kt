@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
@@ -22,7 +21,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class MultiCommunityEditorViewModel(
-    private val mvi: DefaultMviModel<MultiCommunityEditorMviModel.Intent, MultiCommunityEditorMviModel.UiState, MultiCommunityEditorMviModel.Effect>,
     private val communityId: Int?,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
@@ -31,16 +29,18 @@ class MultiCommunityEditorViewModel(
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
 ) : MultiCommunityEditorMviModel,
-    MviModel<MultiCommunityEditorMviModel.Intent, MultiCommunityEditorMviModel.UiState, MultiCommunityEditorMviModel.Effect> by mvi {
+    DefaultMviModel<MultiCommunityEditorMviModel.Intent, MultiCommunityEditorMviModel.UiState, MultiCommunityEditorMviModel.Effect>(
+        initialState = MultiCommunityEditorMviModel.UiState()
+    ) {
 
     private var communities: List<Pair<CommunityModel, Boolean>> = emptyList()
     private var debounceJob: Job? = null
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
@@ -56,7 +56,7 @@ class MultiCommunityEditorViewModel(
     override fun reduce(intent: MultiCommunityEditorMviModel.Intent) {
         when (intent) {
             is MultiCommunityEditorMviModel.Intent.SelectImage -> selectImage(intent.index)
-            is MultiCommunityEditorMviModel.Intent.SetName -> mvi.updateState { it.copy(name = intent.value) }
+            is MultiCommunityEditorMviModel.Intent.SetName -> updateState { it.copy(name = intent.value) }
             is MultiCommunityEditorMviModel.Intent.ToggleCommunity -> toggleCommunity(intent.id)
             is MultiCommunityEditorMviModel.Intent.SetSearch -> setSearch(intent.value)
             MultiCommunityEditorMviModel.Intent.Submit -> submit()
@@ -64,7 +64,7 @@ class MultiCommunityEditorViewModel(
     }
 
     private fun populate() {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val editedCommunity = communityId?.toLong()?.let {
                 multiCommunityRepository.getById(it)
             }
@@ -72,7 +72,7 @@ class MultiCommunityEditorViewModel(
             communities = communityRepository.getSubscribed(auth).sortedBy { it.name }.map { c ->
                 c to (editedCommunity?.communityIds?.contains(c.id) == true)
             }
-            mvi.updateState {
+            updateState {
                 val newCommunities = communities
                 val availableIcons =
                     newCommunities.filter { i -> i.second }.mapNotNull { i -> i.first.icon }
@@ -88,10 +88,10 @@ class MultiCommunityEditorViewModel(
 
     private fun setSearch(value: String) {
         debounceJob?.cancel()
-        mvi.updateState { it.copy(searchText = value) }
-        debounceJob = mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(searchText = value) }
+        debounceJob = scope?.launch(Dispatchers.IO) {
             delay(1_000)
-            mvi.updateState {
+            updateState {
                 val filtered = filterCommunities()
                 it.copy(communities = filtered)
             }
@@ -114,7 +114,7 @@ class MultiCommunityEditorViewModel(
         } else {
             uiState.value.availableIcons[index]
         }
-        mvi.updateState { it.copy(icon = image) }
+        updateState { it.copy(icon = image) }
     }
 
     private fun toggleCommunity(communityId: Int) {
@@ -132,7 +132,7 @@ class MultiCommunityEditorViewModel(
         }
         communities = newCommunities
         val filtered = filterCommunities()
-        mvi.updateState { state ->
+        updateState { state ->
             state.copy(
                 communities = filtered,
                 availableIcons = availableIcons,
@@ -141,19 +141,19 @@ class MultiCommunityEditorViewModel(
     }
 
     private fun submit() {
-        mvi.updateState { it.copy(nameError = null) }
+        updateState { it.copy(nameError = null) }
         val currentState = uiState.value
         var valid = true
         val name = currentState.name
         if (name.isEmpty()) {
-            mvi.updateState { it.copy(nameError = MR.strings.message_missing_field.desc()) }
+            updateState { it.copy(nameError = MR.strings.message_missing_field.desc()) }
             valid = false
         }
         if (!valid) {
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val icon = currentState.icon
             val communityIds = currentState.communities.filter { it.second }.map { it.first.id }
             val editedCommunity = communityId?.toLong()?.let {
@@ -178,7 +178,7 @@ class MultiCommunityEditorViewModel(
                 multiCommunityRepository.update(multiCommunity)
                 notificationCenter.send(NotificationCenterEvent.MultiCommunityCreated(multiCommunity))
             }
-            mvi.emitEffect(MultiCommunityEditorMviModel.Effect.Close)
+            emitEffect(MultiCommunityEditorMviModel.Effect.Close)
         }
     }
 }

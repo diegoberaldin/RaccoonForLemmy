@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.mentions.di.inboxMentionsModule
@@ -16,7 +15,6 @@ val inboxTabModule = module {
     )
     factory<InboxMviModel> {
         InboxViewModel(
-            mvi = DefaultMviModel(InboxMviModel.UiState()),
             identityRepository = get(),
             userRepository = get(),
             coordinator = get(),

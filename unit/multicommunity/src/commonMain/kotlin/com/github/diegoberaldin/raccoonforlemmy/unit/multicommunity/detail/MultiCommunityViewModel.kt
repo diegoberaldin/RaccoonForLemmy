@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
@@ -28,7 +27,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MultiCommunityViewModel(
-    private val mvi: DefaultMviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect>,
     private val communityId: Int,
     private val postRepository: PostRepository,
     private val identityRepository: IdentityRepository,
@@ -43,24 +41,26 @@ class MultiCommunityViewModel(
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : MultiCommunityMviModel,
-    MviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect> by mvi {
+    DefaultMviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect>(
+        initialState = MultiCommunityMviModel.UiState()
+    ) {
 
     private var hideReadPosts = false
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             if ((uiState.value.community.id ?: 0) == 0L) {
                 val community =
                     multiCommunityRepository.getById(communityId.toLong()) ?: MultiCommunityModel()
-                mvi.updateState { it.copy(community = community) }
+                updateState { it.copy(community = community) }
             }
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
@@ -88,13 +88,13 @@ class MultiCommunityViewModel(
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
+                updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
             withContext(Dispatchers.IO) {
                 if (uiState.value.posts.isEmpty()) {
                     val settings = settingsRepository.currentSettings.value
                     val sortTypes = getSortTypesUseCase.getTypesForPosts()
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             sortType = settings.defaultPostSortType.toSortType(),
                             availableSortTypes = sortTypes,
@@ -156,19 +156,19 @@ class MultiCommunityViewModel(
     private fun refresh() {
         hideReadPosts = false
         paginator.reset()
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
     }
 
     private fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val sort = currentState.sortType ?: SortType.Active
             val refreshing = currentState.refreshing
@@ -200,7 +200,7 @@ class MultiCommunityViewModel(
                     }
                 }
             }
-            mvi.updateState {
+            updateState {
                 val newPosts = if (refreshing) {
                     itemsToAdd
                 } else {
@@ -220,7 +220,7 @@ class MultiCommunityViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        mvi.updateState { it.copy(sortType = value) }
+        updateState { it.copy(sortType = value) }
         refresh()
     }
 
@@ -231,7 +231,7 @@ class MultiCommunityViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -252,7 +252,7 @@ class MultiCommunityViewModel(
             return
         }
         val newPost = post.copy(read = true)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.setRead(
@@ -275,7 +275,7 @@ class MultiCommunityViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -298,7 +298,7 @@ class MultiCommunityViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -315,7 +315,7 @@ class MultiCommunityViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 posts = it.posts.map { p ->
                     if (p.id == post.id) {
@@ -330,7 +330,7 @@ class MultiCommunityViewModel(
 
     private fun clearRead() {
         hideReadPosts = true
-        mvi.updateState {
+        updateState {
             val newPosts = it.posts.filter { e -> !e.read }
             it.copy(
                 posts = newPosts,
@@ -339,7 +339,7 @@ class MultiCommunityViewModel(
     }
 
     private fun hide(post: PostModel) {
-        mvi.updateState {
+        updateState {
             val newPosts = it.posts.filter { e -> e.id != post.id }
             it.copy(
                 posts = newPosts,

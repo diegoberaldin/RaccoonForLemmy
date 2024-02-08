@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.chat
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -19,7 +18,6 @@ import kotlinx.coroutines.launch
 
 class InboxChatViewModel(
     private val otherUserId: Int,
-    private val mvi: DefaultMviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val messageRepository: PrivateMessageRepository,
@@ -28,19 +26,21 @@ class InboxChatViewModel(
     private val postRepository: PostRepository,
     private val notificationCenter: NotificationCenter,
 ) : InboxChatMviModel,
-    MviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.Effect> by mvi {
+    DefaultMviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.Effect>(
+        initialState = InboxChatMviModel.UiState(),
+    ) {
 
 
     private var currentPage: Int = 1
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             launch(Dispatchers.IO) {
                 val auth = identityRepository.authToken.value.orEmpty()
 
                 settingsRepository.currentSettings.onEach { settings ->
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             autoLoadImages = settings.autoLoadImages,
                             preferNicknames = settings.preferUserNicknames,
@@ -52,14 +52,14 @@ class InboxChatViewModel(
                 }.launchIn(this)
                 launch {
                     val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
-                    mvi.updateState { it.copy(currentUserId = currentUserId) }
+                    updateState { it.copy(currentUserId = currentUserId) }
                 }
                 launch {
                     val user = userRepository.get(
                         id = otherUserId,
                         auth = auth,
                     )
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             otherUserName = user?.name.orEmpty(),
                             otherUserAvatar = user?.avatar,
@@ -77,7 +77,7 @@ class InboxChatViewModel(
     override fun reduce(intent: InboxChatMviModel.Intent) {
         when (intent) {
             InboxChatMviModel.Intent.LoadNextPage -> {
-                mvi.scope?.launch(Dispatchers.IO) {
+                scope?.launch(Dispatchers.IO) {
                     loadNextPage()
                 }
             }
@@ -106,7 +106,7 @@ class InboxChatViewModel(
 
     private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 initial = initial,
                 canFetchMore = true,
@@ -117,13 +117,13 @@ class InboxChatViewModel(
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val itemList = messageRepository.getAll(
@@ -143,7 +143,7 @@ class InboxChatViewModel(
         val itemsToAdd = itemList.orEmpty().filter {
             it.creator?.id == otherUserId || it.recipient?.id == otherUserId
         }
-        mvi.updateState {
+        updateState {
             val newItems = if (refreshing) {
                 itemsToAdd
             } else {
@@ -164,7 +164,7 @@ class InboxChatViewModel(
 
     private fun markAsRead(read: Boolean, messageId: Int) {
         val auth = identityRepository.authToken.value
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val newMessage = messageRepository.markAsRead(
                 read = read,
                 messageId = messageId,
@@ -177,7 +177,7 @@ class InboxChatViewModel(
     }
 
     private fun handleMessageUpdate(newMessage: PrivateMessageModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 messages = it.messages.map { m ->
                     if (m.id == newMessage.id) {
@@ -194,14 +194,14 @@ class InboxChatViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
             if (url != null) {
-                mvi.emitEffect(InboxChatMviModel.Effect.AddImageToText(url))
+                emitEffect(InboxChatMviModel.Effect.AddImageToText(url))
             }
-            mvi.updateState {
+            updateState {
                 it.copy(
                     loading = false,
                 )
@@ -210,7 +210,7 @@ class InboxChatViewModel(
     }
 
     private fun startEditingMessage(message: PrivateMessageModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 editedMessageId = message.id,
             )
@@ -221,7 +221,7 @@ class InboxChatViewModel(
         val editedMessageId = uiState.value.editedMessageId
         val isEditing = editedMessageId != null
         if (text.isNotEmpty()) {
-            mvi.scope?.launch(Dispatchers.IO) {
+            scope?.launch(Dispatchers.IO) {
                 val auth = identityRepository.authToken.value
                 val newMessage = if (isEditing) {
                     messageRepository.edit(
@@ -247,32 +247,32 @@ class InboxChatViewModel(
                 } else {
                     (newMessage?.let { listOf(it) } ?: emptyList()) + uiState.value.messages
                 }
-                mvi.updateState {
+                updateState {
                     it.copy(
                         messages = newMessages,
                         editedMessageId = null,
                     )
                 }
                 if (!isEditing) {
-                    mvi.emitEffect(InboxChatMviModel.Effect.ScrollToBottom)
+                    emitEffect(InboxChatMviModel.Effect.ScrollToBottom)
                 }
             }
         }
     }
 
     private fun handleLogout() {
-        mvi.updateState { it.copy(messages = emptyList()) }
+        updateState { it.copy(messages = emptyList()) }
     }
 
     private fun deleteMessage(message: PrivateMessageModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             runCatching {
                 messageRepository.delete(
                     messageId = message.id,
                     auth = auth,
                 )
-                mvi.updateState {
+                updateState {
                     it.copy(messages = it.messages.filter { m -> m.id != message.id })
                 }
             }

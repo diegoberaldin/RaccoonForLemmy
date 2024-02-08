@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.FavoriteCommunityModel
@@ -33,7 +32,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class CommunityDetailViewModel(
-    private val mvi: DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>,
     private val communityId: Int,
     private val otherInstance: String,
     private val identityRepository: IdentityRepository,
@@ -53,18 +51,20 @@ class CommunityDetailViewModel(
     private val notificationCenter: NotificationCenter,
     private val itemCache: LemmyItemCache,
 ) : CommunityDetailMviModel,
-    MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect> by mvi {
+    DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>(
+        initialState = CommunityDetailMviModel.UiState(),
+    ) {
 
     private var currentPage: Int = 1
     private var pageCursor: String? = null
     private var hideReadPosts = false
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             if (uiState.value.community.id == 0) {
                 val community = itemCache.getCommunity(communityId) ?: CommunityModel()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         community = community,
                         instance = otherInstance.takeIf { n -> n.isNotEmpty() }
@@ -74,15 +74,15 @@ class CommunityDetailViewModel(
             }
 
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
             identityRepository.isLogged.onEach { logged ->
-                mvi.updateState { it.copy(isLogged = logged ?: false) }
+                updateState { it.copy(isLogged = logged ?: false) }
                 updateAvailableSortTypes()
             }.launchIn(this)
 
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
@@ -99,8 +99,8 @@ class CommunityDetailViewModel(
             }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
-                if (mvi.uiState.value.zombieModeActive) {
-                    mvi.emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
+                if (uiState.value.zombieModeActive) {
+                    emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
                 }
             }.launchIn(this)
 
@@ -114,7 +114,7 @@ class CommunityDetailViewModel(
                 .onEach { evt ->
                     val postId = evt.postId
                     val newUser = evt.user
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             posts = it.posts.map { p ->
                                 if (p.id == postId) {
@@ -148,12 +148,12 @@ class CommunityDetailViewModel(
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
+                updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
-            if (mvi.uiState.value.posts.isEmpty()) {
+            if (uiState.value.posts.isEmpty()) {
                 val defaultPostSortType =
                     settingsRepository.currentSettings.value.defaultPostSortType
-                mvi.updateState { it.copy(sortType = defaultPostSortType.toSortType()) }
+                updateState { it.copy(sortType = defaultPostSortType.toSortType()) }
                 refresh()
             }
         }
@@ -161,16 +161,16 @@ class CommunityDetailViewModel(
 
     private suspend fun updateAvailableSortTypes() {
         val sortTypes = getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
-        mvi.updateState { it.copy(availableSortTypes = sortTypes) }
+        updateState { it.copy(availableSortTypes = sortTypes) }
     }
 
     override fun reduce(intent: CommunityDetailMviModel.Intent) {
         when (intent) {
-            CommunityDetailMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            CommunityDetailMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            CommunityDetailMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+            CommunityDetailMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -225,12 +225,12 @@ class CommunityDetailViewModel(
             }
 
             CommunityDetailMviModel.Intent.PauseZombieMode -> {
-                mvi.updateState { it.copy(zombieModeActive = false) }
+                updateState { it.copy(zombieModeActive = false) }
                 zombieModeHelper.pause()
             }
 
             is CommunityDetailMviModel.Intent.StartZombieMode -> {
-                mvi.updateState { it.copy(zombieModeActive = true) }
+                updateState { it.copy(zombieModeActive = true) }
                 zombieModeHelper.start(
                     initialValue = intent.index,
                     interval = settingsRepository.currentSettings.value.zombieModeInterval,
@@ -261,7 +261,7 @@ class CommunityDetailViewModel(
         currentPage = 1
         pageCursor = null
         hideReadPosts = false
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState { it.copy(canFetchMore = true, refreshing = true) }
         val community = uiState.value.community
         val auth = identityRepository.authToken.value
         val accountId = accountRepository.getActive()?.id
@@ -277,7 +277,7 @@ class CommunityDetailViewModel(
             id = community.id,
         )
         if (refreshedCommunity != null) {
-            mvi.updateState {
+            updateState {
                 it.copy(
                     community = refreshedCommunity,
                     moderators = moderators,
@@ -292,20 +292,20 @@ class CommunityDetailViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+        updateState { it.copy(sortType = value) }
+        scope?.launch(Dispatchers.IO) {
+            emitEffect(CommunityDetailMviModel.Effect.BackToTop)
             refresh()
         }
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val sort = currentState.sortType
@@ -351,7 +351,7 @@ class CommunityDetailViewModel(
                 }
             }
         }
-        mvi.updateState {
+        updateState {
             val newItems = if (refreshing) {
                 itemsToAdd
             } else {
@@ -373,7 +373,7 @@ class CommunityDetailViewModel(
             voted = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -397,7 +397,7 @@ class CommunityDetailViewModel(
             return
         }
         val newPost = post.copy(read = true)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.setRead(
@@ -420,7 +420,7 @@ class CommunityDetailViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -446,7 +446,7 @@ class CommunityDetailViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -467,31 +467,31 @@ class CommunityDetailViewModel(
 
     private fun subscribe() {
         hapticFeedback.vibrate()
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             communityRepository.subscribe(
                 auth = identityRepository.authToken.value,
                 id = communityId,
             )
             // the first response isn't immediately true, simulate here
-            mvi.updateState { it.copy(community = it.community.copy(subscribed = true)) }
+            updateState { it.copy(community = it.community.copy(subscribed = true)) }
         }
     }
 
     private fun unsubscribe() {
         hapticFeedback.vibrate()
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val community = communityRepository.unsubscribe(
                 auth = identityRepository.authToken.value,
                 id = communityId,
             )
             if (community != null) {
-                mvi.updateState { it.copy(community = community) }
+                updateState { it.copy(community = community) }
             }
         }
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 posts = it.posts.map { p ->
                     if (p.id == post.id) {
@@ -505,44 +505,44 @@ class CommunityDetailViewModel(
     }
 
     private fun handlePostDelete(id: Int) {
-        mvi.updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+        updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
     }
 
     private fun blockCommunity() {
-        mvi.updateState { it.copy(asyncInProgress = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(asyncInProgress = true) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value
                 communityRepository.block(communityId, true, auth).getOrThrow()
-                mvi.emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
+                emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
             } catch (e: Throwable) {
-                mvi.emitEffect(CommunityDetailMviModel.Effect.BlockError(e.message))
+                emitEffect(CommunityDetailMviModel.Effect.BlockError(e.message))
             } finally {
-                mvi.updateState { it.copy(asyncInProgress = false) }
+                updateState { it.copy(asyncInProgress = false) }
             }
         }
     }
 
     private fun blockInstance() {
-        mvi.updateState { it.copy(asyncInProgress = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(asyncInProgress = true) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val community = uiState.value.community
                 val instanceId = community.instanceId
                 val auth = identityRepository.authToken.value
                 siteRepository.block(instanceId, true, auth).getOrThrow()
-                mvi.emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
+                emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
             } catch (e: Throwable) {
-                mvi.emitEffect(CommunityDetailMviModel.Effect.BlockError(e.message))
+                emitEffect(CommunityDetailMviModel.Effect.BlockError(e.message))
             } finally {
-                mvi.updateState { it.copy(asyncInProgress = false) }
+                updateState { it.copy(asyncInProgress = false) }
             }
         }
     }
 
     private fun clearRead() {
         hideReadPosts = true
-        mvi.updateState {
+        updateState {
             val newPosts = it.posts.filter { e -> !e.read }
             it.copy(
                 posts = newPosts,
@@ -551,7 +551,7 @@ class CommunityDetailViewModel(
     }
 
     private fun hide(post: PostModel) {
-        mvi.updateState {
+        updateState {
             val newPosts = it.posts.filter { e -> e.id != post.id }
             it.copy(
                 posts = newPosts,
@@ -561,7 +561,7 @@ class CommunityDetailViewModel(
     }
 
     private fun feature(post: PostModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.featureInCommunity(
                 postId = post.id,
@@ -575,7 +575,7 @@ class CommunityDetailViewModel(
     }
 
     private fun lock(post: PostModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.lock(
                 postId = post.id,
@@ -589,7 +589,7 @@ class CommunityDetailViewModel(
     }
 
     private fun toggleModeratorStatus(userId: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val isModerator = uiState.value.moderators.containsId(userId)
             val auth = identityRepository.authToken.value.orEmpty()
             val newModerators = communityRepository.addModerator(
@@ -598,14 +598,14 @@ class CommunityDetailViewModel(
                 added = !isModerator,
                 userId = userId,
             )
-            mvi.updateState {
+            updateState {
                 it.copy(moderators = newModerators)
             }
         }
     }
 
     private fun toggleFavorite() {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val accountId = accountRepository.getActive()?.id ?: 0L
             val newValue = !uiState.value.community.favorite
             if (newValue) {
@@ -617,7 +617,7 @@ class CommunityDetailViewModel(
                 }
             }
             val newCommunity = uiState.value.community.copy(favorite = newValue)
-            mvi.updateState { it.copy(community = newCommunity) }
+            updateState { it.copy(community = newCommunity) }
         }
     }
 }

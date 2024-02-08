@@ -9,7 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
@@ -23,7 +22,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SettingsColorAndFontViewModel(
-    private val mvi: DefaultMviModel<SettingsColorAndFontMviModel.Intent, SettingsColorAndFontMviModel.UiState, SettingsColorAndFontMviModel.Effect>,
     private val themeRepository: ThemeRepository,
     private val colorSchemeProvider: ColorSchemeProvider,
     private val identityRepository: IdentityRepository,
@@ -31,53 +29,55 @@ class SettingsColorAndFontViewModel(
     private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
 ) : SettingsColorAndFontMviModel,
-    MviModel<SettingsColorAndFontMviModel.Intent, SettingsColorAndFontMviModel.UiState, SettingsColorAndFontMviModel.Effect> by mvi {
+    DefaultMviModel<SettingsColorAndFontMviModel.Intent, SettingsColorAndFontMviModel.UiState, SettingsColorAndFontMviModel.Effect>(
+        initialState = SettingsColorAndFontMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             themeRepository.uiTheme.onEach { value ->
-                mvi.updateState { it.copy(uiTheme = value) }
+                updateState { it.copy(uiTheme = value) }
             }.launchIn(this)
             themeRepository.uiFontFamily.onEach { value ->
-                mvi.updateState { it.copy(uiFontFamily = value) }
+                updateState { it.copy(uiFontFamily = value) }
             }.launchIn(this)
             themeRepository.contentFontScale.onEach { value ->
-                mvi.updateState { it.copy(contentFontScale = value.toFontScale()) }
+                updateState { it.copy(contentFontScale = value.toFontScale()) }
             }.launchIn(this)
             themeRepository.contentFontFamily.onEach { value ->
-                mvi.updateState { it.copy(contentFontFamily = value) }
+                updateState { it.copy(contentFontFamily = value) }
             }.launchIn(this)
             themeRepository.uiFontScale.onEach { value ->
-                mvi.updateState { it.copy(uiFontScale = value.toFontScale()) }
+                updateState { it.copy(uiFontScale = value.toFontScale()) }
             }.launchIn(this)
             themeRepository.dynamicColors.onEach { value ->
-                mvi.updateState { it.copy(dynamicColors = value) }
+                updateState { it.copy(dynamicColors = value) }
             }.launchIn(this)
             themeRepository.customSeedColor.onEach { value ->
-                mvi.updateState { it.copy(customSeedColor = value) }
+                updateState { it.copy(customSeedColor = value) }
             }.launchIn(this)
             themeRepository.upVoteColor.onEach { value ->
-                mvi.updateState { it.copy(upVoteColor = value) }
+                updateState { it.copy(upVoteColor = value) }
             }.launchIn(this)
             themeRepository.downVoteColor.onEach { value ->
-                mvi.updateState { it.copy(downVoteColor = value) }
+                updateState { it.copy(downVoteColor = value) }
             }.launchIn(this)
             themeRepository.replyColor.onEach { value ->
-                mvi.updateState { it.copy(replyColor = value) }
+                updateState { it.copy(replyColor = value) }
             }.launchIn(this)
             themeRepository.saveColor.onEach { value ->
-                mvi.updateState { it.copy(saveColor = value) }
+                updateState { it.copy(saveColor = value) }
             }.launchIn(this)
             themeRepository.commentBarTheme.onEach { value ->
-                mvi.updateState { it.copy(commentBarTheme = value) }
+                updateState { it.copy(commentBarTheme = value) }
             }.launchIn(this)
             themeRepository.commentBarThickness.onEach { value ->
-                mvi.updateState { it.copy(commentBarThickness = value) }
+                updateState { it.copy(commentBarThickness = value) }
             }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
-                mvi.updateState { it.copy(isLogged = logged ?: false) }
+                updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFontFamily::class)
@@ -116,7 +116,7 @@ class SettingsColorAndFontViewModel(
                         else -> changeUpVoteColor(evt.color)
                     }
                 }.launchIn(this)
-            mvi.updateState {
+            updateState {
                 it.copy(
                     supportsDynamicColors = colorSchemeProvider.supportsDynamicColors,
                 )
@@ -134,7 +134,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeFontFamily(value: UiFontFamily) {
         themeRepository.changeUiFontFamily(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 uiFontFamily = value.toInt()
             )
@@ -144,7 +144,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeUiFontScale(value: Float) {
         themeRepository.changeUiFontScale(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 uiFontScale = value
             )
@@ -154,7 +154,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeContentFontScale(value: Float) {
         themeRepository.changeContentFontScale(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 contentFontScale = value
             )
@@ -164,7 +164,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeContentFontFamily(value: UiFontFamily) {
         themeRepository.changeContentFontFamily(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 contentFontFamily = value.toInt()
             )
@@ -174,7 +174,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeDynamicColors(value: Boolean) {
         themeRepository.changeDynamicColors(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 dynamicColors = value
             )
@@ -184,7 +184,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeCustomSeedColor(value: Color?) {
         themeRepository.changeCustomSeedColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 customSeedColor = value?.toArgb()
             )
@@ -194,7 +194,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeUpVoteColor(value: Color?) {
         themeRepository.changeUpVoteColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 upVoteColor = value?.toArgb()
             )
@@ -204,7 +204,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeDownVoteColor(value: Color?) {
         themeRepository.changeDownVoteColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 downVoteColor = value?.toArgb()
             )
@@ -214,7 +214,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeReplyColor(value: Color?) {
         themeRepository.changeReplyColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 replyColor = value?.toArgb()
             )
@@ -224,7 +224,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeSaveColor(value: Color?) {
         themeRepository.changeSaveColor(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 saveColor = value?.toArgb()
             )
@@ -234,7 +234,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeCommentBarTheme(value: CommentBarTheme) {
         themeRepository.changeCommentBarTheme(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 commentBarTheme = value.toInt()
             )
@@ -244,7 +244,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeCommentBarThickness(value: Int) {
         themeRepository.changeCommentBarThickness(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 commentBarThickness = value
             )

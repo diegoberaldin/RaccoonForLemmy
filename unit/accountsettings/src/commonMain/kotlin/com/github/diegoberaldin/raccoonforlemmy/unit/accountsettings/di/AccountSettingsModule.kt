@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsViewModel
 import org.koin.dsl.module
@@ -8,7 +7,6 @@ import org.koin.dsl.module
 val accountSettingsModule = module {
     factory<AccountSettingsMviModel> {
         AccountSettingsViewModel(
-            mvi = DefaultMviModel(AccountSettingsMviModel.UiState()),
             siteRepository = get(),
             identityRepository = get(),
             postRepository = get(),

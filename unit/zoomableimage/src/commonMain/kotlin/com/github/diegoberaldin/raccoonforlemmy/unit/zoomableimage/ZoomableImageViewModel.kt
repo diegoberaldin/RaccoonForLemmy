@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.GalleryHelper
@@ -14,18 +13,19 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class ZoomableImageViewModel(
-    private val mvi: DefaultMviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect>,
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
     private val galleryHelper: GalleryHelper,
 ) : ZoomableImageMviModel,
-    MviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect> by mvi {
+    DefaultMviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect>(
+        initialState = ZoomableImageMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
+                updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)
         }
     }
@@ -43,8 +43,8 @@ class ZoomableImageViewModel(
     }
 
     private fun downloadAndSave(url: String) {
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             try {
                 val bytes = galleryHelper.download(url)
                 val extension = url.let { s ->
@@ -52,11 +52,11 @@ class ZoomableImageViewModel(
                     s.substring(idx).takeIf { it.isNotEmpty() } ?: ".jpeg"
                 }
                 galleryHelper.saveToGallery(bytes, "${epochMillis()}.$extension")
-                mvi.emitEffect(ZoomableImageMviModel.Effect.ShareSuccess)
+                emitEffect(ZoomableImageMviModel.Effect.ShareSuccess)
             } catch (e: Throwable) {
                 e.printStackTrace()
             } finally {
-                mvi.updateState { it.copy(loading = false) }
+                updateState { it.copy(loading = false) }
             }
         }
     }

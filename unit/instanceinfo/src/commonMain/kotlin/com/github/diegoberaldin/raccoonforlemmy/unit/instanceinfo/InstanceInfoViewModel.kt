@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class InstanceInfoViewModel(
-    private val mvi: DefaultMviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect>,
     private val url: String,
     private val siteRepository: SiteRepository,
     private val communityRepository: CommunityRepository,
@@ -29,15 +27,17 @@ class InstanceInfoViewModel(
     private val notificationCenter: NotificationCenter,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : InstanceInfoMviModel,
-    MviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect> by mvi {
+    DefaultMviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect>(
+        initialState = InstanceInfoMviModel.UiState()
+    ) {
 
     private var currentPage = 1
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
@@ -53,7 +53,7 @@ class InstanceInfoViewModel(
             val sortTypes = getSortTypesUseCase.getTypesForCommunities()
             if (metadata != null) {
                 metadata.title
-                mvi.updateState {
+                updateState {
                     it.copy(
                         title = metadata.title,
                         description = metadata.description,
@@ -63,7 +63,7 @@ class InstanceInfoViewModel(
             }
         }
 
-        if (mvi.uiState.value.communities.isEmpty()) {
+        if (uiState.value.communities.isEmpty()) {
             refresh()
         }
     }
@@ -78,19 +78,19 @@ class InstanceInfoViewModel(
 
     private fun refresh() {
         currentPage = 1
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
     }
 
     private fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
             val instance = url.replace("https://", "")
@@ -119,7 +119,7 @@ class InstanceInfoViewModel(
             val itemsToAdd = itemList.orEmpty().filter { e ->
                 e.model.instanceUrl == url
             }.map { it.model }
-            mvi.updateState {
+            updateState {
                 it.copy(
                     communities = if (refreshing) {
                         itemsToAdd
@@ -135,9 +135,9 @@ class InstanceInfoViewModel(
     }
 
     private fun changeSortType(value: SortType) {
-        mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.emitEffect(InstanceInfoMviModel.Effect.BackToTop)
+        updateState { it.copy(sortType = value) }
+        scope?.launch(Dispatchers.IO) {
+            emitEffect(InstanceInfoMviModel.Effect.BackToTop)
             refresh()
         }
     }

@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -19,33 +18,34 @@ import kotlinx.coroutines.launch
 
 
 class AccountSettingsViewModel(
-    private val mvi: DefaultMviModel<AccountSettingsMviModel.Intent, AccountSettingsMviModel.UiState, AccountSettingsMviModel.Effect>,
     private val siteRepository: SiteRepository,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val notificationCenter: NotificationCenter,
 ) : AccountSettingsMviModel,
-    MviModel<AccountSettingsMviModel.Intent, AccountSettingsMviModel.UiState, AccountSettingsMviModel.Effect> by mvi {
+    DefaultMviModel<AccountSettingsMviModel.Intent, AccountSettingsMviModel.UiState, AccountSettingsMviModel.Effect>(
+        initialState = AccountSettingsMviModel.UiState()
+    ) {
 
     private var accountSettings: AccountSettingsModel? = null
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    mvi.updateState { it.copy(defaultSortType = evt.value) }
+                    updateState { it.copy(defaultSortType = evt.value) }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
-                    mvi.updateState { it.copy(defaultListingType = evt.value) }
+                    updateState { it.copy(defaultListingType = evt.value) }
                 }.launchIn(this)
 
             if (accountSettings == null) {
                 refreshSettings()
                 val availableSortTypes = getSortTypesUseCase.getTypesForPosts()
-                mvi.updateState { it.copy(availableSortTypes = availableSortTypes) }
+                updateState { it.copy(availableSortTypes = availableSortTypes) }
             }
         }
     }
@@ -53,43 +53,43 @@ class AccountSettingsViewModel(
     override fun reduce(intent: AccountSettingsMviModel.Intent) {
         when (intent) {
             is AccountSettingsMviModel.Intent.ChangeDisplayName -> {
-                mvi.updateState { it.copy(displayName = intent.value) }
+                updateState { it.copy(displayName = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeEmail -> {
-                mvi.updateState { it.copy(email = intent.value) }
+                updateState { it.copy(email = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeMatrixUserId -> {
-                mvi.updateState { it.copy(matrixUserId = intent.value) }
+                updateState { it.copy(matrixUserId = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeBio -> {
-                mvi.updateState { it.copy(bio = intent.value) }
+                updateState { it.copy(bio = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeBot -> {
-                mvi.updateState { it.copy(bot = intent.value) }
+                updateState { it.copy(bot = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeSendNotificationsToEmail -> {
-                mvi.updateState { it.copy(sendNotificationsToEmail = intent.value) }
+                updateState { it.copy(sendNotificationsToEmail = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeShowBotAccounts -> {
-                mvi.updateState { it.copy(showBotAccounts = intent.value) }
+                updateState { it.copy(showBotAccounts = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeShowNsfw -> {
-                mvi.updateState { it.copy(showNsfw = intent.value) }
+                updateState { it.copy(showNsfw = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeShowScores -> {
-                mvi.updateState { it.copy(showScores = intent.value) }
+                updateState { it.copy(showScores = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.ChangeShowReadPosts -> {
-                mvi.updateState { it.copy(showReadPosts = intent.value) }
+                updateState { it.copy(showReadPosts = intent.value) }
             }
 
             is AccountSettingsMviModel.Intent.AvatarSelected -> {
@@ -105,10 +105,10 @@ class AccountSettingsViewModel(
     }
 
     private suspend fun refreshSettings() {
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value.orEmpty()
         accountSettings = siteRepository.getAccountSettings(auth)
-        mvi.updateState {
+        updateState {
             it.copy(
                 loading = false,
                 avatar = accountSettings?.avatar.orEmpty(),
@@ -133,12 +133,12 @@ class AccountSettingsViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
             if (url != null) {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         avatar = url,
                         loading = false,
@@ -152,12 +152,12 @@ class AccountSettingsViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
             if (url != null) {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         banner = url,
                         loading = false,
@@ -185,8 +185,8 @@ class AccountSettingsViewModel(
             showScores = currentState.showScores,
             showReadPosts = currentState.showReadPosts,
         ) ?: return
-        mvi.updateState { it.copy(loading = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 siteRepository.updateAccountSettings(
@@ -194,12 +194,12 @@ class AccountSettingsViewModel(
                     value = settingsToSave,
                 )
                 refreshSettings()
-                mvi.emitEffect(
+                emitEffect(
                     AccountSettingsMviModel.Effect.Success
                 )
             } catch (e: Exception) {
-                mvi.updateState { it.copy(loading = false) }
-                mvi.emitEffect(
+                updateState { it.copy(loading = false) }
+                emitEffect(
                     AccountSettingsMviModel.Effect.Failure
                 )
             }

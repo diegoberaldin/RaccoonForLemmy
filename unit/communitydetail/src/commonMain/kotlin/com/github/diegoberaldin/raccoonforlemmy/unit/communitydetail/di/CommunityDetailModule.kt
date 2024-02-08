@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.CommunityDetailMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.CommunityDetailViewModel
 import org.koin.dsl.module
@@ -8,7 +7,6 @@ import org.koin.dsl.module
 val communityDetailModule = module {
     factory<CommunityDetailMviModel> { params ->
         CommunityDetailViewModel(
-            mvi = DefaultMviModel(CommunityDetailMviModel.UiState()),
             communityId = params[0],
             otherInstance = params[1],
             identityRepository = get(),

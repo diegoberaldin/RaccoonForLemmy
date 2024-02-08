@@ -7,7 +7,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -34,7 +33,6 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration
 
 class SettingsViewModel(
-    private val mvi: DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>,
     private val themeRepository: ThemeRepository,
     private val languageRepository: LanguageRepository,
     private val identityRepository: IdentityRepository,
@@ -46,27 +44,29 @@ class SettingsViewModel(
     private val contentResetCoordinator: ContentResetCoordinator,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : SettingsMviModel,
-    MviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect> by mvi {
+    DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>(
+        initialState = SettingsMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             themeRepository.uiTheme.onEach { value ->
-                mvi.updateState { it.copy(uiTheme = value) }
+                updateState { it.copy(uiTheme = value) }
             }.launchIn(this)
             themeRepository.navItemTitles.onEach { value ->
-                mvi.updateState { it.copy(navBarTitlesVisible = value) }
+                updateState { it.copy(navBarTitlesVisible = value) }
             }.launchIn(this)
             themeRepository.postLayout.onEach { value ->
-                mvi.updateState { it.copy(postLayout = value) }
+                updateState { it.copy(postLayout = value) }
             }.launchIn(this)
 
             languageRepository.currentLanguage.onEach { lang ->
-                mvi.updateState { it.copy(lang = lang) }
+                updateState { it.copy(lang = lang) }
             }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
-                mvi.updateState { it.copy(isLogged = logged ?: false) }
+                updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
@@ -122,7 +122,7 @@ class SettingsViewModel(
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
             val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
-            mvi.updateState {
+            updateState {
                 it.copy(
                     availableSortTypesForPosts = availableSortTypesForPosts,
                     availableSortTypesForComments = availableSortTypesForComments,
@@ -131,7 +131,7 @@ class SettingsViewModel(
         }
 
         val settings = settingsRepository.currentSettings.value
-        mvi.updateState {
+        updateState {
             it.copy(
                 defaultListingType = settings.defaultListingType.toListingType(),
                 defaultPostSortType = settings.defaultPostSortType.toSortType(),
@@ -211,7 +211,7 @@ class SettingsViewModel(
 
     private fun changeTheme(value: UiTheme?) {
         themeRepository.changeUiTheme(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 theme = value?.toInt()
             )
@@ -221,7 +221,7 @@ class SettingsViewModel(
 
     private fun changeLanguage(value: String) {
         languageRepository.changeLanguage(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 locale = value
             )
@@ -230,8 +230,8 @@ class SettingsViewModel(
     }
 
     private fun changeDefaultListingType(value: ListingType) {
-        mvi.updateState { it.copy(defaultListingType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(defaultListingType = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultListingType = value.toInt()
             )
@@ -242,8 +242,8 @@ class SettingsViewModel(
     }
 
     private fun changeDefaultPostSortType(value: SortType) {
-        mvi.updateState { it.copy(defaultPostSortType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(defaultPostSortType = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultPostSortType = value.toInt()
             )
@@ -254,8 +254,8 @@ class SettingsViewModel(
     }
 
     private fun changeDefaultCommentSortType(value: SortType) {
-        mvi.updateState { it.copy(defaultCommentSortType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(defaultCommentSortType = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultCommentSortType = value.toInt()
             )
@@ -265,7 +265,7 @@ class SettingsViewModel(
 
     private fun changeNavBarTitlesVisible(value: Boolean) {
         themeRepository.changeNavItemTitles(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 navigationTitlesVisible = value
             )
@@ -274,8 +274,8 @@ class SettingsViewModel(
     }
 
     private fun changeIncludeNsfw(value: Boolean) {
-        mvi.updateState { it.copy(includeNsfw = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(includeNsfw = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 includeNsfw = value
             )
@@ -284,8 +284,8 @@ class SettingsViewModel(
     }
 
     private fun changeBlurNsfw(value: Boolean) {
-        mvi.updateState { it.copy(blurNsfw = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(blurNsfw = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 blurNsfw = value
             )
@@ -294,8 +294,8 @@ class SettingsViewModel(
     }
 
     private fun changeOpenUrlsInExternalBrowser(value: Boolean) {
-        mvi.updateState { it.copy(openUrlsInExternalBrowser = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(openUrlsInExternalBrowser = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 openUrlsInExternalBrowser = value
             )
@@ -304,8 +304,8 @@ class SettingsViewModel(
     }
 
     private fun changeEnableSwipeActions(value: Boolean) {
-        mvi.updateState { it.copy(enableSwipeActions = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(enableSwipeActions = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 enableSwipeActions = value
             )
@@ -314,8 +314,8 @@ class SettingsViewModel(
     }
 
     private fun changeEnableDoubleTapAction(value: Boolean) {
-        mvi.updateState { it.copy(enableDoubleTapAction = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(enableDoubleTapAction = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 enableDoubleTapAction = value
             )
@@ -325,7 +325,7 @@ class SettingsViewModel(
 
     private fun changePostLayout(value: PostLayout) {
         themeRepository.changePostLayout(value)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 postLayout = value.toInt()
             )
@@ -336,12 +336,12 @@ class SettingsViewModel(
     private fun changeCrashReportEnabled(value: Boolean) {
         crashReportConfiguration.setEnabled(value)
         crashReportSender.setEnabled(value)
-        mvi.updateState { it.copy(crashReportEnabled = value) }
+        updateState { it.copy(crashReportEnabled = value) }
     }
 
     private fun changeVoteFormat(value: VoteFormat) {
-        mvi.updateState { it.copy(voteFormat = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(voteFormat = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.let {
                 if (value == VoteFormat.Hidden) {
                     it.copy(showScores = false)
@@ -357,8 +357,8 @@ class SettingsViewModel(
     }
 
     private fun changeAutoLoadImages(value: Boolean) {
-        mvi.updateState { it.copy(autoLoadImages = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(autoLoadImages = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 autoLoadImages = value
             )
@@ -367,8 +367,8 @@ class SettingsViewModel(
     }
 
     private fun changeAutoExpandComments(value: Boolean) {
-        mvi.updateState { it.copy(autoExpandComments = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(autoExpandComments = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 autoExpandComments = value
             )
@@ -377,8 +377,8 @@ class SettingsViewModel(
     }
 
     private fun changeFullHeightImages(value: Boolean) {
-        mvi.updateState { it.copy(fullHeightImages = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(fullHeightImages = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 fullHeightImages = value
             )
@@ -387,8 +387,8 @@ class SettingsViewModel(
     }
 
     private fun changeHideNavigationBarWhileScrolling(value: Boolean) {
-        mvi.updateState { it.copy(hideNavigationBarWhileScrolling = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(hideNavigationBarWhileScrolling = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 hideNavigationBarWhileScrolling = value
             )
@@ -397,8 +397,8 @@ class SettingsViewModel(
     }
 
     private fun changeMarkAsReadWhileScrolling(value: Boolean) {
-        mvi.updateState { it.copy(markAsReadWhileScrolling = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(markAsReadWhileScrolling = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 markAsReadWhileScrolling = value
             )
@@ -407,8 +407,8 @@ class SettingsViewModel(
     }
 
     private fun changeZombieModeInterval(value: Duration) {
-        mvi.updateState { it.copy(zombieModeInterval = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(zombieModeInterval = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 zombieModeInterval = value
             )
@@ -417,8 +417,8 @@ class SettingsViewModel(
     }
 
     private fun changeZombieModeScrollAmount(value: Float) {
-        mvi.updateState { it.copy(zombieModeScrollAmount = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(zombieModeScrollAmount = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 zombieModeScrollAmount = value
             )
@@ -427,8 +427,8 @@ class SettingsViewModel(
     }
 
     private fun changeDefaultInboxUnreadOnly(value: Boolean) {
-        mvi.updateState { it.copy(defaultInboxUnreadOnly = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(defaultInboxUnreadOnly = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultInboxType = value.toInboxDefaultType(),
             )
@@ -438,8 +438,8 @@ class SettingsViewModel(
     }
 
     private fun changeSearchPostTitleOnly(value: Boolean) {
-        mvi.updateState { it.copy(searchPostTitleOnly = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(searchPostTitleOnly = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 searchPostTitleOnly = value
             )
@@ -448,8 +448,8 @@ class SettingsViewModel(
     }
 
     private fun changeEdgeToEdge(value: Boolean) {
-        mvi.updateState { it.copy(edgeToEdge = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(edgeToEdge = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 edgeToEdge = value
             )
@@ -458,8 +458,8 @@ class SettingsViewModel(
     }
 
     private fun changeInfiniteScrollDisabled(value: Boolean) {
-        mvi.updateState { it.copy(infiniteScrollDisabled = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(infiniteScrollDisabled = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 infiniteScrollEnabled = !value
             )
@@ -468,8 +468,8 @@ class SettingsViewModel(
     }
 
     private fun changePreferUserNicknames(value: Boolean) {
-        mvi.updateState { it.copy(preferUserNicknames = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(preferUserNicknames = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 preferUserNicknames = value
             )
@@ -478,8 +478,8 @@ class SettingsViewModel(
     }
 
     private fun changePostBodyMaxLines(value: Int?) {
-        mvi.updateState { it.copy(postBodyMaxLines = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(postBodyMaxLines = value) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 postBodyMaxLines = value
             )
@@ -492,8 +492,8 @@ class SettingsViewModel(
             UiBarTheme.Opaque -> true
             else -> false
         }
-        mvi.updateState { it.copy(opaqueSystemBars = opaque) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(opaqueSystemBars = opaque) }
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 opaqueSystemBars = opaque
             )
@@ -508,9 +508,9 @@ class SettingsViewModel(
     }
 
     private fun handleLogout() {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.getSettings(null)
-            mvi.updateState {
+            updateState {
                 it.copy(
                     defaultListingType = settings.defaultListingType.toListingType(),
                     defaultPostSortType = settings.defaultPostSortType.toSortType(),

@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.userdetail
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserDetailSection
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -34,7 +33,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class UserDetailViewModel(
-    private val mvi: DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>,
     private val userId: Int,
     private val otherInstance: String = "",
     private val identityRepository: IdentityRepository,
@@ -52,27 +50,29 @@ class UserDetailViewModel(
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val itemCache: LemmyItemCache,
 ) : UserDetailMviModel,
-    MviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect> by mvi {
+    DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>(
+        initialState = UserDetailMviModel.UiState(),
+    ) {
 
     private var currentPage = 1
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.updateState {
+        super.onStarted()
+        updateState {
             it.copy(
                 instance = otherInstance.takeIf { n -> n.isNotEmpty() }
                     ?: apiConfigurationRepository.instance.value,
             )
         }
-        mvi.scope?.launch {
+        scope?.launch {
             if (uiState.value.user.id == 0) {
                 val user = itemCache.getUser(userId) ?: UserModel()
-                mvi.updateState {
+                updateState {
                     it.copy(user = user)
                 }
             }
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
                 handlePostUpdate(evt.model)
@@ -86,9 +86,9 @@ class UserDetailViewModel(
             }.launchIn(this)
         }
 
-        mvi.scope?.launch {
+        scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
@@ -106,13 +106,13 @@ class UserDetailViewModel(
                 }
             }.launchIn(this)
             identityRepository.isLogged.onEach { logged ->
-                mvi.updateState { it.copy(isLogged = logged ?: false) }
+                updateState { it.copy(isLogged = logged ?: false) }
                 updateAvailableSortTypes()
             }.launchIn(this)
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                mvi.updateState {
+                updateState {
                     it.copy(
                         currentUserId = user?.id ?: 0,
                     )
@@ -122,7 +122,7 @@ class UserDetailViewModel(
             if (uiState.value.posts.isEmpty()) {
                 val defaultPostSortType =
                     settingsRepository.currentSettings.value.defaultPostSortType
-                mvi.updateState { it.copy(sortType = defaultPostSortType.toSortType()) }
+                updateState { it.copy(sortType = defaultPostSortType.toSortType()) }
 
                 withContext(Dispatchers.IO) {
                     refresh(initial = true)
@@ -156,11 +156,11 @@ class UserDetailViewModel(
             }
 
             UserDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            UserDetailMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            UserDetailMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            UserDetailMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+            UserDetailMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -213,14 +213,14 @@ class UserDetailViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch(Dispatchers.Main) {
-            mvi.emitEffect(UserDetailMviModel.Effect.BackToTop)
+        updateState { it.copy(sortType = value) }
+        scope?.launch(Dispatchers.Main) {
+            emitEffect(UserDetailMviModel.Effect.BackToTop)
         }
     }
 
     private fun changeSection(section: UserDetailSection) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 section = section,
             )
@@ -228,19 +228,19 @@ class UserDetailViewModel(
     }
 
     private fun updateAvailableSortTypes() {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val sortTypes = if (uiState.value.section == UserDetailSection.Posts) {
                 getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
             } else {
                 getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
             }
-            mvi.updateState { it.copy(availableSortTypes = sortTypes) }
+            updateState { it.copy(availableSortTypes = sortTypes) }
         }
     }
 
     private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 canFetchMore = true,
                 refreshing = true,
@@ -255,18 +255,18 @@ class UserDetailViewModel(
             username = uiState.value.user.name,
         )
         if (refreshedUser != null) {
-            mvi.updateState { it.copy(user = refreshedUser) }
+            updateState { it.copy(user = refreshedUser) }
         }
         loadNextPage()
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val section = currentState.section
@@ -299,7 +299,7 @@ class UserDetailViewModel(
                         currentState.comments
                     }
                 }.await()
-                mvi.updateState {
+                updateState {
                     val newPosts = if (refreshing) {
                         itemList.orEmpty()
                     } else {
@@ -334,7 +334,7 @@ class UserDetailViewModel(
                 otherInstance = otherInstance,
             )
 
-            mvi.updateState {
+            updateState {
                 val newcomments = if (refreshing) {
                     itemList.orEmpty()
                 } else {
@@ -361,7 +361,7 @@ class UserDetailViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -383,7 +383,7 @@ class UserDetailViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -405,7 +405,7 @@ class UserDetailViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -427,7 +427,7 @@ class UserDetailViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -446,7 +446,7 @@ class UserDetailViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -468,7 +468,7 @@ class UserDetailViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -484,7 +484,7 @@ class UserDetailViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 posts = it.posts.map { p ->
                     if (p.id == post.id) {
@@ -498,7 +498,7 @@ class UserDetailViewModel(
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 comments = it.comments.map { c ->
                     if (c.id == comment.id) {
@@ -512,33 +512,33 @@ class UserDetailViewModel(
     }
 
     private fun blockUser() {
-        mvi.updateState { it.copy(asyncInProgress = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(asyncInProgress = true) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value
                 userRepository.block(userId, true, auth).getOrThrow()
-                mvi.emitEffect(UserDetailMviModel.Effect.BlockSuccess)
+                emitEffect(UserDetailMviModel.Effect.BlockSuccess)
             } catch (e: Throwable) {
-                mvi.emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
+                emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
             } finally {
-                mvi.updateState { it.copy(asyncInProgress = false) }
+                updateState { it.copy(asyncInProgress = false) }
             }
         }
     }
 
     private fun blockInstance() {
-        mvi.updateState { it.copy(asyncInProgress = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(asyncInProgress = true) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val user = uiState.value.user
                 val instanceId = user.instanceId
                 val auth = identityRepository.authToken.value
                 siteRepository.block(instanceId, true, auth).getOrThrow()
-                mvi.emitEffect(UserDetailMviModel.Effect.BlockSuccess)
+                emitEffect(UserDetailMviModel.Effect.BlockSuccess)
             } catch (e: Throwable) {
-                mvi.emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
+                emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
             } finally {
-                mvi.updateState { it.copy(asyncInProgress = false) }
+                updateState { it.copy(asyncInProgress = false) }
             }
         }
     }

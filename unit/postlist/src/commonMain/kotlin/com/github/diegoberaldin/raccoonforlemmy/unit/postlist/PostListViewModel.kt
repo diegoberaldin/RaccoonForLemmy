@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.postlist
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -32,7 +31,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class PostListViewModel(
-    private val mvi: DefaultMviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>,
     private val postRepository: PostRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
@@ -49,7 +47,9 @@ class PostListViewModel(
     private val contentResetCoordinator: ContentResetCoordinator,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : PostListMviModel,
-    MviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect> by mvi {
+    DefaultMviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>(
+        initialState = PostListMviModel.UiState()
+    ) {
 
     private var currentPage: Int = 1
     private var pageCursor: String? = null
@@ -57,27 +57,27 @@ class PostListViewModel(
     private var hideReadPosts = false
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             apiConfigurationRepository.instance.onEach { instance ->
-                mvi.updateState {
+                updateState {
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
-                mvi.updateState {
+                updateState {
                     it.copy(isLogged = logged ?: false)
                 }
                 updateAvailableSortTypes()
             }.launchIn(this)
 
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         blurNsfw = settings.blurNsfw,
                         swipeActionsEnabled = settings.enableSwipeActions,
@@ -115,7 +115,7 @@ class PostListViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.InstanceSelected::class).onEach {
                 refresh()
                 delay(100)
-                mvi.emitEffect(PostListMviModel.Effect.BackToTop)
+                emitEffect(PostListMviModel.Effect.BackToTop)
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.BlockActionSelected::class)
                 .onEach { evt ->
@@ -134,13 +134,13 @@ class PostListViewModel(
 
             zombieModeHelper.index.onEach { index ->
                 if (uiState.value.zombieModeActive) {
-                    mvi.emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
+                    emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
                 }
             }.launchIn(this)
 
             val auth = identityRepository.authToken.value.orEmpty()
             val user = siteRepository.getCurrentUser(auth)
-            mvi.updateState { it.copy(currentUserId = user?.id ?: 0) }
+            updateState { it.copy(currentUserId = user?.id ?: 0) }
         }
 
         if (contentResetCoordinator.resetHome) {
@@ -151,31 +151,31 @@ class PostListViewModel(
         if (firstLoad) {
             firstLoad = false
             val settings = settingsRepository.currentSettings.value
-            mvi.updateState {
+            updateState {
                 it.copy(
                     listingType = settings.defaultListingType.toListingType(),
                     sortType = settings.defaultPostSortType.toSortType(),
                 )
             }
-            mvi.scope?.launch(Dispatchers.IO) {
+            scope?.launch(Dispatchers.IO) {
                 refresh()
-                mvi.emitEffect(PostListMviModel.Effect.BackToTop)
+                emitEffect(PostListMviModel.Effect.BackToTop)
             }
         }
     }
 
     private suspend fun updateAvailableSortTypes() {
         val sortTypes = getSortTypesUseCase.getTypesForPosts()
-        mvi.updateState { it.copy(availableSortTypes = sortTypes) }
+        updateState { it.copy(availableSortTypes = sortTypes) }
     }
 
     override fun reduce(intent: PostListMviModel.Intent) {
         when (intent) {
-            PostListMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            PostListMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            PostListMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+            PostListMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -229,12 +229,12 @@ class PostListViewModel(
             }
 
             PostListMviModel.Intent.PauseZombieMode -> {
-                mvi.updateState { it.copy(zombieModeActive = false) }
+                updateState { it.copy(zombieModeActive = false) }
                 zombieModeHelper.pause()
             }
 
             is PostListMviModel.Intent.StartZombieMode -> {
-                mvi.updateState { it.copy(zombieModeActive = true) }
+                updateState { it.copy(zombieModeActive = true) }
                 zombieModeHelper.start(
                     initialValue = intent.index,
                     interval = settingsRepository.currentSettings.value.zombieModeInterval,
@@ -247,17 +247,17 @@ class PostListViewModel(
         currentPage = 1
         pageCursor = null
         hideReadPosts = false
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val type = currentState.listingType ?: ListingType.Local
         val sort = currentState.sortType ?: SortType.Active
@@ -308,7 +308,7 @@ class PostListViewModel(
                 }
             }
         }
-        mvi.updateState {
+        updateState {
             val newPosts = if (refreshing) {
                 itemsToAdd
             } else {
@@ -327,9 +327,9 @@ class PostListViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.emitEffect(PostListMviModel.Effect.BackToTop)
+        updateState { it.copy(sortType = value) }
+        scope?.launch(Dispatchers.IO) {
+            emitEffect(PostListMviModel.Effect.BackToTop)
             refresh()
         }
     }
@@ -338,9 +338,9 @@ class PostListViewModel(
         if (uiState.value.listingType == value) {
             return
         }
-        mvi.updateState { it.copy(listingType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.emitEffect(PostListMviModel.Effect.BackToTop)
+        updateState { it.copy(listingType = value) }
+        scope?.launch(Dispatchers.IO) {
+            emitEffect(PostListMviModel.Effect.BackToTop)
             refresh()
         }
     }
@@ -352,7 +352,7 @@ class PostListViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -373,7 +373,7 @@ class PostListViewModel(
             return
         }
         val newPost = post.copy(read = true)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.setRead(
@@ -396,7 +396,7 @@ class PostListViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -419,7 +419,7 @@ class PostListViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -436,7 +436,7 @@ class PostListViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 posts = it.posts.map { p ->
                     if (p.id == post.id) {
@@ -452,7 +452,7 @@ class PostListViewModel(
     private fun handleLogout() {
         currentPage = 1
         pageCursor = null
-        mvi.updateState {
+        updateState {
             it.copy(
                 posts = emptyList(),
                 isLogged = false,
@@ -461,7 +461,7 @@ class PostListViewModel(
     }
 
     private fun handlePostDelete(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = id, auth = auth)
             handlePostDelete(id)
@@ -470,7 +470,7 @@ class PostListViewModel(
 
     private fun clearRead() {
         hideReadPosts = true
-        mvi.updateState {
+        updateState {
             val newPosts = it.posts.filter { e -> !e.read }
             it.copy(
                 posts = newPosts,
@@ -479,7 +479,7 @@ class PostListViewModel(
     }
 
     private fun hide(post: PostModel) {
-        mvi.updateState {
+        updateState {
             val newPosts = it.posts.filter { e -> e.id != post.id }
             it.copy(
                 posts = newPosts,
@@ -489,21 +489,21 @@ class PostListViewModel(
     }
 
     private fun blockUser(userId: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             userRepository.block(userId, true, auth)
         }
     }
 
     private fun blockCommunity(communityId: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             communityRepository.block(communityId, true, auth)
         }
     }
 
     private fun blockInstance(instanceId: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value
                 siteRepository.block(instanceId, true, auth)

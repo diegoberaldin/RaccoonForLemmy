@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.replies
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -21,7 +20,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class InboxRepliesViewModel(
-    private val mvi: DefaultMviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val userRepository: UserRepository,
     private val siteRepository: SiteRepository,
@@ -32,14 +30,16 @@ class InboxRepliesViewModel(
     private val notificationCenter: NotificationCenter,
     private val settingsRepository: SettingsRepository,
 ) : InboxRepliesMviModel,
-    MviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect> by mvi {
+    DefaultMviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect>(
+        initialState = InboxRepliesMviModel.UiState(),
+    ) {
 
     private var currentPage: Int = 1
     private var currentUserId: Int? = null
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             coordinator.events.onEach {
                 when (it) {
                     InboxCoordinator.Event.Refresh -> refresh()
@@ -51,10 +51,10 @@ class InboxRepliesViewModel(
                 }
             }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         autoLoadImages = settings.autoLoadImages,
@@ -78,11 +78,11 @@ class InboxRepliesViewModel(
 
     override fun reduce(intent: InboxRepliesMviModel.Intent) {
         when (intent) {
-            InboxRepliesMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            InboxRepliesMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            InboxRepliesMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+            InboxRepliesMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -111,7 +111,7 @@ class InboxRepliesViewModel(
 
     private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 initial = initial,
                 canFetchMore = true,
@@ -126,21 +126,21 @@ class InboxRepliesViewModel(
     }
 
     private fun changeUnreadOnly(value: Boolean) {
-        mvi.updateState { it.copy(unreadOnly = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(unreadOnly = value) }
+        scope?.launch(Dispatchers.IO) {
             refresh(initial = true)
-            mvi.emitEffect(InboxRepliesMviModel.Effect.BackToTop)
+            emitEffect(InboxRepliesMviModel.Effect.BackToTop)
         }
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val unreadOnly = currentState.unreadOnly
@@ -156,7 +156,7 @@ class InboxRepliesViewModel(
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
-        mvi.updateState {
+        updateState {
             val newItems = if (refreshing) {
                 itemList.orEmpty()
             } else {
@@ -173,7 +173,7 @@ class InboxRepliesViewModel(
     }
 
     private fun handleItemUpdate(item: PersonMentionModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 replies = it.replies.map { i ->
                     if (i.id == item.id) {
@@ -188,7 +188,7 @@ class InboxRepliesViewModel(
 
     private fun markAsRead(read: Boolean, reply: PersonMentionModel) {
         val auth = identityRepository.authToken.value
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             userRepository.setReplyRead(
                 read = read,
                 replyId = reply.id,
@@ -196,7 +196,7 @@ class InboxRepliesViewModel(
             )
             val currentState = uiState.value
             if (read && currentState.unreadOnly) {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         replies = currentState.replies.filter { r ->
                             r.id != reply.id
@@ -218,7 +218,7 @@ class InboxRepliesViewModel(
             voted = newValue,
         )
         handleItemUpdate(newMention)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -239,7 +239,7 @@ class InboxRepliesViewModel(
             downVoted = newValue
         )
         handleItemUpdate(newMention)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -255,10 +255,10 @@ class InboxRepliesViewModel(
 
     private suspend fun updateUnreadItems() {
         val unreadCount = coordinator.updateUnreadCount()
-        mvi.emitEffect(InboxRepliesMviModel.Effect.UpdateUnreadItems(unreadCount))
+        emitEffect(InboxRepliesMviModel.Effect.UpdateUnreadItems(unreadCount))
     }
 
     private fun handleLogout() {
-        mvi.updateState { it.copy(replies = emptyList()) }
+        updateState { it.copy(replies = emptyList()) }
     }
 }

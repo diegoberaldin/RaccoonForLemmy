@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
@@ -17,7 +16,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ManageAccountsViewModel(
-    private val mvi: DefaultMviModel<ManageAccountsMviModel.Intent, ManageAccountsMviModel.UiState, ManageAccountsMviModel.Effect>,
     private val accountRepository: AccountRepository,
     private val settingsRepository: SettingsRepository,
     private val switchAccount: SwitchAccountUseCase,
@@ -25,15 +23,16 @@ class ManageAccountsViewModel(
     private val deleteAccount: DeleteAccountUseCase,
     private val contentResetCoordinator: ContentResetCoordinator,
 ) : ManageAccountsMviModel,
-    MviModel<ManageAccountsMviModel.Intent, ManageAccountsMviModel.UiState, ManageAccountsMviModel.Effect> by mvi {
+    DefaultMviModel<ManageAccountsMviModel.Intent, ManageAccountsMviModel.UiState, ManageAccountsMviModel.Effect>(
+        initialState = ManageAccountsMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
-
+        super.onStarted()
         if (uiState.value.accounts.isEmpty()) {
-            mvi.scope?.launch {
+            scope?.launch {
                 settingsRepository.currentSettings.onEach { settings ->
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             autoLoadImages = settings.autoLoadImages,
                             preferNicknames = settings.preferUserNicknames,
@@ -42,7 +41,7 @@ class ManageAccountsViewModel(
                 }.launchIn(this)
 
                 val accounts = accountRepository.getAll()
-                mvi.updateState { it.copy(accounts = accounts) }
+                updateState { it.copy(accounts = accounts) }
             }
         }
     }
@@ -58,15 +57,15 @@ class ManageAccountsViewModel(
             is ManageAccountsMviModel.Intent.DeleteAccount -> {
                 uiState.value.accounts.getOrNull(intent.index)?.also { account ->
                     if (account.active) {
-                        mvi.scope?.launch(Dispatchers.IO) {
+                        scope?.launch(Dispatchers.IO) {
                             logout()
                             deleteAccount(account)
                             close()
                         }
                     } else {
-                        mvi.scope?.launch(Dispatchers.IO) {
+                        scope?.launch(Dispatchers.IO) {
                             deleteAccount(account)
-                            mvi.updateState {
+                            updateState {
                                 it.copy(accounts = it.accounts.filter { a -> a.id != account.id })
                             }
                         }
@@ -80,7 +79,7 @@ class ManageAccountsViewModel(
         if (account.active) {
             return
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             switchAccount(account)
             contentResetCoordinator.resetHome = true
             contentResetCoordinator.resetExplore = true
@@ -91,7 +90,7 @@ class ManageAccountsViewModel(
 
     private suspend fun close() {
         withContext(Dispatchers.Main) {
-            mvi.emitEffect(ManageAccountsMviModel.Effect.Close)
+            emitEffect(ManageAccountsMviModel.Effect.Close)
         }
     }
 }

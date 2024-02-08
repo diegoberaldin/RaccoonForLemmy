@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -22,7 +21,6 @@ import kotlinx.coroutines.launch
 
 class ReportListViewModel(
     private val communityId: Int,
-    private val mvi: DefaultMviModel<ReportListMviModel.Intent, ReportListMviModel.UiState, ReportListMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
@@ -31,18 +29,20 @@ class ReportListViewModel(
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
 ) : ReportListMviModel,
-    MviModel<ReportListMviModel.Intent, ReportListMviModel.UiState, ReportListMviModel.Effect> by mvi {
+    DefaultMviModel<ReportListMviModel.Intent, ReportListMviModel.UiState, ReportListMviModel.Effect>(
+        initialState = ReportListMviModel.UiState(),
+    ) {
 
     private var currentPage = 1
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
@@ -66,16 +66,16 @@ class ReportListViewModel(
             is ReportListMviModel.Intent.ChangeSection -> changeSection(intent.value)
             is ReportListMviModel.Intent.ChangeUnresolvedOnly -> changeUnresolvedOnly(intent.value)
             ReportListMviModel.Intent.Refresh -> refresh()
-            ReportListMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            ReportListMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            is ReportListMviModel.Intent.ResolveComment -> mvi.uiState.value.commentReports
+            is ReportListMviModel.Intent.ResolveComment -> uiState.value.commentReports
                 .firstOrNull { it.id == intent.id }?.also {
                     resolve(it)
                 }
 
-            is ReportListMviModel.Intent.ResolvePost -> mvi.uiState.value.postReports
+            is ReportListMviModel.Intent.ResolvePost -> uiState.value.postReports
                 .firstOrNull { it.id == intent.id }?.also {
                     resolve(it)
                 }
@@ -85,7 +85,7 @@ class ReportListViewModel(
     }
 
     private fun changeSection(section: ReportListSection) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 section = section,
             )
@@ -93,7 +93,7 @@ class ReportListViewModel(
     }
 
     private fun changeUnresolvedOnly(value: Boolean) {
-        mvi.updateState {
+        updateState {
             it.copy(unresolvedOnly = value)
         }
         refresh(initial = true)
@@ -101,27 +101,27 @@ class ReportListViewModel(
 
     private fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 canFetchMore = true,
                 refreshing = true,
                 initial = initial,
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             loadNextPage()
         }
     }
 
     private fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val refreshing = currentState.refreshing
             val section = currentState.section
@@ -150,7 +150,7 @@ class ReportListViewModel(
                             currentState.commentReports
                         }
                     }.await()
-                    mvi.updateState {
+                    updateState {
                         val postReports = if (refreshing) {
                             itemList.orEmpty()
                         } else {
@@ -177,7 +177,7 @@ class ReportListViewModel(
                     unresolvedOnly = unresolvedOnly,
                 )
 
-                mvi.updateState {
+                updateState {
                     val commentReports = if (refreshing) {
                         itemList.orEmpty()
                     } else {
@@ -199,15 +199,15 @@ class ReportListViewModel(
     }
 
     private fun resolve(report: PostReportModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(asyncInProgress = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(asyncInProgress = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val newReport = postRepository.resolveReport(
                 reportId = report.id,
                 auth = auth,
                 resolved = !report.resolved
             )
-            mvi.updateState { it.copy(asyncInProgress = false) }
+            updateState { it.copy(asyncInProgress = false) }
             if (newReport != null) {
                 if (uiState.value.unresolvedOnly && newReport.resolved) {
                     handleReporDelete(newReport)
@@ -219,15 +219,15 @@ class ReportListViewModel(
     }
 
     private fun resolve(report: CommentReportModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(asyncInProgress = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(asyncInProgress = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val newReport = commentRepository.resolveReport(
                 reportId = report.id,
                 auth = auth,
                 resolved = !report.resolved
             )
-            mvi.updateState { it.copy(asyncInProgress = false) }
+            updateState { it.copy(asyncInProgress = false) }
             if (newReport != null) {
                 if (uiState.value.unresolvedOnly && newReport.resolved) {
                     handleReporDelete(newReport)
@@ -239,7 +239,7 @@ class ReportListViewModel(
     }
 
     private fun handleReportUpdate(report: PostReportModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 postReports = it.postReports.map { r ->
                     if (r.id == report.id) {
@@ -253,7 +253,7 @@ class ReportListViewModel(
     }
 
     private fun handleReportUpdate(report: CommentReportModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 commentReports = it.commentReports.map { r ->
                     if (r.id == report.id) {
@@ -267,7 +267,7 @@ class ReportListViewModel(
     }
 
     private fun handleReporDelete(report: PostReportModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 postReports = it.postReports.filter { r -> r.id != report.id }
             )
@@ -275,7 +275,7 @@ class ReportListViewModel(
     }
 
     private fun handleReporDelete(report: CommentReportModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 commentReports = it.commentReports.filter { r -> r.id != report.id }
             )

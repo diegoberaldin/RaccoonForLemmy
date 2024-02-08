@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.remove
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -14,18 +13,19 @@ import kotlinx.coroutines.launch
 class RemoveViewModel(
     private val postId: Int?,
     private val commentId: Int?,
-    private val mvi: DefaultMviModel<RemoveMviModel.Intent, RemoveMviModel.UiState, RemoveMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
     private val notificationCenter: NotificationCenter,
 ) : RemoveMviModel,
-    MviModel<RemoveMviModel.Intent, RemoveMviModel.UiState, RemoveMviModel.Effect> by mvi {
+    DefaultMviModel<RemoveMviModel.Intent, RemoveMviModel.UiState, RemoveMviModel.Effect>(
+        initialState = RemoveMviModel.UiState(),
+    ) {
 
     override fun reduce(intent: RemoveMviModel.Intent) {
         when (intent) {
             is RemoveMviModel.Intent.SetText -> {
-                mvi.updateState {
+                updateState {
                     it.copy(text = intent.value)
                 }
             }
@@ -35,13 +35,13 @@ class RemoveViewModel(
     }
 
     private fun submit() {
-        if (mvi.uiState.value.loading) {
+        if (uiState.value.loading) {
             return
         }
         val text = uiState.value.text
 
-        mvi.updateState { it.copy(loading = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 if (postId != null) {
@@ -63,12 +63,12 @@ class RemoveViewModel(
                         notificationCenter.send(NotificationCenterEvent.CommentRemoved(comment))
                     }
                 }
-                mvi.emitEffect(RemoveMviModel.Effect.Success)
+                emitEffect(RemoveMviModel.Effect.Success)
             } catch (e: Throwable) {
                 val message = e.message
-                mvi.emitEffect(RemoveMviModel.Effect.Failure(message))
+                emitEffect(RemoveMviModel.Effect.Failure(message))
             } finally {
-                mvi.updateState { it.copy(loading = false) }
+                updateState { it.copy(loading = false) }
             }
         }
     }

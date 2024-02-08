@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.messages
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class InboxMessagesViewModel(
-    private val mvi: DefaultMviModel<InboxMessagesMviModel.Intent, InboxMessagesMviModel.UiState, InboxMessagesMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val messageRepository: PrivateMessageRepository,
@@ -26,13 +24,15 @@ class InboxMessagesViewModel(
     private val coordinator: InboxCoordinator,
     private val notificationCenter: NotificationCenter,
 ) : InboxMessagesMviModel,
-    MviModel<InboxMessagesMviModel.Intent, InboxMessagesMviModel.UiState, InboxMessagesMviModel.Effect> by mvi {
+    DefaultMviModel<InboxMessagesMviModel.Intent, InboxMessagesMviModel.UiState, InboxMessagesMviModel.Effect>(
+        initialState = InboxMessagesMviModel.UiState(),
+    ) {
 
     private var currentPage: Int = 1
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             coordinator.events.onEach {
                 when (it) {
                     InboxCoordinator.Event.Refresh -> refresh()
@@ -44,7 +44,7 @@ class InboxMessagesViewModel(
                 }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
@@ -58,7 +58,7 @@ class InboxMessagesViewModel(
             launch(Dispatchers.IO) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
-                mvi.updateState { it.copy(currentUserId = currentUserId) }
+                updateState { it.copy(currentUserId = currentUserId) }
 
                 if (uiState.value.initial) {
                     val value = coordinator.unreadOnly.value
@@ -72,11 +72,11 @@ class InboxMessagesViewModel(
 
     override fun reduce(intent: InboxMessagesMviModel.Intent) {
         when (intent) {
-            InboxMessagesMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            InboxMessagesMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            InboxMessagesMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+            InboxMessagesMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -91,7 +91,7 @@ class InboxMessagesViewModel(
 
     private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 initial = initial,
                 canFetchMore = true,
@@ -106,21 +106,21 @@ class InboxMessagesViewModel(
         if (uiState.value.currentUserId == 0) {
             return
         }
-        mvi.updateState { it.copy(unreadOnly = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(unreadOnly = value) }
+        scope?.launch(Dispatchers.IO) {
             refresh(initial = true)
-            mvi.emitEffect(InboxMessagesMviModel.Effect.BackToTop)
+            emitEffect(InboxMessagesMviModel.Effect.BackToTop)
         }
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val unreadOnly = currentState.unreadOnly
@@ -137,7 +137,7 @@ class InboxMessagesViewModel(
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
-        mvi.updateState {
+        updateState {
             val newItems = if (refreshing) {
                 itemList.orEmpty()
             } else {
@@ -160,15 +160,15 @@ class InboxMessagesViewModel(
     }
 
     private fun updateUnreadItems() {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val unreadCount = coordinator.updateUnreadCount()
-            mvi.emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
+            emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
         }
     }
 
     private fun markAsRead(read: Boolean, message: PrivateMessageModel) {
         val auth = identityRepository.authToken.value
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             messageRepository.markAsRead(
                 read = read,
                 messageId = message.id,
@@ -176,7 +176,7 @@ class InboxMessagesViewModel(
             )
             val currentState = uiState.value
             if (read && currentState.unreadOnly) {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         chats = currentState.chats.filter { c ->
                             c.id != message.id
@@ -184,7 +184,7 @@ class InboxMessagesViewModel(
                     )
                 }
             } else {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         chats = currentState.chats.map { c ->
                             if (c.id == message.id) {
@@ -201,6 +201,6 @@ class InboxMessagesViewModel(
     }
 
     private fun handleLogout() {
-        mvi.updateState { it.copy(chats = emptyList()) }
+        updateState { it.copy(chats = emptyList()) }
     }
 }

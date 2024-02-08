@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.saveditems
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SavedItemsViewModel(
-    private val mvi: DefaultMviModel<SavedItemsMviModel.Intent, SavedItemsMviModel.UiState, SavedItemsMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val siteRepository: SiteRepository,
@@ -39,19 +37,21 @@ class SavedItemsViewModel(
     private val hapticFeedback: HapticFeedback,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : SavedItemsMviModel,
-    MviModel<SavedItemsMviModel.Intent, SavedItemsMviModel.UiState, SavedItemsMviModel.Effect> by mvi {
+    DefaultMviModel<SavedItemsMviModel.Intent, SavedItemsMviModel.UiState, SavedItemsMviModel.Effect>(
+        initialState = SavedItemsMviModel.UiState(),
+    ) {
 
     private var currentPage: Int = 1
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
-        mvi.scope?.launch {
+        super.onStarted()
+        updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
+        scope?.launch {
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
@@ -75,9 +75,9 @@ class SavedItemsViewModel(
                 shareHelper.share(evt.url)
             }.launchIn(this)
 
-            if (mvi.uiState.value.posts.isEmpty()) {
+            if (uiState.value.posts.isEmpty()) {
                 val sortTypes = getSortTypesUseCase.getTypesForSavedItems()
-                mvi.updateState { it.copy(availableSortTypes = sortTypes) }
+                updateState { it.copy(availableSortTypes = sortTypes) }
                 refresh()
             }
         }
@@ -152,7 +152,7 @@ class SavedItemsViewModel(
 
     private fun refresh() {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 canFetchMore = true,
                 refreshing = true,
@@ -162,14 +162,14 @@ class SavedItemsViewModel(
     }
 
     private fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val user = siteRepository.getCurrentUser(auth.orEmpty()) ?: return@launch
             val refreshing = currentState.refreshing
@@ -185,7 +185,7 @@ class SavedItemsViewModel(
                 if (!itemList.isNullOrEmpty()) {
                     currentPage++
                 }
-                mvi.updateState {
+                updateState {
                     val newPosts = if (refreshing) {
                         itemList.orEmpty()
                     } else {
@@ -208,7 +208,7 @@ class SavedItemsViewModel(
                 if (!itemList.isNullOrEmpty()) {
                     currentPage++
                 }
-                mvi.updateState {
+                updateState {
                     val newComments = if (refreshing) {
                         itemList.orEmpty()
                     } else {
@@ -229,12 +229,12 @@ class SavedItemsViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        mvi.updateState { it.copy(sortType = value) }
+        updateState { it.copy(sortType = value) }
         refresh()
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 posts = it.posts.map { p ->
                     if (p.id == post.id) {
@@ -248,7 +248,7 @@ class SavedItemsViewModel(
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 comments = it.comments.map { c ->
                     if (c.id == comment.id) {
@@ -262,11 +262,11 @@ class SavedItemsViewModel(
     }
 
     private fun handlePostDelete(id: Int) {
-        mvi.updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+        updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
     }
 
     private fun changeSection(section: SavedItemsSection) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 section = section,
             )
@@ -280,7 +280,7 @@ class SavedItemsViewModel(
             voted = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -305,7 +305,7 @@ class SavedItemsViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -330,7 +330,7 @@ class SavedItemsViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -355,7 +355,7 @@ class SavedItemsViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -374,7 +374,7 @@ class SavedItemsViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -396,7 +396,7 @@ class SavedItemsViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(

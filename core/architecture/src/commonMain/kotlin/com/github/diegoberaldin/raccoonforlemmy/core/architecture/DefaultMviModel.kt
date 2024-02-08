@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 /**
- * Basic implementation of the MVI model. This is useful to easily implement the interface by delegation,
- * minimizing the amount of code that is needed when integrating the MVI pattern.
+ * Basic implementation of the MVI model.
  * The [updateState] and [emitEffect] methods are shortcuts to easily update the UI state and emit a side effect.
  *
  * @param Intent class of intents
@@ -19,13 +18,14 @@ import kotlinx.coroutines.flow.update
  *
  * @param initialState initial UI state
  */
-class DefaultMviModel<Intent, State, Effect>(
+abstract class DefaultMviModel<Intent, State, Effect>(
     initialState: State,
 ) : MviModel<Intent, State, Effect> {
 
     override val uiState = MutableStateFlow(initialState)
     override val effects = MutableSharedFlow<Effect>()
-    var scope: CoroutineScope? = null
+
+    protected var scope: CoroutineScope? = null
         private set
 
     /**

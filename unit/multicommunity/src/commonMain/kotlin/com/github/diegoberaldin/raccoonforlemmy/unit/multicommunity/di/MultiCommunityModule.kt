@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.di
 
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor.MultiCommunityEditorMviModel
@@ -12,7 +11,6 @@ import org.koin.dsl.module
 val multiCommunityModule = module {
     factory<MultiCommunityMviModel> { params ->
         MultiCommunityViewModel(
-            mvi = DefaultMviModel(MultiCommunityMviModel.UiState()),
             communityId = params[0],
             postRepository = get(),
             identityRepository = get(),
@@ -35,7 +33,6 @@ val multiCommunityModule = module {
     }
     factory<MultiCommunityEditorMviModel> { params ->
         MultiCommunityEditorViewModel(
-            mvi = DefaultMviModel(MultiCommunityEditorMviModel.UiState()),
             communityId = params[0],
             identityRepository = get(),
             communityRepository = get(),

@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.manageban
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
@@ -15,20 +14,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ManageBanViewModel(
-    private val mvi: DefaultMviModel<ManageBanMviModel.Intent, ManageBanMviModel.UiState, ManageBanMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val settingsRepository: SettingsRepository,
     private val userRepository: UserRepository,
     private val communityRepository: CommunityRepository,
 ) : ManageBanMviModel,
-    MviModel<ManageBanMviModel.Intent, ManageBanMviModel.UiState, ManageBanMviModel.Effect> by mvi {
+    DefaultMviModel<ManageBanMviModel.Intent, ManageBanMviModel.UiState, ManageBanMviModel.Effect>(
+        initialState = ManageBanMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
@@ -37,7 +37,7 @@ class ManageBanViewModel(
             }.launchIn(this)
 
             withContext(Dispatchers.IO) {
-                if (mvi.uiState.value.initial) {
+                if (uiState.value.initial) {
                     refresh()
                 }
             }
@@ -47,11 +47,11 @@ class ManageBanViewModel(
     override fun reduce(intent: ManageBanMviModel.Intent) {
         when (intent) {
             is ManageBanMviModel.Intent.ChangeSection -> {
-                mvi.updateState { it.copy(section = intent.section) }
+                updateState { it.copy(section = intent.section) }
             }
 
             ManageBanMviModel.Intent.Refresh -> {
-                mvi.scope?.launch(Dispatchers.IO) {
+                scope?.launch(Dispatchers.IO) {
                     refresh()
                 }
             }
@@ -65,7 +65,7 @@ class ManageBanViewModel(
     private suspend fun refresh() {
         val auth = identityRepository.authToken.value.orEmpty()
         val bans = siteRepository.getBans(auth)
-        mvi.updateState {
+        updateState {
             it.copy(
                 bannedUsers = bans?.users.orEmpty(),
                 bannedCommunities = bans?.communities.orEmpty(),
@@ -76,7 +76,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanUser(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 userRepository.block(
@@ -84,7 +84,7 @@ class ManageBanViewModel(
                     blocked = false,
                     auth = auth
                 )
-                mvi.updateState {
+                updateState {
                     it.copy(bannedUsers = it.bannedUsers.filter { e -> e.id != id })
                 }
             }
@@ -92,7 +92,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanCommunity(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 communityRepository.block(
@@ -100,7 +100,7 @@ class ManageBanViewModel(
                     blocked = false,
                     auth = auth
                 )
-                mvi.updateState {
+                updateState {
                     it.copy(bannedCommunities = it.bannedCommunities.filter { e -> e.id != id })
                 }
             }
@@ -108,7 +108,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanInstance(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 siteRepository.block(
@@ -116,7 +116,7 @@ class ManageBanViewModel(
                     blocked = false,
                     auth = auth
                 )
-                mvi.updateState {
+                updateState {
                     it.copy(bannedInstances = it.bannedInstances.filter { e -> e.id != id })
                 }
             }

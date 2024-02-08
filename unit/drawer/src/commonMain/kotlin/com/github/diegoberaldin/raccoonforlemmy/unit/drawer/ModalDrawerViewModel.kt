@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.FavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
@@ -29,7 +28,6 @@ import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
 
 class ModalDrawerViewModel(
-    private val mvi: DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val accountRepository: AccountRepository,
@@ -39,14 +37,16 @@ class ModalDrawerViewModel(
     private val settingsRepository: SettingsRepository,
     private val favoriteCommunityRepository: FavoriteCommunityRepository,
 ) : ModalDrawerMviModel,
-    MviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect> by mvi {
+    DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>(
+        initialState = ModalDrawerMviModel.UiState()
+    ) {
 
     @OptIn(FlowPreview::class)
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             apiConfigurationRepository.instance.onEach { instance ->
-                mvi.updateState {
+                updateState {
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
@@ -55,7 +55,7 @@ class ModalDrawerViewModel(
                 refresh()
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
@@ -96,13 +96,13 @@ class ModalDrawerViewModel(
             }
                 .sortedBy { it.name }
                 .sortedByDescending { it.favorite }
-            mvi.updateState { it.copy(communities = newCommunities) }
+            updateState { it.copy(communities = newCommunities) }
         }.launchIn(this)
     }
 
     override fun reduce(intent: ModalDrawerMviModel.Intent) {
         when (intent) {
-            ModalDrawerMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+            ModalDrawerMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
         }
@@ -111,7 +111,7 @@ class ModalDrawerViewModel(
     private suspend fun refreshUser() {
         val auth = identityRepository.authToken.value.orEmpty()
         if (auth.isEmpty()) {
-            mvi.updateState { it.copy(user = null) }
+            updateState { it.copy(user = null) }
         } else {
             var user = siteRepository.getCurrentUser(auth)
             runCatching {
@@ -122,7 +122,7 @@ class ModalDrawerViewModel(
                         user = siteRepository.getCurrentUser(auth)
                         yield()
                     }
-                    mvi.updateState { it.copy(user = user) }
+                    updateState { it.copy(user = user) }
                 }
             }
         }
@@ -132,7 +132,7 @@ class ModalDrawerViewModel(
         if (uiState.value.refreshing) {
             return
         }
-        mvi.updateState { it.copy(refreshing = true) }
+        updateState { it.copy(refreshing = true) }
 
         val auth = identityRepository.authToken.value
         val accountId = accountRepository.getActive()?.id
@@ -151,7 +151,7 @@ class ModalDrawerViewModel(
         val multiCommunitites = accountId?.let {
             multiCommunityRepository.getAll(it).sortedBy { e -> e.name }
         }.orEmpty()
-        mvi.updateState {
+        updateState {
             it.copy(
                 refreshing = false,
                 communities = communities,

@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.search.main
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -31,7 +30,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class ExploreViewModel(
-    private val mvi: DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>,
     private val apiConfigRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
@@ -44,31 +42,33 @@ class ExploreViewModel(
     private val contentResetCoordinator: ContentResetCoordinator,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : ExploreMviModel,
-    MviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect> by mvi {
+    DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>(
+        initialState = ExploreMviModel.UiState(),
+    ) {
 
     private var currentPage: Int = 1
     private var debounceJob: Job? = null
     private var firstLoad = true
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.updateState {
+        super.onStarted()
+        updateState {
             it.copy(
                 instance = apiConfigRepository.instance.value,
             )
         }
-        mvi.scope?.launch {
+        scope?.launch {
             identityRepository.isLogged.onEach { isLogged ->
-                mvi.updateState {
+                updateState {
                     it.copy(isLogged = isLogged ?: false)
                 }
                 updateAvailableSortTypes()
             }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         blurNsfw = settings.blurNsfw,
                         voteFormat = settings.voteFormat,
@@ -116,34 +116,34 @@ class ExploreViewModel(
             val settings = settingsRepository.currentSettings.value
             val listingType = settings.defaultListingType.toListingType()
             val sortType = settings.defaultPostSortType.toSortType()
-            mvi.updateState {
+            updateState {
                 it.copy(
                     listingType = listingType,
                     sortType = sortType,
                 )
             }
-            mvi.scope?.launch(Dispatchers.IO) {
+            scope?.launch(Dispatchers.IO) {
                 refresh()
-                mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
+                emitEffect(ExploreMviModel.Effect.BackToTop)
             }
         }
     }
 
     private suspend fun updateAvailableSortTypes() {
         val sortTypes = getSortTypesUseCase.getTypesForPosts()
-        mvi.updateState { it.copy(availableSortTypes = sortTypes) }
+        updateState { it.copy(availableSortTypes = sortTypes) }
     }
 
     override fun reduce(intent: ExploreMviModel.Intent) {
         when (intent) {
             ExploreMviModel.Intent.LoadNextPage -> {
-                mvi.scope?.launch(Dispatchers.IO) {
+                scope?.launch(Dispatchers.IO) {
                     loadNextPage()
                 }
             }
 
             ExploreMviModel.Intent.Refresh -> {
-                mvi.scope?.launch(Dispatchers.IO) {
+                scope?.launch(Dispatchers.IO) {
                     refresh()
                 }
             }
@@ -235,52 +235,52 @@ class ExploreViewModel(
 
     private fun setSearch(value: String) {
         debounceJob?.cancel()
-        mvi.updateState { it.copy(searchText = value) }
-        debounceJob = mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(searchText = value) }
+        debounceJob = scope?.launch(Dispatchers.IO) {
             delay(1_000)
-            mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
+            emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
     }
 
     private fun changeListingType(value: ListingType) {
-        mvi.updateState { it.copy(listingType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
+        updateState { it.copy(listingType = value) }
+        scope?.launch(Dispatchers.IO) {
+            emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
     }
 
     private fun changeSortType(value: SortType) {
-        mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
+        updateState { it.copy(sortType = value) }
+        scope?.launch(Dispatchers.IO) {
+            emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
     }
 
     private fun changeResultType(value: SearchResultType) {
-        mvi.updateState { it.copy(resultType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.emitEffect(ExploreMviModel.Effect.BackToTop)
+        updateState { it.copy(resultType = value) }
+        scope?.launch(Dispatchers.IO) {
+            emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
     }
 
     private suspend fun refresh() {
         currentPage = 1
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
-        mvi.updateState { it.copy(loading = true) }
-        val searchText = mvi.uiState.value.searchText
+        updateState { it.copy(loading = true) }
+        val searchText = uiState.value.searchText
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val listingType = currentState.listingType
@@ -316,7 +316,7 @@ class ExploreViewModel(
             // prevents accidental duplication
             currentState.results.none { r2 -> getItemKey(r1) == getItemKey(r2) }
         }
-        mvi.updateState {
+        updateState {
             val newItems = if (refreshing) {
                 itemsToAdd
             } else {
@@ -341,7 +341,7 @@ class ExploreViewModel(
 
     private fun handleLogout() {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 listingType = ListingType.Local,
                 results = emptyList(),
@@ -350,7 +350,7 @@ class ExploreViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 results = it.results.map { r ->
                     if (r is SearchResult.Post && r.model.id == post.id) {
@@ -364,7 +364,7 @@ class ExploreViewModel(
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 results = it.results.map { r ->
                     if (r is SearchResult.Comment && r.model.id == comment.id) {
@@ -383,7 +383,7 @@ class ExploreViewModel(
             post = post,
             voted = newVote,
         )
-        mvi.updateState {
+        updateState {
             it.copy(
                 results = it.results.map { res ->
                     if (res !is SearchResult.Post) return@map res
@@ -395,7 +395,7 @@ class ExploreViewModel(
                 },
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -405,7 +405,7 @@ class ExploreViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         results = it.results.map { res ->
                             if (res !is SearchResult.Post) return@map res
@@ -427,7 +427,7 @@ class ExploreViewModel(
             post = post,
             downVoted = newValue,
         )
-        mvi.updateState {
+        updateState {
             it.copy(
                 results = it.results.map { res ->
                     if (res !is SearchResult.Post) return@map res
@@ -439,7 +439,7 @@ class ExploreViewModel(
                 },
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -449,7 +449,7 @@ class ExploreViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         results = it.results.map { res ->
                             if (res !is SearchResult.Post) return@map res
@@ -471,7 +471,7 @@ class ExploreViewModel(
             post = post,
             saved = newValue,
         )
-        mvi.updateState {
+        updateState {
             it.copy(
                 results = it.results.map { res ->
                     if (res !is SearchResult.Post) return@map res
@@ -483,7 +483,7 @@ class ExploreViewModel(
                 },
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -493,7 +493,7 @@ class ExploreViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         results = it.results.map { res ->
                             if (res !is SearchResult.Post) return@map res
@@ -515,7 +515,7 @@ class ExploreViewModel(
             comment = comment,
             voted = newValue,
         )
-        mvi.updateState {
+        updateState {
             it.copy(
                 results = it.results.map { res ->
                     if (res !is SearchResult.Comment) return@map res
@@ -527,7 +527,7 @@ class ExploreViewModel(
                 },
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -537,7 +537,7 @@ class ExploreViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         results = it.results.map { res ->
                             if (res !is SearchResult.Comment) return@map res
@@ -556,7 +556,7 @@ class ExploreViewModel(
     private fun toggleDownVoteComment(comment: CommentModel) {
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
-        mvi.updateState {
+        updateState {
             it.copy(
                 results = it.results.map { res ->
                     if (res !is SearchResult.Comment) return@map res
@@ -568,7 +568,7 @@ class ExploreViewModel(
                 },
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -578,7 +578,7 @@ class ExploreViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         results = it.results.map { res ->
                             if (res !is SearchResult.Comment) return@map res
@@ -600,7 +600,7 @@ class ExploreViewModel(
             comment = comment,
             saved = newValue,
         )
-        mvi.updateState {
+        updateState {
             it.copy(
                 results = it.results.map { res ->
                     if (res !is SearchResult.Comment) return@map res
@@ -612,7 +612,7 @@ class ExploreViewModel(
                 },
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -622,7 +622,7 @@ class ExploreViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         results = it.results.map { res ->
                             if (res !is SearchResult.Comment) return@map res

@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.createpost
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.isValidUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class CreatePostViewModel(
-    private val mvi: DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>,
     private val editedPostId: Int?,
     private val crossPostId: Int?,
     private val identityRepository: IdentityRepository,
@@ -30,24 +28,26 @@ class CreatePostViewModel(
     private val settingsRepository: SettingsRepository,
     private val itemCache: LemmyItemCache,
 ) : CreatePostMviModel,
-    MviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect> by mvi {
+    DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>(
+        initialState = CreatePostMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             val editedPost = editedPostId?.let {
                 itemCache.getPost(it)
             }
             val crossPost = crossPostId?.let {
                 itemCache.getPost(it)
             }
-            mvi.updateState { it.copy(editedPost = editedPost, crossPost = crossPost) }
+            updateState { it.copy(editedPost = editedPost, crossPost = crossPost) }
 
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
@@ -63,7 +63,7 @@ class CreatePostViewModel(
                 val currentUser = siteRepository.getCurrentUser(auth)
                 val languages = siteRepository.getLanguages(auth)
                 if (currentUser != null) {
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             currentUser = currentUser.name,
                             currentInstance = currentUser.host,
@@ -80,7 +80,7 @@ class CreatePostViewModel(
             is CreatePostMviModel.Intent.SetCommunity -> {
                 val community = intent.value
                 val preferNicknames = uiState.value.preferNicknames
-                mvi.updateState {
+                updateState {
                     it.copy(
                         communityId = community.id,
                         communityInfo = community.readableName(preferNicknames),
@@ -89,21 +89,21 @@ class CreatePostViewModel(
             }
 
             is CreatePostMviModel.Intent.SetTitle -> {
-                mvi.updateState {
+                updateState {
                     it.copy(title = intent.value)
                 }
             }
 
 
             is CreatePostMviModel.Intent.ChangeNsfw -> {
-                mvi.updateState {
+                updateState {
                     it.copy(nsfw = intent.value)
                 }
             }
 
 
             is CreatePostMviModel.Intent.SetUrl -> {
-                mvi.updateState {
+                updateState {
                     it.copy(url = intent.value)
                 }
             }
@@ -117,11 +117,11 @@ class CreatePostViewModel(
             }
 
 
-            is CreatePostMviModel.Intent.ChangeSection -> mvi.updateState {
+            is CreatePostMviModel.Intent.ChangeSection -> updateState {
                 it.copy(section = intent.value)
             }
 
-            is CreatePostMviModel.Intent.ChangeLanguage -> mvi.updateState {
+            is CreatePostMviModel.Intent.ChangeLanguage -> updateState {
                 it.copy(currentLanguageId = intent.value)
             }
 
@@ -133,11 +133,11 @@ class CreatePostViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
-            mvi.updateState {
+            updateState {
                 it.copy(
                     url = url.orEmpty(),
                     loading = false,
@@ -150,25 +150,25 @@ class CreatePostViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
             if (url != null) {
-                mvi.emitEffect(CreatePostMviModel.Effect.AddImageToBody(url))
+                emitEffect(CreatePostMviModel.Effect.AddImageToBody(url))
             }
-            mvi.updateState {
+            updateState {
                 it.copy(loading = false)
             }
         }
     }
 
     private fun submit(body: String) {
-        if (mvi.uiState.value.loading) {
+        if (uiState.value.loading) {
             return
         }
 
-        mvi.updateState {
+        updateState {
             it.copy(
                 titleError = null,
                 urlError = null,
@@ -183,7 +183,7 @@ class CreatePostViewModel(
         val languageId = uiState.value.currentLanguageId
         var valid = true
         if (title.isEmpty()) {
-            mvi.updateState {
+            updateState {
                 it.copy(
                     titleError = message_missing_field.desc(),
                 )
@@ -191,7 +191,7 @@ class CreatePostViewModel(
             valid = false
         }
         if (body.isEmpty()) {
-            mvi.updateState {
+            updateState {
                 it.copy(
                     bodyError = message_missing_field.desc(),
                 )
@@ -199,7 +199,7 @@ class CreatePostViewModel(
             valid = false
         }
         if (!url.isNullOrEmpty() && !url.isValidUrl()) {
-            mvi.updateState {
+            updateState {
                 it.copy(
                     urlError = message_invalid_field.desc(),
                 )
@@ -207,7 +207,7 @@ class CreatePostViewModel(
             valid = false
         }
         if (communityId == null) {
-            mvi.updateState {
+            updateState {
                 it.copy(
                     communityError = message_missing_field.desc(),
                 )
@@ -219,8 +219,8 @@ class CreatePostViewModel(
             return
         }
 
-        mvi.updateState { it.copy(loading = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 when {
@@ -248,12 +248,12 @@ class CreatePostViewModel(
                         )
                     }
                 }
-                mvi.emitEffect(CreatePostMviModel.Effect.Success)
+                emitEffect(CreatePostMviModel.Effect.Success)
             } catch (e: Throwable) {
                 val message = e.message
-                mvi.emitEffect(CreatePostMviModel.Effect.Failure(message))
+                emitEffect(CreatePostMviModel.Effect.Failure(message))
             } finally {
-                mvi.updateState { it.copy(loading = false) }
+                updateState { it.copy(loading = false) }
             }
         }
     }

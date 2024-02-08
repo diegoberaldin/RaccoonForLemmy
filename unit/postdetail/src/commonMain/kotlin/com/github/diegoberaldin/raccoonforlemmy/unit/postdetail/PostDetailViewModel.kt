@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.postdetail
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -30,7 +29,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class PostDetailViewModel(
-    private val mvi: DefaultMviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>,
     private val postId: Int,
     private val otherInstance: String,
     private val highlightCommentId: Int?,
@@ -49,24 +47,26 @@ class PostDetailViewModel(
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val itemCache: LemmyItemCache,
 ) : PostDetailMviModel,
-    MviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect> by mvi {
+    DefaultMviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>(
+        initialState = PostDetailMviModel.UiState()
+    ) {
 
     private var currentPage: Int = 1
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.updateState {
+        super.onStarted()
+        updateState {
             it.copy(
                 instance = otherInstance.takeIf { n -> n.isNotEmpty() }
                     ?: apiConfigurationRepository.instance.value,
             )
         }
-        mvi.scope?.launch {
+        scope?.launch {
             if (uiState.value.post.id == 0) {
                 val post = itemCache.getPost(postId) ?: PostModel()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         post = post,
                         isModerator = isModerator,
@@ -80,7 +80,7 @@ class PostDetailViewModel(
                 .onEach { evt ->
                     val commentId = evt.commentId
                     val newUser = evt.user
-                    mvi.updateState {
+                    updateState {
                         it.copy(
                             comments = it.comments.map { c ->
                                 if (c.id == commentId) {
@@ -96,11 +96,11 @@ class PostDetailViewModel(
                     }
                 }.launchIn(this)
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
@@ -116,7 +116,7 @@ class PostDetailViewModel(
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { _ ->
-                mvi.emitEffect(PostDetailMviModel.Effect.Close)
+                emitEffect(PostDetailMviModel.Effect.Close)
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
                 .onEach { evt ->
@@ -139,13 +139,13 @@ class PostDetailViewModel(
             }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
-                mvi.updateState { it.copy(isLogged = logged ?: false) }
+                updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                mvi.updateState {
+                updateState {
                     it.copy(currentUserId = user?.id ?: 0)
                 }
             }
@@ -157,7 +157,7 @@ class PostDetailViewModel(
                 instance = otherInstance,
             )
             if (updatedPost != null) {
-                mvi.updateState {
+                updateState {
                     it.copy(post = updatedPost)
                 }
             }
@@ -176,7 +176,7 @@ class PostDetailViewModel(
                         auth = auth,
                         id = communityId
                     )
-                    mvi.updateState {
+                    updateState {
                         it.copy(moderators = moderators)
                     }
                 }
@@ -185,12 +185,12 @@ class PostDetailViewModel(
             if (uiState.value.post.text.isEmpty() && uiState.value.post.title.isEmpty()) {
                 refreshPost()
             }
-            if (mvi.uiState.value.comments.isEmpty()) {
+            if (uiState.value.comments.isEmpty()) {
                 val sortTypes =
                     getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
                 val defaultCommentSortType =
                     settingsRepository.currentSettings.value.defaultCommentSortType.toSortType()
-                mvi.updateState {
+                updateState {
                     it.copy(
                         sortType = defaultCommentSortType,
                         availableSortTypes = sortTypes,
@@ -224,21 +224,21 @@ class PostDetailViewModel(
         } else {
             // comment to highlight found
             commentWasHighlighted = true
-            mvi.scope?.launch(Dispatchers.Main) {
-                mvi.emitEffect(PostDetailMviModel.Effect.ScrollToComment(indexOfHighlight))
+            scope?.launch(Dispatchers.Main) {
+                emitEffect(PostDetailMviModel.Effect.ScrollToComment(indexOfHighlight))
             }
         }
     }
 
     override fun reduce(intent: PostDetailMviModel.Intent) {
         when (intent) {
-            PostDetailMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            PostDetailMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 if (!uiState.value.initial) {
                     loadNextPage()
                 }
             }
 
-            PostDetailMviModel.Intent.Refresh -> mvi.scope?.launch(Dispatchers.IO) {
+            PostDetailMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -327,14 +327,14 @@ class PostDetailViewModel(
     }
 
     private fun refreshPost() {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             val updatedPost = postRepository.get(
                 id = postId,
                 auth = auth,
                 instance = otherInstance,
             ) ?: uiState.value.post
-            mvi.updateState {
+            updateState {
                 it.copy(post = updatedPost)
             }
         }
@@ -342,19 +342,19 @@ class PostDetailViewModel(
 
     private suspend fun refresh() {
         currentPage = 1
-        mvi.updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
     }
 
     private suspend fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
         val autoExpandComments = settingsRepository.currentSettings.value.autoExpandComments
 
-        mvi.updateState { it.copy(loading = true) }
+        updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val sort = currentState.sortType
@@ -387,7 +387,7 @@ class PostDetailViewModel(
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
-        mvi.updateState {
+        updateState {
             val newComments = if (refreshing) {
                 itemList.orEmpty()
             } else {
@@ -411,22 +411,22 @@ class PostDetailViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        mvi.updateState { it.copy(sortType = value) }
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.emitEffect(PostDetailMviModel.Effect.BackToTop)
+        updateState { it.copy(sortType = value) }
+        scope?.launch(Dispatchers.IO) {
+            emitEffect(PostDetailMviModel.Effect.BackToTop)
             refresh()
         }
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        mvi.updateState {
+        updateState {
             it.copy(post = post)
         }
     }
 
     private fun loadMoreComments(parentId: Int, loadUntilHighlight: Boolean = false) {
-        mvi.scope?.launch(Dispatchers.IO) {
-            val currentState = mvi.uiState.value
+        scope?.launch(Dispatchers.IO) {
+            val currentState = uiState.value
             val auth = identityRepository.authToken.value
             val sort = currentState.sortType
             val fetchResult = commentRepository.getChildren(
@@ -453,7 +453,7 @@ class PostDetailViewModel(
                         comment
                     }
                 }
-                mvi.updateState { it.copy(comments = newList) }
+                updateState { it.copy(comments = newList) }
             } else {
                 val newList = uiState.value.comments.let { list ->
                     val index = list.indexOfFirst { c -> c.id == parentId }
@@ -461,7 +461,7 @@ class PostDetailViewModel(
                         addAll(index + 1, fetchResult.orEmpty())
                     }.toList()
                 }.populateLoadMoreComments()
-                mvi.updateState { it.copy(comments = newList) }
+                updateState { it.copy(comments = newList) }
 
                 if (loadUntilHighlight) {
                     // start indirect recursion
@@ -477,8 +477,8 @@ class PostDetailViewModel(
             post = post,
             voted = newValue,
         )
-        mvi.updateState { it.copy(post = newPost) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(post = newPost) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -491,7 +491,7 @@ class PostDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState { it.copy(post = post) }
+                updateState { it.copy(post = post) }
             }
         }
     }
@@ -504,10 +504,10 @@ class PostDetailViewModel(
             post = post,
             downVoted = newValue,
         )
-        mvi.updateState {
+        updateState {
             it.copy(post = newPost)
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -520,7 +520,7 @@ class PostDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState { it.copy(post = post) }
+                updateState { it.copy(post = post) }
             }
         }
     }
@@ -531,8 +531,8 @@ class PostDetailViewModel(
             post = post,
             saved = newValue,
         )
-        mvi.updateState { it.copy(post = newPost) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(post = newPost) }
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -545,13 +545,13 @@ class PostDetailViewModel(
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                mvi.updateState { it.copy(post = post) }
+                updateState { it.copy(post = post) }
             }
         }
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 comments = it.comments.map { c ->
                     if (c.id == comment.id) {
@@ -571,7 +571,7 @@ class PostDetailViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -593,7 +593,7 @@ class PostDetailViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -618,7 +618,7 @@ class PostDetailViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -637,7 +637,7 @@ class PostDetailViewModel(
     }
 
     private fun deleteComment(id: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             handleCommentDelete(id)
@@ -646,25 +646,25 @@ class PostDetailViewModel(
     }
 
     private fun handleCommentDelete(id: Int) {
-        mvi.updateState { it.copy(comments = it.comments.filter { comment -> comment.id != id }) }
+        updateState { it.copy(comments = it.comments.filter { comment -> comment.id != id }) }
     }
 
     private fun deletePost() {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = postId, auth = auth)
             notificationCenter.send(
                 event = NotificationCenterEvent.PostDeleted(uiState.value.post),
             )
-            mvi.emitEffect(PostDetailMviModel.Effect.Close)
+            emitEffect(PostDetailMviModel.Effect.Close)
         }
     }
 
     private fun toggleExpanded(comment: CommentModel) {
-        mvi.scope?.launch(Dispatchers.Main) {
+        scope?.launch(Dispatchers.Main) {
             val commentId = comment.id
             val newExpanded = !comment.expanded
-            mvi.updateState {
+            updateState {
                 val newComments = it.comments.map { c ->
                     when {
                         c.id == commentId -> {
@@ -693,7 +693,7 @@ class PostDetailViewModel(
     }
 
     private fun feature(post: PostModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.featureInCommunity(
                 postId = post.id,
@@ -707,7 +707,7 @@ class PostDetailViewModel(
     }
 
     private fun lock(post: PostModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.lock(
                 postId = post.id,
@@ -721,7 +721,7 @@ class PostDetailViewModel(
     }
 
     private fun distinguish(comment: CommentModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newComment = commentRepository.distinguish(
                 commentId = comment.id,
@@ -735,7 +735,7 @@ class PostDetailViewModel(
     }
 
     private fun toggleModeratorStatus(userId: Int) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val isModerator = uiState.value.moderators.containsId(userId)
             val auth = identityRepository.authToken.value.orEmpty()
             val post = uiState.value.post
@@ -747,7 +747,7 @@ class PostDetailViewModel(
                     added = !isModerator,
                     userId = userId,
                 )
-                mvi.updateState {
+                updateState {
                     it.copy(moderators = newModerators)
                 }
             }

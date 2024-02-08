@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class InboxViewModel(
-    private val mvi: DefaultMviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val userRepository: UserRepository,
     private val coordinator: InboxCoordinator,
@@ -25,25 +23,27 @@ class InboxViewModel(
     private val notificationCenter: NotificationCenter,
     private val contentResetCoordinator: ContentResetCoordinator,
 ) : InboxMviModel,
-    MviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect> by mvi {
+    DefaultMviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect>(
+        initialState = InboxMviModel.UiState(),
+    ) {
 
     private var firstLoad = true
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             identityRepository.isLogged.onEach { logged ->
-                mvi.updateState { it.copy(isLogged = logged) }
+                updateState { it.copy(isLogged = logged) }
             }.launchIn(this)
 
             coordinator.unreadMentions.onEach { value ->
-                mvi.updateState { it.copy(unreadMentions = value) }
+                updateState { it.copy(unreadMentions = value) }
             }.launchIn(this)
             coordinator.unreadReplies.onEach { value ->
-                mvi.updateState { it.copy(unreadReplies = value) }
+                updateState { it.copy(unreadReplies = value) }
             }.launchIn(this)
             coordinator.unreadMessages.onEach { value ->
-                mvi.updateState { it.copy(unreadMessages = value) }
+                updateState { it.copy(unreadMessages = value) }
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
@@ -69,7 +69,7 @@ class InboxViewModel(
 
     override fun reduce(intent: InboxMviModel.Intent) {
         when (intent) {
-            is InboxMviModel.Intent.ChangeSection -> mvi.updateState {
+            is InboxMviModel.Intent.ChangeSection -> updateState {
                 it.copy(section = intent.value)
             }
 
@@ -79,17 +79,17 @@ class InboxViewModel(
     }
 
     private fun changeUnreadOnly(value: Boolean) {
-        mvi.updateState {
+        updateState {
             it.copy(unreadOnly = value)
         }
         coordinator.setUnreadOnly(value)
     }
 
     private fun markAllRead() {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             userRepository.readAll(auth)
-            mvi.emitEffect(InboxMviModel.Effect.Refresh)
+            emitEffect(InboxMviModel.Effect.Refresh)
             coordinator.sendEvent(InboxCoordinator.Event.Refresh)
         }
     }

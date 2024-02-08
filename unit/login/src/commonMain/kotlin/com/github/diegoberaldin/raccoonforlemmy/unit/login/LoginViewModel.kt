@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.login
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
@@ -18,7 +17,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginViewModel(
-    private val mvi: DefaultMviModel<LoginMviModel.Intent, LoginMviModel.UiState, LoginMviModel.Effect>,
     private val login: LoginUseCase,
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
@@ -27,12 +25,14 @@ class LoginViewModel(
     private val communityRepository: CommunityRepository,
     private val contentResetCoordinator: ContentResetCoordinator,
 ) : LoginMviModel,
-    MviModel<LoginMviModel.Intent, LoginMviModel.UiState, LoginMviModel.Effect> by mvi {
+    DefaultMviModel<LoginMviModel.Intent, LoginMviModel.UiState, LoginMviModel.Effect>(
+        initialState = LoginMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
+        super.onStarted()
         val instance = apiConfigurationRepository.instance.value
-        mvi.updateState {
+        updateState {
             it.copy(instanceName = instance)
         }
     }
@@ -48,19 +48,19 @@ class LoginViewModel(
     }
 
     private fun setInstanceName(value: String) {
-        mvi.updateState { it.copy(instanceName = value) }
+        updateState { it.copy(instanceName = value) }
     }
 
     private fun setUsername(value: String) {
-        mvi.updateState { it.copy(username = value) }
+        updateState { it.copy(username = value) }
     }
 
     private fun setPassword(value: String) {
-        mvi.updateState { it.copy(password = value) }
+        updateState { it.copy(password = value) }
     }
 
     private fun setTotp2faToken(value: String) {
-        mvi.updateState { it.copy(totp2faToken = value) }
+        updateState { it.copy(totp2faToken = value) }
     }
 
     private fun submit() {
@@ -73,7 +73,7 @@ class LoginViewModel(
         val username = currentState.username
         val password = currentState.password
         val totp2faToken = currentState.totp2faToken
-        mvi.updateState {
+        updateState {
             it.copy(
                 instanceNameError = null,
                 usernameError = null,
@@ -83,7 +83,7 @@ class LoginViewModel(
 
         val valid = when {
             instance.isEmpty() -> {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         instanceNameError = MR.strings.message_missing_field.desc(),
                     )
@@ -92,7 +92,7 @@ class LoginViewModel(
             }
 
             username.isEmpty() -> {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         usernameError = MR.strings.message_missing_field.desc(),
                     )
@@ -101,7 +101,7 @@ class LoginViewModel(
             }
 
             password.isEmpty() -> {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         passwordError = MR.strings.message_missing_field.desc(),
                     )
@@ -115,8 +115,8 @@ class LoginViewModel(
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
 
             val res = communityRepository.getAll(
                 instance = instance,
@@ -125,7 +125,7 @@ class LoginViewModel(
                 resultType = SearchResultType.Communities,
             ) ?: emptyList()
             if (res.isEmpty()) {
-                mvi.updateState {
+                updateState {
                     it.copy(
                         instanceNameError = MR.strings.message_invalid_field.desc(),
                         loading = false,
@@ -140,13 +140,13 @@ class LoginViewModel(
                 password = password,
                 totp2faToken = totp2faToken,
             )
-            mvi.updateState { it.copy(loading = false) }
+            updateState { it.copy(loading = false) }
 
             if (result.isFailure) {
                 result.exceptionOrNull()?.also {
                     val message = it.message
                     withContext(Dispatchers.Main) {
-                        mvi.emitEffect(LoginMviModel.Effect.LoginError(message))
+                        emitEffect(LoginMviModel.Effect.LoginError(message))
                     }
                 }
             } else {
@@ -163,7 +163,7 @@ class LoginViewModel(
                 contentResetCoordinator.resetHome = true
                 contentResetCoordinator.resetExplore = true
                 withContext(Dispatchers.Main) {
-                    mvi.emitEffect(LoginMviModel.Effect.LoginSuccess)
+                    emitEffect(LoginMviModel.Effect.LoginSuccess)
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.FavoriteCommunityModel
@@ -21,7 +20,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class ManageSubscriptionsViewModel(
-    private val mvi: DefaultMviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect>,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val accountRepository: AccountRepository,
@@ -31,13 +29,15 @@ class ManageSubscriptionsViewModel(
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
 ) : ManageSubscriptionsMviModel,
-    MviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect> by mvi {
+    DefaultMviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect>(
+        initialState = ManageSubscriptionsMviModel.UiState(),
+    ) {
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
@@ -84,8 +84,8 @@ class ManageSubscriptionsViewModel(
         if (uiState.value.refreshing) {
             return
         }
-        mvi.updateState { it.copy(refreshing = true) }
-        mvi.scope?.launch(Dispatchers.IO) {
+        updateState { it.copy(refreshing = true) }
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             val accountId = accountRepository.getActive()?.id ?: 0L
             val favoriteCommunityIds =
@@ -97,7 +97,7 @@ class ManageSubscriptionsViewModel(
                 .sortedBy { it.name }
             val multiCommunitites = multiCommunityRepository.getAll(accountId).sortedBy { it.name }
 
-            mvi.updateState {
+            updateState {
                 it.copy(
                     refreshing = false,
                     initial = false,
@@ -109,21 +109,21 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun handleUnsubscription(community: CommunityModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             communityRepository.unsubscribe(
                 auth = auth, id = community.id
             )
-            mvi.updateState {
+            updateState {
                 it.copy(communities = it.communities.filter { c -> c.id != community.id })
             }
         }
     }
 
     private fun deleteMultiCommunity(community: MultiCommunityModel) {
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             multiCommunityRepository.delete(community)
-            mvi.updateState {
+            updateState {
                 val newCommunities = it.multiCommunities.filter { c -> c.id != community.id }
                 it.copy(multiCommunities = newCommunities)
             }
@@ -143,12 +143,12 @@ class ManageSubscriptionsViewModel(
         } else {
             oldCommunities + community
         }.sortedBy { it.name }
-        mvi.updateState { it.copy(multiCommunities = newCommunities) }
+        updateState { it.copy(multiCommunities = newCommunities) }
     }
 
     private fun toggleFavorite(community: CommunityModel) {
         val communityId = community.id
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             val accountId = accountRepository.getActive()?.id ?: 0L
             val newValue = !community.favorite
             if (newValue) {
@@ -165,7 +165,7 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun handleCommunityUpdate(community: CommunityModel) {
-        mvi.updateState {
+        updateState {
             it.copy(
                 communities = it.communities.map { c ->
                     if (c.id == community.id) {

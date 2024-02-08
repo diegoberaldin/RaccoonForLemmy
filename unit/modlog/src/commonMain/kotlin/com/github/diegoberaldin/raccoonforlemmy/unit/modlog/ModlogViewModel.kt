@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.modlog
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.ModlogRepository
@@ -13,25 +12,26 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class ModlogViewModel(
-    private val mvi: DefaultMviModel<ModlogMviModel.Intent, ModlogMviModel.UiState, ModlogMviModel.Effect>,
     private val communityId: Int,
     private val themeRepository: ThemeRepository,
     private val identityRepository: IdentityRepository,
     private val modlogRepository: ModlogRepository,
     private val settingsRepository: SettingsRepository,
 ) : ModlogMviModel,
-    MviModel<ModlogMviModel.Intent, ModlogMviModel.UiState, ModlogMviModel.Effect> by mvi {
+    DefaultMviModel<ModlogMviModel.Intent, ModlogMviModel.UiState, ModlogMviModel.Effect>(
+        initialState = ModlogMviModel.UiState()
+    ) {
 
     private var currentPage: Int = 1
 
     override fun onStarted() {
-        mvi.onStarted()
-        mvi.scope?.launch {
+        super.onStarted()
+        scope?.launch {
             themeRepository.postLayout.onEach { layout ->
-                mvi.updateState { it.copy(postLayout = layout) }
+                updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
             settingsRepository.currentSettings.onEach { settings ->
-                mvi.updateState {
+                updateState {
                     it.copy(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
@@ -48,7 +48,7 @@ class ModlogViewModel(
     override fun reduce(intent: ModlogMviModel.Intent) {
         when (intent) {
             ModlogMviModel.Intent.Refresh -> refresh()
-            ModlogMviModel.Intent.LoadNextPage -> mvi.scope?.launch(Dispatchers.IO) {
+            ModlogMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
                 loadNextPage()
             }
         }
@@ -56,27 +56,27 @@ class ModlogViewModel(
 
     private fun refresh(initial: Boolean = false) {
         currentPage = 1
-        mvi.updateState {
+        updateState {
             it.copy(
                 canFetchMore = true,
                 refreshing = true,
                 initial = initial,
             )
         }
-        mvi.scope?.launch(Dispatchers.IO) {
+        scope?.launch(Dispatchers.IO) {
             loadNextPage()
         }
     }
 
     private fun loadNextPage() {
-        val currentState = mvi.uiState.value
+        val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            mvi.updateState { it.copy(refreshing = false) }
+            updateState { it.copy(refreshing = false) }
             return
         }
 
-        mvi.scope?.launch(Dispatchers.IO) {
-            mvi.updateState { it.copy(loading = true) }
+        scope?.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val refreshing = currentState.refreshing
             val itemList = modlogRepository.getItems(
@@ -85,7 +85,7 @@ class ModlogViewModel(
                 page = currentPage,
             )
             val itemsToAdd = itemList.orEmpty()
-            mvi.updateState {
+            updateState {
                 val modlogItems = if (refreshing) {
                     itemsToAdd
                 } else {
