@@ -74,7 +74,7 @@ ktor_android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor_contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor_logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor_json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-ktorfit_ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit.lib" }
+ktorfit_ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit.gradle" }
 ktorfit_lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit.lib" }
 
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }

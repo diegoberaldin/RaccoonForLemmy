@@ -56,21 +56,20 @@ android {
 }
 
 dependencies {
-    val ktorfitVersion = libs.versions.ktorfit.lib.get()
     add(
         "kspCommonMainMetadata",
-        "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion",
+        libs.ktorfit.ksp
     )
     add(
         "kspAndroid",
-        "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion",
+        libs.ktorfit.ksp
     )
     add(
         "kspIosX64",
-        "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion",
+        libs.ktorfit.ksp
     )
     add(
         "kspIosSimulatorArm64",
-        "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion",
+        libs.ktorfit.ksp
     )
 }
