@@ -159,11 +159,12 @@ class CreatePostScreen(
             model.reduce(CreatePostMviModel.Intent.ChangeLanguage(referencePost?.languageId))
         }
 
-        LaunchedEffect(model) {
+        LaunchedEffect(model, communityId) {
             communityId?.also { communityId ->
                 CreatePostMviModel.Intent.SetCommunity(CommunityModel(id = communityId))
             }
-
+        }
+        LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
                     is CreatePostMviModel.Effect.Failure -> {
