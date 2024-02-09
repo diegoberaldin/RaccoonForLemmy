@@ -25,8 +25,8 @@ library started to show its limits. Part of them were addressed by encapsulating
 logic (to push/pop screens into the navigation stack and open/close modal bottom sheets) into a 
 centralized component <a href="https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/navigation/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/navigation/NavigationCoordinator.kt">NavigationCoordinator.kt</a>.
 Something similar was done for the navigation drawer in <a href="https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/navigation/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/navigation/DrawerCoordinator.kt">DrawerCoordinator.kt</a>.
-Even the DI integration with Koin was not pain-free, the `:core:navigation` module contains some
-glue code that is used to work around some of the issues that were encountered.
+Even the DI integration with Koin was not pain-free, the <code>:core:navigation</code> module contains
+some glue code that is used to work around some of the issues that were encountered.
 </dd>
 <dt>Networking</dt>
 <dd>Here, at least for Android developers, no surprises: the choice was <a href="https://github.com/ktorio/ktor">Ktor</a>

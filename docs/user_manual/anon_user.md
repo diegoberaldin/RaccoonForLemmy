@@ -97,7 +97,8 @@ The settings screen allows you to customize the look and behaviour of your app.
 - Post and comments:
     - Post layout: choose a layout (Card, Compact, Full) for posts;
     - Use display names for users and communities: if enabled, uses the user display name and the
-      community title whenever possible, otherwise fallbacks to Lemmy handles;
+      community title whenever possible, otherwise fallbacks to Lemmy handles (
+      e.g. `!raccoonforlemmy@lemmy.world`);
     - Vote format: see the score of posts and comments as aggregated (`upvotes - downvotes`), split
       or percentage (`upvotes / (upvotes + downvotes) * 100`);
     - Full height images: show images with scaled width and full height (instead of capping the
