@@ -4,9 +4,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Acco
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 internal class DefaultIdentityRepository(
@@ -17,14 +18,18 @@ internal class DefaultIdentityRepository(
     private val scope = CoroutineScope(SupervisorJob())
     override val authToken = MutableStateFlow<String?>(null)
 
-    override val isLogged: Flow<Boolean?> = authToken.map { authOrNull ->
+    override val isLogged = authToken.map { authOrNull ->
         if (authOrNull.isNullOrEmpty()) {
             false
         } else {
             val currentUser = siteRepository.getCurrentUser(authOrNull)
             currentUser != null
         }
-    }
+    }.stateIn(
+        scope = scope,
+        initialValue = false,
+        started = SharingStarted.WhileSubscribed(5_000)
+    )
 
     init {
         scope.launch {
