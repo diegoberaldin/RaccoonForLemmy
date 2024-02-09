@@ -1,0 +1,3 @@
+- fix: post creation in community
+- fix: vote and save actions at app startup
+- refactor: code cleanup

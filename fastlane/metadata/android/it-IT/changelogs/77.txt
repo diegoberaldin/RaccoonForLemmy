@@ -1,0 +1,3 @@
+- fix: creazione post all'interno delle comunità
+- fix: azioni di voto e salvataggio all'avvio
+- refactor: pulizia del codice
