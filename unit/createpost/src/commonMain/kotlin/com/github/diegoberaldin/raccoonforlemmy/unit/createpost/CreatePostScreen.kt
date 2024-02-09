@@ -53,6 +53,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -161,7 +162,7 @@ class CreatePostScreen(
 
         LaunchedEffect(model, communityId) {
             communityId?.also { communityId ->
-                CreatePostMviModel.Intent.SetCommunity(CommunityModel(id = communityId))
+                model.reduce(CreatePostMviModel.Intent.SetCommunity(CommunityModel(id = communityId)))
             }
         }
         LaunchedEffect(model) {
@@ -500,22 +501,6 @@ class CreatePostScreen(
                                             color = MaterialTheme.colorScheme.error,
                                         )
                                     }
-                                    if (uiState.currentUser.isNotEmpty()) {
-                                        Text(
-                                            text = buildString {
-                                                append(stringResource(MR.strings.post_reply_source_account))
-                                                append(" ")
-                                                append(uiState.currentUser)
-                                                if (uiState.currentInstance.isNotEmpty()) {
-                                                    append("@")
-                                                    append(uiState.currentInstance)
-                                                }
-                                            },
-                                            color = MaterialTheme.colorScheme.onBackground,
-                                            style = MaterialTheme.typography.labelSmall,
-                                            textDecoration = TextDecoration.Underline,
-                                        )
-                                    }
                                 }
                             },
                         )
@@ -536,6 +521,27 @@ class CreatePostScreen(
                             autoLoadImages = uiState.autoLoadImages,
                             preferNicknames = uiState.preferNicknames,
                             showScores = uiState.showScores,
+                        )
+                    }
+
+                    if (uiState.currentUser.isNotEmpty()) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = Spacing.m),
+                            text = buildString {
+                                append(stringResource(MR.strings.post_reply_source_account))
+                                append(" ")
+                                append(uiState.currentUser)
+                                if (uiState.currentInstance.isNotEmpty()) {
+                                    append("@")
+                                    append(uiState.currentInstance)
+                                }
+                            },
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.labelSmall,
+                            textDecoration = TextDecoration.Underline,
+                            textAlign = TextAlign.End,
                         )
                     }
                 }

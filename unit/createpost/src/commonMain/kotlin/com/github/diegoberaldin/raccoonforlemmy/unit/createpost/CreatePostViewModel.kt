@@ -164,7 +164,8 @@ class CreatePostViewModel(
     }
 
     private fun submit(body: String) {
-        if (uiState.value.loading) {
+        val currentState = uiState.value
+        if (currentState.loading) {
             return
         }
 
@@ -176,41 +177,33 @@ class CreatePostViewModel(
             )
         }
 
-        val communityId = uiState.value.communityId
-        val title = uiState.value.title
-        val url = uiState.value.url.takeIf { it.isNotEmpty() }?.trim()
-        val nsfw = uiState.value.nsfw
-        val languageId = uiState.value.currentLanguageId
+        val communityId = currentState.communityId
+        val title = currentState.title
+        val url = currentState.url.takeIf { it.isNotEmpty() }?.trim()
+        val nsfw = currentState.nsfw
+        val languageId = currentState.currentLanguageId
         var valid = true
         if (title.isEmpty()) {
             updateState {
-                it.copy(
-                    titleError = message_missing_field.desc(),
-                )
+                it.copy(titleError = message_missing_field.desc())
             }
             valid = false
         }
         if (body.isEmpty()) {
             updateState {
-                it.copy(
-                    bodyError = message_missing_field.desc(),
-                )
+                it.copy(bodyError = message_missing_field.desc())
             }
             valid = false
         }
         if (!url.isNullOrEmpty() && !url.isValidUrl()) {
             updateState {
-                it.copy(
-                    urlError = message_invalid_field.desc(),
-                )
+                it.copy(urlError = message_invalid_field.desc())
             }
             valid = false
         }
         if (communityId == null) {
             updateState {
-                it.copy(
-                    communityError = message_missing_field.desc(),
-                )
+                it.copy(communityError = message_missing_field.desc())
             }
             valid = false
         }
