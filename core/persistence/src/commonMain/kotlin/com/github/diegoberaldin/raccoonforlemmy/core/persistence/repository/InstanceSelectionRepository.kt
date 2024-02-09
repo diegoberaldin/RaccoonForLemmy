@@ -6,4 +6,6 @@ interface InstanceSelectionRepository {
     suspend fun add(value: String)
 
     suspend fun remove(value: String)
+
+    suspend fun updateAll(values: List<String>)
 }

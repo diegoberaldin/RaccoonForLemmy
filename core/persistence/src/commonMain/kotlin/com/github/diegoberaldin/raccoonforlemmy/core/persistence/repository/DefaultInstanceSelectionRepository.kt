@@ -1,6 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 
 private const val CUSTOM_INSTANCES_KEY = "customInstances"
 private val DEFAULT_INSTANCES = listOf(
@@ -22,23 +25,32 @@ private val DEFAULT_INSTANCES = listOf(
 internal class DefaultInstanceSelectionRepository(
     private val keyStore: TemporaryKeyStore,
 ) : InstanceSelectionRepository {
-    override suspend fun getAll(): List<String> {
+    override suspend fun getAll(): List<String> = withContext(Dispatchers.IO) {
         if (!keyStore.containsKey(CUSTOM_INSTANCES_KEY)) {
             keyStore.save(key = CUSTOM_INSTANCES_KEY, value = DEFAULT_INSTANCES)
         }
-        return keyStore.get(key = CUSTOM_INSTANCES_KEY, default = DEFAULT_INSTANCES)
+        keyStore.get(key = CUSTOM_INSTANCES_KEY, default = DEFAULT_INSTANCES)
     }
 
-    override suspend fun add(value: String) {
-        val instances = keyStore.get(
+    override suspend fun add(value: String) = withContext(Dispatchers.IO) {
+        val oldInstances = keyStore.get(
             key = CUSTOM_INSTANCES_KEY,
             default = DEFAULT_INSTANCES,
-        ).toSet() + value
-        keyStore.save(key = CUSTOM_INSTANCES_KEY, value = instances.toList().sorted())
-
+        )
+        val instances = buildList {
+            if (!oldInstances.contains(value)) {
+                add(value)
+            }
+            addAll(oldInstances)
+        }
+        keyStore.save(key = CUSTOM_INSTANCES_KEY, value = instances)
     }
 
-    override suspend fun remove(value: String) {
+    override suspend fun updateAll(values: List<String>) = withContext(Dispatchers.IO) {
+        keyStore.save(key = CUSTOM_INSTANCES_KEY, value = values)
+    }
+
+    override suspend fun remove(value: String) = withContext(Dispatchers.IO) {
         val instances = keyStore.get(
             key = CUSTOM_INSTANCES_KEY,
             default = DEFAULT_INSTANCES,

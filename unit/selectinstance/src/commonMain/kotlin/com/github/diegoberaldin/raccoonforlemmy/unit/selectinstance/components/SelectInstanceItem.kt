@@ -78,7 +78,8 @@ internal fun SelectInstanceItem(
         if (options.isNotEmpty()) {
             Box {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
+                    modifier = Modifier
+                        .size(IconSize.m)
                         .padding(Spacing.xs)
                         .onGloballyPositioned {
                             optionsOffset = it.positionInParent()

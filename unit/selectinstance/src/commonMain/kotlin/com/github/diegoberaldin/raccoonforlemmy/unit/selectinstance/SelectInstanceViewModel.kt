@@ -49,6 +49,7 @@ class SelectInstanceViewModel(
 
             is SelectInstanceMviModel.Intent.SubmitChangeInstanceDialog -> submitChangeInstance()
             is SelectInstanceMviModel.Intent.DeleteInstance -> deleteInstance(intent.value)
+            is SelectInstanceMviModel.Intent.SwapIntances -> swapInstances(intent.from, intent.to)
         }
     }
 
@@ -101,6 +102,19 @@ class SelectInstanceViewModel(
             val instances = instanceRepository.getAll()
             updateState { it.copy(instances = instances) }
             confirmSelection(instanceName)
+        }
+    }
+
+    private fun swapInstances(from: Int, to: Int) {
+        val newInstances = uiState.value.instances.toMutableList().apply {
+            val element = removeAt(from)
+            add(to, element)
+        }
+        scope?.launch {
+            instanceRepository.updateAll(newInstances)
+            updateState {
+                it.copy(instances = newInstances)
+            }
         }
     }
 

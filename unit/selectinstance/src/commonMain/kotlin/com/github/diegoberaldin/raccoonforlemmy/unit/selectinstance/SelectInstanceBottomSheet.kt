@@ -1,18 +1,23 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +29,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -42,8 +49,11 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.dialog.Chang
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyColumnState
 
 class SelectInstanceBottomSheet : Screen {
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<SelectInstanceMviModel>(key)
@@ -54,6 +64,16 @@ class SelectInstanceBottomSheet : Screen {
         }
         val notificationCenter = remember { getNotificationCenter() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
+        val lazyListState = rememberLazyListState()
+        val reorderableLazyColumnState =
+            rememberReorderableLazyColumnState(lazyListState) { from, to ->
+                model.reduce(
+                    SelectInstanceMviModel.Intent.SwapIntances(
+                        from = from.index - 1,
+                        to = to.index - 1,
+                    )
+                )
+            }
 
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
@@ -114,6 +134,7 @@ class SelectInstanceBottomSheet : Screen {
                 )
             }
             LazyColumn(
+                state = lazyListState,
                 modifier = Modifier.fillMaxWidth().weight(1f),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
             ) {
@@ -127,41 +148,63 @@ class SelectInstanceBottomSheet : Screen {
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     }
+                } else {
+                    item {
+                        // workaround for https://github.com/Calvin-LL/Reorderable/issues/4
+                        ReorderableItem(
+                            reorderableLazyListState = reorderableLazyColumnState,
+                            key = "dummy",
+                            enabled = false,
+                            modifier = Modifier.fillMaxWidth().height(Dp.Hairline)
+                        ) {}
+                    }
                 }
                 items(
                     items = uiState.instances,
                     key = { it },
                 ) { instance ->
-                    val isActive = instance == uiState.currentInstance
-                    SelectInstanceItem(
-                        modifier = Modifier.fillMaxWidth(),
-                        instance = instance,
-                        isActive = isActive,
-                        onClick = rememberCallback(model) {
-                            model.reduce(SelectInstanceMviModel.Intent.SelectInstance(instance))
-                        },
-                        options = buildList {
-                            if (!isActive) {
-                                this += Option(
-                                    OptionId.Delete,
-                                    stringResource(MR.strings.comment_action_delete),
-                                )
-                            }
-                        },
-                        onOptionSelected = rememberCallbackArgs { optionId ->
-                            when (optionId) {
-                                OptionId.Delete -> {
+                    ReorderableItem(
+                        reorderableLazyListState = reorderableLazyColumnState,
+                        key = instance,
+                    ) { isDragging ->
+                        val isActive = instance == uiState.currentInstance
+                        val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
+                        Surface(
+                            shadowElevation = elevation,
+                        ) {
+                            SelectInstanceItem(
+                                modifier = Modifier.draggableHandle(),
+                                instance = instance,
+                                isActive = isActive,
+                                onClick = rememberCallback(model) {
                                     model.reduce(
-                                        SelectInstanceMviModel.Intent.DeleteInstance(
-                                            instance,
-                                        ),
+                                        SelectInstanceMviModel.Intent.SelectInstance(instance),
                                     )
-                                }
+                                },
+                                options = buildList {
+                                    if (!isActive) {
+                                        this += Option(
+                                            OptionId.Delete,
+                                            stringResource(MR.strings.comment_action_delete),
+                                        )
+                                    }
+                                },
+                                onOptionSelected = rememberCallbackArgs { optionId ->
+                                    when (optionId) {
+                                        OptionId.Delete -> {
+                                            model.reduce(
+                                                SelectInstanceMviModel.Intent.DeleteInstance(
+                                                    instance,
+                                                ),
+                                            )
+                                        }
 
-                                else -> Unit
-                            }
+                                        else -> Unit
+                                    }
+                                }
+                            )
                         }
-                    )
+                    }
                 }
             }
         }

@@ -11,6 +11,7 @@ interface SelectInstanceMviModel :
         data class SelectInstance(val value: String) : Intent
         data class DeleteInstance(val value: String) : Intent
         data class ChangeInstanceName(val value: String) : Intent
+        data class SwapIntances(val from: Int, val to: Int) : Intent
         data object SubmitChangeInstanceDialog : Intent
     }
 
