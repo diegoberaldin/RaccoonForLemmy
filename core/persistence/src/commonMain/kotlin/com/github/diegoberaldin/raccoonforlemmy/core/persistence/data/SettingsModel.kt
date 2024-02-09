@@ -51,5 +51,5 @@ data class SettingsModel(
     val opaqueSystemBars: Boolean = false,
     val showScores: Boolean = true,
     val preferUserNicknames: Boolean = true,
-    val commentBarThickness: Int = 0,
+    val commentBarThickness: Int = 1,
 )

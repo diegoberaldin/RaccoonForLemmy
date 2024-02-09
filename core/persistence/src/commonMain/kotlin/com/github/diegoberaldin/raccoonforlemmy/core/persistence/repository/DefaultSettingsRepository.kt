@@ -166,7 +166,7 @@ internal class DefaultSettingsRepository(
                     opaqueSystemBars = keyStore[KeyStoreKeys.OPAQUE_SYSTEM_BARS, false],
                     showScores = keyStore[KeyStoreKeys.SHOW_SCORES, true],
                     preferUserNicknames = keyStore[KeyStoreKeys.PREFER_USER_NICKNAMES, true],
-                    commentBarThickness = keyStore[KeyStoreKeys.COMMENT_BAR_THICKNESS, 0],
+                    commentBarThickness = keyStore[KeyStoreKeys.COMMENT_BAR_THICKNESS, 1],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
