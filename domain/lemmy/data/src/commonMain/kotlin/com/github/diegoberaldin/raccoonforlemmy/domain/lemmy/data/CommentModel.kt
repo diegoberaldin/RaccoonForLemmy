@@ -19,6 +19,7 @@ data class CommentModel(
     val path: String = "",
     val distinguished: Boolean = false,
     val removed: Boolean = false,
+    val deleted: Boolean = false,
     @Transient
     val expanded: Boolean = true,
     @Transient

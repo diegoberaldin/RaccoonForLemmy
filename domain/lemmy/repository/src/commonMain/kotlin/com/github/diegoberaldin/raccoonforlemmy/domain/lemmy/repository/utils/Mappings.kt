@@ -190,6 +190,7 @@ internal fun Post.toModel() = PostModel(
     featuredCommunity = featuredCommunity,
     featuredLocal = featuredLocal,
     removed = removed,
+    deleted = deleted,
     locked = locked,
     languageId = languageId,
 )
@@ -214,6 +215,7 @@ internal fun Comment.toModel() = CommentModel(
     path = path,
     distinguished = distinguished,
     removed = removed,
+    deleted = deleted,
     languageId = languageId,
 )
 

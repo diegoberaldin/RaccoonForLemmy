@@ -27,6 +27,7 @@ data class PostModel(
     val featuredCommunity: Boolean = false,
     val featuredLocal: Boolean = false,
     val removed: Boolean = false,
+    val deleted: Boolean = false,
     val locked: Boolean = false,
     val languageId: Int = 0,
 )
