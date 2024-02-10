@@ -216,7 +216,7 @@ internal class DefaultCommentRepository(
         text: String,
         languageId: Int?,
         auth: String,
-    ) {
+    ) = runCatching {
         val data = CreateCommentForm(
             content = text,
             postId = postId,
@@ -225,36 +225,37 @@ internal class DefaultCommentRepository(
             auth = auth,
         )
         services.comment.create(authHeader = auth.toAuthHeader(), form = data)
-    }
+        Unit
+    }.getOrDefault(Unit)
 
     override suspend fun edit(
         commentId: Int,
         text: String,
         languageId: Int?,
         auth: String,
-    ) {
+    ) = runCatching {
         val data = EditCommentForm(
             content = text,
             commentId = commentId,
             languageId = languageId,
-            auth = auth,
         )
         services.comment.edit(authHeader = auth.toAuthHeader(), form = data)
-    }
+        Unit
+    }.getOrDefault(Unit)
 
     override suspend fun delete(
         commentId: Int,
         auth: String,
-    ) {
+    ) = runCatching {
         val data = DeleteCommentForm(
             commentId = commentId,
             deleted = true,
-            auth = auth
         )
         services.comment.delete(authHeader = auth.toAuthHeader(), form = data)
-    }
+        Unit
+    }.getOrDefault(Unit)
 
-    override suspend fun report(commentId: Int, reason: String, auth: String) {
+    override suspend fun report(commentId: Int, reason: String, auth: String) = runCatching {
         val data = CreateCommentReportForm(
             commentId = commentId,
             reason = reason,
@@ -264,7 +265,8 @@ internal class DefaultCommentRepository(
             form = data,
             authHeader = auth.toAuthHeader(),
         )
-    }
+        Unit
+    }.getOrDefault(Unit)
 
     override suspend fun remove(
         commentId: Int,

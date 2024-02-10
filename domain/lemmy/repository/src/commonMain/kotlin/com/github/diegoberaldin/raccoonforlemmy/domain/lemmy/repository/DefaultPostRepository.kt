@@ -171,7 +171,7 @@ internal class DefaultPostRepository(
         nsfw: Boolean,
         languageId: Int?,
         auth: String,
-    ) {
+    ) = runCatching {
         val data = CreatePostForm(
             communityId = communityId,
             name = title,
@@ -185,7 +185,8 @@ internal class DefaultPostRepository(
             authHeader = auth.toAuthHeader(),
             form = data,
         )
-    }
+        Unit
+    }.getOrDefault(Unit)
 
     override suspend fun edit(
         postId: Int,
@@ -195,7 +196,7 @@ internal class DefaultPostRepository(
         nsfw: Boolean,
         languageId: Int?,
         auth: String,
-    ) {
+    ) = runCatching {
         val data = EditPostForm(
             postId = postId,
             name = title,
@@ -203,13 +204,13 @@ internal class DefaultPostRepository(
             url = url,
             nsfw = nsfw,
             languageId = languageId,
-            auth = auth,
         )
         services.post.edit(
             authHeader = auth.toAuthHeader(),
             form = data,
         )
-    }
+        Unit
+    }.getOrDefault(Unit)
 
     override suspend fun setRead(read: Boolean, postId: Int, auth: String?) = runCatching {
         val data = MarkPostAsReadForm(
@@ -223,19 +224,23 @@ internal class DefaultPostRepository(
         )
     }
 
-    override suspend fun delete(id: Int, auth: String) {
+    override suspend fun delete(id: Int, auth: String) = runCatching {
         val data = DeletePostForm(
             postId = id,
             deleted = true,
-            auth = auth
         )
         services.post.delete(
             authHeader = auth.toAuthHeader(),
             form = data,
         )
-    }
+        Unit
+    }.apply {
+        exceptionOrNull()?.also {
+            it.printStackTrace()
+        }
+    }.getOrDefault(Unit)
 
-    override suspend fun uploadImage(auth: String, bytes: ByteArray): String? = try {
+    override suspend fun uploadImage(auth: String, bytes: ByteArray): String? = runCatching {
         val url = "https://${services.currentInstance}/pictrs/image"
         val multipart = MultiPartFormDataContent(formData {
             append(key = "images[]", value = bytes, headers = Headers.build {
@@ -250,10 +255,11 @@ internal class DefaultPostRepository(
             content = multipart,
         ).body()
         "$url/${images?.files?.firstOrNull()?.file}"
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
+    }.apply {
+        exceptionOrNull()?.also {
+            it.printStackTrace()
+        }
+    }.getOrNull()
 
     override suspend fun report(postId: Int, reason: String, auth: String) {
         val data = CreatePostReportForm(
