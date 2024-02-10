@@ -271,6 +271,7 @@ class UserDetailViewModel(
         val refreshing = currentState.refreshing
         val section = currentState.section
         val userId = currentState.user.id
+        val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
         if (section == UserDetailSection.Posts) {
             coroutineScope {
                 val itemList = async {
@@ -299,11 +300,26 @@ class UserDetailViewModel(
                         currentState.comments
                     }
                 }.await()
+                val postsToAdd = itemList.orEmpty()
+                    .filterNot { post ->
+                        post.deleted
+                    }
+                    .filter { post ->
+                        if (includeNsfw) {
+                            true
+                        } else {
+                            !post.nsfw
+                        }
+                    }
+                val commentsToAdd = comments
+                    .filterNot { post ->
+                        post.deleted
+                    }
                 updateState {
                     val newPosts = if (refreshing) {
-                        itemList.orEmpty()
+                        postsToAdd
                     } else {
-                        it.posts + itemList.orEmpty()
+                        it.posts + postsToAdd
                     }
                     if (uiState.value.autoLoadImages) {
                         newPosts.forEach { post ->
@@ -314,7 +330,7 @@ class UserDetailViewModel(
                     }
                     it.copy(
                         posts = newPosts,
-                        comments = comments,
+                        comments = commentsToAdd,
                         loading = false,
                         canFetchMore = itemList?.isEmpty() != true,
                         refreshing = false,
@@ -333,12 +349,15 @@ class UserDetailViewModel(
                 sort = currentState.sortType,
                 otherInstance = otherInstance,
             )
-
+            val commentsToAdd = itemList.orEmpty()
+                .filterNot { post ->
+                    post.deleted
+                }
             updateState {
                 val newcomments = if (refreshing) {
-                    itemList.orEmpty()
+                    commentsToAdd
                 } else {
-                    it.comments + itemList.orEmpty()
+                    it.comments + commentsToAdd
                 }
                 it.copy(
                     comments = newcomments,

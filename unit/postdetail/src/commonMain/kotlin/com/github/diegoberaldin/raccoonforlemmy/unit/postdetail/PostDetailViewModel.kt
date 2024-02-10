@@ -387,11 +387,15 @@ class PostDetailViewModel(
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
+        val itemsToAdd = itemList.orEmpty()
+            .filterNot {
+                it.deleted
+            }
         updateState {
             val newComments = if (refreshing) {
-                itemList.orEmpty()
+                itemsToAdd
             } else {
-                it.comments + itemList.orEmpty()
+                it.comments + itemsToAdd
             }
             it.copy(
                 comments = newComments,

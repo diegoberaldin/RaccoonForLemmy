@@ -227,6 +227,7 @@ class ProfileLoggedViewModel(
         val refreshing = currentState.refreshing
         val userId = currentState.user.id
         val section = currentState.section
+        val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
         if (section == ProfileLoggedSection.Posts) {
             coroutineScope {
                 val itemList = async {
@@ -251,15 +252,30 @@ class ProfileLoggedViewModel(
                         currentState.comments
                     }
                 }.await()
+                val postsToAdd = itemList.orEmpty()
+                    .filterNot { post ->
+                        post.deleted
+                    }
+                    .filter { post ->
+                        if (includeNsfw) {
+                            true
+                        } else {
+                            !post.nsfw
+                        }
+                    }
+                val commentsToAdd = comments
+                    .filterNot { post ->
+                        post.deleted
+                    }
                 updateState {
                     val newPosts = if (refreshing) {
-                        itemList.orEmpty()
+                        postsToAdd
                     } else {
-                        it.posts + itemList.orEmpty()
+                        it.posts + postsToAdd
                     }
                     it.copy(
                         posts = newPosts,
-                        comments = comments,
+                        comments = commentsToAdd,
                         loading = false,
                         canFetchMore = itemList?.isEmpty() != true,
                         refreshing = false,
@@ -276,11 +292,15 @@ class ProfileLoggedViewModel(
                 page = currentPage,
                 sort = SortType.New,
             )
+            val commentsToAdd = itemList.orEmpty()
+                .filterNot { post ->
+                    post.deleted
+                }
             updateState {
                 val newComments = if (refreshing) {
-                    itemList.orEmpty()
+                    commentsToAdd
                 } else {
-                    it.comments + itemList.orEmpty()
+                    it.comments + commentsToAdd
                 }
                 it.copy(
                     comments = newComments,

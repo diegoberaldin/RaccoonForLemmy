@@ -310,6 +310,7 @@ class CommunityDetailViewModel(
         val refreshing = currentState.refreshing
         val sort = currentState.sortType
         val community = currentState.community
+        val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
         val (itemList, nextPage) = postRepository.getAll(
             auth = auth,
             otherInstance = otherInstance,
@@ -337,13 +338,24 @@ class CommunityDetailViewModel(
         if (nextPage != null) {
             pageCursor = nextPage
         }
-        val itemsToAdd = itemList.orEmpty().filter { post ->
-            if (hideReadPosts) {
-                !post.read
-            } else {
-                true
+        val itemsToAdd = itemList.orEmpty()
+            .filterNot { post ->
+                post.deleted
             }
-        }
+            .filter { post ->
+                if (hideReadPosts) {
+                    !post.read
+                } else {
+                    true
+                }
+            }
+            .filter { post ->
+                if (includeNsfw || community.nsfw) {
+                    true
+                } else {
+                    !post.nsfw
+                }
+            }
         if (uiState.value.autoLoadImages) {
             itemsToAdd.forEach { post ->
                 post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
