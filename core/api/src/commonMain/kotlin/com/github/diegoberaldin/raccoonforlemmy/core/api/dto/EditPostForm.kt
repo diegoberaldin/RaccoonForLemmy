@@ -11,5 +11,4 @@ data class EditPostForm(
     @SerialName("body") val body: String? = null,
     @SerialName("nsfw") val nsfw: Boolean? = null,
     @SerialName("language_id") val languageId: LanguageId? = null,
-    @SerialName("auth") val auth: String,
 )

@@ -7,5 +7,4 @@ import kotlinx.serialization.Serializable
 data class DeleteCommentForm(
     @SerialName("comment_id") val commentId: CommentId,
     @SerialName("deleted") val deleted: Boolean,
-    @SerialName("auth") val auth: String,
 )
