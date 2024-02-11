@@ -16,8 +16,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 
@@ -66,10 +65,10 @@ actual fun CustomImage(
                 },
             ) {
                 if (loadButtonContent != null) {
-                    loadButtonContent?.invoke()
+                    loadButtonContent()
                 } else {
                     Text(
-                        text = stringResource(MR.strings.button_load),
+                        text = LocalXmlStrings.current.buttonLoad,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

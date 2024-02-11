@@ -41,16 +41,15 @@ kotlin {
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.koin)
 
-                implementation(projects.core.utils)
                 implementation(projects.core.appearance)
                 implementation(projects.core.architecture)
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.lemmyui)
+                implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
-                implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
-
-                implementation(projects.resources)
+                implementation(projects.core.persistence)
+                implementation(projects.core.utils)
             }
         }
         val commonTest by getting {

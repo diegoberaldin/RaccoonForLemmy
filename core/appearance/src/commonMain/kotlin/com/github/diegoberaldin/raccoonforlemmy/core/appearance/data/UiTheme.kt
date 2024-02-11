@@ -6,8 +6,7 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface UiTheme {
     data object Light : UiTheme
@@ -31,10 +30,10 @@ fun UiTheme?.toInt(): Int? = when (this) {
 
 @Composable
 fun UiTheme?.toReadableName(): String = when (this) {
-    UiTheme.Black -> stringResource(MR.strings.settings_theme_black)
-    UiTheme.Dark -> stringResource(MR.strings.settings_theme_dark)
-    UiTheme.Light -> stringResource(MR.strings.settings_theme_light)
-    else -> stringResource(MR.strings.settings_font_family_default)
+    UiTheme.Black -> LocalXmlStrings.current.settingsThemeBlack
+    UiTheme.Dark -> LocalXmlStrings.current.settingsThemeDark
+    UiTheme.Light -> LocalXmlStrings.current.settingsThemeLight
+    else -> LocalXmlStrings.current.settingsFontFamilyDefault
 }
 
 fun UiTheme.toIcon(): ImageVector = when (this) {

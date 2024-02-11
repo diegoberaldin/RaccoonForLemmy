@@ -45,17 +45,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeDirection
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeTarget
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ui.components.ConfigureActionItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ui.components.ConfigureAddAction
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ui.modals.SelectActionOnSwipeBottomSheet
-import dev.icerock.moko.resources.compose.stringResource
 
 class ConfigureSwipeActionsScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -80,7 +79,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = stringResource(MR.strings.settings_configure_swipe_actions),
+                            text = LocalXmlStrings.current.settingsConfigureSwipeActions,
                         )
                     },
                     navigationIcon = {
@@ -118,7 +117,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     // posts
                     item {
                         SettingsHeader(
-                            title = stringResource(MR.strings.explore_result_type_posts),
+                            title = LocalXmlStrings.current.exploreResultTypePosts,
                             icon = Icons.Default.Dashboard,
                             rightButton = @Composable {
                                 TextButton(
@@ -131,7 +130,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     }
                                 ) {
                                     Text(
-                                        text = stringResource(MR.strings.button_reset),
+                                        text = LocalXmlStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
@@ -149,7 +148,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = stringResource(MR.strings.configure_actions_side_start),
+                                text = LocalXmlStrings.current.configureActionsSideStart,
                             )
                         }
                     }
@@ -163,7 +162,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    stringResource(MR.strings.comment_action_delete)
+                                    LocalXmlStrings.current.commentActionDelete
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -205,7 +204,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = stringResource(MR.strings.configure_actions_side_end),
+                                text = LocalXmlStrings.current.configureActionsSideEnd,
                             )
                         }
                     }
@@ -219,7 +218,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    stringResource(MR.strings.comment_action_delete)
+                                    LocalXmlStrings.current.commentActionDelete
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -257,7 +256,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     // comments
                     item {
                         SettingsHeader(
-                            title = stringResource(MR.strings.explore_result_type_comments),
+                            title = LocalXmlStrings.current.exploreResultTypeComments,
                             icon = Icons.Default.Message,
                             rightButton = @Composable {
                                 TextButton(
@@ -270,7 +269,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     }
                                 ) {
                                     Text(
-                                        text = stringResource(MR.strings.button_reset),
+                                        text = LocalXmlStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
@@ -288,7 +287,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = stringResource(MR.strings.configure_actions_side_start),
+                                text = LocalXmlStrings.current.configureActionsSideStart,
                             )
                         }
                     }
@@ -302,7 +301,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    stringResource(MR.strings.comment_action_delete)
+                                    LocalXmlStrings.current.commentActionDelete
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -344,7 +343,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = stringResource(MR.strings.configure_actions_side_end),
+                                text = LocalXmlStrings.current.configureActionsSideEnd,
                             )
                         }
                     }
@@ -358,7 +357,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    stringResource(MR.strings.comment_action_delete)
+                                    LocalXmlStrings.current.commentActionDelete
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -396,7 +395,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     // inbox
                     item {
                         SettingsHeader(
-                            title = stringResource(MR.strings.navigation_inbox),
+                            title = LocalXmlStrings.current.navigationInbox,
                             icon = Icons.Default.Mail,
                             rightButton = @Composable {
                                 TextButton(
@@ -409,7 +408,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     }
                                 ) {
                                     Text(
-                                        text = stringResource(MR.strings.button_reset),
+                                        text = LocalXmlStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
@@ -427,7 +426,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = stringResource(MR.strings.configure_actions_side_start),
+                                text = LocalXmlStrings.current.configureActionsSideStart,
                             )
                         }
                     }
@@ -441,7 +440,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    stringResource(MR.strings.comment_action_delete)
+                                    LocalXmlStrings.current.commentActionDelete
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -483,7 +482,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = stringResource(MR.strings.configure_actions_side_end),
+                                text = LocalXmlStrings.current.configureActionsSideEnd,
                             )
                         }
                     }
@@ -497,7 +496,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    stringResource(MR.strings.comment_action_delete)
+                                    LocalXmlStrings.current.commentActionDelete
                                 )
                             },
                             onOptionSelected = { optionId ->

@@ -54,8 +54,6 @@ kotlin {
                 implementation(projects.unit.userdetail)
                 implementation(projects.unit.createpost)
                 implementation(projects.unit.createcomment)
-
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

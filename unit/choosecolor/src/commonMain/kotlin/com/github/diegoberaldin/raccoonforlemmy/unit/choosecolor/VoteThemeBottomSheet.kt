@@ -36,14 +36,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toSaveColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUpVoteColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 class VoteThemeBottomSheet(
     val actionType: Int,
@@ -80,16 +79,16 @@ class VoteThemeBottomSheet(
                         end = Spacing.s,
                     ),
                     text = when (actionType) {
-                        3 -> stringResource(MR.strings.settings_save_color)
-                        2 -> stringResource(MR.strings.settings_reply_color)
-                        1 -> stringResource(MR.strings.settings_downvote_color)
-                        else -> stringResource(MR.strings.settings_upvote_color)
+                        3 -> LocalXmlStrings.current.settingsSaveColor
+                        2 -> LocalXmlStrings.current.settingsReplyColor
+                        1 -> LocalXmlStrings.current.settingsDownvoteColor
+                        else -> LocalXmlStrings.current.settingsUpvoteColor
                     },
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
             }
-            val customText = stringResource(MR.strings.settings_color_custom)
+            val customText = LocalXmlStrings.current.settingsColorCustom
             val values: List<CommentBarTheme?> = listOf(
                 CommentBarTheme.Blue,
                 CommentBarTheme.Green,
@@ -104,7 +103,7 @@ class VoteThemeBottomSheet(
             ) {
                 values.forEachIndexed { idx, value ->
                     val text = if (idx == values.lastIndex) {
-                        stringResource(MR.strings.button_reset)
+                        LocalXmlStrings.current.buttonReset
                     } else {
                         value.toReadableName()
                     }

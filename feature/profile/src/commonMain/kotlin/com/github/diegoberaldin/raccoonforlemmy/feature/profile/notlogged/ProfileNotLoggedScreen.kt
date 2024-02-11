@@ -15,10 +15,9 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.login.LoginBottomSheet
-import dev.icerock.moko.resources.compose.stringResource
 
 internal object ProfileNotLoggedScreen : Tab {
 
@@ -36,7 +35,7 @@ internal object ProfileNotLoggedScreen : Tab {
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
             Text(
-                text = stringResource(MR.strings.profile_not_logged_message),
+                text = LocalXmlStrings.current.profileNotLoggedMessage,
             )
             Spacer(modifier = Modifier.height(Spacing.l))
             Button(
@@ -47,7 +46,7 @@ internal object ProfileNotLoggedScreen : Tab {
                     )
                 },
             ) {
-                Text(stringResource(MR.strings.profile_button_login))
+                Text(LocalXmlStrings.current.profileButtonLogin)
             }
         }
     }

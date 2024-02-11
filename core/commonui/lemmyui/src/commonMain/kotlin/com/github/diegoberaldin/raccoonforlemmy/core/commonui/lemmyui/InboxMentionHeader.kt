@@ -17,9 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun InboxCardHeader(
@@ -36,14 +35,14 @@ fun InboxCardHeader(
         withStyle(SpanStyle(color = ancillaryColor)) {
             when (type) {
                 InboxCardType.Mention -> {
-                    append(stringResource(MR.strings.inbox_item_mention))
+                    append(LocalXmlStrings.current.inboxItemMention)
                 }
 
                 InboxCardType.Reply -> {
                     if (mention.isCommentReply) {
-                        append(stringResource(MR.strings.inbox_item_reply_comment))
+                        append(LocalXmlStrings.current.inboxItemReplyComment)
                     } else {
-                        append(stringResource(MR.strings.inbox_item_reply_post))
+                        append(LocalXmlStrings.current.inboxItemReplyPost)
 
                     }
                 }

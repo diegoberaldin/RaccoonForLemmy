@@ -6,10 +6,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import dev.icerock.moko.resources.desc.StringDesc
 
 @Stable
 interface CreatePostMviModel :
@@ -62,12 +62,12 @@ interface CreatePostMviModel :
         val crossPost: PostModel? = null,
         val communityInfo: String = "",
         val communityId: Int? = null,
-        val communityError: StringDesc? = null,
+        val communityError: ValidationError? = null,
         val title: String = "",
-        val titleError: StringDesc? = null,
-        val bodyError: StringDesc? = null,
+        val titleError: ValidationError? = null,
+        val bodyError: ValidationError? = null,
         val url: String = "",
-        val urlError: StringDesc? = null,
+        val urlError: ValidationError? = null,
         val nsfw: Boolean = false,
         val loading: Boolean = false,
         val section: CreatePostSection = CreatePostSection.Edit,

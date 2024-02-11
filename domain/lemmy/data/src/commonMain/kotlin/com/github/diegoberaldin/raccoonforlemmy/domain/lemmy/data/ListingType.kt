@@ -5,8 +5,7 @@ import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Cottage
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface ListingType {
     data object All : ListingType
@@ -34,7 +33,7 @@ fun ListingType.toIcon() = when (this) {
 
 @Composable
 fun ListingType.toReadableName(): String = when (this) {
-    ListingType.All -> stringResource(MR.strings.home_listing_type_all)
-    ListingType.Local -> stringResource(MR.strings.home_listing_type_local)
-    ListingType.Subscribed -> stringResource(MR.strings.home_listing_type_subscribed)
+    ListingType.All -> LocalXmlStrings.current.homeListingTypeAll
+    ListingType.Local -> LocalXmlStrings.current.homeListingTypeLocal
+    ListingType.Subscribed -> LocalXmlStrings.current.homeListingTypeSubscribed
 }

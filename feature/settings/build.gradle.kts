@@ -36,6 +36,7 @@ kotlin {
                 implementation(compose.components.resources)
 
                 implementation(libs.koin.core)
+                implementation(libs.lyricist)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.koin)
@@ -43,16 +44,17 @@ kotlin {
                 implementation(libs.voyager.bottomsheet)
 
                 implementation(projects.core.appearance)
-                implementation(projects.core.preferences)
-                implementation(projects.core.persistence)
                 implementation(projects.core.architecture)
-                implementation(projects.core.utils)
-                implementation(projects.core.navigation)
                 implementation(projects.core.commonui.components)
+                implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.lemmyui)
                 implementation(projects.core.commonui.modals)
-                implementation(projects.core.commonui.detailopenerApi)
+                implementation(projects.core.l10n)
+                implementation(projects.core.navigation)
                 implementation(projects.core.notifications)
+                implementation(projects.core.persistence)
+                implementation(projects.core.preferences)
+                implementation(projects.core.utils)
 
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
@@ -65,8 +67,6 @@ kotlin {
                 implementation(projects.unit.choosecolor)
                 implementation(projects.unit.choosefont)
                 implementation(projects.unit.configureswipeactions)
-
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

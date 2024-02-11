@@ -51,6 +51,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ProfileLoggedSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -60,11 +61,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -139,8 +138,8 @@ object ProfileLoggedScreen : Tab {
                                 )
                                 SectionSelector(
                                     titles = listOf(
-                                        stringResource(MR.strings.profile_section_posts),
-                                        stringResource(MR.strings.profile_section_comments),
+                                        LocalXmlStrings.current.profileSectionPosts,
+                                        LocalXmlStrings.current.profileSectionComments,
                                     ),
                                     currentSection = when (uiState.section) {
                                         ProfileLoggedSection.Comments -> 1
@@ -236,25 +235,25 @@ object ProfileLoggedScreen : Tab {
                                         add(
                                             Option(
                                                 OptionId.Share,
-                                                stringResource(MR.strings.post_action_share)
+                                                LocalXmlStrings.current.postActionShare
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.SeeRaw,
-                                                stringResource(MR.strings.post_action_see_raw)
+                                                LocalXmlStrings.current.postActionSeeRaw
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Edit,
-                                                stringResource(MR.strings.post_action_edit)
+                                                LocalXmlStrings.current.postActionEdit
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Delete,
-                                                stringResource(MR.strings.comment_action_delete)
+                                                LocalXmlStrings.current.commentActionDelete
                                             )
                                         )
                                     },
@@ -308,7 +307,7 @@ object ProfileLoggedScreen : Tab {
                                         modifier = Modifier.fillMaxWidth()
                                             .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = stringResource(MR.strings.message_empty_list),
+                                        text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -373,19 +372,19 @@ object ProfileLoggedScreen : Tab {
                                         add(
                                             Option(
                                                 OptionId.SeeRaw,
-                                                stringResource(MR.strings.post_action_see_raw)
+                                                LocalXmlStrings.current.postActionSeeRaw
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Edit,
-                                                stringResource(MR.strings.post_action_edit)
+                                                LocalXmlStrings.current.postActionEdit
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Delete,
-                                                stringResource(MR.strings.comment_action_delete)
+                                                LocalXmlStrings.current.commentActionDelete
                                             )
                                         )
                                     },
@@ -424,7 +423,7 @@ object ProfileLoggedScreen : Tab {
                                         modifier = Modifier.fillMaxWidth()
                                             .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = stringResource(MR.strings.message_empty_list),
+                                        text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -447,9 +446,9 @@ object ProfileLoggedScreen : Tab {
                                         ) {
                                             Text(
                                                 text = if (uiState.section == ProfileLoggedSection.Posts) {
-                                                    stringResource(MR.strings.post_list_load_more_posts)
+                                                    LocalXmlStrings.current.postListLoadMorePosts
                                                 } else {
-                                                    stringResource(MR.strings.post_detail_load_more_comments)
+                                                    LocalXmlStrings.current.postDetailLoadMoreComments
                                                 },
                                                 style = MaterialTheme.typography.labelSmall,
                                             )

@@ -9,11 +9,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ellipsize
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 internal fun ModFeaturePostItem(
@@ -40,9 +39,9 @@ internal fun ModFeaturePostItem(
                     }
                     append(" ")
                     if (item.featured) {
-                        append(stringResource(MR.strings.modlog_item_post_featured))
+                        append(LocalXmlStrings.current.modlogItemPostFeatured)
                     } else {
-                        append(stringResource(MR.strings.modlog_item_post_unfeatured))
+                        append(LocalXmlStrings.current.modlogItemPostUnfeatured)
                     }
                 },
                 style = MaterialTheme.typography.bodySmall,

@@ -46,7 +46,7 @@ kotlin {
 
                 implementation(projects.core.utils)
                 implementation(projects.core.appearance)
-                implementation(projects.resources)
+                implementation(projects.core.l10n)
             }
         }
         val commonTest by getting {

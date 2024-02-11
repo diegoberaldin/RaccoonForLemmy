@@ -1,8 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface PostLayout {
     data object Card : PostLayout
@@ -12,9 +11,9 @@ sealed interface PostLayout {
 
 @Composable
 fun PostLayout.toReadableName(): String = when (this) {
-    PostLayout.Full -> stringResource(MR.strings.settings_post_layout_full)
-    PostLayout.Compact -> stringResource(MR.strings.settings_post_layout_compact)
-    else -> stringResource(MR.strings.settings_post_layout_card)
+    PostLayout.Full -> LocalXmlStrings.current.settingsPostLayoutFull
+    PostLayout.Compact -> LocalXmlStrings.current.settingsPostLayoutCompact
+    else -> LocalXmlStrings.current.settingsPostLayoutCard
 }
 
 fun Int.toPostLayout(): PostLayout = when (this) {

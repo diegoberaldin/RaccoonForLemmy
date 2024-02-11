@@ -49,7 +49,6 @@ kotlin {
 
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.utils)
-                implementation(projects.resources)
             }
         }
         val iosMain by getting {

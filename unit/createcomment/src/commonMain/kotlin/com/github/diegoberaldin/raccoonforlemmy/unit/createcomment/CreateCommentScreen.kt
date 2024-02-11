@@ -64,6 +64,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -71,12 +72,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
-import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
@@ -100,7 +99,7 @@ class CreateCommentScreen(
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = stringResource(MR.strings.message_generic_error)
+        val genericError = LocalXmlStrings.current.messageGenericError
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
@@ -191,11 +190,11 @@ class CreateCommentScreen(
                             Text(
                                 text = when {
                                     uiState.editedComment != null -> {
-                                        stringResource(MR.strings.edit_comment_title)
+                                        LocalXmlStrings.current.editCommentTitle
                                     }
 
                                     else -> {
-                                        stringResource(MR.strings.create_comment_title)
+                                        LocalXmlStrings.current.createCommentTitle
                                     }
                                 },
                                 style = MaterialTheme.typography.titleLarge,
@@ -224,8 +223,8 @@ class CreateCommentScreen(
                 ) {
                     SectionSelector(
                         titles = listOf(
-                            stringResource(MR.strings.create_post_tab_editor),
-                            stringResource(MR.strings.create_post_tab_preview),
+                            LocalXmlStrings.current.createPostTabEditor,
+                            LocalXmlStrings.current.createPostTabPreview,
                         ),
                         currentSection = when (uiState.section) {
                             CreatePostSection.Preview -> 1
@@ -272,7 +271,7 @@ class CreateCommentScreen(
                             ),
                             label = {
                                 Text(
-                                    text = stringResource(MR.strings.create_comment_body),
+                                    text = LocalXmlStrings.current.createCommentBody,
                                     style = MaterialTheme.typography.titleMedium,
                                 )
                             },
@@ -288,31 +287,12 @@ class CreateCommentScreen(
                             },
                             isError = uiState.textError != null,
                             supportingText = {
-                                Column(
-                                    modifier = Modifier.padding(bottom = Spacing.xxs),
-                                ) {
-                                    if (uiState.textError != null) {
-                                        Text(
-                                            text = uiState.textError?.localized().orEmpty(),
-                                            color = MaterialTheme.colorScheme.error,
-                                        )
-                                    }
-                                    if (uiState.currentUser.isNotEmpty()) {
-                                        Text(
-                                            text = buildString {
-                                                append(stringResource(MR.strings.post_reply_source_account))
-                                                append(" ")
-                                                append(uiState.currentUser)
-                                                if (uiState.currentInstance.isNotEmpty()) {
-                                                    append("@")
-                                                    append(uiState.currentInstance)
-                                                }
-                                            },
-                                            color = MaterialTheme.colorScheme.onBackground,
-                                            style = MaterialTheme.typography.labelSmall,
-                                            textDecoration = TextDecoration.Underline,
-                                        )
-                                    }
+                                val error = uiState.textError
+                                if (error != null) {
+                                    Text(
+                                        text = error.toReadableMessage(),
+                                        color = MaterialTheme.colorScheme.error,
+                                    )
                                 }
                             },
                         )
@@ -330,6 +310,23 @@ class CreateCommentScreen(
                                 autoLoadImages = uiState.autoLoadImages,
                             )
                         }
+                    }
+
+                    if (uiState.currentUser.isNotEmpty()) {
+                        Text(
+                            text = buildString {
+                                append(LocalXmlStrings.current.postReplySourceAccount)
+                                append(" ")
+                                append(uiState.currentUser)
+                                if (uiState.currentInstance.isNotEmpty()) {
+                                    append("@")
+                                    append(uiState.currentInstance)
+                                }
+                            },
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.labelSmall,
+                            textDecoration = TextDecoration.Underline,
+                        )
                     }
                 }
             },
@@ -357,7 +354,7 @@ class CreateCommentScreen(
                                 add(
                                     Option(
                                         OptionId.SeeRaw,
-                                        stringResource(MR.strings.post_action_see_raw)
+                                        LocalXmlStrings.current.postActionSeeRaw
                                     )
                                 )
                             },
@@ -386,7 +383,7 @@ class CreateCommentScreen(
                                 add(
                                     Option(
                                         OptionId.SeeRaw,
-                                        stringResource(MR.strings.post_action_see_raw)
+                                        LocalXmlStrings.current.postActionSeeRaw
                                     )
                                 )
                             },

@@ -39,12 +39,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItemPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 class SelectCommunityDialog : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +68,7 @@ class SelectCommunityDialog : Screen {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = stringResource(MR.strings.dialog_title_select_community),
+                    text = LocalXmlStrings.current.dialogTitleSelectCommunity,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -83,7 +82,7 @@ class SelectCommunityDialog : Screen {
                         disabledContainerColor = Color.Transparent,
                     ),
                     label = {
-                        Text(text = stringResource(MR.strings.explore_search_placeholder))
+                        Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
                     },
                     singleLine = true,
                     value = uiState.searchText,
@@ -148,7 +147,7 @@ class SelectCommunityDialog : Screen {
                         notificationCenter.send(NotificationCenterEvent.CloseDialog)
                     },
                 ) {
-                    Text(text = stringResource(MR.strings.button_close))
+                    Text(text = LocalXmlStrings.current.buttonClose)
                 }
             }
         }

@@ -43,6 +43,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.materialKolor)
 
+                implementation(projects.core.l10n)
                 implementation(projects.resources)
             }
         }

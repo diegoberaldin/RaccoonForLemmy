@@ -15,10 +15,9 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalMarkdownTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.utils.findChildOfTypeRecursive
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.ast.getTextInNode
@@ -39,7 +38,7 @@ internal fun MarkdownImage(content: String, node: ASTNode, autoLoadImages: Boole
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                text = stringResource(MR.strings.message_image_loading_error),
+                text = LocalXmlStrings.current.messageImageLoadingError,
                 style = LocalMarkdownTypography.current.text,
             )
         },

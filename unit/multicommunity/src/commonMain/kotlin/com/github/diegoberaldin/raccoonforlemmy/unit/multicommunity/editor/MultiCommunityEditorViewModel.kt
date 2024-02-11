@@ -7,11 +7,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommu
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
@@ -146,7 +145,7 @@ class MultiCommunityEditorViewModel(
         var valid = true
         val name = currentState.name
         if (name.isEmpty()) {
-            updateState { it.copy(nameError = MR.strings.message_missing_field.desc()) }
+            updateState { it.copy(nameError = ValidationError.MissingField) }
             valid = false
         }
         if (!valid) {

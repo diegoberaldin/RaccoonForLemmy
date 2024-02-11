@@ -36,6 +36,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.MultiCommunityItem
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -46,13 +47,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerHeader
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerShortcut
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.ManageAccountsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.SelectInstanceBottomSheet
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
@@ -73,7 +71,6 @@ object ModalDrawerContent : Tab {
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val coordinator = remember { getDrawerCoordinator() }
-        val languageRepository = remember { getLanguageRepository() }
         val themeRepository = remember { getThemeRepository() }
         val scope = rememberCoroutineScope()
         val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -82,13 +79,6 @@ object ModalDrawerContent : Tab {
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
         LaunchedEffect(themeRepository) {
             themeRepository.uiFontScale.drop(1).onEach {
-                uiFontSizeWorkaround = false
-                delay(50)
-                uiFontSizeWorkaround = true
-            }.launchIn(this)
-        }
-        LaunchedEffect(languageRepository) {
-            languageRepository.currentLanguage.drop(1).onEach {
                 uiFontSizeWorkaround = false
                 delay(50)
                 uiFontSizeWorkaround = true
@@ -162,7 +152,7 @@ object ModalDrawerContent : Tab {
                         }
                         item {
                             DrawerShortcut(
-                                title = stringResource(MR.strings.navigation_drawer_title_bookmarks),
+                                title = LocalXmlStrings.current.navigationDrawerTitleBookmarks,
                                 icon = Icons.Default.Bookmarks,
                                 onSelected = rememberCallback(coordinator) {
                                     scope.launch {
@@ -174,7 +164,7 @@ object ModalDrawerContent : Tab {
                         }
                         item {
                             DrawerShortcut(
-                                title = stringResource(MR.strings.navigation_drawer_title_subscriptions),
+                                title = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
                                 icon = Icons.Default.ManageAccounts,
                                 onSelected = rememberCallback(coordinator) {
                                     scope.launch {
@@ -239,13 +229,13 @@ object ModalDrawerContent : Tab {
             } else {
                 Text(
                     modifier = Modifier.padding(horizontal = Spacing.s, vertical = Spacing.s),
-                    text = stringResource(MR.strings.sidebar_not_logged_message),
+                    text = LocalXmlStrings.current.sidebarNotLoggedMessage,
                     style = MaterialTheme.typography.bodySmall,
                 )
 
                 Text(
                     modifier = Modifier.padding(horizontal = Spacing.s, vertical = Spacing.s),
-                    text = stringResource(MR.strings.home_listing_title),
+                    text = LocalXmlStrings.current.homeListingTitle,
                     style = MaterialTheme.typography.titleMedium,
                 )
 

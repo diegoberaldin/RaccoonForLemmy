@@ -16,9 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 internal fun ConfigureAddAction(
@@ -42,7 +41,7 @@ internal fun ConfigureAddAction(
         )
         Spacer(modifier = Modifier.width(Spacing.xs))
         Text(
-            text = stringResource(MR.strings.button_add),
+            text = LocalXmlStrings.current.buttonAdd,
             style = MaterialTheme.typography.labelMedium,
         )
     }

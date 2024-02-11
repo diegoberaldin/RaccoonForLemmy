@@ -23,11 +23,10 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 internal fun DrawerHeader(
@@ -108,7 +107,7 @@ internal fun DrawerHeader(
                 )
             }
         } else {
-            val anonymousTitle = stringResource(MR.strings.navigation_drawer_anonymous)
+            val anonymousTitle = LocalXmlStrings.current.navigationDrawerAnonymous
             PlaceholderImage(
                 size = avatarSize,
                 title = anonymousTitle,

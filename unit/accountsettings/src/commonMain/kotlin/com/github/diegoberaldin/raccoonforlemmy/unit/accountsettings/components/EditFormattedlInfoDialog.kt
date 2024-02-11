@@ -39,8 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +72,7 @@ fun EditFormattedInfoDialog(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
-                text = stringResource(MR.strings.post_action_edit),
+                text = LocalXmlStrings.current.postActionEdit,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -84,8 +83,8 @@ fun EditFormattedInfoDialog(
             ) {
                 SectionSelector(
                     titles = listOf(
-                        stringResource(MR.strings.create_post_tab_editor),
-                        stringResource(MR.strings.create_post_tab_preview),
+                        LocalXmlStrings.current.createPostTabEditor,
+                        LocalXmlStrings.current.createPostTabPreview,
                     ),
                     currentSection = when (currentSection) {
                         CreatePostSection.Preview -> 1
@@ -160,7 +159,7 @@ fun EditFormattedInfoDialog(
                     onClose?.invoke(textFieldValue.text)
                 },
             ) {
-                Text(text = stringResource(MR.strings.button_confirm))
+                Text(text = LocalXmlStrings.current.buttonConfirm)
             }
         }
     }

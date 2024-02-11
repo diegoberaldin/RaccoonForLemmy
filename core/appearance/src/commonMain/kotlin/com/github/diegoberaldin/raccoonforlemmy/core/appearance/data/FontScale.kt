@@ -1,8 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface FontScale {
     data object Largest : FontScale
@@ -27,13 +26,13 @@ val FontScale.scaleFactor: Float
 
 @Composable
 fun FontScale.toReadableName(): String = when (this) {
-    FontScale.Largest -> stringResource(MR.strings.settings_content_font_largest)
-    FontScale.Larger -> stringResource(MR.strings.settings_content_font_larger)
-    FontScale.Large -> stringResource(MR.strings.settings_content_font_large)
-    FontScale.Normal -> stringResource(MR.strings.settings_content_font_normal)
-    FontScale.Small -> stringResource(MR.strings.settings_content_font_small)
-    FontScale.Smaller -> stringResource(MR.strings.settings_content_font_smaller)
-    FontScale.Smallest -> stringResource(MR.strings.settings_content_font_smallest)
+    FontScale.Largest -> LocalXmlStrings.current.settingsContentFontLargest
+    FontScale.Larger -> LocalXmlStrings.current.settingsContentFontLarger
+    FontScale.Large -> LocalXmlStrings.current.settingsContentFontLarge
+    FontScale.Normal -> LocalXmlStrings.current.settingsContentFontNormal
+    FontScale.Small -> LocalXmlStrings.current.settingsContentFontSmall
+    FontScale.Smaller -> LocalXmlStrings.current.settingsContentFontSmaller
+    FontScale.Smallest -> LocalXmlStrings.current.settingsContentFontSmallest
 }
 
 fun Float.toFontScale(): FontScale = when (this) {

@@ -41,8 +41,8 @@ kotlin {
                 implementation(libs.voyager.bottomsheet)
 
                 implementation(projects.core.appearance)
+                implementation(projects.core.l10n)
                 implementation(projects.core.utils)
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

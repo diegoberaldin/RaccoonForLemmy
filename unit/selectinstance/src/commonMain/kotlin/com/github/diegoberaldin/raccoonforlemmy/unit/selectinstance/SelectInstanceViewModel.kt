@@ -2,10 +2,9 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.InstanceSelectionRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
@@ -77,7 +76,7 @@ class SelectInstanceViewModel(
         var valid = true
         val instanceName = uiState.value.changeInstanceName
         if (instanceName.isEmpty()) {
-            updateState { it.copy(changeInstanceNameError = MR.strings.message_missing_field.desc()) }
+            updateState { it.copy(changeInstanceNameError = ValidationError.MissingField) }
             valid = false
         }
         if (!valid) {
@@ -94,7 +93,7 @@ class SelectInstanceViewModel(
             if (res.isEmpty()) {
                 updateState {
                     it.copy(
-                        changeInstanceNameError = MR.strings.message_invalid_field.desc(),
+                        changeInstanceNameError = ValidationError.InvalidField,
                         changeInstanceLoading = false,
                     )
                 }

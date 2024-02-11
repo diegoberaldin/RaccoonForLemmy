@@ -25,8 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 @Composable
 fun ZoomableImage(
@@ -78,7 +77,7 @@ fun ZoomableImage(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    text = stringResource(MR.strings.message_image_loading_error),
+                    text = LocalXmlStrings.current.messageImageLoadingError,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
             },

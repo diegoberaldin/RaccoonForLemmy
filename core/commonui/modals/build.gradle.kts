@@ -40,17 +40,16 @@ kotlin {
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.bottomsheet)
 
-                implementation(projects.core.utils)
                 implementation(projects.core.appearance)
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.lemmyui)
+                implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
-                implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
+                implementation(projects.core.persistence)
+                implementation(projects.core.utils)
 
                 implementation(projects.domain.lemmy.data)
-
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

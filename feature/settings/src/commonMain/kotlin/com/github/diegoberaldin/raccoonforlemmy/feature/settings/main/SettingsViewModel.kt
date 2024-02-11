@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.L10nManager
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -23,7 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
-import com.github.diegoberaldin.raccoonforlemmy.resources.LanguageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -33,13 +33,13 @@ import kotlin.time.Duration
 
 class SettingsViewModel(
     private val themeRepository: ThemeRepository,
-    private val languageRepository: LanguageRepository,
     private val identityRepository: IdentityRepository,
     private val settingsRepository: SettingsRepository,
     private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
     private val crashReportConfiguration: CrashReportConfiguration,
     private val contentResetCoordinator: ContentResetCoordinator,
+    private val l10nManager: L10nManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : SettingsMviModel,
     DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>(
@@ -59,8 +59,8 @@ class SettingsViewModel(
                 updateState { it.copy(postLayout = value) }
             }.launchIn(this)
 
-            languageRepository.currentLanguage.onEach { lang ->
-                updateState { it.copy(lang = lang) }
+            l10nManager.lyricist.state.onEach { lang ->
+                updateState { it.copy(lang = lang.languageTag) }
             }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
@@ -218,7 +218,7 @@ class SettingsViewModel(
     }
 
     private fun changeLanguage(value: String) {
-        languageRepository.changeLanguage(value)
+        l10nManager.changeLanguage(value)
         scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 locale = value

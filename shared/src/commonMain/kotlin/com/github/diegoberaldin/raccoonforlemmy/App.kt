@@ -16,7 +16,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -40,6 +39,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getUserFromUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.ProvideXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.di.getL10nManager
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -47,14 +48,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageDirection
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerContent
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.SavedItemsScreen
-import dev.icerock.moko.resources.compose.stringResource
-import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
@@ -76,8 +73,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     } else {
         UiTheme.Light
     }.toInt()
-    val defaultLocale = stringResource(MR.strings.lang)
-    val languageRepository = remember { getLanguageRepository() }
     val locale by derivedStateOf { settings.locale }
     val currentTheme by themeRepository.uiTheme.collectAsState()
     val useDynamicColors by themeRepository.dynamicColors.collectAsState()
@@ -88,6 +83,8 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val drawerCoordinator = remember { getDrawerCoordinator() }
     val drawerGesturesEnabled by drawerCoordinator.gesturesEnabled.collectAsState()
     val detailOpener = remember { getDetailOpener() }
+    val l10nManager = remember { getL10nManager() }
+    val l10nState by l10nManager.lyricist.state.collectAsState()
 
     LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
@@ -128,12 +125,8 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     }
 
     LaunchedEffect(locale) {
-        languageRepository.changeLanguage(locale ?: defaultLocale)
+        l10nManager.changeLanguage(locale ?: "en")
     }
-    val scope = rememberCoroutineScope()
-    languageRepository.currentLanguage.onEach { lang ->
-        StringDesc.localeType = StringDesc.LocaleType.Custom(lang)
-    }.launchIn(scope)
 
     LaunchedEffect(settings) {
         with(themeRepository) {
@@ -239,45 +232,47 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         useDynamicColors = useDynamicColors,
         barTheme = barTheme,
     ) {
-        val lang by languageRepository.currentLanguage.collectAsState()
-        LaunchedEffect(lang) {}
-        CompositionLocalProvider(
-            LocalDensity provides Density(
-                density = LocalDensity.current.density,
-                fontScale = uiFontScale,
-            ),
-            LocalLayoutDirection provides lang.toLanguageDirection(),
+        ProvideXmlStrings(
+            lyricist = l10nManager.lyricist,
         ) {
-            BottomSheetNavigator(
-                sheetShape = RoundedCornerShape(
-                    topStart = CornerSize.xl,
-                    topEnd = CornerSize.xl
+            CompositionLocalProvider(
+                LocalDensity provides Density(
+                    density = LocalDensity.current.density,
+                    fontScale = uiFontScale,
                 ),
-                sheetBackgroundColor = MaterialTheme.colorScheme.background,
-            ) { bottomNavigator ->
-                navigationCoordinator.setBottomNavigator(bottomNavigator)
+                LocalLayoutDirection provides l10nState.languageTag.toLanguageDirection(),
+            ) {
+                BottomSheetNavigator(
+                    sheetShape = RoundedCornerShape(
+                        topStart = CornerSize.xl,
+                        topEnd = CornerSize.xl
+                    ),
+                    sheetBackgroundColor = MaterialTheme.colorScheme.background,
+                ) { bottomNavigator ->
+                    navigationCoordinator.setBottomNavigator(bottomNavigator)
 
-                Navigator(
-                    screen = MainScreen,
-                    onBackPressed = {
-                        val callback = navigationCoordinator.getCanGoBackCallback()
-                        callback?.let { it() } ?: true
-                    },
-                ) { navigator ->
-                    LaunchedEffect(Unit) {
-                        navigationCoordinator.setRootNavigator(navigator)
-                    }
-                    ModalNavigationDrawer(
-                        drawerState = drawerState,
-                        gesturesEnabled = drawerGesturesEnabled,
-                        drawerContent = {
-                            ModalDrawerSheet {
-                                TabNavigator(ModalDrawerContent)
-                            }
+                    Navigator(
+                        screen = MainScreen,
+                        onBackPressed = {
+                            val callback = navigationCoordinator.getCanGoBackCallback()
+                            callback?.let { it() } ?: true
                         },
-                    ) {
-                        if (hasBeenInitialized) {
-                            SlideTransition(navigator)
+                    ) { navigator ->
+                        LaunchedEffect(Unit) {
+                            navigationCoordinator.setRootNavigator(navigator)
+                        }
+                        ModalNavigationDrawer(
+                            drawerState = drawerState,
+                            gesturesEnabled = drawerGesturesEnabled,
+                            drawerContent = {
+                                ModalDrawerSheet {
+                                    TabNavigator(ModalDrawerContent)
+                                }
+                            },
+                        ) {
+                            if (hasBeenInitialized) {
+                                SlideTransition(navigator)
+                            }
                         }
                     }
                 }

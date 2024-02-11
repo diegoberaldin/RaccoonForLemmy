@@ -50,10 +50,9 @@ kotlin {
                 implementation(libs.koin.core)
 
                 implementation(projects.core.appearance)
+                implementation(projects.core.l10n)
                 implementation(projects.core.preferences)
                 implementation(projects.core.utils)
-
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

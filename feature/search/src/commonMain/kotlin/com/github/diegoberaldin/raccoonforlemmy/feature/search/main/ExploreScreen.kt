@@ -76,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -88,10 +89,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -202,7 +201,7 @@ class ExploreScreen : Screen {
                         vertical = Spacing.s,
                     ).fillMaxWidth(),
                     label = {
-                        Text(text = stringResource(MR.strings.explore_search_placeholder))
+                        Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
                     },
                     singleLine = true,
                     value = uiState.searchText,
@@ -254,11 +253,11 @@ class ExploreScreen : Screen {
                     edgePadding = 0.dp,
                     tabs = {
                         listOf(
-                            stringResource(MR.strings.explore_result_type_all),
-                            stringResource(MR.strings.explore_result_type_posts),
-                            stringResource(MR.strings.explore_result_type_comments),
-                            stringResource(MR.strings.explore_result_type_communities),
-                            stringResource(MR.strings.explore_result_type_users),
+                            LocalXmlStrings.current.exploreResultTypeAll,
+                            LocalXmlStrings.current.exploreResultTypePosts,
+                            LocalXmlStrings.current.exploreResultTypeComments,
+                            LocalXmlStrings.current.exploreResultTypeCommunities,
+                            LocalXmlStrings.current.exploreResultTypeUsers,
                         ).forEachIndexed { i, title ->
                             Tab(
                                 modifier = Modifier.draggable(state = draggableState,
@@ -749,7 +748,7 @@ class ExploreScreen : Screen {
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = stringResource(MR.strings.message_empty_list),
+                                    text = LocalXmlStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )

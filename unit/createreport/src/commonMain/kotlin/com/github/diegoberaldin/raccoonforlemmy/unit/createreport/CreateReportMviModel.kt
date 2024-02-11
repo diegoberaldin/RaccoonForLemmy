@@ -3,7 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.createreport
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
-import dev.icerock.moko.resources.desc.StringDesc
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 
 @Stable
 interface CreateReportMviModel :
@@ -17,7 +17,7 @@ interface CreateReportMviModel :
 
     data class UiState(
         val text: String = "",
-        val textError: StringDesc? = null,
+        val textError: ValidationError? = null,
         val loading: Boolean = false,
     )
 

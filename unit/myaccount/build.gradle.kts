@@ -42,16 +42,17 @@ kotlin {
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.koin)
 
-                implementation(projects.core.utils)
                 implementation(projects.core.appearance)
                 implementation(projects.core.architecture)
                 implementation(projects.core.commonui.components)
+                implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.lemmyui)
                 implementation(projects.core.commonui.modals)
-                implementation(projects.core.commonui.detailopenerApi)
+                implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
-                implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
+                implementation(projects.core.persistence)
+                implementation(projects.core.utils)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
@@ -66,8 +67,6 @@ kotlin {
                 implementation(projects.unit.ban)
                 implementation(projects.unit.chat)
                 implementation(projects.unit.rawcontent)
-
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

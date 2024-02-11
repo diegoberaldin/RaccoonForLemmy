@@ -32,8 +32,8 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.materialIconsExtended)
 
+                implementation(projects.core.l10n)
                 implementation(projects.core.utils)
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

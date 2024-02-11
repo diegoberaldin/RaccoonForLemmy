@@ -2,7 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
-import dev.icerock.moko.resources.desc.StringDesc
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 
 interface SelectInstanceMviModel :
     MviModel<SelectInstanceMviModel.Intent, SelectInstanceMviModel.State, SelectInstanceMviModel.Effect>,
@@ -19,7 +19,7 @@ interface SelectInstanceMviModel :
         val instances: List<String> = emptyList(),
         val currentInstance: String = "",
         val changeInstanceName: String = "",
-        val changeInstanceNameError: StringDesc? = null,
+        val changeInstanceNameError: ValidationError? = null,
         val changeInstanceLoading: Boolean = false,
     )
 

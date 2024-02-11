@@ -89,6 +89,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -103,14 +104,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -259,7 +258,7 @@ class PostDetailScreen(
                         items = buildList {
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
-                                text = stringResource(MR.strings.action_back_to_top),
+                                text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -271,7 +270,7 @@ class PostDetailScreen(
                             if (uiState.isLogged && !isOnOtherInstance) {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.Reply,
-                                    text = stringResource(MR.strings.action_reply),
+                                    text = LocalXmlStrings.current.actionReply,
                                     onSelected = rememberCallback {
                                         detailOpener.openReply(
                                             originalPost = uiState.post,
@@ -366,58 +365,58 @@ class PostDetailScreen(
                                 },
                                 options = buildList {
                                     this += Option(
-                                        OptionId.Share, stringResource(MR.strings.post_action_share)
+                                        OptionId.Share, LocalXmlStrings.current.postActionShare
                                     )
                                     this += Option(
                                         OptionId.SeeRaw,
-                                        stringResource(MR.strings.post_action_see_raw)
+                                        LocalXmlStrings.current.postActionSeeRaw
                                     )
                                     if (uiState.isLogged && !isOnOtherInstance) {
                                         this += Option(
                                             OptionId.CrossPost,
-                                            stringResource(MR.strings.post_action_cross_post)
+                                            LocalXmlStrings.current.postActionCrossPost
                                         )
                                         this += Option(
                                             OptionId.Report,
-                                            stringResource(MR.strings.post_action_report)
+                                            LocalXmlStrings.current.postActionReport
                                         )
                                     }
                                     if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                         this += Option(
                                             OptionId.Edit,
-                                            stringResource(MR.strings.post_action_edit)
+                                            LocalXmlStrings.current.postActionEdit
                                         )
                                         this += Option(
                                             OptionId.Delete,
-                                            stringResource(MR.strings.comment_action_delete)
+                                            LocalXmlStrings.current.commentActionDelete
                                         )
                                     }
                                     if (uiState.isModerator) {
                                         this += Option(
                                             OptionId.FeaturePost,
                                             if (uiState.post.featuredCommunity) {
-                                                stringResource(MR.strings.mod_action_unmark_as_featured)
+                                                LocalXmlStrings.current.modActionUnmarkAsFeatured
                                             } else {
-                                                stringResource(MR.strings.mod_action_mark_as_featured)
+                                                LocalXmlStrings.current.modActionMarkAsFeatured
                                             }
                                         )
                                         this += Option(
                                             OptionId.LockPost, if (uiState.post.locked) {
-                                                stringResource(MR.strings.mod_action_unlock)
+                                                LocalXmlStrings.current.modActionUnlock
                                             } else {
-                                                stringResource(MR.strings.mod_action_lock)
+                                                LocalXmlStrings.current.modActionLock
                                             }
                                         )
                                         this += Option(
                                             OptionId.Remove,
-                                            stringResource(MR.strings.mod_action_remove)
+                                            LocalXmlStrings.current.modActionRemove
                                         )
                                         this += Option(
                                             OptionId.BanUser,
                                             if (uiState.post.creator?.banned == true) {
-                                                stringResource(MR.strings.mod_action_allow)
+                                                LocalXmlStrings.current.modActionAllow
                                             } else {
-                                                stringResource(MR.strings.mod_action_ban)
+                                                LocalXmlStrings.current.modActionBan
                                             },
                                         )
                                         uiState.post.creator?.id?.also { creatorId ->
@@ -425,9 +424,9 @@ class PostDetailScreen(
                                                 this += Option(
                                                     OptionId.AddMod,
                                                     if (uiState.moderators.containsId(creatorId)) {
-                                                        stringResource(MR.strings.mod_action_remove_mod)
+                                                        LocalXmlStrings.current.modActionRemoveMod
                                                     } else {
-                                                        stringResource(MR.strings.mod_action_add_mod)
+                                                        LocalXmlStrings.current.modActionAddMod
                                                     },
                                                 )
                                             }
@@ -531,7 +530,7 @@ class PostDetailScreen(
                                     horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                                 ) {
                                     Text(
-                                        text = stringResource(MR.strings.post_detail_cross_posts),
+                                        text = LocalXmlStrings.current.postDetailCrossPosts,
                                         style = MaterialTheme.typography.bodyMedium,
                                     )
                                     uiState.post.crossPosts.forEachIndexed { index, crossPost ->
@@ -796,41 +795,41 @@ class PostDetailScreen(
                                                     options = buildList {
                                                         this += Option(
                                                             OptionId.SeeRaw,
-                                                            stringResource(MR.strings.post_action_see_raw),
+                                                            LocalXmlStrings.current.postActionSeeRaw,
                                                         )
                                                         this += Option(
                                                             OptionId.Report,
-                                                            stringResource(MR.strings.post_action_report),
+                                                            LocalXmlStrings.current.postActionReport,
                                                         )
                                                         if (comment.creator?.id == uiState.currentUserId) {
                                                             this += Option(
                                                                 OptionId.Edit,
-                                                                stringResource(MR.strings.post_action_edit),
+                                                                LocalXmlStrings.current.postActionEdit,
                                                             )
                                                             this += Option(
                                                                 OptionId.Delete,
-                                                                stringResource(MR.strings.comment_action_delete),
+                                                                LocalXmlStrings.current.commentActionDelete,
                                                             )
                                                         }
                                                         if (uiState.isModerator) {
                                                             this += Option(
                                                                 OptionId.DistinguishComment,
                                                                 if (comment.distinguished) {
-                                                                    stringResource(MR.strings.mod_action_unmark_as_distinguished)
+                                                                    LocalXmlStrings.current.modActionUnmarkAsDistinguished
                                                                 } else {
-                                                                    stringResource(MR.strings.mod_action_mark_as_distinguished)
+                                                                    LocalXmlStrings.current.modActionMarkAsDistinguished
                                                                 },
                                                             )
                                                             this += Option(
                                                                 OptionId.Remove,
-                                                                stringResource(MR.strings.mod_action_remove),
+                                                                LocalXmlStrings.current.modActionRemove,
                                                             )
                                                             this += Option(
                                                                 OptionId.BanUser,
                                                                 if (comment.creator?.banned == true) {
-                                                                    stringResource(MR.strings.mod_action_allow)
+                                                                    LocalXmlStrings.current.modActionAllow
                                                                 } else {
-                                                                    stringResource(MR.strings.mod_action_ban)
+                                                                    LocalXmlStrings.current.modActionBan
                                                                 },
                                                             )
                                                             comment.creator?.id?.also { creatorId ->
@@ -841,9 +840,9 @@ class PostDetailScreen(
                                                                                 creatorId
                                                                             )
                                                                         ) {
-                                                                            stringResource(MR.strings.mod_action_remove_mod)
+                                                                            LocalXmlStrings.current.modActionRemoveMod
                                                                         } else {
-                                                                            stringResource(MR.strings.mod_action_add_mod)
+                                                                            LocalXmlStrings.current.modActionAddMod
                                                                         },
                                                                     )
                                                                 }
@@ -985,41 +984,41 @@ class PostDetailScreen(
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw),
+                                                    LocalXmlStrings.current.postActionSeeRaw,
                                                 )
                                                 this += Option(
                                                     OptionId.Report,
-                                                    stringResource(MR.strings.post_action_report),
+                                                    LocalXmlStrings.current.postActionReport,
                                                 )
                                                 if (comment.creator?.id == uiState.currentUserId) {
                                                     this += Option(
                                                         OptionId.Edit,
-                                                        stringResource(MR.strings.post_action_edit),
+                                                        LocalXmlStrings.current.postActionEdit,
                                                     )
                                                     this += Option(
                                                         OptionId.Delete,
-                                                        stringResource(MR.strings.comment_action_delete),
+                                                        LocalXmlStrings.current.commentActionDelete,
                                                     )
                                                 }
                                                 if (uiState.isModerator) {
                                                     this += Option(
                                                         OptionId.DistinguishComment,
                                                         if (comment.distinguished) {
-                                                            stringResource(MR.strings.mod_action_unmark_as_distinguished)
+                                                            LocalXmlStrings.current.modActionUnmarkAsDistinguished
                                                         } else {
-                                                            stringResource(MR.strings.mod_action_mark_as_distinguished)
+                                                            LocalXmlStrings.current.modActionMarkAsDistinguished
                                                         },
                                                     )
                                                     this += Option(
                                                         OptionId.Remove,
-                                                        stringResource(MR.strings.mod_action_remove),
+                                                        LocalXmlStrings.current.modActionRemove,
                                                     )
                                                     this += Option(
                                                         OptionId.BanUser,
                                                         if (comment.creator?.banned == true) {
-                                                            stringResource(MR.strings.mod_action_allow)
+                                                            LocalXmlStrings.current.modActionAllow
                                                         } else {
-                                                            stringResource(MR.strings.mod_action_ban)
+                                                            LocalXmlStrings.current.modActionBan
                                                         },
                                                     )
                                                     comment.creator?.id?.also { creatorId ->
@@ -1030,9 +1029,9 @@ class PostDetailScreen(
                                                                         creatorId,
                                                                     )
                                                                 ) {
-                                                                    stringResource(MR.strings.mod_action_remove_mod)
+                                                                    LocalXmlStrings.current.modActionRemoveMod
                                                                 } else {
-                                                                    stringResource(MR.strings.mod_action_add_mod)
+                                                                    LocalXmlStrings.current.modActionAddMod
                                                                 },
                                                             )
                                                         }
@@ -1133,7 +1132,7 @@ class PostDetailScreen(
                                         ) {
                                             Text(
                                                 text = buildString {
-                                                    append(stringResource(MR.strings.post_detail_load_more_comments))
+                                                    append(LocalXmlStrings.current.postDetailLoadMoreComments)
                                                     comment.comments?.takeIf { it > 0 }
                                                         ?.also { count ->
                                                             append(" (")
@@ -1172,7 +1171,7 @@ class PostDetailScreen(
                                             modifier = Modifier.fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
-                                            text = stringResource(MR.strings.message_empty_comments),
+                                            text = LocalXmlStrings.current.messageEmptyComments,
                                             style = MaterialTheme.typography.bodyMedium,
                                             color = MaterialTheme.colorScheme.onBackground,
                                         )
@@ -1181,7 +1180,7 @@ class PostDetailScreen(
                                             modifier = Modifier.fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
-                                            text = stringResource(MR.strings.message_error_loading_comments),
+                                            text = LocalXmlStrings.current.messageErrorLoadingComments,
                                             style = MaterialTheme.typography.bodyMedium,
                                             color = MaterialTheme.colorScheme.onBackground,
                                         )
@@ -1193,7 +1192,7 @@ class PostDetailScreen(
                                                 },
                                             ) {
                                                 Text(
-                                                    text = stringResource(MR.strings.button_retry),
+                                                    text = LocalXmlStrings.current.buttonRetry,
                                                 )
                                             }
                                             Spacer(modifier = Modifier.weight(1f))

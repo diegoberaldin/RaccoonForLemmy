@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -31,8 +32,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 class SelectActionOnSwipeBottomSheet(
     private val values: List<ActionOnSwipe>,
@@ -65,7 +64,7 @@ class SelectActionOnSwipeBottomSheet(
                     top = Spacing.s,
                     end = Spacing.s,
                 ),
-                text = stringResource(MR.strings.select_action_title),
+                text = LocalXmlStrings.current.selectActionTitle,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )

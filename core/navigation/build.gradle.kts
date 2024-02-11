@@ -44,8 +44,6 @@ kotlin {
 
             implementation(projects.core.persistence)
             implementation(projects.domain.lemmy.data)
-
-            implementation(projects.resources)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))

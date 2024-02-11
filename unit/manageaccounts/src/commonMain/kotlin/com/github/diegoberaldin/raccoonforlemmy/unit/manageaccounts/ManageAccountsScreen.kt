@@ -35,12 +35,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.login.LoginBottomSheet
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -77,7 +76,7 @@ class ManageAccountsScreen : Screen {
                             BottomSheetHandle()
                             Text(
                                 modifier = Modifier.padding(top = Spacing.s),
-                                text = stringResource(MR.strings.manage_accounts_title),
+                                text = LocalXmlStrings.current.manageAccountsTitle,
                             )
                         }
                     },
@@ -102,7 +101,7 @@ class ManageAccountsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Delete,
-                                    stringResource(MR.strings.comment_action_delete),
+                                    LocalXmlStrings.current.commentActionDelete,
                                 )
                             },
                             onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -128,7 +127,7 @@ class ManageAccountsScreen : Screen {
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                                Text(stringResource(MR.strings.manage_accounts_button_add))
+                                Text(LocalXmlStrings.current.manageAccountsButtonAdd)
                             }
                         }
                         Spacer(modifier = Modifier.height(Spacing.s))

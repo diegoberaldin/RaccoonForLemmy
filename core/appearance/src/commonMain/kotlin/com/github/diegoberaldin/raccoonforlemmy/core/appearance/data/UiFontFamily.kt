@@ -1,8 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 enum class UiFontFamily {
     Default,
@@ -34,5 +33,5 @@ fun UiFontFamily.toReadableName() = when (this) {
     UiFontFamily.NotoSans -> "Noto Sans"
     UiFontFamily.CharisSIL -> "Charis SIL"
     UiFontFamily.Comfortaa -> "Comfortaa"
-    UiFontFamily.Default -> stringResource(MR.strings.settings_font_family_default)
+    UiFontFamily.Default -> LocalXmlStrings.current.settingsFontFamilyDefault
 }

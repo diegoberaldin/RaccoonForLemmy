@@ -38,7 +38,6 @@ kotlin {
                 implementation(libs.koin.core)
 
                 implementation(projects.domain.lemmy.data)
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

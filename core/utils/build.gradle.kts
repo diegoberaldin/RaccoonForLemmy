@@ -39,7 +39,7 @@ kotlin {
                 implementation(project.dependencies.platform(libs.kotlincrypto.bom))
                 implementation(libs.kotlincrypto.md5)
 
-                implementation(projects.resources)
+                implementation(projects.core.l10n)
             }
         }
         val commonTest by getting {

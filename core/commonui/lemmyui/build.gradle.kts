@@ -43,12 +43,14 @@ kotlin {
 
                 implementation(libs.koin.core)
 
-                implementation(projects.core.utils)
                 implementation(projects.core.appearance)
-                implementation(projects.core.md)
                 implementation(projects.core.commonui.components)
+                implementation(projects.core.md)
+                implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
                 implementation(projects.core.persistence)
+                implementation(projects.core.utils)
+
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.resources)
             }

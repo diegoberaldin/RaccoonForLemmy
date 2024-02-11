@@ -77,6 +77,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BlockBottom
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -88,14 +89,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.remember
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.postlist.components.PostsTopBar
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.SelectInstanceBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -235,7 +234,7 @@ class PostListScreen : Screen {
                             if (uiState.zombieModeActive) {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.SyncDisabled,
-                                    text = stringResource(MR.strings.action_deactivate_zombie_mode),
+                                    text = LocalXmlStrings.current.actionDeactivateZombieMode,
                                     onSelected = rememberCallback(model) {
                                         model.reduce(PostListMviModel.Intent.PauseZombieMode)
                                     },
@@ -243,7 +242,7 @@ class PostListScreen : Screen {
                             } else {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.Sync,
-                                    text = stringResource(MR.strings.action_activate_zombie_mode),
+                                    text = LocalXmlStrings.current.actionActivateZombieMode,
                                     onSelected = rememberCallback(model) {
                                         model.reduce(PostListMviModel.Intent.StartZombieMode(-1))
                                     },
@@ -251,7 +250,7 @@ class PostListScreen : Screen {
                             }
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
-                                text = stringResource(MR.strings.action_back_to_top),
+                                text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -263,7 +262,7 @@ class PostListScreen : Screen {
                             if (uiState.isLogged) {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.ClearAll,
-                                    text = stringResource(MR.strings.action_clear_read),
+                                    text = LocalXmlStrings.current.actionClearRead,
                                     onSelected = rememberCallback {
                                         model.reduce(PostListMviModel.Intent.ClearRead)
                                         scope.launch {
@@ -507,40 +506,40 @@ class PostListScreen : Screen {
                                         options = buildList {
                                             this += Option(
                                                 OptionId.Share,
-                                                stringResource(MR.strings.post_action_share),
+                                                LocalXmlStrings.current.postActionShare,
                                             )
                                             if (uiState.isLogged) {
                                                 this += Option(
                                                     OptionId.Hide,
-                                                    stringResource(MR.strings.post_action_hide),
+                                                    LocalXmlStrings.current.postActionHide,
                                                 )
                                                 this += Option(
                                                     OptionId.Block,
-                                                    stringResource(MR.strings.community_detail_block),
+                                                    LocalXmlStrings.current.communityDetailBlock,
                                                 )
                                             }
                                             this += Option(
                                                 OptionId.SeeRaw,
-                                                stringResource(MR.strings.post_action_see_raw),
+                                                LocalXmlStrings.current.postActionSeeRaw,
                                             )
                                             if (uiState.isLogged) {
                                                 this += Option(
                                                     OptionId.CrossPost,
-                                                    stringResource(MR.strings.post_action_cross_post),
+                                                    LocalXmlStrings.current.postActionCrossPost,
                                                 )
                                                 this += Option(
                                                     OptionId.Report,
-                                                    stringResource(MR.strings.post_action_report),
+                                                    LocalXmlStrings.current.postActionReport,
                                                 )
                                             }
                                             if (post.creator?.id == uiState.currentUserId) {
                                                 this += Option(
                                                     OptionId.Edit,
-                                                    stringResource(MR.strings.post_action_edit),
+                                                    LocalXmlStrings.current.postActionEdit,
                                                 )
                                                 this += Option(
                                                     OptionId.Delete,
-                                                    stringResource(MR.strings.comment_action_delete),
+                                                    LocalXmlStrings.current.commentActionDelete,
                                                 )
                                             }
                                         },
@@ -596,9 +595,13 @@ class PostListScreen : Screen {
 
                                                 OptionId.Block -> {
                                                     val screen = BlockBottomSheet(
-                                                        userName = post.creator?.readableName(uiState.preferNicknames),
+                                                        userName = post.creator?.readableName(
+                                                            uiState.preferNicknames
+                                                        ),
                                                         userId = post.creator?.id,
-                                                        communityName = post.community?.readableName(uiState.preferNicknames),
+                                                        communityName = post.community?.readableName(
+                                                            uiState.preferNicknames
+                                                        ),
                                                         communityId = post.community?.id,
                                                         instanceName = post.community?.host,
                                                         instanceId = post.community?.instanceId,
@@ -636,7 +639,7 @@ class PostListScreen : Screen {
                                             },
                                         ) {
                                             Text(
-                                                text = stringResource(MR.strings.post_list_load_more_posts),
+                                                text = LocalXmlStrings.current.postListLoadMorePosts,
                                                 style = MaterialTheme.typography.labelSmall,
                                             )
                                         }
@@ -661,7 +664,7 @@ class PostListScreen : Screen {
                                     modifier = Modifier.fillMaxWidth()
                                         .padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = stringResource(MR.strings.message_empty_list),
+                                    text = LocalXmlStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )

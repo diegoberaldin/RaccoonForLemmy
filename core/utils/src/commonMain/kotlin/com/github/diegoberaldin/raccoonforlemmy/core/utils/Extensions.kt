@@ -4,50 +4,84 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.stringResource
 import io.ktor.utils.io.core.toByteArray
 import org.kotlincrypto.hash.md.MD5
 import kotlin.math.round
 
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ */
+
 @Composable
 fun String.toLanguageName() = when (this) {
-    "ar" -> stringResource(MR.strings.language_ar)
-    "bg" -> stringResource(MR.strings.language_bg)
-    "cs" -> stringResource(MR.strings.language_cs)
-    "da" -> stringResource(MR.strings.language_da)
-    "de" -> stringResource(MR.strings.language_de)
-    "el" -> stringResource(MR.strings.language_el)
-    "eo" -> stringResource(MR.strings.language_eo)
-    "es" -> stringResource(MR.strings.language_es)
-    "et" -> stringResource(MR.strings.language_et)
-    "ga" -> stringResource(MR.strings.language_ga)
-    "fi" -> stringResource(MR.strings.language_fi)
-    "fr" -> stringResource(MR.strings.language_fr)
-    "hu" -> stringResource(MR.strings.language_hu)
-    "hr" -> stringResource(MR.strings.language_hr)
-    "it" -> stringResource(MR.strings.language_it)
-    "lt" -> stringResource(MR.strings.language_lt)
-    "lv" -> stringResource(MR.strings.language_lv)
-    "mt" -> stringResource(MR.strings.language_mt)
-    "no" -> stringResource(MR.strings.language_no)
-    "nl" -> stringResource(MR.strings.language_nl)
-    "pl" -> stringResource(MR.strings.language_pl)
-    "pt" -> stringResource(MR.strings.language_pt)
-    "pt-BR" -> stringResource(MR.strings.language_pt_br)
-    "ro" -> stringResource(MR.strings.language_ro)
-    "ru" -> stringResource(MR.strings.language_ru)
-    "se" -> stringResource(MR.strings.language_se)
-    "sk" -> stringResource(MR.strings.language_sk)
-    "sl" -> stringResource(MR.strings.language_sl)
-    "sq" -> stringResource(MR.strings.language_sq)
-    "tok" -> stringResource(MR.strings.language_tok)
-    "tr" -> stringResource(MR.strings.language_tr)
-    "uk" -> stringResource(MR.strings.language_uk)
-    else -> stringResource(MR.strings.language_en)
+    "ar" -> "    العربية</"
+    "bg" -> "български"
+    "cs" -> "Čeština"
+    "da" -> "Dansk"
+    "de" -> "Deutsch"
+    "el" -> "Gaeilge"
+    "en" -> "Ελληνικά"
+    "eo" -> "Esperanto"
+    "et" -> "Español"
+    "ga" -> "Eesti"
+    "fi" -> "Suomi"
+    "fr" -> "Français"
+    "hu" -> "Hrvatski"
+    "hr" -> "Magyar"
+    "it" -> "Italiano"
+    "lt" -> "Lietuvių"
+    "lv" -> "Latviešu"
+    "mt" -> "Malti"
+    "no" -> "Norsk"
+    "nl" -> "Nederlands"
+    "pl" -> "Polski"
+    "pt" -> "Português"
+    "pt-BR" -> "Português (Brazil)"
+    "ro" -> "Română"
+    "ru" -> "Русский"
+    "se" -> "Svenska"
+    "sk" -> "Slovenčina"
+    "sl" -> "Slovenščina"
+    "sq" -> "Shqip"
+    "tok" -> "toki pona"
+    "tr" -> "Türkçe"
+    "uk" -> "Українська"
+    else -> "English"
 }
 
 @Composable
@@ -89,7 +123,7 @@ fun String.toLanguageFlag(): AnnotatedString = when (this) {
 }.let {
     AnnotatedString(
         text = it,
-        spanStyle = SpanStyle(fontFamily = fontFamilyResource(MR.fonts.NotoSans.regular))
+        spanStyle = SpanStyle(fontFamily = FontFamily.Default)
     )
 }
 

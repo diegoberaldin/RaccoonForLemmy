@@ -3,18 +3,12 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Inbox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxScreen
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
-import dev.icerock.moko.resources.desc.desc
 
 object InboxTab : Tab {
 
@@ -22,16 +16,12 @@ object InboxTab : Tab {
         @Composable
         get() {
             val icon = rememberVectorPainter(Icons.Default.Inbox)
-            val languageRepository = remember { getLanguageRepository() }
-            val lang by languageRepository.currentLanguage.collectAsState()
-            return remember(lang) {
-                val title = staticString(MR.strings.navigation_inbox.desc())
-                TabOptions(
-                    index = 3u,
-                    title = title,
-                    icon = icon,
-                )
-            }
+            val title = LocalXmlStrings.current.navigationInbox
+            return TabOptions(
+                index = 3u,
+                title = title,
+                icon = icon,
+            )
         }
 
     @Composable

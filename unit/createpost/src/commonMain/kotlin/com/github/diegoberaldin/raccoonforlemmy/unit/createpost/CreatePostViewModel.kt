@@ -3,15 +3,13 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.createpost
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.isValidUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR.strings.message_invalid_field
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR.strings.message_missing_field
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -185,25 +183,25 @@ class CreatePostViewModel(
         var valid = true
         if (title.isEmpty()) {
             updateState {
-                it.copy(titleError = message_missing_field.desc())
+                it.copy(titleError = ValidationError.MissingField)
             }
             valid = false
         }
         if (body.isEmpty()) {
             updateState {
-                it.copy(bodyError = message_missing_field.desc())
+                it.copy(bodyError = ValidationError.MissingField)
             }
             valid = false
         }
         if (!url.isNullOrEmpty() && !url.isValidUrl()) {
             updateState {
-                it.copy(urlError = message_invalid_field.desc())
+                it.copy(urlError = ValidationError.InvalidField)
             }
             valid = false
         }
         if (communityId == null) {
             updateState {
-                it.copy(communityError = message_missing_field.desc())
+                it.copy(communityError = ValidationError.MissingField)
             }
             valid = false
         }

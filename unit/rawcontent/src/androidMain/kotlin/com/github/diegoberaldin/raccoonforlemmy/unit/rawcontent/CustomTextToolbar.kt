@@ -7,7 +7,6 @@ import android.view.View
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.platform.TextToolbar
 import androidx.compose.ui.platform.TextToolbarStatus
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 
 private const val ACTION_ID_COPY = 0
 private const val ACTION_ID_SEARCH = 1
@@ -17,6 +16,8 @@ private const val GROUP_ID = 0
 class CustomTextToolbar(
     private val view: View,
     private val isLogged: Boolean,
+    private val quoteActionLabel: String,
+    private val shareActionLabel: String,
     private val onShare: () -> Unit,
     private val onQuote: () -> Unit,
 ) : TextToolbar {
@@ -44,6 +45,8 @@ class CustomTextToolbar(
                 CustomTextActionModeCallback(
                     rect = rect,
                     isLogged = isLogged,
+                    quoteActionLabel = quoteActionLabel,
+                    shareActionLabel = shareActionLabel,
                     onCopy = {
                         onCopyRequested?.invoke()
                     },
@@ -67,6 +70,8 @@ class CustomTextToolbar(
 
 private class CustomTextActionModeCallback(
     private val rect: Rect,
+    private val quoteActionLabel: String,
+    private val shareActionLabel: String,
     private val isLogged: Boolean,
     private val onCopy: () -> Unit,
     private val onShare: () -> Unit,
@@ -80,7 +85,7 @@ private class CustomTextActionModeCallback(
                     GROUP_ID,
                     ACTION_ID_QUOTE,
                     0, // position
-                    MR.strings.action_quote.resourceId
+                    quoteActionLabel,
                 ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
             add(
@@ -93,7 +98,7 @@ private class CustomTextActionModeCallback(
                 GROUP_ID,
                 ACTION_ID_SEARCH,
                 2, // position
-                MR.strings.post_action_share.resourceId
+                shareActionLabel,
             ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         }
         return true

@@ -2,7 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.login
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
-import dev.icerock.moko.resources.desc.StringDesc
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 
 interface LoginMviModel :
     MviModel<LoginMviModel.Intent, LoginMviModel.UiState, LoginMviModel.Effect>,
@@ -18,11 +18,11 @@ interface LoginMviModel :
 
     data class UiState(
         val username: String = "",
-        val usernameError: StringDesc? = null,
+        val usernameError: ValidationError? = null,
         val password: String = "",
-        val passwordError: StringDesc? = null,
+        val passwordError: ValidationError? = null,
         val instanceName: String = "",
-        val instanceNameError: StringDesc? = null,
+        val instanceNameError: ValidationError? = null,
         val totp2faToken: String = "",
         val loading: Boolean = false,
     )

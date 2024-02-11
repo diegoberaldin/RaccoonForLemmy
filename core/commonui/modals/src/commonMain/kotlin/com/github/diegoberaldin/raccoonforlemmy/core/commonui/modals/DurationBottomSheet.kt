@@ -19,14 +19,13 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDuration
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -66,7 +65,7 @@ class DurationBottomSheet(
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.settings_zombie_mode_interval),
+                    text = LocalXmlStrings.current.settingsZombieModeInterval,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -95,9 +94,9 @@ class DurationBottomSheet(
                     ) {
                         Text(
                             text = value.getPrettyDuration(
-                                secondsLabel = stringResource(MR.strings.post_second_short),
-                                minutesLabel = stringResource(MR.strings.post_minute_short),
-                                hoursLabel = stringResource(MR.strings.post_hour_short),
+                                secondsLabel = LocalXmlStrings.current.postSecondShort,
+                                minutesLabel = LocalXmlStrings.current.postMinuteShort,
+                                hoursLabel = LocalXmlStrings.current.postHourShort,
                             ),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,

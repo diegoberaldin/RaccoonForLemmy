@@ -41,11 +41,10 @@ kotlin {
                 implementation(projects.core.utils)
                 implementation(projects.core.appearance)
                 implementation(projects.core.commonui.components)
+                implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
                 implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
-
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

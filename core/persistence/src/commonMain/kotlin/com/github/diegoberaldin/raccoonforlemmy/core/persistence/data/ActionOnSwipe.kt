@@ -8,8 +8,7 @@ import androidx.compose.material.icons.filled.MarkChatUnread
 import androidx.compose.material.icons.filled.Reply
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface ActionOnSwipeDirection {
     data object ToStart : ActionOnSwipeDirection
@@ -82,12 +81,12 @@ internal fun Int.toActionOnSwipe(): ActionOnSwipe = when (this) {
 
 @Composable
 fun ActionOnSwipe.toReadableName(): String = when (this) {
-    ActionOnSwipe.DownVote -> stringResource(MR.strings.action_downvote)
+    ActionOnSwipe.DownVote -> LocalXmlStrings.current.actionDownvote
     ActionOnSwipe.None -> ""
-    ActionOnSwipe.Reply -> stringResource(MR.strings.action_reply)
-    ActionOnSwipe.Save -> stringResource(MR.strings.action_save)
-    ActionOnSwipe.ToggleRead -> stringResource(MR.strings.action_toggle_read)
-    ActionOnSwipe.UpVote -> stringResource(MR.strings.action_upvote)
+    ActionOnSwipe.Reply -> LocalXmlStrings.current.actionReply
+    ActionOnSwipe.Save -> LocalXmlStrings.current.actionSave
+    ActionOnSwipe.ToggleRead -> LocalXmlStrings.current.actionToggleRead
+    ActionOnSwipe.UpVote -> LocalXmlStrings.current.actionUpvote
 }
 
 @Composable

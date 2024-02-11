@@ -43,14 +43,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserItem
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.components.InstanceItem
-import dev.icerock.moko.resources.compose.stringResource
 
 class ManageBanScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -77,7 +76,7 @@ class ManageBanScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = stringResource(MR.strings.settings_manage_ban),
+                            text = LocalXmlStrings.current.settingsManageBan,
                         )
                     },
                     navigationIcon = {
@@ -127,9 +126,9 @@ class ManageBanScreen : Screen {
                 SectionSelector(
                     modifier = Modifier.padding(vertical = Spacing.xs),
                     titles = listOf(
-                        stringResource(MR.strings.explore_result_type_users),
-                        stringResource(MR.strings.explore_result_type_communities),
-                        stringResource(MR.strings.settings_manage_ban_section_instances),
+                        LocalXmlStrings.current.exploreResultTypeUsers,
+                        LocalXmlStrings.current.exploreResultTypeCommunities,
+                        LocalXmlStrings.current.settingsManageBanSectionInstances,
                     ),
                     currentSection = when (uiState.section) {
                         ManageBanSection.Instances -> 2
@@ -175,7 +174,7 @@ class ManageBanScreen : Screen {
                                                     .fillMaxWidth()
                                                     .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
-                                                text = stringResource(MR.strings.message_empty_list),
+                                                text = LocalXmlStrings.current.messageEmptyList,
                                                 style = MaterialTheme.typography.bodyLarge,
                                                 color = MaterialTheme.colorScheme.onBackground,
                                             )
@@ -190,7 +189,7 @@ class ManageBanScreen : Screen {
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.Unban,
-                                                    stringResource(MR.strings.settings_manage_ban_action_unban),
+                                                    LocalXmlStrings.current.settingsManageBanActionUnban,
                                                 )
                                             },
                                             onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -224,7 +223,7 @@ class ManageBanScreen : Screen {
                                                     .fillMaxWidth()
                                                     .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
-                                                text = stringResource(MR.strings.message_empty_list),
+                                                text = LocalXmlStrings.current.messageEmptyList,
                                                 style = MaterialTheme.typography.bodyLarge,
                                                 color = MaterialTheme.colorScheme.onBackground,
                                             )
@@ -239,7 +238,7 @@ class ManageBanScreen : Screen {
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.Unban,
-                                                    stringResource(MR.strings.settings_manage_ban_action_unban),
+                                                    LocalXmlStrings.current.settingsManageBanActionUnban,
                                                 )
                                             },
                                             onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -273,7 +272,7 @@ class ManageBanScreen : Screen {
                                                     .fillMaxWidth()
                                                     .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
-                                                text = stringResource(MR.strings.message_empty_list),
+                                                text = LocalXmlStrings.current.messageEmptyList,
                                                 style = MaterialTheme.typography.bodyLarge,
                                                 color = MaterialTheme.colorScheme.onBackground,
                                             )
@@ -286,7 +285,7 @@ class ManageBanScreen : Screen {
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.Unban,
-                                                    stringResource(MR.strings.settings_manage_ban_action_unban),
+                                                    LocalXmlStrings.current.settingsManageBanActionUnban,
                                                 )
                                             },
                                             onOptionSelected = rememberCallbackArgs(model) { optionId ->

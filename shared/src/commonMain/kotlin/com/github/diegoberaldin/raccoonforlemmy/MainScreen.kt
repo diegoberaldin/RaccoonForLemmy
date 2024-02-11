@@ -36,6 +36,7 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
@@ -47,9 +48,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.ui.navigation.TabNavigationItem
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
@@ -69,7 +68,7 @@ internal object MainScreen : Screen {
         val uiState by model.uiState.collectAsState()
         val uiFontScale by themeRepository.uiFontScale.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val exitMessage = stringResource(MR.strings.message_confirm_exit)
+        val exitMessage = LocalXmlStrings.current.messageConfirmExit
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         val bottomNavigationInsetPx = with(LocalDensity.current) {

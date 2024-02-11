@@ -39,10 +39,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
@@ -62,7 +61,7 @@ class RemoveScreen(
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = stringResource(MR.strings.message_generic_error)
+        val genericError = LocalXmlStrings.current.messageGenericError
         val navigationCoordinator = remember { getNavigationCoordinator() }
 
         LaunchedEffect(model) {
@@ -94,7 +93,7 @@ class RemoveScreen(
                 ) {
                     BottomSheetHandle()
                     Text(
-                        text = stringResource(MR.strings.mod_action_remove),
+                        text = LocalXmlStrings.current.modActionRemove,
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -127,7 +126,7 @@ class RemoveScreen(
                     disabledContainerColor = Color.Transparent,
                 ),
                 label = {
-                    Text(text = stringResource(MR.strings.create_report_placeholder))
+                    Text(text = LocalXmlStrings.current.createReportPlaceholder)
                 },
                 textStyle = MaterialTheme.typography.bodyMedium,
                 value = uiState.text,
@@ -140,9 +139,10 @@ class RemoveScreen(
                 },
                 isError = uiState.textError != null,
                 supportingText = {
-                    if (uiState.textError != null) {
+                    val error = uiState.textError
+                    if (error != null) {
                         Text(
-                            text = uiState.textError?.localized().orEmpty(),
+                            text = error.toReadableMessage(),
                             color = MaterialTheme.colorScheme.error,
                         )
                     }
