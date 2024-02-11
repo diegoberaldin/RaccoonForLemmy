@@ -18,7 +18,6 @@ val settingsTabModule = module {
             identityRepository = get(),
             notificationCenter = get(),
             crashReportConfiguration = get(),
-            crashReportSender = get(),
             contentResetCoordinator = get(),
             getSortTypesUseCase = get(),
         )

@@ -127,10 +127,20 @@ The settings screen allows you to customize the look and behaviour of your app.
       whole) and user detail when a post is marked as NSFW, and the URL contains an image, the image
       is blurred;
 - Debug:
-    - Enable crash reporting: send anonymous reports about crash events;
+    - Enable crash reporting: if this option is enabled, in case the application crashes you will
+      find the stack trace in a file on your local device (*);
     - About this app: shows a dialog with the app versions and some useful shortcuts to reach out to
       the developers or other members of the community;
     - User manual: opens the application manual online (this page).
+
+(*) Look for a file named  `crash_report.txt` in the Documents directory of the private storage area
+reserved for the app, e.g.
+
+```
+/sdcard/Android/data/com.github.diegoberaldin.raccoonforlemmy.android.dev/files/Documents/crash_report.txt
+```
+
+via adb or the "Device Explorer" if you are using Android Studio.
 
 <img width="310" alt="settings first part" src="images/anon_settings_1.jpg" />
 <img width="310" alt="settings second part" src="images/anon_settings_2.jpg" />

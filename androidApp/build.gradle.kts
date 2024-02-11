@@ -4,8 +4,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose)
-    alias(libs.plugins.crashlytics)
-    alias(libs.plugins.gms)
 }
 
 android {
@@ -35,7 +33,6 @@ android {
         getByName("debug") {
             resValue("string", "app_name", "Kijetesantakalu for Lemmy")
             applicationIdSuffix = ".dev"
-            extra["enableCrashlytics"] = false
         }
         getByName("release") {
             resValue("string", "app_name", "Raccoon for Lemmy")

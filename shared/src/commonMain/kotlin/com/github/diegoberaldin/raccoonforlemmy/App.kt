@@ -45,8 +45,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoor
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.getCrashReportConfiguration
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.getCrashReportSender
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageDirection
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.resources.MR
@@ -72,8 +70,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val settings by settingsRepository.currentSettings.collectAsState()
     var hasBeenInitialized by remember { mutableStateOf(false) }
     val apiConfigurationRepository = remember { getApiConfigurationRepository() }
-    val crashReportSender = remember { getCrashReportSender() }
-    val crashReportConfiguration = remember { getCrashReportConfiguration() }
     val themeRepository = remember { getThemeRepository() }
     val defaultTheme = if (isSystemInDarkTheme()) {
         UiTheme.Dark
@@ -102,8 +98,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         if (lastInstance != null) {
             apiConfigurationRepository.changeInstance(lastInstance)
         }
-        crashReportSender.initialize()
-        crashReportSender.setEnabled(crashReportConfiguration.isEnabled())
 
         with(themeRepository) {
             changeUiTheme((currentSettings.theme ?: defaultTheme).toUiTheme())

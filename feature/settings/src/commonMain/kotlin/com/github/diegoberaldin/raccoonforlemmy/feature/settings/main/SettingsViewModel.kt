@@ -14,7 +14,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsMo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportConfiguration
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportSender
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxDefaultType
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -40,7 +39,6 @@ class SettingsViewModel(
     private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
     private val crashReportConfiguration: CrashReportConfiguration,
-    private val crashReportSender: CrashReportSender,
     private val contentResetCoordinator: ContentResetCoordinator,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : SettingsMviModel,
@@ -335,7 +333,6 @@ class SettingsViewModel(
 
     private fun changeCrashReportEnabled(value: Boolean) {
         crashReportConfiguration.setEnabled(value)
-        crashReportSender.setEnabled(value)
         updateState { it.copy(crashReportEnabled = value) }
     }
 

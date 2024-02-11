@@ -36,7 +36,6 @@ kotlin {
 
                 implementation(libs.koin.core)
                 implementation(libs.ktor.cio)
-                implementation(libs.crashkios)
                 implementation(project.dependencies.platform(libs.kotlincrypto.bom))
                 implementation(libs.kotlincrypto.md5)
 
@@ -56,7 +55,6 @@ kotlin {
                 implementation(libs.ktor.android)
                 implementation(libs.coil)
                 implementation(libs.coil.gif)
-                implementation(libs.firebase.crashlytics)
             }
         }
     }

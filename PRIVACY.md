@@ -17,17 +17,6 @@ files, documents, settings, or other information created or accessed through the
 upload or sync your data to any external servers or Cloud services and all the information that is
 persisted is saved in an encrypted database on the device internal storage.
 
-#### 1.3 Usage information
-
-We collect certain anonymous analytical information when you use the App, including the device
-model, OS version, device state and some minimal information about the your interaction with the
-App, such as the action that led to the crash in order to diagnose bugs and take corrective measures
-to improve the quality of service.
-
-This is done through the Firebase Crashlytics SDK integrated in the App and the data is shared with
-the Firebase platform (provided by Google). Diagnostic data collection can be disabled in the App's
-settings, in order to prevent any information from being transmitted.
-
 ### 2 Permissions
 
 #### 2.1 Device Permissions

@@ -10,8 +10,6 @@ plugins {
     alias(libs.plugins.ktorfit).apply(false)
     alias(libs.plugins.kotlinx.serialization).apply(false)
     alias(libs.plugins.sqldelight).apply(false)
-    alias(libs.plugins.crashlytics).apply(false)
-    alias(libs.plugins.gms).apply(false)
 }
 
 tasks.register("clean", Delete::class) {
