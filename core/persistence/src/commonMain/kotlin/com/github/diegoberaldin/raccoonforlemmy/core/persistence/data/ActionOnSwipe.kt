@@ -1,11 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.data
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.MarkChatUnread
-import androidx.compose.material.icons.filled.Reply
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -93,7 +93,7 @@ fun ActionOnSwipe.toReadableName(): String = when (this) {
 fun ActionOnSwipe.toIcon(): ImageVector? = when (this) {
     ActionOnSwipe.DownVote -> Icons.Default.ArrowCircleDown
     ActionOnSwipe.None -> null
-    ActionOnSwipe.Reply -> Icons.Default.Reply
+    ActionOnSwipe.Reply -> Icons.AutoMirrored.Filled.Reply
     ActionOnSwipe.Save -> Icons.Default.Bookmark
     ActionOnSwipe.ToggleRead -> Icons.Default.MarkChatUnread
     ActionOnSwipe.UpVote -> Icons.Default.ArrowCircleUp

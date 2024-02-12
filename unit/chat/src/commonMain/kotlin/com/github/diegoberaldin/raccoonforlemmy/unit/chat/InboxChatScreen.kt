@@ -20,8 +20,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -155,7 +155,7 @@ class InboxChatScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -174,7 +174,7 @@ class InboxChatScreen(
                         onSelectImage = {
                             openImagePicker = true
                         },
-                        lastActionIcon = Icons.Default.Send,
+                        lastActionIcon = Icons.AutoMirrored.Filled.Send,
                         onLastAction = rememberCallback {
                             model.reduce(
                                 InboxChatMviModel.Intent.SubmitNewMessage(

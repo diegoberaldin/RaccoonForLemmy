@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Menu
@@ -133,7 +134,7 @@ internal object ProfileMainScreen : Tab {
                                         model.reduce(ProfileMainMviModel.Intent.Logout)
                                     },
                                 ),
-                                imageVector = Icons.Default.Logout,
+                                imageVector = Icons.AutoMirrored.Filled.Logout,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
                             )

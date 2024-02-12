@@ -19,7 +19,6 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Raccoon_for_Lemmy"
 include(":androidApp")
 include(":shared")
-include(":resources")
 
 include(":core:api")
 include(":core:appearance")
@@ -35,6 +34,7 @@ include(":core:navigation")
 include(":core:notifications")
 include(":core:persistence")
 include(":core:preferences")
+include(":core:resources")
 include(":core:utils")
 
 include(":domain:identity")

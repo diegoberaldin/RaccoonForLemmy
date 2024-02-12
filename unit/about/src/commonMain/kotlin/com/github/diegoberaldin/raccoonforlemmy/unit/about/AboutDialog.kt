@@ -15,7 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.Shop
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -43,12 +43,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
-import dev.icerock.moko.resources.compose.painterResource
 
 class AboutDialog : Screen {
 
@@ -67,7 +66,7 @@ class AboutDialog : Screen {
         val notificationCenter = remember { getNotificationCenter() }
         val detailOpener = remember { getDetailOpener() }
 
-        AlertDialog(
+        BasicAlertDialog(
             onDismissRequest = {
                 notificationCenter.send(NotificationCenterEvent.CloseDialog)
             },
@@ -103,7 +102,7 @@ class AboutDialog : Screen {
                             textDecoration = TextDecoration.Underline,
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url =  AboutConstants.CHANGELOG_URL,
+                                    url = AboutConstants.CHANGELOG_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->
@@ -117,7 +116,7 @@ class AboutDialog : Screen {
                         Button(
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url =  AboutConstants.REPORT_URL,
+                                    url = AboutConstants.REPORT_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->
@@ -135,7 +134,7 @@ class AboutDialog : Screen {
                         Button(
                             onClick = {
                                 runCatching {
-                                    uriHandler.openUri("mailto:${ AboutConstants.REPORT_EMAIL_ADDRESS}")
+                                    uriHandler.openUri("mailto:${AboutConstants.REPORT_EMAIL_ADDRESS}")
                                 }
                             },
                         ) {
@@ -148,12 +147,12 @@ class AboutDialog : Screen {
                     }
                     item {
                         AboutItem(
-                            painter = painterResource(MR.images.ic_github),
+                            painter = CoreResources.github,
                             text = LocalXmlStrings.current.settingsAboutViewGithub,
                             textDecoration = TextDecoration.Underline,
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url =  AboutConstants.WEBSITE_URL,
+                                    url = AboutConstants.WEBSITE_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->
@@ -182,7 +181,7 @@ class AboutDialog : Screen {
                     }
                     item {
                         AboutItem(
-                            painter = painterResource(MR.images.ic_lemmy),
+                            painter = CoreResources.lemmy,
                             text = LocalXmlStrings.current.settingsAboutViewLemmy,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
@@ -195,7 +194,7 @@ class AboutDialog : Screen {
                     }
                     item {
                         AboutItem(
-                            painter = painterResource(MR.images.ic_matrix),
+                            painter = CoreResources.matrix,
                             text = LocalXmlStrings.current.settingsAboutChatMatrix,
                             textDecoration = TextDecoration.Underline,
                             onClick = {

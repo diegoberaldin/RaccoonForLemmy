@@ -21,12 +21,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.SyncDisabled
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -34,8 +34,8 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -315,7 +315,7 @@ class PostListScreen : Screen {
                                     postLayout = uiState.postLayout,
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
-                                    Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                 } else {
                                     Spacer(modifier = Modifier.height(Spacing.s))
                                 }
@@ -370,7 +370,7 @@ class PostListScreen : Screen {
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.Default.Reply,
+                                                    imageVector = Icons.AutoMirrored.Filled.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )
@@ -618,7 +618,7 @@ class PostListScreen : Screen {
                                 },
                             )
                             if (uiState.postLayout != PostLayout.Card) {
-                                Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                             } else {
                                 Spacer(modifier = Modifier.height(Spacing.s))
                             }

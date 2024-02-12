@@ -7,16 +7,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.fontFamilyResource
+import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
 
 @Composable
 fun UiFontFamily.toTypography(): Typography {
     val fontFamily = when (this) {
-        UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
-        UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
-        UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
-        UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
+        UiFontFamily.NotoSans -> CoreResources.notoSans
+        UiFontFamily.CharisSIL -> CoreResources.charisSil
+        UiFontFamily.Poppins -> CoreResources.poppins
+        UiFontFamily.Comfortaa -> CoreResources.comfortaa
         else -> FontFamily.Default
     }
     return Typography(

@@ -49,10 +49,10 @@ kotlin {
                 implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
                 implementation(projects.core.persistence)
+                implementation(projects.core.resources)
                 implementation(projects.core.utils)
 
                 implementation(projects.domain.lemmy.data)
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

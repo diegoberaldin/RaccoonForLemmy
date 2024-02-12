@@ -20,7 +20,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -167,7 +167,7 @@ object ProfileLoggedScreen : Tab {
                                         postLayout = uiState.postLayout,
                                     )
                                     if (uiState.postLayout != PostLayout.Card) {
-                                        Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                     } else {
                                         Spacer(modifier = Modifier.height(Spacing.s))
                                     }
@@ -295,7 +295,7 @@ object ProfileLoggedScreen : Tab {
                                     },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
-                                    Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                 } else {
                                     Spacer(modifier = Modifier.height(Spacing.s))
                                 }
@@ -317,7 +317,7 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                                 items(5) {
                                     CommentCardPlaceholder(hideAuthor = true)
-                                    Divider(
+                                    HorizontalDivider(
                                         modifier = Modifier.padding(vertical = Spacing.xxxs),
                                         thickness = 0.25.dp
                                     )
@@ -411,7 +411,7 @@ object ProfileLoggedScreen : Tab {
                                             else -> Unit
                                         }
                                     })
-                                Divider(
+                                HorizontalDivider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
                                     thickness = 0.25.dp
                                 )

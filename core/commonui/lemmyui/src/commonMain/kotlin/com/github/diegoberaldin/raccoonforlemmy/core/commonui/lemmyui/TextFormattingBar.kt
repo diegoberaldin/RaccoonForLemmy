@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.FormatBold
 import androidx.compose.material.icons.filled.FormatItalic
@@ -367,7 +368,7 @@ fun TextFormattingBar(
                         onTextFieldValueChanged(newValue)
                     },
                 ),
-                imageVector = Icons.Default.FormatListBulleted,
+                imageVector = Icons.AutoMirrored.Filled.FormatListBulleted,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
             )

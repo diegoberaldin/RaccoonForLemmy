@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.android).apply(false)
     alias(libs.plugins.kotlin.multiplatform).apply(false)
     alias(libs.plugins.compose).apply(false)
-    alias(libs.plugins.moko.resources).apply(false)
     alias(libs.plugins.ksp).apply(false)
     alias(libs.plugins.ktorfit).apply(false)
     alias(libs.plugins.kotlinx.serialization).apply(false)
@@ -19,10 +18,4 @@ tasks.register("clean", Delete::class) {
 tasks.withType<AbstractArchiveTask>().configureEach {
     isPreserveFileTimestamps = false
     isReproducibleFileOrder = true
-}
-
-buildscript {
-    dependencies {
-        classpath(libs.moko.gradle)
-    }
 }

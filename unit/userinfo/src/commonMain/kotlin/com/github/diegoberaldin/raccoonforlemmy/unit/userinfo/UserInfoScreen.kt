@@ -13,9 +13,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.Padding
-import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -125,7 +125,7 @@ class UserInfoScreen(
                                 )
                                 DetailInfoItem(
                                     modifier = Modifier.fillMaxWidth(),
-                                    icon = Icons.Default.Reply,
+                                    icon = Icons.AutoMirrored.Filled.Reply,
                                     title = LocalXmlStrings.current.communityInfoComments,
                                     value = score.commentScore.getPrettyNumber(
                                         thousandLabel = LocalXmlStrings.current.profileThousandShort,

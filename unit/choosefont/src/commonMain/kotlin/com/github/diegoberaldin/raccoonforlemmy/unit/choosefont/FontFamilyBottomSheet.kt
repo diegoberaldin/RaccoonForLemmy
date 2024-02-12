@@ -25,10 +25,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.fontFamilyResource
 
 private val defaultChoices: List<Int> = listOf(
     UiFontFamily.Poppins,
@@ -98,11 +97,11 @@ class FontFamilyBottomSheet(
                                 ),
                         ) {
                             val fontFamily = when (family) {
-                                UiFontFamily.CharisSIL -> fontFamilyResource(MR.fonts.CharisSIL.regular)
-                                UiFontFamily.NotoSans -> fontFamilyResource(MR.fonts.NotoSans.regular)
-                                UiFontFamily.Comfortaa -> fontFamilyResource(MR.fonts.Comfortaa.regular)
-                                UiFontFamily.Poppins -> fontFamilyResource(MR.fonts.Poppins.regular)
-                                UiFontFamily.Default -> FontFamily.Default
+                                UiFontFamily.NotoSans -> CoreResources.notoSans
+                                UiFontFamily.CharisSIL -> CoreResources.charisSil
+                                UiFontFamily.Poppins -> CoreResources.poppins
+                                UiFontFamily.Comfortaa -> CoreResources.comfortaa
+                                else -> FontFamily.Default
                             }
                             Text(
                                 text = family.toReadableName(),

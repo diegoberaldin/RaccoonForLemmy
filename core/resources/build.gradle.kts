@@ -21,42 +21,27 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "appearance"
+            baseName = "resources"
         }
     }
 
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.androidx.activity)
-            }
-        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(compose.materialIconsExtended)
-
-                implementation(libs.koin.core)
-                implementation(libs.materialKolor)
-
-                implementation(projects.core.l10n)
-                implementation(projects.core.resources)
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
             }
         }
     }
 }
 
+
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.core.appearance"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.core.resources"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

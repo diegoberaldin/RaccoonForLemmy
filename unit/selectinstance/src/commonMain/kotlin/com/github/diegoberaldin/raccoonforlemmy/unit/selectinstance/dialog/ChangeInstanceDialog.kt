@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,7 +42,7 @@ internal fun ChangeInstanceDialog(
     onClose: (() -> Unit)? = null,
     onSubmit: (() -> Unit)? = null,
 ) {
-    AlertDialog(
+    BasicAlertDialog(
         onDismissRequest = {
             onClose?.invoke()
         },

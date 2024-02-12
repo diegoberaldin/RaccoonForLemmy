@@ -20,8 +20,8 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -124,7 +124,7 @@ class InboxMentionsScreen : Tab {
                             postLayout = uiState.postLayout,
                         )
                         if (uiState.postLayout != PostLayout.Card) {
-                            Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                         } else {
                             Spacer(modifier = Modifier.height(Spacing.s))
                         }
@@ -281,7 +281,7 @@ class InboxMentionsScreen : Tab {
                         },
                     )
                     if (uiState.postLayout != PostLayout.Card) {
-                        Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                     } else {
                         Spacer(modifier = Modifier.height(Spacing.s))
                     }

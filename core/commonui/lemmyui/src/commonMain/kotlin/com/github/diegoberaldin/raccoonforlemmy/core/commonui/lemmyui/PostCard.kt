@@ -83,9 +83,12 @@ fun PostCard(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
-                    .clip(RoundedCornerShape(CornerSize.l))
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(CornerSize.l)
+                    )
                     .padding(horizontal = Spacing.xs)
+                    .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                     )
@@ -334,16 +337,18 @@ private fun ExtendedPost(
     val optionsMenuOpen = remember { mutableStateOf(false) }
 
     Column(
-        modifier = modifier.background(backgroundColor).pointerInput(Unit) {
-            detectTapGestures(
-                onLongPress = {
-                    optionsMenuOpen.value = true
-                },
-                onTap = {
-                    onClick?.invoke()
-                }
-            )
-        },
+        modifier = modifier
+            .background(backgroundColor)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = {
+                        optionsMenuOpen.value = true
+                    },
+                    onTap = {
+                        onClick?.invoke()
+                    }
+                )
+            },
         verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
     ) {
         CommunityAndCreatorInfo(
@@ -402,8 +407,7 @@ private fun ExtendedPost(
                     .padding(vertical = Spacing.xxs)
                     .then(
                         if (roundedCornerImage) {
-                            Modifier
-                                .clip(RoundedCornerShape(CornerSize.xl))
+                            Modifier.clip(RoundedCornerShape(CornerSize.xl))
                         } else {
                             Modifier
                         }

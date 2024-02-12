@@ -5,9 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,6 +25,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+private const val FIRST_ACTION_THRESHOLD = 0.14f
 private const val SECOND_ACTION_THRESHOLD = 0.38f
 
 data class SwipeAction(
@@ -47,10 +49,10 @@ fun SwipeActionCard(
         var secondNotified by remember { mutableStateOf(false) }
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
         var lastProgress by remember { mutableStateOf(0.0f) }
-        val dismissState = rememberNoFlingDismissState(
+        val dismissState = rememberSwipeToDismissBoxState(
             confirmValueChange = rememberCallbackArgs { value ->
                 when (value) {
-                    DismissValue.DismissedToEnd -> {
+                    SwipeToDismissBoxValue.StartToEnd -> {
                         val enableSecondAction = swipeToEndActions.size > 1
                         if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction && secondNotified) {
                             swipeToEndActions.getOrNull(1)?.onTriggered?.invoke()
@@ -60,7 +62,7 @@ fun SwipeActionCard(
                         }
                     }
 
-                    DismissValue.DismissedToStart -> {
+                    SwipeToDismissBoxValue.EndToStart -> {
                         val enableSecondAction = swipeToStartActions.size > 1
                         if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction && secondNotified) {
                             swipeToStartActions.getOrNull(1)?.onTriggered?.invoke()
@@ -76,26 +78,25 @@ fun SwipeActionCard(
                 // return false to stay dismissed
                 false
             },
-            positionalThreshold = { _ -> 56.dp.toPx() }
         )
         LaunchedEffect(dismissState, swipeToEndActions, swipeToEndActions) {
             snapshotFlow { dismissState.progress }.onEach { progress ->
                 val enableSecondAction = when (dismissState.targetValue) {
-                    DismissValue.Default -> false
-                    DismissValue.DismissedToEnd -> swipeToEndActions.size > 1
-                    DismissValue.DismissedToStart -> swipeToStartActions.size > 1
+                    SwipeToDismissBoxValue.Settled -> false
+                    SwipeToDismissBoxValue.StartToEnd -> swipeToEndActions.size > 1
+                    SwipeToDismissBoxValue.EndToStart -> swipeToStartActions.size > 1
                 }
 
                 if (!enableSecondAction) {
                     when {
-                        progress in 0.0f..<1.0f && !notified -> {
+                        progress in FIRST_ACTION_THRESHOLD..<1.0f && !notified -> {
                             notified = true
                             gestureBeginCallback?.invoke()
                         }
                     }
                 } else {
                     when {
-                        progress in 0.0f..<SECOND_ACTION_THRESHOLD && !notified -> {
+                        progress in FIRST_ACTION_THRESHOLD..<SECOND_ACTION_THRESHOLD && !notified -> {
                             notified = true
                             gestureBeginCallback?.invoke()
                         }
@@ -110,29 +111,23 @@ fun SwipeActionCard(
             }.launchIn(this)
         }
 
-        NoFlingSwipeToDismiss(
+        SwipeToDismissBox(
             modifier = modifier,
             state = dismissState,
-            directions = buildSet {
-                if (swipeToEndActions.isNotEmpty()) {
-                    this += DismissDirection.StartToEnd
-                }
-                if (swipeToStartActions.isNotEmpty()) {
-                    this += DismissDirection.EndToStart
-                }
-            },
-            background = {
-                val direction = dismissState.dismissDirection ?: DismissDirection.StartToEnd
+            enableDismissFromEndToStart = swipeToStartActions.isNotEmpty(),
+            enableDismissFromStartToEnd = swipeToEndActions.isNotEmpty(),
+            backgroundContent = {
+                val direction = dismissState.dismissDirection
                 val actions = when (dismissState.targetValue) {
-                    DismissValue.Default -> listOf()
-                    DismissValue.DismissedToEnd -> swipeToEndActions
-                    DismissValue.DismissedToStart -> swipeToStartActions
+                    SwipeToDismissBoxValue.Settled -> listOf()
+                    SwipeToDismissBoxValue.StartToEnd -> swipeToEndActions
+                    SwipeToDismissBoxValue.EndToStart -> swipeToStartActions
                 }
                 val enableSecondAction = actions.size > 1
                 val bgColor by animateColorAsState(
                     targetValue = if (
                         dismissState.progress < SECOND_ACTION_THRESHOLD
-                        || dismissState.targetValue == DismissValue.Default
+                        || dismissState.targetValue == SwipeToDismissBoxValue.Settled
                         || !enableSecondAction
                     ) {
                         actions.firstOrNull()?.backgroundColor ?: Color.Transparent
@@ -141,8 +136,8 @@ fun SwipeActionCard(
                     },
                 )
                 val alignment = when (direction) {
-                    DismissDirection.StartToEnd -> Alignment.CenterStart
-                    DismissDirection.EndToStart -> Alignment.CenterEnd
+                    SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
+                    else -> Alignment.CenterEnd
                 }
                 Box(
                     Modifier.fillMaxSize()
@@ -159,7 +154,7 @@ fun SwipeActionCard(
                     }
                 }
             },
-            dismissContent = {
+            content = {
                 content()
             },
         )

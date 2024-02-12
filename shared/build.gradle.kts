@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
-    alias(libs.plugins.moko.resources)
 }
 
 kotlin {
@@ -89,7 +88,6 @@ kotlin {
                 implementation(projects.unit.selectinstance)
                 implementation(projects.unit.configureswipeactions)
 
-                api(projects.resources)
                 api(projects.feature.home)
                 api(projects.feature.inbox)
                 api(projects.feature.search)
