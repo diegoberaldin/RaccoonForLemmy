@@ -23,11 +23,10 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 class SliderBottomSheet(
     private val min: Float,
@@ -61,7 +60,7 @@ class SliderBottomSheet(
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.settings_zombie_mode_scroll_amount),
+                    text = LocalXmlStrings.current.settingsZombieModeScrollAmount,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -87,7 +86,7 @@ class SliderBottomSheet(
                         navigationCoordinator.hideBottomSheet()
                     },
                 ) {
-                    Text(text = stringResource(MR.strings.button_confirm))
+                    Text(text = LocalXmlStrings.current.buttonConfirm)
                 }
             }
         }

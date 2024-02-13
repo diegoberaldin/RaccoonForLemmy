@@ -42,19 +42,18 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CommentBarThicknessBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsColorRow
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.components.SettingsMultiColorRow
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.ColorBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.CommentBarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.choosecolor.VoteThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.choosefont.FontFamilyBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.unit.choosefont.FontScaleBottomSheet
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
@@ -103,7 +102,7 @@ class SettingsColorAndFontScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = stringResource(MR.strings.settings_colors_and_fonts),
+                            text = LocalXmlStrings.current.settingsColorsAndFonts,
                         )
                     },
                     navigationIcon = {
@@ -114,7 +113,7 @@ class SettingsColorAndFontScreen : Screen {
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
-                                imageVector = Icons.Default.ArrowBack,
+                                imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -135,7 +134,7 @@ class SettingsColorAndFontScreen : Screen {
                     // dynamic colors
                     if (uiState.supportsDynamicColors) {
                         SettingsSwitchRow(
-                            title = stringResource(MR.strings.settings_dynamic_colors),
+                            title = LocalXmlStrings.current.settingsDynamicColors,
                             value = uiState.dynamicColors,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
@@ -147,7 +146,7 @@ class SettingsColorAndFontScreen : Screen {
 
                     // custom scheme seed color
                     SettingsColorRow(
-                        title = stringResource(MR.strings.settings_custom_seed_color),
+                        title = LocalXmlStrings.current.settingsCustomSeedColor,
                         value = uiState.customSeedColor ?: colorSchemeProvider.getColorScheme(
                             theme = uiState.uiTheme ?: defaultTheme,
                             dynamic = uiState.dynamicColors,
@@ -161,7 +160,7 @@ class SettingsColorAndFontScreen : Screen {
                     if (uiState.isLogged) {
                         // action colors
                         SettingsColorRow(
-                            title = stringResource(MR.strings.settings_upvote_color),
+                            title = LocalXmlStrings.current.settingsUpvoteColor,
                             value = uiState.upVoteColor ?: MaterialTheme.colorScheme.primary,
                             onTap = rememberCallback {
                                 val screen = VoteThemeBottomSheet(
@@ -171,7 +170,7 @@ class SettingsColorAndFontScreen : Screen {
                             },
                         )
                         SettingsColorRow(
-                            title = stringResource(MR.strings.settings_downvote_color),
+                            title = LocalXmlStrings.current.settingsDownvoteColor,
                             value = uiState.downVoteColor ?: MaterialTheme.colorScheme.tertiary,
                             onTap = rememberCallback {
                                 val screen = VoteThemeBottomSheet(
@@ -181,7 +180,7 @@ class SettingsColorAndFontScreen : Screen {
                             },
                         )
                         SettingsColorRow(
-                            title = stringResource(MR.strings.settings_reply_color),
+                            title = LocalXmlStrings.current.settingsReplyColor,
                             value = uiState.replyColor ?: MaterialTheme.colorScheme.secondary,
                             onTap = rememberCallback {
                                 val screen = VoteThemeBottomSheet(
@@ -191,7 +190,7 @@ class SettingsColorAndFontScreen : Screen {
                             },
                         )
                         SettingsColorRow(
-                            title = stringResource(MR.strings.settings_save_color),
+                            title = LocalXmlStrings.current.settingsSaveColor,
                             value = uiState.saveColor
                                 ?: MaterialTheme.colorScheme.secondaryContainer,
                             onTap = rememberCallback {
@@ -207,7 +206,7 @@ class SettingsColorAndFontScreen : Screen {
                     val commentBarColors =
                         themeRepository.getCommentBarColors(uiState.commentBarTheme)
                     SettingsMultiColorRow(
-                        title = stringResource(MR.strings.settings_comment_bar_theme),
+                        title = LocalXmlStrings.current.settingsCommentBarTheme,
                         values = commentBarColors,
                         onTap = rememberCallback {
                             val screen = CommentBarThemeBottomSheet()
@@ -217,7 +216,7 @@ class SettingsColorAndFontScreen : Screen {
 
                     // comment bar thickness
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_comment_bar_thickness),
+                        title = LocalXmlStrings.current.settingsCommentBarThickness,
                         value = uiState.commentBarThickness.toString(),
                         onTap = rememberCallback {
                             val screen = CommentBarThicknessBottomSheet()
@@ -227,7 +226,7 @@ class SettingsColorAndFontScreen : Screen {
 
                     // font family
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_ui_font_family),
+                        title = LocalXmlStrings.current.settingsUiFontFamily,
                         value = uiState.uiFontFamily.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = FontFamilyBottomSheet()
@@ -236,7 +235,7 @@ class SettingsColorAndFontScreen : Screen {
                     )
 
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_content_font_family),
+                        title = LocalXmlStrings.current.settingsContentFontFamily,
                         value = uiState.contentFontFamily.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = FontFamilyBottomSheet(content = true)
@@ -245,7 +244,7 @@ class SettingsColorAndFontScreen : Screen {
                     )
                     // font scale
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_ui_font_scale),
+                        title = LocalXmlStrings.current.settingsUiFontScale,
                         value = uiState.uiFontScale.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = FontScaleBottomSheet(
@@ -260,7 +259,7 @@ class SettingsColorAndFontScreen : Screen {
                         },
                     )
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_content_font_scale),
+                        title = LocalXmlStrings.current.settingsContentFontScale,
                         value = uiState.contentFontScale.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = FontScaleBottomSheet(content = true)

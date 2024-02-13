@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -42,8 +43,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.fontFamilyResource
 
 @Composable
 fun CommunityAndCreatorInfo(
@@ -271,7 +270,7 @@ private fun OpIndicator(
             text = "OP",
             style = MaterialTheme.typography.labelSmall,
             fontSize = 8.sp,
-            fontFamily = fontFamilyResource(MR.fonts.NotoSans.regular),
+            fontFamily = FontFamily.Default,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onBackground,
         )

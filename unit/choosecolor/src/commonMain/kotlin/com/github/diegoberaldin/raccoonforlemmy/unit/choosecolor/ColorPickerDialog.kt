@@ -27,9 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toHexDigit
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,7 +52,7 @@ fun ColorPickerDialog(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
-                text = stringResource(MR.strings.settings_color_dialog_title),
+                text = LocalXmlStrings.current.settingsColorDialogTitle,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -82,7 +81,7 @@ fun ColorPickerDialog(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = stringResource(MR.strings.settings_color_dialog_alpha),
+                    text = LocalXmlStrings.current.settingsColorDialogAlpha,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -98,7 +97,7 @@ fun ColorPickerDialog(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 Text(
-                    text = stringResource(MR.strings.settings_color_dialog_red),
+                    text = LocalXmlStrings.current.settingsColorDialogRed,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -114,7 +113,7 @@ fun ColorPickerDialog(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = stringResource(MR.strings.settings_color_dialog_green),
+                    text = LocalXmlStrings.current.settingsColorDialogGreen,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -130,7 +129,7 @@ fun ColorPickerDialog(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = stringResource(MR.strings.settings_color_dialog_blue),
+                    text = LocalXmlStrings.current.settingsColorDialogBlue,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -153,7 +152,7 @@ fun ColorPickerDialog(
                             onReset.invoke()
                         },
                     ) {
-                        Text(text = stringResource(MR.strings.button_reset))
+                        Text(text = LocalXmlStrings.current.buttonReset)
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -164,7 +163,7 @@ fun ColorPickerDialog(
                         }
                     },
                 ) {
-                    Text(text = stringResource(MR.strings.button_confirm))
+                    Text(text = LocalXmlStrings.current.buttonConfirm)
                 }
                 if (onReset == null) {
                     Spacer(modifier = Modifier.weight(1f))

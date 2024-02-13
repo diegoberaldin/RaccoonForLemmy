@@ -36,14 +36,13 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
 
                 implementation(libs.koin.core)
                 implementation(libs.materialKolor)
 
-                implementation(projects.resources)
+                implementation(projects.core.l10n)
+                implementation(projects.core.resources)
             }
         }
         val commonTest by getting {

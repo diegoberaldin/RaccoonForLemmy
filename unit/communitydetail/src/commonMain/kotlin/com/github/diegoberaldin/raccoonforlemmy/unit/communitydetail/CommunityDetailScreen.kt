@@ -95,6 +95,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -110,7 +111,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
@@ -121,7 +121,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.ReportListScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -147,8 +146,8 @@ class CommunityDetailScreen(
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = stringResource(MR.strings.message_generic_error)
-        val successMessage = stringResource(MR.strings.message_operation_successful)
+        val genericError = LocalXmlStrings.current.messageGenericError
+        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
         val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
         val otherInstanceName = remember { otherInstance }
         val topAppBarState = rememberTopAppBarState()
@@ -288,42 +287,42 @@ class CommunityDetailScreen(
                         Box {
                             val options = buildList {
                                 this += Option(
-                                    OptionId.Info, stringResource(MR.strings.community_detail_info)
+                                    OptionId.Info, LocalXmlStrings.current.communityDetailInfo
                                 )
                                 this += Option(
                                     OptionId.InfoInstance,
-                                    stringResource(MR.strings.community_detail_instance_info)
+                                    LocalXmlStrings.current.communityDetailInstanceInfo
                                 )
                                 if (uiState.isLogged) {
                                     this += Option(
                                         OptionId.Block,
-                                        stringResource(MR.strings.community_detail_block)
+                                        LocalXmlStrings.current.communityDetailBlock
                                     )
                                     this += Option(
                                         OptionId.BlockInstance,
-                                        stringResource(MR.strings.community_detail_block_instance)
+                                        LocalXmlStrings.current.communityDetailBlockInstance
                                     )
                                 }
                                 if (uiState.currentUserId != null && otherInstanceName.isEmpty()) {
                                     this += Option(
                                         OptionId.Favorite,
                                         if (uiState.community.favorite) {
-                                            stringResource(MR.strings.community_action_remove_favorite)
+                                            LocalXmlStrings.current.communityActionRemoveFavorite
                                         } else {
-                                            stringResource(MR.strings.community_action_add_favorite)
+                                            LocalXmlStrings.current.communityActionAddFavorite
                                         },
                                     )
                                 }
 
                                 this += Option(
                                     OptionId.ViewModlog,
-                                    stringResource(MR.strings.community_action_view_modlog),
+                                    LocalXmlStrings.current.communityActionViewModlog,
                                 )
 
                                 if (uiState.moderators.containsId(uiState.currentUserId)) {
                                     this += Option(
                                         OptionId.OpenReports,
-                                        stringResource(MR.strings.mod_action_open_reports)
+                                        LocalXmlStrings.current.modActionOpenReports
                                     )
                                 }
                             }
@@ -420,7 +419,7 @@ class CommunityDetailScreen(
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
-                                imageVector = Icons.Default.ArrowBack,
+                                imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -443,7 +442,7 @@ class CommunityDetailScreen(
                             if (uiState.zombieModeActive) {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.SyncDisabled,
-                                    text = stringResource(MR.strings.action_deactivate_zombie_mode),
+                                    text = LocalXmlStrings.current.actionDeactivateZombieMode,
                                     onSelected = rememberCallback(model) {
                                         model.reduce(CommunityDetailMviModel.Intent.PauseZombieMode)
                                     },
@@ -451,7 +450,7 @@ class CommunityDetailScreen(
                             } else {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.Sync,
-                                    text = stringResource(MR.strings.action_activate_zombie_mode),
+                                    text = LocalXmlStrings.current.actionActivateZombieMode,
                                     onSelected = rememberCallback(model) {
                                         model.reduce(
                                             CommunityDetailMviModel.Intent.StartZombieMode(-1)
@@ -461,7 +460,7 @@ class CommunityDetailScreen(
                             }
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
-                                text = stringResource(MR.strings.action_back_to_top),
+                                text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -473,7 +472,7 @@ class CommunityDetailScreen(
                             if (uiState.isLogged && !isOnOtherInstance) {
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.ClearAll,
-                                    text = stringResource(MR.strings.action_clear_read),
+                                    text = LocalXmlStrings.current.actionClearRead,
                                     onSelected = rememberCallback {
                                         model.reduce(CommunityDetailMviModel.Intent.ClearRead)
                                         scope.launch {
@@ -485,7 +484,7 @@ class CommunityDetailScreen(
                                 )
                                 this += FloatingActionButtonMenuItem(
                                     icon = Icons.Default.Create,
-                                    text = stringResource(MR.strings.action_create_post),
+                                    text = LocalXmlStrings.current.actionCreatePost,
                                     onSelected = rememberCallback {
                                         detailOpener.openCreatePost(
                                             communityId = uiState.community.id,
@@ -595,7 +594,7 @@ class CommunityDetailScreen(
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.Default.Reply,
+                                                    imageVector = Icons.Filled.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )
@@ -685,8 +684,8 @@ class CommunityDetailScreen(
                                                 )
                                             }
                                         },
-                                        onOpenCreator = rememberCallbackArgs { user, _ ->
-                                            detailOpener.openUserDetail(user, otherInstanceName)
+                                        onOpenCreator = rememberCallbackArgs { user, instance ->
+                                            detailOpener.openUserDetail(user, instance)
                                         },
                                         onOpenPost = rememberCallbackArgs { p, instance ->
                                             detailOpener.openPostDetail(p, instance)
@@ -746,65 +745,65 @@ class CommunityDetailScreen(
                                         options = buildList {
                                             this += Option(
                                                 OptionId.Share,
-                                                stringResource(MR.strings.post_action_share),
+                                                LocalXmlStrings.current.postActionShare,
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
                                                 this += Option(
                                                     OptionId.Hide,
-                                                    stringResource(MR.strings.post_action_hide),
+                                                    LocalXmlStrings.current.postActionHide,
                                                 )
                                             }
                                             this += Option(
                                                 OptionId.SeeRaw,
-                                                stringResource(MR.strings.post_action_see_raw),
+                                                LocalXmlStrings.current.postActionSeeRaw,
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
                                                 this += Option(
                                                     OptionId.CrossPost,
-                                                    stringResource(MR.strings.post_action_cross_post)
+                                                    LocalXmlStrings.current.postActionCrossPost
                                                 )
                                                 this += Option(
                                                     OptionId.Report,
-                                                    stringResource(MR.strings.post_action_report),
+                                                    LocalXmlStrings.current.postActionReport,
                                                 )
                                             }
                                             if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                                 this += Option(
                                                     OptionId.Edit,
-                                                    stringResource(MR.strings.post_action_edit),
+                                                    LocalXmlStrings.current.postActionEdit,
                                                 )
                                                 this += Option(
                                                     OptionId.Delete,
-                                                    stringResource(MR.strings.comment_action_delete),
+                                                    LocalXmlStrings.current.commentActionDelete,
                                                 )
                                             }
                                             if (uiState.moderators.containsId(uiState.currentUserId)) {
                                                 this += Option(
                                                     OptionId.FeaturePost,
                                                     if (post.featuredCommunity) {
-                                                        stringResource(MR.strings.mod_action_unmark_as_featured)
+                                                        LocalXmlStrings.current.modActionUnmarkAsFeatured
                                                     } else {
-                                                        stringResource(MR.strings.mod_action_mark_as_featured)
+                                                        LocalXmlStrings.current.modActionMarkAsFeatured
                                                     },
                                                 )
                                                 this += Option(
                                                     OptionId.LockPost,
                                                     if (post.locked) {
-                                                        stringResource(MR.strings.mod_action_unlock)
+                                                        LocalXmlStrings.current.modActionUnlock
                                                     } else {
-                                                        stringResource(MR.strings.mod_action_lock)
+                                                        LocalXmlStrings.current.modActionLock
                                                     },
                                                 )
                                                 this += Option(
                                                     OptionId.Remove,
-                                                    stringResource(MR.strings.mod_action_remove),
+                                                    LocalXmlStrings.current.modActionRemove,
                                                 )
                                                 this += Option(
                                                     OptionId.BanUser,
                                                     if (post.creator?.banned == true) {
-                                                        stringResource(MR.strings.mod_action_allow)
+                                                        LocalXmlStrings.current.modActionAllow
                                                     } else {
-                                                        stringResource(MR.strings.mod_action_ban)
+                                                        LocalXmlStrings.current.modActionBan
                                                     },
                                                 )
                                                 post.creator?.id?.also { creatorId ->
@@ -815,9 +814,9 @@ class CommunityDetailScreen(
                                                                     creatorId
                                                                 )
                                                             ) {
-                                                                stringResource(MR.strings.mod_action_remove_mod)
+                                                                LocalXmlStrings.current.modActionRemoveMod
                                                             } else {
-                                                                stringResource(MR.strings.mod_action_add_mod)
+                                                                LocalXmlStrings.current.modActionAddMod
                                                             },
                                                         )
                                                     }
@@ -932,7 +931,7 @@ class CommunityDetailScreen(
                                             },
                                         ) {
                                             Text(
-                                                text = stringResource(MR.strings.post_list_load_more_posts),
+                                                text = LocalXmlStrings.current.postListLoadMorePosts,
                                                 style = MaterialTheme.typography.labelSmall,
                                             )
                                         }

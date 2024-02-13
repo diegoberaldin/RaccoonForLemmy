@@ -38,17 +38,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
 
 class AboutDialog : Screen {
 
@@ -79,7 +78,7 @@ class AboutDialog : Screen {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = stringResource(MR.strings.settings_about),
+                    text = LocalXmlStrings.current.settingsAbout,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -92,18 +91,18 @@ class AboutDialog : Screen {
                 ) {
                     item {
                         AboutItem(
-                            text = stringResource(MR.strings.settings_about_app_version),
+                            text = LocalXmlStrings.current.settingsAboutAppVersion,
                             value = uiState.version,
                         )
                     }
                     item {
                         AboutItem(
-                            text = stringResource(MR.strings.settings_about_changelog),
+                            text = LocalXmlStrings.current.settingsAboutChangelog,
                             vector = Icons.Default.OpenInBrowser,
                             textDecoration = TextDecoration.Underline,
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url =  AboutConstants.CHANGELOG_URL,
+                                    url = AboutConstants.CHANGELOG_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->
@@ -117,7 +116,7 @@ class AboutDialog : Screen {
                         Button(
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url =  AboutConstants.REPORT_URL,
+                                    url = AboutConstants.REPORT_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->
@@ -128,32 +127,32 @@ class AboutDialog : Screen {
                         ) {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(MR.strings.settings_about_report_github),
+                                text = LocalXmlStrings.current.settingsAboutReportGithub,
                                 style = MaterialTheme.typography.labelLarge,
                             )
                         }
                         Button(
                             onClick = {
                                 runCatching {
-                                    uriHandler.openUri("mailto:${ AboutConstants.REPORT_EMAIL_ADDRESS}")
+                                    uriHandler.openUri("mailto:${AboutConstants.REPORT_EMAIL_ADDRESS}")
                                 }
                             },
                         ) {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(MR.strings.settings_about_report_email),
+                                text = LocalXmlStrings.current.settingsAboutReportEmail,
                                 style = MaterialTheme.typography.labelLarge,
                             )
                         }
                     }
                     item {
                         AboutItem(
-                            painter = painterResource(MR.images.ic_github),
-                            text = stringResource(MR.strings.settings_about_view_github),
+                            painter = CoreResources.github,
+                            text = LocalXmlStrings.current.settingsAboutViewGithub,
                             textDecoration = TextDecoration.Underline,
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
-                                    url =  AboutConstants.WEBSITE_URL,
+                                    url = AboutConstants.WEBSITE_URL,
                                     openExternal = settings.openUrlsInExternalBrowser,
                                     uriHandler = uriHandler,
                                     onOpenWeb = { url ->
@@ -166,7 +165,7 @@ class AboutDialog : Screen {
                     item {
                         AboutItem(
                             vector = Icons.Default.Shop,
-                            text = stringResource(MR.strings.settings_about_view_google_play),
+                            text = LocalXmlStrings.current.settingsAboutViewGooglePlay,
                             textDecoration = TextDecoration.Underline,
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
@@ -182,8 +181,8 @@ class AboutDialog : Screen {
                     }
                     item {
                         AboutItem(
-                            painter = painterResource(MR.images.ic_lemmy),
-                            text = stringResource(MR.strings.settings_about_view_lemmy),
+                            painter = CoreResources.lemmy,
+                            text = LocalXmlStrings.current.settingsAboutViewLemmy,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
                                 detailOpener.openCommunityDetail(
@@ -195,8 +194,8 @@ class AboutDialog : Screen {
                     }
                     item {
                         AboutItem(
-                            painter = painterResource(MR.images.ic_matrix),
-                            text = stringResource(MR.strings.settings_about_chat_matrix),
+                            painter = CoreResources.matrix,
+                            text = LocalXmlStrings.current.settingsAboutChatMatrix,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
                                 runCatching {
@@ -211,7 +210,7 @@ class AboutDialog : Screen {
                         notificationCenter.send(NotificationCenterEvent.CloseDialog)
                     },
                 ) {
-                    Text(text = stringResource(MR.strings.button_close))
+                    Text(text = LocalXmlStrings.current.buttonClose)
                 }
             }
         }

@@ -32,11 +32,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.getShareHelper
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.di.getCustomTextToolbar
-import dev.icerock.moko.resources.compose.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,8 +69,10 @@ fun RawContentDialog(
                 .padding(vertical = Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            val quoteActionLabel = LocalXmlStrings.current.actionQuote
+            val shareActionLabel = LocalXmlStrings.current.postActionShare
             Text(
-                text = stringResource(MR.strings.dialog_title_raw_content),
+                text = LocalXmlStrings.current.dialogTitleRawContent,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -87,13 +88,15 @@ fun RawContentDialog(
                         Column {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(MR.strings.dialog_raw_content_title),
+                                text = LocalXmlStrings.current.dialogRawContentTitle,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
                                     isLogged = isLogged,
+                                    quoteActionLabel = quoteActionLabel,
+                                    shareActionLabel = shareActionLabel,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
                                 )
@@ -117,13 +120,15 @@ fun RawContentDialog(
                         Column {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(MR.strings.dialog_raw_content_url),
+                                text = LocalXmlStrings.current.dialogRawContentUrl,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
                                     isLogged = isLogged,
+                                    quoteActionLabel = quoteActionLabel,
+                                    shareActionLabel = shareActionLabel,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
                                 )
@@ -147,7 +152,7 @@ fun RawContentDialog(
                         Column {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(MR.strings.dialog_raw_content_text),
+                                text = LocalXmlStrings.current.dialogRawContentText,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
@@ -155,6 +160,8 @@ fun RawContentDialog(
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
                                     isLogged = isLogged,
+                                    quoteActionLabel = quoteActionLabel,
+                                    shareActionLabel = shareActionLabel,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
                                 )
@@ -230,7 +237,7 @@ fun RawContentDialog(
                     onDismiss?.invoke()
                 },
             ) {
-                Text(text = stringResource(MR.strings.button_close))
+                Text(text = LocalXmlStrings.current.buttonClose)
             }
         }
     }

@@ -22,9 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.VideoPlayer
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun PostCardVideo(
@@ -72,7 +71,7 @@ fun PostCardVideo(
                     },
                 ) {
                     Text(
-                        text = stringResource(MR.strings.button_load),
+                        text = LocalXmlStrings.current.buttonLoad,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

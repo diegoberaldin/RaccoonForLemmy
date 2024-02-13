@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -35,19 +34,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
 import com.github.diegoberaldin.raccoonforlemmy.unit.mentions.InboxMentionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.messages.InboxMessagesScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.replies.InboxRepliesScreen
-import dev.icerock.moko.resources.compose.stringResource
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -77,11 +72,6 @@ object InboxScreen : Tab {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xxs),
             topBar = {
-                val languageRepository = remember { getLanguageRepository() }
-                val lang by languageRepository.currentLanguage.collectAsState()
-                val title by remember(lang) {
-                    mutableStateOf(staticString(MR.strings.navigation_inbox.desc()))
-                }
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
@@ -111,12 +101,12 @@ object InboxScreen : Tab {
                                 )
                         ) {
                             Text(
-                                text = title,
+                                text = LocalXmlStrings.current.navigationInbox,
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             val text = when (uiState.unreadOnly) {
-                                true -> stringResource(MR.strings.inbox_listing_type_unread)
-                                else -> stringResource(MR.strings.inbox_listing_type_all)
+                                true -> LocalXmlStrings.current.inboxListingTypeUnread
+                                else -> LocalXmlStrings.current.inboxListingTypeAll
                             }
                             Text(
                                 text = text,
@@ -147,7 +137,7 @@ object InboxScreen : Tab {
                         modifier = Modifier.padding(paddingValues).padding(horizontal = Spacing.m)
                     ) {
                         Text(
-                            text = stringResource(MR.strings.inbox_not_logged_message),
+                            text = LocalXmlStrings.current.inboxNotLoggedMessage,
                         )
                     }
                 }
@@ -169,7 +159,7 @@ object InboxScreen : Tab {
                             modifier = Modifier.padding(vertical = Spacing.xs),
                             titles = listOf(
                                 buildString {
-                                    append(stringResource(MR.strings.inbox_section_replies))
+                                    append(LocalXmlStrings.current.inboxSectionReplies)
                                     if (uiState.unreadReplies > 0) {
                                         append(" (")
                                         append(uiState.unreadReplies)
@@ -177,7 +167,7 @@ object InboxScreen : Tab {
                                     }
                                 },
                                 buildString {
-                                    append(stringResource(MR.strings.inbox_section_mentions))
+                                    append(LocalXmlStrings.current.inboxSectionMentions)
                                     if (uiState.unreadMentions > 0) {
                                         append(" (")
                                         append(uiState.unreadMentions)
@@ -185,7 +175,7 @@ object InboxScreen : Tab {
                                     }
                                 },
                                 buildString {
-                                    append(stringResource(MR.strings.inbox_section_messages))
+                                    append(LocalXmlStrings.current.inboxSectionMessages)
                                     if (uiState.unreadMessages > 0) {
                                         append(" (")
                                         append(uiState.unreadMessages)

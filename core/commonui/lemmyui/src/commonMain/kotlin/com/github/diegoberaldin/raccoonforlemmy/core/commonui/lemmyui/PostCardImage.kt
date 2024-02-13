@@ -19,9 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun PostCardImage(
@@ -55,7 +54,7 @@ fun PostCardImage(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    text = stringResource(MR.strings.message_image_loading_error),
+                    text = LocalXmlStrings.current.messageImageLoadingError,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             },

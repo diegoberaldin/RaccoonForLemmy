@@ -39,18 +39,15 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.notlogged.ProfileNotLoggedScreen
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.ManageAccountsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.ProfileLoggedScreen
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -81,11 +78,6 @@ internal object ProfileMainScreen : Tab {
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
             topBar = {
-                val languageRepository = remember { getLanguageRepository() }
-                val lang by languageRepository.currentLanguage.collectAsState()
-                val title by remember(lang) {
-                    mutableStateOf(staticString(MR.strings.navigation_profile.desc()))
-                }
                 val maxTopInset = Dimensions.topBarHeight.value.toInt()
                 var topInset by remember { mutableStateOf(maxTopInset) }
                 snapshotFlow { topAppBarState.collapsedFraction }.onEach {
@@ -116,7 +108,7 @@ internal object ProfileMainScreen : Tab {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = title,
+                            text = LocalXmlStrings.current.navigationProfile,
                             style = MaterialTheme.typography.titleLarge,
                         )
                     },
@@ -141,7 +133,7 @@ internal object ProfileMainScreen : Tab {
                                         model.reduce(ProfileMainMviModel.Intent.Logout)
                                     },
                                 ),
-                                imageVector = Icons.Default.Logout,
+                                imageVector = Icons.Filled.Logout,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
                             )

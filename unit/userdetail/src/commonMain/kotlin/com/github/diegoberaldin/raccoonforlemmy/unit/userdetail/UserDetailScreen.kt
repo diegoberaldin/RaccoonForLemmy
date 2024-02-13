@@ -93,6 +93,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -107,14 +108,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.UserInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -138,8 +137,8 @@ class UserDetailScreen(
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = stringResource(MR.strings.message_generic_error)
-        val successMessage = stringResource(MR.strings.message_operation_successful)
+        val genericError = LocalXmlStrings.current.messageGenericError
+        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
         val isOnOtherInstance = otherInstance.isNotEmpty()
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
@@ -239,16 +238,16 @@ class UserDetailScreen(
                         Box {
                             val options = buildList {
                                 this += Option(
-                                    OptionId.Info, stringResource(MR.strings.user_detail_info)
+                                    OptionId.Info, LocalXmlStrings.current.userDetailInfo
                                 )
                                 if (uiState.isLogged) {
                                     this += Option(
                                         OptionId.Block,
-                                        stringResource(MR.strings.community_detail_block)
+                                        LocalXmlStrings.current.communityDetailBlock
                                     )
                                     this += Option(
                                         OptionId.BlockInstance,
-                                        stringResource(MR.strings.community_detail_block_instance)
+                                        LocalXmlStrings.current.communityDetailBlockInstance
                                     )
                                 }
                             }
@@ -317,7 +316,7 @@ class UserDetailScreen(
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
-                                imageVector = Icons.Default.ArrowBack,
+                                imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -339,7 +338,7 @@ class UserDetailScreen(
                         items = buildList {
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
-                                text = stringResource(MR.strings.action_back_to_top),
+                                text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -350,8 +349,8 @@ class UserDetailScreen(
                             )
                             if (uiState.isLogged && !isOnOtherInstance) {
                                 this += FloatingActionButtonMenuItem(
-                                    icon = Icons.Default.Chat,
-                                    text = stringResource(MR.strings.action_chat),
+                                    icon = Icons.Filled.Chat,
+                                    text = LocalXmlStrings.current.actionChat,
                                     onSelected = rememberCallback {
                                         val screen = InboxChatScreen(otherUserId = userId)
                                         navigationCoordinator.pushScreen(screen)
@@ -412,8 +411,8 @@ class UserDetailScreen(
                             )
                             SectionSelector(
                                 titles = listOf(
-                                    stringResource(MR.strings.profile_section_posts),
-                                    stringResource(MR.strings.profile_section_comments),
+                                    LocalXmlStrings.current.profileSectionPosts,
+                                    LocalXmlStrings.current.profileSectionComments,
                                 ),
                                 currentSection = when (uiState.section) {
                                     UserDetailSection.Comments -> 1
@@ -496,7 +495,7 @@ class UserDetailScreen(
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.Default.Reply,
+                                                    imageVector = Icons.Filled.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )
@@ -642,26 +641,26 @@ class UserDetailScreen(
                                             add(
                                                 Option(
                                                     OptionId.Share,
-                                                    stringResource(MR.strings.post_action_share)
+                                                    LocalXmlStrings.current.postActionShare
                                                 )
                                             )
                                             add(
                                                 Option(
                                                     OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw)
+                                                    LocalXmlStrings.current.postActionSeeRaw
                                                 )
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
                                                 add(
                                                     Option(
                                                         OptionId.CrossPost,
-                                                        stringResource(MR.strings.post_action_cross_post)
+                                                        LocalXmlStrings.current.postActionCrossPost
                                                     )
                                                 )
                                                 add(
                                                     Option(
                                                         OptionId.Report,
-                                                        stringResource(MR.strings.post_action_report)
+                                                        LocalXmlStrings.current.postActionReport
                                                     )
                                                 )
                                             }
@@ -724,7 +723,7 @@ class UserDetailScreen(
                                     modifier = Modifier.fillMaxWidth()
                                         .padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = stringResource(MR.strings.message_empty_list),
+                                    text = LocalXmlStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -789,7 +788,7 @@ class UserDetailScreen(
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.Default.Reply,
+                                                    imageVector = Icons.Filled.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )
@@ -938,14 +937,14 @@ class UserDetailScreen(
                                             add(
                                                 Option(
                                                     OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw)
+                                                    LocalXmlStrings.current.postActionSeeRaw
                                                 )
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
                                                 add(
                                                     Option(
                                                         OptionId.Report,
-                                                        stringResource(MR.strings.post_action_report)
+                                                        LocalXmlStrings.current.postActionReport
                                                     )
                                                 )
                                             }
@@ -982,7 +981,7 @@ class UserDetailScreen(
                                     modifier = Modifier.fillMaxWidth()
                                         .padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = stringResource(MR.strings.message_empty_list),
+                                    text = LocalXmlStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -1006,9 +1005,9 @@ class UserDetailScreen(
                                     ) {
                                         Text(
                                             text = if (uiState.section == UserDetailSection.Posts) {
-                                                stringResource(MR.strings.post_list_load_more_posts)
+                                                LocalXmlStrings.current.postListLoadMorePosts
                                             } else {
-                                                stringResource(MR.strings.post_detail_load_more_comments)
+                                                LocalXmlStrings.current.postDetailLoadMoreComments
                                             },
                                             style = MaterialTheme.typography.labelSmall,
                                         )

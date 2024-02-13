@@ -12,8 +12,7 @@ import androidx.compose.material.icons.filled.Thunderstorm
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface SortType {
     data object Active : SortType
@@ -89,32 +88,32 @@ fun SortType.toIcon(): ImageVector = when (this) {
 
 @Composable
 fun SortType.toReadableName(): String = when (this) {
-    SortType.Active -> stringResource(MR.strings.home_sort_type_active)
-    SortType.Hot -> stringResource(MR.strings.home_sort_type_hot)
-    SortType.MostComments -> stringResource(MR.strings.home_sort_type_most_comments)
-    SortType.New -> stringResource(MR.strings.home_sort_type_new)
-    SortType.NewComments -> stringResource(MR.strings.home_sort_type_new_comments)
-    SortType.Top.Day -> stringResource(MR.strings.home_sort_type_top_day)
-    SortType.Top.Month -> stringResource(MR.strings.home_sort_type_top_month)
-    SortType.Top.Past12Hours -> stringResource(MR.strings.home_sort_type_top_12_hours)
-    SortType.Top.Past6Hours -> stringResource(MR.strings.home_sort_type_top_6_hours)
-    SortType.Top.PastHour -> stringResource(MR.strings.home_sort_type_top_hour)
-    SortType.Top.Week -> stringResource(MR.strings.home_sort_type_top_week)
-    SortType.Top.Year -> stringResource(MR.strings.home_sort_type_top_year)
-    SortType.Old -> stringResource(MR.strings.home_sort_type_old)
-    SortType.Controversial -> stringResource(MR.strings.home_sort_type_controversial)
-    SortType.Scaled -> stringResource(MR.strings.home_sort_type_scaled)
-    else -> stringResource(MR.strings.home_sort_type_top)
+    SortType.Active -> LocalXmlStrings.current.homeSortTypeActive
+    SortType.Hot -> LocalXmlStrings.current.homeSortTypeHot
+    SortType.MostComments -> LocalXmlStrings.current.homeSortTypeMostComments
+    SortType.New -> LocalXmlStrings.current.homeSortTypeNew
+    SortType.NewComments -> LocalXmlStrings.current.homeSortTypeNewComments
+    SortType.Top.Day -> LocalXmlStrings.current.homeSortTypeTopDay
+    SortType.Top.Month -> LocalXmlStrings.current.homeSortTypeTopMonth
+    SortType.Top.Past12Hours -> LocalXmlStrings.current.homeSortTypeTop12Hours
+    SortType.Top.Past6Hours -> LocalXmlStrings.current.homeSortTypeTop6Hours
+    SortType.Top.PastHour -> LocalXmlStrings.current.homeSortTypeTopHour
+    SortType.Top.Week -> LocalXmlStrings.current.homeSortTypeTopWeek
+    SortType.Top.Year -> LocalXmlStrings.current.homeSortTypeTopYear
+    SortType.Old -> LocalXmlStrings.current.homeSortTypeOld
+    SortType.Controversial -> LocalXmlStrings.current.homeSortTypeControversial
+    SortType.Scaled -> LocalXmlStrings.current.homeSortTypeScaled
+    else -> LocalXmlStrings.current.homeSortTypeTop
 }
 
 @Composable
 fun SortType?.getAdditionalLabel(): String = when (this) {
-    SortType.Top.Day -> stringResource(MR.strings.home_sort_type_top_day_short)
-    SortType.Top.Month -> stringResource(MR.strings.home_sort_type_top_month_short)
-    SortType.Top.Past12Hours -> stringResource(MR.strings.home_sort_type_top_12_hours_short)
-    SortType.Top.Past6Hours -> stringResource(MR.strings.home_sort_type_top_6_hours_short)
-    SortType.Top.PastHour -> stringResource(MR.strings.home_sort_type_top_hour_short)
-    SortType.Top.Week -> stringResource(MR.strings.home_sort_type_top_week_short)
-    SortType.Top.Year -> stringResource(MR.strings.home_sort_type_top_year_short)
+    SortType.Top.Day -> LocalXmlStrings.current.homeSortTypeTopDayShort
+    SortType.Top.Month -> LocalXmlStrings.current.homeSortTypeTopMonthShort
+    SortType.Top.Past12Hours -> LocalXmlStrings.current.homeSortTypeTop12HoursShort
+    SortType.Top.Past6Hours -> LocalXmlStrings.current.homeSortTypeTop6HoursShort
+    SortType.Top.PastHour -> LocalXmlStrings.current.homeSortTypeTopHourShort
+    SortType.Top.Week -> LocalXmlStrings.current.homeSortTypeTopWeekShort
+    SortType.Top.Year -> LocalXmlStrings.current.homeSortTypeTopYearShort
     else -> ""
 }

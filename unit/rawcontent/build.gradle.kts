@@ -31,8 +31,6 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.material)
 
@@ -41,8 +39,8 @@ kotlin {
                 implementation(libs.voyager.bottomsheet)
 
                 implementation(projects.core.appearance)
+                implementation(projects.core.l10n)
                 implementation(projects.core.utils)
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

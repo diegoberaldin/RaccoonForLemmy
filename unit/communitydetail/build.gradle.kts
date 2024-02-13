@@ -32,8 +32,6 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.material3)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
 
                 implementation(libs.koin.core)
@@ -41,16 +39,17 @@ kotlin {
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.koin)
 
-                implementation(projects.core.utils)
                 implementation(projects.core.appearance)
                 implementation(projects.core.architecture)
                 implementation(projects.core.commonui.components)
+                implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.lemmyui)
                 implementation(projects.core.commonui.modals)
-                implementation(projects.core.commonui.detailopenerApi)
+                implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
-                implementation(projects.core.persistence)
                 implementation(projects.core.notifications)
+                implementation(projects.core.persistence)
+                implementation(projects.core.utils)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
@@ -68,8 +67,6 @@ kotlin {
                 implementation(projects.unit.reportlist)
                 implementation(projects.unit.modlog)
                 implementation(projects.unit.rawcontent)
-
-                implementation(projects.resources)
             }
         }
         val commonTest by getting {

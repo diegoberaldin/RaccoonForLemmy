@@ -33,14 +33,13 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -108,7 +107,7 @@ class InboxMessagesScreen : Tab {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
-                            text = stringResource(MR.strings.message_empty_list),
+                            text = LocalXmlStrings.current.messageEmptyList,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )

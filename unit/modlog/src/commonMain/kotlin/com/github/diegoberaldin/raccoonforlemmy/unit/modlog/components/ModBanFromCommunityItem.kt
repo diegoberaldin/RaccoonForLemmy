@@ -9,12 +9,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 internal fun ModBanFromCommunityItem(
@@ -46,9 +45,9 @@ internal fun ModBanFromCommunityItem(
                     }
                     append(" ")
                     if (item.banned) {
-                        append(stringResource(MR.strings.modlog_item_user_banned))
+                        append(LocalXmlStrings.current.modlogItemUserBanned)
                     } else {
-                        append(stringResource(MR.strings.modlog_item_user_unbanned))
+                        append(LocalXmlStrings.current.modlogItemUserUnbanned)
                     }
                 },
                 style = MaterialTheme.typography.bodySmall,

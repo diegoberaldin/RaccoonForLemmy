@@ -233,7 +233,7 @@ private fun ModlogFooter(
                                 onOpen.invoke()
                             },
                         ),
-                    imageVector = Icons.Default.OpenInNew,
+                    imageVector = Icons.Filled.OpenInNew,
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                 )

@@ -40,13 +40,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModAddItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModBanFromCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModFeaturePostItem
@@ -55,7 +55,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModRemove
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModRemovePostItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModTransferCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModlogItemPlaceholder
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -111,7 +110,7 @@ class ModlogScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -119,7 +118,7 @@ class ModlogScreen(
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = stringResource(MR.strings.modlog_title),
+                            text = LocalXmlStrings.current.modlogTitle,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -168,7 +167,7 @@ class ModlogScreen(
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Center,
-                                    text = stringResource(MR.strings.message_empty_list),
+                                    text = LocalXmlStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -176,7 +175,7 @@ class ModlogScreen(
                         }
                         items(
                             items = uiState.items,
-                            key = { "${it.type}_${it.id}" },
+                            key = { "${it.type}${it.id}" },
                         ) { item ->
                             when (item) {
                                 is ModlogItem.ModAdd -> {

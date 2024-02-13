@@ -61,19 +61,18 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.components.MessageCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.components.MessageCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
@@ -156,7 +155,7 @@ class InboxChatScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -175,7 +174,7 @@ class InboxChatScreen(
                         onSelectImage = {
                             openImagePicker = true
                         },
-                        lastActionIcon = Icons.Default.Send,
+                        lastActionIcon = Icons.Filled.Send,
                         onLastAction = rememberCallback {
                             model.reduce(
                                 InboxChatMviModel.Intent.SubmitNewMessage(
@@ -197,10 +196,10 @@ class InboxChatScreen(
                         label = {
                             Text(
                                 text = buildString {
-                                    append(stringResource(MR.strings.inbox_chat_message))
+                                    append(LocalXmlStrings.current.inboxChatMessage)
                                     if (uiState.editedMessageId != null) {
                                         append(" (")
-                                        append(stringResource(MR.strings.post_action_edit))
+                                        append(LocalXmlStrings.current.postActionEdit)
                                         append(")")
                                     }
                                 },
@@ -276,16 +275,16 @@ class InboxChatScreen(
                                 options = buildList {
                                     this += Option(
                                         OptionId.SeeRaw,
-                                        stringResource(MR.strings.post_action_see_raw),
+                                        LocalXmlStrings.current.postActionSeeRaw,
                                     )
                                     if (isMyMessage) {
                                         this += Option(
                                             OptionId.Edit,
-                                            stringResource(MR.strings.post_action_edit),
+                                            LocalXmlStrings.current.postActionEdit,
                                         )
                                         this += Option(
                                             OptionId.Delete,
-                                            stringResource(MR.strings.comment_action_delete),
+                                            LocalXmlStrings.current.commentActionDelete,
                                         )
                                     }
                                 },

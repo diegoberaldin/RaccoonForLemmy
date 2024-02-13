@@ -96,7 +96,7 @@ fun PostCardFooter(
                                     onReply?.invoke()
                                 },
                             ),
-                        imageVector = Icons.Default.Chat,
+                        imageVector = Icons.Filled.Chat,
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(color = ancillaryColor),
                     )

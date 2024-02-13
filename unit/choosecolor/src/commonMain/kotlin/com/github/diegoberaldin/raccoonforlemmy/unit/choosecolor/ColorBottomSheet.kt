@@ -30,14 +30,13 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 class ColorBottomSheet : Screen {
 
@@ -67,25 +66,25 @@ class ColorBottomSheet : Screen {
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.settings_custom_seed_color),
+                    text = LocalXmlStrings.current.settingsCustomSeedColor,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
             }
-            val customText = stringResource(MR.strings.settings_color_custom)
+            val customText = LocalXmlStrings.current.settingsColorCustom
             val values: List<Pair<Color?, String>> = listOf(
-                Color(0xFF001F7D) to stringResource(MR.strings.settings_color_blue),
-                Color(0xFF36B3B3) to stringResource(MR.strings.settings_color_aquamarine),
-                Color(0xFF884DFF) to stringResource(MR.strings.settings_color_purple),
-                Color(0xFF00B300) to stringResource(MR.strings.settings_color_green),
-                Color(0xFFFF0000) to stringResource(MR.strings.settings_color_red),
-                Color(0xFFFF66600) to stringResource(MR.strings.settings_color_orange),
-                Color(0x94786818) to stringResource(MR.strings.settings_color_banana),
-                Color(0xFFFC0FC0) to stringResource(MR.strings.settings_color_pink),
-                Color(0xFF303B47) to stringResource(MR.strings.settings_color_gray),
-                Color(0xFFd7d7d7) to stringResource(MR.strings.settings_color_white),
+                Color(0xFF001F7D) to LocalXmlStrings.current.settingsColorBlue,
+                Color(0xFF36B3B3) to LocalXmlStrings.current.settingsColorAquamarine,
+                Color(0xFF884DFF) to LocalXmlStrings.current.settingsColorPurple,
+                Color(0xFF00B300) to LocalXmlStrings.current.settingsColorGreen,
+                Color(0xFFFF0000) to LocalXmlStrings.current.settingsColorRed,
+                Color(0xFFFF66600) to LocalXmlStrings.current.settingsColorOrange,
+                Color(0x94786818) to LocalXmlStrings.current.settingsColorBanana,
+                Color(0xFFFC0FC0) to LocalXmlStrings.current.settingsColorPink,
+                Color(0xFF303B47) to LocalXmlStrings.current.settingsColorGray,
+                Color(0xFFd7d7d7) to LocalXmlStrings.current.settingsColorWhite,
                 null to customText,
-                null to stringResource(MR.strings.button_reset),
+                null to LocalXmlStrings.current.buttonReset,
             )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),

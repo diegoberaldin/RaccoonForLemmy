@@ -3,14 +3,13 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.login
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LoginUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
@@ -85,7 +84,7 @@ class LoginViewModel(
             instance.isEmpty() -> {
                 updateState {
                     it.copy(
-                        instanceNameError = MR.strings.message_missing_field.desc(),
+                        instanceNameError = ValidationError.MissingField,
                     )
                 }
                 false
@@ -94,7 +93,7 @@ class LoginViewModel(
             username.isEmpty() -> {
                 updateState {
                     it.copy(
-                        usernameError = MR.strings.message_missing_field.desc(),
+                        usernameError = ValidationError.MissingField,
                     )
                 }
                 false
@@ -103,7 +102,7 @@ class LoginViewModel(
             password.isEmpty() -> {
                 updateState {
                     it.copy(
-                        passwordError = MR.strings.message_missing_field.desc(),
+                        passwordError = ValidationError.MissingField,
                     )
                 }
                 false
@@ -127,7 +126,7 @@ class LoginViewModel(
             if (res.isEmpty()) {
                 updateState {
                     it.copy(
-                        instanceNameError = MR.strings.message_invalid_field.desc(),
+                        instanceNameError = ValidationError.InvalidField,
                         loading = false,
                     )
                 }

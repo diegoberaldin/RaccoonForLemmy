@@ -40,16 +40,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Customi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.DetailInfoItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.components.ModeratedCommunityCell
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
@@ -118,19 +117,19 @@ class UserInfoScreen(
                                 DetailInfoItem(
                                     modifier = Modifier.fillMaxWidth(),
                                     icon = Icons.Default.Padding,
-                                    title = stringResource(MR.strings.community_info_posts),
+                                    title = LocalXmlStrings.current.communityInfoPosts,
                                     value = score.postScore.getPrettyNumber(
-                                        thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                        millionLabel = stringResource(MR.strings.profile_million_short),
+                                        thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                        millionLabel = LocalXmlStrings.current.profileMillionShort,
                                     ),
                                 )
                                 DetailInfoItem(
                                     modifier = Modifier.fillMaxWidth(),
-                                    icon = Icons.Default.Reply,
-                                    title = stringResource(MR.strings.community_info_comments),
+                                    icon = Icons.Filled.Reply,
+                                    title = LocalXmlStrings.current.communityInfoComments,
                                     value = score.commentScore.getPrettyNumber(
-                                        thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                        millionLabel = stringResource(MR.strings.profile_million_short),
+                                        thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                        millionLabel = LocalXmlStrings.current.profileMillionShort,
                                     ),
                                 )
                             }
@@ -138,7 +137,7 @@ class UserInfoScreen(
                                 DetailInfoItem(
                                     modifier = Modifier.fillMaxWidth(),
                                     icon = Icons.Default.Shield,
-                                    title = stringResource(MR.strings.user_info_admin),
+                                    title = LocalXmlStrings.current.userInfoAdmin,
                                 )
                             }
                         }
@@ -159,7 +158,7 @@ class UserInfoScreen(
                                 verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                             ) {
                                 Text(
-                                    text = stringResource(MR.strings.settings_web_bio),
+                                    text = LocalXmlStrings.current.settingsWebBio,
                                     style = MaterialTheme.typography.labelMedium,
                                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                                 )
@@ -223,7 +222,7 @@ class UserInfoScreen(
                                 verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
                             ) {
                                 Text(
-                                    text = stringResource(MR.strings.settings_web_matrix),
+                                    text = LocalXmlStrings.current.settingsWebMatrix,
                                     style = MaterialTheme.typography.labelMedium,
                                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                                 )
@@ -251,7 +250,7 @@ class UserInfoScreen(
                                         top = Spacing.s,
                                         bottom = Spacing.xs,
                                     ),
-                                text = stringResource(MR.strings.user_info_moderates),
+                                text = LocalXmlStrings.current.userInfoModerates,
                             )
                             LazyRow(
                                 modifier = Modifier.padding(top = Spacing.xxs),

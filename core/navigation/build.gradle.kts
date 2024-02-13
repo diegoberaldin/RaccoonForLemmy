@@ -31,8 +31,6 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
 
             implementation(libs.koin.core)
 
@@ -44,8 +42,6 @@ kotlin {
 
             implementation(projects.core.persistence)
             implementation(projects.domain.lemmy.data)
-
-            implementation(projects.resources)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))

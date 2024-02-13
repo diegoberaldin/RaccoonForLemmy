@@ -33,14 +33,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalMarkdownColors
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalMarkdownTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.LocalReferenceLinkHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.utils.TAG_IMAGE_URL
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.utils.TAG_URL
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 internal fun MarkdownText(
@@ -135,7 +134,7 @@ internal fun MarkdownText(
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
                                         textAlign = TextAlign.Center,
-                                        text = stringResource(MR.strings.message_image_loading_error),
+                                        text = LocalXmlStrings.current.messageImageLoadingError,
                                         style = LocalMarkdownTypography.current.text
                                     )
                                 },
@@ -186,7 +185,7 @@ internal fun MarkdownText(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
-                        text = stringResource(MR.strings.message_image_loading_error),
+                        text = LocalXmlStrings.current.messageImageLoadingError,
                         style = LocalMarkdownTypography.current.text,
                     )
                 },

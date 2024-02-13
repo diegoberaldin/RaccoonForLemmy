@@ -28,6 +28,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
@@ -35,8 +36,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 private val barWidth = 1.25.dp
 private const val INDENT_AMOUNT = 3
@@ -121,7 +120,7 @@ fun CommentCard(
                 )
                 if (comment.removed) {
                     Text(
-                        text = stringResource(MR.strings.message_content_removed),
+                        text = LocalXmlStrings.current.messageContentRemoved,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                     )

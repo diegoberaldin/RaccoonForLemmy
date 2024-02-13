@@ -26,19 +26,18 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.compose.stringResource
-import dev.icerock.moko.resources.desc.StringDesc
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ChangeInstanceDialog(
     instanceName: String = "",
     loading: Boolean = false,
-    instanceNameError: StringDesc? = null,
+    instanceNameError: ValidationError? = null,
     onChangeInstanceName: ((String) -> Unit)? = null,
     onClose: (() -> Unit)? = null,
     onSubmit: (() -> Unit)? = null,
@@ -56,7 +55,7 @@ internal fun ChangeInstanceDialog(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
-                text = stringResource(MR.strings.dialog_title_add_instance),
+                text = LocalXmlStrings.current.dialogTitleAddInstance,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -67,7 +66,7 @@ internal fun ChangeInstanceDialog(
                     disabledContainerColor = Color.Transparent,
                 ),
                 label = {
-                    Text(text = stringResource(MR.strings.login_field_instance_name))
+                    Text(text = LocalXmlStrings.current.loginFieldInstanceName)
                 },
                 singleLine = true,
                 value = instanceName,
@@ -83,7 +82,7 @@ internal fun ChangeInstanceDialog(
                 supportingText = {
                     if (instanceNameError != null) {
                         Text(
-                            text = instanceNameError.localized(),
+                            text = instanceNameError.toReadableMessage(),
                             color = MaterialTheme.colorScheme.error,
                         )
                     }
@@ -119,7 +118,7 @@ internal fun ChangeInstanceDialog(
                             color = MaterialTheme.colorScheme.onPrimary,
                         )
                     }
-                    Text(stringResource(MR.strings.button_confirm))
+                    Text(LocalXmlStrings.current.buttonConfirm)
                 }
             }
         }

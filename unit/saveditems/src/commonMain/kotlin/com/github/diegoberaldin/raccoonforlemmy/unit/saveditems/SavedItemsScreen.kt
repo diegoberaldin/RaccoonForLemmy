@@ -60,6 +60,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -69,12 +70,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.launch
 
 class SavedItemsScreen : Screen {
@@ -105,7 +104,7 @@ class SavedItemsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = stringResource(MR.strings.navigation_drawer_title_bookmarks),
+                            text = LocalXmlStrings.current.navigationDrawerTitleBookmarks,
                         )
                     },
                     actions = {
@@ -132,7 +131,7 @@ class SavedItemsScreen : Screen {
                                     navigatorCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -153,7 +152,7 @@ class SavedItemsScreen : Screen {
                         items = buildList {
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
-                                text = stringResource(MR.strings.action_back_to_top),
+                                text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -180,8 +179,8 @@ class SavedItemsScreen : Screen {
                 SectionSelector(
                     modifier = Modifier.padding(vertical = Spacing.xs),
                     titles = listOf(
-                        stringResource(MR.strings.profile_section_posts),
-                        stringResource(MR.strings.profile_section_comments),
+                        LocalXmlStrings.current.profileSectionPosts,
+                        LocalXmlStrings.current.profileSectionComments,
                     ),
                     currentSection = when (uiState.section) {
                         SavedItemsSection.Comments -> 1
@@ -272,19 +271,19 @@ class SavedItemsScreen : Screen {
                                         add(
                                             Option(
                                                 OptionId.Share,
-                                                stringResource(MR.strings.post_action_share)
+                                                LocalXmlStrings.current.postActionShare
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.SeeRaw,
-                                                stringResource(MR.strings.post_action_see_raw)
+                                                LocalXmlStrings.current.postActionSeeRaw
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Report,
-                                                stringResource(MR.strings.post_action_report)
+                                                LocalXmlStrings.current.postActionReport
                                             )
                                         )
                                     },
@@ -334,7 +333,7 @@ class SavedItemsScreen : Screen {
                                         modifier = Modifier.fillMaxWidth()
                                             .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = stringResource(MR.strings.message_empty_list),
+                                        text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -390,13 +389,13 @@ class SavedItemsScreen : Screen {
                                         add(
                                             Option(
                                                 OptionId.SeeRaw,
-                                                stringResource(MR.strings.post_action_see_raw)
+                                                LocalXmlStrings.current.postActionSeeRaw
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Report,
-                                                stringResource(MR.strings.post_action_report)
+                                                LocalXmlStrings.current.postActionReport
                                             )
                                         )
                                     },
@@ -428,7 +427,7 @@ class SavedItemsScreen : Screen {
                                         modifier = Modifier.fillMaxWidth()
                                             .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = stringResource(MR.strings.message_empty_list),
+                                        text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )

@@ -23,13 +23,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.MultiColorPreview
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 class CommentBarThemeBottomSheet : Screen {
 
@@ -58,7 +57,7 @@ class CommentBarThemeBottomSheet : Screen {
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.settings_comment_bar_theme),
+                    text = LocalXmlStrings.current.settingsCommentBarTheme,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )

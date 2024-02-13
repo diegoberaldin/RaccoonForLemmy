@@ -1,8 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import kotlin.math.round
 import kotlin.time.Duration
 
@@ -13,44 +12,24 @@ fun String.prettifyDate(): String = let {
         !it.endsWith("Z") -> {
             getPrettyDate(
                 iso8601Timestamp = it + "Z",
-                yearLabel = stringResource(
-                    MR.strings.profile_year_short
-                ),
-                monthLabel = stringResource(
-                    MR.strings.profile_month_short
-                ),
-                dayLabel = stringResource(MR.strings.profile_day_short),
-                hourLabel = stringResource(
-                    MR.strings.post_hour_short
-                ),
-                minuteLabel = stringResource(
-                    MR.strings.post_minute_short
-                ),
-                secondLabel = stringResource(
-                    MR.strings.post_second_short
-                ),
+                yearLabel = LocalXmlStrings.current.profileYearShort,
+                monthLabel = LocalXmlStrings.current.profileMonthShort,
+                dayLabel = LocalXmlStrings.current.profileDayShort,
+                hourLabel = LocalXmlStrings.current.postHourShort,
+                minuteLabel = LocalXmlStrings.current.postMinuteShort,
+                secondLabel = LocalXmlStrings.current.postSecondShort,
             )
         }
 
         else -> {
             getPrettyDate(
                 iso8601Timestamp = it,
-                yearLabel = stringResource(
-                    MR.strings.profile_year_short
-                ),
-                monthLabel = stringResource(
-                    MR.strings.profile_month_short
-                ),
-                dayLabel = stringResource(MR.strings.profile_day_short),
-                hourLabel = stringResource(
-                    MR.strings.post_hour_short
-                ),
-                minuteLabel = stringResource(
-                    MR.strings.post_minute_short
-                ),
-                secondLabel = stringResource(
-                    MR.strings.post_second_short
-                ),
+                yearLabel = LocalXmlStrings.current.profileYearShort,
+                monthLabel = LocalXmlStrings.current.profileMonthShort,
+                dayLabel = LocalXmlStrings.current.profileDayShort,
+                hourLabel = LocalXmlStrings.current.postHourShort,
+                minuteLabel = LocalXmlStrings.current.postMinuteShort,
+                secondLabel = LocalXmlStrings.current.postSecondShort,
             )
         }
     }

@@ -50,14 +50,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardP
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -136,7 +135,7 @@ class InboxMentionsScreen : Tab {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
-                            text = stringResource(MR.strings.message_empty_list),
+                            text = LocalXmlStrings.current.messageEmptyList,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -251,9 +250,7 @@ class InboxMentionsScreen : Tab {
                                 },
                                 onDownVote = rememberCallbackArgs(model) { _ ->
                                     model.reduce(
-                                        InboxMentionsMviModel.Intent.DownVoteComment(
-                                            mention.id
-                                        )
+                                        InboxMentionsMviModel.Intent.DownVoteComment(mention.id)
                                     )
                                 },
                                 options = buildList {
@@ -261,9 +258,9 @@ class InboxMentionsScreen : Tab {
                                         Option(
                                             OptionId.ToggleRead,
                                             if (mention.read) {
-                                                stringResource(MR.strings.inbox_action_mark_unread)
+                                                LocalXmlStrings.current.inboxActionMarkUnread
                                             } else {
-                                                stringResource(MR.strings.inbox_action_mark_read)
+                                                LocalXmlStrings.current.inboxActionMarkRead
                                             },
                                         )
                                     )

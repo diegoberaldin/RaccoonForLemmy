@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.di
 import com.github.diegoberaldin.raccoonforlemmy.core.api.di.coreApiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.coreAppearanceModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.di.coreL10nModule
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationModule
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.coreNotificationModule
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.corePersistenceModule
@@ -22,7 +23,6 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.inboxTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.profileTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.exploreTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.settingsTabModule
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.localizationModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.di.accountSettingsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
@@ -57,10 +57,10 @@ fun initKoin() {
             corePreferencesModule,
             coreApiModule,
             coreIdentityModule,
+            coreL10nModule,
             coreNotificationModule,
             corePersistenceModule,
             hapticFeedbackModule,
-            localizationModule,
             shareHelperModule,
             galleryHelperModule,
             crashReportModule,

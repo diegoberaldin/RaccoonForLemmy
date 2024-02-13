@@ -40,13 +40,11 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.material3)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
 
                 implementation(projects.core.utils)
                 implementation(projects.core.appearance)
-                implementation(projects.resources)
+                implementation(projects.core.l10n)
             }
         }
         val commonTest by getting {

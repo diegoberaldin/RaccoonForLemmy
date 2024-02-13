@@ -2,8 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface CommentBarTheme {
     data object Green : CommentBarTheme
@@ -28,11 +27,11 @@ fun CommentBarTheme.toInt(): Int = when (this) {
 
 @Composable
 fun CommentBarTheme?.toReadableName() = when (this) {
-    CommentBarTheme.Rainbow -> stringResource(MR.strings.settings_comment_bar_theme_multi)
-    CommentBarTheme.Red -> stringResource(MR.strings.settings_comment_bar_theme_red)
-    CommentBarTheme.Green -> stringResource(MR.strings.settings_comment_bar_theme_green)
-    CommentBarTheme.Blue -> stringResource(MR.strings.settings_comment_bar_theme_blue)
-    else -> stringResource(MR.strings.settings_color_custom)
+    CommentBarTheme.Rainbow -> LocalXmlStrings.current.settingsCommentBarThemeMulti
+    CommentBarTheme.Red -> LocalXmlStrings.current.settingsCommentBarThemeRed
+    CommentBarTheme.Green -> LocalXmlStrings.current.settingsCommentBarThemeGreen
+    CommentBarTheme.Blue -> LocalXmlStrings.current.settingsCommentBarThemeBlue
+    else -> LocalXmlStrings.current.settingsColorCustom
 }
 
 fun CommentBarTheme?.toUpVoteColor(): Color = when (this) {

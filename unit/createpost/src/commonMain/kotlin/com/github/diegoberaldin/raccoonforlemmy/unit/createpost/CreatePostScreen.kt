@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -69,6 +70,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePost
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -76,12 +78,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.SelectCommunityDialog
-import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
@@ -100,10 +100,10 @@ class CreatePostScreen(
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = stringResource(MR.strings.message_generic_error)
+        val genericError = LocalXmlStrings.current.messageGenericError
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
-        val crossPostText = stringResource(MR.strings.create_post_cross_post_text)
+        val crossPostText = LocalXmlStrings.current.createPostCrossPostText
         val crossPost = uiState.crossPost
         val editedPost = uiState.editedPost
         var bodyTextFieldValue by remember(crossPost, editedPost) {
@@ -202,7 +202,9 @@ class CreatePostScreen(
         }
 
         Scaffold(
-            modifier = Modifier.imePadding(),
+            modifier = Modifier
+                .imePadding()
+                .navigationBarsPadding(),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -230,8 +232,8 @@ class CreatePostScreen(
                             BottomSheetHandle()
                             Text(
                                 text = when {
-                                    editedPost != null -> stringResource(MR.strings.edit_post_title)
-                                    else -> stringResource(MR.strings.create_post_title)
+                                    editedPost != null -> LocalXmlStrings.current.editPostTitle
+                                    else -> LocalXmlStrings.current.createPostTitle
                                 },
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onBackground,
@@ -242,7 +244,7 @@ class CreatePostScreen(
                         IconButton(
                             content = {
                                 Icon(
-                                    imageVector = Icons.Default.Send,
+                                    imageVector = Icons.Filled.Send,
                                     contentDescription = null,
                                 )
                             },
@@ -283,7 +285,7 @@ class CreatePostScreen(
                         ),
                         label = {
                             Text(
-                                text = stringResource(MR.strings.create_post_community),
+                                text = LocalXmlStrings.current.createPostCommunity,
                                 style = MaterialTheme.typography.titleMedium,
                             )
                         },
@@ -300,9 +302,10 @@ class CreatePostScreen(
                         onValueChange = {},
                         isError = uiState.communityError != null,
                         supportingText = {
-                            if (uiState.communityError != null) {
+                            val error = uiState.communityError
+                            if (error != null) {
                                 Text(
-                                    text = uiState.communityError?.localized().orEmpty(),
+                                    text = error.toReadableMessage(),
                                     color = MaterialTheme.colorScheme.error,
                                 )
                             }
@@ -320,7 +323,7 @@ class CreatePostScreen(
                     ),
                     label = {
                         Text(
-                            text = stringResource(MR.strings.create_post_name),
+                            text = LocalXmlStrings.current.createPostName,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -341,9 +344,10 @@ class CreatePostScreen(
                     },
                     isError = uiState.titleError != null,
                     supportingText = {
-                        if (uiState.titleError != null) {
+                        val error = uiState.titleError
+                        if (error != null) {
                             Text(
-                                text = uiState.titleError?.localized().orEmpty(),
+                                text = error.toReadableMessage(),
                                 color = MaterialTheme.colorScheme.error,
                             )
                         }
@@ -360,7 +364,7 @@ class CreatePostScreen(
                     ),
                     label = {
                         Text(
-                            text = stringResource(MR.strings.create_post_url),
+                            text = LocalXmlStrings.current.createPostUrl,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -393,9 +397,10 @@ class CreatePostScreen(
                     },
                     isError = uiState.urlError != null,
                     supportingText = {
-                        if (uiState.urlError != null) {
+                        val error = uiState.urlError
+                        if (error != null) {
                             Text(
-                                text = uiState.urlError?.localized().orEmpty(),
+                                text = error.toReadableMessage(),
                                 color = MaterialTheme.colorScheme.error,
                             )
                         }
@@ -410,7 +415,7 @@ class CreatePostScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = stringResource(MR.strings.create_post_nsfw),
+                        text = LocalXmlStrings.current.createPostNsfw,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -428,8 +433,8 @@ class CreatePostScreen(
                 ) {
                     SectionSelector(
                         titles = listOf(
-                            stringResource(MR.strings.create_post_tab_editor),
-                            stringResource(MR.strings.create_post_tab_preview),
+                            LocalXmlStrings.current.createPostTabEditor,
+                            LocalXmlStrings.current.createPostTabPreview,
                         ),
                         currentSection = when (uiState.section) {
                             CreatePostSection.Preview -> 1
@@ -476,7 +481,7 @@ class CreatePostScreen(
                             ),
                             label = {
                                 Text(
-                                    text = stringResource(MR.strings.create_post_body),
+                                    text = LocalXmlStrings.current.createPostBody,
                                     style = MaterialTheme.typography.titleMedium,
                                 )
                             },
@@ -492,15 +497,12 @@ class CreatePostScreen(
                             },
                             isError = uiState.bodyError != null,
                             supportingText = {
-                                Column(
-                                    modifier = Modifier.padding(bottom = Spacing.xxs),
-                                ) {
-                                    if (uiState.bodyError != null) {
-                                        Text(
-                                            text = uiState.bodyError?.localized().orEmpty(),
-                                            color = MaterialTheme.colorScheme.error,
-                                        )
-                                    }
+                                val error = uiState.bodyError
+                                if (error != null) {
+                                    Text(
+                                        text = error.toReadableMessage(),
+                                        color = MaterialTheme.colorScheme.error,
+                                    )
                                 }
                             },
                         )
@@ -530,7 +532,7 @@ class CreatePostScreen(
                                 .fillMaxWidth()
                                 .padding(horizontal = Spacing.m),
                             text = buildString {
-                                append(stringResource(MR.strings.post_reply_source_account))
+                                append(LocalXmlStrings.current.postReplySourceAccount)
                                 append(" ")
                                 append(uiState.currentUser)
                                 if (uiState.currentInstance.isNotEmpty()) {

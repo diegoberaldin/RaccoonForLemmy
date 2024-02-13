@@ -18,8 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 @Composable
 actual fun CustomImage(
@@ -88,7 +87,7 @@ actual fun CustomImage(
                     loadButtonContent.invoke()
                 } else {
                     Text(
-                        text = stringResource(MR.strings.button_load),
+                        text = LocalXmlStrings.current.buttonLoad,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

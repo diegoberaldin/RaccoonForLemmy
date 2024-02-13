@@ -27,15 +27,13 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
-import dev.icerock.moko.resources.desc.desc
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,7 +75,7 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
                         tint = color,
                     )
                 }
-                val inboxTitle = staticString(MR.strings.navigation_inbox.desc())
+                val inboxTitle = LocalXmlStrings.current.navigationInbox
                 if (tab.options.title == inboxTitle && unread > 0) {
                     BadgedBox(
                         badge = {

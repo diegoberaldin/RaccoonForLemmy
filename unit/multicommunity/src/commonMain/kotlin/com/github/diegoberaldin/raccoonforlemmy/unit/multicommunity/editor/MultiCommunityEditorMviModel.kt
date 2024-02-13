@@ -2,8 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
-import dev.icerock.moko.resources.desc.StringDesc
 
 interface MultiCommunityEditorMviModel :
     MviModel<MultiCommunityEditorMviModel.Intent, MultiCommunityEditorMviModel.UiState, MultiCommunityEditorMviModel.Effect>,
@@ -20,7 +20,7 @@ interface MultiCommunityEditorMviModel :
         val name: String = "",
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
-        val nameError: StringDesc? = null,
+        val nameError: ValidationError? = null,
         val icon: String? = null,
         val availableIcons: List<String> = emptyList(),
         val communities: List<Pair<CommunityModel, Boolean>> = emptyList(),

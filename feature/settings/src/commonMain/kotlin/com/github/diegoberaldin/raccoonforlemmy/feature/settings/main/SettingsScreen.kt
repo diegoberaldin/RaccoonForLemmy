@@ -62,6 +62,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBotto
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -77,16 +78,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors.SettingsColorAndFontScreen
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.getLanguageRepository
-import com.github.diegoberaldin.raccoonforlemmy.resources.di.staticString
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ConfigureSwipeActionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
-import dev.icerock.moko.resources.compose.stringResource
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -106,8 +102,6 @@ class SettingsScreen : Screen {
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scrollState = rememberScrollState()
-        val languageRepository = remember { getLanguageRepository() }
-        val lang by languageRepository.currentLanguage.collectAsState()
         var infoDialogOpened by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
         val uriHandler = LocalUriHandler.current
@@ -133,9 +127,6 @@ class SettingsScreen : Screen {
                 screenWidth = it.size.toSize().width
             }.padding(Spacing.xxs),
             topBar = {
-                val title by remember(lang) {
-                    mutableStateOf(staticString(MR.strings.navigation_settings.desc()))
-                }
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
@@ -155,7 +146,7 @@ class SettingsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = title,
+                            text = LocalXmlStrings.current.navigationSettings,
                             style = MaterialTheme.typography.titleLarge,
                         )
                     },
@@ -173,12 +164,12 @@ class SettingsScreen : Screen {
                 ) {
                     SettingsHeader(
                         icon = Icons.Default.Style,
-                        title = stringResource(MR.strings.settings_section_appearance),
+                        title = LocalXmlStrings.current.settingsSectionAppearance,
                     )
 
                     // language
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_language),
+                        title = LocalXmlStrings.current.settingsLanguage,
                         annotatedValue = buildAnnotatedString {
                             with(uiState.lang) {
                                 append(toLanguageFlag())
@@ -194,7 +185,7 @@ class SettingsScreen : Screen {
 
                     // theme
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_ui_theme),
+                        title = LocalXmlStrings.current.settingsUiTheme,
                         value = uiState.uiTheme.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = ThemeBottomSheet()
@@ -204,7 +195,7 @@ class SettingsScreen : Screen {
 
                     // navigation bar titles
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_navigation_bar_titles_visible),
+                        title = LocalXmlStrings.current.settingsNavigationBarTitlesVisible,
                         value = uiState.navBarTitlesVisible,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -215,7 +206,7 @@ class SettingsScreen : Screen {
 
                     // edge to edge
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_edge_to_edge),
+                        title = LocalXmlStrings.current.settingsEdgeToEdge,
                         value = uiState.edgeToEdge,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -232,7 +223,7 @@ class SettingsScreen : Screen {
                             UiBarTheme.Transparent.toReadableName()
                         }
                         SettingsRow(
-                            title = stringResource(MR.strings.settings_bar_theme),
+                            title = LocalXmlStrings.current.settingsBarTheme,
                             value = barThemeName,
                             onTap = rememberCallback {
                                 val sheet = BarThemeBottomSheet()
@@ -243,7 +234,7 @@ class SettingsScreen : Screen {
 
                     // bottom navigation hiding
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_hide_navigation_bar),
+                        title = LocalXmlStrings.current.settingsHideNavigationBar,
                         value = uiState.hideNavigationBarWhileScrolling,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -254,7 +245,7 @@ class SettingsScreen : Screen {
 
                     // colors and fonts
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_colors_and_fonts),
+                        title = LocalXmlStrings.current.settingsColorsAndFonts,
                         disclosureIndicator = true,
                         onTap = rememberCallback {
                             navigationCoordinator.pushScreen(SettingsColorAndFontScreen())
@@ -263,12 +254,12 @@ class SettingsScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.Default.Dashboard,
-                        title = stringResource(MR.strings.settings_section_feed),
+                        title = LocalXmlStrings.current.settingsSectionFeed,
                     )
 
                     // post layout
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_post_layout),
+                        title = LocalXmlStrings.current.settingsPostLayout,
                         value = uiState.postLayout.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = PostLayoutBottomSheet()
@@ -278,7 +269,7 @@ class SettingsScreen : Screen {
 
                     // prefer user nicknames
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_prefer_user_nicknames),
+                        title = LocalXmlStrings.current.settingsPreferUserNicknames,
                         value = uiState.preferUserNicknames,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -290,9 +281,9 @@ class SettingsScreen : Screen {
                     // body max lines in full layout
                     if (uiState.postLayout == PostLayout.Full) {
                         SettingsRow(
-                            title = stringResource(MR.strings.settings_post_body_max_lines),
+                            title = LocalXmlStrings.current.settingsPostBodyMaxLines,
                             value = if (uiState.postBodyMaxLines == null) {
-                                stringResource(MR.strings.settings_post_body_max_lines_unlimited)
+                                LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited
                             } else {
                                 uiState.postBodyMaxLines.toString()
                             },
@@ -305,7 +296,7 @@ class SettingsScreen : Screen {
 
                     // full height images
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_full_height_images),
+                        title = LocalXmlStrings.current.settingsFullHeightImages,
                         value = uiState.fullHeightImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -316,7 +307,7 @@ class SettingsScreen : Screen {
 
                     // vote format
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_vote_format),
+                        title = LocalXmlStrings.current.settingsVoteFormat,
                         value = uiState.voteFormat.toReadableName(),
                         onTap = {
                             val sheet = VoteFormatBottomSheet()
@@ -326,7 +317,7 @@ class SettingsScreen : Screen {
 
                     // auto-expand comments
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_auto_expand_comments),
+                        title = LocalXmlStrings.current.settingsAutoExpandComments,
                         value = uiState.autoExpandComments,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -337,7 +328,7 @@ class SettingsScreen : Screen {
 
                     // default listing type
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_default_listing_type),
+                        title = LocalXmlStrings.current.settingsDefaultListingType,
                         value = uiState.defaultListingType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = ListingTypeBottomSheet(
@@ -350,7 +341,7 @@ class SettingsScreen : Screen {
 
                     // default post sort type
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_default_post_sort_type),
+                        title = LocalXmlStrings.current.settingsDefaultPostSortType,
                         value = uiState.defaultPostSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
@@ -365,7 +356,7 @@ class SettingsScreen : Screen {
 
                     // default comment sort type
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_default_comment_sort_type),
+                        title = LocalXmlStrings.current.settingsDefaultCommentSortType,
                         value = uiState.defaultCommentSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
@@ -380,11 +371,11 @@ class SettingsScreen : Screen {
                     if (uiState.isLogged) {
                         // default inbox type
                         SettingsRow(
-                            title = stringResource(MR.strings.settings_default_inbox_type),
+                            title = LocalXmlStrings.current.settingsDefaultInboxType,
                             value = if (uiState.defaultInboxUnreadOnly) {
-                                stringResource(MR.strings.inbox_listing_type_unread)
+                                LocalXmlStrings.current.inboxListingTypeUnread
                             } else {
-                                stringResource(MR.strings.inbox_listing_type_all)
+                                LocalXmlStrings.current.inboxListingTypeAll
                             },
                             onTap = rememberCallback {
                                 val sheet = InboxTypeSheet()
@@ -395,12 +386,12 @@ class SettingsScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.Default.SettingsApplications,
-                        title = stringResource(MR.strings.settings_section_behaviour),
+                        title = LocalXmlStrings.current.settingsSectionBehaviour,
                     )
 
                     // infinite scrolling
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_infinite_scroll_disabled),
+                        title = LocalXmlStrings.current.settingsInfiniteScrollDisabled,
                         value = uiState.infiniteScrollDisabled,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -412,7 +403,7 @@ class SettingsScreen : Screen {
                     if (uiState.isLogged) {
                         // mark as read while scrolling
                         SettingsSwitchRow(
-                            title = stringResource(MR.strings.settings_mark_as_read_while_scrolling),
+                            title = LocalXmlStrings.current.settingsMarkAsReadWhileScrolling,
                             value = uiState.markAsReadWhileScrolling,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
@@ -424,11 +415,11 @@ class SettingsScreen : Screen {
 
                     // zombie mode interval
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_zombie_mode_interval),
+                        title = LocalXmlStrings.current.settingsZombieModeInterval,
                         value = uiState.zombieModeInterval.getPrettyDuration(
-                            secondsLabel = stringResource(MR.strings.post_second_short),
-                            minutesLabel = stringResource(MR.strings.post_minute_short),
-                            hoursLabel = stringResource(MR.strings.post_hour_short),
+                            secondsLabel = LocalXmlStrings.current.postSecondShort,
+                            minutesLabel = LocalXmlStrings.current.postMinuteShort,
+                            hoursLabel = LocalXmlStrings.current.homeSortTypeTop6Hours,
                         ),
                         onTap = rememberCallback {
                             val sheet = DurationBottomSheet()
@@ -438,11 +429,11 @@ class SettingsScreen : Screen {
 
                     // zombie scroll amount
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_zombie_mode_scroll_amount),
+                        title = LocalXmlStrings.current.settingsZombieModeScrollAmount,
                         value = buildString {
                             val pt = uiState.zombieModeScrollAmount.toLocalDp().value.roundToInt()
                             append(pt)
-                            append(stringResource(MR.strings.settings_points_short))
+                            append(LocalXmlStrings.current.settingsPointsShort)
                         },
                         onTap = rememberCallback {
                             val sheet = SliderBottomSheet(
@@ -457,7 +448,7 @@ class SettingsScreen : Screen {
                     if (uiState.isLogged) {
                         // swipe actions
                         SettingsSwitchRow(
-                            title = stringResource(MR.strings.settings_enable_swipe_actions),
+                            title = LocalXmlStrings.current.settingsEnableSwipeActions,
                             value = uiState.enableSwipeActions,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
@@ -466,7 +457,7 @@ class SettingsScreen : Screen {
                             },
                         )
                         SettingsRow(
-                            title = stringResource(MR.strings.settings_configure_swipe_actions),
+                            title = LocalXmlStrings.current.settingsConfigureSwipeActions,
                             disclosureIndicator = true,
                             onTap = rememberCallback {
                                 val screen = ConfigureSwipeActionsScreen()
@@ -476,7 +467,7 @@ class SettingsScreen : Screen {
 
                         // double tap
                         SettingsSwitchRow(
-                            title = stringResource(MR.strings.settings_enable_double_tap),
+                            title = LocalXmlStrings.current.settingsEnableDoubleTap,
                             value = uiState.enableDoubleTapAction,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
@@ -488,7 +479,7 @@ class SettingsScreen : Screen {
 
                     // URL open
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_open_url_external),
+                        title = LocalXmlStrings.current.settingsOpenUrlExternal,
                         value = uiState.openUrlsInExternalBrowser,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -499,7 +490,7 @@ class SettingsScreen : Screen {
 
                     // image loading
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_auto_load_images),
+                        title = LocalXmlStrings.current.settingsAutoLoadImages,
                         value = uiState.autoLoadImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -510,7 +501,7 @@ class SettingsScreen : Screen {
 
                     // search posts only in title
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_search_posts_title_only),
+                        title = LocalXmlStrings.current.settingsSearchPostsTitleOnly,
                         value = uiState.searchPostTitleOnly,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
@@ -522,12 +513,12 @@ class SettingsScreen : Screen {
                     if (uiState.isLogged) {
                         SettingsHeader(
                             icon = Icons.Default.AdminPanelSettings,
-                            title = stringResource(MR.strings.settings_section_account),
+                            title = LocalXmlStrings.current.settingsSectionAccount,
                         )
 
                         // web preferences
                         SettingsRow(
-                            title = stringResource(MR.strings.settings_web_preferences),
+                            title = LocalXmlStrings.current.settingsWebPreferences,
                             disclosureIndicator = true,
                             onTap = rememberCallback {
                                 val screen = AccountSettingsScreen()
@@ -537,7 +528,7 @@ class SettingsScreen : Screen {
 
                         // bans and filters
                         SettingsRow(
-                            title = stringResource(MR.strings.settings_manage_ban),
+                            title = LocalXmlStrings.current.settingsManageBan,
                             disclosureIndicator = true,
                             onTap = rememberCallback {
                                 val screen = ManageBanScreen()
@@ -548,18 +539,18 @@ class SettingsScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.Default.Explicit,
-                        title = stringResource(MR.strings.settings_section_nsfw),
+                        title = LocalXmlStrings.current.settingsSectionNsfw,
                     )
 
                     // NSFW options
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_include_nsfw),
+                        title = LocalXmlStrings.current.settingsIncludeNsfw,
                         value = uiState.includeNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))
                         })
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_blur_nsfw),
+                        title = LocalXmlStrings.current.settingsBlurNsfw,
                         value = uiState.blurNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeBlurNsfw(value))
@@ -568,12 +559,12 @@ class SettingsScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.Default.BugReport,
-                        title = stringResource(MR.strings.settings_section_debug),
+                        title = LocalXmlStrings.current.settingsSectionDebug,
                     )
 
                     // enable crash report
                     SettingsSwitchRow(
-                        title = stringResource(MR.strings.settings_enable_crash_report),
+                        title = LocalXmlStrings.current.settingsEnableCrashReport,
                         value = uiState.crashReportEnabled,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeCrashReportEnabled(value))
@@ -582,7 +573,7 @@ class SettingsScreen : Screen {
 
                     // about
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_about),
+                        title = LocalXmlStrings.current.settingsAbout,
                         value = "",
                         disclosureIndicator = true,
                         onTap = rememberCallback {
@@ -592,7 +583,7 @@ class SettingsScreen : Screen {
 
                     // user manual
                     SettingsRow(
-                        title = stringResource(MR.strings.settings_user_manual),
+                        title = LocalXmlStrings.current.settingsUserManual,
                         value = "",
                         disclosureIndicator = true,
                         onTap = rememberCallback {

@@ -19,13 +19,12 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 class InboxTypeSheet : Screen {
     @Composable
@@ -54,7 +53,7 @@ class InboxTypeSheet : Screen {
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.inbox_listing_type_title),
+                    text = LocalXmlStrings.current.inboxListingTypeTitle,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -79,7 +78,7 @@ class InboxTypeSheet : Screen {
                             ),
                     ) {
                         Text(
-                            text = stringResource(MR.strings.inbox_listing_type_unread),
+                            text = LocalXmlStrings.current.inboxListingTypeUnread,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -100,7 +99,7 @@ class InboxTypeSheet : Screen {
                             ),
                     ) {
                         Text(
-                            text = stringResource(MR.strings.inbox_listing_type_all),
+                            text = LocalXmlStrings.current.inboxListingTypeAll,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )

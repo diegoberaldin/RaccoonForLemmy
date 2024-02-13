@@ -8,11 +8,15 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.CustomTextToolba
 @Composable
 actual fun getCustomTextToolbar(
     isLogged: Boolean,
+    quoteActionLabel: String,
+    shareActionLabel: String,
     onShare: () -> Unit,
     onQuote: () -> Unit,
 ): TextToolbar {
     return CustomTextToolbar(
         view = LocalView.current,
+        quoteActionLabel = quoteActionLabel,
+        shareActionLabel = shareActionLabel,
         isLogged = isLogged,
         onShare = onShare,
         onQuote = onQuote,

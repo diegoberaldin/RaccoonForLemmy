@@ -33,8 +33,6 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
 
                 implementation(libs.koin.core)
                 implementation(libs.voyager.navigator)
@@ -43,18 +41,19 @@ kotlin {
                 implementation(libs.voyager.tab)
                 implementation(libs.voyager.bottomsheet)
 
-                implementation(projects.resources)
-                implementation(projects.core.architecture)
                 implementation(projects.core.appearance)
-                implementation(projects.core.navigation)
+                implementation(projects.core.architecture)
                 implementation(projects.core.commonui.components)
+                implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.lemmyui)
                 implementation(projects.core.commonui.modals)
-                implementation(projects.core.commonui.detailopenerApi)
-                implementation(projects.core.utils)
-                implementation(projects.core.preferences)
-                implementation(projects.core.persistence)
+                implementation(projects.core.l10n)
+                implementation(projects.core.navigation)
                 implementation(projects.core.notifications)
+                implementation(projects.core.persistence)
+                implementation(projects.core.preferences)
+                implementation(projects.core.utils)
+
                 implementation(projects.unit.zoomableimage)
                 implementation(projects.unit.replies)
                 implementation(projects.unit.mentions)
@@ -64,7 +63,6 @@ kotlin {
                 implementation(projects.domain.lemmy.repository)
                 implementation(projects.domain.identity)
                 implementation(projects.domain.inbox)
-
             }
         }
         val commonTest by getting {

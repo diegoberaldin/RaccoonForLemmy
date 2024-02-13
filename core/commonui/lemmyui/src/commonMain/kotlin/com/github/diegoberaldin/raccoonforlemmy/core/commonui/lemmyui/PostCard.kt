@@ -37,6 +37,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -47,8 +48,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.videoUrl
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun PostCard(
@@ -84,9 +83,12 @@ fun PostCard(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
-                    .clip(RoundedCornerShape(CornerSize.l))
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(CornerSize.l)
+                    )
                     .padding(horizontal = Spacing.xs)
+                    .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                     )
@@ -335,16 +337,18 @@ private fun ExtendedPost(
     val optionsMenuOpen = remember { mutableStateOf(false) }
 
     Column(
-        modifier = modifier.background(backgroundColor).pointerInput(Unit) {
-            detectTapGestures(
-                onLongPress = {
-                    optionsMenuOpen.value = true
-                },
-                onTap = {
-                    onClick?.invoke()
-                }
-            )
-        },
+        modifier = modifier
+            .background(backgroundColor)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = {
+                        optionsMenuOpen.value = true
+                    },
+                    onTap = {
+                        onClick?.invoke()
+                    }
+                )
+            },
         verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
     ) {
         CommunityAndCreatorInfo(
@@ -403,8 +407,7 @@ private fun ExtendedPost(
                     .padding(vertical = Spacing.xxs)
                     .then(
                         if (roundedCornerImage) {
-                            Modifier
-                                .clip(RoundedCornerShape(CornerSize.xl))
+                            Modifier.clip(RoundedCornerShape(CornerSize.xl))
                         } else {
                             Modifier
                         }
@@ -429,7 +432,7 @@ private fun ExtendedPost(
         if (showBody) {
             if (post.removed) {
                 Text(
-                    text = stringResource(MR.strings.message_content_removed),
+                    text = LocalXmlStrings.current.messageContentRemoved,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                 )

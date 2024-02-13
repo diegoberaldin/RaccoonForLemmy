@@ -22,14 +22,13 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 class PostBodyMaxLinesBottomSheet(
     private val values: List<Int?> = listOf(
@@ -70,7 +69,7 @@ class PostBodyMaxLinesBottomSheet(
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = stringResource(MR.strings.settings_post_body_max_lines),
+                    text = LocalXmlStrings.current.settingsPostBodyMaxLines,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -102,8 +101,8 @@ class PostBodyMaxLinesBottomSheet(
                             ),
                     ) {
                         val text = when {
-                            value == null -> stringResource(MR.strings.settings_post_body_max_lines_unlimited)
-                            value < 0 -> stringResource(MR.strings.settings_color_custom)
+                            value == null -> LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited
+                            value < 0 -> LocalXmlStrings.current.settingsColorCustom
                             else -> value.toString()
                         }
                         Text(
@@ -119,7 +118,7 @@ class PostBodyMaxLinesBottomSheet(
         if (customDialogOpened) {
             val current = settingsRepository.currentSettings.value.postBodyMaxLines ?: 0
             NumberPickerDialog(
-                title = stringResource(MR.strings.settings_color_custom),
+                title = LocalXmlStrings.current.settingsColorCustom,
                 initialValue = current,
                 onClose = {
                     customDialogOpened = false

@@ -34,6 +34,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
@@ -41,8 +42,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun UserHeader(
@@ -144,8 +143,8 @@ fun UserHeader(
                         )
                         Text(
                             text = postScore.getPrettyNumber(
-                                thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                millionLabel = stringResource(MR.strings.profile_million_short),
+                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                millionLabel = LocalXmlStrings.current.profileMillionShort,
                             ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
@@ -157,13 +156,13 @@ fun UserHeader(
                         }
                         Icon(
                             modifier = Modifier.size(iconSize),
-                            imageVector = Icons.Default.Reply,
+                            imageVector = Icons.Filled.Reply,
                             contentDescription = null
                         )
                         Text(
                             text = commentScore.getPrettyNumber(
-                                thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                millionLabel = stringResource(MR.strings.profile_million_short),
+                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                millionLabel = LocalXmlStrings.current.profileMillionShort,
                             ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,

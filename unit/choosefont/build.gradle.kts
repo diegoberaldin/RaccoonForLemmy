@@ -32,19 +32,17 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.material3)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
 
                 implementation(libs.voyager.navigator)
 
-                implementation(projects.core.utils)
                 implementation(projects.core.appearance)
                 implementation(projects.core.commonui.components)
+                implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
                 implementation(projects.core.notifications)
-
-                implementation(projects.resources)
+                implementation(projects.core.resources)
+                implementation(projects.core.utils)
             }
         }
         val commonTest by getting {

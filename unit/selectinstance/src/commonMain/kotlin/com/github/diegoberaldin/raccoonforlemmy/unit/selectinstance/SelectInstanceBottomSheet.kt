@@ -37,16 +37,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.components.SelectInstanceItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.dialog.ChangeInstanceDialog
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import sh.calvin.reorderable.ReorderableItem
@@ -114,7 +113,7 @@ class SelectInstanceBottomSheet : Screen {
                             top = Spacing.s,
                             end = Spacing.s,
                         ),
-                        text = stringResource(MR.strings.dialog_title_change_instance),
+                        text = LocalXmlStrings.current.dialogTitleChangeInstance,
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -143,7 +142,7 @@ class SelectInstanceBottomSheet : Screen {
                         Text(
                             modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                             textAlign = TextAlign.Center,
-                            text = stringResource(MR.strings.message_empty_list),
+                            text = LocalXmlStrings.current.messageEmptyList,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -185,7 +184,7 @@ class SelectInstanceBottomSheet : Screen {
                                     if (!isActive) {
                                         this += Option(
                                             OptionId.Delete,
-                                            stringResource(MR.strings.comment_action_delete),
+                                            LocalXmlStrings.current.commentActionDelete,
                                         )
                                     }
                                 },

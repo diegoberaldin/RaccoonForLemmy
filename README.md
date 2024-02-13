@@ -9,7 +9,7 @@
 <br />
 
 <div align="center">
-  <img src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/6785188f-9c2a-4622-ab6b-5aa116d27c31" width="250" height="auto" />
+  <img src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/6785188f-9c2a-4622-ab6b-5aa116d27c31" width="240" height="auto" />
 </div>
 
 # Raccoon for Lemmy
@@ -151,7 +151,7 @@ The project uses the following technologies:
 - [Voyager](https://github.com/adrielcafe/voyager) for screen navigation
 - [Ktor](https://github.com/ktorio/ktor) and [Ktorfit](https://github.com/Foso/Ktorfit) for
   networking
-- [Moko resources](https://github.com/icerockdev/moko-resources) for resource management
+- [Lyricist](https://github.com/adrielcafe/lyricist) for l10n
 - [Multiplatform settings](https://github.com/russhwolf/multiplatform-settings) for encrypted
   preferences
 - [SQLDelight](https://github.com/cashapp/sqldelight)

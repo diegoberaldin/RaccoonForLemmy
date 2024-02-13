@@ -77,6 +77,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -86,11 +87,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -162,7 +161,7 @@ class MultiCommunityScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -216,7 +215,7 @@ class MultiCommunityScreen(
                         items = buildList {
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ExpandLess,
-                                text = stringResource(MR.strings.action_back_to_top),
+                                text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
@@ -227,7 +226,7 @@ class MultiCommunityScreen(
                             )
                             this += FloatingActionButtonMenuItem(
                                 icon = Icons.Default.ClearAll,
-                                text = stringResource(MR.strings.action_clear_read),
+                                text = LocalXmlStrings.current.actionClearRead,
                                 onSelected = rememberCallback {
                                     model.reduce(MultiCommunityMviModel.Intent.ClearRead)
                                     scope.launch {
@@ -325,7 +324,7 @@ class MultiCommunityScreen(
                                     ActionOnSwipe.Reply -> SwipeAction(
                                         swipeContent = {
                                             Icon(
-                                                imageVector = Icons.Default.Reply,
+                                                imageVector = Icons.Filled.Reply,
                                                 contentDescription = null,
                                                 tint = Color.White,
                                             )
@@ -451,20 +450,20 @@ class MultiCommunityScreen(
                                         add(
                                             Option(
                                                 OptionId.Share,
-                                                stringResource(MR.strings.post_action_share)
+                                                LocalXmlStrings.current.postActionShare
                                             )
                                         )
                                         if (uiState.currentUserId != null) {
                                             add(
                                                 Option(
                                                     OptionId.Hide,
-                                                    stringResource(MR.strings.post_action_hide)
+                                                    LocalXmlStrings.current.postActionHide
                                                 )
                                             )
                                             add(
                                                 Option(
                                                     OptionId.Report,
-                                                    stringResource(MR.strings.post_action_report)
+                                                    LocalXmlStrings.current.postActionReport
                                                 )
                                             )
                                         }
@@ -529,7 +528,7 @@ class MultiCommunityScreen(
                                         },
                                     ) {
                                         Text(
-                                            text = stringResource(MR.strings.post_list_load_more_posts),
+                                            text = LocalXmlStrings.current.postListLoadMorePosts,
                                             style = MaterialTheme.typography.labelSmall,
                                         )
                                     }
@@ -554,7 +553,7 @@ class MultiCommunityScreen(
                             Text(
                                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                 textAlign = TextAlign.Center,
-                                text = stringResource(MR.strings.message_empty_list),
+                                text = LocalXmlStrings.current.messageEmptyList,
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )

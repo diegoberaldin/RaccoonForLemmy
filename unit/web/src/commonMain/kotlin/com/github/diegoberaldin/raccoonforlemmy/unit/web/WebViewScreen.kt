@@ -66,7 +66,7 @@ class WebViewScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )

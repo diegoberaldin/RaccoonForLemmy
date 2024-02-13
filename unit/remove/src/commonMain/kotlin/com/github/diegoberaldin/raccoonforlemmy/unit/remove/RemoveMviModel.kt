@@ -3,7 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.remove
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
-import dev.icerock.moko.resources.desc.StringDesc
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 
 @Stable
 interface RemoveMviModel :
@@ -17,7 +17,7 @@ interface RemoveMviModel :
 
     data class UiState(
         val text: String = "",
-        val textError: StringDesc? = null,
+        val textError: ValidationError? = null,
         val loading: Boolean = false,
     )
 

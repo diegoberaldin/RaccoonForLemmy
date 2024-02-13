@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,6 +26,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+private const val FIRST_ACTION_THRESHOLD = 0.14f
 private const val SECOND_ACTION_THRESHOLD = 0.38f
 
 data class SwipeAction(
@@ -47,7 +50,7 @@ fun SwipeActionCard(
         var secondNotified by remember { mutableStateOf(false) }
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
         var lastProgress by remember { mutableStateOf(0.0f) }
-        val dismissState = rememberNoFlingDismissState(
+        val dismissState = rememberDismissState(
             confirmValueChange = rememberCallbackArgs { value ->
                 when (value) {
                     DismissValue.DismissedToEnd -> {
@@ -76,7 +79,6 @@ fun SwipeActionCard(
                 // return false to stay dismissed
                 false
             },
-            positionalThreshold = { _ -> 56.dp.toPx() }
         )
         LaunchedEffect(dismissState, swipeToEndActions, swipeToEndActions) {
             snapshotFlow { dismissState.progress }.onEach { progress ->
@@ -88,14 +90,14 @@ fun SwipeActionCard(
 
                 if (!enableSecondAction) {
                     when {
-                        progress in 0.0f..<1.0f && !notified -> {
+                        progress in FIRST_ACTION_THRESHOLD..<1.0f && !notified -> {
                             notified = true
                             gestureBeginCallback?.invoke()
                         }
                     }
                 } else {
                     when {
-                        progress in 0.0f..<SECOND_ACTION_THRESHOLD && !notified -> {
+                        progress in FIRST_ACTION_THRESHOLD..<SECOND_ACTION_THRESHOLD && !notified -> {
                             notified = true
                             gestureBeginCallback?.invoke()
                         }
@@ -110,7 +112,7 @@ fun SwipeActionCard(
             }.launchIn(this)
         }
 
-        NoFlingSwipeToDismiss(
+        SwipeToDismiss(
             modifier = modifier,
             state = dismissState,
             directions = buildSet {
@@ -122,7 +124,7 @@ fun SwipeActionCard(
                 }
             },
             background = {
-                val direction = dismissState.dismissDirection ?: DismissDirection.StartToEnd
+                val direction = dismissState.dismissDirection
                 val actions = when (dismissState.targetValue) {
                     DismissValue.Default -> listOf()
                     DismissValue.DismissedToEnd -> swipeToEndActions
@@ -142,7 +144,7 @@ fun SwipeActionCard(
                 )
                 val alignment = when (direction) {
                     DismissDirection.StartToEnd -> Alignment.CenterStart
-                    DismissDirection.EndToStart -> Alignment.CenterEnd
+                    else -> Alignment.CenterEnd
                 }
                 Box(
                     Modifier.fillMaxSize()

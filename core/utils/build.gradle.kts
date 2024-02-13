@@ -31,15 +31,13 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
 
                 implementation(libs.koin.core)
                 implementation(libs.ktor.cio)
                 implementation(project.dependencies.platform(libs.kotlincrypto.bom))
                 implementation(libs.kotlincrypto.md5)
 
-                implementation(projects.resources)
+                implementation(projects.core.l10n)
             }
         }
         val commonTest by getting {

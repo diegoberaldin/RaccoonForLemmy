@@ -56,16 +56,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.autofill
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
-import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -82,7 +81,7 @@ class LoginBottomSheet : Screen {
 
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = stringResource(MR.strings.message_generic_error)
+        val genericError = LocalXmlStrings.current.messageGenericError
         val navigationCoordinator = remember { getNavigationCoordinator() }
 
         LaunchedEffect(model) {
@@ -129,7 +128,7 @@ class LoginBottomSheet : Screen {
                         BottomSheetHandle()
                         Text(
                             modifier = Modifier.padding(start = Spacing.s, top = Spacing.s),
-                            text = stringResource(MR.strings.profile_button_login),
+                            text = LocalXmlStrings.current.profileButtonLogin,
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -149,7 +148,7 @@ class LoginBottomSheet : Screen {
                         },
                     ) {
                         Icon(
-                            imageVector = Icons.Default.HelpOutline,
+                            imageVector = Icons.Filled.HelpOutline,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
@@ -165,7 +164,7 @@ class LoginBottomSheet : Screen {
                 TextField(
                     modifier = Modifier.focusRequester(instanceFocusRequester),
                     label = {
-                        Text(text = stringResource(MR.strings.login_field_instance_name))
+                        Text(text = LocalXmlStrings.current.loginFieldInstanceName)
                     },
                     singleLine = true,
                     value = uiState.instanceName,
@@ -184,9 +183,10 @@ class LoginBottomSheet : Screen {
                         model.reduce(LoginMviModel.Intent.SetInstanceName(value))
                     },
                     supportingText = {
-                        if (uiState.instanceNameError != null) {
+                        val error = uiState.instanceNameError
+                        if (error != null) {
                             Text(
-                                text = uiState.instanceNameError?.localized().orEmpty(),
+                                text = error.toReadableMessage(),
                                 color = MaterialTheme.colorScheme.error,
                             )
                         }
@@ -222,7 +222,7 @@ class LoginBottomSheet : Screen {
                         )
                         .focusRequester(usernameFocusRequester),
                     label = {
-                        Text(text = stringResource(MR.strings.login_field_user_name))
+                        Text(text = LocalXmlStrings.current.loginFieldUserName)
                     },
                     singleLine = true,
                     value = uiState.username,
@@ -241,9 +241,10 @@ class LoginBottomSheet : Screen {
                         model.reduce(LoginMviModel.Intent.SetUsername(value))
                     },
                     supportingText = {
-                        if (uiState.usernameError != null) {
+                        val error = uiState.usernameError
+                        if (error != null) {
                             Text(
-                                text = uiState.usernameError?.localized().orEmpty(),
+                                text = error.toReadableMessage(),
                                 color = MaterialTheme.colorScheme.error,
                             )
                         }
@@ -264,7 +265,7 @@ class LoginBottomSheet : Screen {
                         )
                         .focusRequester(passwordFocusRequester),
                     label = {
-                        Text(text = stringResource(MR.strings.login_field_password))
+                        Text(text = LocalXmlStrings.current.loginFieldPassword)
                     },
                     singleLine = true,
                     value = uiState.password,
@@ -304,9 +305,10 @@ class LoginBottomSheet : Screen {
                         )
                     },
                     supportingText = {
-                        if (uiState.passwordError != null) {
+                        val error = uiState.passwordError
+                        if (error != null) {
                             Text(
-                                text = uiState.passwordError?.localized().orEmpty(),
+                                text = error.toReadableMessage(),
                                 color = MaterialTheme.colorScheme.error,
                             )
                         }
@@ -321,9 +323,9 @@ class LoginBottomSheet : Screen {
                             horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                             verticalAlignment = Alignment.Bottom,
                         ) {
-                            Text(text = stringResource(MR.strings.login_field_token))
+                            Text(text = LocalXmlStrings.current.loginFieldToken)
                             Text(
-                                text = stringResource(MR.strings.login_field_label_optional),
+                                text = LocalXmlStrings.current.loginFieldLabelOptional,
                                 style = MaterialTheme.typography.labelSmall,
                             )
                         }
@@ -356,7 +358,7 @@ class LoginBottomSheet : Screen {
                                 color = MaterialTheme.colorScheme.onPrimary,
                             )
                         }
-                        Text(stringResource(MR.strings.button_confirm))
+                        Text(LocalXmlStrings.current.buttonConfirm)
                     }
                 }
                 Spacer(modifier = Modifier.height(Spacing.m))

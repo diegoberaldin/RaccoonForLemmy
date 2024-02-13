@@ -37,17 +37,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Customi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.DetailInfoItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.components.ModeratorCell
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
@@ -116,55 +115,55 @@ class CommunityInfoScreen(
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Padding,
-                                title = stringResource(MR.strings.community_info_posts),
+                                title = LocalXmlStrings.current.communityInfoPosts,
                                 value = uiState.community.posts.getPrettyNumber(
-                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
                                 ),
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
-                                icon = Icons.Default.Reply,
-                                title = stringResource(MR.strings.community_info_comments),
+                                icon = Icons.Filled.Reply,
+                                title = LocalXmlStrings.current.communityInfoComments,
                                 value = uiState.community.comments.getPrettyNumber(
-                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
                                 ),
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Group,
-                                title = stringResource(MR.strings.community_info_subscribers),
+                                title = LocalXmlStrings.current.communityInfoSubscribers,
                                 value = uiState.community.subscribers.getPrettyNumber(
-                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
                                 ),
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewMonth,
-                                title = stringResource(MR.strings.community_info_monthly_active_users),
+                                title = LocalXmlStrings.current.communityInfoMonthlyActiveUsers,
                                 value = uiState.community.monthlyActiveUsers.getPrettyNumber(
-                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
                                 ),
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewWeek,
-                                title = stringResource(MR.strings.community_info_weekly_active_users),
+                                title = LocalXmlStrings.current.communityInfoWeeklyActiveUsers,
                                 value = uiState.community.weeklyActiveUsers.getPrettyNumber(
-                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
                                 ),
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.CalendarViewDay,
-                                title = stringResource(MR.strings.community_info_daily_active_users),
+                                title = LocalXmlStrings.current.communityInfoDailyActiveUsers,
                                 value = uiState.community.dailyActiveUsers.getPrettyNumber(
-                                    thousandLabel = stringResource(MR.strings.profile_thousand_short),
-                                    millionLabel = stringResource(MR.strings.profile_million_short),
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
                                 ),
                             )
                         }
@@ -178,7 +177,7 @@ class CommunityInfoScreen(
                                         top = Spacing.s,
                                         bottom = Spacing.xs,
                                     ),
-                                text = stringResource(MR.strings.community_info_moderators),
+                                text = LocalXmlStrings.current.communityInfoModerators,
                             )
                             LazyRow(
                                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),

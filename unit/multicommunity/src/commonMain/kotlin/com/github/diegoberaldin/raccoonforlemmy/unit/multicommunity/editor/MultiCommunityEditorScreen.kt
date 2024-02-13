@@ -59,12 +59,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.compose.stringResource
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
@@ -96,7 +95,7 @@ class MultiCommunityEditorScreen(
                 TopAppBar(
                     title = {
                         Text(
-                            text = stringResource(MR.strings.multi_community_editor_title),
+                            text = LocalXmlStrings.current.multiCommunityEditorTitle,
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -108,7 +107,7 @@ class MultiCommunityEditorScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -151,7 +150,7 @@ class MultiCommunityEditorScreen(
                     ),
                     maxLines = 1,
                     label = {
-                        Text(text = stringResource(MR.strings.multi_community_editor_name))
+                        Text(text = LocalXmlStrings.current.multiCommunityEditorName)
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = uiState.name,
@@ -165,9 +164,10 @@ class MultiCommunityEditorScreen(
                     },
                     isError = uiState.nameError != null,
                     supportingText = {
-                        if (uiState.nameError != null) {
+                        val error = uiState.nameError
+                        if (error != null) {
                             Text(
-                                text = uiState.nameError?.localized().orEmpty(),
+                                text = error.toReadableMessage(),
                                 color = MaterialTheme.colorScheme.error,
                             )
                         }
@@ -178,7 +178,7 @@ class MultiCommunityEditorScreen(
                 Column(
                     modifier = Modifier.padding(horizontal = Spacing.m)
                 ) {
-                    Text(text = stringResource(MR.strings.multi_community_editor_icon))
+                    Text(text = LocalXmlStrings.current.multiCommunityEditorIcon)
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                     ) {
@@ -273,7 +273,7 @@ class MultiCommunityEditorScreen(
 
                 Spacer(modifier = Modifier.height(Spacing.s))
                 Column {
-                    Text(text = stringResource(MR.strings.multi_community_editor_communities))
+                    Text(text = LocalXmlStrings.current.multiCommunityEditorCommunities)
 
                     // search field
                     TextField(
@@ -284,7 +284,7 @@ class MultiCommunityEditorScreen(
                             disabledContainerColor = Color.Transparent,
                         ),
                         label = {
-                            Text(text = stringResource(MR.strings.explore_search_placeholder))
+                            Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
                         },
                         singleLine = true,
                         value = uiState.searchText,

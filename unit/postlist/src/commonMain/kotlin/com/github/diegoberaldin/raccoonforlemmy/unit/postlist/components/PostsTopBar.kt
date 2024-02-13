@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -37,8 +38,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -132,10 +131,7 @@ internal fun PostsTopBar(
                             )
                         } else Modifier
                     ),
-                    text = stringResource(
-                        MR.strings.home_instance_via,
-                        currentInstance,
-                    ),
+                    text = LocalXmlStrings.current.homeInstanceVia(currentInstance),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onBackground,
                 )

@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
-    alias(libs.plugins.moko.resources)
 }
 
 kotlin {
@@ -33,10 +32,9 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.material)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
 
                 implementation(libs.koin.core)
+                implementation(libs.lyricist)
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.koin)
@@ -44,18 +42,19 @@ kotlin {
                 implementation(libs.voyager.tab)
                 implementation(libs.voyager.bottomsheet)
 
-                implementation(projects.core.utils)
-                implementation(projects.core.architecture)
-                implementation(projects.core.appearance)
-                implementation(projects.core.preferences)
                 implementation(projects.core.api)
-                implementation(projects.core.md)
-                implementation(projects.core.navigation)
-                implementation(projects.core.commonui.lemmyui)
+                implementation(projects.core.appearance)
+                implementation(projects.core.architecture)
                 implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.detailopenerImpl)
+                implementation(projects.core.commonui.lemmyui)
+                implementation(projects.core.l10n)
+                implementation(projects.core.md)
+                implementation(projects.core.navigation)
                 implementation(projects.core.notifications)
                 implementation(projects.core.persistence)
+                implementation(projects.core.preferences)
+                implementation(projects.core.utils)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.inbox)
@@ -87,7 +86,6 @@ kotlin {
                 implementation(projects.unit.selectinstance)
                 implementation(projects.unit.configureswipeactions)
 
-                api(projects.resources)
                 api(projects.feature.home)
                 api(projects.feature.inbox)
                 api(projects.feature.search)

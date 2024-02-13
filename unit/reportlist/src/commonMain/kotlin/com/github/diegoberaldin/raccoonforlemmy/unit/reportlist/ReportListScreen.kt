@@ -58,6 +58,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ReportListTypeSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -66,12 +67,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
-import com.github.diegoberaldin.raccoonforlemmy.resources.MR
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.CommentReportCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.PostReportCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.ReportCardPlaceHolder
-import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -128,7 +127,7 @@ class ReportListScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -136,12 +135,12 @@ class ReportListScreen(
                     title = {
                         Column(modifier = Modifier.padding(horizontal = Spacing.s)) {
                             Text(
-                                text = stringResource(MR.strings.report_list_title),
+                                text = LocalXmlStrings.current.reportListTitle,
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             val text = when (uiState.unresolvedOnly) {
-                                true -> stringResource(MR.strings.report_list_type_unresolved)
-                                else -> stringResource(MR.strings.report_list_type_all)
+                                true -> LocalXmlStrings.current.reportListTypeUnresolved
+                                else -> LocalXmlStrings.current.reportListTypeAll
                             }
                             Text(
                                 modifier = Modifier.onClick(
@@ -171,8 +170,8 @@ class ReportListScreen(
                 SectionSelector(
                     modifier = Modifier.padding(vertical = Spacing.xs),
                     titles = listOf(
-                        stringResource(MR.strings.profile_section_posts),
-                        stringResource(MR.strings.profile_section_comments),
+                        LocalXmlStrings.current.profileSectionPosts,
+                        LocalXmlStrings.current.profileSectionComments,
                     ),
                     currentSection = when (uiState.section) {
                         ReportListSection.Comments -> 1
@@ -218,7 +217,7 @@ class ReportListScreen(
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
                                         textAlign = TextAlign.Center,
-                                        text = stringResource(MR.strings.message_empty_list),
+                                        text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -273,14 +272,14 @@ class ReportListScreen(
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw),
+                                                    LocalXmlStrings.current.postActionSeeRaw,
                                                 )
                                                 this += Option(
                                                     OptionId.ResolveReport,
                                                     if (report.resolved) {
-                                                        stringResource(MR.strings.report_action_unresolve)
+                                                        LocalXmlStrings.current.reportActionUnresolve
                                                     } else {
-                                                        stringResource(MR.strings.report_action_resolve)
+                                                        LocalXmlStrings.current.reportActionResolve
                                                     },
                                                 )
                                             },
@@ -326,7 +325,7 @@ class ReportListScreen(
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
                                         textAlign = TextAlign.Center,
-                                        text = stringResource(MR.strings.message_empty_list),
+                                        text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -368,7 +367,7 @@ class ReportListScreen(
                                             report = report,
                                             postLayout = uiState.postLayout,
                                             autoLoadImages = uiState.autoLoadImages,
-                                            preferNicknames  = uiState.preferNicknames,
+                                            preferNicknames = uiState.preferNicknames,
                                             onOpen = rememberCallback {
                                                 detailOpener.openPostDetail(
                                                     post = PostModel(id = report.postId),
@@ -379,14 +378,14 @@ class ReportListScreen(
                                             options = buildList {
                                                 this += Option(
                                                     OptionId.SeeRaw,
-                                                    stringResource(MR.strings.post_action_see_raw),
+                                                    LocalXmlStrings.current.postActionSeeRaw,
                                                 )
                                                 this += Option(
                                                     OptionId.ResolveReport,
                                                     if (report.resolved) {
-                                                        stringResource(MR.strings.report_action_unresolve)
+                                                        LocalXmlStrings.current.reportActionUnresolve
                                                     } else {
-                                                        stringResource(MR.strings.report_action_resolve)
+                                                        LocalXmlStrings.current.reportActionResolve
                                                     },
                                                 )
                                             },
