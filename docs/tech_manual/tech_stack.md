@@ -36,10 +36,11 @@ annotations and generate code.
 </dd>
 <dt>Resource management</dt>
 <dd>
-The <a href="https://github.com/icerockdev/moko-resources">Moko resources</a> library is used as part
-of the Moko project. This was a choice I never regretted, it works great (even in edge cases such as
-dynamic language configuration independent of device settings, which was a project must-have from
-the beginning) and makes it really easy to access strings, icons and fonts in a multiplatform environment.
+Initially the project used the <a href="https://github.com/icerockdev/moko-resources">Moko resources</a>
+library to load fonts, icons and all the localized messages used in the UI. It worked great, since in those areas
+Compose multiplatform missed the needed functionalities. Since resource management was introduced in Compose multiplatform
+1.6.0, I migrated the project to the built-in system. And, for localization, the project was migrated to the
+<a href="https://github.com/adrielcafe/lyricist">Lyricist</a> library which better handles dynamic language changes.
 </dd>
 <dt>Image loading</dt>
 <dd>

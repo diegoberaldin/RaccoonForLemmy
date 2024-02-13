@@ -10,8 +10,6 @@ Here is a description of the dependency flow:
 - `:shared` is the heart of the KMP application and it virtually includes every other Gradle module
   as a dependency (it contains in the `DiHelper.kt` files the setup of the DI so it basically needs
   to see all Koin modules);
-- the `:resources` module is at the bottom of the hierarchy and is included by any other module (but
-  does not depend on any);
 - `:feature` modules are included by :shared and include :domain, :core and :unit modules but they
   DO not include other each other nor any top level module; some unit modules are used just by one
   feature (e.g. `:unit:postlist` is used only by `:feature:home`) in some other cases multiple
@@ -47,11 +45,6 @@ in the platform specific source sets (`androidMain` and `iosMain` respectively) 
 two `DiHelper.kt` files (one for each platform) can be found, which contain the setup of the root of
 the project's dependency injection in a platform specific way, an initialization function on iOS and
 a Koin module for Android (which is included in `MainApplication`).
-
-Another special module is `:resources`, which in turn is a terminal module, included by every other
-module and not including anyone. It is the module that contains the app resources (drawables, fonts,
-l10ns) and uses the moko-resources library to generate the `MR` object that exposes resource
-descriptors to all other multiplatform subprojects.
 
 ### Feature modules
 
@@ -151,23 +144,24 @@ are called throughout the whole project. Here is a short description of them:
       module was historically much bigger and over time components were migrated to separate units
       modules;
 - `:core:md` contains Markdown rendering components;
+- `core:l10n` contains all the localization messages and the `L10nManager` interface which acts
+  as a wrapper around Lyricist to load the internationalized messages;
 - `:core:navigation` contains the navigation manager used for stack navigation, bottom sheet
   navigation and a coordinator for the events originated by the navigation drawer;
-- `:core:notifications` contains the NotificationCenter contract and implementation as well as the
+- `:core:notifications` contains the `NotificationCenter` contract and implementation as well as the
   event definition, this is used as an event bus throughout the whole project;
 - `:core:persistence` contains the local database (primary storage) management logic as well as
   SQLDelight definitions of entities and migrations, plus all the local data sources that are used
   to access the database;
 - `:core:preferences` contains the shared preferences/user defaults (secondary storage) and relies
   on the multiplatform-settings library to offer a temporary key-value store;
+- `:core:resources` is a wrapper around the resource loading (fonts and images mainly) which used to
+  rely on an external library and now used the built-in resource management of Compose;
 - `:core:utils`: contains a series of helper and utility functions/classes that are used in the
   project but were not big enough to be converted to separate domain/core modules on their own.
 
 On second thoughts:
 
-- the `:resources `module could have been a `:core:xxx` module but I followed the guide of the
-  moko-resources library and thought it was wiser not to divert too much from the standard
-  configuration;
 - `:core:commonui` has still too much in it, especially `:modals` packages should become unit
   modules;
 - `:core:persistence` belongs more to domain modules, e.g. `:domain:accounts`/`:domain:settings` but

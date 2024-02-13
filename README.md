@@ -2,14 +2,14 @@
   <img src="https://img.shields.io/badge/Kotlin-1.9.22-7F52FF?logo=kotlin" />
   <img src="https://img.shields.io/badge/Gradle-8.6-02303A?logo=gradle" />
   <img src="https://img.shields.io/badge/Android-26+-34A853?logo=android" />
-  <img src="https://img.shields.io/badge/Jetpack_Compose-1.5.12-4285F4?logo=jetpackcompose" />
+  <img src="https://img.shields.io/badge/Jetpack_Compose-1.6.0beta02-4285F4?logo=jetpackcompose" />
   <img src="https://img.shields.io/github/license/diegoberaldin/RaccoonForLemmy" />
 </div>
 
 <br />
 
 <div align="center">
-  <img src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/6785188f-9c2a-4622-ab6b-5aa116d27c31" width="250" height="auto" />
+  <img src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/6785188f-9c2a-4622-ab6b-5aa116d27c31" width="240" height="auto" />
 </div>
 
 # Raccoon for Lemmy
@@ -151,7 +151,7 @@ The project uses the following technologies:
 - [Voyager](https://github.com/adrielcafe/voyager) for screen navigation
 - [Ktor](https://github.com/ktorio/ktor) and [Ktorfit](https://github.com/Foso/Ktorfit) for
   networking
-- [Moko resources](https://github.com/icerockdev/moko-resources) for resource management
+- [Lyricist](https://github.com/adrielcafe/lyricist) for l10n
 - [Multiplatform settings](https://github.com/russhwolf/multiplatform-settings) for encrypted
   preferences
 - [SQLDelight](https://github.com/cashapp/sqldelight)

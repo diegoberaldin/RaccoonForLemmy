@@ -160,26 +160,14 @@ In this case, you should:
 
 The preferred way for localizations (l10ns) is to submit a pull request (PR) as detailed in
 the [next section](#35-submit-a-pull-request). The project uses
-the [moko-resources](https://github.com/icerockdev/moko-resources) library for multiplatform access
-to resource files, which for l10n implies having to deal with XMLs in the Android style.
+the [Lyricist](https://github.com/adrielcafe/lyricist) library with a KSP plug-in that parses
+XML files in the Android style to generate values that can be accessed via composition locals.
 
-You will have to create a new folder under the `resources/src/commonMain/resources/MR` directory
-named after the locale you want to add (following IANA conventions for locales) and create
+You will have to create a new folder under the `core/l10n/src/androidMain/res` directory
+named `values-XX` where XX is locale you want to add (following IANA conventions) and create
 a `strings.xml` file in it, copying the contents
-of [this file](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/resources/src/commonMain/resources/MR/base/strings.xml)
-except for the items that are marked as `translatable="false"` (you can safely remove them).
-
-Modify
-the [base](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/resources/src/commonMain/resources/MR/base/strings.xml)
-l10n to add the name of your language in the untranslatable set
-
-```xml
-
-<string name="language_XXX" translatable="false">YYY</string>
-```
-
-where XXX is the IANA locale code and YYY if the name you want to appear in the UI (use the endonym
-of your language, i.e. the name of that language in the language itself).
+of [this file](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/l10n/src/androidMain/res/values/strings.xml)
+containing the base localization.
 
 After which you'll have to make sure the project compiles, because there are some syntax rules that
 must be enforced in string files, e.g.:
@@ -191,8 +179,9 @@ must be enforced in string files, e.g.:
 
 If you want you can change the code in the following spots:
 
-- add your flag and language name (mapping your language code to the values) in
+- in
   [Extensions.kt](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/utils/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/utils/Extensions.kt)
+  add your flag and language name (mapping your language code to the values)
 - add an option (using your language code) in the `values` array
   in [LanguageBottomSheet.kt](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/commonui/modals/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/commonui/modals/LanguageBottomSheet.kt)
 
@@ -261,9 +250,8 @@ of interdependent Gradle subprojects and that there is a module hierarchy in whi
 
 The modules can be grouped into five groups:
 
-- **top-level and special modules**: these modules are tied to the project setup and contain either
-  the entry point of the app (include everything) or expose the application resources (are included
-  by everyone and do not include anyone).
+- **top-level and special modules**: these modules are tied to the project setup and contain the
+  entry point of the app (include everything);
 - **feature modules**: these that correspond to the main functions of the application, i.e. the
   five tabs that can be found in the tab bar that live independently and made up the basic
   structure. Feature modules can be included by top-level modules but can not include each other.
@@ -278,10 +266,10 @@ The modules can be grouped into five groups:
   modules are used by feature modules and can include domain modules, core modules or in some
   limited cases other unit modules (but never cyclically!).
 - **core modules** are the foundational layer of the application. They are included by unit modules,
-  feature modules, domain modules and top-level modules. They should not include anything except the
-  `:resources` modules and, in some rare occasions, other core modules (but never cyclically!). A
-  notable example of this is the `:core:md module` (Markdown rendering) that includes
-  `:core:commonui:components` because Markdown requires some custom UI components to be rendered.
+  feature modules, domain modules and top-level modules. They should not include anything except in
+  some rare occasions, other core modules (but never cyclically!). A notable example of this is the
+  `:core:md module` (Markdown rendering) that includes `:core:commonui:components` because Markdown
+  requires some custom UI components to be rendered.
 
 For more detailed information:
 
