@@ -37,8 +37,6 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.material3)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
 
                 implementation(libs.koin.core)
@@ -49,7 +47,6 @@ kotlin {
                 implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
                 implementation(projects.core.persistence)
-                implementation(projects.core.resources)
                 implementation(projects.core.utils)
 
                 implementation(projects.domain.lemmy.data)
