@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.messages
+package com.github.diegoberaldin.raccoonforlemmy.unit.messages.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

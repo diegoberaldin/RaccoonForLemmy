@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.messages
+package com.github.diegoberaldin.raccoonforlemmy.unit.messages.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Icon
@@ -51,7 +50,6 @@ internal fun ChatCard(
     user: UserModel?,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
-    read: Boolean = true,
     lastMessage: String,
     lastMessageDate: String? = null,
     modifier: Modifier = Modifier,
@@ -125,13 +123,6 @@ internal fun ChatCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = ancillaryColor,
                 )
-                if (!read) {
-                    Icon(
-                        modifier = Modifier.size(IconSize.xs),
-                        imageVector = Icons.Filled.FiberManualRecord,
-                        contentDescription = null,
-                    )
-                }
             }
             CustomizedContent {
                 // last message text

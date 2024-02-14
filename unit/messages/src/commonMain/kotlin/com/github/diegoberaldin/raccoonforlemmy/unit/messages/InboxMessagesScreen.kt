@@ -40,6 +40,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.messages.components.ChatCard
+import com.github.diegoberaldin.raccoonforlemmy.unit.messages.components.ChatCardPlaceholder
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -123,21 +125,11 @@ class InboxMessagesScreen : Tab {
                         user = chat.otherUser(uiState.currentUserId),
                         autoLoadImages = uiState.autoLoadImages,
                         lastMessage = chat.content.orEmpty(),
-                        read = chat.read,
                         lastMessageDate = chat.publishDate,
                         onOpenUser = rememberCallbackArgs { user ->
                             detailOpener.openUserDetail(user, "")
                         },
                         onOpen = rememberCallback {
-                            if (!chat.read) {
-                                model.reduce(
-                                    InboxMessagesMviModel.Intent.MarkAsRead(
-                                        read = true,
-                                        id = chat.id,
-                                    ),
-                                )
-                            }
-
                             val userId = chat.otherUser(uiState.currentUserId)?.id
                             if (userId != null) {
                                 navigationCoordinator.pushScreen(

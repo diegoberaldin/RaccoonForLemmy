@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
@@ -78,13 +77,6 @@ class InboxMessagesViewModel(
 
             InboxMessagesMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
-            }
-
-            is InboxMessagesMviModel.Intent.MarkAsRead -> {
-                markAsRead(
-                    read = intent.read,
-                    message = uiState.value.chats.first { it.id == intent.id },
-                )
             }
         }
     }
@@ -163,40 +155,6 @@ class InboxMessagesViewModel(
         scope?.launch(Dispatchers.IO) {
             val unreadCount = coordinator.updateUnreadCount()
             emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
-        }
-    }
-
-    private fun markAsRead(read: Boolean, message: PrivateMessageModel) {
-        val auth = identityRepository.authToken.value
-        scope?.launch(Dispatchers.IO) {
-            messageRepository.markAsRead(
-                read = read,
-                messageId = message.id,
-                auth = auth,
-            )
-            val currentState = uiState.value
-            if (read && currentState.unreadOnly) {
-                updateState {
-                    it.copy(
-                        chats = currentState.chats.filter { c ->
-                            c.id != message.id
-                        }
-                    )
-                }
-            } else {
-                updateState {
-                    it.copy(
-                        chats = currentState.chats.map { c ->
-                            if (c.id == message.id) {
-                                c.copy(read = read)
-                            } else {
-                                c
-                            }
-                        }
-                    )
-                }
-            }
-            updateUnreadItems()
         }
     }
 
