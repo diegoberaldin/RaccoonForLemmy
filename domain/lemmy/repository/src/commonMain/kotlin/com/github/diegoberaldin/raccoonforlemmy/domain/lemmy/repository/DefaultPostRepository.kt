@@ -204,6 +204,7 @@ internal class DefaultPostRepository(
             url = url,
             nsfw = nsfw,
             languageId = languageId,
+            auth = auth,
         )
         services.post.edit(
             authHeader = auth.toAuthHeader(),
