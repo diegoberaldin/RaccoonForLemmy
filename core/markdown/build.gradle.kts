@@ -21,36 +21,23 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "lemmyui"
+            baseName = "markdown"
         }
     }
 
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.coil.compose)
-            }
-        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material)
                 implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
 
-                implementation(libs.koin.core)
+                implementation(libs.markdown)
+                api(libs.multiplatform.markdown.renderer)
 
-                implementation(projects.core.appearance)
-                implementation(projects.core.commonui.components)
-                implementation(projects.core.markdown)
-                implementation(projects.core.md)
                 implementation(projects.core.l10n)
-                implementation(projects.core.navigation)
-                implementation(projects.core.persistence)
+                implementation(projects.core.commonui.components)
                 implementation(projects.core.utils)
-
-                implementation(projects.domain.lemmy.data)
             }
         }
         val commonTest by getting {
@@ -62,7 +49,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.core.markdown"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

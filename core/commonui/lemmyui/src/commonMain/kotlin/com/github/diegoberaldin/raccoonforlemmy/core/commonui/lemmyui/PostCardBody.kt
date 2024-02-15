@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -8,14 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.CustomMarkdown
-import com.github.diegoberaldin.raccoonforlemmy.core.markdown.compose.model.markdownTypography
+import com.github.diegoberaldin.raccoonforlemmy.core.markdown.CustomMarkdownWrapper
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
+import com.mikepenz.markdown.model.markdownColor
+import com.mikepenz.markdown.model.markdownTypography
 
 @Composable
 fun PostCardBody(
@@ -40,7 +42,7 @@ fun PostCardBody(
     val typography = fontFamily.toTypography()
 
     if (text.isNotEmpty()) {
-        CustomMarkdown(
+        CustomMarkdownWrapper(
             modifier = modifier,
             content = text,
             maxLines = maxLines,
@@ -55,6 +57,12 @@ fun PostCardBody(
                 h6 = typography.titleSmall,
                 text = typography.bodyMedium,
                 paragraph = typography.bodyMedium,
+            ),
+            colors = markdownColor(
+                text = MaterialTheme.colorScheme.onBackground,
+                codeText = MaterialTheme.colorScheme.onBackground,
+                codeBackground = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
+                dividerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
             ),
             onOpenUrl = rememberCallbackArgs { url ->
                 navigationCoordinator.handleUrl(

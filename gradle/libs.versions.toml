@@ -20,7 +20,8 @@ ktor = "2.3.8"
 ktorfit_gradle = "1.12.0"
 ktorfit_lib = "1.12.0"
 lyricist = "1.6.2-1.8.20"
-markdown = "0.5.0"
+markdown = "0.6.1"
+multiplatform_markdown_renderer = "0.12.0"
 markwon = "4.6.2"
 materialKolor = "1.3.0"
 multiplatform_settings = "1.1.1"
@@ -52,6 +53,7 @@ markwon_tables = { module = "io.noties.markwon:ext-tables", version.ref = "markw
 markwon_html = { module = "io.noties.markwon:html", version.ref = "markwon" }
 markwon_linkify = { module = "io.noties.markwon:linkify", version.ref = "markwon" }
 markwon_image_coil = { module = "io.noties.markwon:image-coil", version.ref = "markwon" }
+multiplatform_markdown_renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform.markdown.renderer" }
 
 multiplatform_settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform.settings" }
 
