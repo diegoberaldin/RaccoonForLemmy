@@ -238,6 +238,7 @@ internal class DefaultCommentRepository(
             content = text,
             commentId = commentId,
             languageId = languageId,
+            auth = auth,
         )
         services.comment.edit(authHeader = auth.toAuthHeader(), form = data)
         Unit
