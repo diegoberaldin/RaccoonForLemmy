@@ -7,118 +7,84 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.Locales
 import io.ktor.utils.io.core.toByteArray
 import org.kotlincrypto.hash.md.MD5
 import kotlin.math.round
 
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- */
 
 @Composable
 fun String.toLanguageName() = when (this) {
-    "ar" -> "العربية"
-    "bg" -> "български"
-    "cs" -> "Čeština"
-    "da" -> "Dansk"
-    "de" -> "Deutsch"
-    "ga" -> "Gaeilge"
-    "el" -> "Ελληνικά"
-    "eo" -> "Esperanto"
-    "es" -> "Español"
-    "et" -> "Eesti"
-    "fi" -> "Suomi"
-    "fr" -> "Français"
-    "hr" -> "Hrvatski"
-    "hu" -> "Magyar"
-    "it" -> "Italiano"
-    "lt" -> "Lietuvių"
-    "lv" -> "Latviešu"
-    "mt" -> "Malti"
-    "no" -> "Norsk"
-    "nl" -> "Nederlands"
-    "pl" -> "Polski"
-    "pt" -> "Português"
-    "pt-BR" -> "Português (Brazil)"
-    "ro" -> "Română"
-    "ru" -> "Русский"
-    "se" -> "Svenska"
-    "sk" -> "Slovenčina"
-    "sl" -> "Slovenščina"
-    "sq" -> "Shqip"
-    "tok" -> "toki pona"
-    "tr" -> "Türkçe"
-    "uk" -> "Українська"
+    Locales.Ar -> "العربية"
+    Locales.Bg -> "български"
+    Locales.Cs -> "Čeština"
+    Locales.Da -> "Dansk"
+    Locales.De -> "Deutsch"
+    Locales.Ga -> "Gaeilge"
+    Locales.El -> "Ελληνικά"
+    Locales.Eo -> "Esperanto"
+    Locales.Es -> "Español"
+    Locales.Et -> "Eesti"
+    Locales.Fi -> "Suomi"
+    Locales.Fr -> "Français"
+    Locales.Hr -> "Hrvatski"
+    Locales.Hu -> "Magyar"
+    Locales.It -> "Italiano"
+    Locales.Lt -> "Lietuvių"
+    Locales.Lv -> "Latviešu"
+    Locales.Mt -> "Malti"
+    Locales.No -> "Norsk"
+    Locales.Nl -> "Nederlands"
+    Locales.Pl -> "Polski"
+    Locales.Pt -> "Português"
+    Locales.PtBr -> "Português (Brazil)"
+    Locales.Ro -> "Română"
+    Locales.Ru -> "Русский"
+    Locales.Se -> "Svenska"
+    Locales.Sk -> "Slovenčina"
+    Locales.Sl -> "Slovenščina"
+    Locales.Sq -> "Shqip"
+    Locales.Tok -> "toki pona"
+    Locales.Tr -> "Türkçe"
+    Locales.Uk -> "Українська"
     else -> "English"
 }
 
 @Composable
 fun String.toLanguageFlag(): AnnotatedString = when (this) {
-    "ar" -> "🇸🇦"
-    "bg" -> "🇧🇬"
-    "cs" -> "🇨🇿"
-    "da" -> "🇩🇰"
-    "de" -> "🇩🇪"
-    "el" -> "🇬🇷"
-    "en" -> "🇬🇧"
-    "eo" -> "🍀"
-    "es" -> "🇪🇸"
-    "et" -> "🇪🇪"
-    "ga" -> "🇮🇪"
-    "fi" -> "🇫🇮"
-    "fr" -> "🇫🇷"
-    "hu" -> "🇭🇺"
-    "hr" -> "🇭🇷"
-    "it" -> "🇮🇹"
-    "lt" -> "🇱🇹"
-    "lv" -> "🇱🇻"
-    "mt" -> "🇲🇹"
-    "no" -> "🇳🇴"
-    "nl" -> "🇳🇱"
-    "pl" -> "🇵🇱"
-    "pt" -> "🇵🇹"
-    "pt-BR" -> "🇧🇷️"
-    "ro" -> "🇷🇴"
-    "ru" -> "🇷🇺"
-    "se" -> "🇸🇪"
-    "sk" -> "🇸🇰"
-    "sl" -> "🇸🇮"
-    "sq" -> "🇦🇱"
-    "tok" -> "🦝️"
-    "tr" -> "🇹🇷"
-    "uk" -> "🇺🇦"
+    Locales.Ar -> "🇸🇦"
+    Locales.Bg -> "🇧🇬"
+    Locales.Cs -> "🇨🇿"
+    Locales.Da -> "🇩🇰"
+    Locales.De -> "🇩🇪"
+    Locales.El -> "🇬🇷"
+    Locales.En -> "🇬🇧"
+    Locales.Eo -> "🍀"
+    Locales.Es -> "🇪🇸"
+    Locales.Et -> "🇪🇪"
+    Locales.Ga -> "🇮🇪"
+    Locales.Fi -> "🇫🇮"
+    Locales.Fr -> "🇫🇷"
+    Locales.Hu -> "🇭🇺"
+    Locales.Hr -> "🇭🇷"
+    Locales.It -> "🇮🇹"
+    Locales.Lt -> "🇱🇹"
+    Locales.Lv -> "🇱🇻"
+    Locales.Mt -> "🇲🇹"
+    Locales.No -> "🇳🇴"
+    Locales.Nl -> "🇳🇱"
+    Locales.Pl -> "🇵🇱"
+    Locales.Pt -> "🇵🇹"
+    Locales.PtBr -> "🇧🇷️"
+    Locales.Ro -> "🇷🇴"
+    Locales.Ru -> "🇷🇺"
+    Locales.Se -> "🇸🇪"
+    Locales.Sk -> "🇸🇰"
+    Locales.Sl -> "🇸🇮"
+    Locales.Sq -> "🇦🇱"
+    Locales.Tok -> "🦝️"
+    Locales.Tr -> "🇹🇷"
+    Locales.Uk -> "🇺🇦"
     else -> ""
 }.let {
     AnnotatedString(
