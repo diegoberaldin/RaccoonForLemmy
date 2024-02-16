@@ -99,6 +99,7 @@ class PostBodyMaxLinesBottomSheet(
                                     }
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         val text = when {
                             value == null -> LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited

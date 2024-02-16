@@ -143,6 +143,7 @@ class VoteThemeBottomSheet(
                                 }
                             },
                         ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = text,

@@ -91,6 +91,7 @@ class CommentBarThemeBottomSheet : Screen {
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = text,

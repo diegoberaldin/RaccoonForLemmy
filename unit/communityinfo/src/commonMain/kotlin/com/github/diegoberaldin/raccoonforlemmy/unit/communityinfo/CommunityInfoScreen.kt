@@ -84,6 +84,7 @@ class CommunityInfoScreen(
                 topBar = {
                     Row(
                         modifier = Modifier.padding(top = Spacing.s),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Spacer(modifier = Modifier.weight(1f))
                         Text(

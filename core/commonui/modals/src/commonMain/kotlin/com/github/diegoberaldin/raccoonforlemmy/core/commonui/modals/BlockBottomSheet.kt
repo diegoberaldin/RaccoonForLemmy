@@ -131,6 +131,7 @@ class BlockBottomSheet(
                                         navigationCoordinator.hideBottomSheet()
                                     },
                                 ),
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             val valueText = buildString {
                                 append(value.first.toReadableName())

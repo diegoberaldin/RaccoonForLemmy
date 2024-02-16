@@ -76,6 +76,7 @@ class InboxTypeSheet : Screen {
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = LocalXmlStrings.current.inboxListingTypeUnread,
@@ -97,6 +98,7 @@ class InboxTypeSheet : Screen {
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = LocalXmlStrings.current.inboxListingTypeAll,

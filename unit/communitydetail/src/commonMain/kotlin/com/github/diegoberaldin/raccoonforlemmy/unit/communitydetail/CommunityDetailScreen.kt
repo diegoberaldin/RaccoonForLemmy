@@ -924,6 +924,7 @@ class CommunityDetailScreen(
                                     Row(
                                         modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
                                         horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically,
                                     ) {
                                         Button(
                                             onClick = rememberCallback(model) {

@@ -76,6 +76,7 @@ class ReportListTypeSheet : Screen {
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = LocalXmlStrings.current.reportListTypeUnresolved,
@@ -97,6 +98,7 @@ class ReportListTypeSheet : Screen {
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = LocalXmlStrings.current.reportListTypeAll,

@@ -79,6 +79,7 @@ class ShareBottomSheet(
                                         navigationCoordinator.hideBottomSheet()
                                     },
                                 ),
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
                                 text = value,

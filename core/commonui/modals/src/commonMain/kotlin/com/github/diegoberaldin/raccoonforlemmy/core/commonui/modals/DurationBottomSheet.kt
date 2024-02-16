@@ -91,6 +91,7 @@ class DurationBottomSheet(
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = value.getPrettyDuration(

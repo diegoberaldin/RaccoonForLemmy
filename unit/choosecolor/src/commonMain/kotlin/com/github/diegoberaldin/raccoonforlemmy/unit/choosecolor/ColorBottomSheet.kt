@@ -114,6 +114,7 @@ class ColorBottomSheet : Screen {
                                     }
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = text,

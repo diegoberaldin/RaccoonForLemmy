@@ -138,6 +138,7 @@ internal class SortBottomSheetMain(
                                     }
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         val name = buildString {
                             append(sortValue.toReadableName())
@@ -240,6 +241,7 @@ internal class SortBottomSheetTop(
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = sortValue.toReadableName(),
