@@ -21,7 +21,23 @@ internal fun String.sanitize(): String = run {
     replace("&amp;", "&")
 }.run {
     replace("&nbsp;", " ")
-}.run {
-    // always prepend a newline before spoilers
-    replace("::: spoiler ", "\n::: spoiler ")
+}.fixBlankLinesForSpoilers()
+
+private fun String.fixBlankLinesForSpoilers(): String = run {
+    val finalLines = mutableListOf<String>()
+    var finalLinesSizeAtLastSpoiler = 0
+    lines().forEach { line ->
+        if (line.contains(SpoilerRegex.spoilerOpenRegex)) {
+            if (finalLines.lastOrNull()?.isEmpty() == false) {
+                finalLines += ""
+            }
+            finalLines += line
+            finalLinesSizeAtLastSpoiler = finalLines.size
+        } else if (line.isNotEmpty()) {
+            finalLines += line
+        } else if (finalLinesSizeAtLastSpoiler != finalLines.size) {
+            finalLines += ""
+        }
+    }
+    finalLines.joinToString("\n")
 }

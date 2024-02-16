@@ -3,24 +3,16 @@ package com.github.diegoberaldin.raccoonforlemmy.core.markdown
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.sp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.mikepenz.markdown.compose.LocalMarkdownTypography
 import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.compose.components.markdownComponents
 import com.mikepenz.markdown.compose.elements.MarkdownParagraph
-import com.mikepenz.markdown.compose.elements.MarkdownText
 import com.mikepenz.markdown.model.MarkdownColors
 import com.mikepenz.markdown.model.MarkdownPadding
 import com.mikepenz.markdown.model.MarkdownTypography
@@ -28,7 +20,8 @@ import com.mikepenz.markdown.model.markdownColor
 import com.mikepenz.markdown.model.markdownPadding
 import com.mikepenz.markdown.model.markdownTypography
 
-private val spoilerRegex = Regex(":::\\s+spoiler\\s+(?<title>.*?)\\n(?<content>.*?)\\n\\s*?:::")
+private val String.containsSpoiler: Boolean
+    get() = SpoilerRegex.spoilerOpenRegex.containsMatchIn(this)
 
 @Composable
 fun CustomMarkdownWrapper(
@@ -56,36 +49,12 @@ fun CustomMarkdownWrapper(
     }
     val components = markdownComponents(
         paragraph = { model ->
-            val substring = model.content.substring(model.node.startOffset..<model.node.endOffset)
-            val match = spoilerRegex.findAll(substring).firstOrNull()
-            if (match != null) {
-                val spoilerTitle = match.groups["title"]?.value.orEmpty()
-                val spoilerContent = match.groups["content"]?.value.orEmpty()
-                var expanded by remember { mutableStateOf(false) }
-                if (!expanded) {
-                    MarkdownText(
-                        modifier = Modifier.onClick(onClick = { expanded = !expanded }),
-                        content = buildAnnotatedString {
-                            withStyle(SpanStyle(fontSize = 20.sp)) {
-                                append("▶︎ ")
-                            }
-                            append(spoilerTitle)
-                        },
-                    )
-                } else {
-                    MarkdownText(
-                        modifier = Modifier.onClick(onClick = { expanded = !expanded }),
-                        content = buildAnnotatedString {
-                            withStyle(SpanStyle(fontSize = 20.sp)) {
-                                append("▼︎ ")
-                            }
-                            append(spoilerTitle)
-                        },
-                    )
-                    MarkdownText(
-                        content = spoilerContent,
-                    )
-                }
+            val substring =
+                model.content.substring(model.node.startOffset..<model.node.endOffset)
+            if (substring.containsSpoiler) {
+                CustomMarkdownSpoiler(
+                    content = substring
+                )
             } else {
                 MarkdownParagraph(
                     modifier = if (maxLines != null) {
