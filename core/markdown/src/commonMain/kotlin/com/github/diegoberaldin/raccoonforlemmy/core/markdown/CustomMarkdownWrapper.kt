@@ -32,8 +32,6 @@ fun CustomMarkdownWrapper(
     padding: MarkdownPadding = markdownPadding(),
     autoLoadImages: Boolean,
     maxLines: Int? = null,
-    // TODO
-    inlineImages: Boolean = true,
     onOpenUrl: ((String) -> Unit)?,
     onOpenImage: ((String) -> Unit)?,
     onClick: (() -> Unit)?,

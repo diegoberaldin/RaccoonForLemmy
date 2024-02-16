@@ -46,7 +46,6 @@ fun PostCardBody(
             modifier = modifier,
             content = text,
             maxLines = maxLines,
-            inlineImages = false,
             autoLoadImages = autoLoadImages,
             typography = markdownTypography(
                 h1 = typography.titleLarge,
