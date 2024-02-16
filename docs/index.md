@@ -112,14 +112,11 @@ comment, remove post/comment, ban users and the ability to revert any of these a
 
 ## Credits
 
-A saying from the original developer: «whenever in doubt, anguish or uncertainty, look at the code
+A saying from the original developer: «Whenever in doubt, anguish or uncertainty, look at the code
 of Jerboa for Lemmy». It is without any doubt that this project has a gratitude debt
-towards [Jerboa](https://github.com/dessalines/jerboa), mainly in two crucial aspects of the app:
-
-- markdown processing and rendering, where `MarkwonProvider` and its implementation are inspired by
-  Jerboa for Lemmy;
-- comment processing to reconstruct the tree with missing nodes, where the memoized algorithm is,
-  too, inspired by Jerboa's.
+towards [Jerboa](https://github.com/dessalines/jerboa), mainly in two crucial aspects of the app
+such as comment processing to reconstruct the tree with missing nodes, where the memoized algorithm
+is inspired by Jerboa's.
 
 The UI is inspired (in principle, rather than in actual implementation) on the
 great [Thunder](https://github.com/thunder-app/thunder) app.

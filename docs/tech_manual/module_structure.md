@@ -24,9 +24,9 @@ Here is a description of the dependency flow:
   by `:shared` (which does the binding between `:detailopener-api` and `:detailopener-impl`) and it
   includes some unit modules but the fact of a unit module included by a core module in general
   should never happen (instead, the reverse is perfectly ok);
-- `:core` modules can sometimes include each other (but without cycles, e.g. `:core:md`
+- `:core` modules can sometimes include each other (but without cycles, e.g. `:core:markdown`
   includes `:core:commonui:components` / `:core:utils` because it is a mid-level module and
-  something similar happens with :core:persistence which
+  something similar happens with `:core:persistecnce` which
   uses `:core:preferences` / `:core:appearance`)  and nothing else; they are in turn used by all the
   other types of modules.
 
@@ -143,7 +143,7 @@ are called throughout the whole project. Here is a short description of them:
     - `:modals`: definition of modal bottom sheets and dialogs that have no presentation logic. This
       module was historically much bigger and over time components were migrated to separate units
       modules;
-- `:core:md` contains Markdown rendering components;
+- `:core:markdown` contains Markdown rendering logic;
 - `core:l10n` contains all the localization messages and the `L10nManager` interface which acts
   as a wrapper around Lyricist to load the internationalized messages;
 - `:core:navigation` contains the navigation manager used for stack navigation, bottom sheet

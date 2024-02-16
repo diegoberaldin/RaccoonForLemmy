@@ -75,19 +75,14 @@ formerly <a href="https://github.com/sqlcipher/android-database-sqlcipher">Andro
 
 <dt>Markdown rendering</dt>
 <dd>
-This was another part, like image loading, where KMP is still lacking and things are far more
-complicated than it should be. The first approach that was used in the project, and which still survives
-in the iOS platform (being it "no man's land" currently) involved using JetBrain's <a href="https://github.com/JetBrains/markdown">Markdown</a> 
-library for parsing in conjunction with custom Compose rendering inspired by 
-<a href="https://github.com/mikepenz/multiplatform-markdown-renderer">Multiplatform Markdown Renderer</a>.
-This approach was promising in the beginning but it has proven to grow more and more difficult to 
-support custom Markdown features, such as Lemmy spoilers. For this reason, the Android counterpart
-has been completely refactored and migrated to the <a href="https://github.com/noties/Markwon">Markwon</a>
-library which is more flexible/extensible albeit more complicated to use, especially if called from 
-a multiplatform environment with <code>expect</code>/<code>actual</code> functions (and image opening/URL opening/custom links
-like Lemmy URL references have to be managed). The big star here is <code>MarkwonProvider</code> and its implementation
-<a href="https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/md/src/androidMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/markdown/provider/DefaultMarkwonProvider.kt">DefaultMarkwonProvider.kt</a>.
-Parts of the Markwon configuration and usage is inspired by <a href="https://github.com/dessalines/jerboa">Jerboa for Lemmy</a>.
+This was another part, like image loading, where KMP was at the beginning quite lacky. After having given
+up for some time and used Markwon (Java + Views) on the Android part of the app, I decided to give a 
+second chance to <a href="https://github.com/mikepenz/multiplatform-markdown-renderer">Multiplatform Markdown Renderer</a>
+which was initially user for the multiplatform source set. The project grew and matured over time and 
+it made it possible to add custom handlers (like modular plug-ins) which made possible to support 
+Lemmy's custom features like spoilers. The migration from multiplatform renderer to Markwon and back to 
+multiplatform renderer was not easy, but this project is about KMP so, as a consequence, a pure Kotlin and 
+pure Compose solution <em>had to</em> be preferred. Even if it implies to sacrifice some functionality.
 </dd>
 
 <dt>Video playback</dt>

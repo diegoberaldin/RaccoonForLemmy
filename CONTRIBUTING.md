@@ -268,7 +268,8 @@ The modules can be grouped into five groups:
 - **core modules** are the foundational layer of the application. They are included by unit modules,
   feature modules, domain modules and top-level modules. They should not include anything except in
   some rare occasions, other core modules (but never cyclically!). A notable example of this is the
-  `:core:md module` (Markdown rendering) that includes `:core:commonui:components` because Markdown
+  `:core:markdown` module (Markdown rendering) that includes `:core:commonui:components` because
+  Markdown
   requires some custom UI components to be rendered.
 
 For more detailed information about the contents of each group and the purpose of each module,
