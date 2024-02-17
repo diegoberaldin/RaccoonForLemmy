@@ -59,6 +59,7 @@ fun PostCardBody(
             ),
             colors = markdownColor(
                 text = MaterialTheme.colorScheme.onBackground,
+                linkText = MaterialTheme.colorScheme.primary,
                 codeText = MaterialTheme.colorScheme.onBackground,
                 codeBackground = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
                 dividerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),

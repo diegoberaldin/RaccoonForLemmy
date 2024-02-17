@@ -47,27 +47,31 @@ fun CustomMarkdownWrapper(
     }
     val components = markdownComponents(
         paragraph = { model ->
-            val substring =
-                model.content.substring(model.node.startOffset..<model.node.endOffset)
-            if (substring.containsSpoiler) {
-                CustomMarkdownSpoiler(
-                    content = substring
-                )
-            } else {
-                MarkdownParagraph(
-                    modifier = if (maxLines != null) {
-                        val maxHeightSp =
-                            LocalMarkdownTypography.current.paragraph.lineHeight * maxLines
-                        val maxHeightDp = with(LocalDensity.current) {
-                            maxHeightSp.toDp()
-                        }
-                        Modifier.heightIn(max = maxHeightDp)
-                    } else {
-                        Modifier
-                    },
-                    content = model.content,
-                    node = model.node
-                )
+            val substring = model.content.substring(
+                startIndex = model.node.startOffset,
+                endIndex = model.node.endOffset,
+            )
+            when {
+                substring.containsSpoiler -> {
+                    CustomMarkdownSpoiler(content = substring)
+                }
+
+                else -> {
+                    MarkdownParagraph(
+                        modifier = if (maxLines != null) {
+                            val maxHeightSp =
+                                LocalMarkdownTypography.current.paragraph.lineHeight * maxLines
+                            val maxHeightDp = with(LocalDensity.current) {
+                                maxHeightSp.toDp()
+                            }
+                            Modifier.heightIn(max = maxHeightDp)
+                        } else {
+                            Modifier
+                        },
+                        content = model.content,
+                        node = model.node
+                    )
+                }
             }
         },
         image = { model ->

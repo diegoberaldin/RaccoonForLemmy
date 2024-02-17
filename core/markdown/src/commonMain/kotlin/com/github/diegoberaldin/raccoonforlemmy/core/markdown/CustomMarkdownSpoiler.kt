@@ -17,11 +17,6 @@ import androidx.compose.ui.unit.sp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.mikepenz.markdown.compose.elements.MarkdownText
 
-internal object SpoilerRegex {
-    val spoilerOpenRegex = Regex("(:::\\s+spoiler\\s+)(?<title>.*)")
-    val spoilerCloseRegex = Regex(":::")
-}
-
 @Composable
 internal fun CustomMarkdownSpoiler(
     content: String,

@@ -17,27 +17,49 @@ internal fun ASTNode.findChildOfTypeRecursive(type: IElementType): ASTNode? {
     return null
 }
 
-internal fun String.sanitize(): String = run {
-    replace("&amp;", "&")
-}.run {
-    replace("&nbsp;", " ")
-}.fixBlankLinesForSpoilers()
+internal fun String.sanitize(): String = this
+    .replace("&amp;", "&")
+    .replace("&nbsp;", " ")
+    .fixBlankLinesForSpoilers()
+    .expandLemmyHandles()
 
 private fun String.fixBlankLinesForSpoilers(): String = run {
     val finalLines = mutableListOf<String>()
     var finalLinesSizeAtLastSpoiler = 0
     lines().forEach { line ->
+        val isSpoilerOnTopOfStack = finalLinesSizeAtLastSpoiler == finalLines.size
         if (line.contains(SpoilerRegex.spoilerOpenRegex)) {
             if (finalLines.lastOrNull()?.isEmpty() == false) {
                 finalLines += ""
             }
             finalLines += line
             finalLinesSizeAtLastSpoiler = finalLines.size
-        } else if (line.isNotEmpty()) {
+        } else if (line.isNotBlank()) {
             finalLines += line
-        } else if (finalLinesSizeAtLastSpoiler != finalLines.size) {
+        } else if (!isSpoilerOnTopOfStack) {
             finalLines += ""
         }
     }
     finalLines.joinToString("\n")
+}
+
+private fun String.expandLemmyHandles(): String = let { content ->
+    buildString {
+        val matches = LemmyLinkRegex.lemmyHandle.findAll(content)
+        var lastIndex = 0
+        for (match in matches) {
+            val start = match.range.first
+            val end = match.range.last
+            if (start > lastIndex) {
+                append(content.substring(startIndex = lastIndex, endIndex = start))
+            }
+            val detail = match.groups["detail"]?.value.orEmpty()
+            val instance = match.groups["instance"]?.value.orEmpty()
+            append("[$detail@$instance](!$detail@$instance)")
+            lastIndex = end + 1
+        }
+        if (lastIndex < content.lastIndex) {
+            append(content.substring(startIndex = lastIndex))
+        }
+    }
 }
