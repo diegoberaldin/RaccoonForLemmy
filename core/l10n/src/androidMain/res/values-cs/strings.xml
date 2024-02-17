@@ -332,4 +332,5 @@
     <string name="settings_vote_format_hidden">Skrytý</string>
     <string name="settings_comment_bar_thickness">Komentář tloušťka tyče</string>
     <string name="settings_prefer_user_nicknames">Používejte zobrazovaná jména pro uživatele a komunity</string>
+    <string name="message_video_nsfw">Toto video bylo označeno jako NSFW</string>
 </resources>

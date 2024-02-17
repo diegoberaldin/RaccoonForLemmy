@@ -331,4 +331,5 @@
     <string name="settings_vote_format_hidden">Kaŝita</string>
     <string name="settings_comment_bar_thickness">Komento trinkejo dikeco</string>
     <string name="settings_prefer_user_nicknames">Uzu vidnomojn por uzantoj kaj komunumoj</string>
+    <string name="message_video_nsfw">Ĉi tiu video estis markita kiel NSFW</string>
 </resources>

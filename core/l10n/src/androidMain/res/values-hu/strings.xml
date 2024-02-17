@@ -336,4 +336,5 @@
     <string name="settings_vote_format_hidden">Rejtett</string>
     <string name="settings_comment_bar_thickness">Megjegyzés sáv vastagsága</string>
     <string name="settings_prefer_user_nicknames">Használjon megjelenített neveket a felhasználók és közösségek számára</string>
+    <string name="message_video_nsfw">Ez a videó NSFW-ként lett megjelölve</string>
 </resources>

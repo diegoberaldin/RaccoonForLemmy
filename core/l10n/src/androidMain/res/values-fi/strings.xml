@@ -332,4 +332,5 @@
     <string name="settings_vote_format_hidden">Piilotettu</string>
     <string name="settings_comment_bar_thickness">Kommenttipalkin paksuus</string>
     <string name="settings_prefer_user_nicknames">Käytä näyttönimiä käyttäjille ja yhteisöille</string>
+    <string name="message_video_nsfw">Tämä video on merkitty NSFW:ksi</string>
 </resources>

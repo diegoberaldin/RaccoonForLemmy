@@ -332,4 +332,5 @@
     <string name="settings_vote_format_hidden">Skrito</string>
     <string name="settings_comment_bar_thickness">Debelina vrstice za komentarje</string>
     <string name="settings_prefer_user_nicknames">Uporabite prikazna imena za uporabnike in skupnosti</string>
+    <string name="message_video_nsfw">Ta video je bil označen kot NSFW</string>
 </resources>

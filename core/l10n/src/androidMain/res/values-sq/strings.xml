@@ -338,4 +338,5 @@
     <string name="settings_vote_format_hidden">I fshehur</string>
     <string name="settings_comment_bar_thickness">Trashësia e shiritit të komenteve</string>
     <string name="settings_prefer_user_nicknames">Përdorni emra të shfaqur për përdoruesit dhe komunitetet</string>
+    <string name="message_video_nsfw">Kjo video u shënua si NSFW</string>
 </resources>

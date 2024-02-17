@@ -333,4 +333,5 @@
     <string name="settings_vote_format_hidden">Dold</string>
     <string name="settings_comment_bar_thickness">Kommentarstapelns tjocklek</string>
     <string name="settings_prefer_user_nicknames">Använd visningsnamn för användare och gemenskaper</string>
+    <string name="message_video_nsfw">Den här videon markerades som NSFW</string>
 </resources>

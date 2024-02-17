@@ -335,4 +335,5 @@
     <string name="settings_vote_format_hidden">Gizlenmiş</string>
     <string name="settings_comment_bar_thickness">Yorum çubuğu kalınlığı</string>
     <string name="settings_prefer_user_nicknames">Kullanıcılar ve topluluklar için görünen adları kullanın</string>
+    <string name="message_video_nsfw">Bu video NSFW olarak işaretlendi</string>
 </resources>

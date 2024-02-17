@@ -253,6 +253,7 @@ private fun CompactPost(
                     url = post.videoUrl,
                     blurred = blurNsfw && post.nsfw,
                     autoLoadImages = autoLoadImages,
+                    onOpen = onClick,
                 )
             } else {
                 PostCardImage(
@@ -400,6 +401,7 @@ private fun ExtendedPost(
                 blurred = blurNsfw && post.nsfw,
                 autoLoadImages = autoLoadImages,
                 backgroundColor = backgroundColor,
+                onOpen = onClick,
             )
         } else {
             PostCardImage(

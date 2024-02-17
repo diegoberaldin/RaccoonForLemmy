@@ -337,4 +337,5 @@
     <string name="settings_vote_format_hidden">Moħbija</string>
     <string name="settings_comment_bar_thickness">Ħxuna tal-bar tal-kumment</string>
     <string name="settings_prefer_user_nicknames">Uża ismijiet tal-wiri għall-utenti u l-komunitajiet</string>
+    <string name="message_video_nsfw">Dan il-video kien immarkat bħala NSFW</string>
 </resources>

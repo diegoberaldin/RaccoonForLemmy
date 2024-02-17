@@ -335,4 +335,5 @@
     <string name="settings_vote_format_hidden">Прихований</string>
     <string name="settings_comment_bar_thickness">Товщина панелі коментарів</string>
     <string name="settings_prefer_user_nicknames">Використовуйте відображувані імена для користувачів і спільнот</string>
+    <string name="message_video_nsfw">Це відео було позначено як NSFW</string>
 </resources>

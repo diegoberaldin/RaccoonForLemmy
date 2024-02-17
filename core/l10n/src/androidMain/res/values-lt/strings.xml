@@ -334,4 +334,5 @@
     <string name="settings_vote_format_hidden">Paslėpta</string>
     <string name="settings_comment_bar_thickness">Komentarų juostos storis</string>
     <string name="settings_prefer_user_nicknames">Naudokite rodomus vardus naudotojams ir bendruomenėms</string>
+    <string name="message_video_nsfw">Šis vaizdo įrašas buvo pažymėtas kaip NSFW</string>
 </resources>

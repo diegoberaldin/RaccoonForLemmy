@@ -331,4 +331,5 @@
     <string name="settings_vote_format_hidden">ala</string>
     <string name="settings_comment_bar_thickness">suli pi linja pi toki lili</string>
     <string name="settings_prefer_user_nicknames">o lukin e nimi lili tan jan tan kulupu</string>
+    <string name="message_video_nsfw">sitelen tawa ni li NSFW</string>
 </resources>

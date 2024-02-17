@@ -336,4 +336,5 @@
     <string name="settings_vote_format_hidden">Nascosto</string>
     <string name="settings_comment_bar_thickness">Spessore barra dei commenti</string>
     <string name="settings_prefer_user_nicknames">Utilizza nome visualizzato per utenti e comunità</string>
+    <string name="message_video_nsfw">Questo video è stato contrassegnato come NSFW</string>
 </resources>

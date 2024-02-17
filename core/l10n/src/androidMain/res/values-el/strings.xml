@@ -343,4 +343,5 @@
     <string name="settings_vote_format_hidden">Κρυμμένο</string>
     <string name="settings_comment_bar_thickness">Πάχος ράβδου σχολίων</string>
     <string name="settings_prefer_user_nicknames">Χρησιμοποιήστε εμφανιζόμενα ονόματα για χρήστες και κοινότητες</string>
+    <string name="message_video_nsfw">Αυτό το βίντεο επισημάνθηκε ως NSFW</string>
 </resources>

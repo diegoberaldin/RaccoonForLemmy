@@ -330,4 +330,5 @@
     <string name="settings_vote_format_hidden">مختفي</string>
     <string name="settings_comment_bar_thickness">سمك شريط التعليق</string>
     <string name="settings_prefer_user_nicknames">استخدم أسماء العرض للمستخدمين والمجتمعات</string>
+    <string name="message_video_nsfw">تم وضع علامة على هذا الفيديو على أنه NSFW</string>
 </resources>

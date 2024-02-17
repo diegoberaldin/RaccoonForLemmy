@@ -341,4 +341,5 @@
     <string name="settings_vote_format_hidden">I bhfolach</string>
     <string name="settings_comment_bar_thickness">Tiús barra tráchta</string>
     <string name="settings_prefer_user_nicknames">Úsáid ainmneacha taispeána le haghaidh úsáideoirí agus pobail</string>
+    <string name="message_video_nsfw">Marcáladh an físeán seo mar NSFW</string>
 </resources>

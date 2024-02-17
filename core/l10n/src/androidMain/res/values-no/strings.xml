@@ -334,4 +334,5 @@
     <string name="settings_vote_format_hidden">Skjult</string>
     <string name="settings_comment_bar_thickness">Kommentarstavtykkelse</string>
     <string name="settings_prefer_user_nicknames">Bruk visningsnavn for brukere og fellesskap</string>
+    <string name="message_video_nsfw">Denne videoen ble merket som NSFW</string>
 </resources>

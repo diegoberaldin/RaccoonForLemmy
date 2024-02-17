@@ -335,4 +335,5 @@
     <string name="settings_vote_format_hidden">Verborgen</string>
     <string name="settings_comment_bar_thickness">Opmerking staafdikte</string>
     <string name="settings_prefer_user_nicknames">Gebruik weergavenamen voor gebruikers en community\'s</string>
+    <string name="message_video_nsfw">Deze video is gemarkeerd als NSFW</string>
 </resources>

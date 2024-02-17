@@ -334,4 +334,5 @@
     <string name="settings_vote_format_hidden">Skryté</string>
     <string name="settings_comment_bar_thickness">Komentár hrúbka pruhu</string>
     <string name="settings_prefer_user_nicknames">Používať zobrazované mená pre používateľov a komunity</string>
+    <string name="message_video_nsfw">Toto video bolo označené ako NSFW</string>
 </resources>

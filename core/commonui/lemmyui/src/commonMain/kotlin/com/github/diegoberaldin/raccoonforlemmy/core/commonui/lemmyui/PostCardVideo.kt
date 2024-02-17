@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -32,22 +32,45 @@ fun PostCardVideo(
     blurred: Boolean = false,
     autoLoadImages: Boolean = true,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
+    onOpen: (() -> Unit)? = null,
 ) {
-    if (url.isNotEmpty()) {
-        Box(
-            modifier = modifier
-                .fillMaxWidth()
-                .aspectRatio(1.33f)
-                .onClick(),
-            contentAlignment = Alignment.Center,
-        ) {
+    if (url.isEmpty()) {
+        return
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .aspectRatio(1.33f)
+            .onClick(),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (blurred) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = LocalXmlStrings.current.messageVideoNsfw,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                Button(
+                    onClick = {
+                        onOpen?.invoke()
+                    },
+                ) {
+                    Text(
+                        text = LocalXmlStrings.current.buttonLoad,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+        } else {
             var shouldBeRendered by remember(autoLoadImages) { mutableStateOf(autoLoadImages) }
             var loading by remember { mutableStateOf(true) }
             if (shouldBeRendered) {
                 VideoPlayer(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .blur(radius = if (blurred) 60.dp else 0.dp),
+                    modifier = Modifier.fillMaxSize(),
                     url = url,
                     onPlaybackStarted = {
                         loading = false
