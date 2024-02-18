@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.createpost
 
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.text.input.TextFieldValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
@@ -54,7 +55,8 @@ interface CreatePostMviModel :
         data class ChangeSection(val value: CreatePostSection) : Intent
 
         data class ChangeLanguage(val value: Int?) : Intent
-        data class Send(val body: String) : Intent
+        data class ChangeBodyValue(val value: TextFieldValue) : Intent
+        data object Send : Intent
     }
 
     data class UiState(
@@ -65,6 +67,7 @@ interface CreatePostMviModel :
         val communityError: ValidationError? = null,
         val title: String = "",
         val titleError: ValidationError? = null,
+        val bodyValue: TextFieldValue = TextFieldValue(),
         val bodyError: ValidationError? = null,
         val url: String = "",
         val urlError: ValidationError? = null,
@@ -84,7 +87,6 @@ interface CreatePostMviModel :
     )
 
     sealed interface Effect {
-        data class AddImageToBody(val url: String) : Effect
         data object Success : Effect
         data class Failure(val message: String?) : Effect
     }

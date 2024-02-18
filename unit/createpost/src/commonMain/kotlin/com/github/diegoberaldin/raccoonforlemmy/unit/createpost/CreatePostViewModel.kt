@@ -123,7 +123,11 @@ class CreatePostViewModel(
                 it.copy(currentLanguageId = intent.value)
             }
 
-            is CreatePostMviModel.Intent.Send -> submit(intent.body)
+            is CreatePostMviModel.Intent.ChangeBodyValue -> updateState {
+                it.copy(bodyValue = intent.value)
+            }
+
+            CreatePostMviModel.Intent.Send -> submit()
         }
     }
 
@@ -153,15 +157,25 @@ class CreatePostViewModel(
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
             if (url != null) {
-                emitEffect(CreatePostMviModel.Effect.AddImageToBody(url))
+                val newValue = uiState.value.bodyValue.let {
+                    it.copy(text = it.text + "\n![](${url})")
+                }
+                updateState {
+                    it.copy(
+                        loading = false,
+                        bodyValue = newValue
+                    )
+                }
+            } else {
+                updateState {
+                    it.copy(loading = false)
+                }
             }
-            updateState {
-                it.copy(loading = false)
-            }
+
         }
     }
 
-    private fun submit(body: String) {
+    private fun submit() {
         val currentState = uiState.value
         if (currentState.loading) {
             return
@@ -178,6 +192,7 @@ class CreatePostViewModel(
         val communityId = currentState.communityId
         val title = currentState.title
         val url = currentState.url.takeIf { it.isNotEmpty() }?.trim()
+        val body = currentState.bodyValue.text
         val nsfw = currentState.nsfw
         val languageId = currentState.currentLanguageId
         var valid = true

@@ -106,19 +106,6 @@ class CreatePostScreen(
         val crossPostText = LocalXmlStrings.current.createPostCrossPostText
         val crossPost = uiState.crossPost
         val editedPost = uiState.editedPost
-        var bodyTextFieldValue by remember(crossPost, editedPost) {
-            val text = buildString {
-                if (crossPost != null) {
-                    append(crossPostText)
-                    append(" ")
-                    append(crossPost.originalUrl)
-                } else if (editedPost != null) {
-                    append(editedPost.text)
-                }
-            }
-            mutableStateOf(TextFieldValue(text = text))
-        }
-
         val bodyFocusRequester = remember { FocusRequester() }
         val urlFocusRequester = remember { FocusRequester() }
         val focusManager = LocalFocusManager.current
@@ -146,7 +133,7 @@ class CreatePostScreen(
         val typography = contentFontFamily.toTypography()
         var selectLanguageDialogOpen by remember { mutableStateOf(false) }
 
-        LaunchedEffect(editedPost) {
+        LaunchedEffect(editedPost, crossPost) {
             editedPost?.community?.id?.also { communityId ->
                 model.reduce(
                     CreatePostMviModel.Intent.SetCommunity(
@@ -155,9 +142,24 @@ class CreatePostScreen(
                 )
             }
             val referencePost = uiState.editedPost ?: uiState.crossPost
-            model.reduce(CreatePostMviModel.Intent.SetTitle(referencePost?.title.orEmpty()))
-            model.reduce(CreatePostMviModel.Intent.SetUrl(referencePost?.url.orEmpty()))
-            model.reduce(CreatePostMviModel.Intent.ChangeLanguage(referencePost?.languageId))
+            if (referencePost != null) {
+                model.reduce(CreatePostMviModel.Intent.SetTitle(referencePost.title))
+                model.reduce(CreatePostMviModel.Intent.SetUrl(referencePost.url.orEmpty()))
+                model.reduce(CreatePostMviModel.Intent.ChangeLanguage(referencePost.languageId))
+
+                if (uiState.bodyValue.text.isEmpty()) {
+                    val text = buildString {
+                        if (crossPost != null) {
+                            append(crossPostText)
+                            append(" ")
+                            append(crossPost.originalUrl)
+                        } else if (editedPost != null) {
+                            append(editedPost.text)
+                        }
+                    }
+                    model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(TextFieldValue(text)))
+                }
+            }
         }
 
         LaunchedEffect(model, communityId) {
@@ -177,12 +179,6 @@ class CreatePostScreen(
                             event = NotificationCenterEvent.PostCreated,
                         )
                         navigationCoordinator.popScreen()
-                    }
-
-                    is CreatePostMviModel.Effect.AddImageToBody -> {
-                        bodyTextFieldValue = bodyTextFieldValue.let {
-                            it.copy(text = it.text + "\n![](${effect.url})")
-                        }
                     }
                 }
             }.launchIn(this)
@@ -248,8 +244,8 @@ class CreatePostScreen(
                                     contentDescription = null,
                                 )
                             },
-                            onClick = rememberCallback(model, bodyTextFieldValue) {
-                                model.reduce(CreatePostMviModel.Intent.Send(bodyTextFieldValue.text))
+                            onClick = rememberCallback(model) {
+                                model.reduce(CreatePostMviModel.Intent.Send)
                             },
                         )
                     },
@@ -456,9 +452,9 @@ class CreatePostScreen(
                                 start = Spacing.m,
                                 end = Spacing.m,
                             ),
-                            textFieldValue = bodyTextFieldValue,
-                            onTextFieldValueChanged = {
-                                bodyTextFieldValue = it
+                            textFieldValue = uiState.bodyValue,
+                            onTextFieldValueChanged = { value ->
+                                model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(value))
                             },
                             onSelectImage = {
                                 openImagePickerInBody = true
@@ -486,14 +482,14 @@ class CreatePostScreen(
                                 )
                             },
                             textStyle = typography.bodyMedium,
-                            value = bodyTextFieldValue,
+                            value = uiState.bodyValue,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 autoCorrect = true,
                                 capitalization = KeyboardCapitalization.Sentences,
                             ),
                             onValueChange = { value ->
-                                bodyTextFieldValue = value
+                                model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(value))
                             },
                             isError = uiState.bodyError != null,
                             supportingText = {
@@ -508,7 +504,7 @@ class CreatePostScreen(
                         )
                     } else {
                         val post = PostModel(
-                            text = bodyTextFieldValue.text,
+                            text = uiState.bodyValue.text,
                             title = uiState.title,
                             url = uiState.url,
                             thumbnailUrl = uiState.url,
