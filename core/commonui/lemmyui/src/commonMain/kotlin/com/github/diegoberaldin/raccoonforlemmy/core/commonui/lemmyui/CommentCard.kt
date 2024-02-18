@@ -130,7 +130,7 @@ fun CommentCard(
                             LocalDensity provides Density(
                                 density = LocalDensity.current.density,
                                 // additional downscale for font in comments
-                                fontScale = LocalDensity.current.fontScale * 0.96f,
+                                fontScale = LocalDensity.current.fontScale * 0.97f,
                             ),
                         ) {
                             PostCardBody(

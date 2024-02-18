@@ -23,6 +23,7 @@ import com.mikepenz.markdown.model.markdownTypography
 @Composable
 fun PostCardTitle(
     text: String,
+    bolder: Boolean = false,
     autoLoadImages: Boolean = true,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
@@ -40,20 +41,30 @@ fun PostCardTitle(
     val themeRepository = remember { getThemeRepository() }
     val fontFamily by themeRepository.contentFontFamily.collectAsState()
     val typography = fontFamily.toTypography()
+    val weightNormalOrLight = if (bolder) {
+        FontWeight.Normal
+    } else {
+        FontWeight.Light
+    }
+    val weightMediumOrNormal = if (bolder) {
+        FontWeight.Medium
+    } else {
+        FontWeight.Normal
+    }
 
     CustomMarkdownWrapper(
         modifier = modifier,
         content = text,
         autoLoadImages = autoLoadImages,
         typography = markdownTypography(
-            h1 = typography.titleLarge.copy(fontWeight = FontWeight.Normal),
-            h2 = typography.titleLarge.copy(fontWeight = FontWeight.Normal),
-            h3 = typography.titleMedium.copy(fontWeight = FontWeight.Medium),
-            h4 = typography.titleMedium.copy(fontWeight = FontWeight.Medium),
-            h5 = typography.titleSmall,
+            h1 = typography.titleLarge.copy(fontWeight = weightNormalOrLight),
+            h2 = typography.titleLarge.copy(fontWeight = weightNormalOrLight),
+            h3 = typography.titleMedium.copy(fontWeight = weightMediumOrNormal),
+            h4 = typography.titleMedium.copy(fontWeight = weightMediumOrNormal),
+            h5 = typography.titleSmall.copy(fontWeight = weightMediumOrNormal),
             h6 = typography.titleSmall,
-            text = typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
-            paragraph = typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+            text = typography.bodyMedium.copy(fontWeight = weightMediumOrNormal),
+            paragraph = typography.bodyMedium.copy(fontWeight = weightMediumOrNormal),
         ),
         colors = markdownColor(
             text = MaterialTheme.colorScheme.onBackground,

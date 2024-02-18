@@ -16,7 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,9 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
@@ -380,6 +377,7 @@ private fun ExtendedPost(
                     horizontal = Spacing.xs,
                 ),
                 text = post.title,
+                bolder = showBody,
                 autoLoadImages = autoLoadImages,
                 onOpenCommunity = onOpenCommunity,
                 onOpenUser = onOpenCreator,
@@ -440,38 +438,30 @@ private fun ExtendedPost(
                 )
             } else {
                 CustomizedContent {
-                    CompositionLocalProvider(
-                        LocalDensity provides Density(
-                            density = LocalDensity.current.density,
-                            // additional downscale for font in post body
-                            fontScale = LocalDensity.current.fontScale * 0.99f,
+                    PostCardBody(
+                        modifier = Modifier.padding(
+                            top = Spacing.xxs,
+                            start = Spacing.xs,
+                            end = Spacing.xs,
                         ),
-                    ) {
-                        PostCardBody(
-                            modifier = Modifier.padding(
-                                top = Spacing.xxs,
-                                start = Spacing.xs,
-                                end = Spacing.xs,
-                            ),
-                            text = post.text,
-                            maxLines = if (limitBodyHeight) {
-                                settings.postBodyMaxLines
-                            } else {
-                                null
-                            },
-                            autoLoadImages = autoLoadImages,
-                            onClick = onClick,
-                            onOpenCommunity = onOpenCommunity,
-                            onOpenUser = onOpenCreator,
-                            onOpenPost = onOpenPost,
-                            onOpenImage = onOpenImage,
-                            onOpenWeb = onOpenWeb,
-                            onDoubleClick = onDoubleClick,
-                            onLongClick = {
-                                optionsMenuOpen.value = true
-                            },
-                        )
-                    }
+                        text = post.text,
+                        maxLines = if (limitBodyHeight) {
+                            settings.postBodyMaxLines
+                        } else {
+                            null
+                        },
+                        autoLoadImages = autoLoadImages,
+                        onClick = onClick,
+                        onOpenCommunity = onOpenCommunity,
+                        onOpenUser = onOpenCreator,
+                        onOpenPost = onOpenPost,
+                        onOpenImage = onOpenImage,
+                        onOpenWeb = onOpenWeb,
+                        onDoubleClick = onDoubleClick,
+                        onLongClick = {
+                            optionsMenuOpen.value = true
+                        },
+                    )
                 }
             }
         }

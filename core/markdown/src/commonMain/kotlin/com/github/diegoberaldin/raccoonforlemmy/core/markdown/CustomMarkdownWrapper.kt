@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
+import androidx.compose.ui.unit.Density
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.mikepenz.markdown.compose.LocalMarkdownTypography
 import com.mikepenz.markdown.compose.Markdown
@@ -85,7 +86,11 @@ fun CustomMarkdownWrapper(
     )
 
     CompositionLocalProvider(
-        LocalUriHandler provides customUriHandler
+        LocalUriHandler provides customUriHandler,
+        LocalDensity provides Density(
+            density = LocalDensity.current.density,
+            fontScale = LocalDensity.current.fontScale * 0.99f,
+        ),
     ) {
         Markdown(
             modifier = modifier.onClick(
