@@ -18,12 +18,17 @@ internal fun ASTNode.findChildOfTypeRecursive(type: IElementType): ASTNode? {
 }
 
 internal fun String.sanitize(): String = this
-    .replace("&amp;", "&")
-    .replace("&nbsp;", " ")
-    .fixBlankLinesForSpoilers()
+    .removeEntities()
+    .spoilerFixup()
+    .quoteFixup()
     .expandLemmyHandles()
 
-private fun String.fixBlankLinesForSpoilers(): String = run {
+private fun String.removeEntities(): String =
+    replace("&amp;", "&")
+        .replace("&nbsp;", " ")
+
+
+private fun String.spoilerFixup(): String = run {
     val finalLines = mutableListOf<String>()
     var finalLinesSizeAtLastSpoiler = 0
     lines().forEach { line ->
@@ -35,9 +40,29 @@ private fun String.fixBlankLinesForSpoilers(): String = run {
             finalLines += line
             finalLinesSizeAtLastSpoiler = finalLines.size
         } else if (line.isNotBlank()) {
-            finalLines += line
+            if (isSpoilerOnTopOfStack) {
+                // removes list inside spoilers
+                val cleanLine = line.replace(Regex("^\\s*?- "), "").trim()
+                if (cleanLine.isNotEmpty()) {
+                    finalLines += cleanLine
+                }
+            } else {
+                finalLines += line
+            }
         } else if (!isSpoilerOnTopOfStack) {
             finalLines += ""
+        }
+    }
+    finalLines.joinToString("\n")
+}
+
+private fun String.quoteFixup(): String = run {
+    val finalLines = mutableListOf<String>()
+    lines().forEach { line ->
+        // removes list inside quotes
+        val cleanLine = line.replace(Regex("^>\\s*?-"), ">")
+        if (cleanLine.isNotEmpty()) {
+            finalLines += cleanLine
         }
     }
     finalLines.joinToString("\n")
