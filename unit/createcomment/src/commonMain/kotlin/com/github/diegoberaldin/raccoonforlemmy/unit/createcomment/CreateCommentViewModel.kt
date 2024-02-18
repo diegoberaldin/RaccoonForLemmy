@@ -94,12 +94,17 @@ class CreateCommentViewModel(
                 updateState { it.copy(currentLanguageId = intent.value) }
             }
 
-            is CreateCommentMviModel.Intent.Send -> submit(intent.text)
+            is CreateCommentMviModel.Intent.ChangeTextValue -> {
+                updateState { it.copy(textValue = intent.value) }
+            }
+
+            is CreateCommentMviModel.Intent.Send -> submit()
         }
     }
 
-    private fun submit(text: String) {
-        if (uiState.value.loading) {
+    private fun submit() {
+        val currentState = uiState.value
+        if (currentState.loading) {
             return
         }
 
@@ -108,8 +113,10 @@ class CreateCommentViewModel(
                 textError = null,
             )
         }
+        val text = currentState.textValue.text
+        val languageId = currentState.currentLanguageId
+
         var valid = true
-        val languageId = uiState.value.currentLanguageId
         if (text.isEmpty()) {
             updateState {
                 it.copy(
@@ -174,12 +181,21 @@ class CreateCommentViewModel(
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
             if (url != null) {
-                emitEffect(CreateCommentMviModel.Effect.AddImageToText(url))
-            }
-            updateState {
-                it.copy(
-                    loading = false,
-                )
+                val newValue = uiState.value.textValue.let {
+                    it.copy(text = it.text + "\n![](${url})")
+                }
+                updateState {
+                    it.copy(
+                        textValue = newValue,
+                        loading = false,
+                    )
+                }
+            } else {
+                updateState {
+                    it.copy(
+                        loading = false,
+                    )
+                }
             }
         }
     }

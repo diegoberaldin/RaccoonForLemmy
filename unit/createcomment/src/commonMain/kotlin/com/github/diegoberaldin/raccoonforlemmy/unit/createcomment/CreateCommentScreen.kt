@@ -107,11 +107,6 @@ class CreateCommentScreen(
         val galleryHelper = remember { getGalleryHelper() }
         var openImagePicker by remember { mutableStateOf(false) }
         var rawContent by remember { mutableStateOf<Any?>(null) }
-        var textFieldValue by remember {
-            mutableStateOf(
-                TextFieldValue(text = initialText.orEmpty())
-            )
-        }
         val commentFocusRequester = remember { FocusRequester() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
@@ -123,7 +118,8 @@ class CreateCommentScreen(
         LaunchedEffect(uiState.editedComment) {
             uiState.editedComment?.also { editedComment ->
                 model.reduce(CreateCommentMviModel.Intent.ChangeLanguage(editedComment.languageId))
-                textFieldValue = TextFieldValue(text = editedComment.text)
+                val newValue = TextFieldValue(text = editedComment.text)
+                model.reduce(CreateCommentMviModel.Intent.ChangeTextValue(newValue))
             }
         }
         LaunchedEffect(model) {
@@ -149,12 +145,6 @@ class CreateCommentScreen(
                             )
                         }
                         navigationCoordinator.popScreen()
-                    }
-
-                    is CreateCommentMviModel.Effect.AddImageToText -> {
-                        textFieldValue = textFieldValue.let {
-                            it.copy(text = it.text + "\n![](${effect.url})")
-                        }
                     }
                 }
             }.launchIn(this)
@@ -214,8 +204,8 @@ class CreateCommentScreen(
                                     contentDescription = null,
                                 )
                             },
-                            onClick = rememberCallback(model, textFieldValue) {
-                                model.reduce(CreateCommentMviModel.Intent.Send(textFieldValue.text))
+                            onClick = rememberCallback(model) {
+                                model.reduce(CreateCommentMviModel.Intent.Send)
                             },
                         )
                     }
@@ -250,9 +240,9 @@ class CreateCommentScreen(
                                 start = Spacing.m,
                                 end = Spacing.m,
                             ),
-                            textFieldValue = textFieldValue,
-                            onTextFieldValueChanged = {
-                                textFieldValue = it
+                            textFieldValue = uiState.textValue,
+                            onTextFieldValueChanged = { value ->
+                                model.reduce(CreateCommentMviModel.Intent.ChangeTextValue(value))
                             },
                             onSelectImage = {
                                 openImagePicker = true
@@ -280,14 +270,14 @@ class CreateCommentScreen(
                                 )
                             },
                             textStyle = typography.bodyMedium,
-                            value = textFieldValue,
+                            value = uiState.textValue,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 autoCorrect = true,
                                 capitalization = KeyboardCapitalization.Sentences,
                             ),
                             onValueChange = { value ->
-                                textFieldValue = value
+                                model.reduce(CreateCommentMviModel.Intent.ChangeTextValue(value))
                             },
                             isError = uiState.textError != null,
                             supportingText = {
@@ -310,7 +300,7 @@ class CreateCommentScreen(
                                 modifier = Modifier
                                     .padding(Spacing.s)
                                     .verticalScroll(rememberScrollState()),
-                                text = textFieldValue.text,
+                                text = uiState.textValue.text,
                                 autoLoadImages = uiState.autoLoadImages,
                             )
                         }

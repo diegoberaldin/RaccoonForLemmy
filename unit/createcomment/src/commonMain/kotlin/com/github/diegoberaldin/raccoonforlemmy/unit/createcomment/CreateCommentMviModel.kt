@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.createcomment
 
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.text.input.TextFieldValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
@@ -35,7 +36,9 @@ interface CreateCommentMviModel :
 
         data class ChangeLanguage(val value: Int?) : Intent
 
-        data class Send(val text: String) : Intent
+        data class ChangeTextValue(val value: TextFieldValue) : Intent
+
+        data object Send : Intent
     }
 
     data class UiState(
@@ -45,6 +48,7 @@ interface CreateCommentMviModel :
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
+        val textValue: TextFieldValue = TextFieldValue(),
         val textError: ValidationError? = null,
         val loading: Boolean = false,
         val section: CreatePostSection = CreatePostSection.Edit,
@@ -58,7 +62,6 @@ interface CreateCommentMviModel :
     )
 
     sealed interface Effect {
-        data class AddImageToText(val url: String) : Effect
         data class Success(val new: Boolean) : Effect
         data class Failure(val message: String?) : Effect
     }
