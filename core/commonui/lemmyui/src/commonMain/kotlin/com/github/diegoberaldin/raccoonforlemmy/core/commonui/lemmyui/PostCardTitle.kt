@@ -7,6 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
@@ -65,6 +67,10 @@ fun PostCardTitle(
             h6 = typography.titleSmall,
             text = typography.bodyMedium.copy(fontWeight = weightMediumOrNormal),
             paragraph = typography.bodyMedium.copy(fontWeight = weightMediumOrNormal),
+            quote = typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
+            bullet = typography.bodyMedium,
+            list = typography.bodyMedium,
+            code = typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
         ),
         colors = markdownColor(
             text = MaterialTheme.colorScheme.onBackground,
