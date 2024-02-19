@@ -60,9 +60,14 @@ private fun String.quoteFixup(): String = run {
     val finalLines = mutableListOf<String>()
     lines().forEach { line ->
         // removes list inside quotes
-        val cleanLine = line.replace(Regex("^>\\s*?-"), ">")
-        if (cleanLine.isNotEmpty()) {
-            finalLines += cleanLine
+        val quoteAndList = Regex("^>\\s*?-")
+        if (quoteAndList.matches(line)) {
+            val cleanLine = line.replace(quoteAndList, ">")
+            if (cleanLine.isNotEmpty()) {
+                finalLines += cleanLine
+            }
+        } else {
+            finalLines += line
         }
     }
     finalLines.joinToString("\n")
