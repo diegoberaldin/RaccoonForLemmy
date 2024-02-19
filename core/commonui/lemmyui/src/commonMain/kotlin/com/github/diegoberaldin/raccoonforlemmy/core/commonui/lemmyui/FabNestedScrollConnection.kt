@@ -23,7 +23,6 @@ internal class DefaultFabNestedScrollConnection : FabNestedScrollConnection {
     private val scope = CoroutineScope(SupervisorJob())
     override val isFabVisible: StateFlow<Boolean>
         get() = fabVisible
-            //.debounce(750)
             .stateIn(
                 scope = scope,
                 started = SharingStarted.WhileSubscribed(5_000),

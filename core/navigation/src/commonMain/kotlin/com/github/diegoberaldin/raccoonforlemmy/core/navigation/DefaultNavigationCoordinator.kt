@@ -7,21 +7,16 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 private sealed interface NavigationEvent {
@@ -29,7 +24,6 @@ private sealed interface NavigationEvent {
     data class Show(val screen: Screen) : NavigationEvent
 }
 
-@OptIn(FlowPreview::class)
 internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override val currentSection = MutableStateFlow<TabNavigationSection?>(null)
@@ -49,43 +43,29 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     private val screenChannel = Channel<NavigationEvent>()
 
     companion object {
-        private const val NAVIGATION_DELAY = 100L
-        private const val BOTTOM_NAVIGATION_DELAY = 100L
         private const val DEEP_LINK_DELAY = 500L
     }
 
     init {
         scope.launch {
-            bottomSheetChannel.receiveAsFlow()
-                .let { flow ->
-                    merge(
-                        flow.take(1),
-                        flow.drop(1).debounce(BOTTOM_NAVIGATION_DELAY)
-                    )
-                }.onEach { evt ->
-                    when (evt) {
-                        is NavigationEvent.Show -> {
-                            bottomNavigator?.show(evt.screen)
+            bottomSheetChannel.receiveAsFlow().onEach { evt ->
+                when (evt) {
+                    is NavigationEvent.Show -> {
+                        bottomNavigator?.show(evt.screen)
+                    }
+                }
+            }.launchIn(this)
+            screenChannel.receiveAsFlow().onEach { evt ->
+                when (evt) {
+                    is NavigationEvent.Show -> {
+                        // make sure the new screen has a different key than the top of the stack
+                        if (evt.screen.key != navigator?.lastItem?.key) {
+                            navigator?.push(evt.screen)
+                            canPop.value = navigator?.canPop == true
                         }
                     }
-                }.launchIn(this)
-            screenChannel.receiveAsFlow()
-                .let { flow ->
-                    merge(
-                        flow.take(1),
-                        flow.drop(1).debounce(NAVIGATION_DELAY)
-                    )
-                }.onEach { evt ->
-                    when (evt) {
-                        is NavigationEvent.Show -> {
-                            // make sure the new screen has a different key than the top of the stack
-                            if (evt.screen.key != navigator?.lastItem?.key) {
-                                navigator?.push(evt.screen)
-                                canPop.value = navigator?.canPop == true
-                            }
-                        }
-                    }
-                }.launchIn(this)
+                }
+            }.launchIn(this)
         }
     }
 

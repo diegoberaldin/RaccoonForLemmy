@@ -146,9 +146,7 @@ internal object MainScreen : Screen {
                                     // wait for transition to finish
                                     delay(750)
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeFeedType(
-                                            evt.value
-                                        )
+                                        NotificationCenterEvent.ChangeFeedType(evt.value)
                                     )
                                 }
                             }
