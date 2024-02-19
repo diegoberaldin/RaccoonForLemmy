@@ -1,8 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.markdown
 
 internal object SpoilerRegex {
-    val spoilerOpenRegex = Regex("(:::\\s+spoiler\\s+)(?<title>.*)")
-    val spoilerCloseRegex = Regex(":::")
+    val spoilerOpening = Regex("(:::\\s+spoiler\\s+)(?<title>.*)")
+    val spoilerClosing = Regex(":::")
 }
 
 internal object LemmyLinkRegex {
@@ -15,3 +15,6 @@ internal object LemmyLinkRegex {
         Regex("(?<!\\S)!(?<detail>$DETAIL_FRAGMENT)(?:@(?<instance>$INSTANCE_FRAGMENT))?\\b")
 }
 
+internal object ImageRegex {
+    val image = Regex("!\\[[^]]*]\\((?<url>.*?)\\)")
+}

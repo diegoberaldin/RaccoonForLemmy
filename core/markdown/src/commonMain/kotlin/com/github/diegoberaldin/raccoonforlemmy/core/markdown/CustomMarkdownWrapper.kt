@@ -22,7 +22,10 @@ import com.mikepenz.markdown.model.markdownPadding
 import com.mikepenz.markdown.model.markdownTypography
 
 private val String.containsSpoiler: Boolean
-    get() = SpoilerRegex.spoilerOpenRegex.containsMatchIn(this)
+    get() = SpoilerRegex.spoilerOpening.containsMatchIn(this)
+
+private val String.isImage: Boolean
+    get() = ImageRegex.image.matches(this)
 
 @Composable
 fun CustomMarkdownWrapper(
@@ -55,6 +58,16 @@ fun CustomMarkdownWrapper(
             when {
                 substring.containsSpoiler -> {
                     CustomMarkdownSpoiler(content = substring)
+                }
+
+                substring.isImage -> {
+                    val res = ImageRegex.image.find(substring)
+                    val link = res?.groups?.get("url")?.value.orEmpty()
+                    CustomMarkdownImage(
+                        url = link,
+                        autoLoadImages = autoLoadImages,
+                        onOpenImage = onOpenImage,
+                    )
                 }
 
                 else -> {

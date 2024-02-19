@@ -26,7 +26,7 @@ internal fun CustomMarkdownSpoiler(
         modifier = modifier,
     ) {
         var lastIndex = 0
-        val matches = SpoilerRegex.spoilerOpenRegex.findAll(content)
+        val matches = SpoilerRegex.spoilerOpening.findAll(content)
         for (match in matches) {
             val openingStart = match.range.first
             val openingEnd = match.range.last
@@ -38,7 +38,7 @@ internal fun CustomMarkdownSpoiler(
                 MarkdownText(content = subcontent)
             }
             val spoilerTitle = match.groups["title"]?.value.orEmpty()
-            val closeMatch = SpoilerRegex.spoilerCloseRegex.find(
+            val closeMatch = SpoilerRegex.spoilerClosing.find(
                 input = content,
                 startIndex = openingEnd,
             )

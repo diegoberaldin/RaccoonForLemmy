@@ -32,46 +32,61 @@ internal fun CustomMarkdownImage(
     val link = node.findChildOfTypeRecursive(MarkdownElementTypes.LINK_DESTINATION)
         ?.getTextInNode(content)
         ?.toString().orEmpty()
-    if (link.isNotEmpty()) {
-        CustomImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .onClick(
-                    onClick = {
-                        onOpenImage?.invoke(link)
-                    },
-                ),
-            url = link,
-            autoload = autoLoadImages,
-            quality = FilterQuality.Low,
-            contentScale = ContentScale.FillWidth,
-            onFailure = {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = LocalXmlStrings.current.messageImageLoadingError,
-                    style = LocalMarkdownTypography.current.text,
-                )
-            },
-            onLoading = { progress ->
-                val prog = if (progress != null) {
-                    progress
-                } else {
-                    val transition = rememberInfiniteTransition()
-                    val res by transition.animateFloat(
-                        initialValue = 0f,
-                        targetValue = 1f,
-                        animationSpec = InfiniteRepeatableSpec(
-                            animation = tween(1000)
-                        ),
-                    )
-                    res
-                }
-                CircularProgressIndicator(
-                    progress = prog,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            },
-        )
+    CustomMarkdownImage(
+        url = link,
+        autoLoadImages = autoLoadImages,
+        onOpenImage = onOpenImage,
+    )
+}
+
+@Composable
+internal fun CustomMarkdownImage(
+    url: String,
+    onOpenImage: ((String) -> Unit)?,
+    autoLoadImages: Boolean,
+) {
+    if (url.isBlank()) {
+        return
     }
+
+    CustomImage(
+        modifier = Modifier
+            .fillMaxWidth()
+            .onClick(
+                onClick = {
+                    onOpenImage?.invoke(url)
+                },
+            ),
+        url = url,
+        autoload = autoLoadImages,
+        quality = FilterQuality.Low,
+        contentScale = ContentScale.FillWidth,
+        onFailure = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = LocalXmlStrings.current.messageImageLoadingError,
+                style = LocalMarkdownTypography.current.text,
+            )
+        },
+        onLoading = { progress ->
+            val prog = if (progress != null) {
+                progress
+            } else {
+                val transition = rememberInfiniteTransition()
+                val res by transition.animateFloat(
+                    initialValue = 0f,
+                    targetValue = 1f,
+                    animationSpec = InfiniteRepeatableSpec(
+                        animation = tween(1000)
+                    ),
+                )
+                res
+            }
+            CircularProgressIndicator(
+                progress = prog,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        },
+    )
 }
