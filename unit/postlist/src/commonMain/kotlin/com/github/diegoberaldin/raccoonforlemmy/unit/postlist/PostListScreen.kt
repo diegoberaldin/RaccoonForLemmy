@@ -554,7 +554,7 @@ class PostListScreen : Screen {
                                                 }
 
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.showBottomSheet(
+                                                    navigationCoordinator.pushScreen(
                                                         CreateReportScreen(postId = post.id)
                                                     )
                                                 }

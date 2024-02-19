@@ -36,7 +36,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -55,7 +54,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
@@ -170,31 +168,19 @@ class CreateCommentScreen(
                         )
                     },
                     title = {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    top = Spacing.s,
-                                    start = Spacing.l,
-                                ),
-                            verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            BottomSheetHandle()
-                            Text(
-                                text = when {
-                                    uiState.editedComment != null -> {
-                                        LocalXmlStrings.current.editCommentTitle
-                                    }
+                        Text(
+                            text = when {
+                                uiState.editedComment != null -> {
+                                    LocalXmlStrings.current.editCommentTitle
+                                }
 
-                                    else -> {
-                                        LocalXmlStrings.current.createCommentTitle
-                                    }
-                                },
-                                style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-                        }
+                                else -> {
+                                    LocalXmlStrings.current.createCommentTitle
+                                }
+                            },
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
                     },
                     actions = {
                         IconButton(

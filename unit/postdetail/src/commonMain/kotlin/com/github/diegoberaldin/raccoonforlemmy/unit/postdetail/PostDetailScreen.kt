@@ -442,7 +442,7 @@ class PostDetailScreen(
                                         }
 
                                         OptionId.Report -> {
-                                            navigationCoordinator.showBottomSheet(
+                                            navigationCoordinator.pushScreen(
                                                 CreateReportScreen(postId = uiState.post.id),
                                             )
                                         }
@@ -478,7 +478,7 @@ class PostDetailScreen(
 
                                         OptionId.Remove -> {
                                             val screen = RemoveScreen(postId = uiState.post.id)
-                                            navigationCoordinator.showBottomSheet(screen)
+                                            navigationCoordinator.pushScreen(screen)
                                         }
 
                                         OptionId.BanUser -> {
@@ -489,7 +489,7 @@ class PostDetailScreen(
                                                     newValue = uiState.post.creator?.banned != true,
                                                     postId = uiState.post.id,
                                                 )
-                                                navigationCoordinator.showBottomSheet(screen)
+                                                navigationCoordinator.pushScreen(screen)
                                             }
                                         }
 
@@ -864,7 +864,7 @@ class PostDetailScreen(
                                                             }
 
                                                             OptionId.Report -> {
-                                                                navigationCoordinator.showBottomSheet(
+                                                                navigationCoordinator.pushScreen(
                                                                     CreateReportScreen(
                                                                         commentId = comment.id,
                                                                     )
@@ -884,7 +884,7 @@ class PostDetailScreen(
                                                             OptionId.Remove -> {
                                                                 val screen =
                                                                     RemoveScreen(commentId = comment.id)
-                                                                navigationCoordinator.showBottomSheet(
+                                                                navigationCoordinator.pushScreen(
                                                                     screen,
                                                                 )
                                                             }
@@ -898,7 +898,7 @@ class PostDetailScreen(
                                                                         newValue = comment.creator?.banned != true,
                                                                         commentId = comment.id,
                                                                     )
-                                                                    navigationCoordinator.showBottomSheet(
+                                                                    navigationCoordinator.pushScreen(
                                                                         screen,
                                                                     )
                                                                 }
@@ -1053,7 +1053,7 @@ class PostDetailScreen(
                                                     }
 
                                                     OptionId.Report -> {
-                                                        navigationCoordinator.showBottomSheet(
+                                                        navigationCoordinator.pushScreen(
                                                             CreateReportScreen(
                                                                 commentId = comment.id,
                                                             )
@@ -1073,9 +1073,7 @@ class PostDetailScreen(
                                                     OptionId.Remove -> {
                                                         val screen =
                                                             RemoveScreen(commentId = comment.id)
-                                                        navigationCoordinator.showBottomSheet(
-                                                            screen,
-                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
                                                     }
 
                                                     OptionId.BanUser -> {
@@ -1087,7 +1085,7 @@ class PostDetailScreen(
                                                                 newValue = comment.creator?.banned != true,
                                                                 commentId = comment.id,
                                                             )
-                                                            navigationCoordinator.showBottomSheet(
+                                                            navigationCoordinator.pushScreen(
                                                                 screen,
                                                             )
                                                         }

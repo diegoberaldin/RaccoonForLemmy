@@ -834,7 +834,7 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.showBottomSheet(
+                                                    navigationCoordinator.pushScreen(
                                                         CreateReportScreen(postId = post.id)
                                                     )
                                                 }
@@ -880,7 +880,7 @@ class CommunityDetailScreen(
 
                                                 OptionId.Remove -> {
                                                     val screen = RemoveScreen(postId = post.id)
-                                                    navigationCoordinator.showBottomSheet(screen)
+                                                    navigationCoordinator.pushScreen(screen)
                                                 }
 
                                                 OptionId.BanUser -> {
@@ -891,7 +891,7 @@ class CommunityDetailScreen(
                                                             newValue = post.creator?.banned != true,
                                                             postId = post.id,
                                                         )
-                                                        navigationCoordinator.showBottomSheet(screen)
+                                                        navigationCoordinator.pushScreen(screen)
                                                     }
                                                 }
 

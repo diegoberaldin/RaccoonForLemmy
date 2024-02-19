@@ -471,7 +471,7 @@ class MultiCommunityScreen(
                                     onOptionSelected = { optionId ->
                                         when (optionId) {
                                             OptionId.Report -> {
-                                                navigationCoordinator.showBottomSheet(
+                                                navigationCoordinator.pushScreen(
                                                     CreateReportScreen(
                                                         postId = post.id
                                                     )

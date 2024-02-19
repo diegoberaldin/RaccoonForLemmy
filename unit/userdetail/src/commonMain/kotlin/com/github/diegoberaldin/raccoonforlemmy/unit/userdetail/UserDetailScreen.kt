@@ -668,7 +668,7 @@ class UserDetailScreen(
                                         onOptionSelected = rememberCallbackArgs { optionId ->
                                             when (optionId) {
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.showBottomSheet(
+                                                    navigationCoordinator.pushScreen(
                                                         CreateReportScreen(
                                                             postId = post.id
                                                         )
@@ -952,7 +952,7 @@ class UserDetailScreen(
                                         onOptionSelected = rememberCallbackArgs { optionId ->
                                             when (optionId) {
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.showBottomSheet(
+                                                    navigationCoordinator.pushScreen(
                                                         CreateReportScreen(
                                                             commentId = comment.id
                                                         ),

@@ -63,7 +63,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
@@ -217,24 +216,14 @@ class CreatePostScreen(
                         )
                     },
                     title = {
-                        Column(
-                            modifier = Modifier.fillMaxWidth().padding(
-                                top = Spacing.s,
-                                start = Spacing.l,
-                            ),
-                            verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            BottomSheetHandle()
-                            Text(
-                                text = when {
-                                    editedPost != null -> LocalXmlStrings.current.editPostTitle
-                                    else -> LocalXmlStrings.current.createPostTitle
-                                },
-                                style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-                        }
+                        Text(
+                            text = when {
+                                editedPost != null -> LocalXmlStrings.current.editPostTitle
+                                else -> LocalXmlStrings.current.createPostTitle
+                            },
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
                     },
                     actions = {
                         IconButton(

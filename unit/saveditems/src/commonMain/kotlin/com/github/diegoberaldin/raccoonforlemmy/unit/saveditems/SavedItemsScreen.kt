@@ -290,7 +290,7 @@ class SavedItemsScreen : Screen {
                                     onOptionSelected = { optionIndex ->
                                         when (optionIndex) {
                                             OptionId.Report -> {
-                                                navigatorCoordinator.showBottomSheet(
+                                                navigatorCoordinator.pushScreen(
                                                     CreateReportScreen(postId = post.id),
                                                 )
                                             }
@@ -402,7 +402,7 @@ class SavedItemsScreen : Screen {
                                     onOptionSelected = { optionIndex ->
                                         when (optionIndex) {
                                             OptionId.Report -> {
-                                                navigatorCoordinator.showBottomSheet(
+                                                navigatorCoordinator.pushScreen(
                                                     CreateReportScreen(commentId = comment.id),
                                                 )
                                             }
