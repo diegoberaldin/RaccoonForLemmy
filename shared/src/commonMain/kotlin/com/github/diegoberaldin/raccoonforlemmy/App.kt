@@ -74,9 +74,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         UiTheme.Light
     }.toInt()
     val locale by derivedStateOf { settings.locale }
-    val currentTheme by themeRepository.uiTheme.collectAsState()
     val useDynamicColors by themeRepository.dynamicColors.collectAsState()
-    val fontScale by themeRepository.contentFontScale.collectAsState()
     val uiFontScale by themeRepository.uiFontScale.collectAsState()
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -227,8 +225,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         else -> UiBarTheme.Solid
     }
     AppTheme(
-        theme = currentTheme,
-        contentFontScale = fontScale,
         useDynamicColors = useDynamicColors,
         barTheme = barTheme,
     ) {

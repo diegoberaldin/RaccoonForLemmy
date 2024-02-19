@@ -30,6 +30,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -114,7 +115,7 @@ internal fun MessageCard(
                 )
             ).fillMaxWidth().padding(Spacing.s)
         ) {
-            CustomizedContent {
+            CustomizedContent(ContentFontClass.Body) {
                 Column {
                     PostCardBody(
                         text = content,

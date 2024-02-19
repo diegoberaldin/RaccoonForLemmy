@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.data
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontScales
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -9,7 +10,7 @@ data class SettingsModel(
     val theme: Int? = null,
     val uiFontFamily: Int = 0,
     val uiFontScale: Float = 1f,
-    val contentFontScale: Float = 1f,
+    val contentFontScale: ContentFontScales = ContentFontScales(),
     val contentFontFamily: Int = 0,
     val locale: String? = null,
     val defaultListingType: Int = 2,

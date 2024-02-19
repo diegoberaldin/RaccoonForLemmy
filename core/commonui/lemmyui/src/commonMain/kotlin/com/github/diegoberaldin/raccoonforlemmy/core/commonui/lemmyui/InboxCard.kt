@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
@@ -87,7 +88,7 @@ fun InboxCard(
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                 )
             } else {
-                CustomizedContent {
+                CustomizedContent(ContentFontClass.Body) {
                     PostCardBody(
                         modifier = Modifier.padding(
                             horizontal = Spacing.xs,

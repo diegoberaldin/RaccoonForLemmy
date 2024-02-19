@@ -4,8 +4,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
@@ -43,13 +43,13 @@ class SettingsColorAndFontViewModel(
                 updateState { it.copy(uiFontFamily = value) }
             }.launchIn(this)
             themeRepository.contentFontScale.onEach { value ->
-                updateState { it.copy(contentFontScale = value.toFontScale()) }
+                updateState { it.copy(contentFontScale = value) }
             }.launchIn(this)
             themeRepository.contentFontFamily.onEach { value ->
                 updateState { it.copy(contentFontFamily = value) }
             }.launchIn(this)
             themeRepository.uiFontScale.onEach { value ->
-                updateState { it.copy(uiFontScale = value.toFontScale()) }
+                updateState { it.copy(uiFontScale = value) }
             }.launchIn(this)
             themeRepository.dynamicColors.onEach { value ->
                 updateState { it.copy(dynamicColors = value) }
@@ -86,7 +86,7 @@ class SettingsColorAndFontViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
                 .onEach { evt ->
-                    changeContentFontScale(evt.value)
+                    changeContentFontScale(evt.value, evt.contentClass)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontFamily::class)
                 .onEach { evt ->
@@ -152,11 +152,18 @@ class SettingsColorAndFontViewModel(
         }
     }
 
-    private fun changeContentFontScale(value: Float) {
-        themeRepository.changeContentFontScale(value)
+    private fun changeContentFontScale(value: Float, contentClass: ContentFontClass) {
+        val contentFontScale = themeRepository.contentFontScale.value.let {
+            when (contentClass) {
+                ContentFontClass.Title -> it.copy(title = value)
+                ContentFontClass.Body -> it.copy(body = value)
+                ContentFontClass.Comment -> it.copy(comment = value)
+                ContentFontClass.AncillaryText -> it.copy(ancillary = value)
+            }
+        }
         scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                contentFontScale = value
+                contentFontScale = contentFontScale
             )
             saveSettings(settings)
         }

@@ -34,7 +34,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -85,106 +84,103 @@ fun CommunityItem(
                 title = community.readableName(preferNicknames),
             )
         }
-
-        CustomizedContent {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                val translationAmount = 3.dp.toLocalPixel()
-                Text(
-                    text = buildString {
-                        append(title)
-                    },
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = fullColor,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                Text(
-                    modifier = Modifier.graphicsLayer {
-                        translationY = -translationAmount
-                    },
-                    text = buildString {
-                        append("!")
-                        append(communityName)
-                    },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = ancillaryColor,
-                )
-            }
-            if (showSubscribers) {
-                Row(
-                    modifier = Modifier.padding(start = Spacing.xxs),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = community.subscribers.toString(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                    Icon(
-                        imageVector = Icons.Default.Group,
-                        contentDescription = "",
-                        tint = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
-            }
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            val translationAmount = 3.dp.toLocalPixel()
+            Text(
+                text = buildString {
+                    append(title)
+                },
+                style = MaterialTheme.typography.bodyLarge,
+                color = fullColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                modifier = Modifier.graphicsLayer {
+                    translationY = -translationAmount
+                },
+                text = buildString {
+                    append("!")
+                    append(communityName)
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = ancillaryColor,
+            )
         }
-
-        if (showFavorite) {
-            if (community.favorite) {
+        if (showSubscribers) {
+            Row(
+                modifier = Modifier.padding(start = Spacing.xxs),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = community.subscribers.toString(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
                 Icon(
-                    modifier = Modifier.size(IconSize.s),
-                    imageVector = Icons.Default.Star,
+                    imageVector = Icons.Default.Group,
                     contentDescription = "",
                     tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
+    }
 
-        if (options.isNotEmpty()) {
-            Box {
-                Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
+    if (showFavorite) {
+        if (community.favorite) {
+            Icon(
+                modifier = Modifier.size(IconSize.s),
+                imageVector = Icons.Default.Star,
+                contentDescription = "",
+                tint = MaterialTheme.colorScheme.onBackground,
+            )
+        }
+    }
+
+    if (options.isNotEmpty()) {
+        Box {
+            Icon(
+                modifier = Modifier.size(IconSize.m)
+                    .padding(Spacing.xs)
+                    .onGloballyPositioned {
+                        optionsOffset = it.positionInParent()
+                    }
+                    .onClick(
+                        onClick = rememberCallback {
+                            optionsMenuOpen = true
+                        },
+                    ),
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = null,
+                tint = ancillaryColor,
+            )
+
+            CustomDropDown(
+                expanded = optionsMenuOpen,
+                onDismiss = {
+                    optionsMenuOpen = false
+                },
+                offset = DpOffset(
+                    x = optionsOffset.x.toLocalDp(),
+                    y = optionsOffset.y.toLocalDp(),
+                ),
+            ) {
+                options.forEach { option ->
+                    Text(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.m,
+                            vertical = Spacing.s,
+                        ).onClick(
                             onClick = rememberCallback {
-                                optionsMenuOpen = true
+                                optionsMenuOpen = false
+                                onOptionSelected?.invoke(option.id)
                             },
                         ),
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = null,
-                    tint = ancillaryColor,
-                )
-
-                CustomDropDown(
-                    expanded = optionsMenuOpen,
-                    onDismiss = {
-                        optionsMenuOpen = false
-                    },
-                    offset = DpOffset(
-                        x = optionsOffset.x.toLocalDp(),
-                        y = optionsOffset.y.toLocalDp(),
-                    ),
-                ) {
-                    options.forEach { option ->
-                        Text(
-                            modifier = Modifier.padding(
-                                horizontal = Spacing.m,
-                                vertical = Spacing.s,
-                            ).onClick(
-                                onClick = rememberCallback {
-                                    optionsMenuOpen = false
-                                    onOptionSelected?.invoke(option.id)
-                                },
-                            ),
-                            text = option.text,
-                        )
-                    }
+                        text = option.text,
+                    )
                 }
             }
         }

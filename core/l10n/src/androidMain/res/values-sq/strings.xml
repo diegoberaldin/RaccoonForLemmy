@@ -182,7 +182,7 @@
     <string name="settings_content_font_larger">ekstra e madhe</string>
     <string name="settings_content_font_largest">Dyfish më i madh</string>
     <string name="settings_content_font_normal">Normale</string>
-    <string name="settings_content_font_scale">Madhësia e tekstit të përmbajtjes</string>
+    <string name="settings_content_font_scale">Madhësia e tekstit të postimeve</string>
     <string name="settings_content_font_small">Trupvogël</string>
     <string name="settings_content_font_smaller">Shumë e vogël</string>
     <string name="settings_content_font_smallest">Dyfish më i vogël</string>
@@ -339,4 +339,7 @@
     <string name="settings_comment_bar_thickness">Trashësia e shiritit të komenteve</string>
     <string name="settings_prefer_user_nicknames">Përdorni emra të shfaqur për përdoruesit dhe komunitetet</string>
     <string name="message_video_nsfw">Kjo video u shënua si NSFW</string>
+    <string name="settings_title_font_scale">Madhësia e tekstit të titujve</string>
+    <string name="settings_comment_font_scale">Madhësia e tekstit të komenteve</string>
+    <string name="settings_ancillary_font_scale">Madhësia e teksteve ndihmëse</string>
 </resources>

@@ -32,10 +32,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -148,40 +150,44 @@ fun CommunityAndCreatorInfo(
             modifier = Modifier.padding(vertical = Spacing.xxxs),
         ) {
             if (community != null) {
-                Text(
-                    modifier = Modifier
-                        .onClick(
-                            onClick = rememberCallback {
-                                onOpenCommunity?.invoke(community)
-                            },
-                            onDoubleClick = onDoubleClick ?: {},
-                            onLongClick = onLongClick ?: {},
-                        ),
-                    text = communityName,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = if (creator == null) ancillaryColor else fullColor,
-                )
+                CustomizedContent(ContentFontClass.AncillaryText) {
+                    Text(
+                        modifier = Modifier
+                            .onClick(
+                                onClick = rememberCallback {
+                                    onOpenCommunity?.invoke(community)
+                                },
+                                onDoubleClick = onDoubleClick ?: {},
+                                onLongClick = onLongClick ?: {},
+                            ),
+                        text = communityName,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = if (creator == null) ancillaryColor else fullColor,
+                    )
+                }
             }
             if (creator != null) {
                 val translationAmount = 3.dp.toLocalPixel()
-                Text(
-                    modifier = Modifier
-                        .graphicsLayer {
-                            if (communityName.isNotEmpty()) {
-                                translationY = -translationAmount
+                CustomizedContent(ContentFontClass.AncillaryText) {
+                    Text(
+                        modifier = Modifier
+                            .graphicsLayer {
+                                if (communityName.isNotEmpty()) {
+                                    translationY = -translationAmount
+                                }
                             }
-                        }
-                        .onClick(
-                            onClick = rememberCallback {
-                                onOpenCreator?.invoke(creator)
-                            },
-                            onDoubleClick = onDoubleClick ?: {},
-                            onLongClick = onLongClick ?: {},
-                        ),
-                    text = creatorName,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = ancillaryColor,
-                )
+                            .onClick(
+                                onClick = rememberCallback {
+                                    onOpenCreator?.invoke(creator)
+                                },
+                                onDoubleClick = onDoubleClick ?: {},
+                                onLongClick = onLongClick ?: {},
+                            ),
+                        text = creatorName,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = ancillaryColor,
+                    )
+                }
             }
         }
         if (isOp) {

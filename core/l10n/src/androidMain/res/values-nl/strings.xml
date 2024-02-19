@@ -183,7 +183,7 @@
     <string name="settings_content_font_larger">Extra large</string>
     <string name="settings_content_font_largest">Dubbel extra groot</string>
     <string name="settings_content_font_normal">Normaal</string>
-    <string name="settings_content_font_scale">Inhoud tekst grootte</string>
+    <string name="settings_content_font_scale">Tekstgrootte van berichten</string>
     <string name="settings_content_font_small">Klein</string>
     <string name="settings_content_font_smaller">Extra klein</string>
     <string name="settings_content_font_smallest">Dubbel extra klein</string>
@@ -336,4 +336,7 @@
     <string name="settings_comment_bar_thickness">Opmerking staafdikte</string>
     <string name="settings_prefer_user_nicknames">Gebruik weergavenamen voor gebruikers en community\'s</string>
     <string name="message_video_nsfw">Deze video is gemarkeerd als NSFW</string>
+    <string name="settings_title_font_scale">Tekstgrootte van titels</string>
+    <string name="settings_comment_font_scale">Tekstgrootte van opmerkingen</string>
+    <string name="settings_ancillary_font_scale">Grootte van ondersteunende teksten</string>
 </resources>

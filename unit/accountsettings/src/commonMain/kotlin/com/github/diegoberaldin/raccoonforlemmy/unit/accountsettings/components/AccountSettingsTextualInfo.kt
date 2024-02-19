@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -45,7 +46,7 @@ internal fun AccountSettingsTextualInfo(
                 style = MaterialTheme.typography.labelMedium,
                 color = ancillaryColor,
             )
-            CustomizedContent {
+            CustomizedContent(ContentFontClass.Body) {
                 Text(
                     text = value,
                     style = valueStyle,

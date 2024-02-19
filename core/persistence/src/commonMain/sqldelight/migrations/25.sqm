@@ -1,0 +1,8 @@
+ALTER TABLE SettingsEntity
+ADD COLUMN  titleFontScale REAL NOT NULL DEFAULT 1;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  commentFontScale REAL NOT NULL DEFAULT 1;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  ancillaryFontScale REAL NOT NULL DEFAULT 1;

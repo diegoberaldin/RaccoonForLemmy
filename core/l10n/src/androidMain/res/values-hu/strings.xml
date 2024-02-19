@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Nagyon nagy</string>
     <string name="settings_content_font_largest">Dupla extra nagy</string>
     <string name="settings_content_font_normal">Átlagos</string>
-    <string name="settings_content_font_scale">Tartalom szövegének mérete</string>
+    <string name="settings_content_font_scale">Hozzászólások szövegmérete</string>
     <string name="settings_content_font_small">Kicsi</string>
     <string name="settings_content_font_smaller">Extra kicsi</string>
     <string name="settings_content_font_smallest">Dupla extra kicsi</string>
@@ -337,4 +337,7 @@
     <string name="settings_comment_bar_thickness">Megjegyzés sáv vastagsága</string>
     <string name="settings_prefer_user_nicknames">Használjon megjelenített neveket a felhasználók és közösségek számára</string>
     <string name="message_video_nsfw">Ez a videó NSFW-ként lett megjelölve</string>
+    <string name="settings_title_font_scale">Címek szövegmérete</string>
+    <string name="settings_comment_font_scale">Megjegyzések szövegmérete</string>
+    <string name="settings_ancillary_font_scale">A segédszövegek mérete</string>
 </resources>

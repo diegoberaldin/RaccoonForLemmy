@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Дуже великий</string>
     <string name="settings_content_font_largest">Подвійний екстра-великий</string>
     <string name="settings_content_font_normal">Нормальний</string>
-    <string name="settings_content_font_scale">Розмір тексту контенту</string>
+    <string name="settings_content_font_scale">Розмір тексту дописів</string>
     <string name="settings_content_font_small">Маленький</string>
     <string name="settings_content_font_smaller">Дуже малий</string>
     <string name="settings_content_font_smallest">Подвійний екстра малий</string>
@@ -336,4 +336,7 @@
     <string name="settings_comment_bar_thickness">Товщина панелі коментарів</string>
     <string name="settings_prefer_user_nicknames">Використовуйте відображувані імена для користувачів і спільнот</string>
     <string name="message_video_nsfw">Це відео було позначено як NSFW</string>
+    <string name="settings_title_font_scale">Розмір тексту заголовків</string>
+    <string name="settings_comment_font_scale">Розмір тексту коментарів</string>
+    <string name="settings_ancillary_font_scale">Розмір допоміжних текстів</string>
 </resources>

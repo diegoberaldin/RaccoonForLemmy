@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Ekstra stort</string>
     <string name="settings_content_font_largest">Dobbelt ekstra stor</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">Indhold tekst størrelse</string>
+    <string name="settings_content_font_scale">Tekststørrelse på indlæg</string>
     <string name="settings_content_font_small">Lille</string>
     <string name="settings_content_font_smaller">Ekstra lille</string>
     <string name="settings_content_font_smallest">Dobbelt ekstra lille</string>
@@ -333,4 +333,7 @@
     <string name="settings_comment_bar_thickness">Kommentarbjælketykkelse</string>
     <string name="settings_prefer_user_nicknames">Brug visningsnavne til brugere og fællesskaber</string>
     <string name="message_video_nsfw">Denne video blev markeret som NSFW</string>
+    <string name="settings_title_font_scale">Tekststørrelse på titler</string>
+    <string name="settings_comment_font_scale">Tekststørrelse af kommentarer</string>
+    <string name="settings_ancillary_font_scale">Størrelse af hjælpetekster</string>
 </resources>

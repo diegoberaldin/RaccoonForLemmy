@@ -183,7 +183,7 @@
     <string name="settings_content_font_larger">Extra large</string>
     <string name="settings_content_font_largest">Double extra large</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">Tailler du texte des contenus</string>
+    <string name="settings_content_font_scale">Tailler du texte des publications</string>
     <string name="settings_content_font_small">Petit</string>
     <string name="settings_content_font_smaller">Extra petit</string>
     <string name="settings_content_font_smallest">Double extra petit</string>
@@ -338,4 +338,7 @@
     <string name="settings_comment_bar_thickness">Épaisseur de la barre de commentaires</string>
     <string name="settings_prefer_user_nicknames">Utiliser des noms d\'affichage pour les utilisateurs et les communautés</string>
     <string name="message_video_nsfw">Cette vidéo a été marquée comme NSFW</string>
+    <string name="settings_title_font_scale">Taille du texte des titres</string>
+    <string name="settings_comment_font_scale">Taille du texte des commentaires</string>
+    <string name="settings_ancillary_font_scale">Taille des textes annexes</string>
 </resources>

@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
@@ -162,7 +163,7 @@ class UserInfoScreen(
                                     style = MaterialTheme.typography.labelMedium,
                                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                                 )
-                                CustomizedContent {
+                                CustomizedContent(ContentFontClass.Body) {
                                     PostCardBody(
                                         modifier = Modifier.fillMaxWidth(),
                                         text = biography,
@@ -226,7 +227,7 @@ class UserInfoScreen(
                                     style = MaterialTheme.typography.labelMedium,
                                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                                 )
-                                CustomizedContent {
+                                CustomizedContent(ContentFontClass.AncillaryText) {
                                     SelectionContainer {
                                         Text(
                                             text = matrixUserId,

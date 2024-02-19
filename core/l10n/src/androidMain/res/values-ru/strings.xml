@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Очень большой</string>
     <string name="settings_content_font_largest">Double Extra Large</string>
     <string name="settings_content_font_normal">Обычные</string>
-    <string name="settings_content_font_scale">Размер текста содержимого</string>
+    <string name="settings_content_font_scale">Размер текста постов</string>
     <string name="settings_content_font_small">Маленький</string>
     <string name="settings_content_font_smaller">Очень маленький</string>
     <string name="settings_content_font_smallest">Double Extra Small</string>
@@ -337,4 +337,7 @@
     <string name="settings_comment_bar_thickness">Толщина панели комментариев</string>
     <string name="settings_prefer_user_nicknames">Используйте отображаемые имена для пользователей и сообществ</string>
     <string name="message_video_nsfw">Это видео было отмечено как NSFW.</string>
+    <string name="settings_title_font_scale">Размер текста заголовков</string>
+    <string name="settings_comment_font_scale">Размер текста комментариев</string>
+    <string name="settings_ancillary_font_scale">Размер вспомогательных текстов</string>
 </resources>

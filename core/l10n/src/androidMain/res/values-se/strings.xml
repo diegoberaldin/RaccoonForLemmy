@@ -182,7 +182,7 @@
     <string name="settings_content_font_larger">Extra stor</string>
     <string name="settings_content_font_largest">Dubbel extra stor</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">Innehållstextstorlek</string>
+    <string name="settings_content_font_scale">Textstorlek på inlägg</string>
     <string name="settings_content_font_small">Liten</string>
     <string name="settings_content_font_smaller">Extra liten</string>
     <string name="settings_content_font_smallest">Dubbel extra liten</string>
@@ -334,4 +334,7 @@
     <string name="settings_comment_bar_thickness">Kommentarstapelns tjocklek</string>
     <string name="settings_prefer_user_nicknames">Använd visningsnamn för användare och gemenskaper</string>
     <string name="message_video_nsfw">Den här videon markerades som NSFW</string>
+    <string name="settings_title_font_scale">Textstorlek på titlar</string>
+    <string name="settings_comment_font_scale">Textstorlek på kommentarer</string>
+    <string name="settings_ancillary_font_scale">Storlek på tilläggstexter</string>
 </resources>

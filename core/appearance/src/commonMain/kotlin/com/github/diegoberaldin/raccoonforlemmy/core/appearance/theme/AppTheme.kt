@@ -14,17 +14,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 
 @Composable
 fun AppTheme(
-    theme: UiTheme?,
-    contentFontScale: Float,
     useDynamicColors: Boolean,
     barTheme: UiBarTheme = UiBarTheme.Solid,
     content: @Composable () -> Unit,
 ) {
     val repository = remember {
-        val res = getThemeRepository()
-        res.changeUiTheme(theme)
-        res.changeContentFontScale(contentFontScale)
-        res
+        getThemeRepository()
     }
 
     val themeState by repository.uiTheme.collectAsState()
@@ -47,7 +42,7 @@ fun AppTheme(
 
     val barColorProvider = remember { getBarColorProvider() }
     barColorProvider.setBarColorAccordingToTheme(
-        theme = theme ?: defaultTheme,
+        theme = themeState ?: defaultTheme,
         barTheme = barTheme,
     )
 

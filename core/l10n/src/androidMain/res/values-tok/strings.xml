@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">suli mute</string>
     <string name="settings_content_font_largest">suli mute mute</string>
     <string name="settings_content_font_normal">pona</string>
-    <string name="settings_content_font_scale">suli sitelen</string>
+    <string name="settings_content_font_scale">suli sitelen lipu</string>
     <string name="settings_content_font_small">lili</string>
     <string name="settings_content_font_smaller">lili mute</string>
     <string name="settings_content_font_smallest">lili mute mute</string>
@@ -332,4 +332,7 @@
     <string name="settings_comment_bar_thickness">suli pi linja pi toki lili</string>
     <string name="settings_prefer_user_nicknames">o lukin e nimi lili tan jan tan kulupu</string>
     <string name="message_video_nsfw">sitelen tawa ni li NSFW</string>
+    <string name="settings_title_font_scale">suli sitelen pi toki suli</string>
+    <string name="settings_comment_font_scale">suli sitelen pi toki lili</string>
+    <string name="settings_ancillary_font_scale">suli sitelen pi nimi lili</string>
 </resources>

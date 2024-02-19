@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Εχτra large</string>
     <string name="settings_content_font_largest">Dvivietis ypač didelis</string>
     <string name="settings_content_font_normal">Normalus</string>
-    <string name="settings_content_font_scale">Turinio teksto dydis</string>
+    <string name="settings_content_font_scale">Įrašų teksto dydis</string>
     <string name="settings_content_font_small">Mažas</string>
     <string name="settings_content_font_smaller">Itin mažas</string>
     <string name="settings_content_font_smallest">Dvivietis itin mažas</string>
@@ -335,4 +335,7 @@
     <string name="settings_comment_bar_thickness">Komentarų juostos storis</string>
     <string name="settings_prefer_user_nicknames">Naudokite rodomus vardus naudotojams ir bendruomenėms</string>
     <string name="message_video_nsfw">Šis vaizdo įrašas buvo pažymėtas kaip NSFW</string>
+    <string name="settings_title_font_scale">Antraštės teksto dydis</string>
+    <string name="settings_comment_font_scale">Komentarų teksto dydis</string>
+    <string name="settings_ancillary_font_scale">Pagalbinių tekstų dydis</string>
 </resources>

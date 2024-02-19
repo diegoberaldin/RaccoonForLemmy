@@ -29,6 +29,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
@@ -124,7 +125,7 @@ internal fun ChatCard(
                     color = ancillaryColor,
                 )
             }
-            CustomizedContent {
+            CustomizedContent(ContentFontClass.Body) {
                 // last message text
                 PostCardBody(
                     maxLines = 2,

@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Extra grande</string>
     <string name="settings_content_font_largest">Duplo extra large</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">Tamanho do texto dos conteúdos</string>
+    <string name="settings_content_font_scale">Tamanho do texto das publicações</string>
     <string name="settings_content_font_small">Pequeno</string>
     <string name="settings_content_font_smaller">Extra pequeno</string>
     <string name="settings_content_font_smallest">Doblo extra pequeno</string>
@@ -335,4 +335,7 @@
     <string name="settings_comment_bar_thickness">Espessura da barra de comentários</string>
     <string name="settings_prefer_user_nicknames">Usar nomes de exibição para usuários e comunidades</string>
     <string name="message_video_nsfw">Este vídeo foi marcado como NSFW</string>
+    <string name="settings_title_font_scale">Tamanho do texto dos títulos</string>
+    <string name="settings_comment_font_scale">Tamanho do texto dos comentários</string>
+    <string name="settings_ancillary_font_scale">Tamanho dos textos auxiliares</string>
 </resources>

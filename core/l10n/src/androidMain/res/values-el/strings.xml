@@ -183,7 +183,7 @@
     <string name="settings_content_font_larger">Εξαιρετικά μεγάλο</string>
     <string name="settings_content_font_largest">Διπλά εξαιρετικά μεγάλο</string>
     <string name="settings_content_font_normal">Κανονικό</string>
-    <string name="settings_content_font_scale">Μέγεθος κειμένου περιεχομένου</string>
+    <string name="settings_content_font_scale">Μέγεθος κειμένου αναρτήσεων</string>
     <string name="settings_content_font_small">Μικρό</string>
     <string name="settings_content_font_smaller">Πολύ μικρό</string>
     <string name="settings_content_font_smallest">Διπλά πολύ μικρό</string>
@@ -344,4 +344,7 @@
     <string name="settings_comment_bar_thickness">Πάχος ράβδου σχολίων</string>
     <string name="settings_prefer_user_nicknames">Χρησιμοποιήστε εμφανιζόμενα ονόματα για χρήστες και κοινότητες</string>
     <string name="message_video_nsfw">Αυτό το βίντεο επισημάνθηκε ως NSFW</string>
+    <string name="settings_title_font_scale">Μέγεθος κειμένου των τίτλων</string>
+    <string name="settings_comment_font_scale">Μέγεθος κειμένου σχολίων</string>
+    <string name="settings_ancillary_font_scale">Μέγεθος βοηθητικών κειμένων</string>
 </resources>

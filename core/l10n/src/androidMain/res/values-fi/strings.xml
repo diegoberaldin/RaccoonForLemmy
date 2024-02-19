@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Erittäin suuri</string>
     <string name="settings_content_font_largest">Kaksinkertainen erittäin suuri</string>
     <string name="settings_content_font_normal">Normaali</string>
-    <string name="settings_content_font_scale">Sisällön tekstin koko</string>
+    <string name="settings_content_font_scale">Viestien tekstikoko</string>
     <string name="settings_content_font_small">Pieni</string>
     <string name="settings_content_font_smaller">Erittäin pieni</string>
     <string name="settings_content_font_smallest">Kaksinkertainen erittäin pieni</string>
@@ -333,4 +333,7 @@
     <string name="settings_comment_bar_thickness">Kommenttipalkin paksuus</string>
     <string name="settings_prefer_user_nicknames">Käytä näyttönimiä käyttäjille ja yhteisöille</string>
     <string name="message_video_nsfw">Tämä video on merkitty NSFW:ksi</string>
+    <string name="settings_title_font_scale">Otsikon tekstikoko</string>
+    <string name="settings_comment_font_scale">Kommenttien tekstikoko</string>
+    <string name="settings_ancillary_font_scale">Aputekstien koko</string>
 </resources>

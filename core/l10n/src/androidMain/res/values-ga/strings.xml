@@ -186,7 +186,7 @@
     <string name="settings_content_font_larger">An - mhór</string>
     <string name="settings_content_font_largest">An - mhór dúbailte</string>
     <string name="settings_content_font_normal">Gnáth</string>
-    <string name="settings_content_font_scale">Méid an ábhair</string>
+    <string name="settings_content_font_scale">Méid téacs na bpostálacha</string>
     <string name="settings_content_font_small">Beag</string>
     <string name="settings_content_font_smaller">An - bheag</string>
     <string name="settings_content_font_smallest">Dhá oiread beag breise</string>
@@ -342,4 +342,7 @@
     <string name="settings_comment_bar_thickness">Tiús barra tráchta</string>
     <string name="settings_prefer_user_nicknames">Úsáid ainmneacha taispeána le haghaidh úsáideoirí agus pobail</string>
     <string name="message_video_nsfw">Marcáladh an físeán seo mar NSFW</string>
+    <string name="settings_title_font_scale">Méid téacs na dteideal</string>
+    <string name="settings_comment_font_scale">Méid téacs na dtuairimí</string>
+    <string name="settings_ancillary_font_scale">Méid na dtéacsanna coimhdeacha</string>
 </resources>

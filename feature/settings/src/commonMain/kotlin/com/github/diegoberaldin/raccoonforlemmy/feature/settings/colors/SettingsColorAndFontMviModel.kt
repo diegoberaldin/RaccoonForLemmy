@@ -3,9 +3,9 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors
 import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontScales
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 
 interface SettingsColorAndFontMviModel :
@@ -28,9 +28,9 @@ interface SettingsColorAndFontMviModel :
         val saveColor: Color? = null,
         val commentBarTheme: CommentBarTheme = CommentBarTheme.Blue,
         val commentBarThickness: Int = 1,
-        val uiFontScale: FontScale = FontScale.Normal,
+        val uiFontScale: Float = 1f,
         val uiFontFamily: UiFontFamily = UiFontFamily.Poppins,
-        val contentFontScale: FontScale = FontScale.Normal,
+        val contentFontScale: ContentFontScales = ContentFontScales(),
         val contentFontFamily: UiFontFamily = UiFontFamily.Poppins,
     )
 

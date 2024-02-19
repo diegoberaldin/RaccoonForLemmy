@@ -8,16 +8,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 
 @Composable
-fun CustomizedContent(content: @Composable () -> Unit) {
+fun CustomizedContent(
+    contentClass: ContentFontClass,
+    content: @Composable () -> Unit,
+) {
     val themeRepository = remember { getThemeRepository() }
     val fontScale by themeRepository.contentFontScale.collectAsState()
+    val scaleFactor = when (contentClass) {
+        ContentFontClass.Title -> fontScale.title
+        ContentFontClass.Body -> fontScale.body
+        ContentFontClass.Comment -> fontScale.comment
+        ContentFontClass.AncillaryText -> fontScale.ancillary
+    }
 
     CompositionLocalProvider(
         LocalDensity provides Density(
             density = LocalDensity.current.density,
-            fontScale = fontScale,
+            fontScale = scaleFactor,
         ),
     ) {
         content()

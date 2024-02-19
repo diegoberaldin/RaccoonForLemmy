@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
@@ -43,7 +44,7 @@ internal fun AccountSettingsFormattedInfo(
                 style = MaterialTheme.typography.labelMedium,
                 color = ancillaryColor,
             )
-            CustomizedContent {
+            CustomizedContent(ContentFontClass.Body) {
                 PostCardBody(
                     text = value,
                     onClick = rememberCallback {

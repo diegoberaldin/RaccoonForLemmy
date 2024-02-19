@@ -182,7 +182,7 @@
     <string name="settings_content_font_larger">Ļoti liels</string>
     <string name="settings_content_font_largest">Divvietīgs, īpaši liels</string>
     <string name="settings_content_font_normal">Parasta</string>
-    <string name="settings_content_font_scale">Satura teksta lielums</string>
+    <string name="settings_content_font_scale">Ziņu teksta lielums</string>
     <string name="settings_content_font_small">Neliela</string>
     <string name="settings_content_font_smaller">Ekstra mazs</string>
     <string name="settings_content_font_smallest">Divvietīgs, īpaši mazs</string>
@@ -337,4 +337,7 @@
     <string name="settings_comment_bar_thickness">Komentāru joslas biezums</string>
     <string name="settings_prefer_user_nicknames">Izmantojiet parādāmos vārdus lietotājiem un kopienām</string>
     <string name="message_video_nsfw">Šis videoklips tika atzīmēts kā NSFW</string>
+    <string name="settings_title_font_scale">Virsrakstu teksta lielums</string>
+    <string name="settings_comment_font_scale">Komentāru teksta lielums</string>
+    <string name="settings_ancillary_font_scale">Palīgtekstu lielums</string>
 </resources>

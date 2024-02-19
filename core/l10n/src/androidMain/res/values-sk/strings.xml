@@ -183,7 +183,7 @@
     </string>
     <string name="settings_content_font_largest">Dvojité extra veľké</string>
     <string name="settings_content_font_normal">V norme</string>
-    <string name="settings_content_font_scale">Veľkosť textu obsahu</string>
+    <string name="settings_content_font_scale">Veľkosť textu príspevkov</string>
     <string name="settings_content_font_small">Malá</string>
     <string name="settings_content_font_smaller">Extra</string>
     <string name="settings_content_font_smallest">Dvojité extra malé</string>
@@ -335,4 +335,7 @@
     <string name="settings_comment_bar_thickness">Komentár hrúbka pruhu</string>
     <string name="settings_prefer_user_nicknames">Používať zobrazované mená pre používateľov a komunity</string>
     <string name="message_video_nsfw">Toto video bolo označené ako NSFW</string>
+    <string name="settings_title_font_scale">Veľkosť textu titulkov</string>
+    <string name="settings_comment_font_scale">Veľkosť textu komentárov</string>
+    <string name="settings_ancillary_font_scale">Veľkosť pomocných textov</string>
 </resources>

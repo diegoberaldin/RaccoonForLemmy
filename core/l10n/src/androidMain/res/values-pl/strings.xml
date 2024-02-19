@@ -182,7 +182,7 @@
     <string name="settings_content_font_larger">Bardzo duży</string>
     <string name="settings_content_font_largest">Podwójny bardzo duży</string>
     <string name="settings_content_font_normal">Normalny</string>
-    <string name="settings_content_font_scale">Rozmiar tekstu treści</string>
+    <string name="settings_content_font_scale">Rozmiar tekstu postów</string>
     <string name="settings_content_font_small">Mały</string>
     <string name="settings_content_font_smaller">Bardzo mały</string>
     <string name="settings_content_font_smallest">Podwójny bardzo mały</string>
@@ -336,4 +336,7 @@
     <string name="settings_comment_bar_thickness">Grubość paska komentarza</string>
     <string name="settings_prefer_user_nicknames">Używaj nazw wyświetlanych dla użytkowników i społeczności</string>
     <string name="message_video_nsfw">Ten film wideo został oznaczony jako NSFW</string>
+    <string name="settings_title_font_scale">Rozmiar tekstu tytułów</string>
+    <string name="settings_comment_font_scale">Rozmiar tekstu komentarzy</string>
+    <string name="settings_ancillary_font_scale">Rozmiar tekstów pomocniczych</string>
 </resources>

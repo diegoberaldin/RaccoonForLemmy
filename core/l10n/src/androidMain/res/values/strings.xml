@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Extra large</string>
     <string name="settings_content_font_largest">Double extra large</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">Content text size</string>
+    <string name="settings_content_font_scale">Post text size</string>
     <string name="settings_content_font_small">Small</string>
     <string name="settings_content_font_smaller">Extra small</string>
     <string name="settings_content_font_smallest">Double extra small</string>
@@ -331,4 +331,7 @@
     <string name="settings_comment_bar_thickness">Comment bar thickness</string>
     <string name="settings_prefer_user_nicknames">Use display names for users and communities</string>
     <string name="message_video_nsfw">This video was marked as NSFW</string>
+    <string name="settings_title_font_scale">Title text size</string>
+    <string name="settings_comment_font_scale">Comment text size</string>
+    <string name="settings_ancillary_font_scale">Ancillary text size</string>
 </resources>

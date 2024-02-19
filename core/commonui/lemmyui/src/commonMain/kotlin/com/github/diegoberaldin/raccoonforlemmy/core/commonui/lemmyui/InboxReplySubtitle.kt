@@ -37,10 +37,12 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.formatToReadableValue
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FeedbackButton
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -120,14 +122,16 @@ fun InboxReplySubtitle(
                                 contentScale = ContentScale.FillBounds,
                             )
                         }
-                        Text(
-                            modifier = Modifier.padding(vertical = Spacing.xs),
-                            text = creatorName,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = ancillaryColor,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1,
-                        )
+                        CustomizedContent(ContentFontClass.AncillaryText) {
+                            Text(
+                                modifier = Modifier.padding(vertical = Spacing.xs),
+                                text = creatorName,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = ancillaryColor,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1,
+                            )
+                        }
                     }
                 }
                 if (communityName.isNotEmpty()) {
@@ -156,14 +160,16 @@ fun InboxReplySubtitle(
                                 contentScale = ContentScale.FillBounds,
                             )
                         }
-                        Text(
-                            modifier = Modifier.padding(vertical = Spacing.xs),
-                            text = communityName,
-                            style = MaterialTheme.typography.bodySmall,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1,
-                            color = ancillaryColor,
-                        )
+                        CustomizedContent(ContentFontClass.AncillaryText) {
+                            Text(
+                                modifier = Modifier.padding(vertical = Spacing.xs),
+                                text = communityName,
+                                style = MaterialTheme.typography.bodySmall,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1,
+                                color = ancillaryColor,
+                            )
+                        }
                     }
                 }
             }

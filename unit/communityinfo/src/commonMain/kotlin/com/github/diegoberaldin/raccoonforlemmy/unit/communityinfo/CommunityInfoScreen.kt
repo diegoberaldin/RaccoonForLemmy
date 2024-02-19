@@ -30,6 +30,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -203,7 +204,7 @@ class CommunityInfoScreen(
                         }
                     }
                     item {
-                        CustomizedContent {
+                        CustomizedContent(ContentFontClass.Body) {
                             PostCardBody(
                                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.m),
                                 text = uiState.community.description,

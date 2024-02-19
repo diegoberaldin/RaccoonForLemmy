@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Ekstra Büyük</string>
     <string name="settings_content_font_largest">Double extra large</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">İçerik Yazı Boyutu</string>
+    <string name="settings_content_font_scale">Gönderilerin metin boyutu</string>
     <string name="settings_content_font_small">Küçük</string>
     <string name="settings_content_font_smaller">Ekstra Küçük</string>
     <string name="settings_content_font_smallest">Double extra small</string>
@@ -336,4 +336,7 @@
     <string name="settings_comment_bar_thickness">Yorum çubuğu kalınlığı</string>
     <string name="settings_prefer_user_nicknames">Kullanıcılar ve topluluklar için görünen adları kullanın</string>
     <string name="message_video_nsfw">Bu video NSFW olarak işaretlendi</string>
+    <string name="settings_title_font_scale">Başlıkların metin boyutu</string>
+    <string name="settings_comment_font_scale">Yorumların metin boyutu</string>
+    <string name="settings_ancillary_font_scale">Yardımcı metinlerin boyutu</string>
 </resources>

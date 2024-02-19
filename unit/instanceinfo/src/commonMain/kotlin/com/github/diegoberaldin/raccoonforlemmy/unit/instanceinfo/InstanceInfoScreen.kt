@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.screen.Screen
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
@@ -174,7 +175,7 @@ class InstanceInfoScreen(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     item {
-                        CustomizedContent {
+                        CustomizedContent(ContentFontClass.Title) {
                             Column(
                                 modifier = Modifier.padding(horizontal = Spacing.s),
                                 verticalArrangement = Arrangement.spacedBy(Spacing.s),

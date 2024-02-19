@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
@@ -226,7 +227,7 @@ private fun CompactPost(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
         ) {
-            CustomizedContent {
+            CustomizedContent(ContentFontClass.Title) {
                 PostCardTitle(
                     modifier = Modifier.weight(0.75f),
                     text = post.title,
@@ -370,7 +371,7 @@ private fun ExtendedPost(
                 optionsMenuOpen.value = true
             },
         )
-        CustomizedContent {
+        CustomizedContent(ContentFontClass.Title) {
             PostCardTitle(
                 modifier = Modifier.padding(
                     vertical = Spacing.xs,
@@ -437,7 +438,7 @@ private fun ExtendedPost(
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                 )
             } else {
-                CustomizedContent {
+                CustomizedContent(ContentFontClass.Body) {
                     PostCardBody(
                         modifier = Modifier.padding(
                             top = Spacing.xxs,

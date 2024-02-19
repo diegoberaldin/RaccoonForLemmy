@@ -179,7 +179,7 @@
     <string name="settings_content_font_larger">كبير جدا</string>
     <string name="settings_content_font_largest">دوبل إكسترا لارج</string>
     <string name="settings_content_font_normal">عادي</string>
-    <string name="settings_content_font_scale">حجم نص المحتوى</string>
+    <string name="settings_content_font_scale">حجم النص من المشاركات</string>
     <string name="settings_content_font_small">صغير</string>
     <string name="settings_content_font_smaller">صغيرة إضافية</string>
     <string name="settings_content_font_smallest">مزدوج إضافي صغير</string>
@@ -331,4 +331,7 @@
     <string name="settings_comment_bar_thickness">سمك شريط التعليق</string>
     <string name="settings_prefer_user_nicknames">استخدم أسماء العرض للمستخدمين والمجتمعات</string>
     <string name="message_video_nsfw">تم وضع علامة على هذا الفيديو على أنه NSFW</string>
+    <string name="settings_title_font_scale">حجم نص العناوين</string>
+    <string name="settings_comment_font_scale">حجم نص التعليقات</string>
+    <string name="settings_ancillary_font_scale">حجم النصوص المساعدة</string>
 </resources>

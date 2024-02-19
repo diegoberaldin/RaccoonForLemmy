@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
@@ -61,13 +62,11 @@ fun InstanceItem(
             title = name,
         )
 
-        CustomizedContent {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.bodySmall,
-                color = fullColor,
-            )
-        }
+        Text(
+            text = name,
+            style = MaterialTheme.typography.bodySmall,
+            color = fullColor,
+        )
 
         if (options.isNotEmpty()) {
             Box {

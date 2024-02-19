@@ -18,6 +18,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -40,7 +41,7 @@ private val defaultChoices: List<Float> = listOf(
 
 class FontScaleBottomSheet(
     private val values: List<Float> = defaultChoices,
-    private val content: Boolean,
+    private val contentClass: ContentFontClass? = null,
 ) : Screen {
 
     @Composable
@@ -61,13 +62,20 @@ class FontScaleBottomSheet(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 BottomSheetHandle()
+                val title = when (contentClass) {
+                    ContentFontClass.Title -> LocalXmlStrings.current.settingsTitleFontScale
+                    ContentFontClass.Body -> LocalXmlStrings.current.settingsContentFontScale
+                    ContentFontClass.Comment -> LocalXmlStrings.current.settingsCommentFontScale
+                    ContentFontClass.AncillaryText -> LocalXmlStrings.current.settingsAncillaryFontScale
+                    else -> LocalXmlStrings.current.settingsUiFontScale
+                }
                 Text(
                     modifier = Modifier.padding(
                         start = Spacing.s,
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = LocalXmlStrings.current.settingsContentFontScale,
+                    text = title,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -87,8 +95,11 @@ class FontScaleBottomSheet(
                                 .onClick(
                                     onClick = rememberCallback {
                                         notificationCenter.send(
-                                            if (content) {
-                                                NotificationCenterEvent.ChangeContentFontSize(value)
+                                            if (contentClass != null) {
+                                                NotificationCenterEvent.ChangeContentFontSize(
+                                                    value = value,
+                                                    contentClass = contentClass
+                                                )
                                             } else {
                                                 NotificationCenterEvent.ChangeUiFontSize(value)
                                             }

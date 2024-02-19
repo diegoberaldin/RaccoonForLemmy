@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Iktar kbir</string>
     <string name="settings_content_font_largest">Kbir żejjed doppju</string>
     <string name="settings_content_font_normal">Normali</string>
-    <string name="settings_content_font_scale">Daqs tat-test tal-kontenut</string>
+    <string name="settings_content_font_scale">Daqs tat-test tal-postijiet</string>
     <string name="settings_content_font_small">Żgħir</string>
     <string name="settings_content_font_smaller">Iktar żgħir</string>
     <string name="settings_content_font_smallest">Żgħir żejjed doppju</string>
@@ -338,4 +338,7 @@
     <string name="settings_comment_bar_thickness">Ħxuna tal-bar tal-kumment</string>
     <string name="settings_prefer_user_nicknames">Uża ismijiet tal-wiri għall-utenti u l-komunitajiet</string>
     <string name="message_video_nsfw">Dan il-video kien immarkat bħala NSFW</string>
+    <string name="settings_title_font_scale">Daqs tat-test tat-titoli</string>
+    <string name="settings_comment_font_scale">Daqs tat-test tal-kummenti</string>
+    <string name="settings_ancillary_font_scale">Daqs tat-testi anċillari</string>
 </resources>

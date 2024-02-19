@@ -183,7 +183,7 @@
     <string name="settings_content_font_larger">Jako velika</string>
     <string name="settings_content_font_largest">Dvostruko ekstra velika</string>
     <string name="settings_content_font_normal">Normalno</string>
-    <string name="settings_content_font_scale">Veličina teksta sadržaja</string>
+    <string name="settings_content_font_scale">Veličina teksta postova</string>
     <string name="settings_content_font_small">Mali</string>
     <string name="settings_content_font_smaller">jako malo</string>
     <string name="settings_content_font_smallest">Dvostruko, vrlo malo</string>
@@ -338,4 +338,7 @@
     <string name="settings_comment_bar_thickness">Debljina trake komentara</string>
     <string name="settings_prefer_user_nicknames">Koristite imena za prikaz za korisnike i zajednice</string>
     <string name="message_video_nsfw">Ovaj video je označen kao NSFW</string>
+    <string name="settings_title_font_scale">Veličina teksta naslova</string>
+    <string name="settings_comment_font_scale">Veličina teksta komentara</string>
+    <string name="settings_ancillary_font_scale">Veličina pomoćnih tekstova</string>
 </resources>

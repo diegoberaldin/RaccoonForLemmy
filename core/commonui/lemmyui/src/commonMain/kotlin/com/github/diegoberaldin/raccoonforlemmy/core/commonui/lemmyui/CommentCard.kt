@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
@@ -125,7 +126,7 @@ fun CommentCard(
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
                     )
                 } else {
-                    CustomizedContent {
+                    CustomizedContent(ContentFontClass.Body) {
                         CompositionLocalProvider(
                             LocalDensity provides Density(
                                 density = LocalDensity.current.density,

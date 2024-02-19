@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Pli granda</string>
     <string name="settings_content_font_largest">Duoble pli granda</string>
     <string name="settings_content_font_normal">Normala</string>
-    <string name="settings_content_font_scale">Enhava tekstograndeco</string>
+    <string name="settings_content_font_scale">Teksta grandeco de afiŝoj</string>
     <string name="settings_content_font_small">Malgranda</string>
     <string name="settings_content_font_smaller">Pli malgranda</string>
     <string name="settings_content_font_smallest">Duoble pli malgranda</string>
@@ -332,4 +332,7 @@
     <string name="settings_comment_bar_thickness">Komento trinkejo dikeco</string>
     <string name="settings_prefer_user_nicknames">Uzu vidnomojn por uzantoj kaj komunumoj</string>
     <string name="message_video_nsfw">Ĉi tiu video estis markita kiel NSFW</string>
+    <string name="settings_title_font_scale">Tekstograndeco de titoloj</string>
+    <string name="settings_comment_font_scale">Tekstograndeco de komentoj</string>
+    <string name="settings_ancillary_font_scale">Grandeco de helpaj tekstoj</string>
 </resources>

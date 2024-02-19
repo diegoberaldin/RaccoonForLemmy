@@ -183,7 +183,7 @@
     <string name="settings_content_font_larger">Много голям</string>
     <string name="settings_content_font_largest">Двойна много голяма</string>
     <string name="settings_content_font_normal">Нормална</string>
-    <string name="settings_content_font_scale">Размер на текста на съдържанието</string>
+    <string name="settings_content_font_scale">Размер на текста на публикациите</string>
     <string name="settings_content_font_small">Малко</string>
     <string name="settings_content_font_smaller">Много Малък</string>
     <string name="settings_content_font_smallest">Двойно по - малко</string>
@@ -341,4 +341,7 @@
     <string name="settings_comment_bar_thickness">Дебелина на лентата за коментари</string>
     <string name="settings_prefer_user_nicknames">Използвайте показвани имена за потребители и общности</string>
     <string name="message_video_nsfw">Този видеоклип беше маркиран като NSFW</string>
+    <string name="settings_title_font_scale">Размер на текста на заглавията</string>
+    <string name="settings_comment_font_scale">Размер на текста на коментарите</string>
+    <string name="settings_ancillary_font_scale">Размер на спомагателните текстове</string>
 </resources>

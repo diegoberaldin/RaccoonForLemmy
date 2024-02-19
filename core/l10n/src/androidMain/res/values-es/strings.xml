@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Muy grande</string>
     <string name="settings_content_font_largest">Extra grande</string>
     <string name="settings_content_font_normal">Normal</string>
-    <string name="settings_content_font_scale">Tamaño de texto del contenido</string>
+    <string name="settings_content_font_scale">Tamaño de texto publicaciones</string>
     <string name="settings_content_font_small">Pequeño</string>
     <string name="settings_content_font_smaller">Muy pequeño</string>
     <string name="settings_content_font_smallest">Extra pequeño</string>
@@ -334,4 +334,7 @@
     <string name="settings_comment_bar_thickness">Grosor de la barra de comentarios</string>
     <string name="settings_prefer_user_nicknames">Utilizar nombres para mostrar para usuarios y comunidades</string>
     <string name="message_video_nsfw">Este vídeo fue marcado como NSFW</string>
+    <string name="settings_title_font_scale">Tamaño del texto de los títulos.</string>
+    <string name="settings_comment_font_scale">Tamaño del texto de los comentarios.</string>
+    <string name="settings_ancillary_font_scale">Tamaño de los textos auxiliares</string>
 </resources>

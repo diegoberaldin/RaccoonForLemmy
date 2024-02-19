@@ -181,7 +181,7 @@
     <string name="settings_content_font_larger">Eriti suur</string>
     <string name="settings_content_font_largest">Kahekordne ülisuur</string>
     <string name="settings_content_font_normal">Normaalne</string>
-    <string name="settings_content_font_scale">Sisu teksti suurus</string>
+    <string name="settings_content_font_scale">Postituste teksti suurus</string>
     <string name="settings_content_font_small">Väike</string>
     <string name="settings_content_font_smaller">Eriti väike</string>
     <string name="settings_content_font_smallest">Kahekordne üliväike</string>
@@ -333,4 +333,7 @@
     <string name="settings_comment_bar_thickness">Kommentaari riba paksus</string>
     <string name="settings_prefer_user_nicknames">Kasutage kasutajate ja kogukondade jaoks kuvatavaid nimesid</string>
     <string name="message_video_nsfw">See video märgiti kui NSFW</string>
+    <string name="settings_title_font_scale">Pealkirjade teksti suurus</string>
+    <string name="settings_comment_font_scale">Kommentaaride teksti suurus</string>
+    <string name="settings_ancillary_font_scale">Abitekstide suurus</string>
 </resources>

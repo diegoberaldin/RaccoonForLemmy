@@ -34,9 +34,11 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
@@ -245,7 +247,7 @@ class SettingsColorAndFontScreen : Screen {
                     // font scale
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsUiFontScale,
-                        value = uiState.uiFontScale.toReadableName(),
+                        value = uiState.uiFontScale.toFontScale().toReadableName(),
                         onTap = rememberCallback {
                             val sheet = FontScaleBottomSheet(
                                 values = listOf(
@@ -253,16 +255,41 @@ class SettingsColorAndFontScreen : Screen {
                                     FontScale.Normal,
                                     FontScale.Small,
                                 ).map { it.scaleFactor },
-                                content = false,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsContentFontScale,
-                        value = uiState.contentFontScale.toReadableName(),
+                        title = LocalXmlStrings.current.settingsTitleFontScale,
+                        value = uiState.contentFontScale.title.toFontScale().toReadableName(),
                         onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet(content = true)
+                            val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Title)
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+                    SettingsRow(
+                        title = LocalXmlStrings.current.settingsContentFontScale,
+                        value = uiState.contentFontScale.body.toFontScale().toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Body)
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+                    SettingsRow(
+                        title = LocalXmlStrings.current.settingsCommentFontScale,
+                        value = uiState.contentFontScale.comment.toFontScale().toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet =
+                                FontScaleBottomSheet(contentClass = ContentFontClass.Comment)
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    )
+                    SettingsRow(
+                        title = LocalXmlStrings.current.settingsAncillaryFontScale,
+                        value = uiState.contentFontScale.ancillary.toFontScale().toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet =
+                                FontScaleBottomSheet(contentClass = ContentFontClass.AncillaryText)
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )

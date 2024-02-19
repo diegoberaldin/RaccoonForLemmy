@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toLong
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toVoteFormat
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontScales
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DatabaseProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.GetBy
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
@@ -19,7 +20,10 @@ private object KeyStoreKeys {
     const val UI_THEME = "uiTheme"
     const val UI_FONT_FAMILY = "uiFontFamily"
     const val UI_FONT_SCALE = "uiFontSize"
-    const val CONTENT_FONT_SCALE = "contentFontSize"
+    const val CONTENT_TITLE_FONT_SCALE = "titleFontSize"
+    const val CONTENT_BODY_FONT_SCALE = "contentFontSize"
+    const val CONTENT_COMMENT_FONT_SCALE = "commentFontSize"
+    const val CONTENT_ANCILLARY_FONT_SCALE = "ancillaryFontSize"
     const val LOCALE = "locale"
     const val DEFAULT_LISTING_TYPE = "defaultListingType"
     const val DEFAULT_POST_SORT_TYPE = "defaultPostSortType"
@@ -69,7 +73,10 @@ internal class DefaultSettingsRepository(
                 theme = settings.theme?.toLong(),
                 uiFontScale = settings.uiFontScale.toDouble(),
                 uiFontFamily = settings.uiFontFamily.toLong(),
-                contentFontScale = settings.contentFontScale.toDouble(),
+                titleFontScale = settings.contentFontScale.title.toDouble(),
+                contentFontScale = settings.contentFontScale.body.toDouble(),
+                commentFontScale = settings.contentFontScale.comment.toDouble(),
+                ancillaryFontScale = settings.contentFontScale.ancillary.toDouble(),
                 locale = settings.locale,
                 defaultListingType = settings.defaultListingType.toLong(),
                 defaultPostSortType = settings.defaultPostSortType.toLong(),
@@ -126,13 +133,19 @@ internal class DefaultSettingsRepository(
         withContext(Dispatchers.IO) {
             if (accountId == null) {
                 // anonymous user, reading from keystore
+                val contentFontScale = ContentFontScales(
+                    title = keyStore[KeyStoreKeys.CONTENT_TITLE_FONT_SCALE, 1f],
+                    body = keyStore[KeyStoreKeys.CONTENT_BODY_FONT_SCALE, 1f],
+                    comment = keyStore[KeyStoreKeys.CONTENT_COMMENT_FONT_SCALE, 1f],
+                    ancillary = keyStore[KeyStoreKeys.CONTENT_ANCILLARY_FONT_SCALE, 1f],
+                )
                 SettingsModel(
                     theme = if (keyStore.containsKey(KeyStoreKeys.UI_THEME)) {
                         keyStore[KeyStoreKeys.UI_THEME, 0]
                     } else null,
                     uiFontScale = keyStore[KeyStoreKeys.UI_FONT_SCALE, 1f],
                     uiFontFamily = keyStore[KeyStoreKeys.UI_FONT_FAMILY, 0],
-                    contentFontScale = keyStore[KeyStoreKeys.CONTENT_FONT_SCALE, 1f],
+                    contentFontScale = contentFontScale,
                     locale = keyStore[KeyStoreKeys.LOCALE, ""].takeIf { it.isNotEmpty() },
                     defaultListingType = keyStore[KeyStoreKeys.DEFAULT_LISTING_TYPE, 2],
                     defaultPostSortType = keyStore[KeyStoreKeys.DEFAULT_POST_SORT_TYPE, 1],
@@ -186,7 +199,19 @@ internal class DefaultSettingsRepository(
                 }
                 keyStore.save(KeyStoreKeys.UI_FONT_SCALE, settings.uiFontScale)
                 keyStore.save(KeyStoreKeys.UI_FONT_FAMILY, settings.uiFontFamily)
-                keyStore.save(KeyStoreKeys.CONTENT_FONT_SCALE, settings.contentFontScale)
+                keyStore.save(
+                    KeyStoreKeys.CONTENT_TITLE_FONT_SCALE,
+                    settings.contentFontScale.title
+                )
+                keyStore.save(KeyStoreKeys.CONTENT_BODY_FONT_SCALE, settings.contentFontScale.body)
+                keyStore.save(
+                    KeyStoreKeys.CONTENT_COMMENT_FONT_SCALE,
+                    settings.contentFontScale.comment
+                )
+                keyStore.save(
+                    KeyStoreKeys.CONTENT_ANCILLARY_FONT_SCALE,
+                    settings.contentFontScale.ancillary
+                )
                 if (!settings.locale.isNullOrEmpty()) {
                     keyStore.save(KeyStoreKeys.LOCALE, settings.locale)
                 } else {
@@ -260,7 +285,10 @@ internal class DefaultSettingsRepository(
                     theme = settings.theme?.toLong(),
                     uiFontScale = settings.uiFontScale.toDouble(),
                     uiFontFamily = settings.uiFontFamily.toLong(),
-                    contentFontScale = settings.contentFontScale.toDouble(),
+                    titleFontScale = settings.contentFontScale.title.toDouble(),
+                    contentFontScale = settings.contentFontScale.body.toDouble(),
+                    commentFontScale = settings.contentFontScale.comment.toDouble(),
+                    ancillaryFontScale = settings.contentFontScale.ancillary.toDouble(),
                     locale = settings.locale,
                     defaultListingType = settings.defaultListingType.toLong(),
                     defaultPostSortType = settings.defaultPostSortType.toLong(),
@@ -324,7 +352,12 @@ private fun GetBy.toModel() = SettingsModel(
     theme = theme?.toInt(),
     uiFontScale = uiFontScale.toFloat(),
     uiFontFamily = uiFontFamily.toInt(),
-    contentFontScale = contentFontScale.toFloat(),
+    contentFontScale = ContentFontScales(
+        title = titleFontScale.toFloat(),
+        body = contentFontScale.toFloat(),
+        comment = commentFontScale.toFloat(),
+        ancillary = ancillaryFontScale.toFloat(),
+    ),
     locale = locale,
     defaultListingType = defaultListingType.toInt(),
     defaultPostSortType = defaultPostSortType.toInt(),

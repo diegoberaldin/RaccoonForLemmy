@@ -29,7 +29,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -72,20 +71,20 @@ fun MultiCommunityItem(
             )
         }
 
-        CustomizedContent {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    modifier = Modifier.padding(vertical = Spacing.s),
-                    text = buildString {
-                        append(title)
-                    },
-                    color = fullColor,
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-            }
+
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                modifier = Modifier.padding(vertical = Spacing.s),
+                text = buildString {
+                    append(title)
+                },
+                color = fullColor,
+                style = MaterialTheme.typography.bodyLarge,
+            )
         }
+
 
         if (options.isNotEmpty()) {
             Box {

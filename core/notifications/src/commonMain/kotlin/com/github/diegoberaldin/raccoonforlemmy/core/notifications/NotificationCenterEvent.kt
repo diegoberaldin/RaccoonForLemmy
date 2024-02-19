@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeDirection
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeTarget
@@ -31,7 +32,8 @@ sealed interface NotificationCenterEvent {
 
     data class ChangeInboxType(val unreadOnly: Boolean) : NotificationCenterEvent
     data class ChangeTheme(val value: UiTheme?) : NotificationCenterEvent
-    data class ChangeContentFontSize(val value: Float) : NotificationCenterEvent
+    data class ChangeContentFontSize(val value: Float, val contentClass: ContentFontClass) :
+        NotificationCenterEvent
     data class ChangeUiFontSize(val value: Float) : NotificationCenterEvent
     data class ChangeFontFamily(val value: UiFontFamily) : NotificationCenterEvent
     data class ChangeContentFontFamily(val value: UiFontFamily) : NotificationCenterEvent

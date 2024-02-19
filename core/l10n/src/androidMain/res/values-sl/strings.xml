@@ -180,7 +180,7 @@
     <string name="settings_content_font_larger">Zelo velika</string>
     <string name="settings_content_font_largest">Dvojno, zelo veliko</string>
     <string name="settings_content_font_normal">Normalno</string>
-    <string name="settings_content_font_scale">Velikost besedila vsebine</string>
+    <string name="settings_content_font_scale">Velikost besedila objav</string>
     <string name="settings_content_font_small">Majhna</string>
     <string name="settings_content_font_smaller">Zelo majhen</string>
     <string name="settings_content_font_smallest">Dvojno, zelo majhno</string>
@@ -333,4 +333,7 @@
     <string name="settings_comment_bar_thickness">Debelina vrstice za komentarje</string>
     <string name="settings_prefer_user_nicknames">Uporabite prikazna imena za uporabnike in skupnosti</string>
     <string name="message_video_nsfw">Ta video je bil označen kot NSFW</string>
+    <string name="settings_title_font_scale">Velikost besedila naslovov</string>
+    <string name="settings_comment_font_scale">Velikost besedila komentarjev</string>
+    <string name="settings_ancillary_font_scale">Velikost pomožnih besedil</string>
 </resources>

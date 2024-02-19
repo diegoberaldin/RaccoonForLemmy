@@ -14,7 +14,7 @@ interface ThemeRepository {
     val uiTheme: StateFlow<UiTheme?>
     val uiFontFamily: StateFlow<UiFontFamily>
     val uiFontScale: StateFlow<Float>
-    val contentFontScale: StateFlow<Float>
+    val contentFontScale: StateFlow<ContentFontScales>
     val contentFontFamily: StateFlow<UiFontFamily>
     val navItemTitles: StateFlow<Boolean>
     val dynamicColors: StateFlow<Boolean>
@@ -33,7 +33,7 @@ interface ThemeRepository {
 
     fun changeUiFontScale(value: Float)
 
-    fun changeContentFontScale(value: Float)
+    fun changeContentFontScale(value: ContentFontScales)
 
     fun changeContentFontFamily(value: UiFontFamily)
 
