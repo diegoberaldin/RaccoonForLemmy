@@ -26,6 +26,7 @@ internal fun String.sanitize(): String = this
 private fun String.removeEntities(): String =
     replace("&amp;", "&")
         .replace("&nbsp;", " ")
+        .replace("&hellip;", "…")
 
 
 private fun String.spoilerFixup(): String = run {
@@ -33,7 +34,7 @@ private fun String.spoilerFixup(): String = run {
     var finalLinesSizeAtLastSpoiler = 0
     lines().forEach { line ->
         val isSpoilerOnTopOfStack = finalLinesSizeAtLastSpoiler == finalLines.size
-        if (line.contains(SpoilerRegex.spoilerOpenRegex)) {
+        if (line.contains(SpoilerRegex.spoilerOpening)) {
             if (finalLines.lastOrNull()?.isEmpty() == false) {
                 finalLines += ""
             }
