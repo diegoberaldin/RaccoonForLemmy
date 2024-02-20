@@ -337,4 +337,7 @@
     <string name="settings_title_font_scale">Textstorlek på titlar</string>
     <string name="settings_comment_font_scale">Textstorlek på kommentarer</string>
     <string name="settings_ancillary_font_scale">Storlek på tilläggstexter</string>
+    <string name="settings_configure_content">Konfigurera innehållets utseende</string>
+    <string name="settings_configure_text">Text</string>
+    <string name="settings_configure_customizations">Anpassningar</string>
 </resources>

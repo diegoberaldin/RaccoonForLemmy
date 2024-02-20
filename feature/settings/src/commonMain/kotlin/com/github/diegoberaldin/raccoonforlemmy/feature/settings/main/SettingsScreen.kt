@@ -42,7 +42,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -56,12 +55,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBot
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostBodyMaxLinesBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
@@ -80,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors.SettingsColorAndFontScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.configurecontentview.ConfigureContentViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ConfigureSwipeActionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -257,73 +254,14 @@ class SettingsScreen : Screen {
                         title = LocalXmlStrings.current.settingsSectionFeed,
                     )
 
-                    // post layout
+
+                    // colors and fonts
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsPostLayout,
-                        value = uiState.postLayout.toReadableName(),
+                        title = LocalXmlStrings.current.settingsConfigureContent,
+                        disclosureIndicator = true,
                         onTap = rememberCallback {
-                            val sheet = PostLayoutBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
-
-                    // prefer user nicknames
-                    SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsPreferUserNicknames,
-                        value = uiState.preferUserNicknames,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangePreferUserNicknames(value)
-                            )
-                        },
-                    )
-
-                    // body max lines in full layout
-                    if (uiState.postLayout == PostLayout.Full) {
-                        SettingsRow(
-                            title = LocalXmlStrings.current.settingsPostBodyMaxLines,
-                            value = if (uiState.postBodyMaxLines == null) {
-                                LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited
-                            } else {
-                                uiState.postBodyMaxLines.toString()
-                            },
-                            onTap = rememberCallback {
-                                val screen = PostBodyMaxLinesBottomSheet()
-                                navigationCoordinator.showBottomSheet(screen)
-                            },
-                        )
-                    }
-
-                    // full height images
-                    SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsFullHeightImages,
-                        value = uiState.fullHeightImages,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeFullHeightImages(value)
-                            )
-                        },
-                    )
-
-                    // vote format
-                    SettingsRow(
-                        title = LocalXmlStrings.current.settingsVoteFormat,
-                        value = uiState.voteFormat.toReadableName(),
-                        onTap = {
-                            val sheet = VoteFormatBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
-
-                    // auto-expand comments
-                    SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsAutoExpandComments,
-                        value = uiState.autoExpandComments,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeAutoExpandComments(value)
-                            )
-                        },
+                            navigationCoordinator.pushScreen(ConfigureContentViewScreen())
+                        }
                     )
 
                     // default listing type
@@ -387,6 +325,17 @@ class SettingsScreen : Screen {
                     SettingsHeader(
                         icon = Icons.Default.SettingsApplications,
                         title = LocalXmlStrings.current.settingsSectionBehaviour,
+                    )
+
+                    // auto-expand comments
+                    SettingsSwitchRow(
+                        title = LocalXmlStrings.current.settingsAutoExpandComments,
+                        value = uiState.autoExpandComments,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                SettingsMviModel.Intent.ChangeAutoExpandComments(value)
+                            )
+                        },
                     )
 
                     // infinite scrolling

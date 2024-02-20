@@ -340,4 +340,7 @@
     <string name="settings_title_font_scale">Címek szövegmérete</string>
     <string name="settings_comment_font_scale">Megjegyzések szövegmérete</string>
     <string name="settings_ancillary_font_scale">A segédszövegek mérete</string>
+    <string name="settings_configure_content">Konfigurálja a tartalom megjelenését</string>
+    <string name="settings_configure_text">Szöveg</string>
+    <string name="settings_configure_customizations">Testreszabások</string>
 </resources>

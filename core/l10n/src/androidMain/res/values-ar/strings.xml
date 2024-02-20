@@ -334,4 +334,7 @@
     <string name="settings_title_font_scale">حجم نص العناوين</string>
     <string name="settings_comment_font_scale">حجم نص التعليقات</string>
     <string name="settings_ancillary_font_scale">حجم النصوص المساعدة</string>
+    <string name="settings_configure_content">تكوين مظهر المحتوى</string>
+    <string name="settings_configure_text">نص</string>
+    <string name="settings_configure_customizations">التخصيصات</string>
 </resources>

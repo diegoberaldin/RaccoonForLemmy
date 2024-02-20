@@ -337,4 +337,7 @@
     <string name="settings_title_font_scale">Dimensiunea textului titlurilor</string>
     <string name="settings_comment_font_scale">Dimensiunea textului comentariilor</string>
     <string name="settings_ancillary_font_scale">Dimensiunea textelor auxiliare</string>
+    <string name="settings_configure_content">Configurați aspectul conținutului</string>
+    <string name="settings_configure_text">Text</string>
+    <string name="settings_configure_customizations">Personalizări</string>
 </resources>

@@ -5,7 +5,6 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontScales
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 
 interface SettingsColorAndFontMviModel :
@@ -27,11 +26,8 @@ interface SettingsColorAndFontMviModel :
         val replyColor: Color? = null,
         val saveColor: Color? = null,
         val commentBarTheme: CommentBarTheme = CommentBarTheme.Blue,
-        val commentBarThickness: Int = 1,
         val uiFontScale: Float = 1f,
         val uiFontFamily: UiFontFamily = UiFontFamily.Poppins,
-        val contentFontScale: ContentFontScales = ContentFontScales(),
-        val contentFontFamily: UiFontFamily = UiFontFamily.Poppins,
     )
 
     sealed interface Effect

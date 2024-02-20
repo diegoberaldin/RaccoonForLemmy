@@ -340,4 +340,7 @@
     <string name="settings_title_font_scale">Dimensione testo titoli</string>
     <string name="settings_comment_font_scale">Dimensione testo commenti</string>
     <string name="settings_ancillary_font_scale">Dimensione testi ancillari</string>
+    <string name="settings_configure_content">Configura aspetto del contenuto</string>
+    <string name="settings_configure_text">Testo</string>
+    <string name="settings_configure_customizations">Personalizzazioni</string>
 </resources>

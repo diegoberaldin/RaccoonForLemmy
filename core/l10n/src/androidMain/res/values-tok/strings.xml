@@ -335,4 +335,7 @@
     <string name="settings_title_font_scale">suli sitelen pi toki suli</string>
     <string name="settings_comment_font_scale">suli sitelen pi toki lili</string>
     <string name="settings_ancillary_font_scale">suli sitelen pi nimi lili</string>
+    <string name="settings_configure_content">o ante e nasin lukin</string>
+    <string name="settings_configure_text">sitelen</string>
+    <string name="settings_configure_customizations">ijo ante</string>
 </resources>

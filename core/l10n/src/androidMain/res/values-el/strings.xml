@@ -347,4 +347,7 @@
     <string name="settings_title_font_scale">Μέγεθος κειμένου των τίτλων</string>
     <string name="settings_comment_font_scale">Μέγεθος κειμένου σχολίων</string>
     <string name="settings_ancillary_font_scale">Μέγεθος βοηθητικών κειμένων</string>
+    <string name="settings_configure_content">Διαμόρφωση εμφάνισης περιεχομένου</string>
+    <string name="settings_configure_text">Κείμενο</string>
+    <string name="settings_configure_customizations">Προσαρμογές</string>
 </resources>

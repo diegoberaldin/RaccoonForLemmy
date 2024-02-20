@@ -339,4 +339,7 @@
     <string name="settings_title_font_scale">Tekstgrootte van titels</string>
     <string name="settings_comment_font_scale">Tekstgrootte van opmerkingen</string>
     <string name="settings_ancillary_font_scale">Grootte van ondersteunende teksten</string>
+    <string name="settings_configure_content">Configureer het uiterlijk van de inhoud</string>
+    <string name="settings_configure_text">Tekst</string>
+    <string name="settings_configure_customizations">Aanpassingen</string>
 </resources>

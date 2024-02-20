@@ -339,4 +339,7 @@
     <string name="settings_title_font_scale">Başlıkların metin boyutu</string>
     <string name="settings_comment_font_scale">Yorumların metin boyutu</string>
     <string name="settings_ancillary_font_scale">Yardımcı metinlerin boyutu</string>
+    <string name="settings_configure_content">İçerik görünümünü yapılandırma</string>
+    <string name="settings_configure_text">Metin</string>
+    <string name="settings_configure_customizations">Özelleştirmeler</string>
 </resources>

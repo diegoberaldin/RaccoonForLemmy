@@ -336,4 +336,7 @@
     <string name="settings_title_font_scale">Otsikon tekstikoko</string>
     <string name="settings_comment_font_scale">Kommenttien tekstikoko</string>
     <string name="settings_ancillary_font_scale">Aputekstien koko</string>
+    <string name="settings_configure_content">Määritä sisällön ulkoasu</string>
+    <string name="settings_configure_text">Teksti</string>
+    <string name="settings_configure_customizations">Mukautukset</string>
 </resources>

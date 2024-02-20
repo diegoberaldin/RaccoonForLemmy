@@ -340,4 +340,7 @@
     <string name="settings_title_font_scale">Virsrakstu teksta lielums</string>
     <string name="settings_comment_font_scale">Komentāru teksta lielums</string>
     <string name="settings_ancillary_font_scale">Palīgtekstu lielums</string>
+    <string name="settings_configure_content">Konfigurējiet satura izskatu</string>
+    <string name="settings_configure_text">Teksts</string>
+    <string name="settings_configure_customizations">Pielāgojumi</string>
 </resources>

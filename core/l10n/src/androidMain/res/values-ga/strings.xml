@@ -345,4 +345,7 @@
     <string name="settings_title_font_scale">Méid téacs na dteideal</string>
     <string name="settings_comment_font_scale">Méid téacs na dtuairimí</string>
     <string name="settings_ancillary_font_scale">Méid na dtéacsanna coimhdeacha</string>
+    <string name="settings_configure_content">Cumraigh cuma ábhar</string>
+    <string name="settings_configure_text">Téacs</string>
+    <string name="settings_configure_customizations">Saincheapadh</string>
 </resources>

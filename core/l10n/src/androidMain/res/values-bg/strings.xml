@@ -344,4 +344,7 @@
     <string name="settings_title_font_scale">Размер на текста на заглавията</string>
     <string name="settings_comment_font_scale">Размер на текста на коментарите</string>
     <string name="settings_ancillary_font_scale">Размер на спомагателните текстове</string>
+    <string name="settings_configure_content">Конфигурирайте външния вид на съдържанието</string>
+    <string name="settings_configure_text">Текст</string>
+    <string name="settings_configure_customizations">Персонализации</string>
 </resources>

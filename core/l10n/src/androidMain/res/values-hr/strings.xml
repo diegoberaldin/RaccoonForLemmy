@@ -341,4 +341,7 @@
     <string name="settings_title_font_scale">Veličina teksta naslova</string>
     <string name="settings_comment_font_scale">Veličina teksta komentara</string>
     <string name="settings_ancillary_font_scale">Veličina pomoćnih tekstova</string>
+    <string name="settings_configure_content">Konfigurirajte izgled sadržaja</string>
+    <string name="settings_configure_text">Tekst</string>
+    <string name="settings_configure_customizations">Prilagodbe</string>
 </resources>

@@ -336,4 +336,7 @@
     <string name="settings_title_font_scale">Velikost textu titulků</string>
     <string name="settings_comment_font_scale">Velikost textu komentářů</string>
     <string name="settings_ancillary_font_scale">Velikost pomocných textů</string>
+    <string name="settings_configure_content">Konfigurace vzhledu obsahu</string>
+    <string name="settings_configure_text">Text</string>
+    <string name="settings_configure_customizations">Přizpůsobení</string>
 </resources>

@@ -338,4 +338,7 @@
     <string name="settings_title_font_scale">Antraštės teksto dydis</string>
     <string name="settings_comment_font_scale">Komentarų teksto dydis</string>
     <string name="settings_ancillary_font_scale">Pagalbinių tekstų dydis</string>
+    <string name="settings_configure_content">Konfigūruokite turinio išvaizdą</string>
+    <string name="settings_configure_text">Tekstas</string>
+    <string name="settings_configure_customizations">Pritaikymai</string>
 </resources>

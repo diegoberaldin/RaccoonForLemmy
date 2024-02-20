@@ -336,4 +336,7 @@
     <string name="settings_title_font_scale">Pealkirjade teksti suurus</string>
     <string name="settings_comment_font_scale">Kommentaaride teksti suurus</string>
     <string name="settings_ancillary_font_scale">Abitekstide suurus</string>
+    <string name="settings_configure_content">Sisu välimuse konfigureerimine</string>
+    <string name="settings_configure_text">Tekst</string>
+    <string name="settings_configure_customizations">Kohandused</string>
 </resources>

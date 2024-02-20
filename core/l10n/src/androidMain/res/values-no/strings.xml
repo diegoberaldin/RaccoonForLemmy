@@ -338,4 +338,7 @@
     <string name="settings_title_font_scale">Tekststørrelse på titler</string>
     <string name="settings_comment_font_scale">Tekststørrelse på kommentarer</string>
     <string name="settings_ancillary_font_scale">Størrelse på hjelpetekster</string>
+    <string name="settings_configure_content">Konfigurer innholdets utseende</string>
+    <string name="settings_configure_text">Tekst</string>
+    <string name="settings_configure_customizations">Tilpasninger</string>
 </resources>

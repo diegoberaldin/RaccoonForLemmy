@@ -336,4 +336,7 @@
     <string name="settings_title_font_scale">Tamanho do texto dos títulos</string>
     <string name="settings_comment_font_scale">Tamanho do texto dos comentários</string>
     <string name="settings_ancillary_font_scale">Tamanho dos textos auxiliares</string>
+    <string name="settings_configure_content">Configurar a aparência do conteúdo</string>
+    <string name="settings_configure_text">Texto</string>
+    <string name="settings_configure_customizations">Personalizações</string>
 </resources>

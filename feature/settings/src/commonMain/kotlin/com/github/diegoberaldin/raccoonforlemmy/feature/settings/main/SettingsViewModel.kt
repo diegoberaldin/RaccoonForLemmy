@@ -1,9 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.main
 
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
@@ -55,9 +53,6 @@ class SettingsViewModel(
             themeRepository.navItemTitles.onEach { value ->
                 updateState { it.copy(navBarTitlesVisible = value) }
             }.launchIn(this)
-            themeRepository.postLayout.onEach { value ->
-                updateState { it.copy(postLayout = value) }
-            }.launchIn(this)
 
             l10nManager.lyricist.state.onEach { lang ->
                 updateState { it.copy(lang = lang.languageTag) }
@@ -77,10 +72,6 @@ class SettingsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeTheme::class).onEach { evt ->
                 changeTheme(evt.value)
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangePostLayout::class)
-                .onEach { evt ->
-                    changePostLayout(evt.value)
-                }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
                     changeDefaultListingType(evt.value)
@@ -104,14 +95,6 @@ class SettingsViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
                 .onEach { evt ->
                     changeDefaultInboxUnreadOnly(evt.unreadOnly)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeVoteFormat::class)
-                .onEach { evt ->
-                    changeVoteFormat(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangePostBodyMaxLines::class)
-                .onEach { evt ->
-                    changePostBodyMaxLines(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class)
                 .onEach { evt ->
@@ -141,21 +124,18 @@ class SettingsViewModel(
                 enableSwipeActions = settings.enableSwipeActions,
                 enableDoubleTapAction = settings.enableDoubleTapAction,
                 crashReportEnabled = crashReportConfiguration.isEnabled(),
-                voteFormat = if (!settings.showScores) VoteFormat.Hidden else settings.voteFormat,
                 autoLoadImages = settings.autoLoadImages,
                 autoExpandComments = settings.autoExpandComments,
-                fullHeightImages = settings.fullHeightImages,
                 hideNavigationBarWhileScrolling = settings.hideNavigationBarWhileScrolling,
                 zombieModeInterval = settings.zombieModeInterval,
                 zombieModeScrollAmount = settings.zombieModeScrollAmount,
                 markAsReadWhileScrolling = settings.markAsReadWhileScrolling,
                 searchPostTitleOnly = settings.searchPostTitleOnly,
                 edgeToEdge = settings.edgeToEdge,
-                postBodyMaxLines = settings.postBodyMaxLines,
                 infiniteScrollDisabled = !settings.infiniteScrollEnabled,
                 opaqueSystemBars = settings.opaqueSystemBars,
-                preferUserNicknames = settings.preferUserNicknames,
-            )
+
+                )
         }
     }
 
@@ -163,11 +143,6 @@ class SettingsViewModel(
         when (intent) {
             is SettingsMviModel.Intent.ChangeUiTheme -> changeTheme(intent.value)
             is SettingsMviModel.Intent.ChangeLanguage -> changeLanguage(intent.value)
-            is SettingsMviModel.Intent.ChangeDefaultCommentSortType ->
-                changeDefaultCommentSortType(intent.value)
-
-            is SettingsMviModel.Intent.ChangeDefaultListingType -> changeDefaultListingType(intent.value)
-            is SettingsMviModel.Intent.ChangeDefaultPostSortType -> changeDefaultPostSortType(intent.value)
             is SettingsMviModel.Intent.ChangeBlurNsfw -> changeBlurNsfw(intent.value)
             is SettingsMviModel.Intent.ChangeIncludeNsfw -> changeIncludeNsfw(intent.value)
             is SettingsMviModel.Intent.ChangeNavBarTitlesVisible -> changeNavBarTitlesVisible(intent.value)
@@ -178,18 +153,11 @@ class SettingsViewModel(
             is SettingsMviModel.Intent.ChangeEnableDoubleTapAction ->
                 changeEnableDoubleTapAction(intent.value)
 
-            is SettingsMviModel.Intent.ChangePostLayout -> changePostLayout(intent.value)
             is SettingsMviModel.Intent.ChangeCrashReportEnabled -> changeCrashReportEnabled(intent.value)
-            is SettingsMviModel.Intent.ChangeVoteFormat -> changeVoteFormat(intent.value)
             is SettingsMviModel.Intent.ChangeAutoLoadImages -> changeAutoLoadImages(intent.value)
             is SettingsMviModel.Intent.ChangeAutoExpandComments -> changeAutoExpandComments(intent.value)
-            is SettingsMviModel.Intent.ChangeFullHeightImages -> changeFullHeightImages(intent.value)
             is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling ->
                 changeHideNavigationBarWhileScrolling(intent.value)
-
-            is SettingsMviModel.Intent.ChangeZombieModeInterval -> changeZombieModeInterval(intent.value)
-            is SettingsMviModel.Intent.ChangeZombieModeScrollAmount ->
-                changeZombieModeScrollAmount(intent.value)
 
             is SettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling ->
                 changeMarkAsReadWhileScrolling(intent.value)
@@ -199,11 +167,8 @@ class SettingsViewModel(
 
             is SettingsMviModel.Intent.ChangeSearchPostTitleOnly -> changeSearchPostTitleOnly(intent.value)
             is SettingsMviModel.Intent.ChangeEdgeToEdge -> changeEdgeToEdge(intent.value)
-            is SettingsMviModel.Intent.ChangePostBodyMaxLines -> changePostBodyMaxLines(intent.value)
             is SettingsMviModel.Intent.ChangeInfiniteScrollDisabled ->
                 changeInfiniteScrollDisabled(intent.value)
-
-            is SettingsMviModel.Intent.ChangePreferUserNicknames -> changePreferUserNicknames(intent.value)
         }
     }
 
@@ -321,36 +286,9 @@ class SettingsViewModel(
         }
     }
 
-    private fun changePostLayout(value: PostLayout) {
-        themeRepository.changePostLayout(value)
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                postLayout = value.toInt()
-            )
-            saveSettings(settings)
-        }
-    }
-
     private fun changeCrashReportEnabled(value: Boolean) {
         crashReportConfiguration.setEnabled(value)
         updateState { it.copy(crashReportEnabled = value) }
-    }
-
-    private fun changeVoteFormat(value: VoteFormat) {
-        updateState { it.copy(voteFormat = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.let {
-                if (value == VoteFormat.Hidden) {
-                    it.copy(showScores = false)
-                } else {
-                    it.copy(
-                        voteFormat = value,
-                        showScores = true,
-                    )
-                }
-            }
-            saveSettings(settings)
-        }
     }
 
     private fun changeAutoLoadImages(value: Boolean) {
@@ -368,16 +306,6 @@ class SettingsViewModel(
         scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 autoExpandComments = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeFullHeightImages(value: Boolean) {
-        updateState { it.copy(fullHeightImages = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                fullHeightImages = value
             )
             saveSettings(settings)
         }
@@ -459,26 +387,6 @@ class SettingsViewModel(
         scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 infiniteScrollEnabled = !value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changePreferUserNicknames(value: Boolean) {
-        updateState { it.copy(preferUserNicknames = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                preferUserNicknames = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changePostBodyMaxLines(value: Int?) {
-        updateState { it.copy(postBodyMaxLines = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                postBodyMaxLines = value
             )
             saveSettings(settings)
         }

@@ -38,12 +38,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CommentBarThicknessBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -216,16 +214,6 @@ class SettingsColorAndFontScreen : Screen {
                         }
                     )
 
-                    // comment bar thickness
-                    SettingsRow(
-                        title = LocalXmlStrings.current.settingsCommentBarThickness,
-                        value = uiState.commentBarThickness.toString(),
-                        onTap = rememberCallback {
-                            val screen = CommentBarThicknessBottomSheet()
-                            navigationCoordinator.showBottomSheet(screen)
-                        }
-                    )
-
                     // font family
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsUiFontFamily,
@@ -236,14 +224,7 @@ class SettingsColorAndFontScreen : Screen {
                         },
                     )
 
-                    SettingsRow(
-                        title = LocalXmlStrings.current.settingsContentFontFamily,
-                        value = uiState.contentFontFamily.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = FontFamilyBottomSheet(content = true)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
+
                     // font scale
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsUiFontScale,
@@ -256,40 +237,6 @@ class SettingsColorAndFontScreen : Screen {
                                     FontScale.Small,
                                 ).map { it.scaleFactor },
                             )
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
-                    SettingsRow(
-                        title = LocalXmlStrings.current.settingsTitleFontScale,
-                        value = uiState.contentFontScale.title.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Title)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
-                    SettingsRow(
-                        title = LocalXmlStrings.current.settingsContentFontScale,
-                        value = uiState.contentFontScale.body.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Body)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
-                    SettingsRow(
-                        title = LocalXmlStrings.current.settingsCommentFontScale,
-                        value = uiState.contentFontScale.comment.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet =
-                                FontScaleBottomSheet(contentClass = ContentFontClass.Comment)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
-                    )
-                    SettingsRow(
-                        title = LocalXmlStrings.current.settingsAncillaryFontScale,
-                        value = uiState.contentFontScale.ancillary.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet =
-                                FontScaleBottomSheet(contentClass = ContentFontClass.AncillaryText)
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )

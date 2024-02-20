@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.toArgb
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ColorSchemeProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
@@ -42,12 +41,6 @@ class SettingsColorAndFontViewModel(
             themeRepository.uiFontFamily.onEach { value ->
                 updateState { it.copy(uiFontFamily = value) }
             }.launchIn(this)
-            themeRepository.contentFontScale.onEach { value ->
-                updateState { it.copy(contentFontScale = value) }
-            }.launchIn(this)
-            themeRepository.contentFontFamily.onEach { value ->
-                updateState { it.copy(contentFontFamily = value) }
-            }.launchIn(this)
             themeRepository.uiFontScale.onEach { value ->
                 updateState { it.copy(uiFontScale = value) }
             }.launchIn(this)
@@ -72,9 +65,6 @@ class SettingsColorAndFontViewModel(
             themeRepository.commentBarTheme.onEach { value ->
                 updateState { it.copy(commentBarTheme = value) }
             }.launchIn(this)
-            themeRepository.commentBarThickness.onEach { value ->
-                updateState { it.copy(commentBarThickness = value) }
-            }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
                 updateState { it.copy(isLogged = logged ?: false) }
@@ -83,14 +73,6 @@ class SettingsColorAndFontViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFontFamily::class)
                 .onEach { evt ->
                     changeFontFamily(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
-                .onEach { evt ->
-                    changeContentFontScale(evt.value, evt.contentClass)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontFamily::class)
-                .onEach { evt ->
-                    changeContentFontFamily(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeUiFontSize::class)
                 .onEach { evt ->
@@ -102,10 +84,6 @@ class SettingsColorAndFontViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentBarTheme::class)
                 .onEach { evt ->
                     changeCommentBarTheme(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentBarThickness::class)
-                .onEach { evt ->
-                    changeCommentBarThickness(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeActionColor::class)
                 .onEach { evt ->
@@ -152,32 +130,7 @@ class SettingsColorAndFontViewModel(
         }
     }
 
-    private fun changeContentFontScale(value: Float, contentClass: ContentFontClass) {
-        val contentFontScale = themeRepository.contentFontScale.value.let {
-            when (contentClass) {
-                ContentFontClass.Title -> it.copy(title = value)
-                ContentFontClass.Body -> it.copy(body = value)
-                ContentFontClass.Comment -> it.copy(comment = value)
-                ContentFontClass.AncillaryText -> it.copy(ancillary = value)
-            }
-        }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                contentFontScale = contentFontScale
-            )
-            saveSettings(settings)
-        }
-    }
 
-    private fun changeContentFontFamily(value: UiFontFamily) {
-        themeRepository.changeContentFontFamily(value)
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                contentFontFamily = value.toInt()
-            )
-            saveSettings(settings)
-        }
-    }
 
     private fun changeDynamicColors(value: Boolean) {
         themeRepository.changeDynamicColors(value)
@@ -244,16 +197,6 @@ class SettingsColorAndFontViewModel(
         scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 commentBarTheme = value.toInt()
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeCommentBarThickness(value: Int) {
-        themeRepository.changeCommentBarThickness(value)
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                commentBarThickness = value
             )
             saveSettings(settings)
         }

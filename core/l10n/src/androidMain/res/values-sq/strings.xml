@@ -342,4 +342,7 @@
     <string name="settings_title_font_scale">Madhësia e tekstit të titujve</string>
     <string name="settings_comment_font_scale">Madhësia e tekstit të komenteve</string>
     <string name="settings_ancillary_font_scale">Madhësia e teksteve ndihmëse</string>
+    <string name="settings_configure_content">Konfiguro pamjen e përmbajtjes</string>
+    <string name="settings_configure_text">Teksti</string>
+    <string name="settings_configure_customizations">Përshtatjet</string>
 </resources>
