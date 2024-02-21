@@ -41,7 +41,7 @@ private fun String.spoilerFixUp(): String = run {
             finalLines += line
             finalLinesSizeAtLastSpoiler = finalLines.size
         } else if (line.isNotBlank()) {
-            if (isSpoilerOnTopOfStack) {
+            if (isSpoilerOnTopOfStack && finalLinesSizeAtLastSpoiler > 0) {
                 // removes list inside spoilers
                 val cleanLine = line.replace(Regex("^\\s*?- "), "").trim()
                 if (cleanLine.isNotEmpty()) {
@@ -61,7 +61,7 @@ private fun String.quoteFixUp(): String = run {
     val finalLines = mutableListOf<String>()
     lines().forEach { line ->
         // removes list inside quotes
-        val quoteAndList = Regex(">-")
+        val quoteAndList = Regex("^>-")
         val cleanLine = line.replace(quoteAndList, "-")
         if (cleanLine.isNotEmpty()) {
             finalLines += cleanLine
