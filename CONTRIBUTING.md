@@ -240,7 +240,7 @@ the `gradle.properties` file in the root folder contains proper memory settings 
 Kotlin compile daemon:
 
 ```properties
-org.gradle.jvmargs=-Xmx8192M -Dfile.encoding=UTF-8 -Dkotlin.daemon.jvm.options\="-Xmx8192M"
+org.gradle.jvmargs=-Xmx4096M -Dfile.encoding=UTF-8 -Dkotlin.daemon.jvm.options\="-Xmx4096M"
 ```
 
 ## 5. Project structure

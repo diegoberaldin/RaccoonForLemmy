@@ -21,7 +21,7 @@ the fact that it is quite a complex project, please make sure that the `gradle.p
 the root folder contains proper memory settings for the JVM and the Kotlin compile daemon:
 
 ```properties
-org.gradle.jvmargs=-Xmx8192M -Dfile.encoding=UTF-8 -Dkotlin.daemon.jvm.options\="-Xmx8192M"
+org.gradle.jvmargs=-Xmx4096M -Dfile.encoding=UTF-8 -Dkotlin.daemon.jvm.options\="-Xmx4096M"
 ```
 
 The first thing that Android Studio does upon first opening the project is a Gradle sync, this may
