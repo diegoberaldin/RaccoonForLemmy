@@ -70,6 +70,7 @@ fun PostCardTitle(
             quote = typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
             bullet = typography.bodyMedium,
             list = typography.bodyMedium,
+            ordered = typography.bodyMedium,
             code = typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
         ),
         colors = markdownColor(
