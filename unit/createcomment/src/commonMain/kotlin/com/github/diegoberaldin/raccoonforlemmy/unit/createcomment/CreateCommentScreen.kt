@@ -84,7 +84,6 @@ class CreateCommentScreen(
     private val originalPostId: Int? = null,
     private val originalCommentId: Int? = null,
     private val editedCommentId: Int? = null,
-    private val initialText: String? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
