@@ -493,6 +493,8 @@ object ProfileLoggedScreen : Tab {
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         onDismiss = rememberCallback {
                             rawContent = null
                         },
@@ -515,6 +517,8 @@ object ProfileLoggedScreen : Tab {
                 is CommentModel -> {
                     RawContentDialog(
                         text = content.text,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = {

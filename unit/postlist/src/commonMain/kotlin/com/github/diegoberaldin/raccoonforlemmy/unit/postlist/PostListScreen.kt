@@ -696,6 +696,8 @@ class PostListScreen : Screen {
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         isLogged = uiState.isLogged,
                         onDismiss = rememberCallback {
                             rawContent = null

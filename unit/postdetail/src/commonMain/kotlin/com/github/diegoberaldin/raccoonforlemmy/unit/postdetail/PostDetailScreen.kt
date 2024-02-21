@@ -1224,6 +1224,8 @@ class PostDetailScreen(
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         isLogged = uiState.isLogged,
                         onDismiss = rememberCallback {
                             rawContent = null
@@ -1248,6 +1250,8 @@ class PostDetailScreen(
                     RawContentDialog(
                         text = content.text,
                         isLogged = uiState.isLogged,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = rememberCallback {

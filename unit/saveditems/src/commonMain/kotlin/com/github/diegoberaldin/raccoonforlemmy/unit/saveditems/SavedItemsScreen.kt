@@ -472,6 +472,8 @@ class SavedItemsScreen : Screen {
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         onDismiss = rememberCallback {
                             rawContent = null
                         },
@@ -496,6 +498,8 @@ class SavedItemsScreen : Screen {
                         text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         onDismiss = {
                             rawContent = null
                         },

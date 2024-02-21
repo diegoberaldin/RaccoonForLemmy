@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowCircleDown
+import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -48,6 +51,8 @@ fun RawContentDialog(
     isLogged: Boolean = true,
     onDismiss: (() -> Unit)? = null,
     onQuote: ((String?) -> Unit)? = null,
+    upVotes: Int? = null,
+    downVotes: Int? = null,
 ) {
     val clipboardManager = LocalClipboardManager.current
     val shareHelper = remember { getShareHelper() }
@@ -59,29 +64,27 @@ fun RawContentDialog(
         val query = clipboardManager.getText()?.text.orEmpty()
         onQuote?.invoke(query)
     }
+    val quoteActionLabel = LocalXmlStrings.current.actionQuote
+    val shareActionLabel = LocalXmlStrings.current.postActionShare
+    val fullColor = MaterialTheme.colorScheme.onBackground
 
     AlertDialog(
         onDismissRequest = { onDismiss?.invoke() },
     ) {
         Column(
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.surface)
+            modifier = Modifier.background(color = MaterialTheme.colorScheme.surface)
                 .padding(vertical = Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val quoteActionLabel = LocalXmlStrings.current.actionQuote
-            val shareActionLabel = LocalXmlStrings.current.postActionShare
             Text(
                 text = LocalXmlStrings.current.dialogTitleRawContent,
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = fullColor,
             )
             Spacer(modifier = Modifier.height(Spacing.s))
             LazyColumn(
-                modifier = Modifier
-                    .padding(vertical = Spacing.s, horizontal = Spacing.m)
-                    .heightIn(max = 400.dp),
-                verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                modifier = Modifier.padding(vertical = Spacing.s, horizontal = Spacing.m)
+                    .heightIn(max = 400.dp), verticalArrangement = Arrangement.spacedBy(Spacing.xs)
             ) {
                 title?.takeIf { it.trim().isNotEmpty() }?.also {
                     item {
@@ -90,7 +93,7 @@ fun RawContentDialog(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = LocalXmlStrings.current.dialogRawContentTitle,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground,
+                                color = fullColor,
                             )
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
@@ -108,7 +111,7 @@ fun RawContentDialog(
                                         style = MaterialTheme.typography.bodyLarge.copy(
                                             fontFamily = FontFamily.Monospace,
                                         ),
-                                        color = MaterialTheme.colorScheme.onBackground,
+                                        color = fullColor,
                                     )
                                 }
                             }
@@ -122,7 +125,7 @@ fun RawContentDialog(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = LocalXmlStrings.current.dialogRawContentUrl,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground,
+                                color = fullColor,
                             )
                             CompositionLocalProvider(
                                 LocalTextToolbar provides getCustomTextToolbar(
@@ -140,7 +143,7 @@ fun RawContentDialog(
                                         style = MaterialTheme.typography.bodyMedium.copy(
                                             fontFamily = FontFamily.Monospace,
                                         ),
-                                        color = MaterialTheme.colorScheme.onBackground,
+                                        color = fullColor,
                                     )
                                 }
                             }
@@ -154,7 +157,7 @@ fun RawContentDialog(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = LocalXmlStrings.current.dialogRawContentText,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground,
+                                color = fullColor,
                             )
 
                             CompositionLocalProvider(
@@ -173,7 +176,7 @@ fun RawContentDialog(
                                         style = MaterialTheme.typography.bodyMedium.copy(
                                             fontFamily = FontFamily.Monospace,
                                         ),
-                                        color = MaterialTheme.colorScheme.onBackground,
+                                        color = fullColor,
                                     )
                                 }
                             }
@@ -191,10 +194,10 @@ fun RawContentDialog(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Icon(
-                                    modifier = Modifier.size(IconSize.m).padding(3.dp),
+                                    modifier = Modifier.size(IconSize.m).padding(end = 3.5.dp),
                                     imageVector = Icons.Default.Schedule,
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onBackground,
+                                    tint = fullColor,
                                 )
                                 Text(
                                     modifier = Modifier.weight(1f),
@@ -202,7 +205,7 @@ fun RawContentDialog(
                                     style = MaterialTheme.typography.bodyMedium.copy(
                                         fontFamily = FontFamily.Monospace,
                                     ),
-                                    color = MaterialTheme.colorScheme.onBackground,
+                                    color = fullColor,
                                 )
                             }
                         }
@@ -215,10 +218,10 @@ fun RawContentDialog(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                         ) {
                             Icon(
-                                modifier = Modifier.size(IconSize.m).padding(4.5.dp),
+                                modifier = Modifier.size(IconSize.m).padding(end = 3.5.dp),
                                 imageVector = Icons.Default.Edit,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onBackground,
+                                tint = fullColor,
                             )
                             Text(
                                 modifier = Modifier.weight(1f),
@@ -226,7 +229,59 @@ fun RawContentDialog(
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontFamily = FontFamily.Monospace,
                                 ),
-                                color = MaterialTheme.colorScheme.onBackground,
+                                color = fullColor,
+                            )
+                        }
+                    }
+                }
+                if (upVotes != null && downVotes != null) {
+                    item {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(IconSize.m).padding(end = 3.5.dp),
+                                imageVector = Icons.Default.ArrowCircleUp,
+                                contentDescription = null,
+                                tint = fullColor,
+                            )
+                            Text(
+                                text = "$upVotes",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = fullColor,
+                            )
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            Icon(
+                                modifier = Modifier.size(IconSize.m).padding(end = 3.5.dp),
+                                imageVector = Icons.Default.ArrowCircleDown,
+                                contentDescription = null,
+                                tint = fullColor,
+                            )
+                            Text(
+                                text = "$downVotes",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = fullColor,
+                            )
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            val totalVotes = upVotes + downVotes
+                            val percVote =
+                                if (totalVotes == 0) 0.0 else upVotes.toDouble() / totalVotes
+                            val percentage = "${(percVote * 100).toInt()}"
+                            Icon(
+                                modifier = Modifier.size(IconSize.m).padding(end = 3.5.dp),
+                                imageVector = Icons.Default.Percent,
+                                contentDescription = null,
+                                tint = fullColor,
+                            )
+                            Text(
+                                text = percentage,
+                                style = MaterialTheme.typography.labelLarge,
+                                color = fullColor,
                             )
                         }
                     }

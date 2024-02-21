@@ -976,10 +976,12 @@ class CommunityDetailScreen(
                 is PostModel -> {
                     RawContentDialog(
                         title = content.title,
+                        text = content.text,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         url = content.url,
-                        text = content.text,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         isLogged = uiState.isLogged,
                         onDismiss = rememberCallback {
                             rawContent = null
@@ -1006,6 +1008,8 @@ class CommunityDetailScreen(
                         isLogged = uiState.isLogged,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         onDismiss = rememberCallback {
                             rawContent = null
                         },

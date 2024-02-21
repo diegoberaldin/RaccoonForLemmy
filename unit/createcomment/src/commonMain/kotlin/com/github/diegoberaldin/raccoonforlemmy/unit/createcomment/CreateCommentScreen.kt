@@ -400,6 +400,8 @@ class CreateCommentScreen(
                         updateDate = content.updateDate,
                         url = content.url,
                         text = content.text,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         onDismiss = {
                             rawContent = null
                         },
@@ -409,6 +411,8 @@ class CreateCommentScreen(
                 is CommentModel -> {
                     RawContentDialog(
                         text = content.text,
+                        upVotes = content.upvotes,
+                        downVotes = content.downvotes,
                         publishDate = content.publishDate,
                         updateDate = content.updateDate,
                         onDismiss = {
