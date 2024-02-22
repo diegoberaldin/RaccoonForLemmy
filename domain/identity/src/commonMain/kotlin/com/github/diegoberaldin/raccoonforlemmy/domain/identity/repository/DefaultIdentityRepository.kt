@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.network.NetworkManager
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 internal class DefaultIdentityRepository(
     private val accountRepository: AccountRepository,
     private val siteRepository: SiteRepository,
+    private val networkManager: NetworkManager,
 ) : IdentityRepository {
 
     private val scope = CoroutineScope(SupervisorJob())
@@ -21,9 +23,11 @@ internal class DefaultIdentityRepository(
     override val isLogged = authToken.map { authOrNull ->
         if (authOrNull.isNullOrEmpty()) {
             false
-        } else {
+        } else if (networkManager.isNetworkAvailable()) {
             val currentUser = siteRepository.getCurrentUser(authOrNull)
             currentUser != null
+        } else {
+            null
         }
     }.stateIn(
         scope = scope,

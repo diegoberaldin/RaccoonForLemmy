@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.corePersiste
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.corePreferencesModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.crashReportModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.networkModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.galleryHelperModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.shareHelperModule
@@ -66,6 +67,7 @@ val sharedHelperModule = module {
         utilsModule,
         domainInboxModule,
         imagePreloadModule,
+        networkModule,
         navigationModule,
         lemmyUiModule,
         homeTabModule,

@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.corePreferen
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.crashReportModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.networkModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.galleryHelperModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.shareHelperModule
@@ -69,6 +70,7 @@ fun initKoin() {
             domainInboxModule,
             utilsModule,
             imagePreloadModule,
+            networkModule,
             navigationModule,
             lemmyUiModule,
             homeTabModule,
