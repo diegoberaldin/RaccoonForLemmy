@@ -205,10 +205,10 @@
     <string name="settings_post_layout_card">Ficha</string>
     <string name="settings_post_layout_compact">Compacto</string>
     <string name="settings_post_layout_full">Completo</string>
-    <string name="settings_section_appearance">Aparencia</string>
-    <string name="settings_section_behaviour">Comportamento</string>
+    <string name="settings_section_appearance">Aparência</string>
+    <string name="settings_advanced">Configurações avançadas</string>
     <string name="settings_section_debug">Debug</string>
-    <string name="settings_section_feed">Publicaçoes e comentários</string>
+    <string name="settings_section_general">Gerais</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Escuro (AMOLED)</string>
     <string name="settings_theme_dark">Escuro</string>

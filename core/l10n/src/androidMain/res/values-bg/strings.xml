@@ -211,9 +211,9 @@
     <string name="settings_post_layout_compact">Компактни</string>
     <string name="settings_post_layout_full">Пълна</string>
     <string name="settings_section_appearance">Изглед и усещане</string>
-    <string name="settings_section_behaviour">Поведение</string>
+    <string name="settings_advanced">Разширени настройки</string>
     <string name="settings_section_debug">Отстраняване на дефекти</string>
-    <string name="settings_section_feed">Публикации и коментари</string>
+    <string name="settings_section_general">Общ</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Тъмно (AMOLED)</string>
     <string name="settings_theme_dark">Тъмно</string>

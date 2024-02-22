@@ -1,5 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.di
 
+import com.github.diegoberaldin.raccoonforlemmy.feature.settings.advanced.AdvancedSettingsMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.settings.advanced.AdvancedSettingsViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors.SettingsColorAndFontMviModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors.SettingsColorAndFontViewModel
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.main.SettingsMviModel
@@ -30,6 +32,16 @@ val settingsTabModule = module {
             identityRepository = get(),
             colorSchemeProvider = get(),
             notificationCenter = get(),
+        )
+    }
+    factory<AdvancedSettingsMviModel> {
+        AdvancedSettingsViewModel(
+            settingsRepository = get(),
+            accountRepository = get(),
+            themeRepository = get(),
+            identityRepository = get(),
+            notificationCenter = get(),
+            contentResetCoordinator = get(),
         )
     }
 }

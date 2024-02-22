@@ -205,9 +205,9 @@
     <string name="settings_post_layout_compact">lili</string>
     <string name="settings_post_layout_full">suli</string>
     <string name="settings_section_appearance">nasin lukin</string>
-    <string name="settings_section_behaviour">nasin pali</string>
+    <string name="settings_advanced">ante mute</string>
     <string name="settings_section_debug">moli e pipi</string>
-    <string name="settings_section_feed">lipu en toki lili</string>
+    <string name="settings_section_general">ijo suli</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">pimeja mute</string>
     <string name="settings_theme_dark">pimeja</string>

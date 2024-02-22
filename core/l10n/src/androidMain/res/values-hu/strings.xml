@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Kompakt</string>
     <string name="settings_post_layout_full">Teljes</string>
     <string name="settings_section_appearance">nézd és érezd</string>
-    <string name="settings_section_behaviour">Viselkedés</string>
+    <string name="settings_advanced">További beállítások</string>
     <string name="settings_section_debug">Hibaelhárítás</string>
-    <string name="settings_section_feed">Bejegyzések és megjegyzések</string>
+    <string name="settings_section_general">Tábornok</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Sötét (AMOLED)</string>
     <string name="settings_theme_dark">Sötét</string>

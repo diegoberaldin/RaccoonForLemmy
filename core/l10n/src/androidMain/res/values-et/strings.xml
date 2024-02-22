@@ -205,9 +205,9 @@
     <string name="settings_post_layout_compact">Compact</string>
     <string name="settings_post_layout_full">Full</string>
     <string name="settings_section_appearance">Välimus</string>
-    <string name="settings_section_behaviour">käitumist</string>
+    <string name="settings_advanced">Täpsemad seaded</string>
     <string name="settings_section_debug">Silumine</string>
-    <string name="settings_section_feed">Postitused ja kommentaarid</string>
+    <string name="settings_section_general">Kindral</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Tume (AMOLED)</string>
     <string name="settings_theme_dark">Tume</string>

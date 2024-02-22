@@ -209,9 +209,9 @@
     <string name="settings_post_layout_compact">Συμπαγής</string>
     <string name="settings_post_layout_full">Πλήρης</string>
     <string name="settings_section_appearance">Εμφάνιση και αίσθηση</string>
-    <string name="settings_section_behaviour">Συμπεριφορά</string>
+    <string name="settings_advanced">Προηγμένες ρυθμίσεις</string>
     <string name="settings_section_debug">Αποσφαλμάτωση</string>
-    <string name="settings_section_feed">Αναρτήσεις και σχόλια</string>
+    <string name="settings_section_general">Γενικές</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Σκοτεινό (AMOLED)</string>
     <string name="settings_theme_dark">Σκοτεινό</string>

@@ -212,9 +212,9 @@
     <string name="settings_post_layout_compact">Dlúth</string>
     <string name="settings_post_layout_full">Iomlán</string>
     <string name="settings_section_appearance">Cuma</string>
-    <string name="settings_section_behaviour">Iompar</string>
+    <string name="settings_advanced">Ardsocruithe</string>
     <string name="settings_section_debug">Dífhabhtú</string>
-    <string name="settings_section_feed">Poist agus tuairimí</string>
+    <string name="settings_section_general">Ginearálta</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Íon - dubh</string>
     <string name="settings_theme_dark">Dorcha</string>

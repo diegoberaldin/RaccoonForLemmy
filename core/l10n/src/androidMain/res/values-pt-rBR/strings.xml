@@ -206,9 +206,9 @@
     <string name="settings_post_layout_compact">Compacto</string>
     <string name="settings_post_layout_full">Completo</string>
     <string name="settings_section_appearance">Aparência</string>
-    <string name="settings_section_behaviour">Desempenho</string>
+    <string name="settings_advanced">Configurações avançadas</string>
     <string name="settings_section_debug">Depuração</string>
-    <string name="settings_section_feed">Posts e comentários</string>
+    <string name="settings_section_general">Gerais</string>
     <string name="settings_section_nsfw">NSFW (conteúdo explícito)</string>
     <string name="settings_theme_black">Escuro (AMOLED)</string>
     <string name="settings_theme_dark">Escuro</string>

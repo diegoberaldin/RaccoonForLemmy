@@ -205,9 +205,9 @@
     <string name="settings_post_layout_compact">Kunpremita</string>
     <string name="settings_post_layout_full">Plena</string>
     <string name="settings_section_appearance">Rigardo kaj sento</string>
-    <string name="settings_section_behaviour">Konduto</string>
+    <string name="settings_advanced">Altnivelaj agordoj</string>
     <string name="settings_section_debug">Sencimigi</string>
-    <string name="settings_section_feed">Afiŝoj kaj komentoj</string>
+    <string name="settings_section_general">Generalaj</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Malhela (AMOLED)</string>
     <string name="settings_theme_dark">Malhela</string>

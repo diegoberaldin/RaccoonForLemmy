@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Компактные</string>
     <string name="settings_post_layout_full">Буферный бак полон</string>
     <string name="settings_section_appearance">Вид и поведение</string>
-    <string name="settings_section_behaviour">Поведение</string>
+    <string name="settings_advanced">Расширенные настройки</string>
     <string name="settings_section_debug">Отладить</string>
-    <string name="settings_section_feed">Редактирование публикаций и комментариев</string>
+    <string name="settings_section_general">Общий</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Тёмная (AMOLED)</string>
     <string name="settings_theme_dark">Тёмная</string>

@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Kumpatt</string>
     <string name="settings_post_layout_full">Sħiħ</string>
     <string name="settings_section_appearance">Ħares u ħoss</string>
-    <string name="settings_section_behaviour">Imġiba</string>
+    <string name="settings_advanced">Settings avvanzati</string>
     <string name="settings_section_debug">Debug</string>
-    <string name="settings_section_feed">Posts u kummenti</string>
+    <string name="settings_section_general">Ġenerali</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Skur (AMOLED)</string>
     <string name="settings_theme_dark">Skur</string>

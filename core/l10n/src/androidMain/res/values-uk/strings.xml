@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Компактний</string>
     <string name="settings_post_layout_full">Повна бойова готовність</string>
     <string name="settings_section_appearance">Вигляд і поведінка</string>
-    <string name="settings_section_behaviour">Поведінка</string>
+    <string name="settings_advanced">Розширені налаштування</string>
     <string name="settings_section_debug">Відлагодити</string>
-    <string name="settings_section_feed">Дописи та коментарі</string>
+    <string name="settings_section_general">Загальний</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Темрява (AMOLED)</string>
     <string name="settings_theme_dark">Темрява</string>

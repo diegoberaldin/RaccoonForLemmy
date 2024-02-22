@@ -63,7 +63,7 @@
     <string name="home_sort_type_most_comments">Shumica e komenteve</string>
     <string name="home_sort_type_new">I ri</string>
     <string name="home_sort_type_new_comments">Komente të reja</string>
-    <string name="home_sort_type_old">E moshuar...</string>
+    <string name="home_sort_type_old">E moshuar…</string>
     <string name="home_sort_type_scaled">E shkallëzuar</string>
     <string name="home_sort_type_top">Kryesoret</string>
     <string name="home_sort_type_top_12_hours">12 orët më të mira</string>
@@ -209,9 +209,9 @@
     <string name="settings_post_layout_compact">Kompakt</string>
     <string name="settings_post_layout_full">I plotë</string>
     <string name="settings_section_appearance">SHIKONI DHE NDJENI.</string>
-    <string name="settings_section_behaviour">Sjellja</string>
+    <string name="settings_advanced">Cilësimet e avancuara</string>
     <string name="settings_section_debug">Korrigjo</string>
-    <string name="settings_section_feed">Postime dhe komente</string>
+    <string name="settings_section_general">Gjeneral</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">E errët (AMOLED)</string>
     <string name="settings_theme_dark">E errët</string>

@@ -206,9 +206,9 @@
     <string name="settings_post_layout_compact">Kompakt</string>
     <string name="settings_post_layout_full">Full (Fuld)</string>
     <string name="settings_section_appearance">Se og fornem</string>
-    <string name="settings_section_behaviour">Adfærd</string>
+    <string name="settings_advanced">Avancerede indstillinger</string>
     <string name="settings_section_debug">Debugging</string>
-    <string name="settings_section_feed">Indlæg og kommentarer</string>
+    <string name="settings_section_general">Generel</string>
     <string name="settings_section_nsfw">nsfw</string>
     <string name="settings_theme_black">Mørk (AMOLED)</string>
     <string name="settings_theme_dark">Mørk</string>

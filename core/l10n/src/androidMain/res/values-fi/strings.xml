@@ -205,9 +205,9 @@
     <string name="settings_post_layout_compact">Tiivistetty</string>
     <string name="settings_post_layout_full">Täysi</string>
     <string name="settings_section_appearance">käyttötuntuma</string>
-    <string name="settings_section_behaviour">Käyttäytyminen</string>
+    <string name="settings_advanced">Lisäasetukset</string>
     <string name="settings_section_debug">Testaa</string>
-    <string name="settings_section_feed">Julkaisut ja kommentit</string>
+    <string name="settings_section_general">Kenraali</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Tumma (AMOLED)</string>
     <string name="settings_theme_dark">Tumma</string>

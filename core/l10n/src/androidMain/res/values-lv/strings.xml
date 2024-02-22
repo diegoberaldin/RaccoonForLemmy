@@ -208,9 +208,9 @@
     <string name="settings_post_layout_compact">Compact</string>
     <string name="settings_post_layout_full">Pilnībā</string>
     <string name="settings_section_appearance">Skaties un jūti</string>
-    <string name="settings_section_behaviour">Uzvedība</string>
+    <string name="settings_advanced">Papildu iestatījumi</string>
     <string name="settings_section_debug">Atkļūdot</string>
-    <string name="settings_section_feed">Ziņas un komentāri</string>
+    <string name="settings_section_general">Ģenerālis</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Tumša (AMOLED)</string>
     <string name="settings_theme_dark">Tumša</string>

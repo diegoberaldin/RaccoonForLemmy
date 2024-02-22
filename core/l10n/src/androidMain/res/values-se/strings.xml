@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Kompakt</string>
     <string name="settings_post_layout_full">Fullständigt</string>
     <string name="settings_section_appearance">Utseende och känsla</string>
-    <string name="settings_section_behaviour">Beteende</string>
+    <string name="settings_advanced">Avancerade inställningar</string>
     <string name="settings_section_debug">Felsökning</string>
-    <string name="settings_section_feed">Inlägg och kommentarer</string>
+    <string name="settings_section_general">Allmän</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Mörk (AMOLED)</string>
     <string name="settings_theme_dark">Mörk</string>

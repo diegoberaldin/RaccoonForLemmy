@@ -209,9 +209,9 @@
     <string name="settings_post_layout_compact">Kompakt</string>
     <string name="settings_post_layout_full">Voll</string>
     <string name="settings_section_appearance">Aussehen und Gefühl</string>
-    <string name="settings_section_behaviour">Verhalten</string>
+    <string name="settings_advanced">Erweiterte Einstellungen</string>
     <string name="settings_section_debug">Debug</string>
-    <string name="settings_section_feed">Beiträge und Kommentare</string>
+    <string name="settings_section_general">Allgemein</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Dunkel (AMOLED)</string>
     <string name="settings_theme_dark">Dunkel</string>

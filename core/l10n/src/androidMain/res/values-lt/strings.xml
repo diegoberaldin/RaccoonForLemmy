@@ -199,16 +199,16 @@
     <string name="settings_language">Kalba</string>
     <string name="settings_navigation_bar_titles_visible">Rodyti naršymo juostos pavadinimus
     </string>
-    <string name="settings_open_url_external">@ info: progress operation</string>
+    <string name="settings_open_url_external">Atidarykite URL išorinėje naršyklėje</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Įrašo maketas</string>
     <string name="settings_post_layout_card">Kortelė</string>
     <string name="settings_post_layout_compact">Kompaktiškas</string>
     <string name="settings_post_layout_full">Visų funkcijų</string>
     <string name="settings_section_appearance">Atrodykite ir jauskitės</string>
-    <string name="settings_section_behaviour">Elgesys</string>
+    <string name="settings_advanced">Pažangūs nustatymai</string>
     <string name="settings_section_debug">Derinti</string>
-    <string name="settings_section_feed">Įrašai ir komentarai</string>
+    <string name="settings_section_general">Generolas</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Tamsus (AMOLED)</string>
     <string name="settings_theme_dark">Tamsus</string>

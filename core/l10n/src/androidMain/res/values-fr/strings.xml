@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Compacte</string>
     <string name="settings_post_layout_full">Pleine</string>
     <string name="settings_section_appearance">Aspect</string>
-    <string name="settings_section_behaviour">Comportement</string>
+    <string name="settings_advanced">Réglages avancés</string>
     <string name="settings_section_debug">Débogage</string>
-    <string name="settings_section_feed">Publications et commentaires</string>
+    <string name="settings_section_general">Généraux</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Sombre (AMOLED)</string>
     <string name="settings_theme_dark">Sombre</string>

@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Compact</string>
     <string name="settings_post_layout_full">Complet</string>
     <string name="settings_section_appearance">Aspect interfeței</string>
-    <string name="settings_section_behaviour">Comportament</string>
+    <string name="settings_advanced">Setari avansate</string>
     <string name="settings_section_debug">Depanare</string>
-    <string name="settings_section_feed">Postări și comentării</string>
+    <string name="settings_section_general">Generale</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Întunecată (AMOLED)</string>
     <string name="settings_theme_dark">Întunecată</string>

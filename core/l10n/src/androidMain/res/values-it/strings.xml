@@ -208,9 +208,9 @@
     <string name="settings_post_layout_compact">Compatto</string>
     <string name="settings_post_layout_full">Intero</string>
     <string name="settings_section_appearance">Aspetto interfaccia</string>
-    <string name="settings_section_behaviour">Comportamento</string>
+    <string name="settings_advanced">Impostazioni avanzate</string>
     <string name="settings_section_debug">Debug</string>
-    <string name="settings_section_feed">Post e commenti</string>
+    <string name="settings_section_general">Generali</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Scuro (AMOLED)</string>
     <string name="settings_theme_dark">Scuro</string>

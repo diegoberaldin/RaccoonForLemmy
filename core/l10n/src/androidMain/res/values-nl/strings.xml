@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Compact</string>
     <string name="settings_post_layout_full">Vol</string>
     <string name="settings_section_appearance">Een verlengstuk van jezelf</string>
-    <string name="settings_section_behaviour">Gedrag</string>
+    <string name="settings_advanced">Geavanceerde instellingen</string>
     <string name="settings_section_debug">Fouten opsporen</string>
-    <string name="settings_section_feed">Berichten en reacties</string>
+    <string name="settings_section_general">Algemeen</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Pure Black</string>
     <string name="settings_theme_dark">Donker</string>

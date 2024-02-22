@@ -206,9 +206,9 @@
     <string name="settings_post_layout_compact">Kompakt</string>
     <string name="settings_post_layout_full">Dolu</string>
     <string name="settings_section_appearance">Bak ve hisset</string>
-    <string name="settings_section_behaviour">Davranış</string>
+    <string name="settings_advanced">Gelişmiş ayarlar</string>
     <string name="settings_section_debug">Hata ayıklama</string>
-    <string name="settings_section_feed">Gönderiler ve yorumlar</string>
+    <string name="settings_section_general">Genel</string>
     <string name="settings_section_nsfw">Sakıncalı İçerik</string>
     <string name="settings_theme_black">Saf siyah</string>
     <string name="settings_theme_dark">Karanlık</string>

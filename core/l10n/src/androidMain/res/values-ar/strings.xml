@@ -203,9 +203,9 @@
     <string name="settings_post_layout_compact">مضغوط</string>
     <string name="settings_post_layout_full">كامل</string>
     <string name="settings_section_appearance">الشكل والمظهر</string>
-    <string name="settings_section_behaviour">السلوك</string>
+    <string name="settings_advanced">إعدادات متقدمة</string>
     <string name="settings_section_debug">تصحيح الأخطاء</string>
-    <string name="settings_section_feed">المنشورات والتعليقات</string>
+    <string name="settings_section_general">عام</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">الظلام (أموليد)</string>
     <string name="settings_theme_dark">داكن</string>

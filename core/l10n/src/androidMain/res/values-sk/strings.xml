@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Kompaktný</string>
     <string name="settings_post_layout_full">Plné</string>
     <string name="settings_section_appearance">Pozrieť sa a feel</string>
-    <string name="settings_section_behaviour">Správanie</string>
+    <string name="settings_advanced">Pokročilé nastavenia</string>
     <string name="settings_section_debug">Debug</string>
-    <string name="settings_section_feed">Príspevky a komentáre</string>
+    <string name="settings_section_general">Generál</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Tmavá (AMOLED)</string>
     <string name="settings_theme_dark">Tmavá</string>

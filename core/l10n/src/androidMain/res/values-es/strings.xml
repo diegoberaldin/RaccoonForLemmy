@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Publicaciones</string>
     <string name="explore_result_type_users">Usuarios</string>
     <string name="explore_search_placeholder">Búsqueda</string>
-    <string name="home_instance_via">via %1$s</string>
+    <string name="home_instance_via">vía %1$s</string>
     <string name="home_listing_title">Listados</string>
     <string name="home_listing_type_all">Todos</string>
     <string name="home_listing_type_local">Locales</string>
@@ -207,9 +207,9 @@
     <string name="settings_post_layout_compact">Compacto</string>
     <string name="settings_post_layout_full">Completo</string>
     <string name="settings_section_appearance">Apariencia</string>
-    <string name="settings_section_behaviour">Comportamiento</string>
+    <string name="settings_advanced">Ajustes avanzados</string>
     <string name="settings_section_debug">Debug</string>
-    <string name="settings_section_feed">Publicaciones y comentarios</string>
+    <string name="settings_section_general">General</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Oscuro (AMOLED)</string>
     <string name="settings_theme_dark">Oscuro</string>

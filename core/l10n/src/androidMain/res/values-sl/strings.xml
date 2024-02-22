@@ -206,9 +206,9 @@
     <string name="settings_post_layout_compact">Kompaktno</string>
     <string name="settings_post_layout_full">Popolno</string>
     <string name="settings_section_appearance">Videz in občutek</string>
-    <string name="settings_section_behaviour">Vedenje</string>
+    <string name="settings_advanced">Napredne nastavitve</string>
     <string name="settings_section_debug">Debugiranje</string>
-    <string name="settings_section_feed">Objave in komentarji</string>
+    <string name="settings_section_general">Splošno</string>
     <string name="settings_section_nsfw">NSFW</string>
     <string name="settings_theme_black">Tema (AMOLED)</string>
     <string name="settings_theme_dark">Tema</string>

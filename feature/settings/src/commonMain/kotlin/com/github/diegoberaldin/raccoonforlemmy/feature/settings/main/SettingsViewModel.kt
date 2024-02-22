@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.main
 
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -13,8 +12,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsMo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportConfiguration
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxDefaultType
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -27,7 +24,6 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlin.time.Duration
 
 class SettingsViewModel(
     private val themeRepository: ThemeRepository,
@@ -49,9 +45,6 @@ class SettingsViewModel(
         scope?.launch {
             themeRepository.uiTheme.onEach { value ->
                 updateState { it.copy(uiTheme = value) }
-            }.launchIn(this)
-            themeRepository.navItemTitles.onEach { value ->
-                updateState { it.copy(navBarTitlesVisible = value) }
             }.launchIn(this)
 
             l10nManager.lyricist.state.onEach { lang ->
@@ -84,22 +77,6 @@ class SettingsViewModel(
                 .onEach { evt ->
                     changeDefaultCommentSortType(evt.value)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class)
-                .onEach { evt ->
-                    changeZombieModeInterval(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
-                .onEach { evt ->
-                    changeZombieModeScrollAmount(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
-                .onEach { evt ->
-                    changeDefaultInboxUnreadOnly(evt.unreadOnly)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class)
-                .onEach { evt ->
-                    changeSystemBarTheme(evt.value)
-                }.launchIn(this)
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
             val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
@@ -117,25 +94,12 @@ class SettingsViewModel(
                 defaultListingType = settings.defaultListingType.toListingType(),
                 defaultPostSortType = settings.defaultPostSortType.toSortType(),
                 defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
-                defaultInboxUnreadOnly = settings.defaultInboxType.toInboxUnreadOnly(),
                 includeNsfw = settings.includeNsfw,
                 blurNsfw = settings.blurNsfw,
                 openUrlsInExternalBrowser = settings.openUrlsInExternalBrowser,
                 enableSwipeActions = settings.enableSwipeActions,
-                enableDoubleTapAction = settings.enableDoubleTapAction,
                 crashReportEnabled = crashReportConfiguration.isEnabled(),
-                autoLoadImages = settings.autoLoadImages,
-                autoExpandComments = settings.autoExpandComments,
-                hideNavigationBarWhileScrolling = settings.hideNavigationBarWhileScrolling,
-                zombieModeInterval = settings.zombieModeInterval,
-                zombieModeScrollAmount = settings.zombieModeScrollAmount,
-                markAsReadWhileScrolling = settings.markAsReadWhileScrolling,
-                searchPostTitleOnly = settings.searchPostTitleOnly,
-                edgeToEdge = settings.edgeToEdge,
-                infiniteScrollDisabled = !settings.infiniteScrollEnabled,
-                opaqueSystemBars = settings.opaqueSystemBars,
-
-                )
+            )
         }
     }
 
@@ -145,30 +109,11 @@ class SettingsViewModel(
             is SettingsMviModel.Intent.ChangeLanguage -> changeLanguage(intent.value)
             is SettingsMviModel.Intent.ChangeBlurNsfw -> changeBlurNsfw(intent.value)
             is SettingsMviModel.Intent.ChangeIncludeNsfw -> changeIncludeNsfw(intent.value)
-            is SettingsMviModel.Intent.ChangeNavBarTitlesVisible -> changeNavBarTitlesVisible(intent.value)
             is SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser ->
                 changeOpenUrlsInExternalBrowser(intent.value)
 
             is SettingsMviModel.Intent.ChangeEnableSwipeActions -> changeEnableSwipeActions(intent.value)
-            is SettingsMviModel.Intent.ChangeEnableDoubleTapAction ->
-                changeEnableDoubleTapAction(intent.value)
-
             is SettingsMviModel.Intent.ChangeCrashReportEnabled -> changeCrashReportEnabled(intent.value)
-            is SettingsMviModel.Intent.ChangeAutoLoadImages -> changeAutoLoadImages(intent.value)
-            is SettingsMviModel.Intent.ChangeAutoExpandComments -> changeAutoExpandComments(intent.value)
-            is SettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling ->
-                changeHideNavigationBarWhileScrolling(intent.value)
-
-            is SettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling ->
-                changeMarkAsReadWhileScrolling(intent.value)
-
-            is SettingsMviModel.Intent.ChangeDefaultInboxUnreadOnly ->
-                changeDefaultInboxUnreadOnly(intent.value)
-
-            is SettingsMviModel.Intent.ChangeSearchPostTitleOnly -> changeSearchPostTitleOnly(intent.value)
-            is SettingsMviModel.Intent.ChangeEdgeToEdge -> changeEdgeToEdge(intent.value)
-            is SettingsMviModel.Intent.ChangeInfiniteScrollDisabled ->
-                changeInfiniteScrollDisabled(intent.value)
         }
     }
 
@@ -226,16 +171,6 @@ class SettingsViewModel(
         }
     }
 
-    private fun changeNavBarTitlesVisible(value: Boolean) {
-        themeRepository.changeNavItemTitles(value)
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                navigationTitlesVisible = value
-            )
-            saveSettings(settings)
-        }
-    }
-
     private fun changeIncludeNsfw(value: Boolean) {
         updateState { it.copy(includeNsfw = value) }
         scope?.launch(Dispatchers.IO) {
@@ -276,134 +211,9 @@ class SettingsViewModel(
         }
     }
 
-    private fun changeEnableDoubleTapAction(value: Boolean) {
-        updateState { it.copy(enableDoubleTapAction = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                enableDoubleTapAction = value
-            )
-            saveSettings(settings)
-        }
-    }
-
     private fun changeCrashReportEnabled(value: Boolean) {
         crashReportConfiguration.setEnabled(value)
         updateState { it.copy(crashReportEnabled = value) }
-    }
-
-    private fun changeAutoLoadImages(value: Boolean) {
-        updateState { it.copy(autoLoadImages = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                autoLoadImages = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeAutoExpandComments(value: Boolean) {
-        updateState { it.copy(autoExpandComments = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                autoExpandComments = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeHideNavigationBarWhileScrolling(value: Boolean) {
-        updateState { it.copy(hideNavigationBarWhileScrolling = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                hideNavigationBarWhileScrolling = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeMarkAsReadWhileScrolling(value: Boolean) {
-        updateState { it.copy(markAsReadWhileScrolling = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                markAsReadWhileScrolling = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeZombieModeInterval(value: Duration) {
-        updateState { it.copy(zombieModeInterval = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                zombieModeInterval = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeZombieModeScrollAmount(value: Float) {
-        updateState { it.copy(zombieModeScrollAmount = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                zombieModeScrollAmount = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeDefaultInboxUnreadOnly(value: Boolean) {
-        updateState { it.copy(defaultInboxUnreadOnly = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                defaultInboxType = value.toInboxDefaultType(),
-            )
-            saveSettings(settings)
-            contentResetCoordinator.resetInbox = true
-        }
-    }
-
-    private fun changeSearchPostTitleOnly(value: Boolean) {
-        updateState { it.copy(searchPostTitleOnly = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                searchPostTitleOnly = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeEdgeToEdge(value: Boolean) {
-        updateState { it.copy(edgeToEdge = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                edgeToEdge = value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeInfiniteScrollDisabled(value: Boolean) {
-        updateState { it.copy(infiniteScrollDisabled = value) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                infiniteScrollEnabled = !value
-            )
-            saveSettings(settings)
-        }
-    }
-
-    private fun changeSystemBarTheme(value: UiBarTheme) {
-        val opaque = when (value) {
-            UiBarTheme.Opaque -> true
-            else -> false
-        }
-        updateState { it.copy(opaqueSystemBars = opaque) }
-        scope?.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                opaqueSystemBars = opaque
-            )
-            saveSettings(settings)
-        }
     }
 
     private suspend fun saveSettings(settings: SettingsModel) {
