@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmarks
+import androidx.compose.material.icons.filled.Drafts
 import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -170,6 +171,20 @@ object ModalDrawerContent : Tab {
                                     scope.launch {
                                         coordinator.toggleDrawer()
                                         coordinator.sendEvent(DrawerEvent.ManageSubscriptions)
+                                    }
+                                },
+                            )
+                        }
+
+                        item {
+                            DrawerShortcut(
+                                // TODO: l10n
+                                title = "Drafts",
+                                icon = Icons.Default.Drafts,
+                                onSelected = rememberCallback(coordinator) {
+                                    scope.launch {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(DrawerEvent.OpenDrafts)
                                     }
                                 },
                             )

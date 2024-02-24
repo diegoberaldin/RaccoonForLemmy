@@ -48,6 +48,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageDirection
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
+import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerContent
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityScreen
@@ -212,6 +213,10 @@ fun App(onLoadingFinished: () -> Unit = {}) {
 
                 DrawerEvent.OpenBookmarks -> {
                     navigationCoordinator.pushScreen(SavedItemsScreen())
+                }
+
+                DrawerEvent.OpenDrafts -> {
+                    navigationCoordinator.pushScreen(DraftsScreen())
                 }
 
                 else -> Unit
