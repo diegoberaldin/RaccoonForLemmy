@@ -70,6 +70,7 @@ kotlin {
                 implementation(projects.unit.createcomment)
                 implementation(projects.unit.createpost)
                 implementation(projects.unit.createreport)
+                implementation(projects.unit.drafts)
                 implementation(projects.unit.drawer)
                 implementation(projects.unit.instanceinfo)
                 implementation(projects.unit.manageban)

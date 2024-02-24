@@ -34,6 +34,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.di.co
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.di.createCommentModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.di.createPostModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.di.createReportModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.di.draftsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.di.manageBanModule
@@ -102,6 +103,7 @@ fun initKoin() {
             selectInstanceModule,
             configureSwipeActionsModule,
             configureContentViewModule,
+            draftsModule,
         )
     }
 
