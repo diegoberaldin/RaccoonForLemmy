@@ -57,6 +57,7 @@ interface CreatePostMviModel :
         data class ChangeLanguage(val value: Int?) : Intent
         data class ChangeBodyValue(val value: TextFieldValue) : Intent
         data object Send : Intent
+        data object SaveDraft : Intent
     }
 
     data class UiState(
@@ -89,5 +90,6 @@ interface CreatePostMviModel :
     sealed interface Effect {
         data object Success : Effect
         data class Failure(val message: String?) : Effect
+        data object DraftSaved : Effect
     }
 }

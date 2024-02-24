@@ -2,11 +2,19 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.createpost
 
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftModel
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftType
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DraftRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.isValidUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
@@ -19,12 +27,17 @@ import kotlinx.coroutines.launch
 class CreatePostViewModel(
     private val editedPostId: Int?,
     private val crossPostId: Int?,
+    private val draftId: Long?,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
     private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val itemCache: LemmyItemCache,
+    private val communityRepository: CommunityRepository,
+    private val accountRepository: AccountRepository,
+    private val draftRepository: DraftRepository,
+    private val notificationCenter: NotificationCenter,
 ) : CreatePostMviModel,
     DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>(
         initialState = CreatePostMviModel.UiState(),
@@ -128,6 +141,8 @@ class CreatePostViewModel(
             }
 
             CreatePostMviModel.Intent.Send -> submit()
+
+            CreatePostMviModel.Intent.SaveDraft -> saveDraft()
         }
     }
 
@@ -254,6 +269,9 @@ class CreatePostViewModel(
                         )
                     }
                 }
+                if (draftId != null) {
+                    deleteDraft()
+                }
                 emitEffect(CreatePostMviModel.Effect.Success)
             } catch (e: Throwable) {
                 val message = e.message
@@ -261,6 +279,56 @@ class CreatePostViewModel(
             } finally {
                 updateState { it.copy(loading = false) }
             }
+        }
+    }
+
+    private fun saveDraft() {
+        val currentState = uiState.value
+        if (currentState.loading) {
+            return
+        }
+        val communityId = currentState.communityId
+        val title = currentState.title
+        val url = currentState.url.takeIf { it.isNotEmpty() }?.trim()
+        val body = currentState.bodyValue.text
+        val nsfw = currentState.nsfw
+        val languageId = currentState.currentLanguageId
+
+        scope?.launch {
+            val accountId = accountRepository.getActive()?.id ?: return@launch
+            updateState { it.copy(loading = true) }
+            val auth = identityRepository.authToken.value
+            val community =
+                communityId?.let { communityRepository.get(auth = auth, id = communityId) }
+            val draft = DraftModel(
+                id = draftId,
+                type = DraftType.Post,
+                body = body,
+                title = title,
+                url = url,
+                nsfw = nsfw,
+                communityId = communityId,
+                languageId = languageId,
+                date = epochMillis(),
+                reference = community?.name,
+            )
+            if (draftId == null) {
+                draftRepository.create(
+                    model = draft,
+                    accountId = accountId,
+                )
+            } else {
+                draftRepository.update(draft)
+            }
+            updateState { it.copy(loading = false) }
+            emitEffect(CreatePostMviModel.Effect.DraftSaved)
+        }
+    }
+
+    private suspend fun deleteDraft() {
+        draftId?.also { id ->
+            draftRepository.delete(id)
+            notificationCenter.send(NotificationCenterEvent.DraftDeleted)
         }
     }
 }

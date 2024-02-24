@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -86,15 +87,20 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class CreatePostScreen(
+    private val draftId: Long? = null,
     private val communityId: Int? = null,
     private val editedPostId: Int? = null,
     private val crossPostId: Int? = null,
+    private val initialText: String? = null,
+    private val initialTitle: String? = null,
+    private val initialUrl: String? = null,
+    private val initialNsfw: Boolean? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<CreatePostMviModel> {
-            parametersOf(editedPostId, crossPostId)
+            parametersOf(editedPostId, crossPostId, draftId)
         }
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
@@ -145,18 +151,36 @@ class CreatePostScreen(
                 model.reduce(CreatePostMviModel.Intent.SetTitle(referencePost.title))
                 model.reduce(CreatePostMviModel.Intent.SetUrl(referencePost.url.orEmpty()))
                 model.reduce(CreatePostMviModel.Intent.ChangeLanguage(referencePost.languageId))
+            }
 
-                if (uiState.bodyValue.text.isEmpty()) {
-                    val text = buildString {
-                        if (crossPost != null) {
+            if (uiState.bodyValue.text.isEmpty() && uiState.title.isEmpty()) {
+                val text = buildString {
+                    when {
+                        crossPost != null -> {
                             append(crossPostText)
                             append(" ")
                             append(crossPost.originalUrl)
-                        } else if (editedPost != null) {
+                        }
+
+                        editedPost != null -> {
                             append(editedPost.text)
                         }
+
+                        !initialText.isNullOrEmpty() -> {
+                            append(initialText)
+                        }
                     }
-                    model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(TextFieldValue(text)))
+                }
+                model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(TextFieldValue(text)))
+
+                initialTitle?.also { title ->
+                    model.reduce(CreatePostMviModel.Intent.SetTitle(title))
+                }
+                initialUrl?.also { url ->
+                    model.reduce(CreatePostMviModel.Intent.SetUrl(url))
+                }
+                initialNsfw?.also { nsfw ->
+                    model.reduce(CreatePostMviModel.Intent.ChangeNsfw(nsfw))
                 }
             }
         }
@@ -179,6 +203,8 @@ class CreatePostScreen(
                         )
                         navigationCoordinator.popScreen()
                     }
+
+                    CreatePostMviModel.Effect.DraftSaved -> navigationCoordinator.popScreen()
                 }
             }.launchIn(this)
         }
@@ -226,6 +252,17 @@ class CreatePostScreen(
                         )
                     },
                     actions = {
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.Save,
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = rememberCallback(model) {
+                                model.reduce(CreatePostMviModel.Intent.SaveDraft)
+                            },
+                        )
                         IconButton(
                             content = {
                                 Icon(

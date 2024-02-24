@@ -9,12 +9,17 @@ val createPostModule = module {
         CreatePostViewModel(
             editedPostId = params[0],
             crossPostId = params[1],
+            draftId = params[2],
             identityRepository = get(),
             postRepository = get(),
             siteRepository = get(),
             themeRepository = get(),
             settingsRepository = get(),
             itemCache = get(),
+            communityRepository = get(),
+            accountRepository = get(),
+            draftRepository = get(),
+            notificationCenter = get(),
         )
     }
 }
