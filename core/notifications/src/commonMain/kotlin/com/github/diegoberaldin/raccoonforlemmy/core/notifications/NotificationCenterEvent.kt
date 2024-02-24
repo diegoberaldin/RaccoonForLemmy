@@ -34,6 +34,7 @@ sealed interface NotificationCenterEvent {
     data class ChangeTheme(val value: UiTheme?) : NotificationCenterEvent
     data class ChangeContentFontSize(val value: Float, val contentClass: ContentFontClass) :
         NotificationCenterEvent
+
     data class ChangeUiFontSize(val value: Float) : NotificationCenterEvent
     data class ChangeFontFamily(val value: UiFontFamily) : NotificationCenterEvent
     data class ChangeContentFontFamily(val value: UiFontFamily) : NotificationCenterEvent
@@ -76,4 +77,5 @@ sealed interface NotificationCenterEvent {
     ) : NotificationCenterEvent
 
     data class ChangeSystemBarTheme(val value: UiBarTheme) : NotificationCenterEvent
+    data object DraftDeleted : NotificationCenterEvent
 }
