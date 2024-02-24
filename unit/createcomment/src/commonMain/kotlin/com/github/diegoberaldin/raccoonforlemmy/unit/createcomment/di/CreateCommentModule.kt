@@ -10,6 +10,7 @@ val createCommentModule = module {
             postId = params[0],
             parentId = params[1],
             editedCommentId = params[2],
+            draftId = params[3],
             identityRepository = get(),
             commentRepository = get(),
             postRepository = get(),
@@ -18,6 +19,8 @@ val createCommentModule = module {
             settingsRepository = get(),
             notificationCenter = get(),
             itemCache = get(),
+            accountRepository = get(),
+            draftRepository = get(),
         )
     }
 }

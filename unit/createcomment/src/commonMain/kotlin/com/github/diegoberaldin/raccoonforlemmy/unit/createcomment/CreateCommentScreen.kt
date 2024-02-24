@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -81,6 +82,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class CreateCommentScreen(
+    private val draftId: Long? = null,
     private val originalPostId: Int? = null,
     private val originalCommentId: Int? = null,
     private val editedCommentId: Int? = null,
@@ -94,6 +96,7 @@ class CreateCommentScreen(
                 originalPostId,
                 originalCommentId,
                 editedCommentId,
+                draftId,
             )
         }
         model.bindToLifecycle(key)
@@ -144,13 +147,14 @@ class CreateCommentScreen(
                         }
                         navigationCoordinator.popScreen()
                     }
+
+                    CreateCommentMviModel.Effect.DraftSaved -> navigationCoordinator.popScreen()
                 }
             }.launchIn(this)
         }
         LaunchedEffect(initialText) {
-            val text = initialText.orEmpty()
-            if (uiState.textValue.text.isEmpty() && text.isNotEmpty()) {
-                model.reduce(CreateCommentMviModel.Intent.ChangeTextValue(TextFieldValue(text)))
+            if (uiState.textValue.text.isEmpty() && !initialText.isNullOrEmpty()) {
+                model.reduce(CreateCommentMviModel.Intent.ChangeTextValue(TextFieldValue(initialText)))
             }
         }
 
@@ -189,6 +193,17 @@ class CreateCommentScreen(
                         )
                     },
                     actions = {
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.Save,
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = rememberCallback(model) {
+                                model.reduce(CreateCommentMviModel.Intent.SaveDraft)
+                            },
+                        )
                         IconButton(
                             content = {
                                 Icon(

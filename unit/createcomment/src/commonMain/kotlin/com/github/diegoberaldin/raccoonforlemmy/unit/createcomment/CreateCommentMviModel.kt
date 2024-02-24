@@ -39,6 +39,7 @@ interface CreateCommentMviModel :
         data class ChangeTextValue(val value: TextFieldValue) : Intent
 
         data object Send : Intent
+        data object SaveDraft : Intent
     }
 
     data class UiState(
@@ -64,5 +65,6 @@ interface CreateCommentMviModel :
     sealed interface Effect {
         data class Success(val new: Boolean) : Effect
         data class Failure(val message: String?) : Effect
+        data object DraftSaved : Effect
     }
 }
