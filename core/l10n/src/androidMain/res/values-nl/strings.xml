@@ -342,4 +342,5 @@
     <string name="settings_configure_content">Configureer het uiterlijk van de inhoud</string>
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Aanpassingen</string>
+    <string name="navigation_drawer_title_drafts">Concepten</string>
 </resources>

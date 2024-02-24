@@ -348,4 +348,5 @@
     <string name="settings_configure_content">Cumraigh cuma ábhar</string>
     <string name="settings_configure_text">Téacs</string>
     <string name="settings_configure_customizations">Saincheapadh</string>
+    <string name="navigation_drawer_title_drafts">Dréachtaí</string>
 </resources>

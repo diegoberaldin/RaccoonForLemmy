@@ -342,4 +342,5 @@
     <string name="settings_configure_content">İçerik görünümünü yapılandırma</string>
     <string name="settings_configure_text">Metin</string>
     <string name="settings_configure_customizations">Özelleştirmeler</string>
+    <string name="navigation_drawer_title_drafts">Taslaklar</string>
 </resources>

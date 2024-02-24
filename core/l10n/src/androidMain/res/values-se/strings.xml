@@ -340,4 +340,5 @@
     <string name="settings_configure_content">Konfigurera innehållets utseende</string>
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Anpassningar</string>
+    <string name="navigation_drawer_title_drafts">Utkast</string>
 </resources>

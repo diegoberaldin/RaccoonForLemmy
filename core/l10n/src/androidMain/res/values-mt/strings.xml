@@ -344,4 +344,5 @@
     <string name="settings_configure_content">Ikkonfigura d-dehra tal-kontenut</string>
     <string name="settings_configure_text">Test</string>
     <string name="settings_configure_customizations">Customizations</string>
+    <string name="navigation_drawer_title_drafts">Abbozzi</string>
 </resources>

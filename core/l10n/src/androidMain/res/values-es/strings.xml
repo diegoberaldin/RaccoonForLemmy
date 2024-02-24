@@ -340,4 +340,5 @@
     <string name="settings_configure_content">Configurar la apariencia del contenido</string>
     <string name="settings_configure_text">Texto</string>
     <string name="settings_configure_customizations">Personalizaciones</string>
+    <string name="navigation_drawer_title_drafts">Borradores</string>
 </resources>

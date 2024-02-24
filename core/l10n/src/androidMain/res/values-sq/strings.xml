@@ -345,4 +345,5 @@
     <string name="settings_configure_content">Konfiguro pamjen e përmbajtjes</string>
     <string name="settings_configure_text">Teksti</string>
     <string name="settings_configure_customizations">Përshtatjet</string>
+    <string name="navigation_drawer_title_drafts">Draftet</string>
 </resources>

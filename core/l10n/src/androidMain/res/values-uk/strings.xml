@@ -342,4 +342,5 @@
     <string name="settings_configure_content">Налаштувати зовнішній вигляд вмісту</string>
     <string name="settings_configure_text">текст</string>
     <string name="settings_configure_customizations">Налаштування</string>
+    <string name="navigation_drawer_title_drafts">Чернетки</string>
 </resources>

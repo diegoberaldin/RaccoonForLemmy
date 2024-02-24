@@ -343,4 +343,5 @@
     <string name="settings_configure_content">Настроить внешний вид контента</string>
     <string name="settings_configure_text">Текст</string>
     <string name="settings_configure_customizations">Настройки</string>
+    <string name="navigation_drawer_title_drafts">Черновики</string>
 </resources>

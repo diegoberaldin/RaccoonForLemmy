@@ -344,4 +344,5 @@
     <string name="settings_configure_content">Configurer l\'apparence du contenu</string>
     <string name="settings_configure_text">Texte</string>
     <string name="settings_configure_customizations">Personnalisations</string>
+    <string name="navigation_drawer_title_drafts">Brouillons</string>
 </resources>

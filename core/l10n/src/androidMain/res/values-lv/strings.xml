@@ -343,4 +343,5 @@
     <string name="settings_configure_content">Konfigurējiet satura izskatu</string>
     <string name="settings_configure_text">Teksts</string>
     <string name="settings_configure_customizations">Pielāgojumi</string>
+    <string name="navigation_drawer_title_drafts">Melnraksti</string>
 </resources>

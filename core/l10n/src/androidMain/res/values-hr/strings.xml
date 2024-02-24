@@ -344,4 +344,5 @@
     <string name="settings_configure_content">Konfigurirajte izgled sadržaja</string>
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Prilagodbe</string>
+    <string name="navigation_drawer_title_drafts">Nacrti</string>
 </resources>

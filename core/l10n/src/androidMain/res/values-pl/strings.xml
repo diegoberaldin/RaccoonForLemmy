@@ -342,4 +342,5 @@
     <string name="settings_configure_content">Skonfiguruj wygląd treści</string>
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Modyfikacje</string>
+    <string name="navigation_drawer_title_drafts">Projektowanie</string>
 </resources>

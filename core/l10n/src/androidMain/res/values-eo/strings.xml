@@ -338,4 +338,5 @@
     <string name="settings_configure_content">Agordi enhavan aspekton</string>
     <string name="settings_configure_text">Teksto</string>
     <string name="settings_configure_customizations">Personigoj</string>
+    <string name="navigation_drawer_title_drafts">Malnetoj</string>
 </resources>

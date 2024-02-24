@@ -341,4 +341,5 @@
     <string name="settings_configure_content">Configurar a aparência do conteúdo</string>
     <string name="settings_configure_text">Texto</string>
     <string name="settings_configure_customizations">Personalizações</string>
+    <string name="navigation_drawer_title_drafts">Rascunhos</string>
 </resources>

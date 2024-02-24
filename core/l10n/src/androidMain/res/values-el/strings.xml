@@ -350,4 +350,5 @@
     <string name="settings_configure_content">Διαμόρφωση εμφάνισης περιεχομένου</string>
     <string name="settings_configure_text">Κείμενο</string>
     <string name="settings_configure_customizations">Προσαρμογές</string>
+    <string name="navigation_drawer_title_drafts">Προσχέδια</string>
 </resources>

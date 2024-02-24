@@ -338,4 +338,5 @@
     <string name="settings_configure_content">o ante e nasin lukin</string>
     <string name="settings_configure_text">sitelen</string>
     <string name="settings_configure_customizations">ijo ante</string>
+    <string name="navigation_drawer_title_drafts">lukin sitelen</string>
 </resources>

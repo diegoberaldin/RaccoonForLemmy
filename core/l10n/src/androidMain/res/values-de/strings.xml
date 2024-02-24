@@ -347,4 +347,5 @@
     <string name="settings_configure_content">Konfigurieren Sie das Erscheinungsbild des Inhalts</string>
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Anpassungen</string>
+    <string name="navigation_drawer_title_drafts">Entwürfe</string>
 </resources>

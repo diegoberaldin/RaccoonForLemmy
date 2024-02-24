@@ -178,8 +178,7 @@ object ModalDrawerContent : Tab {
 
                         item {
                             DrawerShortcut(
-                                // TODO: l10n
-                                title = "Drafts",
+                                title = LocalXmlStrings.current.navigationDrawerTitleDrafts,
                                 icon = Icons.Default.Drafts,
                                 onSelected = rememberCallback(coordinator) {
                                     scope.launch {

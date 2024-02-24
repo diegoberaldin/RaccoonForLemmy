@@ -99,8 +99,7 @@ class DraftsScreen : Screen {
                     },
                     title = {
                         Text(
-                            // TODO: l10n
-                            text = "Drafts",
+                            text =  LocalXmlStrings.current.navigationDrawerTitleDrafts,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },

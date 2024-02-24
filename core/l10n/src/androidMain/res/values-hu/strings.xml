@@ -343,4 +343,5 @@
     <string name="settings_configure_content">Konfigurálja a tartalom megjelenését</string>
     <string name="settings_configure_text">Szöveg</string>
     <string name="settings_configure_customizations">Testreszabások</string>
+    <string name="navigation_drawer_title_drafts">Tervezetek</string>
 </resources>

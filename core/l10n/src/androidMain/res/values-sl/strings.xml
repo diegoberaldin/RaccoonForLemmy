@@ -339,4 +339,5 @@
     <string name="settings_configure_content">Konfigurirajte videz vsebine</string>
     <string name="settings_configure_text">Besedilo</string>
     <string name="settings_configure_customizations">Prilagoditve</string>
+    <string name="navigation_drawer_title_drafts">Osnutki</string>
 </resources>

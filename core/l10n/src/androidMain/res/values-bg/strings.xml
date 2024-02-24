@@ -347,4 +347,5 @@
     <string name="settings_configure_content">Конфигурирайте външния вид на съдържанието</string>
     <string name="settings_configure_text">Текст</string>
     <string name="settings_configure_customizations">Персонализации</string>
+    <string name="navigation_drawer_title_drafts">Чернови</string>
 </resources>
