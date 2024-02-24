@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.isUnspecified
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.mikepenz.markdown.compose.LocalMarkdownTypography
 import com.mikepenz.markdown.compose.Markdown
@@ -72,11 +73,19 @@ fun CustomMarkdownWrapper(
 
                 else -> {
                     MarkdownParagraph(
-                        modifier = if (maxLines != null) {
-                            val maxHeightSp =
-                                LocalMarkdownTypography.current.paragraph.lineHeight * maxLines
+                        modifier = if (maxLines != null && maxLines > 0) {
+                            val maxHeightPx = with(LocalDensity.current) {
+                                val lineHeight =
+                                    LocalMarkdownTypography.current.paragraph.lineHeight
+                                val base = if (lineHeight.isUnspecified) {
+                                    LocalMarkdownTypography.current.paragraph.fontSize.roundToPx()
+                                } else {
+                                    lineHeight.roundToPx()
+                                }
+                                base * maxLines
+                            }
                             val maxHeightDp = with(LocalDensity.current) {
-                                maxHeightSp.toDp()
+                                maxHeightPx.toDp()
                             }
                             Modifier.heightIn(max = maxHeightDp)
                         } else {
