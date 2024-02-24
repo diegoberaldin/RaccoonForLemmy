@@ -17,9 +17,17 @@ import platform.Foundation.autoupdatingCurrentLocale
 import platform.Foundation.localTimeZone
 import platform.Foundation.timeIntervalSince1970
 
-
 actual fun epochMillis(): Long {
     return (NSDate().timeIntervalSince1970 * 1000).toLong()
+}
+
+actual fun Long.toIso8601Timestamp(): String? {
+    val dateFormatter = NSDateFormatter()
+    dateFormatter.locale = NSLocale.autoupdatingCurrentLocale
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
+    dateFormatter.calendar = NSCalendar(calendarIdentifier = NSCalendarIdentifierGregorian)
+    val date = NSDate(timeIntervalSince1970: this)
+    return dateFormatter.stringFromDate(date)
 }
 
 actual fun getFormattedDate(

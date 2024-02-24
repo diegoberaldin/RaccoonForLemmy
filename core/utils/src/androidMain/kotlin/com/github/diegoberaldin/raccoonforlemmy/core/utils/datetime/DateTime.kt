@@ -1,11 +1,22 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime
 
+import java.text.SimpleDateFormat
 import java.time.Period
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.GregorianCalendar
+import java.util.Locale
+import java.util.TimeZone
 
 actual fun epochMillis(): Long = System.currentTimeMillis()
+
+actual fun Long.toIso8601Timestamp(): String? {
+    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.US)
+    formatter.timeZone = TimeZone.getTimeZone("UTC")
+    val date = Date(this)
+    return formatter.format(date)
+}
 
 actual fun getFormattedDate(
     iso8601Timestamp: String,
