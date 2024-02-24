@@ -84,6 +84,7 @@ class DefaultDetailOpener(
     }
 
     override fun openReply(
+        draftId: Long?,
         originalPost: PostModel?,
         originalComment: CommentModel?,
         editedComment: CommentModel?,
@@ -100,6 +101,7 @@ class DefaultDetailOpener(
                 itemCache.putComment(editedComment)
             }
             val screen = CreateCommentScreen(
+                draftId = draftId,
                 originalPostId = originalPost?.id,
                 originalCommentId = originalComment?.id,
                 editedCommentId = editedComment?.id,
@@ -110,9 +112,14 @@ class DefaultDetailOpener(
     }
 
     override fun openCreatePost(
+        draftId: Long?,
         editedPost: PostModel?,
         crossPost: PostModel?,
         communityId: Int?,
+        initialText: String?,
+        initialTitle: String?,
+        initialUrl: String?,
+        initialNsfw: Boolean?,
     ) {
         scope.launch {
             if (editedPost != null) {
@@ -122,9 +129,14 @@ class DefaultDetailOpener(
                 itemCache.putPost(crossPost)
             }
             val screen = CreatePostScreen(
+                draftId = draftId,
                 editedPostId = editedPost?.id,
                 crossPostId = crossPost?.id,
                 communityId = communityId,
+                initialText = initialText,
+                initialTitle = initialTitle,
+                initialUrl = initialUrl,
+                initialNsfw = initialNsfw,
             )
             navigationCoordinator.pushScreen(screen)
         }
