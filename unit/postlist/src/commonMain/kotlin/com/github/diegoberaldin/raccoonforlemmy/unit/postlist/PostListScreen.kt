@@ -323,7 +323,8 @@ class PostListScreen : Screen {
                         }
                         items(
                             items = uiState.posts,
-                            key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
+                            // isLogged is added to the key to force swipe action refresh
+                            key = { it.id.toString() + (it.updateDate ?: it.publishDate) + uiState.isLogged },
                         ) { post ->
                             LaunchedEffect(post.id) {
                                 if (settings.markAsReadWhileScrolling && !post.read) {

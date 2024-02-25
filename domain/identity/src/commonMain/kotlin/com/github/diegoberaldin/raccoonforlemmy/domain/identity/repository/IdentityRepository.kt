@@ -12,4 +12,6 @@ interface IdentityRepository {
     )
 
     fun clearToken()
+
+    fun refreshLoggedState()
 }

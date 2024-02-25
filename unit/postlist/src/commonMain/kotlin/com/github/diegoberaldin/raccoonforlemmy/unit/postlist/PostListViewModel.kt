@@ -249,6 +249,9 @@ class PostListViewModel(
         hideReadPosts = false
         updateState { it.copy(canFetchMore = true, refreshing = true) }
         loadNextPage()
+        if (identityRepository.isLogged.value == null) {
+            identityRepository.refreshLoggedState()
+        }
     }
 
     private suspend fun loadNextPage() {

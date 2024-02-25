@@ -4,11 +4,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Acco
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.network.NetworkManager
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 internal class DefaultIdentityRepository(
@@ -19,21 +18,7 @@ internal class DefaultIdentityRepository(
 
     private val scope = CoroutineScope(SupervisorJob())
     override val authToken = MutableStateFlow<String?>(null)
-
-    override val isLogged = authToken.map { authOrNull ->
-        if (authOrNull.isNullOrEmpty()) {
-            false
-        } else if (networkManager.isNetworkAvailable()) {
-            val currentUser = siteRepository.getCurrentUser(authOrNull)
-            currentUser != null
-        } else {
-            null
-        }
-    }.stateIn(
-        scope = scope,
-        initialValue = false,
-        started = SharingStarted.WhileSubscribed(5_000)
-    )
+    override val isLogged = MutableStateFlow<Boolean?>(null)
 
     init {
         scope.launch {
@@ -43,14 +28,34 @@ internal class DefaultIdentityRepository(
             } else {
                 authToken.value = ""
             }
+            refreshLoggedState()
         }
     }
 
     override fun storeToken(jwt: String) {
         authToken.value = jwt
+        refreshLoggedState()
     }
 
     override fun clearToken() {
         authToken.value = ""
+        isLogged.value = false
+    }
+
+    override fun refreshLoggedState() {
+        scope.launch(Dispatchers.IO) {
+            val auth = authToken.value.orEmpty()
+            if (auth.isEmpty()) {
+                isLogged.value = false
+            } else {
+                val newIsLogged = if (networkManager.isNetworkAvailable()) {
+                    val currentUser = siteRepository.getCurrentUser(auth)
+                    currentUser != null
+                } else {
+                    null
+                }
+                isLogged.value = newIsLogged
+            }
+        }
     }
 }
