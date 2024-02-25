@@ -109,6 +109,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
@@ -293,6 +294,9 @@ class CommunityDetailScreen(
                                     OptionId.InfoInstance,
                                     LocalXmlStrings.current.communityDetailInstanceInfo
                                 )
+                                this += Option(
+                                    OptionId.Share, LocalXmlStrings.current.postActionShare
+                                )
                                 if (uiState.isLogged) {
                                     this += Option(
                                         OptionId.Block,
@@ -399,6 +403,25 @@ class CommunityDetailScreen(
                                                             communityId = uiState.community.id,
                                                         )
                                                         navigationCoordinator.pushScreen(screen)
+                                                    }
+
+                                                    OptionId.Share -> {
+                                                        val urls = buildList {
+                                                            if (uiState.community.host != uiState.instance) {
+                                                                this += "https://${uiState.instance}/c/${uiState.community.readableHandle}"
+                                                            }
+                                                            this += "https://${uiState.community.host}/c/${uiState.community.name}"
+                                                        }
+                                                        if (urls.size == 1) {
+                                                            model.reduce(
+                                                                CommunityDetailMviModel.Intent.Share(
+                                                                    urls.first()
+                                                                )
+                                                            )
+                                                        } else {
+                                                            val screen = ShareBottomSheet(urls = urls)
+                                                            navigationCoordinator.showBottomSheet(screen)
+                                                        }
                                                     }
 
                                                     else -> Unit

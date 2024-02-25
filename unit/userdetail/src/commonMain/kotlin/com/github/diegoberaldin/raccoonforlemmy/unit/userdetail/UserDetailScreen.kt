@@ -105,6 +105,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
@@ -240,6 +241,9 @@ class UserDetailScreen(
                                 this += Option(
                                     OptionId.Info, LocalXmlStrings.current.userDetailInfo
                                 )
+                                this += Option(
+                                    OptionId.Share, LocalXmlStrings.current.postActionShare
+                                )
                                 if (uiState.isLogged) {
                                     this += Option(
                                         OptionId.Block,
@@ -296,6 +300,25 @@ class UserDetailScreen(
                                                         navigationCoordinator.showBottomSheet(
                                                             UserInfoScreen(uiState.user.id),
                                                         )
+                                                    }
+
+                                                    OptionId.Share -> {
+                                                        val urls = buildList {
+                                                            if (uiState.user.host != uiState.instance) {
+                                                                this += "https://${uiState.instance}/u/${uiState.user.readableHandle}"
+                                                            }
+                                                            this += "https://${uiState.user.host}/u/${uiState.user.name}"
+                                                        }
+                                                        if (urls.size == 1) {
+                                                            model.reduce(
+                                                                UserDetailMviModel.Intent.Share(
+                                                                    urls.first()
+                                                                )
+                                                            )
+                                                        } else {
+                                                            val screen = ShareBottomSheet(urls = urls)
+                                                            navigationCoordinator.showBottomSheet(screen)
+                                                        }
                                                     }
 
                                                     else -> Unit
