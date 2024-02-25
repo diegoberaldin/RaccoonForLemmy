@@ -79,8 +79,9 @@ In this group, we often quote every raccoon's motto: «Live Fast, Eat Trash» (a
 This section is probably going to change over time, anyway we are a small group of volunteers who in
 their spare time contribute to the project.
 
-You can find us on [this](https://matrix.to/#/#raccoonforlemmy:matrix.org) Matrix space, where you
-can ask more questions in the General room or by writing directly to the administrator.
+To ask more questions or chat directly with people, you can find us
+on [this Discord server](https://discord.gg/erxQRFjJ) (there used to be
+a [this Matrix space](https://matrix.to/#/#raccoonforlemmy:matrix.org) but it's no longer used).
 
 ### 2.2 Code of Conduct
 
@@ -103,16 +104,16 @@ whatever, remember that we are raccoons, and we follow these principles:
 
 There are many ways you can interact with members of the community:
 
-- use the [Matrix space](https://matrix.to/#/#raccoonforlemmy:matrix.org) to chat in real time with
-  other team members, there are two rooms in the space: "General" is for general information about
-  the app development and "Trashcan" is more for smalltalk and random topics.
+- use the [Discord server](https://discord.gg/erxQRFjJ) to chat in real time with other team
+  members, there are two rooms in the space: "General" is for general information about the app
+  development and "Trashcan" is more for smalltalk and random topics;
 - use the [Lemmy community](https://lemmy.world/c/raccoonforlemmy) to receive updates about the new
   releases, participate into public discussions in the Lemmy style and provide your feedback or even
-  share your memes about raccoons with any other interested people
+  share your memes about raccoons with any other interested people;
 - use the [GitHub issue tracker](https://github.com/diegoberaldin/RaccoonForLemmy/issues) to report
-  bugs or request features
+  bugs or request features;
 - use the [GitHub discussion section](https://github.com/diegoberaldin/RaccoonForLemmy/discussions)
-  for technical questions about the release roadmap, questions about app internationalization, etc.
+  for technical questions about the release roadmap, questions about app internationalization, etc.;
 - finally, if none of the above methods fits your needs you can write an email or send a private
   message to the original developer (my personal information are in the GitHub profile).
 
@@ -275,7 +276,6 @@ The modules can be grouped into five groups:
 For more detailed information about the contents of each group and the purpose of each module,
 please refer
 to [this page](https://diegoberaldin.github.io/RaccoonForLemmy/tech_manual/main#module-structure).
-
 
 ## 6. Conventions
 

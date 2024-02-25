@@ -92,8 +92,10 @@ Here is a list of the main unit modules and their purpose:
 - `:unit:communitydetail` contains the community detail screen
 - `:unit:communityinfo` contains the community info bottom sheet accessible from community detail
 - `:unit:configureswipeactions` contains the screen and bottom sheets to configure swipe actions
+- `:unit:configurecontentview` contains the screen used to configure post and comment appearance
 - `:unit:createcomment` contains the create comment form
 - `:unit:createpost` contains the create post form
+- `:unit:drafts` contains the screen uses to display post and comment drafts
 - `:unit:drawer` contains the navigation drawer
 - `:unit:instanceinfo` contains the instance info bottom sheet with the list of communities
 - `:unit:login` contains the login modal bottom sheet
