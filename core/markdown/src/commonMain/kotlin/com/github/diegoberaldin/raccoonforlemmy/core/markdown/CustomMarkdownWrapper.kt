@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.markdown
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -11,7 +12,6 @@ import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.isUnspecified
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.mikepenz.markdown.compose.LocalMarkdownTypography
 import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.compose.components.markdownComponents
 import com.mikepenz.markdown.compose.elements.MarkdownParagraph
@@ -21,6 +21,7 @@ import com.mikepenz.markdown.model.MarkdownTypography
 import com.mikepenz.markdown.model.markdownColor
 import com.mikepenz.markdown.model.markdownPadding
 import com.mikepenz.markdown.model.markdownTypography
+import kotlin.math.floor
 
 private val String.containsSpoiler: Boolean
     get() = SpoilerRegex.spoilerOpening.containsMatchIn(this)
@@ -43,6 +44,21 @@ fun CustomMarkdownWrapper(
     onDoubleClick: (() -> Unit)?,
     onLongClick: (() -> Unit)?,
 ) {
+    val maxHeightDp = with(LocalDensity.current) {
+        if (maxLines == null) {
+            null
+        } else {
+            val scale = 0.98f
+            val lineHeight =
+                typography.paragraph.lineHeight
+            val base = if (lineHeight.isUnspecified) {
+                floor(typography.paragraph.fontSize.toPx() * scale)
+            } else {
+                lineHeight.toPx() * scale
+            }
+            (base * maxLines).toDp()
+        }
+    }
     val customUriHandler = remember {
         object : UriHandler {
             override fun openUri(uri: String) {
@@ -73,24 +89,6 @@ fun CustomMarkdownWrapper(
 
                 else -> {
                     MarkdownParagraph(
-                        modifier = if (maxLines != null && maxLines > 0) {
-                            val maxHeightPx = with(LocalDensity.current) {
-                                val lineHeight =
-                                    LocalMarkdownTypography.current.paragraph.lineHeight
-                                val base = if (lineHeight.isUnspecified) {
-                                    LocalMarkdownTypography.current.paragraph.fontSize.roundToPx()
-                                } else {
-                                    lineHeight.roundToPx()
-                                }
-                                base * maxLines
-                            }
-                            val maxHeightDp = with(LocalDensity.current) {
-                                maxHeightPx.toDp()
-                            }
-                            Modifier.heightIn(max = maxHeightDp)
-                        } else {
-                            Modifier
-                        },
                         content = model.content,
                         node = model.node
                     )
@@ -114,23 +112,34 @@ fun CustomMarkdownWrapper(
             fontScale = LocalDensity.current.fontScale * 0.99f,
         ),
     ) {
-        Markdown(
-            modifier = modifier.onClick(
-                onClick = {
-                    onClick?.invoke()
-                },
-                onLongClick = {
-                    onLongClick?.invoke()
-                },
-                onDoubleClick = {
-                    onDoubleClick?.invoke()
-                },
-            ),
-            content = content.sanitize(),
-            colors = colors,
-            typography = typography,
-            padding = padding,
-            components = components,
-        )
+        Box(
+            modifier = modifier
+                .then(
+                    if (maxHeightDp != null) {
+                        Modifier.heightIn(max = maxHeightDp)
+                    } else {
+                        Modifier
+                    }
+                )
+                .onClick(
+                    onClick = {
+                        onClick?.invoke()
+                    },
+                    onLongClick = {
+                        onLongClick?.invoke()
+                    },
+                    onDoubleClick = {
+                        onDoubleClick?.invoke()
+                    },
+                )
+        ) {
+            Markdown(
+                content = content.sanitize(),
+                colors = colors,
+                typography = typography,
+                padding = padding,
+                components = components,
+            )
+        }
     }
 }
