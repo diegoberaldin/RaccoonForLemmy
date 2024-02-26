@@ -15,9 +15,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 internal fun DrawerShortcut(
     title: String,
     icon: ImageVector,
+    modifier: Modifier = Modifier,
     onSelected: (() -> Unit)? = null,
 ) {
     NavigationDrawerItem(
+        modifier = modifier,
         selected = false,
         icon = {
             Icon(

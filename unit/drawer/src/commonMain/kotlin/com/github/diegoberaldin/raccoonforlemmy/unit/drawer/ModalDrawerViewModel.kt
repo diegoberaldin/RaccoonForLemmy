@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.debounce
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,6 +43,8 @@ class ModalDrawerViewModel(
         initialState = ModalDrawerMviModel.UiState()
     ) {
 
+    private val searchEventChannel = Channel<Unit>()
+
     @OptIn(FlowPreview::class)
     override fun onStarted() {
         super.onStarted()
@@ -50,10 +54,12 @@ class ModalDrawerViewModel(
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
+
             identityRepository.isLogged.debounce(250).onEach { _ ->
                 refreshUser()
                 refresh()
             }.launchIn(this)
+
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
@@ -61,6 +67,10 @@ class ModalDrawerViewModel(
                         preferNicknames = settings.preferUserNicknames,
                     )
                 }
+            }.launchIn(this)
+
+            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
+                refresh()
             }.launchIn(this)
 
             observeChangesInFavoriteCommunities()
@@ -105,6 +115,13 @@ class ModalDrawerViewModel(
             ModalDrawerMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
                 refresh()
             }
+
+            is ModalDrawerMviModel.Intent.SetSearch -> {
+                updateState { it.copy(searchText = intent.value) }
+                scope?.launch(Dispatchers.IO) {
+                    searchEventChannel.send(Unit)
+                }
+            }
         }
     }
 
@@ -138,7 +155,9 @@ class ModalDrawerViewModel(
         val accountId = accountRepository.getActive()?.id
         val favoriteCommunityIds =
             favoriteCommunityRepository.getAll(accountId).map { it.communityId }
+        val searchText = uiState.value.searchText
         val communities = communityRepository.getSubscribed(auth)
+            .filter { e -> if (searchText.isEmpty()) true else e.name.contains(searchText) }
             .map { community ->
                 community.copy(favorite = community.id in favoriteCommunityIds)
             }
@@ -149,10 +168,13 @@ class ModalDrawerViewModel(
                 favorites + res
             }
         val multiCommunitites = accountId?.let {
-            multiCommunityRepository.getAll(it).sortedBy { e -> e.name }
+            multiCommunityRepository.getAll(it)
+                .filter { e -> if (searchText.isEmpty()) true else e.name.contains(searchText) }
+                .sortedBy { e -> e.name }
         }.orEmpty()
         updateState {
             it.copy(
+                isFiltering =  searchText.isNotEmpty(),
                 refreshing = false,
                 communities = communities,
                 multiCommunities = multiCommunitites,

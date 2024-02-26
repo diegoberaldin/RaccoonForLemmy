@@ -13,6 +13,7 @@ interface ModalDrawerMviModel :
     ScreenModel {
     sealed interface Intent {
         data object Refresh : Intent
+        data class SetSearch(val value: String) : Intent
     }
 
     data class UiState(
@@ -23,6 +24,8 @@ interface ModalDrawerMviModel :
         val instance: String? = null,
         val communities: List<CommunityModel> = emptyList(),
         val multiCommunities: List<MultiCommunityModel> = emptyList(),
+        val searchText: String = "",
+        val isFiltering: Boolean = false,
     )
 
     sealed interface Effect

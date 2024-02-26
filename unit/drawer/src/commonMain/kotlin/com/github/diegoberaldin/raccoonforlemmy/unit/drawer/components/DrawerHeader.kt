@@ -30,6 +30,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 @Composable
 internal fun DrawerHeader(
+    modifier: Modifier = Modifier,
     user: UserModel? = null,
     instance: String? = null,
     autoLoadImages: Boolean = true,
@@ -40,7 +41,7 @@ internal fun DrawerHeader(
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
     Row(
-        modifier = Modifier.padding(
+        modifier = modifier.padding(
             top = Spacing.m,
             start = Spacing.s,
             end = Spacing.s,

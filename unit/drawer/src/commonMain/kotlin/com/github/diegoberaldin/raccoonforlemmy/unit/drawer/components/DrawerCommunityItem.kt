@@ -21,12 +21,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 @Composable
 internal fun DrawerCommunityItem(
     title: String,
+    modifier: Modifier = Modifier,
     url: String? = null,
     favorite: Boolean = false,
     autoLoadImages: Boolean = true,
     onSelected: (() -> Unit)? = null,
 ) {
     NavigationDrawerItem(
+        modifier = modifier,
         selected = false,
         icon = {
             val iconSize = IconSize.m
