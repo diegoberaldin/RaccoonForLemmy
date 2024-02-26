@@ -252,7 +252,7 @@ class ManageSubscriptionsScreen : Screen {
                                 .background(MaterialTheme.colorScheme.background)
                                 .onClick(
                                     onClick = rememberCallback {
-                                        detailOpener.openCommunityDetail(community)
+                                        detailOpener.openCommunityDetail(community = community)
                                     },
                                 ),
                             community = community,

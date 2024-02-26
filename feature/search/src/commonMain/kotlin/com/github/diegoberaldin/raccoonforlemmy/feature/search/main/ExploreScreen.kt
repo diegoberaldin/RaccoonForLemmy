@@ -330,7 +330,7 @@ class ExploreScreen : Screen {
                                     CommunityItem(
                                         modifier = Modifier.fillMaxWidth().onClick(
                                             onClick = rememberCallback {
-                                                detailOpener.openCommunityDetail(result.model, "")
+                                                detailOpener.openCommunityDetail(result.model)
                                             },
                                         ),
                                         community = result.model,

@@ -268,7 +268,7 @@ class UserInfoScreen(
                                             navigationCoordinator.hideBottomSheet()
                                             scope.launch {
                                                 delay(100)
-                                                detailOpener.openCommunityDetail(community, "")
+                                                detailOpener.openCommunityDetail(community)
                                             }
                                         }
                                     )

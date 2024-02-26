@@ -232,10 +232,10 @@ class InboxRepliesScreen : Tab {
                                     )
                                 },
                                 onOpenCreator = rememberCallbackArgs { user ->
-                                    detailOpener.openUserDetail(user, "")
+                                    detailOpener.openUserDetail(user)
                                 },
                                 onOpenCommunity = rememberCallbackArgs { community ->
-                                    detailOpener.openCommunityDetail(community, "")
+                                    detailOpener.openCommunityDetail(community = community)
                                 },
                                 onImageClick = rememberCallbackArgs { url ->
                                     navigationCoordinator.pushScreen(ZoomableImageScreen(url))

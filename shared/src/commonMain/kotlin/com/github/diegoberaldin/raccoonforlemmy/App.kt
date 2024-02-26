@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.Density
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import cafe.adriel.voyager.transitions.SlideTransition
+import cafe.adriel.voyager.transitions.FadeTransition
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toCommentBarTheme
@@ -198,7 +198,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 }
 
                 is DrawerEvent.OpenCommunity -> {
-                    detailOpener.openCommunityDetail(evt.community)
+                    detailOpener.openCommunityDetail(community = evt.community)
                 }
 
                 is DrawerEvent.OpenMultiCommunity -> {
@@ -272,7 +272,9 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                             },
                         ) {
                             if (hasBeenInitialized) {
-                                SlideTransition(navigator)
+                                FadeTransition(
+                                    navigator = navigator,
+                                )
                             }
                         }
                     }
