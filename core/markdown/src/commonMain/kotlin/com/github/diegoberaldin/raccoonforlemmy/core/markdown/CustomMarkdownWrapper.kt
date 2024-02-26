@@ -29,6 +29,9 @@ private val String.containsSpoiler: Boolean
 private val String.isImage: Boolean
     get() = ImageRegex.image.matches(this)
 
+private const val MAX_LINES_SCALE_FACTOR = 0.97f
+private const val GLOBAL_SCALE_FACTOR = 0.99f
+
 @Composable
 fun CustomMarkdownWrapper(
     content: String,
@@ -48,13 +51,12 @@ fun CustomMarkdownWrapper(
         if (maxLines == null) {
             null
         } else {
-            val scale = 0.98f
             val lineHeight =
                 typography.paragraph.lineHeight
             val base = if (lineHeight.isUnspecified) {
-                floor(typography.paragraph.fontSize.toPx() * scale)
+                floor(typography.paragraph.fontSize.toPx() * MAX_LINES_SCALE_FACTOR)
             } else {
-                lineHeight.toPx() * scale
+                lineHeight.toPx() * MAX_LINES_SCALE_FACTOR
             }
             (base * maxLines).toDp()
         }
@@ -109,7 +111,7 @@ fun CustomMarkdownWrapper(
         LocalUriHandler provides customUriHandler,
         LocalDensity provides Density(
             density = LocalDensity.current.density,
-            fontScale = LocalDensity.current.fontScale * 0.99f,
+            fontScale = LocalDensity.current.fontScale * GLOBAL_SCALE_FACTOR,
         ),
     ) {
         Box(

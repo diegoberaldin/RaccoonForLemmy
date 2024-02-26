@@ -40,6 +40,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 private val barWidth = 1.25.dp
 private const val INDENT_AMOUNT = 3
+private const val COMMENT_TEXT_SCALE_FACTOR = 0.97f
 
 @Composable
 fun CommentCard(
@@ -131,7 +132,7 @@ fun CommentCard(
                             LocalDensity provides Density(
                                 density = LocalDensity.current.density,
                                 // additional downscale for font in comments
-                                fontScale = LocalDensity.current.fontScale * 0.97f,
+                                fontScale = LocalDensity.current.fontScale * COMMENT_TEXT_SCALE_FACTOR,
                             ),
                         ) {
                             PostCardBody(
