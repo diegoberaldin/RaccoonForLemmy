@@ -75,7 +75,7 @@ fun InboxCard(
         ),
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             InboxCardHeader(
                 mention = mention,
