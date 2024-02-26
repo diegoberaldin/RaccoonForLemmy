@@ -72,9 +72,9 @@ internal fun InnerModlogItem(
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     Box(
-        modifier = modifier.let {
+        modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
-                it.shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                Modifier.shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
                     .clip(RoundedCornerShape(CornerSize.l))
                     .padding(horizontal = Spacing.xs)
                     .background(
@@ -83,12 +83,12 @@ internal fun InnerModlogItem(
                     )
                     .padding(Spacing.xs)
             } else {
-                it.background(MaterialTheme.colorScheme.background)
+                Modifier.background(MaterialTheme.colorScheme.background)
             }
-        },
+        ),
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             ModlogHeader(
                 creator = moderator,
@@ -111,7 +111,7 @@ internal fun InnerModlogItem(
                             .fillMaxWidth()
                             .padding(
                                 vertical = Spacing.xs,
-                                horizontal = Spacing.s,
+                                horizontal = Spacing.xs,
                             )
                     ) {
                         innerContent()
@@ -142,6 +142,7 @@ private fun ModlogHeader(
     if (creatorName.isNotEmpty()) {
         Row(
             modifier = modifier
+                .padding(horizontal = Spacing.xs)
                 .onClick(
                     onClick = rememberCallback {
                         if (creator != null) {
