@@ -2,9 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,6 +16,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,19 +34,18 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.MultiCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerHeader
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components.DrawerShortcut
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.ManageAccountsScreen
@@ -95,9 +93,7 @@ object ModalDrawerContent : Tab {
             }.launchIn(this)
         }
 
-        Column(
-            modifier = Modifier.fillMaxWidth(0.9f)
-        ) {
+        ModalDrawerSheet {
             DrawerHeader(
                 user = uiState.user,
                 instance = uiState.instance,
@@ -112,7 +108,7 @@ object ModalDrawerContent : Tab {
 
             Divider(
                 modifier = Modifier.padding(
-                    top = Spacing.m,
+                    top = Spacing.s,
                     bottom = Spacing.s,
                 )
             )
@@ -131,11 +127,12 @@ object ModalDrawerContent : Tab {
                         modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxs),
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
-                        for (listingType in listOf(
+                        val listingTypes = listOf(
                             ListingType.Subscribed,
                             ListingType.All,
                             ListingType.Local,
-                        )) {
+                        )
+                        for (listingType in listingTypes) {
                             item {
                                 DrawerShortcut(
                                     title = listingType.toReadableName(),
@@ -193,42 +190,37 @@ object ModalDrawerContent : Tab {
                             items = uiState.multiCommunities,
                             key = { it.communityIds.joinToString() },
                         ) { community ->
-                            MultiCommunityItem(
-                                modifier = Modifier.fillMaxWidth().onClick(
-                                    onClick = rememberCallback {
-                                        scope.launch {
-                                            coordinator.toggleDrawer()
-                                            coordinator.sendEvent(
-                                                DrawerEvent.OpenMultiCommunity(community),
-                                            )
-                                        }
-                                    },
-                                ),
-                                community = community,
-                                small = true,
+                            DrawerCommunityItem(
+                                title = community.name,
+                                url = community.icon,
                                 autoLoadImages = uiState.autoLoadImages,
+                                onSelected = {
+                                    scope.launch {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(
+                                            DrawerEvent.OpenMultiCommunity(community),
+                                        )
+                                    }
+                                },
                             )
                         }
                         items(
                             items = uiState.communities,
                             key = { it.id.toString() + it.favorite.toString() },
                         ) { community ->
-                            CommunityItem(
-                                modifier = Modifier.fillMaxWidth().onClick(
-                                    onClick = rememberCallback {
-                                        scope.launch {
-                                            coordinator.toggleDrawer()
-                                            coordinator.sendEvent(
-                                                DrawerEvent.OpenCommunity(community),
-                                            )
-                                        }
-                                    },
-                                ),
-                                community = community,
-                                small = true,
-                                showFavorite = true,
+                            DrawerCommunityItem(
+                                title = community.readableName(uiState.preferNicknames),
+                                url = community.icon,
+                                favorite = community.favorite,
                                 autoLoadImages = uiState.autoLoadImages,
-                                preferNicknames = uiState.preferNicknames,
+                                onSelected = {
+                                    scope.launch {
+                                        coordinator.toggleDrawer()
+                                        coordinator.sendEvent(
+                                            DrawerEvent.OpenCommunity(community),
+                                        )
+                                    }
+                                },
                             )
                         }
                     }

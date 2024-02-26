@@ -10,7 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 
 @Composable
@@ -29,9 +32,13 @@ fun PlaceholderImage(
             ),
         contentAlignment = Alignment.Center,
     ) {
+        val translationAmount = with(LocalDensity.current) { 2.dp.toPx() }
         Text(
+            modifier = Modifier.graphicsLayer {
+                translationY = -translationAmount
+            },
             text = title.firstOrNull()?.toString().orEmpty().uppercase(),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
     }
