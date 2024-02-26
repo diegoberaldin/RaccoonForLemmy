@@ -553,7 +553,7 @@ class CommunityDetailScreen(
                                         navigationCoordinator.pushScreen(ZoomableImageScreen(url))
                                     },
                                 )
-                                Spacer(modifier = Modifier.height(Spacing.m))
+                                Spacer(modifier = Modifier.height(Spacing.xs))
                             }
                         }
                         if (uiState.posts.isEmpty() && uiState.loading) {

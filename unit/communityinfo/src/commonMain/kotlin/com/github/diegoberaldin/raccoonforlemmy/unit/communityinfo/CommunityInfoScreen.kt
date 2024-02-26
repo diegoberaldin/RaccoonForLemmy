@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.CalendarViewDay
 import androidx.compose.material.icons.filled.CalendarViewMonth
@@ -44,6 +45,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.components.ModeratorCell
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -109,6 +111,11 @@ class CommunityInfoScreen(
                         Column(
                             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                         ) {
+                            DetailInfoItem(
+                                modifier = Modifier.fillMaxWidth(),
+                                icon = Icons.Default.AlternateEmail,
+                                title = uiState.community.readableHandle,
+                            )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Cake,
