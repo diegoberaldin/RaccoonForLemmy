@@ -33,6 +33,7 @@ kotlin {
                 implementation(libs.koin.core)
                 api(libs.ktorfit.lib)
                 implementation(libs.ktor.serialization)
+                implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktor.contentnegotiation)
                 implementation(libs.ktor.json)
                 implementation(libs.ktor.logging)

@@ -4,17 +4,16 @@ androidx_activity = "1.8.2"
 androidx_crypto = "1.0.0"
 androidx_media3 = "1.2.0"
 androidx_splashscreen = "1.0.1"
-android_gif_drawable = "1.2.28"
 android_gradle = "8.2.2"
-coil = "2.5.0"
+coil = "2.6.0"
 compose = "1.5.12"
 compose_compiler = "1.5.8"
-kamel = "0.9.1"
+kamel = "0.9.3"
 koin = "3.5.3"
 kotlin = "1.9.22"
 kotlincrypto = "0.3.0"
-kotlinx_coroutines = "1.7.3"
-kotlinx_serialization_json = "1.6.2"
+kotlinx_coroutines = "1.8.0"
+kotlinx_serialization_json = "1.6.3"
 ksp = "1.9.22-1.0.17"
 ktor = "2.3.8"
 ktorfit_gradle = "1.12.0"
@@ -43,7 +42,6 @@ kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil_compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil_gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
-android_gif_drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "android.gif.drawable" }
 
 markdown = { module = "org.jetbrains:markdown", version.ref = "markdown" }
 multiplatform_markdown_renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform.markdown.renderer" }
