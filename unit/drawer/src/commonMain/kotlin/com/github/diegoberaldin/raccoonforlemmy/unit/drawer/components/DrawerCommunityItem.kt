@@ -1,6 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components
 
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 @Composable
 internal fun DrawerCommunityItem(
     title: String,
+    subtitle: String? = null,
     modifier: Modifier = Modifier,
     url: String? = null,
     favorite: Boolean = false,
@@ -49,15 +50,22 @@ internal fun DrawerCommunityItem(
         },
         label = {
             val fullColor = MaterialTheme.colorScheme.onBackground
-            Row {
+            val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
+            Column {
                 Text(
-                    text = buildString {
-                        append(title)
-                    },
+                    text = title,
                     color = fullColor,
                     style = MaterialTheme.typography.titleSmall,
                     maxLines = 1,
                 )
+                subtitle.takeIf { it != title }?.also { subtitle ->
+                    Text(
+                        text = subtitle,
+                        color = ancillaryColor,
+                        style = MaterialTheme.typography.bodySmall,
+                        maxLines = 1,
+                    )
+                }
             }
         },
         badge = if (favorite) {
