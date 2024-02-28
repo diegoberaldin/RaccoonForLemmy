@@ -35,6 +35,7 @@ include(":core:notifications")
 include(":core:persistence")
 include(":core:preferences")
 include(":core:resources")
+include(":core:testutils")
 include(":core:utils")
 
 include(":domain:identity")
