@@ -343,4 +343,104 @@ As far as Compose code is concerned, we take Google’s indications as a baselin
 
 ### 6.3 Test structure
 
-TBD
+#### 6.3.1 Unit tests
+
+Unit test are targeted as a single unit of code: the test class will have the same name of the
+component under test, followed by the `Test` suffix and will be placed in the same package, within
+the `androidUnitTest` source set. The tests will be platform specific for now, since multi-platform
+tests under the `commonTest` set require some additional setup and a considerable amount of extra
+effort.
+
+For every subject under test (SUT), the dependencies will be doubled using test mocks created using
+the `mockk` library, and the assertions on flows and channels will be made using the `turbine`
+library.
+
+Each test class will contain at least one method annotated with `@Test` and, especially if it
+contains suspending functions, its body will be wrapped in a `runTest` scope function (better to
+always include it). In order for suspending functions to be called in the correct coroutine
+context (where the main thread of Android is replaced by an `Unconfined` dispatcher), the JUnit rule
+`DispatcherTestRule` defined in :core:testutils should be included and annotated with `@get:Rule`.
+
+Each test method shall consider a single interaction (W) on the SUT that happens in a
+precondition (G) and should produce a result (T) against which some assertions will be performed.
+
+These three elements will be reflected in the method name, which shall have the GWT form, i.e.:
+```givenX_whenY_thenZ```
+
+The body of the method will be therefore divided into three parts (separated by a blank line):
+
+- (optional) precondition: mock setup with predefined answers to invocations;
+- interaction: the method/property to test will be invoked/interacted with on the SUT;
+- result: one or more assertions on the result got in the previous step; optionally this part will
+  also contains some verification on the mocks/spies to make sure the proper interactions have or
+  have not happened according to the expectations in the previous step.
+
+Reference unit test:
+
+```kotlin
+class DefaultNavigationCoordinatorTest {
+
+    // coroutine test rule (must be a public property)
+    @get:Rule
+    val dispatcherRule = DispatcherTestRule()
+
+    // subject under test
+    private val sut = DefaultNavigationCoordinator()
+
+    // test method (1)
+    @Test
+    fun givenNavigatorCanPop_whenRootNavigatorSet_thenCanPopIsUpdated() = runTest {
+        // setup
+        val navigator = mockk<Navigator> {
+            every { canPop } returns true
+        }
+
+        // interaction
+        sut.setRootNavigator(navigator)
+
+        // assertions
+        val value = sut.canPop.value
+        assertTrue(value)
+    }
+
+    // test method (2)
+    @Test
+    fun whenChangeTab_thenCurrentTabIsUpdated() = runTest {
+        // setup with capturing slots
+        val tabSlot = slot<Tab>()
+        val navigator = mockk<TabNavigator>(relaxUnitFun = true) {
+            every { current = capture(tabSlot) } answers {}
+        }
+        val tab = object : Tab {
+            override val options @Composable get() = TabOptions(index = 0u, "title")
+
+            @Composable
+            override fun Content() {
+                Box(modifier = Modifier.fillMaxSize())
+            }
+        }
+        sut.setTabNavigator(navigator)
+
+        // interaction
+        sut.changeTab(tab)
+
+        // assertions
+        val value = tabSlot.captured
+        assertEquals(tab, value)
+    }
+
+    // test method (3)
+    @Test
+    fun whenSubmitDeeplink_thenValueIsEmitted() = runTest {
+        val url = "deeplink-url"
+        // interaction
+        sut.submitDeeplink(url)
+
+        // assertions on the flow with turbine's test extensions
+        sut.deepLinkUrl.test {
+            val value = awaitItem()
+            assertEquals(url, value)
+        }
+    }
+}
+```
