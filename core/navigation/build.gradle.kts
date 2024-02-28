@@ -43,8 +43,14 @@ kotlin {
             implementation(projects.core.persistence)
             implementation(projects.domain.lemmy.data)
         }
-        commonTest.dependencies {
-            implementation(kotlin("test"))
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(kotlin("test-junit"))
+                implementation(libs.mockk)
+                implementation(libs.turbine)
+                implementation(projects.core.testutils)
+            }
         }
     }
 }
