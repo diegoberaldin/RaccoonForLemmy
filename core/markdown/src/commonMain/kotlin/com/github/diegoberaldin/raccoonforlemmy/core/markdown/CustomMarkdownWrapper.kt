@@ -15,12 +15,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.compose.components.markdownComponents
 import com.mikepenz.markdown.compose.elements.MarkdownParagraph
+import com.mikepenz.markdown.m3.markdownColor
+import com.mikepenz.markdown.m3.markdownTypography
 import com.mikepenz.markdown.model.MarkdownColors
 import com.mikepenz.markdown.model.MarkdownPadding
 import com.mikepenz.markdown.model.MarkdownTypography
-import com.mikepenz.markdown.model.markdownColor
 import com.mikepenz.markdown.model.markdownPadding
-import com.mikepenz.markdown.model.markdownTypography
 import kotlin.math.floor
 
 private val String.containsSpoiler: Boolean

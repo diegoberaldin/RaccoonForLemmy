@@ -34,6 +34,7 @@ kotlin {
 
                 implementation(libs.markdown)
                 api(libs.multiplatform.markdown.renderer)
+                api(libs.multiplatform.markdown.renderer.m3)
 
                 implementation(projects.core.l10n)
                 implementation(projects.core.commonui.components)
