@@ -18,7 +18,7 @@ import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -68,7 +68,7 @@ fun RawContentDialog(
     val shareActionLabel = LocalXmlStrings.current.postActionShare
     val fullColor = MaterialTheme.colorScheme.onBackground
 
-    AlertDialog(
+    BasicAlertDialog(
         onDismissRequest = { onDismiss?.invoke() },
     ) {
         Column(

@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -37,7 +37,7 @@ fun NumberPickerDialog(
     onSubmit: ((Int) -> Unit)? = null,
 ) {
     var currentValue by remember { mutableStateOf(initialValue.toString()) }
-    AlertDialog(
+    BasicAlertDialog(
         onDismissRequest = {
             onClose?.invoke()
         },
