@@ -194,12 +194,12 @@ class AboutDialog : Screen {
                     }
                     item {
                         AboutItem(
-                            painter = CoreResources.matrix,
-                            text = LocalXmlStrings.current.settingsAboutChatMatrix,
+                            painter = CoreResources.discord,
+                            text = LocalXmlStrings.current.settingsAboutChatDiscord,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
                                 runCatching {
-                                    uriHandler.openUri(AboutConstants.MATRIX_URL)
+                                    uriHandler.openUri(AboutConstants.DISCORD_URL)
                                 }
                             },
                         )

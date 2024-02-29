@@ -290,7 +290,7 @@
     <string name="user_detail_info">Informacioni i përdoruesit</string>
     <string name="user_info_moderates">Moderator i</string>
     <string name="user_info_admin">administratori</string>
-    <string name="settings_about_chat_matrix">Bisedoni në Matrix</string>
+    <string name="settings_about_chat_discord">Bisedoni në Discord</string>
     <string name="settings_reply_color">Ngjyra e veprimit të përgjigjes</string>
     <string name="settings_section_account">Cilësimet e llogarisë</string>
     <string name="settings_web_preferences">Preferencat e uebit</string>

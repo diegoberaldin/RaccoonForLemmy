@@ -282,7 +282,7 @@
     <string name="user_detail_info">User info</string>
     <string name="user_info_moderates">Moderator of</string>
     <string name="user_info_admin">administrator</string>
-    <string name="settings_about_chat_matrix">Chat on Matrix</string>
+    <string name="settings_about_chat_discord">Chat on Discord</string>
     <string name="settings_reply_color">Reply action color</string>
     <string name="settings_section_account">Account settings</string>
     <string name="settings_web_preferences">Web preferences</string>

@@ -287,7 +287,7 @@
     <string name="user_detail_info">Kullanıcı bilgisi</string>
     <string name="user_info_moderates">Moderatörü</string>
     <string name="user_info_admin">yönetici</string>
-    <string name="settings_about_chat_matrix">Matrix\'te sohbet</string>
+    <string name="settings_about_chat_discord">Discord\'te sohbet</string>
     <string name="settings_reply_color">yanıt eyleminin rengi</string>
     <string name="settings_section_account">Hesap ayarları</string>
     <string name="settings_web_preferences">Web tercihleri</string>

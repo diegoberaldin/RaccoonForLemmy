@@ -289,7 +289,7 @@
     <string name="user_detail_info">Informacije o korisniku</string>
     <string name="user_info_moderates">Moderator od</string>
     <string name="user_info_admin">administrator</string>
-    <string name="settings_about_chat_matrix">Chat na Matrixu</string>
+    <string name="settings_about_chat_discord">Chat na Discordu</string>
     <string name="settings_reply_color">Boja radnje odgovora</string>
     <string name="settings_section_account">Postavke računa</string>
     <string name="settings_web_preferences">Web postavke</string>

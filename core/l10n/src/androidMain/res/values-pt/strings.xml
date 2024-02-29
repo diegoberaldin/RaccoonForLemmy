@@ -286,7 +286,7 @@
     <string name="user_detail_info">Informação do usuário</string>
     <string name="user_info_moderates">Moderador de</string>
     <string name="user_info_admin">administrador</string>
-    <string name="settings_about_chat_matrix">Conversar no Matrix</string>
+    <string name="settings_about_chat_discord">Conversar no Discord</string>
     <string name="settings_reply_color">Cor da ação de resposta</string>
     <string name="settings_section_account">Configurações de Conta</string>
     <string name="settings_web_preferences">Preferências da Web</string>

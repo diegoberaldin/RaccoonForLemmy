@@ -288,7 +288,7 @@
     <string name="user_detail_info">Felhasználói információ</string>
     <string name="user_info_moderates">Moderátora</string>
     <string name="user_info_admin">adminisztrátor</string>
-    <string name="settings_about_chat_matrix">Chat a Matrixon</string>
+    <string name="settings_about_chat_discord">Chat a Discord</string>
     <string name="settings_reply_color">Válaszművelet színe</string>
     <string name="settings_section_account">Fiók beállítások</string>
     <string name="settings_web_preferences">Webes beállítások</string>

@@ -284,7 +284,7 @@
     <string name="user_detail_info">Kasutajateave</string>
     <string name="user_info_moderates">Moderaator</string>
     <string name="user_info_admin">administraator</string>
-    <string name="settings_about_chat_matrix">Vestelge Matrixis</string>
+    <string name="settings_about_chat_discord">Vestelge Discordis</string>
     <string name="settings_reply_color">Vastuse toimingu värv</string>
     <string name="settings_section_account">Konto seaded</string>
     <string name="settings_web_preferences">Veebi eelistused</string>

@@ -282,7 +282,7 @@
     <string name="user_detail_info">معلومات المستخدم</string>
     <string name="user_info_moderates">مشرف</string>
     <string name="user_info_admin">مدير</string>
-    <string name="settings_about_chat_matrix">الدردشة على Matrix</string>
+    <string name="settings_about_chat_discord">الدردشة على Discord</string>
     <string name="settings_reply_color">لون عمل الرد</string>
     <string name="settings_section_account">إعدادت الحساب</string>
     <string name="settings_web_preferences">تفضيلات الويب</string>

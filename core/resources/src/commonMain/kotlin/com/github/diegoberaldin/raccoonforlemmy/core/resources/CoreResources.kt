@@ -10,9 +10,9 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 @OptIn(ExperimentalResourceApi::class)
 object CoreResources {
 
-    val matrix: Painter
+    val discord: Painter
         @Composable
-        get() = drawable("ic_matrix")
+        get() = drawable("ic_discord")
 
     val github: Painter
         @Composable

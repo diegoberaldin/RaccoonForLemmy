@@ -289,7 +289,7 @@
     <string name="user_detail_info">Informazzjoni għall-utent</string>
     <string name="user_info_moderates">Moderatur ta\'</string>
     <string name="user_info_admin">amministratur</string>
-    <string name="settings_about_chat_matrix">Chat fuq Matrix</string>
+    <string name="settings_about_chat_discord">Chat fuq Discord</string>
     <string name="settings_reply_color">Kulur ta\' azzjoni ta\' risposta</string>
     <string name="settings_section_account">Preferenzi tal-kont</string>
     <string name="settings_web_preferences">Preferenzi tal-web</string>

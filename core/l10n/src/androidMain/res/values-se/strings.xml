@@ -285,7 +285,7 @@
     <string name="user_detail_info">Användar information</string>
     <string name="user_info_moderates">Moderator för</string>
     <string name="user_info_admin">administratör</string>
-    <string name="settings_about_chat_matrix">Chatta på Matrix</string>
+    <string name="settings_about_chat_discord">Chatta på Discord</string>
     <string name="settings_reply_color">Färg på svarsåtgärd</string>
     <string name="settings_section_account">Kontoinställningar</string>
     <string name="settings_web_preferences">Webpreferenser</string>

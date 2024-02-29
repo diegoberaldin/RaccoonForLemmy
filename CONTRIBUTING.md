@@ -80,8 +80,7 @@ This section is probably going to change over time, anyway we are a small group 
 their spare time contribute to the project.
 
 To ask more questions or chat directly with people, you can find us
-on [this Discord server](https://discord.gg/erxQRFjJ) (there used to be
-a [this Matrix space](https://matrix.to/#/#raccoonforlemmy:matrix.org) but it's no longer used).
+on [this Discord server](https://discord.gg/erxQRFjJ).
 
 ### 2.2 Code of Conduct
 

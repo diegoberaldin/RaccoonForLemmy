@@ -293,7 +293,7 @@
     <string name="user_detail_info">Eolas úsáideora</string>
     <string name="user_info_moderates">Modhnóir na</string>
     <string name="user_info_admin">riarthóir</string>
-    <string name="settings_about_chat_matrix">Comhrá ar Matrix</string>
+    <string name="settings_about_chat_discord">Comhrá ar Discord</string>
     <string name="settings_reply_color">Dath an ghnímh freagartha</string>
     <string name="settings_section_account">Socruithe cuntas</string>
     <string name="settings_web_preferences">Sainroghanna Gréasáin</string>

@@ -10,5 +10,5 @@ internal object AboutConstants {
     const val GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=com.github.diegoberaldin.raccoonforlemmy.android"
     const val LEMMY_COMMUNITY_NAME = "raccoonforlemmy"
     const val LEMMY_COMMUNITY_INSTANCE = "lemmy.world"
-    const val MATRIX_URL = "https://matrix.to/#/#raccoonforlemmy:matrix.org"
+    const val DISCORD_URL = "https://discord.gg/TCu8k6xE"
 }

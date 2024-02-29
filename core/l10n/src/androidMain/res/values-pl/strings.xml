@@ -287,7 +287,7 @@
     <string name="user_detail_info">Informacje o użytkowniku</string>
     <string name="user_info_moderates">Moderator</string>
     <string name="user_info_admin">administrator</string>
-    <string name="settings_about_chat_matrix">Czat na Matrixie</string>
+    <string name="settings_about_chat_discord">Czat na Discordie</string>
     <string name="settings_reply_color">Kolor akcji odpowiedzi</string>
     <string name="settings_section_account">Ustawienia konta</string>
     <string name="settings_web_preferences">Preferencje internetowe</string>

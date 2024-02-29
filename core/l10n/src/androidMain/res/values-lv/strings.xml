@@ -288,7 +288,7 @@
     <string name="user_detail_info">Lietotāja informācija</string>
     <string name="user_info_moderates">Moderators no</string>
     <string name="user_info_admin">administrators</string>
-    <string name="settings_about_chat_matrix">Tērzējiet Matrix</string>
+    <string name="settings_about_chat_discord">Tērzējiet Discord</string>
     <string name="settings_reply_color">Atbildes darbības krāsa</string>
     <string name="settings_section_account">Konta iestatījumi</string>
     <string name="settings_web_preferences">Web preferences</string>

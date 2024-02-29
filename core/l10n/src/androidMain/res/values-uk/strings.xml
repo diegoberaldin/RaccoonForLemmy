@@ -286,7 +286,7 @@
     <string name="user_detail_info">Інформація про користувача</string>
     <string name="user_info_moderates">Модератор</string>
     <string name="user_info_admin">адміністратор</string>
-    <string name="settings_about_chat_matrix">чат на Matrix</string>
+    <string name="settings_about_chat_discord">чат на Discord</string>
     <string name="settings_reply_color">колір дії відповіді</string>
     <string name="settings_section_account">Налаштування аккаунта</string>
     <string name="settings_web_preferences">Веб-налаштування</string>
