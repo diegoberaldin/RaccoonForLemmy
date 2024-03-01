@@ -48,11 +48,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageDirection
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
-import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerContent
-import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.SavedItemsScreen
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
@@ -205,18 +202,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                     evt.community.id?.toInt()?.also {
                         navigationCoordinator.pushScreen(MultiCommunityScreen(it))
                     }
-                }
-
-                DrawerEvent.ManageSubscriptions -> {
-                    navigationCoordinator.pushScreen(ManageSubscriptionsScreen())
-                }
-
-                DrawerEvent.OpenBookmarks -> {
-                    navigationCoordinator.pushScreen(SavedItemsScreen())
-                }
-
-                DrawerEvent.OpenDrafts -> {
-                    navigationCoordinator.pushScreen(DraftsScreen())
                 }
 
                 else -> Unit

@@ -10,10 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Drafts
-import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -200,42 +197,6 @@ object ModalDrawerContent : Tab {
                                         },
                                     )
                                 }
-                            }
-                            item {
-                                DrawerShortcut(
-                                    title = LocalXmlStrings.current.navigationDrawerTitleBookmarks,
-                                    icon = Icons.Default.Bookmarks,
-                                    onSelected = rememberCallback(coordinator) {
-                                        scope.launch {
-                                            coordinator.toggleDrawer()
-                                            coordinator.sendEvent(DrawerEvent.OpenBookmarks)
-                                        }
-                                    },
-                                )
-                            }
-                            item {
-                                DrawerShortcut(
-                                    title = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
-                                    icon = Icons.Default.ManageAccounts,
-                                    onSelected = rememberCallback(coordinator) {
-                                        scope.launch {
-                                            coordinator.toggleDrawer()
-                                            coordinator.sendEvent(DrawerEvent.ManageSubscriptions)
-                                        }
-                                    },
-                                )
-                            }
-                            item {
-                                DrawerShortcut(
-                                    title = LocalXmlStrings.current.navigationDrawerTitleDrafts,
-                                    icon = Icons.Default.Drafts,
-                                    onSelected = rememberCallback(coordinator) {
-                                        scope.launch {
-                                            coordinator.toggleDrawer()
-                                            coordinator.sendEvent(DrawerEvent.OpenDrafts)
-                                        }
-                                    },
-                                )
                             }
                         }
 
