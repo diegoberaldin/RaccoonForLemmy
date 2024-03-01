@@ -104,9 +104,9 @@ interface PostRepository {
 
     suspend fun getReports(
         auth: String,
-        communityId: Int,
+        communityId: Int? = null,
         page: Int,
-        limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
+        limit: Int = DEFAULT_PAGE_SIZE,
         unresolvedOnly: Boolean = true,
     ): List<PostReportModel>?
 

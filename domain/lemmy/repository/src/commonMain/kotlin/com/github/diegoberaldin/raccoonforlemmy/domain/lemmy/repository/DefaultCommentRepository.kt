@@ -26,7 +26,7 @@ internal class DefaultCommentRepository(
 ) : CommentRepository {
 
     override suspend fun getAll(
-        postId: Int,
+        postId: Int?,
         auth: String?,
         instance: String?,
         page: Int,
@@ -307,7 +307,7 @@ internal class DefaultCommentRepository(
 
     override suspend fun getReports(
         auth: String,
-        communityId: Int,
+        communityId: Int?,
         page: Int,
         limit: Int,
         unresolvedOnly: Boolean,

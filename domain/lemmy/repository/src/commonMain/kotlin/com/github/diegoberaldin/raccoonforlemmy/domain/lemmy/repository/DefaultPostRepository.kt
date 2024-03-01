@@ -330,7 +330,7 @@ internal class DefaultPostRepository(
 
     override suspend fun getReports(
         auth: String,
-        communityId: Int,
+        communityId: Int?,
         page: Int,
         limit: Int,
         unresolvedOnly: Boolean,

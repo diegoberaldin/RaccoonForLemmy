@@ -77,7 +77,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class ReportListScreen(
-    private val communityId: Int,
+    private val communityId: Int? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable

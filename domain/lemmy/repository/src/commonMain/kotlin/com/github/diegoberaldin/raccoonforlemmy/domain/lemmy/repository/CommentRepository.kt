@@ -16,7 +16,7 @@ interface CommentRepository {
     }
 
     suspend fun getAll(
-        postId: Int,
+        postId: Int? = null,
         auth: String? = null,
         instance: String? = null,
         page: Int,
@@ -96,7 +96,7 @@ interface CommentRepository {
 
     suspend fun getReports(
         auth: String,
-        communityId: Int,
+        communityId: Int? = null,
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
         unresolvedOnly: Boolean = true,
