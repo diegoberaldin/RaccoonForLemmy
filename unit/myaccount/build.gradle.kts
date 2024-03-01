@@ -56,15 +56,20 @@ kotlin {
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
 
-                implementation(projects.unit.zoomableimage)
-                implementation(projects.unit.web)
-                implementation(projects.unit.createreport)
-                implementation(projects.unit.createcomment)
-                implementation(projects.unit.createpost)
-                implementation(projects.unit.remove)
                 implementation(projects.unit.ban)
                 implementation(projects.unit.chat)
+                implementation(projects.unit.createcomment)
+                implementation(projects.unit.createpost)
+                implementation(projects.unit.createreport)
+                implementation(projects.unit.drafts)
+                implementation(projects.unit.managesubscriptions)
+                implementation(projects.unit.modlog)
                 implementation(projects.unit.rawcontent)
+                implementation(projects.unit.remove)
+                implementation(projects.unit.reportlist)
+                implementation(projects.unit.saveditems)
+                implementation(projects.unit.web)
+                implementation(projects.unit.zoomableimage)
             }
         }
         val commonTest by getting {

@@ -189,7 +189,13 @@ class ProfileLoggedViewModel(
                         user = siteRepository.getCurrentUser(auth)
                         yield()
                     }
-                    updateState { it.copy(user = user) }
+                    val moderatedCommunities = userRepository.getModeratedCommunities(id = user?.id)
+                    updateState {
+                        it.copy(
+                            user = user,
+                            isMod = moderatedCommunities.isNotEmpty(),
+                        )
+                    }
                 }
             }
         }

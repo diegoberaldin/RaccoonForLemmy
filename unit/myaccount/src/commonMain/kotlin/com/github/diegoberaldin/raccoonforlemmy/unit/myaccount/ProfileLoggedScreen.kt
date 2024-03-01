@@ -61,7 +61,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.components.ProfileShortcutSection
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
+import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.ReportListScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.SavedItemsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import kotlinx.coroutines.flow.launchIn
@@ -130,6 +136,27 @@ object ProfileLoggedScreen : Tab {
                                 autoLoadImages = uiState.autoLoadImages,
                                 onOpenImage = rememberCallbackArgs { url ->
                                     navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                },
+                            )
+                        }
+                        item {
+                            ProfileShortcutSection(
+                                modifier = Modifier.padding(bottom = Spacing.xs),
+                                isMod = uiState.isMod,
+                                onOpenSaved = rememberCallback {
+                                    navigationCoordinator.pushScreen(SavedItemsScreen())
+                                },
+                                onOpenSubscriptions = rememberCallback {
+                                    navigationCoordinator.pushScreen(ManageSubscriptionsScreen())
+                                },
+                                onOpenDrafts = rememberCallback {
+                                    navigationCoordinator.pushScreen(DraftsScreen())
+                                },
+                                onOpenAllReports = rememberCallback {
+                                    navigationCoordinator.pushScreen(ReportListScreen())
+                                },
+                                onOpenModlog = rememberCallback {
+                                    navigationCoordinator.pushScreen(ModlogScreen())
                                 },
                             )
                         }
