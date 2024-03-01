@@ -11,7 +11,7 @@ internal class DefaultModlogRepository(
 ) : ModlogRepository {
     override suspend fun getItems(
         auth: String?,
-        communityId: Int,
+        communityId: Int?,
         limit: Int,
         page: Int,
         type: ModlogItemType,

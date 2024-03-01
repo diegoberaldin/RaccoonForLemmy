@@ -10,7 +10,7 @@ interface ModlogRepository {
 
     suspend fun getItems(
         auth: String? = null,
-        communityId: Int,
+        communityId: Int?,
         limit: Int = DEFAULT_PAGE_SIZE,
         page: Int,
         type: ModlogItemType = ModlogItemType.All,
