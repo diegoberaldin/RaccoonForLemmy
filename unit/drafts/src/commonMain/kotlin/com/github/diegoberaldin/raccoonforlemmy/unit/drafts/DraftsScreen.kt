@@ -15,13 +15,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -92,7 +92,7 @@ class DraftsScreen : Screen {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -155,7 +155,7 @@ class DraftsScreen : Screen {
                                 items(5) {
                                     DraftCardPlaceHolder(uiState.postLayout)
                                     if (uiState.postLayout != PostLayout.Card) {
-                                        Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                     } else {
                                         Spacer(modifier = Modifier.height(Spacing.s))
                                     }
@@ -208,7 +208,7 @@ class DraftsScreen : Screen {
                                     },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
-                                    Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                 } else {
                                     Spacer(modifier = Modifier.height(Spacing.s))
                                 }
@@ -218,7 +218,7 @@ class DraftsScreen : Screen {
                                 items(5) {
                                     DraftCardPlaceHolder(uiState.postLayout)
                                     if (uiState.postLayout != PostLayout.Card) {
-                                        Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                     } else {
                                         Spacer(modifier = Modifier.height(Spacing.s))
                                     }
@@ -273,7 +273,7 @@ class DraftsScreen : Screen {
                                     },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
-                                    Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                 } else {
                                     Spacer(modifier = Modifier.height(Spacing.s))
                                 }

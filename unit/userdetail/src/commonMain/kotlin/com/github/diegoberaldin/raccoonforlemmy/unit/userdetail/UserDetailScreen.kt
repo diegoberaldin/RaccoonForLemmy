@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -21,21 +20,21 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -316,8 +315,11 @@ class UserDetailScreen(
                                                                 )
                                                             )
                                                         } else {
-                                                            val screen = ShareBottomSheet(urls = urls)
-                                                            navigationCoordinator.showBottomSheet(screen)
+                                                            val screen =
+                                                                ShareBottomSheet(urls = urls)
+                                                            navigationCoordinator.showBottomSheet(
+                                                                screen
+                                                            )
                                                         }
                                                     }
 
@@ -339,7 +341,7 @@ class UserDetailScreen(
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
-                                imageVector = Icons.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -372,7 +374,7 @@ class UserDetailScreen(
                             )
                             if (uiState.isLogged && !isOnOtherInstance) {
                                 this += FloatingActionButtonMenuItem(
-                                    icon = Icons.Filled.Chat,
+                                    icon = Icons.AutoMirrored.Filled.Chat,
                                     text = LocalXmlStrings.current.actionChat,
                                     onSelected = rememberCallback {
                                         val screen = InboxChatScreen(otherUserId = userId)
@@ -417,44 +419,42 @@ class UserDetailScreen(
                     state = lazyListState,
                 ) {
                     item {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(Spacing.xs),
-                        ) {
-                            UserHeader(
-                                user = uiState.user,
-                                autoLoadImages = uiState.autoLoadImages,
-                                onOpenImage = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(
-                                        ZoomableImageScreen(
-                                            url
-                                        )
+                        UserHeader(
+                            user = uiState.user,
+                            autoLoadImages = uiState.autoLoadImages,
+                            onOpenImage = rememberCallbackArgs { url ->
+                                navigationCoordinator.pushScreen(
+                                    ZoomableImageScreen(
+                                        url
                                     )
-                                },
-                            )
-                            SectionSelector(
-                                titles = listOf(
-                                    LocalXmlStrings.current.profileSectionPosts,
-                                    LocalXmlStrings.current.profileSectionComments,
-                                ),
-                                currentSection = when (uiState.section) {
-                                    UserDetailSection.Comments -> 1
-                                    else -> 0
-                                },
-                                onSectionSelected = rememberCallbackArgs { idx ->
-                                    val section = when (idx) {
-                                        1 -> UserDetailSection.Comments
-                                        else -> UserDetailSection.Posts
-                                    }
-                                    model.reduce(
-                                        UserDetailMviModel.Intent.ChangeSection(
-                                            section
-                                        )
+                                )
+                            },
+                        )
+                    }
+                    item {
+                        SectionSelector(
+                            modifier = Modifier.padding(bottom = Spacing.xs),
+                            titles = listOf(
+                                LocalXmlStrings.current.profileSectionPosts,
+                                LocalXmlStrings.current.profileSectionComments,
+                            ),
+                            currentSection = when (uiState.section) {
+                                UserDetailSection.Comments -> 1
+                                else -> 0
+                            },
+                            onSectionSelected = rememberCallbackArgs { idx ->
+                                val section = when (idx) {
+                                    1 -> UserDetailSection.Comments
+                                    else -> UserDetailSection.Posts
+                                }
+                                model.reduce(
+                                    UserDetailMviModel.Intent.ChangeSection(
+                                        section
                                     )
-                                },
-                            )
-                            Spacer(modifier = Modifier.height(Spacing.xs))
-                        }
+                                )
+                            },
+                        )
+                        Spacer(modifier = Modifier.height(Spacing.xs))
                     }
                     if (uiState.section == UserDetailSection.Posts) {
                         if (uiState.posts.isEmpty() && uiState.loading && uiState.initial) {
@@ -463,7 +463,7 @@ class UserDetailScreen(
                                     postLayout = uiState.postLayout,
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
-                                    Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                 } else {
                                     Spacer(modifier = Modifier.height(Spacing.s))
                                 }
@@ -518,7 +518,7 @@ class UserDetailScreen(
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.Filled.Reply,
+                                                    imageVector = Icons.AutoMirrored.Filled.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )
@@ -734,7 +734,7 @@ class UserDetailScreen(
                                 },
                             )
                             if (uiState.postLayout != PostLayout.Card) {
-                                Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                             } else {
                                 Spacer(modifier = Modifier.height(Spacing.s))
                             }
@@ -756,7 +756,7 @@ class UserDetailScreen(
                         if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
                                 CommentCardPlaceholder()
-                                Divider(
+                                HorizontalDivider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
                                     thickness = 0.25.dp
                                 )
@@ -811,7 +811,7 @@ class UserDetailScreen(
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.Filled.Reply,
+                                                    imageVector = Icons.AutoMirrored.Filled.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )
@@ -990,7 +990,7 @@ class UserDetailScreen(
                                             }
                                         },
                                     )
-                                    Divider(
+                                    HorizontalDivider(
                                         modifier = Modifier.padding(vertical = Spacing.xxxs),
                                         thickness = 0.25.dp
                                     )

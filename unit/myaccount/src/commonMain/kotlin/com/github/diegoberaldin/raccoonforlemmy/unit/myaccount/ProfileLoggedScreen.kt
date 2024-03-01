@@ -20,7 +20,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -125,40 +125,40 @@ object ProfileLoggedScreen : Tab {
                         state = lazyListState,
                     ) {
                         item {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(Spacing.xs),
-                            ) {
-                                UserHeader(
-                                    user = user,
-                                    autoLoadImages = uiState.autoLoadImages,
-                                    onOpenImage = rememberCallbackArgs { url ->
-                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
-                                    },
-                                )
-                                SectionSelector(
-                                    titles = listOf(
-                                        LocalXmlStrings.current.profileSectionPosts,
-                                        LocalXmlStrings.current.profileSectionComments,
-                                    ),
-                                    currentSection = when (uiState.section) {
-                                        ProfileLoggedSection.Comments -> 1
-                                        else -> 0
-                                    },
-                                    onSectionSelected = rememberCallbackArgs(model) { idx ->
-                                        val section = when (idx) {
-                                            1 -> ProfileLoggedSection.Comments
-                                            else -> ProfileLoggedSection.Posts
-                                        }
-                                        model.reduce(
-                                            ProfileLoggedMviModel.Intent.ChangeSection(
-                                                section
-                                            )
+                            UserHeader(
+                                user = user,
+                                autoLoadImages = uiState.autoLoadImages,
+                                onOpenImage = rememberCallbackArgs { url ->
+                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                },
+                            )
+                        }
+                        item {
+                            HorizontalDivider()
+                        }
+                        item {
+                            SectionSelector(
+                                modifier = Modifier.padding(bottom = Spacing.xs),
+                                titles = listOf(
+                                    LocalXmlStrings.current.profileSectionPosts,
+                                    LocalXmlStrings.current.profileSectionComments,
+                                ),
+                                currentSection = when (uiState.section) {
+                                    ProfileLoggedSection.Comments -> 1
+                                    else -> 0
+                                },
+                                onSectionSelected = rememberCallbackArgs(model) { idx ->
+                                    val section = when (idx) {
+                                        1 -> ProfileLoggedSection.Comments
+                                        else -> ProfileLoggedSection.Posts
+                                    }
+                                    model.reduce(
+                                        ProfileLoggedMviModel.Intent.ChangeSection(
+                                            section
                                         )
-                                    },
-                                )
-                                Spacer(modifier = Modifier.height(Spacing.xs))
-                            }
+                                    )
+                                },
+                            )
                         }
                         if (uiState.section == ProfileLoggedSection.Posts) {
                             if (uiState.posts.isEmpty() && uiState.loading && !uiState.initial) {
@@ -167,7 +167,7 @@ object ProfileLoggedScreen : Tab {
                                         postLayout = uiState.postLayout,
                                     )
                                     if (uiState.postLayout != PostLayout.Card) {
-                                        Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                     } else {
                                         Spacer(modifier = Modifier.height(Spacing.s))
                                     }
@@ -295,7 +295,7 @@ object ProfileLoggedScreen : Tab {
                                     },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
-                                    Divider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
                                 } else {
                                     Spacer(modifier = Modifier.height(Spacing.s))
                                 }
@@ -317,7 +317,7 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                                 items(5) {
                                     CommentCardPlaceholder(hideAuthor = true)
-                                    Divider(
+                                    HorizontalDivider(
                                         modifier = Modifier.padding(vertical = Spacing.xxxs),
                                         thickness = 0.25.dp
                                     )
@@ -411,7 +411,7 @@ object ProfileLoggedScreen : Tab {
                                             else -> Unit
                                         }
                                     })
-                                Divider(
+                                HorizontalDivider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
                                     thickness = 0.25.dp
                                 )

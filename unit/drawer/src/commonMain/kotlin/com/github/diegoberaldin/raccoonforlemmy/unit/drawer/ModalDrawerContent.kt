@@ -18,7 +18,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -116,7 +116,7 @@ object ModalDrawerContent : Tab {
                 },
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .padding(
                         top = Spacing.s,

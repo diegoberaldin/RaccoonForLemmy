@@ -14,11 +14,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -207,7 +207,7 @@ class CreateCommentScreen(
                         IconButton(
                             content = {
                                 Icon(
-                                    imageVector = Icons.Filled.Send,
+                                    imageVector = Icons.AutoMirrored.Filled.Send,
                                     contentDescription = null,
                                 )
                             },
@@ -367,7 +367,7 @@ class CreateCommentScreen(
                                 rawContent = originalComment
                             },
                         )
-                        Divider()
+                        HorizontalDivider()
                     } else if (originalPost != null) {
                         PostCard(
                             modifier = referenceModifier,
