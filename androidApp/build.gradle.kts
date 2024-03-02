@@ -60,6 +60,9 @@ android {
             isUniversalApk = true
         }
     }
+    dependenciesInfo {
+        includeInApk = false
+    }
 }
 
 dependencies {
