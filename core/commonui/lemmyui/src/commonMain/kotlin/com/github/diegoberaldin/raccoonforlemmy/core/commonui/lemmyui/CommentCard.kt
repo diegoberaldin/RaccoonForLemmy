@@ -53,6 +53,7 @@ fun CommentCard(
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
     showScores: Boolean = true,
+    showExpandedIndicator: Boolean = true,
     actionButtonsActive: Boolean = true,
     isOp: Boolean = false,
     options: List<Option> = emptyList(),
@@ -109,7 +110,7 @@ fun CommentCard(
                     preferNicknames = preferNicknames,
                     creator = comment.creator.takeIf { !hideAuthor },
                     community = comment.community.takeIf { !hideCommunity },
-                    indicatorExpanded = comment.expanded,
+                    indicatorExpanded = comment.expanded.takeIf { showExpandedIndicator },
                     distinguished = comment.distinguished,
                     isOp = isOp,
                     onOpenCreator = rememberCallbackArgs { user ->

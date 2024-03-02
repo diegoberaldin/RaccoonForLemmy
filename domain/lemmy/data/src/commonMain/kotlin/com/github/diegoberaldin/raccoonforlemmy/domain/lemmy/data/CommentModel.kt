@@ -5,6 +5,7 @@ import kotlin.jvm.Transient
 data class CommentModel(
     val id: Int = 0,
     val postId: Int = 0,
+    val postTitle: String? = null,
     val text: String,
     val community: CommunityModel? = null,
     val creator: UserModel? = null,

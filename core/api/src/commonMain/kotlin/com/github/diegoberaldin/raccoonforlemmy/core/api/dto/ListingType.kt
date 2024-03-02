@@ -11,4 +11,7 @@ enum class ListingType {
 
     @SerialName("Subscribed")
     Subscribed,
+
+    @SerialName("ModeratorView")
+    ModeratorView,
 }

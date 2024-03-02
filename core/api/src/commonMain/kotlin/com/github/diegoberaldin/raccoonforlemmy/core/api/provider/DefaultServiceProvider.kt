@@ -25,7 +25,7 @@ internal class DefaultServiceProvider : ServiceProvider {
     companion object {
         private const val DEFAULT_INSTANCE = "lemmy.world"
         private const val VERSION = "v3"
-        private const val ENABLE_LOGGING = false
+        private const val ENABLE_LOGGING = true
     }
 
     override var currentInstance: String = DEFAULT_INSTANCE

@@ -11,6 +11,7 @@ sealed interface ListingType {
     data object All : ListingType
     data object Subscribed : ListingType
     data object Local : ListingType
+    data object ModeratorView : ListingType
 }
 
 fun ListingType.toInt() = when (this) {
@@ -36,4 +37,5 @@ fun ListingType.toReadableName(): String = when (this) {
     ListingType.All -> LocalXmlStrings.current.homeListingTypeAll
     ListingType.Local -> LocalXmlStrings.current.homeListingTypeLocal
     ListingType.Subscribed -> LocalXmlStrings.current.homeListingTypeSubscribed
+    else -> ""
 }

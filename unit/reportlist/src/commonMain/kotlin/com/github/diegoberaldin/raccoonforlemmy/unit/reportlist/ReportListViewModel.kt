@@ -113,77 +113,50 @@ class ReportListViewModel(
         }
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             updateState { it.copy(refreshing = false) }
             return
         }
 
-        scope?.launch(Dispatchers.IO) {
-            updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value.orEmpty()
-            val refreshing = currentState.refreshing
-            val section = currentState.section
-            val unresolvedOnly = currentState.unresolvedOnly
-            if (section == ReportListSection.Posts) {
-                coroutineScope {
-                    val itemList = async {
-                        postRepository.getReports(
+        updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value.orEmpty()
+        val refreshing = currentState.refreshing
+        val section = currentState.section
+        val unresolvedOnly = currentState.unresolvedOnly
+        if (section == ReportListSection.Posts) {
+            coroutineScope {
+                val itemList = async {
+                    postRepository.getReports(
+                        auth = auth,
+                        communityId = communityId,
+                        page = currentPage,
+                        unresolvedOnly = unresolvedOnly,
+                    )
+                }.await()
+                val commentReports = async {
+                    if (currentPage == 1 && currentState.commentReports.isEmpty()) {
+                        // this is needed because otherwise on first selector change
+                        // the lazy column scrolls back to top (it must have an empty data set)
+                        commentRepository.getReports(
                             auth = auth,
                             communityId = communityId,
                             page = currentPage,
                             unresolvedOnly = unresolvedOnly,
-                        )
-                    }.await()
-                    val commentReports = async {
-                        if (currentPage == 1 && currentState.commentReports.isEmpty()) {
-                            // this is needed because otherwise on first selector change
-                            // the lazy column scrolls back to top (it must have an empty data set)
-                            commentRepository.getReports(
-                                auth = auth,
-                                communityId = communityId,
-                                page = currentPage,
-                                unresolvedOnly = unresolvedOnly,
-                            ).orEmpty()
-                        } else {
-                            currentState.commentReports
-                        }
-                    }.await()
-                    updateState {
-                        val postReports = if (refreshing) {
-                            itemList.orEmpty()
-                        } else {
-                            it.postReports + itemList.orEmpty()
-                        }
-                        it.copy(
-                            postReports = postReports,
-                            commentReports = commentReports,
-                            loading = false,
-                            canFetchMore = itemList?.isEmpty() != true,
-                            refreshing = false,
-                            initial = false,
-                        )
+                        ).orEmpty()
+                    } else {
+                        currentState.commentReports
                     }
-                    if (!itemList.isNullOrEmpty()) {
-                        currentPage++
-                    }
-                }
-            } else {
-                val itemList = commentRepository.getReports(
-                    auth = auth,
-                    communityId = communityId,
-                    page = currentPage,
-                    unresolvedOnly = unresolvedOnly,
-                )
-
+                }.await()
                 updateState {
-                    val commentReports = if (refreshing) {
+                    val postReports = if (refreshing) {
                         itemList.orEmpty()
                     } else {
-                        it.commentReports + itemList.orEmpty()
+                        it.postReports + itemList.orEmpty()
                     }
                     it.copy(
+                        postReports = postReports,
                         commentReports = commentReports,
                         loading = false,
                         canFetchMore = itemList?.isEmpty() != true,
@@ -194,6 +167,31 @@ class ReportListViewModel(
                 if (!itemList.isNullOrEmpty()) {
                     currentPage++
                 }
+            }
+        } else {
+            val itemList = commentRepository.getReports(
+                auth = auth,
+                communityId = communityId,
+                page = currentPage,
+                unresolvedOnly = unresolvedOnly,
+            )
+
+            updateState {
+                val commentReports = if (refreshing) {
+                    itemList.orEmpty()
+                } else {
+                    it.commentReports + itemList.orEmpty()
+                }
+                it.copy(
+                    commentReports = commentReports,
+                    loading = false,
+                    canFetchMore = itemList?.isEmpty() != true,
+                    refreshing = false,
+                    initial = false,
+                )
+            }
+            if (!itemList.isNullOrEmpty()) {
+                currentPage++
             }
         }
     }

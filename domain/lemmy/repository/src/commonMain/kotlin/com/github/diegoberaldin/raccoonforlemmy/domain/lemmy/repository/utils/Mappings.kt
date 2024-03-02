@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Instance
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Language
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.All
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Local
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.ModeratorView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUser
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddCommunityView
@@ -73,6 +74,7 @@ internal fun ListingType.toDto() = when (this) {
     ListingType.All -> All
     ListingType.Subscribed -> Subscribed
     ListingType.Local -> Local
+    ListingType.ModeratorView -> ModeratorView
 }
 
 internal fun com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.toModel(): ListingType =
@@ -80,6 +82,7 @@ internal fun com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.t
         All -> ListingType.All
         Local -> ListingType.Local
         Subscribed -> ListingType.Subscribed
+        ModeratorView -> ListingType.ModeratorView
     }
 
 internal fun com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.toModel(): SortType? =
@@ -196,6 +199,7 @@ internal fun Post.toModel() = PostModel(
 )
 
 internal fun CommentView.toModel() = comment.toModel().copy(
+    postTitle = post.name,
     community = community.toModel(),
     creator = creator.toModel(),
     score = counts.score,

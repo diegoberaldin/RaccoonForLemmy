@@ -193,7 +193,7 @@ class ProfileLoggedViewModel(
                     updateState {
                         it.copy(
                             user = user,
-                            isMod = moderatedCommunities.isNotEmpty(),
+                            moderatedCommunityIds = moderatedCommunities.map { it.id },
                         )
                     }
                 }

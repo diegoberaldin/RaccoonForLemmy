@@ -75,6 +75,7 @@ kotlin {
                 implementation(projects.unit.instanceinfo)
                 implementation(projects.unit.manageban)
                 implementation(projects.unit.managesubscriptions)
+                implementation(projects.unit.moddedcontents)
                 implementation(projects.unit.modlog)
                 implementation(projects.unit.multicommunity)
                 implementation(projects.unit.postdetail)

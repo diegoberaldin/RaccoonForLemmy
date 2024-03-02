@@ -63,6 +63,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments.ModdedCommentsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.components.ProfileShortcutSection
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
@@ -142,7 +143,7 @@ object ProfileLoggedScreen : Tab {
                         item {
                             ProfileShortcutSection(
                                 modifier = Modifier.padding(bottom = Spacing.xs),
-                                isMod = uiState.isMod,
+                                isMod = uiState.moderatedCommunityIds.isNotEmpty(),
                                 onOpenSaved = rememberCallback {
                                     navigationCoordinator.pushScreen(SavedItemsScreen())
                                 },
@@ -157,6 +158,9 @@ object ProfileLoggedScreen : Tab {
                                 },
                                 onOpenModlog = rememberCallback {
                                     navigationCoordinator.pushScreen(ModlogScreen())
+                                },
+                                onOpenComments = rememberCallback {
+                                    navigationCoordinator.pushScreen(ModdedCommentsScreen())
                                 },
                             )
                         }

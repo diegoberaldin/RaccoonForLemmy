@@ -31,7 +31,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -71,9 +70,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.CommentReportCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.PostReportCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.ReportCardPlaceHolder
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class ReportListScreen(
@@ -100,18 +96,6 @@ class ReportListScreen(
         )
         val detailOpener = remember { getDetailOpener() }
         val defaultResolveColor = MaterialTheme.colorScheme.secondary
-
-        LaunchedEffect(model) {
-            model.effects.onEach { effect ->
-                when (effect) {
-                    ReportListMviModel.Effect.BackToTop -> {
-                        scope.launch {
-                            lazyListState.scrollToItem(0)
-                        }
-                    }
-                }
-            }.launchIn(this)
-        }
 
         Scaffold(
             modifier = Modifier
@@ -212,7 +196,7 @@ class ReportListScreen(
                                     }
                                 }
                             }
-                            if (uiState.postReports.isEmpty() && !uiState.initial) {
+                            if (uiState.postReports.isEmpty() && !uiState.initial && !uiState.loading) {
                                 item {
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
@@ -320,7 +304,7 @@ class ReportListScreen(
                                     }
                                 }
                             }
-                            if (uiState.commentReports.isEmpty() && !uiState.initial) {
+                            if (uiState.commentReports.isEmpty() && !uiState.initial && !uiState.loading) {
                                 item {
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),

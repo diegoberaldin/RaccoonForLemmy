@@ -21,7 +21,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "myaccount"
+            baseName = "moddedcontents"
         }
     }
 
@@ -36,7 +36,6 @@ kotlin {
 
                 implementation(libs.koin.core)
                 implementation(libs.voyager.navigator)
-                implementation(libs.voyager.tab)
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.koin)
 
@@ -45,7 +44,6 @@ kotlin {
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.lemmyui)
-                implementation(projects.core.commonui.modals)
                 implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
                 implementation(projects.core.notifications)
@@ -56,21 +54,8 @@ kotlin {
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
 
-                implementation(projects.unit.ban)
-                implementation(projects.unit.chat)
-                implementation(projects.unit.createcomment)
-                implementation(projects.unit.createpost)
-                implementation(projects.unit.createreport)
-                implementation(projects.unit.drafts)
-                implementation(projects.unit.managesubscriptions)
-                implementation(projects.unit.moddedcontents)
-                implementation(projects.unit.modlog)
                 implementation(projects.unit.rawcontent)
                 implementation(projects.unit.remove)
-                implementation(projects.unit.reportlist)
-                implementation(projects.unit.saveditems)
-                implementation(projects.unit.web)
-                implementation(projects.unit.zoomableimage)
             }
         }
         val commonTest by getting {
@@ -82,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.myaccount"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

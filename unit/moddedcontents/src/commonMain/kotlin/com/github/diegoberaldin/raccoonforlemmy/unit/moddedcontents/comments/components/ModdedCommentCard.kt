@@ -1,20 +1,17 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components
+package com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,47 +26,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 @Composable
-internal fun InnerModlogItem(
+fun ModdedCommentCard(
+    comment: CommentModel,
+    postLayout: PostLayout,
     modifier: Modifier = Modifier,
-    reason: String? = null,
+    voteFormat: VoteFormat = VoteFormat.Aggregated,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
-    date: String? = null,
-    moderator: UserModel? = null,
-    postLayout: PostLayout = PostLayout.Card,
     options: List<Option> = emptyList(),
-    onOpenUser: ((UserModel) -> Unit)? = null,
-    onOpen: (() -> Unit)? = null,
-    innerContent: (@Composable () -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
+    onOpenUser: ((UserModel, String) -> Unit)? = null,
+    onOpen: (() -> Unit)? = null,
+    onUpVote: (() -> Unit)? = null,
+    onDownVote: (() -> Unit)? = null,
+    onSave: (() -> Unit)? = null,
+    onReply: (() -> Unit)? = null,
 ) {
     Box(
         modifier = modifier.then(
@@ -85,42 +77,30 @@ internal fun InnerModlogItem(
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }
-        ),
+        ).clickable(onClick = { onOpen?.invoke() }),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
-            ModlogHeader(
-                creator = moderator,
+            CommentCard(
+                comment = comment,
+                voteFormat = voteFormat,
                 autoLoadImages = autoLoadImages,
                 preferNicknames = preferNicknames,
+                showExpandedIndicator = false,
+                hideIndent = true,
+                onClick = onOpen,
                 onOpenCreator = onOpenUser,
+                onUpVote = onUpVote,
+                onDownVote = onDownVote,
+                onSave = onSave,
+                onReply = onReply,
             )
-            CustomizedContent(ContentFontClass.Body) {
-                if (reason != null) {
-                    PostCardBody(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.xs,
-                        ),
-                        text = reason,
-                    )
-                }
-                if (innerContent != null) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                vertical = Spacing.xs,
-                                horizontal = Spacing.xs,
-                            )
-                    ) {
-                        innerContent()
-                    }
-                }
-            }
-            ModlogFooter(
-                date = date,
-                onOpen = onOpen,
+
+            ModdedCommentFooter(
+                modifier = Modifier.padding(horizontal = Spacing.xs),
+                communityName = comment.community?.name,
+                postTitle = comment.postTitle,
                 options = options,
                 onOptionSelected = onOptionSelected,
             )
@@ -129,85 +109,47 @@ internal fun InnerModlogItem(
 }
 
 @Composable
-private fun ModlogHeader(
+private fun ModdedCommentFooter(
     modifier: Modifier = Modifier,
-    creator: UserModel? = null,
-    autoLoadImages: Boolean = true,
-    preferNicknames: Boolean = true,
-    iconSize: Dp = IconSize.s,
-    onOpenCreator: ((UserModel) -> Unit)? = null,
-) {
-    val creatorName = creator?.readableName(preferNicknames).orEmpty()
-    val creatorAvatar = creator?.avatar.orEmpty()
-    if (creatorName.isNotEmpty()) {
-        Row(
-            modifier = modifier
-                .padding(horizontal = Spacing.xs)
-                .onClick(
-                    onClick = rememberCallback {
-                        if (creator != null) {
-                            onOpenCreator?.invoke(creator)
-                        }
-                    },
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
-        ) {
-            if (creatorAvatar.isNotEmpty() && autoLoadImages) {
-                CustomImage(
-                    modifier = Modifier
-                        .padding(Spacing.xxxs)
-                        .size(iconSize)
-                        .clip(RoundedCornerShape(iconSize / 2)),
-                    url = creatorAvatar,
-                    quality = FilterQuality.Low,
-                    contentScale = ContentScale.FillBounds,
-                )
-            }
-            Text(
-                modifier = Modifier.padding(vertical = Spacing.xs),
-                text = creatorName,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-            )
-        }
-    }
-}
-
-@Composable
-private fun ModlogFooter(
-    date: String? = null,
+    communityName: String? = null,
+    postTitle: String? = null,
     options: List<Option> = emptyList(),
-    onOpen: (() -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
+    val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
-    Box {
+    Box(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+            Column(
+                modifier = Modifier.padding(
+                    start = Spacing.xs,
+                    end = Spacing.xs,
+                    bottom = Spacing.xs,
+                ),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                Icon(
-                    modifier = buttonModifier,
-                    imageVector = Icons.Default.Schedule,
-                    contentDescription = null,
-                    tint = ancillaryColor,
-                )
-                Text(
-                    text = date?.prettifyDate() ?: "",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = ancillaryColor
-                )
+                postTitle?.also { title ->
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                        color = fullColor
+                    )
+                }
+                communityName?.also { community ->
+                    Text(
+                        text = community,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = ancillaryColor
+                    )
+                }
             }
+            Spacer(modifier = Modifier.weight(1f))
             if (options.isNotEmpty()) {
                 Icon(
                     modifier = Modifier.size(IconSize.m)
@@ -224,20 +166,6 @@ private fun ModlogFooter(
                     imageVector = Icons.Default.MoreHoriz,
                     contentDescription = null,
                     tint = ancillaryColor,
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            if (onOpen != null) {
-                Image(
-                    modifier = buttonModifier
-                        .onClick(
-                            onClick = rememberCallback {
-                                onOpen.invoke()
-                            },
-                        ),
-                    imageVector = Icons.AutoMirrored.Filled.OpenInNew,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                 )
             }
         }
