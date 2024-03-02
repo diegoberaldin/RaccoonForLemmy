@@ -1,3 +1,33 @@
-Raccoon for Lemmy is fully open source, and intends to offer an ad-free and as functional as possible experience on Lemmy. The application is implemented in Kotlin Multiplatform and  uses Jetpack Compose multiplatform.
-
-The project is under active development, new features are going to added in future releases. Have a look at the project GitHub repository for more information.
+<p>
+    <i>Raccoon for Lemmy</i> is fully open source, and intends to offer an ad-free and as functional as possible experience on Lemmy.
+</p>
+<p>
+    In this app everyone should feel at home, so great importance is given to localization and customization of the UI.
+</p>
+<p>
+    <b>Main Features:</b>
+</p>
+<ul>
+    <li>view post feed and comments with different listing and sort types;</li>
+    <li>possibility to upvote and downvote (with configurable swipe actions);</li>
+    <li>community and user detail (with info about moderators/moderated communities);</li>
+    <li>user profile with one's own posts, comments and saved items;</li>
+    <li>inbox with replies, mentions and direct messages;</li>
+    <li>global search with different result types (all, posts, comments, user, communities);</li>
+    <li>create and edit new posts (with optional images);</li>
+    <li>cross-post contents to other communities;</li>
+    <li>reply to post and comments (and edit replies);</li>
+    <li>mark posts as read (even while scrolling) and hide read contents;</li>
+    <li>custom appearance (color scheme, fonts, text sizes, post layout, etc.);</li>
+    <li>custom localization (independent of system settings);</li>
+    <li>block users, communities and instances;</li>
+    <li>report post and comments to moderators;</li>
+    <li>support for multiple accounts with account-specific settings;</li>
+    <li>lazy scrolling (referred to as "zombie mode");</li>
+    <li>explore all the communities on a given instance in guest mode;</li>
+    <li>multi-community (community aggregation);</li>
+    <li>view the moderation log;</li>
+    <li>community moderation tool (examine and resolve reports, ban users, feature posts in community, block further comments from posts, mark comments as distinguished, remove posts/comments).</li>
+    <li>save drafts for posts and comments</li>
+    <li>anonymous mode with quick instance switch</li>
+</ul>

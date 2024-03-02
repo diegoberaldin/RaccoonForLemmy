@@ -1,1 +1,1 @@
-Raccoon for Lemmy è un client open source per Lemmy
+Client mobile per Lemmy, la piattaforma federata di aggregazione e discussione.

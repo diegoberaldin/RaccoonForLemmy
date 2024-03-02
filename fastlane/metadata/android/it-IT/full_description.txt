@@ -1,3 +1,33 @@
-Raccoon for Lemmy è interamente open source e intende offrire un’esperienza su Lemmy senza pubblicità e quanto più funzionale possible. L’applicazione è implementata con Kotlin Multiplatform e utilizza Jetpack Compose multiplatform.
-
-Il progetto è attualmente in sviluppo, nelle release future saranno aggiunte nuove versioni. Per maggiori informazioni, visita il repository GitHub del progetto.
+<p>
+    <i>Raccoon for Lemmy</i> è completamente open source e si propone di offrire un'esperienza su Lemmy senza annunci e il più funzionale possibile.
+</p>
+<p>
+    È un'app dove chiunque dovrebbe sentirsi a casa, pertanto la localizzazione e la personalizzazione dell'interfaccia sono estremamente importanti.
+</p>
+<p>
+    <b>Funzionalità principali:</b>
+</p>
+<ul>
+    <li>visualizzazione di post e commenti in diversi tipi di feed e ordinamento;</li>
+    <li>possibilità di esprimere voti positivi / negativi (con azioni di scorrimento personalizzabili);</li>
+    <li>dettaglio utente e comunità (con informazioni su moderatori/comunità moderate);</li>
+    <li>profilo utente con visualizzazione dei propri post/commenti ed elementi salvati;</li>
+    <li>posta in arrivo con risposte, menzioni e messaggi diretti;</li>
+    <li>ricerca globale con diversi tipi di risultati (tutto, post, commenti, utenti, comunità);</li>
+    <li>create and edit new posts (with optional images);</li>
+    <li>possibilità di cross-post dei contenuti in altre comunità;</li>
+    <li>possibilità di rispondere a  post e commenti (e modificare le risposte);</li>
+    <li>contrassegnare i post come letti (anche allo scorrimento) e nascondere i contenuti letti;</li>
+    <li>personalizzare l'aspetto (schema di colori, font, dimensioni del testo, layout dei post, ecc.);</li>
+    <li>impostare una localizzazione personalizzata (indipendente dalle impostazioni di sistema);</li>
+    <li>bloccare utenti, comunità e instanzes;</li>
+    <li>segnalare post e commenti ai moderatori;</li>
+    <li>supporto multi-account con impostazioni specifiche per account;</li>
+    <li>scorrimento automatico (chiamato "modalità zombi");</li>
+    <li>esplorare tutte le comunità su una data istanza in modalità ospite;</li>
+    <li>multi-comunità (aggregazione di comunità);</li>
+    <li>visualizzazione registro di moderazione;</li>
+    <li>strumenti di moderazione comunità (esaminare e risolvere segnalazioni, bannare utenti, fissare post a livello di comunità, impedire ulteriori commenti nei post, contrassegnare commenti come autorevoli, rimuovere post/commenti).</li>
+    <li>salvataggio in bozza di post e commenti</li>
+    <li>modalità anonima con cambio istanza rapido</li>
+</ul>
