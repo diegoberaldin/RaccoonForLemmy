@@ -8,6 +8,7 @@ import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Drafts
+import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Report
 import androidx.compose.material.icons.filled.SettingsApplications
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ internal fun ProfileShortcutSection(
     onOpenAllReports: (() -> Unit)? = null,
     onOpenModlog: (() -> Unit)? = null,
     onOpenComments: (() -> Unit)? = null,
+    onOpenPosts: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier.padding(bottom = Spacing.xxs),
@@ -78,6 +80,14 @@ internal fun ProfileShortcutSection(
                 title = "Moderated comments",
                 disclosureIndicator = true,
                 onTap = onOpenComments,
+            )
+            SettingsRow(
+                modifier = modifier.padding(vertical = Spacing.xxs),
+                icon = Icons.Default.Padding,
+                // TODO: l10n
+                title = "Moderated posts",
+                disclosureIndicator = true,
+                onTap = onOpenPosts,
             )
         }
     }
