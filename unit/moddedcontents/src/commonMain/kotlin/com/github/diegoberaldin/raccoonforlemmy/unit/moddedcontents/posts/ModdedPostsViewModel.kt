@@ -13,7 +13,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -25,7 +24,6 @@ class ModdedPostsViewModel(
     private val settingsRepository: SettingsRepository,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
-    private val userRepository: UserRepository,
     private val imagePreloadManager: ImagePreloadManager,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,

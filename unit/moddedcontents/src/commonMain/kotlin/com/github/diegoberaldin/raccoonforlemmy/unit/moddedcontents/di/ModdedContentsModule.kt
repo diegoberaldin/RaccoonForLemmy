@@ -23,7 +23,6 @@ val moddedContentsModule = module {
             identityRepository = get(),
             postRepository = get(),
             hapticFeedback = get(),
-            userRepository = get(),
             imagePreloadManager = get(),
             notificationCenter = get(),
         )
