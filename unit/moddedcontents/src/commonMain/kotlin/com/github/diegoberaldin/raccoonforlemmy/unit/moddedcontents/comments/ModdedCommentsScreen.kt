@@ -54,8 +54,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAction
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ModeratorZoneAction
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
@@ -121,8 +123,7 @@ class ModdedCommentsScreen : Screen {
                     },
                     title = {
                         Text(
-                            // TODO: l10n
-                            text = "Moderated comments",
+                            text = ModeratorZoneAction.ModeratedComments.toReadableName(),
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },

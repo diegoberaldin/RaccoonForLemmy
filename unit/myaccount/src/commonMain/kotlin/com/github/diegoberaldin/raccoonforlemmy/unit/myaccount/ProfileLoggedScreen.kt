@@ -44,12 +44,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCardPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ModeratorZoneAction
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ProfileLoggedSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toModeratorZoneAction
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ModeratorZoneBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
@@ -63,6 +66,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.ModdedPostsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments.ModdedCommentsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.components.ProfileShortcutSection
@@ -111,6 +115,28 @@ object ProfileLoggedScreen : Tab {
             notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
                 model.reduce(ProfileLoggedMviModel.Intent.Refresh)
             }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.ModeratorZoneActionSelected::class)
+                .onEach {
+                    val action = it.value.toModeratorZoneAction()
+                    when (action) {
+                        ModeratorZoneAction.GlobalModLog -> {
+                            navigationCoordinator.pushScreen(ModlogScreen())
+                        }
+
+                        ModeratorZoneAction.GlobalReports -> {
+                            navigationCoordinator.pushScreen(ReportListScreen())
+                        }
+
+                        ModeratorZoneAction.ModeratedComments -> {
+                            navigationCoordinator.pushScreen(ModdedCommentsScreen())
+                        }
+
+                        ModeratorZoneAction.ModeratedPosts -> {
+                            navigationCoordinator.pushScreen(ModdedPostsScreen())
+                        }
+                    }
+                }.launchIn(this)
         }
 
         if (user != null) {
@@ -153,14 +179,9 @@ object ProfileLoggedScreen : Tab {
                                 onOpenDrafts = rememberCallback {
                                     navigationCoordinator.pushScreen(DraftsScreen())
                                 },
-                                onOpenAllReports = rememberCallback {
-                                    navigationCoordinator.pushScreen(ReportListScreen())
-                                },
-                                onOpenModlog = rememberCallback {
-                                    navigationCoordinator.pushScreen(ModlogScreen())
-                                },
-                                onOpenComments = rememberCallback {
-                                    navigationCoordinator.pushScreen(ModdedCommentsScreen())
+                                onOpenModeratorZone = rememberCallback {
+                                    val screen = ModeratorZoneBottomSheet()
+                                    navigationCoordinator.showBottomSheet(screen)
                                 },
                             )
                         }
