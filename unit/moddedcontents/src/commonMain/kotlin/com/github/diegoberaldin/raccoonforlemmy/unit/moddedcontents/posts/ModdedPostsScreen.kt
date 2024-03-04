@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments
+package com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.posts
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -57,6 +57,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ModeratorZoneAction
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -65,19 +66,20 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments.components.ModdedCommentCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments.components.ModdedCommentPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 
-class ModdedCommentsScreen : Screen {
+class ModdedPostsScreen : Screen {
+
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<ModdedCommentsMviModel>()
+        val model = getScreenModel<ModdedPostsMviModel>()
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -88,11 +90,11 @@ class ModdedCommentsScreen : Screen {
         val pullRefreshState = rememberPullRefreshState(
             refreshing = uiState.refreshing,
             onRefresh = rememberCallback(model) {
-                model.reduce(ModdedCommentsMviModel.Intent.Refresh)
+                model.reduce(ModdedPostsMviModel.Intent.Refresh)
             },
         )
         val detailOpener = remember { getDetailOpener() }
-        var rawContent by remember { mutableStateOf<CommentModel?>(null) }
+        var rawContent by remember { mutableStateOf<PostModel?>(null) }
         val themeRepository = remember { getThemeRepository() }
         val upVoteColor by themeRepository.upVoteColor.collectAsState()
         val downVoteColor by themeRepository.downVoteColor.collectAsState()
@@ -104,8 +106,7 @@ class ModdedCommentsScreen : Screen {
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xxs),
             topBar = {
                 TopAppBar(
@@ -124,7 +125,7 @@ class ModdedCommentsScreen : Screen {
                     },
                     title = {
                         Text(
-                            text = ModeratorZoneAction.ModeratedComments.toReadableName(),
+                            text = ModeratorZoneAction.ModeratedPosts.toReadableName(),
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -142,20 +143,18 @@ class ModdedCommentsScreen : Screen {
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Box(
-                    modifier = Modifier
-                        .then(
-                            if (settings.hideNavigationBarWhileScrolling) {
-                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                            } else {
-                                Modifier
-                            }
-                        )
-                        .pullRefresh(pullRefreshState),
+                    modifier = Modifier.then(
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            Modifier
+                        }
+                    ).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState,
                     ) {
-                        if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
+                        if (uiState.posts.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
                                 ModdedCommentPlaceholder(uiState.postLayout)
                                 if (uiState.postLayout != PostLayout.Card) {
@@ -165,7 +164,7 @@ class ModdedCommentsScreen : Screen {
                                 }
                             }
                         }
-                        if (uiState.comments.isEmpty() && !uiState.initial && !uiState.loading) {
+                        if (uiState.posts.isEmpty() && !uiState.initial && !uiState.loading) {
                             item {
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
@@ -176,12 +175,11 @@ class ModdedCommentsScreen : Screen {
                                 )
                             }
                         }
+
                         items(
-                            items = uiState.comments,
-                            key = {
-                                it.id.toString() + (it.updateDate ?: it.publishDate)
-                            },
-                        ) { comment ->
+                            items = uiState.posts,
+                            key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
+                        ) { post ->
 
                             @Composable
                             fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
@@ -198,8 +196,8 @@ class ModdedCommentsScreen : Screen {
                                             backgroundColor = upVoteColor ?: defaultUpvoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    ModdedCommentsMviModel.Intent.UpVoteComment(
-                                                        comment.id,
+                                                    ModdedPostsMviModel.Intent.UpVotePost(
+                                                        post.id
                                                     )
                                                 )
                                             },
@@ -216,9 +214,9 @@ class ModdedCommentsScreen : Screen {
                                             backgroundColor = downVoteColor ?: defaultDownVoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    ModdedCommentsMviModel.Intent.DownVoteComment(
-                                                        comment.id,
-                                                    ),
+                                                    ModdedPostsMviModel.Intent.DownVotePost(
+                                                        post.id
+                                                    )
                                                 )
                                             },
                                         )
@@ -233,9 +231,7 @@ class ModdedCommentsScreen : Screen {
                                             },
                                             backgroundColor = replyColor ?: defaultReplyColor,
                                             onTriggered = rememberCallback {
-                                                detailOpener.openReply(
-                                                    originalComment = comment,
-                                                )
+                                                detailOpener.openReply(originalPost = post)
                                             },
                                         )
 
@@ -250,12 +246,13 @@ class ModdedCommentsScreen : Screen {
                                             backgroundColor = saveColor ?: defaultSaveColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    ModdedCommentsMviModel.Intent.SaveComment(
-                                                        commentId = comment.id,
-                                                    ),
+                                                    ModdedPostsMviModel.Intent.SavePost(
+                                                        post.id
+                                                    )
                                                 )
                                             },
                                         )
+
 
                                         else -> null
                                     }
@@ -265,51 +262,66 @@ class ModdedCommentsScreen : Screen {
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
                                 onGestureBegin = rememberCallback(model) {
-                                    model.reduce(ModdedCommentsMviModel.Intent.HapticIndication)
+                                    model.reduce(ModdedPostsMviModel.Intent.HapticIndication)
                                 },
-                                swipeToStartActions = uiState.actionsOnSwipeToStartComments.toSwipeActions(),
-                                swipeToEndActions = uiState.actionsOnSwipeToEndComments.toSwipeActions(),
+                                swipeToStartActions = uiState.actionsOnSwipeToStartPosts.toSwipeActions(),
+                                swipeToEndActions = uiState.actionsOnSwipeToEndPosts.toSwipeActions(),
                                 content = {
-                                    ModdedCommentCard(
-                                        comment = comment,
+                                    PostCard(
+                                        post = post,
                                         postLayout = uiState.postLayout,
+                                        limitBodyHeight = true,
+                                        fullHeightImage = uiState.fullHeightImages,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
                                         preferNicknames = uiState.preferNicknames,
-                                        onOpenUser = rememberCallbackArgs { user, instance ->
+                                        onClick = rememberCallback(model) {
+                                            detailOpener.openPostDetail(post)
+                                        },
+                                        onOpenCommunity = rememberCallbackArgs { community, instance ->
+                                            detailOpener.openCommunityDetail(
+                                                community,
+                                                instance,
+                                            )
+                                        },
+                                        onOpenCreator = rememberCallbackArgs { user, instance ->
                                             detailOpener.openUserDetail(user, instance)
                                         },
-                                        onOpen = rememberCallback {
-                                            detailOpener.openPostDetail(
-                                                post = PostModel(id = comment.postId),
-                                                highlightCommentId = comment.id,
-                                                isMod = true,
+                                        onOpenPost = rememberCallbackArgs { p, instance ->
+                                            detailOpener.openPostDetail(p, instance)
+                                        },
+                                        onOpenWeb = rememberCallbackArgs { url ->
+                                            navigationCoordinator.pushScreen(
+                                                WebViewScreen(url)
                                             )
                                         },
                                         onUpVote = rememberCallback(model) {
                                             model.reduce(
-                                                ModdedCommentsMviModel.Intent.UpVoteComment(
-                                                    commentId = comment.id,
-                                                )
+                                                ModdedPostsMviModel.Intent.UpVotePost(
+                                                    id = post.id,
+                                                ),
                                             )
                                         },
                                         onDownVote = rememberCallback(model) {
                                             model.reduce(
-                                                ModdedCommentsMviModel.Intent.DownVoteComment(
-                                                    commentId = comment.id,
-                                                )
+                                                ModdedPostsMviModel.Intent.DownVotePost(
+                                                    id = post.id,
+                                                ),
                                             )
                                         },
                                         onSave = rememberCallback(model) {
                                             model.reduce(
-                                                ModdedCommentsMviModel.Intent.SaveComment(
-                                                    commentId = comment.id,
-                                                )
+                                                ModdedPostsMviModel.Intent.SavePost(
+                                                    id = post.id,
+                                                ),
                                             )
                                         },
-                                        onReply = rememberCallback {
-                                            detailOpener.openReply(
-                                                originalComment = comment,
+                                        onReply = rememberCallback(model) {
+                                            detailOpener.openPostDetail(post)
+                                        },
+                                        onOpenImage = rememberCallbackArgs(model, post) { url ->
+                                            navigationCoordinator.pushScreen(
+                                                ZoomableImageScreen(url)
                                             )
                                         },
                                         options = buildList {
@@ -322,50 +334,59 @@ class ModdedCommentsScreen : Screen {
                                                 LocalXmlStrings.current.postActionSeeRaw,
                                             )
                                             this += Option(
-                                                OptionId.DistinguishComment,
-                                                if (comment.distinguished) {
-                                                    LocalXmlStrings.current.modActionUnmarkAsDistinguished
+                                                OptionId.FeaturePost,
+                                                if (post.featuredCommunity) {
+                                                    LocalXmlStrings.current.modActionUnmarkAsFeatured
                                                 } else {
-                                                    LocalXmlStrings.current.modActionMarkAsDistinguished
+                                                    LocalXmlStrings.current.modActionMarkAsFeatured
+                                                },
+                                            )
+                                            this += Option(
+                                                OptionId.LockPost,
+                                                if (post.locked) {
+                                                    LocalXmlStrings.current.modActionUnlock
+                                                } else {
+                                                    LocalXmlStrings.current.modActionLock
                                                 },
                                             )
                                             this += Option(
                                                 OptionId.BanUser,
-                                                if (comment.creator?.banned == true) {
+                                                if (post.creator?.banned == true) {
                                                     LocalXmlStrings.current.modActionAllow
                                                 } else {
                                                     LocalXmlStrings.current.modActionBan
                                                 },
                                             )
                                         },
-                                        onOptionSelected = rememberCallbackArgs { optionId ->
+                                        onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                             when (optionId) {
-                                                OptionId.Remove -> {
-                                                    val screen =
-                                                        RemoveScreen(commentId = comment.id)
-                                                    navigationCoordinator.pushScreen(
-                                                        screen,
-                                                    )
-                                                }
-
                                                 OptionId.SeeRaw -> {
-                                                    rawContent = comment
+                                                    rawContent = post
                                                 }
 
-                                                OptionId.DistinguishComment -> model.reduce(
-                                                    ModdedCommentsMviModel.Intent.ModDistinguishComment(
-                                                        comment.id,
+                                                OptionId.FeaturePost -> model.reduce(
+                                                    ModdedPostsMviModel.Intent.ModFeaturePost(
+                                                        post.id
                                                     )
                                                 )
 
+                                                OptionId.LockPost -> model.reduce(
+                                                    ModdedPostsMviModel.Intent.ModLockPost(post.id)
+                                                )
+
+                                                OptionId.Remove -> {
+                                                    val screen = RemoveScreen(postId = post.id)
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
                                                 OptionId.BanUser -> {
-                                                    comment.creator?.id?.also { userId ->
-                                                        comment.community?.id?.also { communityId ->
+                                                    post.creator?.id?.also { userId ->
+                                                        post.community?.id?.also { communityId ->
                                                             val screen = BanUserScreen(
                                                                 userId = userId,
                                                                 communityId = communityId,
-                                                                newValue = comment.creator?.banned != true,
-                                                                commentId = comment.id,
+                                                                newValue = post.creator?.banned != true,
+                                                                postId = post.id,
                                                             )
                                                             navigationCoordinator.pushScreen(screen)
                                                         }
@@ -387,7 +408,7 @@ class ModdedCommentsScreen : Screen {
 
                         item {
                             if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
-                                model.reduce(ModdedCommentsMviModel.Intent.LoadNextPage)
+                                model.reduce(ModdedPostsMviModel.Intent.LoadNextPage)
                             }
                             if (uiState.loading && !uiState.refreshing) {
                                 Box(
@@ -401,6 +422,7 @@ class ModdedCommentsScreen : Screen {
                                 }
                             }
                         }
+
                         item {
                             Spacer(modifier = Modifier.height(Spacing.xxl))
                         }
@@ -419,20 +441,33 @@ class ModdedCommentsScreen : Screen {
 
         if (rawContent != null) {
             when (val content = rawContent) {
-                is CommentModel -> {
+                is PostModel -> {
                     RawContentDialog(
+                        title = content.title,
+                        publishDate = content.publishDate,
+                        updateDate = content.updateDate,
+                        url = content.url,
                         text = content.text,
                         upVotes = content.upvotes,
                         downVotes = content.downvotes,
-                        publishDate = content.publishDate,
-                        updateDate = content.updateDate,
                         onDismiss = rememberCallback {
                             rawContent = null
                         },
+                        onQuote = rememberCallbackArgs { quotation ->
+                            rawContent = null
+                            if (quotation != null) {
+                                detailOpener.openReply(
+                                    originalPost = content,
+                                    initialText = buildString {
+                                        append("> ")
+                                        append(quotation)
+                                        append("\n\n")
+                                    },
+                                )
+                            }
+                        }
                     )
                 }
-
-                else -> Unit
             }
         }
     }

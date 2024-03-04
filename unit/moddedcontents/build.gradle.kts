@@ -54,8 +54,11 @@ kotlin {
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
 
+                implementation(projects.unit.ban)
                 implementation(projects.unit.rawcontent)
                 implementation(projects.unit.remove)
+                implementation(projects.unit.web)
+                implementation(projects.unit.zoomableimage)
             }
         }
         val commonTest by getting {
