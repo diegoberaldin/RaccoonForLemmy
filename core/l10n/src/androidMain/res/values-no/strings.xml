@@ -342,4 +342,7 @@
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Tilpasninger</string>
     <string name="navigation_drawer_title_drafts">Utkast</string>
+    <string name="moderator_zone_title">Verktøy for moderatorer</string>
+    <string name="moderator_zone_action_comments">Modererte kommentarer</string>
+    <string name="moderator_zone_action_posts">Modererte innlegg</string>
 </resources>

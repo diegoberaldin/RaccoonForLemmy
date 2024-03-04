@@ -55,8 +55,7 @@ internal fun ProfileShortcutSection(
             SettingsRow(
                 modifier = Modifier.padding(vertical = Spacing.xxs),
                 icon = Icons.AutoMirrored.Default.Message,
-                // TODO: l10n
-                title = "Moderator zone",
+                title = LocalXmlStrings.current.moderatorZoneTitle,
                 disclosureIndicator = true,
                 onTap = onOpenModeratorZone,
             )

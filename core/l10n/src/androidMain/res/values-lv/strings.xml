@@ -344,4 +344,7 @@
     <string name="settings_configure_text">Teksts</string>
     <string name="settings_configure_customizations">Pielāgojumi</string>
     <string name="navigation_drawer_title_drafts">Melnraksti</string>
+    <string name="moderator_zone_title">Rīki moderatoriem</string>
+    <string name="moderator_zone_action_comments">Regulēti komentāri</string>
+    <string name="moderator_zone_action_posts">Regulētas ziņas</string>
 </resources>

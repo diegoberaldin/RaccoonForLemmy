@@ -342,4 +342,7 @@
     <string name="settings_configure_text">Texto</string>
     <string name="settings_configure_customizations">Personalizações</string>
     <string name="navigation_drawer_title_drafts">Rascunhos</string>
+    <string name="moderator_zone_title">Ferramentas para moderadores</string>
+    <string name="moderator_zone_action_comments">Comentários moderados</string>
+    <string name="moderator_zone_action_posts">Postagens moderadas</string>
 </resources>

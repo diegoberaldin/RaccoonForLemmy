@@ -344,4 +344,7 @@
     <string name="settings_configure_text">Testo</string>
     <string name="settings_configure_customizations">Personalizzazioni</string>
     <string name="navigation_drawer_title_drafts">Bozze</string>
+    <string name="moderator_zone_title">Strumenti per moderatori</string>
+    <string name="moderator_zone_action_comments">Commenti da moderare</string>
+    <string name="moderator_zone_action_posts">Post da moderare</string>
 </resources>

@@ -36,9 +36,8 @@ fun ModeratorZoneAction.toInt(): Int = when (this) {
 fun ModeratorZoneAction.toReadableName(): String = when (this) {
     ModeratorZoneAction.GlobalModLog -> LocalXmlStrings.current.modlogTitle
     ModeratorZoneAction.GlobalReports -> LocalXmlStrings.current.reportListTitle
-    // TODO: L10n
-    ModeratorZoneAction.ModeratedComments -> "Moderated comments"
-    ModeratorZoneAction.ModeratedPosts -> "Moderated posts"
+    ModeratorZoneAction.ModeratedComments -> LocalXmlStrings.current.moderatorZoneActionComments
+    ModeratorZoneAction.ModeratedPosts -> LocalXmlStrings.current.moderatorZoneActionPosts
 }
 
 @Composable

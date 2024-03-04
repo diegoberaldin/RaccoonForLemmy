@@ -348,4 +348,7 @@
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Anpassungen</string>
     <string name="navigation_drawer_title_drafts">Entwürfe</string>
+    <string name="moderator_zone_title">Tools für Moderatoren</string>
+    <string name="moderator_zone_action_comments">Moderierte Kommentare</string>
+    <string name="moderator_zone_action_posts">Moderierte Beiträge</string>
 </resources>

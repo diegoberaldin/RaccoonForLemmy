@@ -216,7 +216,7 @@
     <string name="settings_section_debug">Dífhabhtú</string>
     <string name="settings_section_general">Ginearálta</string>
     <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_theme_black">Íon - dubh</string>
+    <string name="settings_theme_black">Dorcha (AMOLED)</string>
     <string name="settings_theme_dark">Dorcha</string>
     <string name="settings_theme_light">Solas</string>
     <string name="settings_ui_font_family">Cló an Chomhéadain</string>
@@ -349,4 +349,7 @@
     <string name="settings_configure_text">Téacs</string>
     <string name="settings_configure_customizations">Saincheapadh</string>
     <string name="navigation_drawer_title_drafts">Dréachtaí</string>
+    <string name="moderator_zone_title">Uirlisí le haghaidh modhnóirí</string>
+    <string name="moderator_zone_action_comments">Tráchtanna modhnaithe</string>
+    <string name="moderator_zone_action_posts">Poist mhodhnaithe</string>
 </resources>

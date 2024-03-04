@@ -341,4 +341,7 @@
     <string name="settings_configure_text">Texto</string>
     <string name="settings_configure_customizations">Personalizaciones</string>
     <string name="navigation_drawer_title_drafts">Borradores</string>
+    <string name="moderator_zone_title">Herramientas para moderadores</string>
+    <string name="moderator_zone_action_comments">Comentarios por moderar</string>
+    <string name="moderator_zone_action_posts">Publicaciones por moderar</string>
 </resources>

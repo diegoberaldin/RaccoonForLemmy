@@ -23,6 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toReadableName
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -54,8 +55,7 @@ class ModeratorZoneBottomSheet : Screen {
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    // TODO: L10n
-                    text = "Moderator zone",
+                    text = LocalXmlStrings.current.moderatorZoneTitle,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )

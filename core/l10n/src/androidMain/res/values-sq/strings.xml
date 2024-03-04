@@ -346,4 +346,7 @@
     <string name="settings_configure_text">Teksti</string>
     <string name="settings_configure_customizations">Përshtatjet</string>
     <string name="navigation_drawer_title_drafts">Draftet</string>
+    <string name="moderator_zone_title">Mjete për moderatorët</string>
+    <string name="moderator_zone_action_comments">Komentet e moderuara</string>
+    <string name="moderator_zone_action_posts">Postimet e moderuara</string>
 </resources>

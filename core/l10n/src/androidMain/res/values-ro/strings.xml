@@ -341,4 +341,7 @@
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Personalizări</string>
     <string name="navigation_drawer_title_drafts">Ciorne</string>
+    <string name="moderator_zone_title">Instrumente pentru moderatori</string>
+    <string name="moderator_zone_action_comments">Comentarii moderate</string>
+    <string name="moderator_zone_action_posts">Postări moderate</string>
 </resources>

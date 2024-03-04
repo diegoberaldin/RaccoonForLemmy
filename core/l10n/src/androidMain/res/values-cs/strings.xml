@@ -340,4 +340,7 @@
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Přizpůsobení</string>
     <string name="navigation_drawer_title_drafts">Pracovní verze</string>
+    <string name="moderator_zone_title">Nástroje pro moderátory</string>
+    <string name="moderator_zone_action_comments">Moderované komentáře</string>
+    <string name="moderator_zone_action_posts">Moderované příspěvky</string>
 </resources>

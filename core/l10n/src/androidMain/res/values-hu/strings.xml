@@ -344,4 +344,7 @@
     <string name="settings_configure_text">Szöveg</string>
     <string name="settings_configure_customizations">Testreszabások</string>
     <string name="navigation_drawer_title_drafts">Tervezetek</string>
+    <string name="moderator_zone_title">Eszközök moderátorok számára</string>
+    <string name="moderator_zone_action_comments">Moderált megjegyzések</string>
+    <string name="moderator_zone_action_posts">Moderált bejegyzések</string>
 </resources>

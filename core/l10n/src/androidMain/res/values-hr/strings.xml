@@ -345,4 +345,7 @@
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Prilagodbe</string>
     <string name="navigation_drawer_title_drafts">Nacrti</string>
+    <string name="moderator_zone_title">Alati za moderatore</string>
+    <string name="moderator_zone_action_comments">Moderirani komentari</string>
+    <string name="moderator_zone_action_posts">Moderirani postovi</string>
 </resources>

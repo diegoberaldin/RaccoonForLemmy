@@ -338,4 +338,7 @@
     <string name="settings_configure_text">نص</string>
     <string name="settings_configure_customizations">التخصيصات</string>
     <string name="navigation_drawer_title_drafts">المسودات</string>
+    <string name="moderator_zone_title">أدوات للمشرفين</string>
+    <string name="moderator_zone_action_comments">تعليقات خاضعة للإشراف</string>
+    <string name="moderator_zone_action_posts">المشاركات الخاضعة للإشراف</string>
 </resources>

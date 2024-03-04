@@ -339,4 +339,7 @@
     <string name="settings_configure_text">sitelen</string>
     <string name="settings_configure_customizations">ijo ante</string>
     <string name="navigation_drawer_title_drafts">lukin sitelen</string>
+    <string name="moderator_zone_title">ilo tawa jan lawa</string>
+    <string name="moderator_zone_action_comments">toki lili pi kulupu lawa</string>
+    <string name="moderator_zone_action_posts">lipu pi kulupu lawa</string>
 </resources>

@@ -343,4 +343,7 @@
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Modyfikacje</string>
     <string name="navigation_drawer_title_drafts">Projektowanie</string>
+    <string name="moderator_zone_title">Narzędzia dla moderatorów</string>
+    <string name="moderator_zone_action_comments">Moderowane komentarze</string>
+    <string name="moderator_zone_action_posts">Moderowane posty</string>
 </resources>

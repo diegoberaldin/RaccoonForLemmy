@@ -340,4 +340,7 @@
     <string name="settings_configure_text">Teksti</string>
     <string name="settings_configure_customizations">Mukautukset</string>
     <string name="navigation_drawer_title_drafts">Luonnokset</string>
+    <string name="moderator_zone_title">Työkaluja moderaattoreille</string>
+    <string name="moderator_zone_action_comments">Moderoidut kommentit</string>
+    <string name="moderator_zone_action_posts">Valvotut viestit</string>
 </resources>

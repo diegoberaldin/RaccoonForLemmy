@@ -345,4 +345,7 @@
     <string name="settings_configure_text">Test</string>
     <string name="settings_configure_customizations">Customizations</string>
     <string name="navigation_drawer_title_drafts">Abbozzi</string>
+    <string name="moderator_zone_title">Għodda għall-moderaturi</string>
+    <string name="moderator_zone_action_comments">Kummenti moderati</string>
+    <string name="moderator_zone_action_posts">Postijiet moderati</string>
 </resources>

@@ -339,4 +339,7 @@
     <string name="settings_configure_text">Teksto</string>
     <string name="settings_configure_customizations">Personigoj</string>
     <string name="navigation_drawer_title_drafts">Malnetoj</string>
+    <string name="moderator_zone_title">Iloj por moderigaĵoj</string>
+    <string name="moderator_zone_action_comments">Moderigitaj komentoj</string>
+    <string name="moderator_zone_action_posts">Moderigitaj afiŝoj</string>
 </resources>

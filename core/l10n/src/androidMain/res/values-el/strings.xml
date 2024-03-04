@@ -351,4 +351,7 @@
     <string name="settings_configure_text">Κείμενο</string>
     <string name="settings_configure_customizations">Προσαρμογές</string>
     <string name="navigation_drawer_title_drafts">Προσχέδια</string>
+    <string name="moderator_zone_title">Εργαλεία για συντονιστές</string>
+    <string name="moderator_zone_action_comments">Εποπτευμένα σχόλια</string>
+    <string name="moderator_zone_action_posts">Εποπτευόμενες αναρτήσεις</string>
 </resources>

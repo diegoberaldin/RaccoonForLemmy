@@ -345,4 +345,7 @@
     <string name="settings_configure_text">Texte</string>
     <string name="settings_configure_customizations">Personnalisations</string>
     <string name="navigation_drawer_title_drafts">Brouillons</string>
+    <string name="moderator_zone_title">Outils pour les modérateurs</string>
+    <string name="moderator_zone_action_comments">Commentaires à modérer</string>
+    <string name="moderator_zone_action_posts">Publications à modérer</string>
 </resources>

@@ -344,4 +344,7 @@
     <string name="settings_configure_text">Текст</string>
     <string name="settings_configure_customizations">Настройки</string>
     <string name="navigation_drawer_title_drafts">Черновики</string>
+    <string name="moderator_zone_title">Инструменты для модераторов</string>
+    <string name="moderator_zone_action_comments">Модерируемые комментарии</string>
+    <string name="moderator_zone_action_posts">Модерируемые сообщения</string>
 </resources>

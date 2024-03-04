@@ -342,4 +342,7 @@
     <string name="settings_configure_text">Tekstas</string>
     <string name="settings_configure_customizations">Pritaikymai</string>
     <string name="navigation_drawer_title_drafts">Juodraščiai</string>
+    <string name="moderator_zone_title">Priemonės moderatoriams</string>
+    <string name="moderator_zone_action_comments">Moderuojami komentarai</string>
+    <string name="moderator_zone_action_posts">Moderuojami įrašai</string>
 </resources>

@@ -340,4 +340,7 @@
     <string name="settings_configure_text">Besedilo</string>
     <string name="settings_configure_customizations">Prilagoditve</string>
     <string name="navigation_drawer_title_drafts">Osnutki</string>
+    <string name="moderator_zone_title">Orodja za moderatorje</string>
+    <string name="moderator_zone_action_comments">Moderirani komentarji</string>
+    <string name="moderator_zone_action_posts">Moderirane objave</string>
 </resources>

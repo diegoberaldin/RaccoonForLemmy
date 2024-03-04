@@ -340,4 +340,7 @@
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Kohandused</string>
     <string name="navigation_drawer_title_drafts">Mustandid</string>
+    <string name="moderator_zone_title">Tööriistad moderaatoritele</string>
+    <string name="moderator_zone_action_comments">Modereeritud kommentaarid</string>
+    <string name="moderator_zone_action_posts">Modereeritud postitused</string>
 </resources>

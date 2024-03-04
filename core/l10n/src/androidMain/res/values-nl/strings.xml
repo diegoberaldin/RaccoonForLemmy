@@ -343,4 +343,7 @@
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Aanpassingen</string>
     <string name="navigation_drawer_title_drafts">Concepten</string>
+    <string name="moderator_zone_title">Hulpmiddelen voor moderators</string>
+    <string name="moderator_zone_action_comments">Gemodereerde opmerkingen</string>
+    <string name="moderator_zone_action_posts">Gemodereerde berichten</string>
 </resources>

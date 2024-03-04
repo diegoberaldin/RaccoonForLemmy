@@ -341,4 +341,7 @@
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Anpassningar</string>
     <string name="navigation_drawer_title_drafts">Utkast</string>
+    <string name="moderator_zone_title">Verktyg för moderatorer</string>
+    <string name="moderator_zone_action_comments">Modererade kommentarer</string>
+    <string name="moderator_zone_action_posts">Modererade inlägg</string>
 </resources>

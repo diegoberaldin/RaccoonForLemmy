@@ -348,4 +348,7 @@
     <string name="settings_configure_text">Текст</string>
     <string name="settings_configure_customizations">Персонализации</string>
     <string name="navigation_drawer_title_drafts">Чернови</string>
+    <string name="moderator_zone_title">Инструменти за модератори</string>
+    <string name="moderator_zone_action_comments">Модерирани коментари</string>
+    <string name="moderator_zone_action_posts">Модерирани публикации</string>
 </resources>

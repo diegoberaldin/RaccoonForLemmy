@@ -343,4 +343,7 @@
     <string name="settings_configure_text">Metin</string>
     <string name="settings_configure_customizations">Özelleştirmeler</string>
     <string name="navigation_drawer_title_drafts">Taslaklar</string>
+    <string name="moderator_zone_title">Moderatörler için araçlar</string>
+    <string name="moderator_zone_action_comments">Denetlenen yorumlar</string>
+    <string name="moderator_zone_action_posts">Denetlenen gönderiler</string>
 </resources>

@@ -342,4 +342,7 @@
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Prispôsobenia</string>
     <string name="navigation_drawer_title_drafts">Koncepty</string>
+    <string name="moderator_zone_title">Nástroje pre moderátorov</string>
+    <string name="moderator_zone_action_comments">Moderované komentáre</string>
+    <string name="moderator_zone_action_posts">Moderované príspevky</string>
 </resources>

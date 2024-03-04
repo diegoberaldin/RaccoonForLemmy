@@ -343,4 +343,7 @@
     <string name="settings_configure_text">текст</string>
     <string name="settings_configure_customizations">Налаштування</string>
     <string name="navigation_drawer_title_drafts">Чернетки</string>
+    <string name="moderator_zone_title">Інструменти для модераторів</string>
+    <string name="moderator_zone_action_comments">Модеровані коментарі</string>
+    <string name="moderator_zone_action_posts">Модеровані дописи</string>
 </resources>
