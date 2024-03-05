@@ -23,23 +23,31 @@ class BanUserViewModel(
         initialState = BanUserMviModel.UiState(),
     ) {
 
+    override fun onStarted() {
+        super.onStarted()
+        updateState {
+            it.copy(targetBanValue = newValue)
+        }
+    }
+
     override fun reduce(intent: BanUserMviModel.Intent) {
         when (intent) {
-            is BanUserMviModel.Intent.SetText -> {
-                updateState {
-                    it.copy(text = intent.value)
-                }
-            }
-
+            is BanUserMviModel.Intent.ChangeDays -> updateState { it.copy(days = intent.value) }
+            is BanUserMviModel.Intent.ChangePermanent -> updateState { it.copy(permanent = intent.value) }
+            is BanUserMviModel.Intent.ChangeRemoveData -> updateState { it.copy(removeData = intent.value) }
+            is BanUserMviModel.Intent.SetText -> updateState { it.copy(text = intent.value) }
             BanUserMviModel.Intent.Submit -> submit()
         }
     }
 
     private fun submit() {
-        if (uiState.value.loading) {
+        val currentState = uiState.value
+        if (currentState.loading) {
             return
         }
-        val text = uiState.value.text
+        val text = currentState.text
+        val removeData = currentState.removeData.takeIf { newValue } ?: false
+        val days = currentState.days?.toLong().takeIf { newValue }
 
         updateState { it.copy(loading = true) }
         scope?.launch(Dispatchers.IO) {
@@ -50,8 +58,9 @@ class BanUserViewModel(
                     userId = userId,
                     communityId = communityId,
                     ban = newValue,
+                    expires = days,
                     reason = text,
-                    removeData = false,
+                    removeData = removeData,
                 )
                 if (newUser != null) {
                     postId?.also {

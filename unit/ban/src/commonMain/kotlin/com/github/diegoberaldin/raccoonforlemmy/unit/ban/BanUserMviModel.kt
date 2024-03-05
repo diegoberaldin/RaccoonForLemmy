@@ -12,10 +12,17 @@ interface BanUserMviModel :
 
     sealed interface Intent {
         data class SetText(val value: String) : Intent
+        data class ChangePermanent(val value: Boolean) : Intent
+        data class ChangeRemoveData(val value: Boolean) : Intent
+        data class ChangeDays(val value: Int) : Intent
         data object Submit : Intent
     }
 
     data class UiState(
+        val permanent: Boolean = true,
+        val days: Int? = null,
+        val targetBanValue: Boolean = false,
+        val removeData: Boolean = false,
         val text: String = "",
         val textError: ValidationError? = null,
         val loading: Boolean = false,
