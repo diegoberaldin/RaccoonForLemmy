@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Vše</string>
     <string name="inbox_listing_type_title">Typ doručené pošty</string>
     <string name="inbox_listing_type_unread">Nepřečteno</string>
-    <string name="inbox_not_logged_message">Momentálně nejste přihlášeni. Přidejte\nprosím účet
-        z obrazovky profilu pro zobrazení doručených zpráv.
-    </string>
+    <string name="inbox_not_logged_message">Momentálně nejste přihlášeni. Přidejte\nprosím účet z obrazovky profilu pro zobrazení doručených zpráv.</string>
     <string name="inbox_section_mentions">Zmínky</string>
     <string name="inbox_section_messages">Zprávy</string>
     <string name="inbox_section_replies">Odpovědi</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Správce účtů</string>
     <string name="manage_subscriptions_header_multicommunities">Multikomunity</string>
     <string name="manage_subscriptions_header_subscriptions">Předplatné</string>
-    <string name="message_empty_comments">Je tam příliš ticho.\nChtěl bys být tím, kdo
-        napíše první komentář?
-    </string>
+    <string name="message_empty_comments">Je tam příliš ticho.\nChtěl bys být tím, kdo napíše první komentář?</string>
     <string name="message_empty_list">Žádné položky k zobrazení</string>
     <string name="message_error_loading_comments">Při načítání komentářů došlo k chybě.</string>
     <string name="message_generic_error">Obecná chyba</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Momentálně nejste přihlášeni\n. Přidejteprosím
-        účet pro pokračování.
-    </string>
+    <string name="profile_not_logged_message">Momentálně nejste přihlášeni\n. Přidejteprosím účet pro pokračování.</string>
     <string name="profile_section_comments">Komentáře</string>
     <string name="profile_section_posts">Příspěvky</string>
     <string name="profile_thousand_short">k</string>
@@ -219,9 +213,7 @@
     <string name="settings_hide_navigation_bar">Skrýt navigační panel při rolování</string>
     <string name="settings_zombie_mode_interval">Trvání intervalu režimu Zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Množství posouvání v zombie režimu</string>
-    <string name="settings_mark_as_read_while_scrolling">Označte příspěvky jako přečtené při
-        rolování
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Označte příspěvky jako přečtené při rolování</string>
     <string name="mod_action_allow">Znovu uživateli povolit</string>
     <string name="action_quote">Citát</string>
     <string name="mod_action_ban">Zakázat uživatele</string>
@@ -239,10 +231,7 @@
     <string name="report_list_type_unresolved">Nevyřešeno</string>
     <string name="report_action_resolve">Vyřešit</string>
     <string name="report_action_unresolve">Nevyřešit</string>
-    <string name="sidebar_not_logged_message">Vítejte v Raccoon for Lemmy!\n\nV anonymním režimu
-        použijte rozbalovací tlačítko (▼) výše pro změnu instance.\n\nDo své intance se můžete
-        přihlásit na kdykoli z obrazovky profilu.\n\nUžijte si Lemmyho!
-    </string>
+    <string name="sidebar_not_logged_message">Vítejte v Raccoon for Lemmy!\n\nV anonymním režimu použijte rozbalovací tlačítko (▼) výše pro změnu instance.\n\nDo své intance se můžete přihlásit na kdykoli z obrazovky profilu.\n\nUžijte si Lemmyho! </string>
     <string name="settings_default_inbox_type">Výchozí typ doručené pošty</string>
     <string name="mod_action_add_mod">Přidat moderátora</string>
     <string name="mod_action_remove_mod">Odstranit moderátora</string>
@@ -343,4 +332,5 @@
     <string name="moderator_zone_title">Nástroje pro moderátory</string>
     <string name="moderator_zone_action_comments">Moderované komentáře</string>
     <string name="moderator_zone_action_posts">Moderované příspěvky</string>
+    <string name="message_auth_issue">Při načítání uživatelských dat došlo k chybě, zkuste obnovit obrazovku</string>
 </resources>

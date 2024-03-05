@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Alla</string>
     <string name="inbox_listing_type_title">Inkorgstyp</string>
     <string name="inbox_listing_type_unread">Oläst</string>
-    <string name="inbox_not_logged_message">Du är för närvarande inte inloggad.\nLägg till ett konto
-        från profilskärmen för att se din inkorg.
-    </string>
+    <string name="inbox_not_logged_message">Du är för närvarande inte inloggad.\nLägg till ett konto från profilskärmen för att se din inkorg.</string>
     <string name="inbox_section_mentions">Mentions</string>
     <string name="inbox_section_messages">Meddelanden</string>
     <string name="inbox_section_replies">Svar</string>
@@ -107,12 +105,9 @@
     <string name="manage_accounts_title">Hantera konton</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-communities</string>
     <string name="manage_subscriptions_header_subscriptions">Prenumerationer</string>
-    <string name="message_empty_comments">Det är för tyst där.\nVill du vara den som
-        skriver den första kommentaren?
-    </string>
+    <string name="message_empty_comments">Det är för tyst där.\nVill du vara den som skriver den första kommentaren?</string>
     <string name="message_empty_list">Inga föremål att visa</string>
-    <string name="message_error_loading_comments">Ett fel uppstod när kommentarer skulle laddas.
-    </string>
+    <string name="message_error_loading_comments">Ett fel uppstod när kommentarer skulle laddas.</string>
     <string name="message_generic_error">Generiskt fel</string>
     <string name="message_image_loading_error">Fel vid inläsning av bild</string>
     <string name="message_invalid_field">Ogiltigt fält</string>
@@ -145,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Du är för närvarande inte\n inloggad.Lägg till en
-        kontot för att fortsätta.
-    </string>
+    <string name="profile_not_logged_message">Du är för närvarande inte\n inloggad.Lägg till en kontot för att fortsätta.</string>
     <string name="profile_section_comments">Kommentarer</string>
     <string name="profile_section_posts">Inlägg</string>
     <string name="profile_thousand_short">k</string>
@@ -187,8 +180,7 @@
     <string name="settings_content_font_smaller">Extra liten</string>
     <string name="settings_content_font_smallest">Dubbel extra liten</string>
     <string name="settings_custom_seed_color">Anpassad tema färg</string>
-    <string name="settings_default_comment_sort_type">Standard sorteringstyp för kommentarer
-    </string>
+    <string name="settings_default_comment_sort_type">Standard sorteringstyp för kommentarer</string>
     <string name="settings_default_listing_type">Standardmatningstyp</string>
     <string name="settings_default_post_sort_type">Standard artikeltyp</string>
     <string name="settings_downvote_color">Nerröstningsfärg</string>
@@ -221,8 +213,7 @@
     <string name="settings_hide_navigation_bar">Dölj navigeringsfältet när du rullar</string>
     <string name="settings_zombie_mode_interval">Zombielägesintervallets varaktighet</string>
     <string name="settings_zombie_mode_scroll_amount">Zombieläge rullningsmängd</string>
-    <string name="settings_mark_as_read_while_scrolling">Markera inlägg som lästa medan du rullar
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Markera inlägg som lästa medan du rullar</string>
     <string name="action_quote">Citat</string>
     <string name="mod_action_allow">Tillåta användaren igen</string>
     <string name="mod_action_ban">Stänga av användare</string>
@@ -240,10 +231,7 @@
     <string name="report_list_type_unresolved">Olöst</string>
     <string name="report_action_resolve">Lös</string>
     <string name="report_action_unresolve">Avlös</string>
-    <string name="sidebar_not_logged_message">Välkommen till Raccoon for Lemmy!\n\nI anonymt läge,
-        använd rullgardinsknappen (▼) ovan för att ändra instans.\n\nDu kan logga in på din
-        förekomst på när som helst från profilskärmen.\n\nNjut av Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Välkommen till Raccoon for Lemmy!\n\nI anonymt läge, använd rullgardinsknappen (▼) ovan för att ändra instans.\n\nDu kan logga in på din förekomst på när som helst från profilskärmen.\n\nNjut av Lemmy!</string>
     <string name="settings_default_inbox_type">Standardtyp av inkorg</string>
     <string name="mod_action_add_mod">Lägg till moderator</string>
     <string name="mod_action_remove_mod">Ta bort moderator</string>
@@ -344,4 +332,5 @@
     <string name="moderator_zone_title">Verktyg för moderatorer</string>
     <string name="moderator_zone_action_comments">Modererade kommentarer</string>
     <string name="moderator_zone_action_posts">Modererade inlägg</string>
+    <string name="message_auth_issue">Ett fel uppstod när användardata skulle hämtas, försök att uppdatera skärmen</string>
 </resources>

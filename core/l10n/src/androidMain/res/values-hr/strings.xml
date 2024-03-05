@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Sve</string>
     <string name="inbox_listing_type_title">Vrsta ulazne pošte</string>
     <string name="inbox_listing_type_unread">Nepročitano</string>
-    <string name="inbox_not_logged_message">Trenutačno niste prijavljeni.Dodajte\n korisnički račun
-        na zaslonu profila za prikaz dolazne pošte.
-    </string>
+    <string name="inbox_not_logged_message">Trenutačno niste prijavljeni.Dodajte\n korisnički račun na zaslonu profila za prikaz dolazne pošte.</string>
     <string name="inbox_section_mentions">spominjanja</string>
     <string name="inbox_section_messages">Poruke</string>
     <string name="inbox_section_replies">Odgovori</string>
@@ -107,12 +105,9 @@
     <string name="manage_accounts_title">Upravljajte računima</string>
     <string name="manage_subscriptions_header_multicommunities">Više zajednica</string>
     <string name="manage_subscriptions_header_subscriptions">Pretplate</string>
-    <string name="message_empty_comments">Tamo je previše tiho.\nŽelite li biti onaj koji
-        piše prvi komentar?
-    </string>
+    <string name="message_empty_comments">Tamo je previše tiho.\nŽelite li biti onaj koji piše prvi komentar?</string>
     <string name="message_empty_list">Nema stavki za prikaz</string>
-    <string name="message_error_loading_comments">Došlo je do pogreške pri učitavanju komentara.
-    </string>
+    <string name="message_error_loading_comments">Došlo je do pogreške pri učitavanju komentara.</string>
     <string name="message_generic_error">Generička pogreška</string>
     <string name="message_image_loading_error">Pogreška pri učitavanju slike</string>
     <string name="message_invalid_field">Nevažeće polje</string>
@@ -145,10 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Trenutačno niste prijavljeni.\nZa nastavakunesite
-        korisnički
-        račun.
-    </string>
+    <string name="profile_not_logged_message">Trenutačno niste prijavljeni.\nZa nastavakunesite korisnički račun.</string>
     <string name="profile_section_comments">Komentari</string>
     <string name="profile_section_posts">Objave</string>
     <string name="profile_thousand_short">k</string>
@@ -199,8 +191,7 @@
     <string name="settings_full_height_images">Slike pune visine</string>
     <string name="settings_include_nsfw">Uključi sadržaj NSFW-a</string>
     <string name="settings_language">Jezik</string>
-    <string name="settings_navigation_bar_titles_visible">Prikaži naslove navigacijske trake
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Prikaži naslove navigacijske trake</string>
     <string name="settings_open_url_external">Otvori URL-ove u vanjskom pregledniku</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Izgled objave</string>
@@ -219,14 +210,10 @@
     <string name="settings_ui_font_scale">Veličina teksta korisničkog sučelja</string>
     <string name="settings_ui_theme">Tema korisničkog sučelja</string>
     <string name="settings_upvote_color">Boja za glasanje</string>
-    <string name="settings_hide_navigation_bar">Sakrij navigacijsku traku tijekom pomicanja
-    </string>
+    <string name="settings_hide_navigation_bar">Sakrij navigacijsku traku tijekom pomicanja</string>
     <string name="settings_zombie_mode_interval">Trajanje intervala zombi načina rada</string>
-    <string name="settings_zombie_mode_scroll_amount">Količina pomicanja u zombi načinu rada
-    </string>
-    <string name="settings_mark_as_read_while_scrolling">Označite postove kao pročitane tijekom
-        pomicanja
-    </string>
+    <string name="settings_zombie_mode_scroll_amount">Količina pomicanja u zombi načinu rada</string>
+    <string name="settings_mark_as_read_while_scrolling">Označite postove kao pročitane tijekom pomicanja</string>
     <string name="action_quote">Citat</string>
     <string name="mod_action_allow">Ponovo dopustiti korisniku</string>
     <string name="mod_action_ban">Ban korisnika</string>
@@ -244,10 +231,7 @@
     <string name="report_list_type_unresolved">Neriješeno</string>
     <string name="report_action_resolve">Riješi</string>
     <string name="report_action_unresolve">Poništi rješavanje</string>
-    <string name="sidebar_not_logged_message">Dobro došli u Raccoon za Lemmyja!\n\nU anonimnom
-        načinu rada, koristite padajući gumb (▼) iznad za promjenu instance.\n\nMožete se prijaviti
-        na svoju instancu na bilo kada sa zaslona profila.\n\nUživajte u Lemmyju!
-    </string>
+    <string name="sidebar_not_logged_message">Dobro došli u Raccoon za Lemmyja!\n\nU anonimnom načinu rada, koristite padajući gumb (▼) iznad za promjenu instance.\n\nMožete se prijaviti na svoju instancu na bilo kada sa zaslona profila.\n\nUživajte u Lemmyju!</string>
     <string name="settings_default_inbox_type">Zadana vrsta pristigle pošte</string>
     <string name="mod_action_add_mod">Dodaj moderatora</string>
     <string name="mod_action_remove_mod">Ukloniti moderatora</string>
@@ -348,4 +332,5 @@
     <string name="moderator_zone_title">Alati za moderatore</string>
     <string name="moderator_zone_action_comments">Moderirani komentari</string>
     <string name="moderator_zone_action_posts">Moderirani postovi</string>
+    <string name="message_auth_issue">Došlo je do pogreške prilikom dohvaćanja korisničkih podataka, pokušajte osvježiti zaslon</string>
 </resources>

@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">All</string>
     <string name="inbox_listing_type_title">Inbox type</string>
     <string name="inbox_listing_type_unread">Unread</string>
-    <string name="inbox_not_logged_message">You are currently not logged in.\nPlease add an account
-        from the profile screen to see your inbox.
-    </string>
+    <string name="inbox_not_logged_message">You are currently not logged in.\nPlease add an account from the profile screen to see your inbox.</string>
     <string name="inbox_section_mentions">Mentions</string>
     <string name="inbox_section_messages">Messages</string>
     <string name="inbox_section_replies">Replies</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Manage accounts</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-communities</string>
     <string name="manage_subscriptions_header_subscriptions">Subscriptions</string>
-    <string name="message_empty_comments">It\'s too silent there.\nWould you like to be the one who
-        writes the first comment?
-    </string>
+    <string name="message_empty_comments">It\'s too silent there.\nWould you like to be the one who writes the first comment?</string>
     <string name="message_empty_list">No items to display</string>
     <string name="message_error_loading_comments">An error has occurred loading comments.</string>
     <string name="message_generic_error">Generic error</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">You are currently not logged in.\nPlease add an
-        account to continue.
-    </string>
+    <string name="profile_not_logged_message">You are currently not logged in.\nPlease add an account to continue.</string>
     <string name="profile_section_comments">Comments</string>
     <string name="profile_section_posts">Posts</string>
     <string name="profile_thousand_short">k</string>
@@ -237,10 +231,7 @@
     <string name="report_list_type_unresolved">Unresolved</string>
     <string name="report_action_resolve">Resolve</string>
     <string name="report_action_unresolve">Unresolve</string>
-    <string name="sidebar_not_logged_message">Welcome to Raccoon for Lemmy!\n\nIn anonymous mode,
-        use the drop down button (▼) above to change instance.\n\nYou can log in to your intance at
-        any time from the Profile screen.\n\nEnjoy Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Welcome to Raccoon for Lemmy!\n\nIn anonymous mode, use the drop down button (▼) above to change instance.\n\nYou can log in to your intance at any time from the Profile screen.\n\nEnjoy Lemmy!</string>
     <string name="settings_default_inbox_type">Default inbox type</string>
     <string name="mod_action_add_mod">Add moderator</string>
     <string name="mod_action_remove_mod">Remove moderator</string>
@@ -341,4 +332,5 @@
     <string name="moderator_zone_title">Moderation tools</string>
     <string name="moderator_zone_action_comments">Moderated comments</string>
     <string name="moderator_zone_action_posts">Moderated posts</string>
+    <string name="message_auth_issue">An error occurred while fetching user data, try refreshing the screen</string>
 </resources>

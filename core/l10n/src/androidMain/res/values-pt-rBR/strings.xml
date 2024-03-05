@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Todas</string>
     <string name="inbox_listing_type_title">Padrão da caixa</string>
     <string name="inbox_listing_type_unread">Não lidas</string>
-    <string name="inbox_not_logged_message">Você não está logado.\nPor favor, entre na sua conta
-        via ícone de perfil abaixo, para ver as mensagens.
-    </string>
+    <string name="inbox_not_logged_message">Você não está logado.\nPor favor, entre na sua conta via ícone de perfil abaixo, para ver as mensagens.</string>
     <string name="inbox_section_mentions">Menções</string>
     <string name="inbox_section_messages">Mensagens</string>
     <string name="inbox_section_replies">Respostas</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Gerenciar as contas</string>
     <string name="manage_subscriptions_header_multicommunities">Múltiplas comunidades</string>
     <string name="manage_subscriptions_header_subscriptions">Subscripções</string>
-    <string name="message_empty_comments">Super silencioso aqui.\nVocê gostaria de ser
-        o primeiro para escrever um comentário?
-    </string>
+    <string name="message_empty_comments">Super silencioso aqui.\nVocê gostaria de ser o primeiro para escrever um comentário?</string>
     <string name="message_empty_list">Nada por aqui</string>
     <string name="message_error_loading_comments">Ocorreu um erro ao carregar comentários.</string>
     <string name="message_generic_error">Erro genérico</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Você não está logado.\nPor favor, entre na sua
-        conta para continuar.
-    </string>
+    <string name="profile_not_logged_message">Você não está logado.\nPor favor, entre na sua conta para continuar.</string>
     <string name="profile_section_comments">Comentários</string>
     <string name="profile_section_posts">Posts</string>
     <string name="profile_thousand_short">mil</string>
@@ -197,8 +191,7 @@
     <string name="settings_full_height_images">Imagens em tamanho real</string>
     <string name="settings_include_nsfw">Incluir conteúdo NSFW</string>
     <string name="settings_language">Idioma</string>
-    <string name="settings_navigation_bar_titles_visible">Mostrar nomes na barra de navegação
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Mostrar nomes na barra de navegação</string>
     <string name="settings_open_url_external">Abrir links em navegador externo</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Formato de posts</string>
@@ -220,8 +213,7 @@
     <string name="settings_hide_navigation_bar">Esconder a barra de navegação ao deslizar</string>
     <string name="settings_zombie_mode_interval">Duração de intervalo no modo zumbi</string>
     <string name="settings_zombie_mode_scroll_amount">Grau de movimento no modo zumbi</string>
-    <string name="settings_mark_as_read_while_scrolling">Marcar posts como lidos ao deslizar
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Marcar posts como lidos ao deslizar</string>
     <string name="action_quote">Citar</string>
     <string name="mod_action_allow">Permitir usuário novamente</string>
     <string name="mod_action_ban">Bloquear usuário</string>
@@ -239,10 +231,7 @@
     <string name="report_list_type_unresolved">Não resolvidos</string>
     <string name="report_action_resolve">Marcar como resolvido</string>
     <string name="report_action_unresolve">Marcar como não resolvido</string>
-    <string name="sidebar_not_logged_message">Bem-vindo ao Raccoon for Lemmy!\n\nNo modo anônimo
-        você pode mudar de instância tocando no triângulo (▼) acima.\n\nTambém pode entrar na
-        sua conta usando ícone de perfil na barra de navegação.\n\nCurte aí o Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Bem-vindo ao Raccoon for Lemmy!\n\nNo modo anônimo você pode mudar de instância tocando no triângulo (▼) acima.\n\nTambém pode entrar na sua conta usando ícone de perfil na barra de navegação.\n\nCurte aí o Lemmy!</string>
     <string name="settings_default_inbox_type">Padrão da caixa</string>
     <string name="mod_action_add_mod">Adicionar moderador</string>
     <string name="mod_action_remove_mod">Remover moderador</string>
@@ -343,4 +332,5 @@
     <string name="moderator_zone_title">Ferramentas para moderadores</string>
     <string name="moderator_zone_action_comments">Comentários moderados</string>
     <string name="moderator_zone_action_posts">Posts moderados</string>
+    <string name="message_auth_issue">Ocorreu um erro ao buscar dados do usuário. Tente atualizar a tela</string>
 </resources>

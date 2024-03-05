@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Kaikki</string>
     <string name="inbox_listing_type_title">Postilaatikon tyyppi</string>
     <string name="inbox_listing_type_unread">Lukematon</string>
-    <string name="inbox_not_logged_message">Et ole tällä hetkellä kirjautunut sisään.\nLisää tili
-        profiilinäytöstä nähdäksesi postilaatikkosi.
-    </string>
+    <string name="inbox_not_logged_message">Et ole tällä hetkellä kirjautunut sisään.\nLisää tili profiilinäytöstä nähdäksesi postilaatikkosi.</string>
     <string name="inbox_section_mentions">Viittaukset</string>
     <string name="inbox_section_messages">Viestit</string>
     <string name="inbox_section_replies">Vastausta</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Muokkaa tilejä</string>
     <string name="manage_subscriptions_header_multicommunities">Useita yhteisöjä</string>
     <string name="manage_subscriptions_header_subscriptions">Vuokrasopimukset</string>
-    <string name="message_empty_comments">Siellä on liian hiljaista.\nHaluaisitko olla se, joka
-        kirjoittaa ensimmäisen kommentin?
-    </string>
+    <string name="message_empty_comments">Siellä on liian hiljaista.\nHaluaisitko olla se, joka kirjoittaa ensimmäisen kommentin?</string>
     <string name="message_empty_list">Ei enää näytettäviä kohteita</string>
     <string name="message_error_loading_comments">Kommenttien lataamisessa tapahtui virhe.</string>
     <string name="message_generic_error">Yleinen virhe.</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Et ole tällä hetkellä kirjautunut sisään.\nLisää
-        tili jatkaaksesi.
-    </string>
+    <string name="profile_not_logged_message">Et ole tällä hetkellä kirjautunut sisään.\nLisää tili jatkaaksesi.</string>
     <string name="profile_section_comments">Kommentit</string>
     <string name="profile_section_posts">Viestit</string>
     <string name="profile_thousand_short">k</string>
@@ -219,8 +213,7 @@
     <string name="settings_hide_navigation_bar">Piilota navigointipalkki vieritettäessä</string>
     <string name="settings_zombie_mode_interval">Zombitilan aikavälin kesto</string>
     <string name="settings_zombie_mode_scroll_amount">Zombitilan vieritysmäärä</string>
-    <string name="settings_mark_as_read_while_scrolling">Merkitse viestit luetuiksi vieritettäessä
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Merkitse viestit luetuiksi vieritettäessä</string>
     <string name="action_quote">Lainata</string>
     <string name="mod_action_allow">Salli käyttäjän uudelleen</string>
     <string name="mod_action_ban">Kieltää käyttäjä</string>
@@ -238,11 +231,7 @@
     <string name="report_list_type_unresolved">Ratkaisematon</string>
     <string name="report_action_resolve">Ratkaise</string>
     <string name="report_action_unresolve">Ei ratkaise</string>
-    <string name="sidebar_not_logged_message">Tervetuloa Raccoon for Lemmylle!\n\nNimetttömässä
-        tilassa, käytä yllä olevaa pudotusvalikkopainiketta (▼) vaihtaaksesi ilmentymää.\n\nVoit
-        kirjautua sisään tapahtumaasi osoitteessa milloin tahansa profiilinäytöstä.\n\nNauti
-        Lemmystä!
-    </string>
+    <string name="sidebar_not_logged_message">Tervetuloa Raccoon for Lemmylle!\n\nNimetttömässä tilassa, käytä yllä olevaa pudotusvalikkopainiketta (▼) vaihtaaksesi ilmentymää.\n\nVoit kirjautua sisään tapahtumaasi osoitteessa milloin tahansa profiilinäytöstä.\n\nNauti Lemmystä!</string>
     <string name="settings_default_inbox_type">Oletuspostilaatikon tyyppi</string>
     <string name="mod_action_add_mod">Lisää moderaattori</string>
     <string name="mod_action_remove_mod">Poista moderaattori</string>
@@ -343,4 +332,5 @@
     <string name="moderator_zone_title">Työkaluja moderaattoreille</string>
     <string name="moderator_zone_action_comments">Moderoidut kommentit</string>
     <string name="moderator_zone_action_posts">Valvotut viestit</string>
+    <string name="message_auth_issue">Käyttäjätietoja haettaessa tapahtui virhe. Yritä päivittää näyttö</string>
 </resources>

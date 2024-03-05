@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Alle</string>
     <string name="inbox_listing_type_title">Innboks type</string>
     <string name="inbox_listing_type_unread">Ulest</string>
-    <string name="inbox_not_logged_message">Du er ikke logget\n inn.Leggtil konto
-        på profilskjermen for å se innboksen din.
-    </string>
+    <string name="inbox_not_logged_message">Du er ikke logget\n inn.Leggtil konto på profilskjermen for å se innboksen din.</string>
     <string name="inbox_section_mentions">Omtaler</string>
     <string name="inbox_section_messages">Meldinger</string>
     <string name="inbox_section_replies">Svar</string>
@@ -107,13 +105,9 @@
     <string name="manage_accounts_title">Administrer kontoer</string>
     <string name="manage_subscriptions_header_multicommunities">Multisamfunn</string>
     <string name="manage_subscriptions_header_subscriptions">Abonnement</string>
-    <string name="message_empty_comments">Det er for stille der.\nVil du være den som skriver den
-        første kommentaren?
-    </string>
+    <string name="message_empty_comments">Det er for stille der.\nVil du være den som skriver den første kommentaren?</string>
     <string name="message_empty_list">Ingen elementer å vise</string>
-    <string name="message_error_loading_comments">Det oppstod en feil under lasting av
-        kommentarer.
-    </string>
+    <string name="message_error_loading_comments">Det oppstod en feil under lasting av kommentarer.</string>
     <string name="message_generic_error">Allmenn feil</string>
     <string name="message_image_loading_error">Bildeinnlastingsfeil</string>
     <string name="message_invalid_field">Ugyldig felt</string>
@@ -146,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Du er ikke logget\n inn.Please addan
-        konto for å fortsette.
-    </string>
+    <string name="profile_not_logged_message">Du er ikke logget\n inn.Please addan konto for å fortsette.</string>
     <string name="profile_section_comments">Kommentarer</string>
     <string name="profile_section_posts">Nyheter</string>
     <string name="profile_thousand_short">k</string>
@@ -188,8 +180,7 @@
     <string name="settings_content_font_smaller">Ekstra liten</string>
     <string name="settings_content_font_smallest">Dobbel ekstra liten</string>
     <string name="settings_custom_seed_color">Egendefinert temafarge</string>
-    <string name="settings_default_comment_sort_type">Standard sorteringstype for kommentarer
-    </string>
+    <string name="settings_default_comment_sort_type">Standard sorteringstype for kommentarer</string>
     <string name="settings_default_listing_type">Standard innmatingstype</string>
     <string name="settings_default_post_sort_type">Standard innleggstype:</string>
     <string name="settings_downvote_color">Downvote farge</string>
@@ -222,8 +213,7 @@
     <string name="settings_hide_navigation_bar">Skjul navigasjonsfeltet mens du ruller</string>
     <string name="settings_zombie_mode_interval">Zombie-modus intervallvarighet</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie-modus rullebeløp</string>
-    <string name="settings_mark_as_read_while_scrolling">Merk innlegg som lest mens du ruller
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Merk innlegg som lest mens du ruller</string>
     <string name="action_quote">Sitat</string>
     <string name="mod_action_allow">Tillate brukeren igjen</string>
     <string name="mod_action_ban">Utestenge bruker</string>
@@ -241,10 +231,7 @@
     <string name="report_list_type_unresolved">Uløst</string>
     <string name="report_action_resolve">Løs</string>
     <string name="report_action_unresolve">Løs opp</string>
-    <string name="sidebar_not_logged_message">Velkommen til Raccoon for Lemmy!\n\nI anonym modus,
-        bruk rullegardinknappen (▼) ovenfor for å endre forekomst.\n\nDu kan logge på forekomsten
-        din på når som helst fra profilskjermen.\n\nNyt Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Velkommen til Raccoon for Lemmy!\n\nI anonym modus, bruk rullegardinknappen (▼) ovenfor for å endre forekomst.\n\nDu kan logge på forekomsten din på når som helst fra profilskjermen.\n\nNyt Lemmy!</string>
     <string name="settings_default_inbox_type">Standard innbokstype</string>
     <string name="mod_action_add_mod">Legg til moderator</string>
     <string name="mod_action_remove_mod">Fjern moderator</string>
@@ -345,4 +332,5 @@
     <string name="moderator_zone_title">Verktøy for moderatorer</string>
     <string name="moderator_zone_action_comments">Modererte kommentarer</string>
     <string name="moderator_zone_action_posts">Modererte innlegg</string>
+    <string name="message_auth_issue">Det oppstod en feil under henting av brukerdata. Prøv å oppdatere skjermen</string>
 </resources>

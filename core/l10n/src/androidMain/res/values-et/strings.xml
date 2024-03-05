@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Kõik</string>
     <string name="inbox_listing_type_title">Postkasti tüüp</string>
     <string name="inbox_listing_type_unread">Lugemata</string>
-    <string name="inbox_not_logged_message">Sa pole praegu sisse logitud.Palun lisa konto
-        profiiliekraanilt, et näha oma postkasti. \n
-    </string>
+    <string name="inbox_not_logged_message">Sa pole praegu sisse logitud.Palun lisa konto profiiliekraanilt, et näha oma postkasti.</string>
     <string name="inbox_section_mentions">Mainimised</string>
     <string name="inbox_section_messages">Sõnumid</string>
     <string name="inbox_section_replies">Vastused</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Halda kontosid</string>
     <string name="manage_subscriptions_header_multicommunities">Mitme kogukonna ühendus</string>
     <string name="manage_subscriptions_header_subscriptions">Tellimused</string>
-    <string name="message_empty_comments">Seal on liiga\n vaikne.Kas sooviksid olla see, kes
-        kirjutab esimese kommentaari?
-    </string>
+    <string name="message_empty_comments">Seal on liiga\n vaikne.Kas sooviksid olla see, kes kirjutab esimese kommentaari?</string>
     <string name="message_empty_list">Elemendid näitamiseks</string>
     <string name="message_error_loading_comments">Kommentaaride laadimisel ilmnes tõrge.</string>
     <string name="message_generic_error">Üldine viga</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">p</string>
     <string name="profile_million_short">k</string>
     <string name="profile_month_short">k</string>
-    <string name="profile_not_logged_message">Sa pole praegu sisse logitud.Palun lisa\n jätkamiseks
-        kontot.
-    </string>
+    <string name="profile_not_logged_message">Sa pole praegu sisse logitud.Palun lisa\n jätkamiseks kontot.</string>
     <string name="profile_section_comments">Kommentaarid</string>
     <string name="profile_section_posts">Postid</string>
     <string name="profile_thousand_short">k</string>
@@ -219,8 +213,7 @@
     <string name="settings_hide_navigation_bar">Peida kerimisel navigeerimisriba</string>
     <string name="settings_zombie_mode_interval">Zombirežiimi intervalli kestus</string>
     <string name="settings_zombie_mode_scroll_amount">Zombirežiimi kerimise kogus</string>
-    <string name="settings_mark_as_read_while_scrolling">Märkige postitused kerimise ajal loetuks
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Märkige postitused kerimise ajal loetuks</string>
     <string name="action_quote">Tsiteeri</string>
     <string name="mod_action_allow">Luba kasutaja uuesti</string>
     <string name="mod_action_ban">Keelata kasutaja</string>
@@ -238,11 +231,7 @@
     <string name="report_list_type_unresolved">Lahendamata</string>
     <string name="report_action_resolve">Lahenda</string>
     <string name="report_action_unresolve">Tühista lahendamine</string>
-    <string name="sidebar_not_logged_message">Tere tulemast rakendusse Raccoon for
-        Lemmy!\n\nAnonüümses režiimis kasutage eksemplari muutmiseks ülalolevat rippmenüü nuppu
-        (▼).\n\nSaate oma instantsi sisse logida aadressil igal ajal profiiliekraanilt.\n\nNaudi
-        Lemmyt!
-    </string>
+    <string name="sidebar_not_logged_message">Tere tulemast rakendusse Raccoon for Lemmy!\n\nAnonüümses režiimis kasutage eksemplari muutmiseks ülalolevat rippmenüü nuppu (▼).\n\nSaate oma instantsi sisse logida aadressil igal ajal profiiliekraanilt.\n\nNaudi Lemmyt!</string>
     <string name="settings_default_inbox_type">Vaikepostkasti tüüp</string>
     <string name="mod_action_add_mod">Lisa moderaator</string>
     <string name="mod_action_remove_mod">Eemalda moderaator</string>
@@ -343,4 +332,5 @@
     <string name="moderator_zone_title">Tööriistad moderaatoritele</string>
     <string name="moderator_zone_action_comments">Modereeritud kommentaarid</string>
     <string name="moderator_zone_action_posts">Modereeritud postitused</string>
+    <string name="message_auth_issue">Kasutajaandmete toomisel ilmnes viga. Proovige ekraani värskendada</string>
 </resources>

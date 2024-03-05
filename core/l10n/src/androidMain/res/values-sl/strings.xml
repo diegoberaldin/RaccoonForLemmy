@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Vsi</string>
     <string name="inbox_listing_type_title">Vrsta mape »Prejeto«</string>
     <string name="inbox_listing_type_unread">Neprebrano</string>
-    <string name="inbox_not_logged_message">Trenutno niste prijavljeni.Dodajte račun\n na zaslonu
-        profila, da si ogledate svoj nabiralnik.
-    </string>
+    <string name="inbox_not_logged_message">Trenutno niste prijavljeni.Dodajte račun\n na zaslonu profila, da si ogledate svoj nabiralnik.</string>
     <string name="inbox_section_mentions">Opombe</string>
     <string name="inbox_section_messages">Sporočila</string>
     <string name="inbox_section_replies">Odgovori</string>
@@ -107,10 +105,9 @@
     <string name="manage_accounts_title">Upravljanje računov</string>
     <string name="manage_subscriptions_header_multicommunities">Več skupnosti</string>
     <string name="manage_subscriptions_header_subscriptions">Naročnine</string>
-    <string name="message_empty_comments">\n</string>
+    <string name="message_empty_comments">Tam je preveč tiho.\nBi želeli biti tisti, ki bo napisal prvi komentar?</string>
     <string name="message_empty_list">Ni elementov za prikaz</string>
-    <string name="message_error_loading_comments">Pri nalaganju komentarjev je prišlo do napake.
-    </string>
+    <string name="message_error_loading_comments">Pri nalaganju komentarjev je prišlo do napake.</string>
     <string name="message_generic_error">Splošna napaka</string>
     <string name="message_image_loading_error">Napaka pri nalaganju slike</string>
     <string name="message_invalid_field">Napačno polje</string>
@@ -143,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Trenutno niste prijavljeni.\nDodajte račun za
-        nadaljevanje.
-    </string>
+    <string name="profile_not_logged_message">Trenutno niste prijavljeni.\nDodajte račun za nadaljevanje.</string>
     <string name="profile_section_comments">Komentarji</string>
     <string name="profile_section_posts">Objave</string>
     <string name="profile_thousand_short">k</string>
@@ -185,8 +180,7 @@
     <string name="settings_content_font_smaller">Zelo majhen</string>
     <string name="settings_content_font_smallest">Dvojno, zelo majhno</string>
     <string name="settings_custom_seed_color">Barva teme po meri</string>
-    <string name="settings_default_comment_sort_type">Privzeta vrsta razvrščanja komentarjev
-    </string>
+    <string name="settings_default_comment_sort_type">Privzeta vrsta razvrščanja komentarjev</string>
     <string name="settings_default_listing_type">Privzeta vrsta vira</string>
     <string name="settings_default_post_sort_type">Privzeta vrsta razvrščanja prispevka</string>
     <string name="settings_downvote_color">Barva spodnjega glasu</string>
@@ -197,8 +191,7 @@
     <string name="settings_full_height_images">Slike polne višine</string>
     <string name="settings_include_nsfw">Vključite vsebino NSFW</string>
     <string name="settings_language">Jezik</string>
-    <string name="settings_navigation_bar_titles_visible">Prikaži naslove navigacijske vrstice
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Prikaži naslove navigacijske vrstice</string>
     <string name="settings_open_url_external">Odprite v zunanjem brskalniku</string>
     <string name="settings_points_short">tč</string>
     <string name="settings_post_layout">Postavitev</string>
@@ -220,8 +213,7 @@
     <string name="settings_hide_navigation_bar">Med pomikanjem skrij navigacijsko vrstico</string>
     <string name="settings_zombie_mode_interval">Trajanje intervala v zombi načinu</string>
     <string name="settings_zombie_mode_scroll_amount">Količina drsenja v zombi načinu</string>
-    <string name="settings_mark_as_read_while_scrolling">Med pomikanjem označi objave kot prebrane
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Med pomikanjem označi objave kot prebrane</string>
     <string name="action_quote">Kvota</string>
     <string name="mod_action_allow">Znova dovoli uporabniku</string>
     <string name="mod_action_ban">Izključi uporabnika</string>
@@ -239,10 +231,7 @@
     <string name="report_list_type_unresolved">Nerazrešeno</string>
     <string name="report_action_resolve">Reši</string>
     <string name="report_action_unresolve">Prekliči razrešitev</string>
-    <string name="sidebar_not_logged_message">Dobrodošli v Raccoon za Lemmyja!\n\nV anonimnem
-        načinu, uporabite spustni gumb (▼) zgoraj, da spremenite instanco.\n\nV svojo instanco se
-        lahko prijavite na kadar koli na zaslonu profila.\n\nUživajte v Lemmyju!
-    </string>
+    <string name="sidebar_not_logged_message">Dobrodošli v Raccoon za Lemmyja!\n\nV anonimnem načinu, uporabite spustni gumb (▼) zgoraj, da spremenite instanco.\n\nV svojo instanco se lahko prijavite na kadar koli na zaslonu profila.\n\nUživajte v Lemmyju!</string>
     <string name="settings_default_inbox_type">privzeta vrsta mape Prejeto</string>
     <string name="mod_action_add_mod">Dodaj moderatorja</string>
     <string name="mod_action_remove_mod">Odstrani moderatorja</string>
@@ -343,4 +332,5 @@
     <string name="moderator_zone_title">Orodja za moderatorje</string>
     <string name="moderator_zone_action_comments">Moderirani komentarji</string>
     <string name="moderator_zone_action_posts">Moderirane objave</string>
+    <string name="message_auth_issue">Pri pridobivanju uporabniških podatkov je prišlo do napake, poskusite osvežiti zaslon</string>
 </resources>

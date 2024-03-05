@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Všetky</string>
     <string name="inbox_listing_type_title">Typ doručenej pošty</string>
     <string name="inbox_listing_type_unread">Neprečítané</string>
-    <string name="inbox_not_logged_message">Momentálne nie ste prihlásený .Pridajte\nsi účet
-        z obrazovky profilu, aby ste videli svoju doručenú poštu.
-    </string>
+    <string name="inbox_not_logged_message">Momentálne nie ste prihlásený .Pridajte\nsi účet z obrazovky profilu, aby ste videli svoju doručenú poštu.</string>
     <string name="inbox_section_mentions">Zmienky o mne</string>
     <string name="inbox_section_messages">Správy</string>
     <string name="inbox_section_replies">Odpovede</string>
@@ -107,12 +105,9 @@
     <string name="manage_accounts_title">Správca účtov</string>
     <string name="manage_subscriptions_header_multicommunities">Multikomunity</string>
     <string name="manage_subscriptions_header_subscriptions">Predplatné</string>
-    <string name="message_empty_comments">Je tam príliš ticho.\nChceli by ste byť tým, kto
-        píše prvý komentár?
-    </string>
+    <string name="message_empty_comments">Je tam príliš ticho.\nChceli by ste byť tým, kto píše prvý komentár?</string>
     <string name="message_empty_list">Žiadne položky na zobrazenie</string>
-    <string name="message_error_loading_comments">Pri načítavaní komentárov sa vyskytla chyba.
-    </string>
+    <string name="message_error_loading_comments">Pri načítavaní komentárov sa vyskytla chyba.</string>
     <string name="message_generic_error">Všeobecná chyba</string>
     <string name="message_image_loading_error">Chyba načítania obrázka</string>
     <string name="message_invalid_field">Neplatné pole</string>
@@ -145,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Momentálne nie ste prihlásený.\nAk chcete pokračovať,
-        pridajte účet.
-    </string>
+    <string name="profile_not_logged_message">Momentálne nie ste prihlásený.\nAk chcete pokračovať, pridajte účet.</string>
     <string name="profile_section_comments">Pripomienky</string>
     <string name="profile_section_posts">Príspevky</string>
     <string name="profile_thousand_short">k</string>
@@ -179,8 +172,7 @@
     <string name="settings_color_red">🦀 Kúzelný krab</string>
     <string name="settings_color_white">🐼 Hýbavý hazardný</string>
     <string name="settings_content_font_large">Veľký</string>
-    <string name="settings_content_font_larger">Aviators: Zvýraznené nehnuteľnosti box veľký
-    </string>
+    <string name="settings_content_font_larger">Aviators: Zvýraznené nehnuteľnosti box veľký</string>
     <string name="settings_content_font_largest">Dvojité extra veľké</string>
     <string name="settings_content_font_normal">V norme</string>
     <string name="settings_content_font_scale">Veľkosť textu príspevkov</string>
@@ -221,9 +213,7 @@
     <string name="settings_hide_navigation_bar">Skryť navigačný panel pri rolovaní</string>
     <string name="settings_zombie_mode_interval">Trvanie intervalu režimu zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Množstvo posúvania v zombie režime</string>
-    <string name="settings_mark_as_read_while_scrolling">Označte príspevky ako prečítané pri
-        rolovaní
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Označte príspevky ako prečítané pri rolovaní</string>
     <string name="action_quote">Citovať</string>
     <string name="mod_action_allow">Znova povoliť používateľovi</string>
     <string name="mod_action_ban">Zakázať používateľovi</string>
@@ -241,10 +231,7 @@
     <string name="report_list_type_unresolved">Nevyriešené</string>
     <string name="report_action_resolve">Vyriešiť</string>
     <string name="report_action_unresolve">Nevyriešiť</string>
-    <string name="sidebar_not_logged_message">Vitajte v Raccoon for Lemmy!\n\nV anonymnom režime
-        použite rozbaľovacie tlačidlo (▼) vyššie na zmenu inštancie.\n\nDo svojej intancie sa môžete
-        prihlásiť na kedykoľvek z obrazovky profilu.\n\nUžite si Lemmyho!
-    </string>
+    <string name="sidebar_not_logged_message">Vitajte v Raccoon for Lemmy!\n\nV anonymnom režime použite rozbaľovacie tlačidlo (▼) vyššie na zmenu inštancie.\n\nDo svojej intancie sa môžete prihlásiť na kedykoľvek z obrazovky profilu.\n\nUžite si Lemmyho!</string>
     <string name="settings_default_inbox_type">Predvolený typ doručenej pošty</string>
     <string name="mod_action_add_mod">Pridať moderátora</string>
     <string name="mod_action_remove_mod">Odstrániť moderátora</string>
@@ -345,4 +332,5 @@
     <string name="moderator_zone_title">Nástroje pre moderátorov</string>
     <string name="moderator_zone_action_comments">Moderované komentáre</string>
     <string name="moderator_zone_action_posts">Moderované príspevky</string>
+    <string name="message_auth_issue">Pri načítavaní údajov používateľa sa vyskytla chyba, skúste obnoviť obrazovku</string>
 </resources>

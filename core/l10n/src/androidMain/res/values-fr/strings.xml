@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_unread">Non lus</string>
     <string name="inbox_action_mark_read">Marquer comme lu</string>
     <string name="inbox_action_mark_unread">Marquer comme non lu</string>
-    <string name="inbox_not_logged_message">Vous n\'êtes pas connecté.\nVeuillez ajouter un compte à
-        partir de l\'écran de profil pour voir votre boîte de réception.
-    </string>
+    <string name="inbox_not_logged_message">Vous n\'êtes pas connecté.\nVeuillez ajouter un compte à partir de l\'écran de profil pour voir votre boîte de réception.</string>
     <string name="inbox_section_mentions">Mentions</string>
     <string name="inbox_section_messages">Messages</string>
     <string name="inbox_section_replies">Réponses</string>
@@ -107,13 +105,9 @@
     <string name="manage_accounts_title">Gérer les comptes</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-communautés</string>
     <string name="manage_subscriptions_header_subscriptions">Abonnements</string>
-    <string name="message_empty_comments">C\'est trop silencieux ici.\nVoulez-vous être celui qui
-        écrit le premier commentaire ?
-    </string>
+    <string name="message_empty_comments">C\'est trop silencieux ici.\nVoulez-vous être celui qui écrit le premier commentaire ?</string>
     <string name="message_empty_list">Pas d\'éléments à afficher</string>
-    <string name="message_error_loading_comments">Une erreur s\'est produite lors du chargement des
-        commentaires.
-    </string>
+    <string name="message_error_loading_comments">Une erreur s\'est produite lors du chargement des commentaires.</string>
     <string name="message_generic_error">Erreur générique</string>
     <string name="message_image_loading_error">Erreur de chargement de l\'image</string>
     <string name="message_invalid_field">Champ invalide</string>
@@ -146,9 +140,7 @@
     <string name="profile_day_short">j</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Vous n\'êtes pas connecté.\nVeuillez ajouter un compte
-        pour continuer.
-    </string>
+    <string name="profile_not_logged_message">Vous n\'êtes pas connecté.\nVeuillez ajouter un compte pour continuer.</string>
     <string name="profile_section_comments">Commentaires</string>
     <string name="profile_section_posts">Publications</string>
     <string name="profile_thousand_short">k</string>
@@ -218,13 +210,10 @@
     <string name="settings_ui_font_scale">Taille de texte de l\'interface</string>
     <string name="settings_ui_theme">Thème de l\'interface</string>
     <string name="settings_upvote_color">Couleur votes positifs</string>
-    <string name="settings_hide_navigation_bar">Masquer la barre de navigation lors du défilement
-    </string>
+    <string name="settings_hide_navigation_bar">Masquer la barre de navigation lors du défilement</string>
     <string name="settings_zombie_mode_interval">Durée de l\'intervalle du mode zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
-    <string name="settings_mark_as_read_while_scrolling">Marquer les messages comme lus lors du
-        défilement
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Marquer les messages comme lus lors du défilement</string>
     <string name="action_quote">Citer</string>
     <string name="mod_action_allow">Réautoriser l\'utilisateur</string>
     <string name="mod_action_ban">Bannir l\'utilisateur</string>
@@ -242,10 +231,7 @@
     <string name="report_list_type_unresolved">Non résolu</string>
     <string name="report_action_resolve">Résoudre</string>
     <string name="report_action_unresolve">Ne pas résoudre</string>
-    <string name="sidebar_not_logged_message">Bienvenus sur Raccoon pour Lemmy !\n\nEn mode anonyme,
-        utilisez le bouton déroulant (▼) ci-dessus pour changer d\'instance.\n\nVous pouvez vous
-        connecter à votre instance à tout moment depuis l\'écran Profil.\n\nProfitez de Lemmy !
-    </string>
+    <string name="sidebar_not_logged_message">Bienvenus sur Raccoon pour Lemmy !\n\nEn mode anonyme, utilisez le bouton déroulant (▼) ci-dessus pour changer d\'instance.\n\nVous pouvez vous connecter à votre instance à tout moment depuis l\'écran Profil.\n\nProfitez de Lemmy !</string>
     <string name="settings_default_inbox_type">Type de boîte par défaut</string>
     <string name="mod_action_add_mod">Ajouter modérateur</string>
     <string name="mod_action_remove_mod">Supprimer modérateur</string>
@@ -262,9 +248,7 @@
     <string name="settings_comment_bar_theme_multi">🌈 Arc-en-ciel</string>
     <string name="message_confirm_exit">Appuyez à nouveau sur 🔙 pour quitter</string>
     <string name="community_action_unsubscribe">Se désabonner</string>
-    <string name="settings_search_posts_title_only">Rechercher les publications uniquement dans le
-        titre
-    </string>
+    <string name="settings_search_posts_title_only">Rechercher les publications uniquement dans le titre</string>
     <string name="settings_content_font_family">Police des contenus</string>
     <string name="community_info_moderators">Modérateurs</string>
     <string name="community_action_add_favorite">Ajouter aux favoris</string>
@@ -348,4 +332,5 @@
     <string name="moderator_zone_title">Outils pour les modérateurs</string>
     <string name="moderator_zone_action_comments">Commentaires à modérer</string>
     <string name="moderator_zone_action_posts">Publications à modérer</string>
+    <string name="message_auth_issue">Une erreur s\'est produite lors de la récupération des données utilisateur, essayez d\'actualiser l\'écran</string>
 </resources>

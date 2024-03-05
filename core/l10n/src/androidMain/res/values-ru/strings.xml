@@ -88,9 +88,7 @@
     <string name="inbox_listing_type_all">Все</string>
     <string name="inbox_listing_type_title">Тип папки «Входящие»</string>
     <string name="inbox_listing_type_unread">Не прочитано</string>
-    <string name="inbox_not_logged_message">Вы еще не вошли в систему.\nДобавьте аккаунт
-        на экране профиля, чтобы увидеть папку «Входящие».
-    </string>
+    <string name="inbox_not_logged_message">Вы еще не вошли в систему.\nДобавьте аккаунт на экране профиля, чтобы увидеть папку «Входящие».</string>
     <string name="inbox_section_mentions">Упоминания</string>
     <string name="inbox_section_messages">Сообщения</string>
     <string name="inbox_section_replies">Ответы</string>
@@ -106,12 +104,9 @@
     <string name="manage_accounts_title">Управление учётными записями</string>
     <string name="manage_subscriptions_header_multicommunities">Мульти-сообщества</string>
     <string name="manage_subscriptions_header_subscriptions">Подписки</string>
-    <string name="message_empty_comments">Там слишком тихо.\nХотели бы вы быть тем, кто
-        пишет первый комментарий?
-    </string>
+    <string name="message_empty_comments">Там слишком тихо.\nХотели бы вы быть тем, кто пишет первый комментарий?</string>
     <string name="message_empty_list">Нет элементов для отображения</string>
-    <string name="message_error_loading_comments">Произошла ошибка при загрузке комментариев.
-    </string>
+    <string name="message_error_loading_comments">Произошла ошибка при загрузке комментариев.</string>
     <string name="message_generic_error">Общая ошибка</string>
     <string name="message_image_loading_error">Ошибка загрузки изображения</string>
     <string name="message_invalid_field">Неправильное поле</string>
@@ -144,9 +139,7 @@
     <string name="profile_day_short">д</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">м</string>
-    <string name="profile_not_logged_message">Вы еще не вошли в систему.\nДобавьте
-        учетной записи, чтобы продолжить.
-    </string>
+    <string name="profile_not_logged_message">Вы еще не вошли в систему.\nДобавьте учетной записи, чтобы продолжить.</string>
     <string name="profile_section_comments">Комментарии</string>
     <string name="profile_section_posts">Записи</string>
     <string name="profile_thousand_short">k</string>
@@ -186,8 +179,7 @@
     <string name="settings_content_font_smaller">Очень маленький</string>
     <string name="settings_content_font_smallest">Double Extra Small</string>
     <string name="settings_custom_seed_color">Пользовательский цвет темы</string>
-    <string name="settings_default_comment_sort_type">Тип сортировки комментариев по умолчанию
-    </string>
+    <string name="settings_default_comment_sort_type">Тип сортировки комментариев по умолчанию</string>
     <string name="settings_default_listing_type">Тип ленты по умолчанию</string>
     <string name="settings_default_post_sort_type">Тип сортировки</string>
     <string name="settings_downvote_color">Цвет Downvote</string>
@@ -198,8 +190,7 @@
     <string name="settings_full_height_images">Изображения в полный рост</string>
     <string name="settings_include_nsfw">Включить содержимое NSFW</string>
     <string name="settings_language">Язык</string>
-    <string name="settings_navigation_bar_titles_visible">Показать заголовки панели навигации
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Показать заголовки панели навигации</string>
     <string name="settings_open_url_external">Открыть во внешнем браузере</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Шаблон записи</string>
@@ -221,9 +212,7 @@
     <string name="settings_hide_navigation_bar">Скрыть панель навигации при прокрутке</string>
     <string name="settings_zombie_mode_interval">Продолжительность интервала зомби-режима</string>
     <string name="settings_zombie_mode_scroll_amount">Количество прокруток в зомби-режиме</string>
-    <string name="settings_mark_as_read_while_scrolling">Отметить записи как прочитанные при
-        прокрутке
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Отметить записи как прочитанные при прокрутке</string>
     <string name="action_quote">Цитата</string>
     <string name="mod_action_allow">Разрешить пользователю снова</string>
     <string name="mod_action_ban">Забанить пользователя</string>
@@ -241,11 +230,7 @@
     <string name="report_list_type_unresolved">Не устранено</string>
     <string name="report_action_resolve">Решимость</string>
     <string name="report_action_unresolve">Разутвердить</string>
-    <string name="sidebar_not_logged_message">Добро пожаловать в Енот для Лемми!\n\nВ анонимном
-        режиме используйте кнопку раскрывающегося списка (▼) выше,
-        чтобы изменить экземпляр.\n\nВы можете войти в систему по адресу
-        в любое время на экране профиля.\n\nНаслаждайтесь Лемми!
-    </string>
+    <string name="sidebar_not_logged_message">Добро пожаловать в Енот для Лемми!\n\nВ анонимном режиме используйте кнопку раскрывающегося списка (▼) выше, чтобы изменить экземпляр.\n\nВы можете войти в систему по адресу в любое время на экране профиля.\n\nНаслаждайтесь Лемми!</string>
     <string name="settings_default_inbox_type">Тип почтового ящика по умолчанию</string>
     <string name="mod_action_add_mod">Добавить модератора</string>
     <string name="mod_action_remove_mod">Удалить модератора</string>
@@ -304,8 +289,7 @@
     <string name="settings_web_show_bot">Показать аккаунты ботов</string>
     <string name="settings_web_show_nsfw">Показать НФВ</string>
     <string name="settings_web_show_read">Показать прочитанные сообщения</string>
-    <string name="settings_web_email_notifications">Отправлять уведомления по электронной почте
-    </string>
+    <string name="settings_web_email_notifications">Отправлять уведомления по электронной почте</string>
     <string name="settings_manage_ban">Баны и фильтры</string>
     <string name="settings_manage_ban_action_unban">Снять бан</string>
     <string name="settings_manage_ban_section_instances">Экземпляры</string>
@@ -347,4 +331,5 @@
     <string name="moderator_zone_title">Инструменты для модераторов</string>
     <string name="moderator_zone_action_comments">Модерируемые комментарии</string>
     <string name="moderator_zone_action_posts">Модерируемые сообщения</string>
+    <string name="message_auth_issue">Произошла ошибка при получении пользовательских данных. Попробуйте обновить экран.</string>
 </resources>

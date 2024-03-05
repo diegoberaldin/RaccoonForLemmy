@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_unread">Non letti</string>
     <string name="inbox_action_mark_read">Segna come letto</string>
     <string name="inbox_action_mark_unread">Segna come non letto</string>
-    <string name="inbox_not_logged_message">Login non effettuato.\nAggiungi un account dalla
-        schermata Profilo per accedere alla inbox.
-    </string>
+    <string name="inbox_not_logged_message">Login non effettuato.\nAggiungi un account dalla schermata Profilo per accedere alla inbox.</string>
     <string name="inbox_section_mentions">Menzioni</string>
     <string name="inbox_section_messages">Messaggi</string>
     <string name="inbox_section_replies">Risposte</string>
@@ -107,13 +105,9 @@
     <string name="manage_accounts_title">Gestisci account</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-comunità</string>
     <string name="manage_subscriptions_header_subscriptions">Iscrizioni</string>
-    <string name="message_empty_comments">È tutto troppo calmo da queste parti.\nVorresti essere tu
-        a scrivere il primo commento?
-    </string>
+    <string name="message_empty_comments">È tutto troppo calmo da queste parti.\nVorresti essere tu a scrivere il primo commento?</string>
     <string name="message_empty_list">Nessun elemento da visualizzare</string>
-    <string name="message_error_loading_comments">Si è verificato un errore nel caricamento dei
-        commenti.
-    </string>
+    <string name="message_error_loading_comments">Si è verificato un errore nel caricamento dei commenti.</string>
     <string name="message_generic_error">Errore generico</string>
     <string name="message_image_loading_error">Errore caricamento immagine</string>
     <string name="message_invalid_field">Campo non valido</string>
@@ -146,9 +140,7 @@
     <string name="profile_day_short">g</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Login non effettuato.\nAggiungi un account per
-        continuare.
-    </string>
+    <string name="profile_not_logged_message">Login non effettuato.\nAggiungi un account per continuare.</string>
     <string name="profile_section_comments">Commenti</string>
     <string name="profile_section_posts">Post</string>
     <string name="profile_thousand_short">k</string>
@@ -199,8 +191,7 @@
     <string name="settings_full_height_images">Altezza completa immagini</string>
     <string name="settings_include_nsfw">Includi contenuti NSFW</string>
     <string name="settings_language">Lingua</string>
-    <string name="settings_navigation_bar_titles_visible">Mostra titoli barra di navigazione
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Mostra titoli barra di navigazione</string>
     <string name="settings_open_url_external">Apri URL su browser esterno</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Layout post</string>
@@ -219,12 +210,10 @@
     <string name="settings_ui_font_scale">Dimensione testo UI</string>
     <string name="settings_ui_theme">Tema interfaccia</string>
     <string name="settings_upvote_color">Colore voti positivi</string>
-    <string name="settings_hide_navigation_bar">Nascondi barra di navigazione durante lo scroll
-    </string>
+    <string name="settings_hide_navigation_bar">Nascondi barra di navigazione durante lo scroll</string>
     <string name="settings_zombie_mode_interval">Durata intevallo modalità zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Ampiezza scroll modalità zombie</string>
-    <string name="settings_mark_as_read_while_scrolling">Segna post come letti durante lo scroll
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Segna post come letti durante lo scroll</string>
     <string name="action_quote">Cita</string>
     <string name="mod_action_allow">Riammetti utente</string>
     <string name="mod_action_ban">Banna utente</string>
@@ -242,11 +231,7 @@
     <string name="report_list_type_unresolved">Non risolte</string>
     <string name="report_action_resolve">Segna come risolto</string>
     <string name="report_action_unresolve">Segna come non risolto</string>
-    <string name="sidebar_not_logged_message">Benvenuto su Raccoon for Lemmy!\n\nIn modalità
-        anonima, utilizza il pulsante di selezione (▼) qui sopra per cambiare istanza.\n\nPuoi
-        effettuare il login sulla tua istanza in qualsiasi momento dalla schermata
-        Profilo.\n\nDivertiti su Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Benvenuto su Raccoon for Lemmy!\n\nIn modalità anonima, utilizza il pulsante di selezione (▼) qui sopra per cambiare istanza.\n\nPuoi effettuare il login sulla tua istanza in qualsiasi momento dalla schermata Profilo.\n\nDivertiti su Lemmy!</string>
     <string name="settings_default_inbox_type">Tipo inbox predefinito</string>
     <string name="mod_action_add_mod">Aggiungi moderatore</string>
     <string name="mod_action_remove_mod">Rimuovi moderatore</string>
@@ -347,4 +332,5 @@
     <string name="moderator_zone_title">Strumenti per moderatori</string>
     <string name="moderator_zone_action_comments">Commenti da moderare</string>
     <string name="moderator_zone_action_posts">Post da moderare</string>
+    <string name="message_auth_issue">Si è verificato un errore nel recupero dei dati utente, fare refresh della schermata</string>
 </resources>

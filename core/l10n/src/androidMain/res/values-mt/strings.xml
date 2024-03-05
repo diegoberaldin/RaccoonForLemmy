@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Kollha</string>
     <string name="inbox_listing_type_title">Tip ta\' Inbox</string>
     <string name="inbox_listing_type_unread">Mhux moqri</string>
-    <string name="inbox_not_logged_message">Bħalissa m\' intix illoggjat.Jekk\n jogħġbok żid kont
-        mill-iskrin tal-profil biex tara l-inbox tiegħek.
-    </string>
+    <string name="inbox_not_logged_message">Bħalissa m\' intix illoggjat.Jekk\n jogħġbok żid kont mill-iskrin tal-profil biex tara l-inbox tiegħek.</string>
     <string name="inbox_section_mentions">Suġġerimenti</string>
     <string name="inbox_section_messages">Messaġġi</string>
     <string name="inbox_section_replies">Tweġibiet</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Immaniġġja l-kontijiet</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-komunitajiet</string>
     <string name="manage_subscriptions_header_subscriptions">Sottoskrizzjonijiet</string>
-    <string name="message_empty_comments">Hija wisq siekta\n hemmhekk.Tixtieq tkun dik li
-        tikteb l-ewwel kumment?
-    </string>
+    <string name="message_empty_comments">Hija wisq siekta\n hemmhekk.Tixtieq tkun dik li tikteb l-ewwel kumment?</string>
     <string name="message_empty_list">L-ebda oġġett biex jintwera</string>
     <string name="message_error_loading_comments">Seħħ żball fit-tlugħ tal-kummenti.</string>
     <string name="message_generic_error">Żball ġeneriku</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Bħalissa m\' intix illoggjat.Jekk\n jogħġbok żid
-        kont biex tkompli.
-    </string>
+    <string name="profile_not_logged_message">Bħalissa m\' intix illoggjat.Jekk\n jogħġbok żid kont biex tkompli.</string>
     <string name="profile_section_comments">Kummenti</string>
     <string name="profile_section_posts">Postijet</string>
     <string name="profile_thousand_short">k</string>
@@ -186,8 +180,7 @@
     <string name="settings_content_font_smaller">Iktar żgħir</string>
     <string name="settings_content_font_smallest">Żgħir żejjed doppju</string>
     <string name="settings_custom_seed_color">Kulur tat-tema personalizzat</string>
-    <string name="settings_default_comment_sort_type">Tip ta\' għażla ta\' kummenti prestabbiliti
-    </string>
+    <string name="settings_default_comment_sort_type">Tip ta\' għażla ta\' kummenti prestabbiliti</string>
     <string name="settings_default_listing_type">Tip ta\' feed standard</string>
     <string name="settings_default_post_sort_type">Tip ta\' tqassim ta\' postijiet standard</string>
     <string name="settings_downvote_color">Kulur \'l isfel fil-vot</string>
@@ -198,8 +191,7 @@
     <string name="settings_full_height_images">Stampi b\' għoli sħiħ</string>
     <string name="settings_include_nsfw">Inkludi l-kontenut tal-NSFW</string>
     <string name="settings_language">Lingwa</string>
-    <string name="settings_navigation_bar_titles_visible">Uri l-ismijiet tal-bar tan-navigazzjoni
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Uri l-ismijiet tal-bar tan-navigazzjoni</string>
     <string name="settings_open_url_external">Iftaħ il-URLs fil-brawżer estern</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Tqassim tal-post</string>
@@ -218,15 +210,10 @@
     <string name="settings_ui_font_scale">Daqs tat-test tal-UI</string>
     <string name="settings_ui_theme">Tema tal-IU</string>
     <string name="settings_upvote_color">Agħti l-vot bil-kulur</string>
-    <string name="settings_hide_navigation_bar">Aħbi l-bar tan-navigazzjoni waqt li tkun qed
-        tiskrollja
-    </string>
+    <string name="settings_hide_navigation_bar">Aħbi l-bar tan-navigazzjoni waqt li tkun qed tiskrollja</string>
     <string name="settings_zombie_mode_interval">Tul tal-intervall tal-modalità Zombie</string>
-    <string name="settings_zombie_mode_scroll_amount">Ammont ta\' skrolljar tal-modalità Zombie
-    </string>
-    <string name="settings_mark_as_read_while_scrolling">Immarka l-postijiet bħala moqrija waqt li
-        tkun qed tiskrollja
-    </string>
+    <string name="settings_zombie_mode_scroll_amount">Ammont ta\' skrolljar tal-modalità Zombie</string>
+    <string name="settings_mark_as_read_while_scrolling">Immarka l-postijiet bħala moqrija waqt li tkun qed tiskrollja</string>
     <string name="action_quote">Kwotazzjoni</string>
     <string name="mod_action_allow">Jippermetti lill-utent mill-ġdid</string>
     <string name="mod_action_ban">Tipprojbixxi l-utent</string>
@@ -244,10 +231,7 @@
     <string name="report_list_type_unresolved">Mhux solvut</string>
     <string name="report_action_resolve">Issolvi</string>
     <string name="report_action_unresolve">Neħħi s-soluzzjoni</string>
-    <string name="sidebar_not_logged_message">Merħba f\' Raccoon for Lemmy!\n\nBil-modalità anonima,
-        uża l-buttuna drop-down (▼) t\' hawn fuq biex tibdel il-mument.\n\nTista\' tidħol
-        fl-intenzjoni tiegħek fuq fi kwalunkwe ħin\n\n mill-iskrintal-Profil.\n\nEnjoy Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Merħba f\' Raccoon for Lemmy!\n\nBil-modalità anonima, uża l-buttuna drop-down (▼) t\' hawn fuq biex tibdel il-mument.\n\nTista\' tidħol fl-intenzjoni tiegħek fuq fi kwalunkwe ħin\n\n mill-iskrintal-Profil.\n\nEnjoy Lemmy!</string>
     <string name="settings_default_inbox_type">Tip default ta \'inbox</string>
     <string name="mod_action_add_mod">Żid moderatur</string>
     <string name="mod_action_remove_mod">Neħħi moderatur</string>
@@ -348,4 +332,5 @@
     <string name="moderator_zone_title">Għodda għall-moderaturi</string>
     <string name="moderator_zone_action_comments">Kummenti moderati</string>
     <string name="moderator_zone_action_posts">Postijiet moderati</string>
+    <string name="message_auth_issue">Żball seħħ waqt li ġġib id-dejta tal-utent, ipprova aġġorna l-iskrin</string>
 </resources>

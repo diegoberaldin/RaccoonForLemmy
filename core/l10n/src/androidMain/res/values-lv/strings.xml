@@ -89,10 +89,7 @@
     <string name="inbox_listing_type_all">Viss</string>
     <string name="inbox_listing_type_title">Iesūtnes veids</string>
     <string name="inbox_listing_type_unread">Nelasīts</string>
-    <string name="inbox_not_logged_message">Jūs pašlaik neesat pieteicies.Lūdzu,\n pievienojiet
-        kontu
-        profila ekrānā, lai redzētu iesūtni.
-    </string>
+    <string name="inbox_not_logged_message">Jūs pašlaik neesat pieteicies.Lūdzu,\n pievienojiet kontu profila ekrānā, lai redzētu iesūtni.</string>
     <string name="inbox_section_mentions">Pieminējumi</string>
     <string name="inbox_section_messages">Ziņojumi</string>
     <string name="inbox_section_replies">Atbildes</string>
@@ -108,9 +105,7 @@
     <string name="manage_accounts_title">Kontu vadība</string>
     <string name="manage_subscriptions_header_multicommunities">Vairākas kopienas</string>
     <string name="manage_subscriptions_header_subscriptions">Abonementi</string>
-    <string name="message_empty_comments">Tur ir pārāk\n kluss.Vai jūsvēlētos būt tas, kurš
-        raksta pirmo komentāru?
-    </string>
+    <string name="message_empty_comments">Tur ir pārāk\n kluss.Vai jūsvēlētos būt tas, kurš raksta pirmo komentāru?</string>
     <string name="message_empty_list">Nav parādāmu vienumu</string>
     <string name="message_error_loading_comments">Ielādējot komentārus, radās kļūda.</string>
     <string name="message_generic_error">Vispārēja kļūda</string>
@@ -145,9 +140,7 @@
     <string name="profile_day_short">d.</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Jūs pašlaik neesat pieteicies.\nLūdzu, pievienojiet
-        kontā, lai turpinātu.
-    </string>
+    <string name="profile_not_logged_message">Jūs pašlaik neesat pieteicies.\nLūdzu, pievienojiet kontā, lai turpinātu.</string>
     <string name="profile_section_comments">Komentāri</string>
     <string name="profile_section_posts">Ieraksti</string>
     <string name="profile_thousand_short">k</string>
@@ -187,8 +180,7 @@
     <string name="settings_content_font_smaller">Ekstra mazs</string>
     <string name="settings_content_font_smallest">Divvietīgs, īpaši mazs</string>
     <string name="settings_custom_seed_color">Pielāgota dizaina krāsa</string>
-    <string name="settings_default_comment_sort_type">Noklusējuma komentāru kārtošanas veids
-    </string>
+    <string name="settings_default_comment_sort_type">Noklusējuma komentāru kārtošanas veids</string>
     <string name="settings_default_listing_type">Noklusējuma plūsmas veids</string>
     <string name="settings_default_post_sort_type">Noklusējuma ziņu kārtošanas veids</string>
     <string name="settings_downvote_color">Lejupvērstās balss krāsa</string>
@@ -199,8 +191,7 @@
     <string name="settings_full_height_images">Attēli pilnā augumā</string>
     <string name="settings_include_nsfw">Iekļaut NSFW saturu</string>
     <string name="settings_language">Valoda</string>
-    <string name="settings_navigation_bar_titles_visible">Rādīt navigācijas joslu virsrakstus
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Rādīt navigācijas joslu virsrakstus</string>
     <string name="settings_open_url_external">Atvērt pārlūkā</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Ieraksta Izkārtojums</string>
@@ -219,13 +210,10 @@
     <string name="settings_ui_font_scale">Lietotāja interfeisa teksta lielums</string>
     <string name="settings_ui_theme">UI tēmas</string>
     <string name="settings_upvote_color">Upvote krāsa</string>
-    <string name="settings_hide_navigation_bar">Ritinot paslēpt navigācijas ritināšanas laikā
-    </string>
+    <string name="settings_hide_navigation_bar">Ritinot paslēpt navigācijas ritināšanas laikā</string>
     <string name="settings_zombie_mode_interval">Zombiju režīma intervāla ilgums</string>
     <string name="settings_zombie_mode_scroll_amount">Zombiju režīma ritināšanas apjoms</string>
-    <string name="settings_mark_as_read_while_scrolling">Atzīmējiet ziņas kā izlasītas ritināšanas
-        laikā
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Atzīmējiet ziņas kā izlasītas ritināšanas laikā</string>
     <string name="action_quote">Citāts</string>
     <string name="mod_action_allow">Ļaut lietotājam vēlreiz</string>
     <string name="mod_action_ban">Aizliegt lietotāju</string>
@@ -243,10 +231,7 @@
     <string name="report_list_type_unresolved">Neatrisināts</string>
     <string name="report_action_resolve">Atrisināt</string>
     <string name="report_action_unresolve">Neatrisināts</string>
-    <string name="sidebar_not_logged_message">Laipni lūdzam Raccoon for Lemmy!\n\nAnonīmā režīmā,
-        izmantojiet augstāk esošo nolaižamās izvēlnes pogu (▼), lai mainītu gadījumu.\n\nJūs varat
-        pieteikties savā pieteikumā vietnē jebkurā laikā no profila ekrāna.\n\nIzbaudiet Lemiju!
-    </string>
+    <string name="sidebar_not_logged_message">Laipni lūdzam Raccoon for Lemmy!\n\nAnonīmā režīmā, izmantojiet augstāk esošo nolaižamās izvēlnes pogu (▼), lai mainītu gadījumu.\n\nJūs varat pieteikties savā pieteikumā vietnē jebkurā laikā no profila ekrāna.\n\nIzbaudiet Lemiju!</string>
     <string name="settings_default_inbox_type">Noklusējuma iesūtnes veids</string>
     <string name="mod_action_add_mod">Pievienot moderatoru</string>
     <string name="mod_action_remove_mod">Noņemt moderatoru</string>
@@ -347,4 +332,5 @@
     <string name="moderator_zone_title">Rīki moderatoriem</string>
     <string name="moderator_zone_action_comments">Regulēti komentāri</string>
     <string name="moderator_zone_action_posts">Regulētas ziņas</string>
+    <string name="message_auth_issue">Ienesot lietotāja datus, radās kļūda. Mēģiniet atsvaidzināt ekrānu</string>
 </resources>

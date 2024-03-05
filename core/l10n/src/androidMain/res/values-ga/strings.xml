@@ -13,8 +13,7 @@
     <string name="button_reset">Athshocraigh</string>
     <string name="button_retry">Atriail</string>
     <string name="comment_action_delete">Scrios</string>
-    <string name="community_detail_block">BlocThe shape of the cursor, similar to a capital I
-    </string>
+    <string name="community_detail_block">Bloc</string>
     <string name="community_detail_block_instance">Blocshampla</string>
     <string name="community_detail_info">Eolas pobail</string>
     <string name="community_detail_instance_info">Sonraí an cháis</string>
@@ -89,13 +88,8 @@
     <string name="inbox_item_reply_post">d\'fhreagair sé do phostáil i</string>
     <string name="inbox_listing_type_all">Gach</string>
     <string name="inbox_listing_type_title">Cineál an bhosca isteach</string>
-    <string name="inbox_listing_type_unread">Gan Léamh@ title: column Column showing the total
-        number of messages
-    </string>
-    <string name="inbox_not_logged_message">Níl tú logáilte isteach faoi láthair.\nCuir cuntas leis,
-        le
-        do thoil ón scáileán próifíle chun do bhosca isteach a fheiceáil.
-    </string>
+    <string name="inbox_listing_type_unread">Gan Léamh</string>
+    <string name="inbox_not_logged_message">Níl tú logáilte isteach faoi láthair.\nCuir cuntas leis, le do thoil ón scáileán próifíle chun do bhosca isteach a fheiceáil.</string>
     <string name="inbox_section_mentions">Luaigh</string>
     <string name="inbox_section_messages">Teachtaireachtaí</string>
     <string name="inbox_section_replies">Freagraí</string>
@@ -111,9 +105,7 @@
     <string name="manage_accounts_title">Cuntais a bhainistiú</string>
     <string name="manage_subscriptions_header_multicommunities">Ilphobail</string>
     <string name="manage_subscriptions_header_subscriptions">Suibscríobh</string>
-    <string name="message_empty_comments">Tásé ró - thost ann.\nAr mhaith leat a bheith ar an duine
-        a scríobhann an chéad trácht?
-    </string>
+    <string name="message_empty_comments">Tásé ró - thost ann.\nAr mhaith leat a bheith ar an duine a scríobhann an chéad trácht?</string>
     <string name="message_empty_list">Níl aon earraí le taispeáint</string>
     <string name="message_error_loading_comments">Tharla earráid agus tuairimí á luchtú.</string>
     <string name="message_generic_error">Earráid ghinearálta</string>
@@ -148,10 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Níl tú logáilte isteach faoi láthair.\nCuir cuntas
-        leis,
-        le do thoil, chun leanúint ar aghaidh.
-    </string>
+    <string name="profile_not_logged_message">Níl tú logáilte isteach faoi láthair.\nCuir cuntas leis, le do thoil, chun leanúint ar aghaidh.</string>
     <string name="profile_section_comments">Nótaí</string>
     <string name="profile_section_posts">Postálacha</string>
     <string name="profile_thousand_short">k</string>
@@ -191,8 +180,7 @@
     <string name="settings_content_font_smaller">An - bheag</string>
     <string name="settings_content_font_smallest">Dhá oiread beag breise</string>
     <string name="settings_custom_seed_color">Dath saincheaptha an téama</string>
-    <string name="settings_default_comment_sort_type">Cineál sórtála réamhshocraithe tráchta
-    </string>
+    <string name="settings_default_comment_sort_type">Cineál sórtála réamhshocraithe tráchta</string>
     <string name="settings_default_listing_type">Cineál fotha réamhshocraithe</string>
     <string name="settings_default_post_sort_type">Cineál sórtála réamhshocraithe poist</string>
     <string name="settings_downvote_color">Dath Downvote</string>
@@ -203,8 +191,7 @@
     <string name="settings_full_height_images">Íomhánna lánairde</string>
     <string name="settings_include_nsfw">Cuir ábhar NSFW san áireamh</string>
     <string name="settings_language">Teangacha</string>
-    <string name="settings_navigation_bar_titles_visible">Taispeáin teidil an bharra nascleanúna
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Taispeáin teidil an bharra nascleanúna</string>
     <string name="settings_open_url_external">Oscail i mBrabhsálaí Seachtrach</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Leagan amach an phoist</string>
@@ -223,13 +210,10 @@
     <string name="settings_ui_font_scale">Méid théacs an chomhéadain</string>
     <string name="settings_ui_theme">Téama an Chomhéadain</string>
     <string name="settings_upvote_color">Dath uasvótála</string>
-    <string name="settings_hide_navigation_bar">Folaigh an barra nascleanúna agus tú ag scrollú
-    </string>
+    <string name="settings_hide_navigation_bar">Folaigh an barra nascleanúna agus tú ag scrollú</string>
     <string name="settings_zombie_mode_interval">Fad eatramh an mhóid Zombaí</string>
     <string name="settings_zombie_mode_scroll_amount">Méid scrollaithe an mhóid Zombie</string>
-    <string name="settings_mark_as_read_while_scrolling">Marcáil postálacha mar léite agus tú ag
-        scrollú
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Marcáil postálacha mar léite agus tú ag scrollú</string>
     <string name="action_quote">Athfhriotail</string>
     <string name="mod_action_allow">Cead a thabhairt don úsáideoir arís</string>
     <string name="mod_action_ban">Toirmeasc ar úsáideoir</string>
@@ -247,12 +231,8 @@
     <string name="report_list_type_unresolved">Gan réiteach</string>
     <string name="report_action_resolve">Réitigh</string>
     <string name="report_action_unresolve">Díréitigh</string>
-    <string name="sidebar_not_logged_message">Fáilte go Raccoon for Lemmy!\n\nMód gan ainm,
-        úsáid an cnaipe anuas (▼) thuas chun cás a athrú.\n\nIs féidir leat logáil isteach ag
-        am ar bith ón scáileán Próifíl.\n\nBain sult as Lemmy!
-    </string>
-    <string name="settings_default_inbox_type">Cineál an bhosca isteach réamhshocraithe
-    </string>
+    <string name="sidebar_not_logged_message">Fáilte go Raccoon for Lemmy!\n\nMód gan ainm, úsáid an cnaipe anuas (▼) thuas chun cás a athrú.\n\nIs féidir leat logáil isteach ag am ar bith ón scáileán Próifíl.\n\nBain sult as Lemmy!</string>
+    <string name="settings_default_inbox_type">Cineál an bhosca isteach réamhshocraithe</string>
     <string name="mod_action_add_mod">Modhnóir a chur leis</string>
     <string name="mod_action_remove_mod">Bain modhnóir</string>
     <string name="settings_vote_format">Formáid vóta</string>
@@ -352,4 +332,5 @@
     <string name="moderator_zone_title">Uirlisí le haghaidh modhnóirí</string>
     <string name="moderator_zone_action_comments">Tráchtanna modhnaithe</string>
     <string name="moderator_zone_action_posts">Poist mhodhnaithe</string>
+    <string name="message_auth_issue">Tharla earráid agus sonraí úsáideora á bhfáil agat, bain triail as an scáileán a athnuachan</string>
 </resources>

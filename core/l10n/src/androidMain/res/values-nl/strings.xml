@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_unread">Ongelezen</string>
     <string name="inbox_action_mark_read">Markeren als gelezen</string>
     <string name="inbox_action_mark_unread">Markeren als ongelezen</string>
-    <string name="inbox_not_logged_message">U bent momenteel niet ingelogd.\nVoeg een account toe
-        vanuit het profielscherm om je inbox te zien.
-    </string>
+    <string name="inbox_not_logged_message">U bent momenteel niet ingelogd.\nVoeg een account toe vanuit het profielscherm om je inbox te zien.</string>
     <string name="inbox_section_mentions">Vermeldingen</string>
     <string name="inbox_section_messages">Berichten</string>
     <string name="inbox_section_replies">Antwoorden</string>
@@ -107,13 +105,9 @@
     <string name="manage_accounts_title">Beheer accounts</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-gemeenschappen</string>
     <string name="manage_subscriptions_header_subscriptions">Abonnementen</string>
-    <string name="message_empty_comments">Het is daar te stil.\nZou jij degene willen zijn die de
-        eerste opmerking schrijft?
-    </string>
+    <string name="message_empty_comments">Het is daar te stil.\nZou jij degene willen zijn die de eerste opmerking schrijft?</string>
     <string name="message_empty_list">Geen items om weer te geven</string>
-    <string name="message_error_loading_comments">Er is een fout opgetreden bij het laden van
-        opmerkingen.
-    </string>
+    <string name="message_error_loading_comments">Er is een fout opgetreden bij het laden van opmerkingen.</string>
     <string name="message_generic_error">Algemene fout</string>
     <string name="message_image_loading_error">Fout bij laden van afbeelding</string>
     <string name="message_invalid_field">Ongeldig veld</string>
@@ -146,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">U bent momenteel niet ingelogd.\nVoeg eenaccount om
-        door te gaan.
-    </string>
+    <string name="profile_not_logged_message">U bent momenteel niet ingelogd.\nVoeg eenaccount om door te gaan.</string>
     <string name="profile_section_comments">Opmerkingen</string>
     <string name="profile_section_posts">Berichten</string>
     <string name="profile_thousand_short">k</string>
@@ -218,13 +210,10 @@
     <string name="settings_ui_font_scale">UI-tekstgrootte</string>
     <string name="settings_ui_theme">UI-thema</string>
     <string name="settings_upvote_color">Upvote kleur</string>
-    <string name="settings_hide_navigation_bar">Verberg de navigatiebalk tijdens het scrollen
-    </string>
+    <string name="settings_hide_navigation_bar">Verberg de navigatiebalk tijdens het scrollen</string>
     <string name="settings_zombie_mode_interval">Intervalduur zombiemodus</string>
     <string name="settings_zombie_mode_scroll_amount">Zombie mode scroll amount</string>
-    <string name="settings_mark_as_read_while_scrolling">Markeer berichten als gelezen tijdens het
-        scrollen
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Markeer berichten als gelezen tijdens het scrollen</string>
     <string name="action_quote">Citaat</string>
     <string name="mod_action_allow">Laat de gebruiker opnieuw toe</string>
     <string name="mod_action_ban">Verban gebruiker</string>
@@ -242,10 +231,7 @@
     <string name="report_list_type_unresolved">Onopgelost</string>
     <string name="report_action_resolve">Oplossen</string>
     <string name="report_action_unresolve">Onopgelost</string>
-    <string name="sidebar_not_logged_message">Welkom bij Raccoon for Lemmy!\n\nIn de anonieme modus,
-        gebruik de vervolgkeuzeknop (▼) hierboven om de instantie te wijzigen.\n\nU kunt inloggen op
-        uw instantie op wanneer je maar wilt vanuit het profielscherm.\n\nGeniet van Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Welkom bij Raccoon for Lemmy!\n\nIn de anonieme modus, gebruik de vervolgkeuzeknop (▼) hierboven om de instantie te wijzigen.\n\nU kunt inloggen op uw instantie op wanneer je maar wilt vanuit het profielscherm.\n\nGeniet van Lemmy!</string>
     <string name="settings_default_inbox_type">Standaardtype inbox</string>
     <string name="mod_action_add_mod">Moderator toevoegen</string>
     <string name="mod_action_remove_mod">Moderator verwijderen</string>
@@ -346,4 +332,5 @@
     <string name="moderator_zone_title">Hulpmiddelen voor moderators</string>
     <string name="moderator_zone_action_comments">Gemodereerde opmerkingen</string>
     <string name="moderator_zone_action_posts">Gemodereerde berichten</string>
+    <string name="message_auth_issue">Er is een fout opgetreden tijdens het ophalen van gebruikersgegevens. Probeer het scherm te vernieuwen</string>
 </resources>

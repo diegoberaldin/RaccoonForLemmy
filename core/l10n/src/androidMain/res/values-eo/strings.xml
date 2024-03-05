@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Ĉiuj</string>
     <string name="inbox_listing_type_title">Tipo de leterkesto</string>
     <string name="inbox_listing_type_unread">Nelegitai</string>
-    <string name="inbox_not_logged_message">Vi nun ne estas ensalutinta.\nBonvolu aldoni konton en
-        la profila ekrano por vidi vian enirkeston.
-    </string>
+    <string name="inbox_not_logged_message">Vi nun ne estas ensalutinta.\nBonvolu aldoni konton en la profila ekrano por vidi vian enirkeston.</string>
     <string name="inbox_section_mentions">Mencioj</string>
     <string name="inbox_section_messages">Mesaĝoj</string>
     <string name="inbox_section_replies">Respondoj</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Administri kontojn</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-komunumoj</string>
     <string name="manage_subscriptions_header_subscriptions">Subskriboj</string>
-    <string name="message_empty_comments">Tie estas tro silente.\nĈu vi ŝatus esti tiu, kiu skribu
-        la unuan komenton.
-    </string>
+    <string name="message_empty_comments">Tie estas tro silente.\nĈu vi ŝatus esti tiu, kiu skribu la unuan komenton.</string>
     <string name="message_empty_list">Neniuj eroj por montri</string>
     <string name="message_error_loading_comments">Eraro okazis dum ŝarĝo de komentoj.</string>
     <string name="message_generic_error">Ĝenerala eraro</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Vi nun ne estas ensalutinta.\nBonvolu aldoni konton
-        por daŭrigi.
-    </string>
+    <string name="profile_not_logged_message">Vi nun ne estas ensalutinta.\nBonvolu aldoni konton por daŭrigi.</string>
     <string name="profile_section_comments">Komentoj</string>
     <string name="profile_section_posts">Afiŝoj</string>
     <string name="profile_thousand_short">k</string>
@@ -219,8 +213,7 @@
     <string name="settings_hide_navigation_bar">Kaŝi navigobreton dum rulumado</string>
     <string name="settings_zombie_mode_interval">Tempodaŭro de la zombia reĝimo</string>
     <string name="settings_zombie_mode_scroll_amount">Rula kvanto de la zombia reĝimo</string>
-    <string name="settings_mark_as_read_while_scrolling">Marki afiŝojn kiel legitaj dum rulumado
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Marki afiŝojn kiel legitaj dum rulumado</string>
     <string name="action_quote">Citi</string>
     <string name="mod_action_allow">Permesi al la uzanto denove</string>
     <string name="mod_action_ban">Malpermesi uzanton</string>
@@ -238,10 +231,7 @@
     <string name="report_list_type_unresolved">Nesolvitaj</string>
     <string name="report_action_resolve">Solvi</string>
     <string name="report_action_unresolve">Nesolvi</string>
-    <string name="sidebar_not_logged_message">Bonvenon al Raccoon for Lemmy!\n\nEn anonima reĝimo,
-        uzu la falbutonon (▼) supre por ŝanĝi nodon.\n\nVi povas ensaluti al via instanco ĉe
-        iam ajn de la Profila ekrano.\n\nĜuu Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Bonvenon al Raccoon for Lemmy!\n\nEn anonima reĝimo, uzu la falbutonon (▼) supre por ŝanĝi nodon.\n\nVi povas ensaluti al via instanco ĉe iam ajn de la Profila ekrano.\n\nĜuu Lemmy!</string>
     <string name="settings_default_inbox_type">Defaŭlta enirkesto tipo</string>
     <string name="mod_action_add_mod">Aldoni moderigilon</string>
     <string name="mod_action_remove_mod">Forigi moderigilon</string>
@@ -342,4 +332,5 @@
     <string name="moderator_zone_title">Iloj por moderigaĵoj</string>
     <string name="moderator_zone_action_comments">Moderigitaj komentoj</string>
     <string name="moderator_zone_action_posts">Moderigitaj afiŝoj</string>
+    <string name="message_auth_issue">Okazis eraro dum venigado de uzantdatenoj, provu refreŝigi la ekranon</string>
 </resources>

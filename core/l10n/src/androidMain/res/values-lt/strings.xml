@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Viskas</string>
     <string name="inbox_listing_type_title">Pašto dėžutės tipas</string>
     <string name="inbox_listing_type_unread">Neperskaityta</string>
-    <string name="inbox_not_logged_message">Šiuo metu nesate prisijungę.Pridėkite\n paskyrą
-        profilio ekrane, kad pamatytumėte savo pašto dėžutę.
-    </string>
+    <string name="inbox_not_logged_message">Šiuo metu nesate prisijungę.Pridėkite\n paskyrą profilio ekrane, kad pamatytumėte savo pašto dėžutę.</string>
     <string name="inbox_section_mentions">Paminėjimai</string>
     <string name="inbox_section_messages">Žinutės</string>
     <string name="inbox_section_replies">Atsakymai</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Valdyti paskyras</string>
     <string name="manage_subscriptions_header_multicommunities">Kelių bendruomenių</string>
     <string name="manage_subscriptions_header_subscriptions">Prenumeratos</string>
-    <string name="message_empty_comments">Ten per daug\n tylu.Ar norėtum būti tas, kuris
-        parašo pirmąjį komentarą?
-    </string>
+    <string name="message_empty_comments">Ten per daug\n tylu.Ar norėtum būti tas, kuris parašo pirmąjį komentarą?</string>
     <string name="message_empty_list">Nėra rodytinų elementų</string>
     <string name="message_error_loading_comments">Įkeliant komentarus įvyko klaida.</string>
     <string name="message_generic_error">Bendroji klaida</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Šiuo metu nesate prisijungę\n .Pridėkite
-        paskyrą, kad galėtumėte tęsti.
-    </string>
+    <string name="profile_not_logged_message">Šiuo metu nesate prisijungę.\nPridėkite paskyrą, kad galėtumėte tęsti.</string>
     <string name="profile_section_comments">komentarai</string>
     <string name="profile_section_posts">Postai</string>
     <string name="profile_thousand_short">.</string>
@@ -197,8 +191,7 @@
     <string name="settings_full_height_images">Viso aukščio vaizdai</string>
     <string name="settings_include_nsfw">Įtraukti NSFW turinį</string>
     <string name="settings_language">Kalba</string>
-    <string name="settings_navigation_bar_titles_visible">Rodyti naršymo juostos pavadinimus
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Rodyti naršymo juostos pavadinimus</string>
     <string name="settings_open_url_external">Atidarykite URL išorinėje naršyklėje</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Įrašo maketas</string>
@@ -220,9 +213,7 @@
     <string name="settings_hide_navigation_bar">Slinkdami slėpti naršymo juostą</string>
     <string name="settings_zombie_mode_interval">Zombių režimo intervalo trukmė</string>
     <string name="settings_zombie_mode_scroll_amount">Zombių režimo slinkties kiekis</string>
-    <string name="settings_mark_as_read_while_scrolling">Slinkdami pažymėkite įrašus kaip
-        skaitytus
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Slinkdami pažymėkite įrašus kaip skaitytus</string>
     <string name="action_quote">Citata</string>
     <string name="mod_action_allow">Leisti vartotojui dar kartą</string>
     <string name="mod_action_ban">Uždrausti vartotoją</string>
@@ -240,11 +231,7 @@
     <string name="report_list_type_unresolved">Neišspręsta</string>
     <string name="report_action_resolve">Išspręsti</string>
     <string name="report_action_unresolve">Neišspręsti</string>
-    <string name="sidebar_not_logged_message">Sveiki atvykę į Raccoon for Lemmy!\n\nAnoniminiu
-        režimu, naudokite aukščiau esantį išskleidžiamąjį mygtuką (▼), kad pakeistumėte
-        egzempliorių.\n\nPrisijungti galite adresu bet kuriuo metu iš profilio ekrano.\n\nMėgaukitės
-        Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Sveiki atvykę į Raccoon for Lemmy!\n\nAnoniminiu režimu, naudokite aukščiau esantį išskleidžiamąjį mygtuką (▼), kad pakeistumėte egzempliorių.\n\nPrisijungti galite adresu bet kuriuo metu iš profilio ekrano.\n\nMėgaukitės Lemmy!</string>
     <string name="settings_default_inbox_type">Numatytasis gautųjų tipas</string>
     <string name="mod_action_add_mod">Pridėti moderatorių</string>
     <string name="mod_action_remove_mod">Pašalinti moderatorių</string>
@@ -345,4 +332,5 @@
     <string name="moderator_zone_title">Priemonės moderatoriams</string>
     <string name="moderator_zone_action_comments">Moderuojami komentarai</string>
     <string name="moderator_zone_action_posts">Moderuojami įrašai</string>
+    <string name="message_auth_issue">Gaunant vartotojo duomenis įvyko klaida. Pabandykite atnaujinti ekraną</string>
 </resources>

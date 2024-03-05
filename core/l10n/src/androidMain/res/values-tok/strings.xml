@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">ale</string>
     <string name="inbox_listing_type_title">nasin lukin</string>
     <string name="inbox_listing_type_unread">lukin ala</string>
-    <string name="inbox_not_logged_message">ilo li sona ala e ni: sina seme.\no insa lon lipu \&quot;sona
-        jan\&quot; tawa ni: sina lukin e toki sina.
-    </string>
+    <string name="inbox_not_logged_message">ilo li sona ala e ni: sina seme.\no insa lon lipu \&quot;sona jan\&quot; tawa ni: sina lukin e toki sina.</string>
     <string name="inbox_section_mentions">nimi</string>
     <string name="inbox_section_messages">toki</string>
     <string name="inbox_section_replies">toki lili</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">o lawa e sona jan</string>
     <string name="manage_subscriptions_header_multicommunities">mute-kulupu</string>
     <string name="manage_subscriptions_header_subscriptions">sina wile lukin e</string>
-    <string name="message_empty_comments">kalama ala li lon ni.\nsina wile ala wile sitelen e toki
-        lili nanpa wan?
-    </string>
+    <string name="message_empty_comments">kalama ala li lon ni.\nsina wile ala wile sitelen e toki lili nanpa wan?</string>
     <string name="message_empty_list">Ala li lon ni</string>
     <string name="message_error_loading_comments">kama jo e toki lili la, pakala li lon</string>
     <string name="message_generic_error">pakala pi sona ala li lon</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">ts</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">tm</string>
-    <string name="profile_not_logged_message">ilo li sona ala e ni: sina seme.\no insa tawa
-        sinpin.
-    </string>
+    <string name="profile_not_logged_message">ilo li sona ala e ni: sina seme.\no insa tawa sinpin.</string>
     <string name="profile_section_comments">toki lili</string>
     <string name="profile_section_posts">lipu</string>
     <string name="profile_thousand_short">k</string>
@@ -219,8 +213,7 @@
     <string name="settings_hide_navigation_bar">tawa la, o lukin ala e linja anpa</string>
     <string name="settings_zombie_mode_interval">tenpo nasin pi jan moli</string>
     <string name="settings_zombie_mode_scroll_amount">tawa nasin pi jan moli</string>
-    <string name="settings_mark_as_read_while_scrolling">tawa la, o sitelen e lipu sama lukin
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">tawa la, o sitelen e lipu sama lukin</string>
     <string name="action_quote">o toki lon tenpo nanpa tu</string>
     <string name="mod_action_allow">o insa e jan</string>
     <string name="mod_action_ban">o insa ala e jan</string>
@@ -238,10 +231,7 @@
     <string name="report_list_type_unresolved">wile weka</string>
     <string name="report_action_resolve">o weka</string>
     <string name="report_action_unresolve">o weka ala</string>
-    <string name="sidebar_not_logged_message">o kama pona lon ilo Rakun tawa ma Lemi!\n\nsina tawa
-        insa ala la, o kepeken e ilo (▼) tawa ante e ilo nanpa.\n\nwile la, tenpo ale la, sina ken
-        insa e ilo nanpa sina lon lipo \&quot;sona jan\&quot;.\n\no musi lon ma Lemi!
-    </string>
+    <string name="sidebar_not_logged_message">o kama pona lon ilo Rakun tawa ma Lemi!\n\nsina tawa insa ala la, o kepeken e ilo (▼) tawa ante e ilo nanpa.\n\nwile la, tenpo ale la, sina ken insa e ilo nanpa sina lon lipo \&quot;sona jan\&quot;.\n\no musi lon ma Lemi!</string>
     <string name="settings_default_inbox_type">nasin pi poki toki</string>
     <string name="mod_action_add_mod">o sin e jan lawa</string>
     <string name="mod_action_remove_mod">o sin ala e jan lawa</string>
@@ -342,4 +332,5 @@
     <string name="moderator_zone_title">ilo tawa jan lawa</string>
     <string name="moderator_zone_action_comments">toki lili pi kulupu lawa</string>
     <string name="moderator_zone_action_posts">lipu pi kulupu lawa</string>
+    <string name="message_auth_issue">kama sona ijo la, pakala wan li lon. o lukin open e lipu ni lon tenpo nanpa tu</string>
 </resources>

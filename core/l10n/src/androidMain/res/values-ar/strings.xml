@@ -89,7 +89,7 @@
     <string name="inbox_listing_type_all">الجميع</string>
     <string name="inbox_listing_type_title">نوع البريد الوارد</string>
     <string name="inbox_listing_type_unread">غير مقروءة</string>
-    <string name="inbox_not_logged_message">\n</string>
+    <string name="inbox_not_logged_message">لم تقم بتسجيل الدخول حاليًا.\nيرجى إضافة حساب من شاشة الملف الشخصي لرؤية صندوق الوارد الخاص بكn</string>
     <string name="inbox_section_mentions">عدد المرات التي ذكر فيها</string>
     <string name="inbox_section_messages">رسائل</string>
     <string name="inbox_section_replies">Replies</string>
@@ -105,9 +105,7 @@
     <string name="manage_accounts_title">إدارة الحسابات</string>
     <string name="manage_subscriptions_header_multicommunities">تعدد المجتمعات</string>
     <string name="manage_subscriptions_header_subscriptions">الاشتراكات</string>
-    <string name="message_empty_comments">المكان صامت للغاية هناك.\nهل ترغب في أن تكون الشخص الذي
-        يكتب التعليق الأول؟
-    </string>
+    <string name="message_empty_comments">المكان صامت للغاية هناك.\nهل ترغب في أن تكون الشخص الذييكتب التعليق الأول؟</string>
     <string name="message_empty_list">لا توجد عناصر للعرض</string>
     <string name="message_error_loading_comments">حدث خطأ أثناء تحميل التعليقات.</string>
     <string name="message_generic_error">عام خطأ.</string>
@@ -142,9 +140,7 @@
     <string name="profile_day_short">أيام</string>
     <string name="profile_million_short">ملايين</string>
     <string name="profile_month_short">شهور</string>
-    <string name="profile_not_logged_message">لم تقم بتسجيل الدخول حاليًا\n .يرجى إضافة
-        حساب للمتابعة.
-    </string>
+    <string name="profile_not_logged_message">لم تقم بتسجيل الدخول حاليًا\n .يرجى إضافةحساب للمتابعة.</string>
     <string name="profile_section_comments">التعليقات</string>
     <string name="profile_section_posts">المنشورات</string>
     <string name="profile_thousand_short">k</string>
@@ -217,9 +213,7 @@
     <string name="settings_hide_navigation_bar">إخفاء شريط التنقل أثناء التمرير</string>
     <string name="settings_zombie_mode_interval">مدة الفاصل الزمني لوضع الزومبي</string>
     <string name="settings_zombie_mode_scroll_amount">كمية التمرير في وضع الزومبي</string>
-    <string name="settings_mark_as_read_while_scrolling">وضع علامة على المنشورات كمقروءة أثناء
-        التمرير
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">وضع علامة على المنشورات كمقروءة أثناءالتمرير</string>
     <string name="action_quote">اقتباس</string>
     <string name="mod_action_allow">السماح للمستخدم مرة أخرى</string>
     <string name="mod_action_ban">حظر العضو</string>
@@ -237,10 +231,7 @@
     <string name="report_list_type_unresolved">غير محلول</string>
     <string name="report_action_resolve">تحلل</string>
     <string name="report_action_unresolve">إلغاء الحل</string>
-    <string name="sidebar_not_logged_message">مرحبًا بك في الراكون من أجل ليمي!\n\nفي الوضع المجهول،
-        استخدم زر القائمة المنسدلة (▼) أعلاه لتغيير المثيل.\n\nيمكنك تسجيل الدخول إلى حسابك في أي
-        وقت من شاشة ملف التعريف.\n\nاستمتع بليمي!
-    </string>
+    <string name="sidebar_not_logged_message">مرحبًا بك في الراكون من أجل ليمي!\n\nفي الوضع المجهول، استخدم زر القائمة المنسدلة (▼) أعلاه لتغيير المثيل.\n\nيمكنك تسجيل الدخول إلى حسابك في أي وقت من شاشة ملف التعريف.\n\nاستمتع بليمي!</string>
     <string name="settings_default_inbox_type">نوع البريد الوارد الافتراضي</string>
     <string name="mod_action_add_mod">إضافة مشرف</string>
     <string name="mod_action_remove_mod">إزالة المشرف</string>
@@ -341,4 +332,5 @@
     <string name="moderator_zone_title">أدوات للمشرفين</string>
     <string name="moderator_zone_action_comments">تعليقات خاضعة للإشراف</string>
     <string name="moderator_zone_action_posts">المشاركات الخاضعة للإشراف</string>
+    <string name="message_auth_issue">حدث خطأ أثناء جلب بيانات المستخدم، حاول تحديث الشاشة</string>
 </resources>

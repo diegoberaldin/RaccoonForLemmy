@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Hepsi</string>
     <string name="inbox_listing_type_title">Gelen kutusu türü</string>
     <string name="inbox_listing_type_unread">Okunmadı</string>
-    <string name="inbox_not_logged_message">Şu anda giriş yapmadınız.Lütfen bir\n hesap ekleyin
-        gelen kutunuzu görmek için profil ekranından.
-    </string>
+    <string name="inbox_not_logged_message">Şu anda giriş yapmadınız.Lütfen bir\n hesap ekleyin gelen kutunuzu görmek için profil ekranından.</string>
     <string name="inbox_section_mentions">Bahsetmeler</string>
     <string name="inbox_section_messages">Mesajlar</string>
     <string name="inbox_section_replies">Cevaplar</string>
@@ -107,9 +105,7 @@
     <string name="manage_accounts_title">Hesapları yönet</string>
     <string name="manage_subscriptions_header_multicommunities">Çoklu topluluklar</string>
     <string name="manage_subscriptions_header_subscriptions">Abonelikler</string>
-    <string name="message_empty_comments">Orası çok sessiz.Bunu yapan kişi olmak\n ister miydiniz?
-        ilk yorumu yazar?
-    </string>
+    <string name="message_empty_comments">Orası çok sessiz.\nİlk yorumu yazan kişi olmak ister misiniz?</string>
     <string name="message_empty_list">Görüntülenecek hiçbir öğe yok</string>
     <string name="message_error_loading_comments">Yorumlar yüklenirken bir hata oluştu.</string>
     <string name="message_generic_error">Oluşan Hatalar</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Şu anda giriş yapmadınız.Lütfen bir\n ekleyin
-        devam etmek için hesap.
-    </string>
+    <string name="profile_not_logged_message">Şu anda giriş yapmadınız.Lütfen bir\n ekleyin devam etmek için hesap.</string>
     <string name="profile_section_comments">Yorumlar</string>
     <string name="profile_section_posts">Postlar</string>
     <string name="profile_thousand_short">k</string>
@@ -197,8 +191,7 @@
     <string name="settings_full_height_images">Tam yükseklikte görüntüler</string>
     <string name="settings_include_nsfw">NSFW içeriklerini dahil et</string>
     <string name="settings_language">Dil</string>
-    <string name="settings_navigation_bar_titles_visible">Gezinme çubuğu başlıklarını göster
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Gezinme çubuğu başlıklarını göster</string>
     <string name="settings_open_url_external">Harici Tarayıcıda Aç</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Yazı Düzeni</string>
@@ -220,9 +213,7 @@
     <string name="settings_hide_navigation_bar">Kaydırma sırasında gezinme çubuğunu gizle</string>
     <string name="settings_zombie_mode_interval">Zombi modu aralık süresi</string>
     <string name="settings_zombie_mode_scroll_amount">Zombi modu kaydırma miktarı</string>
-    <string name="settings_mark_as_read_while_scrolling">Kaydırırken gönderileri okundu olarak
-        işaretle
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Kaydırırken gönderileri okundu olarak işaretle</string>
     <string name="action_quote">Fiyat Teklifi</string>
     <string name="mod_action_allow">Kullanıcıya tekrar izin ver</string>
     <string name="mod_action_ban">Kullanıcıyı yasaklama</string>
@@ -240,12 +231,7 @@
     <string name="report_list_type_unresolved">Çözümlenmemiş</string>
     <string name="report_action_resolve">Kararlılık</string>
     <string name="report_action_unresolve">Çöz</string>
-    <string name="sidebar_not_logged_message">Raccon for Lemmy\'ye hoş geldiniz!\n\nAnonim olarak
-        modunda, örneği değiştirmek için yukarıdaki açılır düğmeyi (▼) kullanın.\n\nGiriş
-        yapabilirsiniz
-        Profil ekranından istediğiniz zaman örneğinize ulaşabilirsiniz.\n\nLemmy\'nin tadını
-        çıkarın!
-    </string>
+    <string name="sidebar_not_logged_message">Raccon for Lemmy\'ye hoş geldiniz!\n\nAnonim olarak modunda, örneği değiştirmek için yukarıdaki açılır düğmeyi (▼) kullanın.\n\nGiriş yapabilirsiniz Profil ekranından istediğiniz zaman örneğinize ulaşabilirsiniz.\n\nLemmy\'nin tadını çıkarın!</string>
     <string name="settings_default_inbox_type">Varsayılan gelen kutusu türü</string>
     <string name="mod_action_add_mod">Moderatör ekleyin</string>
     <string name="mod_action_remove_mod">Moderatörü kaldır</string>
@@ -346,4 +332,5 @@
     <string name="moderator_zone_title">Moderatörler için araçlar</string>
     <string name="moderator_zone_action_comments">Denetlenen yorumlar</string>
     <string name="moderator_zone_action_posts">Denetlenen gönderiler</string>
+    <string name="message_auth_issue">Kullanıcı verileri alınırken bir hata oluştu, ekranı yenilemeyi deneyin</string>
 </resources>

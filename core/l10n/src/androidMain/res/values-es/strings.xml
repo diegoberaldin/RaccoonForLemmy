@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Todos</string>
     <string name="inbox_listing_type_title">Tipo de mensaje</string>
     <string name="inbox_listing_type_unread">No leídos</string>
-    <string name="inbox_not_logged_message">Ha ocurrido un error.\nAñade una cuenta en la pestaña
-        Perfil para acceder a los mensajes.
-    </string>
+    <string name="inbox_not_logged_message">Ha ocurrido un error.\nAñade una cuenta en la pestaña Perfil para acceder a los mensajes.</string>
     <string name="inbox_section_mentions">Menciones</string>
     <string name="inbox_section_messages">Mensajes</string>
     <string name="inbox_section_replies">Respuestas</string>
@@ -107,11 +105,9 @@
     <string name="manage_accounts_title">Gestionar cuentas</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-comunidades</string>
     <string name="manage_subscriptions_header_subscriptions">Suscripciones</string>
-    <string name="message_empty_comments">Nada que ver por aquí.\n¡Sé el primero en comentar!
-    </string>
+    <string name="message_empty_comments">Nada que ver por aquí.\n¡Sé el primero en comentar!</string>
     <string name="message_empty_list">Ningún elemento para mostrar</string>
-    <string name="message_error_loading_comments">Error al cargar los comentarios
-    </string>
+    <string name="message_error_loading_comments">Error al cargar los comentarios</string>
     <string name="message_generic_error">Error</string>
     <string name="message_image_loading_error">No ha sido posible descargar la imagen</string>
     <string name="message_invalid_field">Campo no válido</string>
@@ -144,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">No ha sido posible entrar.\nAñade una cuenta para
-        continuar.
-    </string>
+    <string name="profile_not_logged_message">No ha sido posible entrar.\nAñade una cuenta para continuar.</string>
     <string name="profile_section_comments">Comentarios</string>
     <string name="profile_section_posts">Publicaciones</string>
     <string name="profile_thousand_short">k</string>
@@ -197,9 +191,7 @@
     <string name="settings_full_height_images">Imágenes a tamaño completo</string>
     <string name="settings_include_nsfw">Incluir contenidos NSFW</string>
     <string name="settings_language">Idioma</string>
-    <string name="settings_navigation_bar_titles_visible">Etiquetas en la barra de
-        navegación
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Etiquetas en la barra de navegación</string>
     <string name="settings_open_url_external">Abrir URL en navegador externo</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Diseño de las publicaciones</string>
@@ -239,10 +231,7 @@
     <string name="report_list_type_unresolved">Sin resolver</string>
     <string name="report_action_resolve">Resueltos</string>
     <string name="report_action_unresolve">Pendientes</string>
-    <string name="sidebar_not_logged_message">¡Bienvenido a Raccoon for Lemmy!\n\nEn modo anónimo,
-        usa el botón desplegable (▼) de arriba para cambiar de instancia.\n\nPuedes iniciar sesión
-        en tu instancia en cualquier momento desde la pestaña \'Perfil\'.\n\n¡Disfruta de Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">¡Bienvenido a Raccoon for Lemmy!\n\nEn modo anónimo, usa el botón desplegable (▼) de arriba para cambiar de instancia.\n\nPuedes iniciar sesión en tu instancia en cualquier momento desde la pestaña \'Perfil\'.\n\n¡Disfruta de Lemmy!</string>
     <string name="settings_default_inbox_type">Mostrar por defecto</string>
     <string name="mod_action_add_mod">Añadir moderador</string>
     <string name="mod_action_remove_mod">Eliminar moderador</string>
@@ -301,8 +290,7 @@
     <string name="settings_web_show_bot">Mostrar cuentas de bots</string>
     <string name="settings_web_show_nsfw">Mostrar NSFW</string>
     <string name="settings_web_show_read">Mostrar publicaciones leídas</string>
-    <string name="settings_web_email_notifications">Enviar notificaciones por correo electrónico
-    </string>
+    <string name="settings_web_email_notifications">Enviar notificaciones por correo electrónico</string>
     <string name="settings_manage_ban">Filtros y baneos</string>
     <string name="settings_manage_ban_action_unban">Eliminar ban</string>
     <string name="settings_manage_ban_section_instances">Instancias</string>
@@ -344,4 +332,5 @@
     <string name="moderator_zone_title">Herramientas para moderadores</string>
     <string name="moderator_zone_action_comments">Comentarios por moderar</string>
     <string name="moderator_zone_action_posts">Publicaciones por moderar</string>
+    <string name="message_auth_issue">Se produjo un error al obtener los datos del usuario, intente actualizar la pantalla</string>
 </resources>

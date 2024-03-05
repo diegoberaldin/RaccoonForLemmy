@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Всички</string>
     <string name="inbox_listing_type_title">Тип входяща поща</string>
     <string name="inbox_listing_type_unread">Отбелязване като непрочетено</string>
-    <string name="inbox_not_logged_message">В момента не сте влезли.Моля, добавете\n акаунт
-        от екрана на профила, за да видите входящата си поща.
-    </string>
+    <string name="inbox_not_logged_message">В момента не сте влезли.Моля, добавете\n акаунт от екрана на профила, за да видите входящата си поща.</string>
     <string name="inbox_section_mentions">Споменавания</string>
     <string name="inbox_section_messages">Съобщения</string>
     <string name="inbox_section_replies">Отговори</string>
@@ -107,12 +105,9 @@
     <string name="manage_accounts_title">Акаунти</string>
     <string name="manage_subscriptions_header_multicommunities">Мулти - общности</string>
     <string name="manage_subscriptions_header_subscriptions">Абонаменти</string>
-    <string name="message_empty_comments">Таме твърде тихо.Бихте\n ли искали да сте този, който
-        пише първия коментар?
-    </string>
+    <string name="message_empty_comments">Таме твърде тихо.Бихте\n ли искали да сте този, който пише първия коментар?</string>
     <string name="message_empty_list">Няма данни за показване</string>
-    <string name="message_error_loading_comments">Възникна грешка при зареждането на коментарите.
-    </string>
+    <string name="message_error_loading_comments">Възникна грешка при зареждането на коментарите.</string>
     <string name="message_generic_error">Обща грешка</string>
     <string name="message_image_loading_error">Грешка при зареждане на изображението</string>
     <string name="message_invalid_field">Невалиден ID на полето.</string>
@@ -145,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">В момента не сте влезли.Моля, добавете\n акаунт, за да
-        продължите.
-    </string>
+    <string name="profile_not_logged_message">В момента не сте влезли.Моля, добавете\n акаунт, за да продължите.</string>
     <string name="profile_section_comments">Коментари</string>
     <string name="profile_section_posts">Публикации</string>
     <string name="profile_thousand_short">k</string>
@@ -155,8 +148,7 @@
     <string name="settings_about">Относно това приложение</string>
     <string name="settings_about_app_version">Версия на приложението</string>
     <string name="settings_about_changelog">Преглед на пълния дневник на промените</string>
-    <string name="settings_about_report_github">Подаване на сигнал за програмна грешка (GitHub)
-    </string>
+    <string name="settings_about_report_github">Подаване на сигнал за програмна грешка (GitHub)</string>
     <string name="settings_about_report_email">Подаване на сигнал за грешка (имейл)</string>
     <string name="settings_about_view_github">Преглед в GitHub</string>
     <string name="settings_about_view_lemmy">Общност на Lemmy</string>
@@ -188,11 +180,9 @@
     <string name="settings_content_font_smaller">Много Малък</string>
     <string name="settings_content_font_smallest">Двойно по - малко</string>
     <string name="settings_custom_seed_color">Персонализиран цвят на темата</string>
-    <string name="settings_default_comment_sort_type">Тип сортиране на коментарите по подразбиране
-    </string>
+    <string name="settings_default_comment_sort_type">Тип сортиране на коментарите по подразбиране</string>
     <string name="settings_default_listing_type">Тип емисия по подразбиране</string>
-    <string name="settings_default_post_sort_type">Тип сортиране на публикация по подразбиране
-    </string>
+    <string name="settings_default_post_sort_type">Тип сортиране на публикация по подразбиране</string>
     <string name="settings_downvote_color">Цвят на отрицателното гласуване</string>
     <string name="settings_dynamic_colors">Използване на динамични цветове</string>
     <string name="settings_enable_crash_report">Активиране на докладването на сриво</string>
@@ -201,9 +191,7 @@
     <string name="settings_full_height_images">Изображения с пълна височина</string>
     <string name="settings_include_nsfw">Включване на съдържание на NSFW</string>
     <string name="settings_language">Език</string>
-    <string name="settings_navigation_bar_titles_visible">Показване на заглавията на лентата за
-        навига
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Показване на заглавията на лентата за навига</string>
     <string name="settings_open_url_external">Отваряне във външен браузър</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Оформление на статията</string>
@@ -222,13 +210,10 @@
     <string name="settings_ui_font_scale">Размер на текста на потребителския интерфейс</string>
     <string name="settings_ui_theme">Тема на потребителския интерфейс</string>
     <string name="settings_upvote_color">Цвят на предварителното гласуване</string>
-    <string name="settings_hide_navigation_bar">Скриване на навигационната лента при превъртане
-    </string>
+    <string name="settings_hide_navigation_bar">Скриване на навигационната лента при превъртане</string>
     <string name="settings_zombie_mode_interval">Продължителност на интервала в режим Зомби</string>
     <string name="settings_zombie_mode_scroll_amount">Сума за превъртане в режим на зомби</string>
-    <string name="settings_mark_as_read_while_scrolling">Маркирайте публикациите като прочетени при
-        превъртате
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Маркирайте публикациите като прочетени при превъртате</string>
     <string name="action_quote">цитат</string>
     <string name="mod_action_allow">Позволи на потребителя отново</string>
     <string name="mod_action_ban">Бан потребител</string>
@@ -239,18 +224,14 @@
     <string name="mod_action_unlock">Отключване</string>
     <string name="mod_action_remove">Премахване</string>
     <string name="mod_action_mark_as_distinguished">Маркиране като отличен</string>
-    <string name="mod_action_unmark_as_distinguished">Премахване на отметката като разграничен
-    </string>
+    <string name="mod_action_unmark_as_distinguished">Премахване на отметката като разграничен</string>
     <string name="report_list_title">Списък с отчети</string>
     <string name="report_list_type_title">Тип списък на отчет</string>
     <string name="report_list_type_all">Всички</string>
     <string name="report_list_type_unresolved">Неразрешено</string>
     <string name="report_action_resolve">Разрешаване</string>
     <string name="report_action_unresolve">Отмяна на разрешаването</string>
-    <string name="sidebar_not_logged_message">Добре дошли в Raccoon for Lemmy!\n\nВ анонимен режим,
-        използвайте падащия бутон (▼) по-горе, за да промените инстанцията.\n\nМожете да влезете във
-        вашата инстанция на по всяко време от екрана на профила.\n\nНасладете се на Леми!
-    </string>
+    <string name="sidebar_not_logged_message">Добре дошли в Raccoon for Lemmy!\n\nВ анонимен режим, използвайте падащия бутон (▼) по-горе, за да промените инстанцията.\n\nМожете да влезете във вашата инстанция на по всяко време от екрана на профила.\n\nНасладете се на Леми!</string>
     <string name="settings_default_inbox_type">Тип входяща кутия по подразбиране</string>
     <string name="mod_action_add_mod">Добавете модератор</string>
     <string name="mod_action_remove_mod">Премахване на модератора</string>
@@ -351,4 +332,5 @@
     <string name="moderator_zone_title">Инструменти за модератори</string>
     <string name="moderator_zone_action_comments">Модерирани коментари</string>
     <string name="moderator_zone_action_posts">Модерирани публикации</string>
+    <string name="message_auth_issue">Възникна грешка при извличането на потребителски данни, опитайте да обновите екрана</string>
 </resources>

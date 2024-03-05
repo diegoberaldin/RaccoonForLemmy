@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_all">Të gjithë</string>
     <string name="inbox_listing_type_title">Lloji i kutisë së mesazheve</string>
     <string name="inbox_listing_type_unread">Të palexuara</string>
-    <string name="inbox_not_logged_message">Aktualisht nuk ke hyrë.\nShto një llogari nga ekrani i
-        profilit për të parë kutinë tuaj të mesazheve.
-    </string>
+    <string name="inbox_not_logged_message">Aktualisht nuk ke hyrë.\nShto një llogari nga ekrani i profilit për të parë kutinë tuaj të mesazheve.</string>
     <string name="inbox_section_mentions">Shënime</string>
     <string name="inbox_section_messages">Mesazhe</string>
     <string name="inbox_section_replies">Përgjigjet</string>
@@ -107,12 +105,9 @@
     <string name="manage_accounts_title">Menaxhoni llogaritë</string>
     <string name="manage_subscriptions_header_multicommunities">Multi-komunitete</string>
     <string name="manage_subscriptions_header_subscriptions">Abonimet</string>
-    <string name="message_empty_comments">Është shumë e heshtur atje.\nDo të doje të ishe ti ai që
-        shkruan komentin e parë?
-    </string>
+    <string name="message_empty_comments">Është shumë e heshtur atje.\nDo të doje të ishe ti ai që shkruan komentin e parë?</string>
     <string name="message_empty_list">Nuk ka artikuj për t \'u shfaqur</string>
-    <string name="message_error_loading_comments">Ndodhi një gabim gjatë ngarkimit të komenteve.
-    </string>
+    <string name="message_error_loading_comments">Ndodhi një gabim gjatë ngarkimit të komenteve.</string>
     <string name="message_generic_error">Gabim i përgjithshëm</string>
     <string name="message_image_loading_error">Gabim në ngarkimin e imazhit</string>
     <string name="message_invalid_field">Fushë e pavlefshme</string>
@@ -145,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Aktualisht nuk ke hyrë.\nShto një llogaria për të
-        vazhduar.
-    </string>
+    <string name="profile_not_logged_message">Aktualisht nuk ke hyrë.\nShto një llogaria për të vazhduar.</string>
     <string name="profile_section_comments">Komente</string>
     <string name="profile_section_posts">Postimet</string>
     <string name="profile_thousand_short">k</string>
@@ -187,11 +180,9 @@
     <string name="settings_content_font_smaller">Shumë e vogël</string>
     <string name="settings_content_font_smallest">Dyfish më i vogël</string>
     <string name="settings_custom_seed_color">Ngjyra e personalizuar e temës</string>
-    <string name="settings_default_comment_sort_type">Lloji standard i renditjes së komenteve
-    </string>
+    <string name="settings_default_comment_sort_type">Lloji standard i renditjes së komenteve</string>
     <string name="settings_default_listing_type">Lloji standard i furnizimit</string>
-    <string name="settings_default_post_sort_type">Lloji i paracaktuar i renditjes së postimeve
-    </string>
+    <string name="settings_default_post_sort_type">Lloji i paracaktuar i renditjes së postimeve</string>
     <string name="settings_downvote_color">Ngjyra e votimit të poshtëm</string>
     <string name="settings_dynamic_colors">Përdor ngjyra dinamike</string>
     <string name="settings_enable_crash_report">Aktivizo raportimin e aksidenteve</string>
@@ -200,8 +191,7 @@
     <string name="settings_full_height_images">Imazhe me lartësi të plotë</string>
     <string name="settings_include_nsfw">Përfshi përmbajtjen e NSFW</string>
     <string name="settings_language">Gjuha</string>
-    <string name="settings_navigation_bar_titles_visible">Shfaq titujt e shiritit të navigimit
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Shfaq titujt e shiritit të navigimit</string>
     <string name="settings_open_url_external">Hap URL-të në shfletuesin e jashtëm</string>
     <string name="settings_points_short">length unit</string>
     <string name="settings_post_layout">Planimetria e postimit</string>
@@ -221,13 +211,9 @@
     <string name="settings_ui_theme">Tema e ndërfaqes së përdoruesit</string>
     <string name="settings_upvote_color">Ngjyra e upvote</string>
     <string name="settings_hide_navigation_bar">Fshih shiritin e navigimit gjatë lëvizjes</string>
-    <string name="settings_zombie_mode_interval">Kohëzgjatja e intervalit të modalitetit Zombie
-    </string>
-    <string name="settings_zombie_mode_scroll_amount">Shuma e lëvizjes në modalitetin Zombie
-    </string>
-    <string name="settings_mark_as_read_while_scrolling">Shëno postimet si të lexuara gjatë
-        lëvizjes
-    </string>
+    <string name="settings_zombie_mode_interval">Kohëzgjatja e intervalit të modalitetit Zombie</string>
+    <string name="settings_zombie_mode_scroll_amount">Shuma e lëvizjes në modalitetin Zombie</string>
+    <string name="settings_mark_as_read_while_scrolling">Shëno postimet si të lexuara gjatë lëvizjes</string>
     <string name="action_quote">Citim</string>
     <string name="mod_action_allow">Lejo përdoruesin përsëri</string>
     <string name="mod_action_ban">Ndalo përdoruesin</string>
@@ -245,10 +231,7 @@
     <string name="report_list_type_unresolved">I pazgjidhur</string>
     <string name="report_action_resolve">Zgjidh</string>
     <string name="report_action_unresolve">Zgjidhe</string>
-    <string name="sidebar_not_logged_message">Mirë se erdhe në Rakun për Lemmin!\n\nNë modalitetin
-        anonim, përdorni butonin zbritës (▼) më sipër për të ndryshuar instancën.\n\nMund të hyni në
-        intencën tuaj në çdo kohë nga ekrani i Profilit.\n\nGëzohu Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Mirë se erdhe në Rakun për Lemmin!\n\nNë modalitetin anonim, përdorni butonin zbritës (▼) më sipër për të ndryshuar instancën.\n\nMund të hyni në intencën tuaj në çdo kohë nga ekrani i Profilit.\n\nGëzohu Lemmy!</string>
     <string name="settings_default_inbox_type">Lloji i paracaktuar i kutisë së mesazheve</string>
     <string name="mod_action_add_mod">Shtoni moderator</string>
     <string name="mod_action_remove_mod">Hiqni moderatorin</string>
@@ -349,4 +332,5 @@
     <string name="moderator_zone_title">Mjete për moderatorët</string>
     <string name="moderator_zone_action_comments">Komentet e moderuara</string>
     <string name="moderator_zone_action_posts">Postimet e moderuara</string>
+    <string name="message_auth_issue">Ndodhi një gabim gjatë marrjes së të dhënave të përdoruesit, provoni të rifreskoni ekranin</string>
 </resources>

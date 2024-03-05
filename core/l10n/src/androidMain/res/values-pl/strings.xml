@@ -89,9 +89,7 @@
     <string name="inbox_listing_type_unread">Nieprzeczytany</string>
     <string name="inbox_action_mark_read">Oznacz jako przeczytane</string>
     <string name="inbox_action_mark_unread">Oznacz jako nieprzeczytane</string>
-    <string name="inbox_not_logged_message">Obecnie nie jesteś zalogowany.\nDodaj konto na ekranie
-        profilu, aby zobaczyć swoją skrzynkę odbiorczą."
-    </string>
+    <string name="inbox_not_logged_message">Obecnie nie jesteś zalogowany.\nDodaj konto na ekranie profilu, aby zobaczyć swoją skrzynkę odbiorczą."</string>
     <string name="inbox_section_mentions">Wspomnienia</string>
     <string name="inbox_section_messages">Wiadomości</string>
     <string name="inbox_section_replies">Odpowiedzi</string>
@@ -107,12 +105,9 @@
     <string name="manage_accounts_title">Zarządzanie kontami</string>
     <string name="manage_subscriptions_header_multicommunities">Wielospołeczności</string>
     <string name="manage_subscriptions_header_subscriptions">Subskrypcje</string>
-    <string name="message_empty_comments">Jest tam zbyt cicho.\nChcesz być tym, który napisze
-        pierwszy komentarz?"
-    </string>
+    <string name="message_empty_comments">Jest tam zbyt cicho.\nChcesz być tym, który napisze pierwszy komentarz?</string>
     <string name="message_empty_list">Brak elementów do wyświetlenia</string>
-    <string name="message_error_loading_comments">Wystąpił błąd podczas ładowania komentarzy.
-    </string>
+    <string name="message_error_loading_comments">Wystąpił błąd podczas ładowania komentarzy.</string>
     <string name="message_generic_error">Błąd ogólny</string>
     <string name="message_image_loading_error">Błąd ładowania obrazu</string>
     <string name="message_invalid_field">Nieprawidłowe pole</string>
@@ -145,9 +140,7 @@
     <string name="profile_day_short">d</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">m</string>
-    <string name="profile_not_logged_message">Obecnie nie jesteś zalogowany.\nDodaj konto, aby
-        kontynuować.
-    </string>
+    <string name="profile_not_logged_message">Obecnie nie jesteś zalogowany.\nDodaj konto, aby kontynuować.</string>
     <string name="profile_section_comments">Komentarze</string>
     <string name="profile_section_posts">Posty</string>
     <string name="profile_thousand_short">k</string>
@@ -200,8 +193,7 @@
     <string name="settings_include_nsfw">Dołączanie treści NSFW</string>
     <string name="settings_language">Język</string>
     <string name="settings_navigation_bar_titles_visible">Pokaż tytuły pasków nawigacji</string>
-    <string name="settings_open_url_external">Otwieranie adresów URL w zewnętrznej przeglądarce
-    </string>
+    <string name="settings_open_url_external">Otwieranie adresów URL w zewnętrznej przeglądarce</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Układ posta</string>
     <string name="settings_post_layout_card">Kartka</string>
@@ -221,9 +213,7 @@
     <string name="settings_upvote_color">Kolor głosów pozytywnych</string>
     <string name="settings_zombie_mode_interval">Czas trwania interwału trybu zombie</string>
     <string name="settings_zombie_mode_scroll_amount">Ilość przewijania trybu zombie</string>
-    <string name="settings_mark_as_read_while_scrolling">Oznacz posty jako przeczytane podczas
-        przewijania
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Oznacz posty jako przeczytane podczas przewijania</string>
     <string name="action_quote">Cytat</string>
     <string name="mod_action_allow">Ponownie zezwolić użytkownikowi</string>
     <string name="mod_action_ban">Zablokuj użytkownika</string>
@@ -241,11 +231,7 @@
     <string name="report_list_type_unresolved">Nierozwiązany</string>
     <string name="report_action_resolve">Rozwiąż</string>
     <string name="report_action_unresolve">Cofnij rozwiązanie</string>
-    <string name="sidebar_not_logged_message">Witamy w Raccoon dla Lemmy\'ego!\n\nW trybie
-        anonimowym
-        użyj przycisku rozwijanego (▼) powyżej, aby zmienić instancję.\n\nMożesz zalogować się do
-        swojej instancji pod adresem w dowolnym momencie na ekranie profilu.\n\nCiesz się Lemmym!
-    </string>
+    <string name="sidebar_not_logged_message">Witamy w Raccoon dla Lemmy\'ego!\n\nW trybie anonimowym użyj przycisku rozwijanego (▼) powyżej, aby zmienić instancję.\n\nMożesz zalogować się do swojej instancji pod adresem w dowolnym momencie na ekranie profilu.\n\nCiesz się Lemmym!</string>
     <string name="settings_default_inbox_type">Domyślny typ skrzynki odbiorczej</string>
     <string name="mod_action_add_mod">Dodaj moderatora</string>
     <string name="mod_action_remove_mod">Usuń moderatora</string>
@@ -346,4 +332,5 @@
     <string name="moderator_zone_title">Narzędzia dla moderatorów</string>
     <string name="moderator_zone_action_comments">Moderowane komentarze</string>
     <string name="moderator_zone_action_posts">Moderowane posty</string>
+    <string name="message_auth_issue">Wystąpił błąd podczas pobierania danych użytkownika. Spróbuj odświeżyć ekran</string>
 </resources>

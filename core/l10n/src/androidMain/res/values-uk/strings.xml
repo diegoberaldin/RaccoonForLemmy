@@ -88,9 +88,7 @@
     <string name="inbox_listing_type_all">Усі</string>
     <string name="inbox_listing_type_title">Тип папки «Вхідні»</string>
     <string name="inbox_listing_type_unread">Непрочитане</string>
-    <string name="inbox_not_logged_message">Наразі ви не ввійшли в систему.\nДодайте обліковий запис
-        на екрані профілю, щоб переглянути папку \"Вхідні\".
-    </string>
+    <string name="inbox_not_logged_message">Наразі ви не ввійшли в систему.\nДодайте обліковий запис на екрані профілю, щоб переглянути папку \"Вхідні\".</string>
     <string name="inbox_section_mentions">Згадування</string>
     <string name="inbox_section_messages">Повідомлення</string>
     <string name="inbox_section_replies">Відповіді</string>
@@ -106,12 +104,9 @@
     <string name="manage_accounts_title">Керування обліковими записами</string>
     <string name="manage_subscriptions_header_multicommunities">Мультиспільноти</string>
     <string name="manage_subscriptions_header_subscriptions">Підписки</string>
-    <string name="message_empty_comments">Там занадто тихо.\nЧи хотіли б ви бути тим, хто
-        пише перший коментар?
-    </string>
+    <string name="message_empty_comments">Там занадто тихо.\nЧи хотіли б ви бути тим, хто пише перший коментар?</string>
     <string name="message_empty_list">елементів для відображення</string>
-    <string name="message_error_loading_comments">Сталася помилка під час завантаження коментарів.
-    </string>
+    <string name="message_error_loading_comments">Сталася помилка під час завантаження коментарів.</string>
     <string name="message_generic_error">Загальна помилка шини</string>
     <string name="message_image_loading_error">Помилка завантаження зображення</string>
     <string name="message_invalid_field">Недійсне поле</string>
@@ -144,9 +139,7 @@
     <string name="profile_day_short">д</string>
     <string name="profile_million_short">m</string>
     <string name="profile_month_short">м</string>
-    <string name="profile_not_logged_message">Наразі ви не ввійшли в систему\n.Додайте облікового
-        запису, щоб продовжити.
-    </string>
+    <string name="profile_not_logged_message">Наразі ви не ввійшли в систему\n.Додайте облікового запису, щоб продовжити.</string>
     <string name="profile_section_comments">Коментарі</string>
     <string name="profile_section_posts">Записи</string>
     <string name="profile_thousand_short">k</string>
@@ -186,8 +179,7 @@
     <string name="settings_content_font_smaller">Дуже малий</string>
     <string name="settings_content_font_smallest">Подвійний екстра малий</string>
     <string name="settings_custom_seed_color">Призначені Колір теми</string>
-    <string name="settings_default_comment_sort_type">Тип сортування коментарів за замовчуванням
-    </string>
+    <string name="settings_default_comment_sort_type">Тип сортування коментарів за замовчуванням</string>
     <string name="settings_default_listing_type">Тип подачі за замовчуванням</string>
     <string name="settings_default_post_sort_type">Порядок сортування за замовчуванням</string>
     <string name="settings_downvote_color">Колір Downvote</string>
@@ -198,8 +190,7 @@
     <string name="settings_full_height_images">Зображення в повний зріст</string>
     <string name="settings_include_nsfw">Включити вміст NSFW</string>
     <string name="settings_language">Мова</string>
-    <string name="settings_navigation_bar_titles_visible">Показати заголовки панелі навігації
-    </string>
+    <string name="settings_navigation_bar_titles_visible">Показати заголовки панелі навігації</string>
     <string name="settings_open_url_external">Відкрити у зовнішньому навігаторі</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Макет дописів</string>
@@ -221,9 +212,7 @@
     <string name="settings_hide_navigation_bar">Сховати панель навігації під час прокрутки</string>
     <string name="settings_zombie_mode_interval">Тривалість інтервалу режиму зомбі</string>
     <string name="settings_zombie_mode_scroll_amount">Кількість прокрутки в зомбі-режимі</string>
-    <string name="settings_mark_as_read_while_scrolling">Позначити дописи як прочитані під час
-        прокрутки
-    </string>
+    <string name="settings_mark_as_read_while_scrolling">Позначити дописи як прочитані під час прокрутки</string>
     <string name="action_quote">Цитата</string>
     <string name="mod_action_allow">Дозволити користувачеві знову</string>
     <string name="mod_action_ban">Бан Користувач</string>
@@ -241,10 +230,7 @@
     <string name="report_list_type_unresolved">Невирішено</string>
     <string name="report_action_resolve">Вирішено</string>
     <string name="report_action_unresolve">Невирішено</string>
-    <string name="sidebar_not_logged_message">Ласкаво просимо до Raccoon for Lemmy!\n\nУ анонімному
-        режимі скористайтеся випадаючою кнопкою (▼) вище, щоб змінити екземпляр\n\n.Ви можете увійти
-        в систему за адресою будь-коли на екрані профілю.\n\nНасолоджуйтесь Lemmy!
-    </string>
+    <string name="sidebar_not_logged_message">Ласкаво просимо до Raccoon for Lemmy!\n\nУ анонімному режимі скористайтеся випадаючою кнопкою (▼) вище, щоб змінити екземпляр\n\n.Ви можете увійти в систему за адресою будь-коли на екрані профілю.\n\nНасолоджуйтесь Lemmy!</string>
     <string name="settings_default_inbox_type">Тип папки «Вхідні» за замовчуванням</string>
     <string name="mod_action_add_mod">Додати модератора</string>
     <string name="mod_action_remove_mod">Видалити модератора</string>
@@ -308,8 +294,7 @@
     <string name="settings_manage_ban_action_unban">Зняти бан</string>
     <string name="settings_manage_ban_section_instances">Примірники</string>
     <string name="settings_edge_to_edge">Вміст від краю до краю</string>
-    <string name="settings_post_body_max_lines">Максимальна кількість рядків для тіла повідомлення
-    </string>
+    <string name="settings_post_body_max_lines">Максимальна кількість рядків для тіла повідомлення</string>
     <string name="settings_post_body_max_lines_unlimited">Необмежений</string>
     <string name="message_content_removed">(цей вміст було видалено)</string>
     <string name="post_list_load_more_posts">Завантажити більше дописів</string>
@@ -346,4 +331,5 @@
     <string name="moderator_zone_title">Інструменти для модераторів</string>
     <string name="moderator_zone_action_comments">Модеровані коментарі</string>
     <string name="moderator_zone_action_posts">Модеровані дописи</string>
+    <string name="message_auth_issue">Під час отримання даних користувача сталася помилка. Спробуйте оновити екран</string>
 </resources>
