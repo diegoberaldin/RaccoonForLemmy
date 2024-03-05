@@ -10,6 +10,7 @@ internal val internalSharedModule = module {
     factory<MainScreenMviModel> {
         MainViewModel(
             inboxCoordinator = get(),
+            identityRepository = get(),
         )
     }
     single<DetailOpener> {

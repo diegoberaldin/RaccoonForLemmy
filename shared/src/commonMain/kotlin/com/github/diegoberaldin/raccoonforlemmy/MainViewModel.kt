@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -10,6 +11,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val inboxCoordinator: InboxCoordinator,
+    private val identityRepository: IdentityRepository,
 ) : MainScreenMviModel,
     DefaultMviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>(
         initialState = MainScreenMviModel.UiState(),
@@ -18,6 +20,8 @@ class MainViewModel(
     override fun onStarted() {
         super.onStarted()
         scope?.launch(Dispatchers.IO) {
+            identityRepository.startup()
+
             inboxCoordinator.totalUnread.onEach { unreadCount ->
                 emitEffect(MainScreenMviModel.Effect.UnreadItemsDetected(unreadCount))
             }.launchIn(this)

@@ -7,11 +7,13 @@ interface IdentityRepository {
     val authToken: StateFlow<String?>
     val isLogged: StateFlow<Boolean?>
 
+    suspend fun startup()
+
     fun storeToken(
         jwt: String,
     )
 
     fun clearToken()
 
-    fun refreshLoggedState()
+    suspend fun refreshLoggedState()
 }
