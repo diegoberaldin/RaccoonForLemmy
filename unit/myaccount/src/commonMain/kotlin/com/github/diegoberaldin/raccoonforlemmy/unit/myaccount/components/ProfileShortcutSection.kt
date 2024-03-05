@@ -28,7 +28,6 @@ internal fun ProfileShortcutSection(
         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {
         SettingsRow(
-            modifier = modifier.padding(vertical = Spacing.xxs),
             icon = Icons.Default.Bookmark,
             title = LocalXmlStrings.current.navigationDrawerTitleBookmarks,
             disclosureIndicator = true,
@@ -36,7 +35,6 @@ internal fun ProfileShortcutSection(
         )
 
         SettingsRow(
-            modifier = Modifier.padding(vertical = Spacing.xxs),
             icon = Icons.Default.SettingsApplications,
             title = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
             disclosureIndicator = true,
@@ -44,7 +42,6 @@ internal fun ProfileShortcutSection(
         )
 
         SettingsRow(
-            modifier = Modifier.padding(vertical = Spacing.xxs),
             icon = Icons.Default.Drafts,
             title = LocalXmlStrings.current.navigationDrawerTitleDrafts,
             disclosureIndicator = true,
@@ -53,7 +50,6 @@ internal fun ProfileShortcutSection(
 
         if (isMod) {
             SettingsRow(
-                modifier = Modifier.padding(vertical = Spacing.xxs),
                 icon = Icons.AutoMirrored.Default.Message,
                 title = LocalXmlStrings.current.moderatorZoneTitle,
                 disclosureIndicator = true,
