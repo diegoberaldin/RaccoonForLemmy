@@ -39,6 +39,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
+private const val ASPECT_RATIO = 3.5f
+
 @Composable
 fun CommunityHeader(
     community: CommunityModel,
@@ -54,12 +56,12 @@ fun CommunityHeader(
         val banner = community.banner.orEmpty()
         if (banner.isNotEmpty() && autoLoadImages) {
             Box(
-                modifier = Modifier.fillMaxWidth().aspectRatio(4f),
+                modifier = Modifier.fillMaxWidth().aspectRatio(ASPECT_RATIO),
             ) {
                 CustomImage(
                     modifier = Modifier.fillMaxSize(),
                     url = banner,
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = ContentScale.Crop,
                     contentDescription = null,
                 )
                 Box(

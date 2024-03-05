@@ -43,6 +43,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
+private const val ASPECT_RATIO = 3.5f
+
 @Composable
 fun UserHeader(
     user: UserModel,
@@ -58,13 +60,13 @@ fun UserHeader(
         val banner = user.banner.orEmpty()
         if (banner.isNotEmpty() && autoLoadImages) {
             Box(
-                modifier = Modifier.fillMaxWidth().aspectRatio(4f),
+                modifier = Modifier.fillMaxWidth().aspectRatio(ASPECT_RATIO),
             ) {
                 CustomImage(
                     modifier = Modifier.fillMaxSize(),
                     url = banner,
                     quality = FilterQuality.Low,
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = ContentScale.Crop,
                 )
                 Box(
                     modifier = Modifier.fillMaxSize().background(
