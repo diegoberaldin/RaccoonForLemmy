@@ -91,7 +91,6 @@ object ProfileLoggedScreen : Tab {
         val model = getScreenModel<ProfileLoggedMviModel>()
         model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
-        val user = uiState.user
         val notificationCenter = remember { getNotificationCenter() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val lazyListState = rememberLazyListState()
@@ -139,32 +138,48 @@ object ProfileLoggedScreen : Tab {
                 }.launchIn(this)
         }
 
-        if (user != null) {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxxs),
-                verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                horizontalAlignment = Alignment.CenterHorizontally,
+        if (uiState.initial) {
+            return
+        }
+
+        Column(
+            modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxxs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.s),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            val pullRefreshState = rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh = rememberCallback(model) {
+                    model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+                },
+            )
+            Box(
+                modifier = Modifier.pullRefresh(pullRefreshState),
             ) {
-                val pullRefreshState = rememberPullRefreshState(
-                    refreshing = uiState.refreshing,
-                    onRefresh = rememberCallback(model) {
-                        model.reduce(ProfileLoggedMviModel.Intent.Refresh)
-                    },
-                )
-                Box(
-                    modifier = Modifier.pullRefresh(pullRefreshState),
+                LazyColumn(
+                    state = lazyListState,
                 ) {
-                    LazyColumn(
-                        state = lazyListState,
-                    ) {
+                    if (uiState.user == null) {
                         item {
-                            UserHeader(
-                                user = user,
-                                autoLoadImages = uiState.autoLoadImages,
-                                onOpenImage = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
-                                },
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                                text = LocalXmlStrings.current.messageAuthIssue,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
+                        }
+                    } else {
+                        item {
+                            uiState.user?.also { user ->
+                                UserHeader(
+                                    user = user,
+                                    autoLoadImages = uiState.autoLoadImages,
+                                    onOpenImage = rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                    },
+                                )
+                            }
                         }
                         item {
                             ProfileShortcutSection(
@@ -356,7 +371,8 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.posts.isEmpty() && !uiState.loading && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth()
+                                        modifier = Modifier
+                                            .fillMaxWidth()
                                             .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalXmlStrings.current.messageEmptyList,
@@ -520,19 +536,19 @@ object ProfileLoggedScreen : Tab {
                                 }
                             }
                         }
-                        item {
-                            Spacer(modifier = Modifier.height(Spacing.xxxl))
-                        }
                     }
-
-                    PullRefreshIndicator(
-                        refreshing = uiState.refreshing,
-                        state = pullRefreshState,
-                        modifier = Modifier.align(Alignment.TopCenter),
-                        backgroundColor = MaterialTheme.colorScheme.background,
-                        contentColor = MaterialTheme.colorScheme.onBackground,
-                    )
+                    item {
+                        Spacer(modifier = Modifier.height(Spacing.xxxl))
+                    }
                 }
+
+                PullRefreshIndicator(
+                    refreshing = uiState.refreshing,
+                    state = pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    backgroundColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                )
             }
         }
 

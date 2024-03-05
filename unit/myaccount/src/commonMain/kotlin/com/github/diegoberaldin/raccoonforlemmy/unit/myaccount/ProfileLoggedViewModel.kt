@@ -193,7 +193,7 @@ class ProfileLoggedViewModel(
                     updateState {
                         it.copy(
                             user = user,
-                            moderatedCommunityIds = moderatedCommunities.map { it.id },
+                            moderatedCommunityIds = moderatedCommunities.map { c ->  c.id },
                         )
                     }
                 }
@@ -211,6 +211,9 @@ class ProfileLoggedViewModel(
             )
         }
         loadNextPage()
+        if (identityRepository.isLogged.value == null) {
+            identityRepository.refreshLoggedState()
+        }
     }
 
     private fun changeSection(section: ProfileLoggedSection) {
@@ -285,6 +288,7 @@ class ProfileLoggedViewModel(
                         loading = false,
                         canFetchMore = itemList?.isEmpty() != true,
                         refreshing = false,
+                        initial = false,
                     )
                 }
                 if (!itemList.isNullOrEmpty()) {
