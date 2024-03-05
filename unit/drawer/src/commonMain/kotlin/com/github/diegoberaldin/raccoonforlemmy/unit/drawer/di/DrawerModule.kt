@@ -15,6 +15,7 @@ val drawerModule = module {
             multiCommunityRepository = get(),
             settingsRepository = get(),
             favoriteCommunityRepository = get(),
+            notificationCenter = get(),
         )
     }
 }

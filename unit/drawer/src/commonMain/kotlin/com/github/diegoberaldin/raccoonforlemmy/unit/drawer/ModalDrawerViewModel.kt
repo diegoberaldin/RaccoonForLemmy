@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
 
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.FavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
@@ -38,6 +40,7 @@ class ModalDrawerViewModel(
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val settingsRepository: SettingsRepository,
     private val favoriteCommunityRepository: FavoriteCommunityRepository,
+    private val notificationCenter: NotificationCenter,
 ) : ModalDrawerMviModel,
     DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>(
         initialState = ModalDrawerMviModel.UiState()
@@ -56,6 +59,12 @@ class ModalDrawerViewModel(
             }.launchIn(this)
 
             identityRepository.isLogged.debounce(250).onEach { _ ->
+                refreshUser()
+                refresh()
+            }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
+                delay(250)
                 refreshUser()
                 refresh()
             }.launchIn(this)

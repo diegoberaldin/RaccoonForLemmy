@@ -92,6 +92,10 @@ class ProfileLoggedViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
+                delay(250)
+                refreshUser()
+            }.launchIn(this)
 
             if (uiState.value.posts.isEmpty()) {
                 withContext(Dispatchers.IO) {
@@ -193,7 +197,7 @@ class ProfileLoggedViewModel(
                     updateState {
                         it.copy(
                             user = user,
-                            moderatedCommunityIds = moderatedCommunities.map { c ->  c.id },
+                            moderatedCommunityIds = moderatedCommunities.map { c -> c.id },
                         )
                     }
                 }

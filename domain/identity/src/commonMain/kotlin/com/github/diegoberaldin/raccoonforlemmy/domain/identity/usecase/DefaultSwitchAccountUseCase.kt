@@ -25,7 +25,6 @@ internal class DefaultSwitchAccountUseCase(
             accountRepository.setActive(oldActiveAccountId, false)
         }
         accountRepository.setActive(accountId, true)
-        identityRepository.clearToken()
         notificationCenter.send(NotificationCenterEvent.Logout)
         serviceProvider.changeInstance(instance)
         identityRepository.storeToken(jwt)
