@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Moderované komentáře</string>
     <string name="moderator_zone_action_posts">Moderované příspěvky</string>
     <string name="message_auth_issue">Při načítání uživatelských dat došlo k chybě, zkuste obnovit obrazovku</string>
+    <string name="ban_reason_placeholder">Důvod (volitelné)</string>
+    <string name="ban_item_permanent">Trvalý zákaz</string>
+    <string name="ban_item_remove_data">Odebrat data</string>
+    <string name="ban_item_duration_days">Délka (dny)</string>
 </resources>

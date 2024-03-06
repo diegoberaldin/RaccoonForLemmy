@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Модерирани коментари</string>
     <string name="moderator_zone_action_posts">Модерирани публикации</string>
     <string name="message_auth_issue">Възникна грешка при извличането на потребителски данни, опитайте да обновите екрана</string>
+    <string name="ban_reason_placeholder">Причина (по избор)</string>
+    <string name="ban_item_permanent">Постоянна забрана</string>
+    <string name="ban_item_remove_data">Премахване на данни</string>
+    <string name="ban_item_duration_days">Продължителност (дни)</string>
 </resources>

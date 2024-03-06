@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Comentarios por moderar</string>
     <string name="moderator_zone_action_posts">Publicaciones por moderar</string>
     <string name="message_auth_issue">Se produjo un error al obtener los datos del usuario, intente actualizar la pantalla</string>
+    <string name="ban_reason_placeholder">Razón (opcional)</string>
+    <string name="ban_item_permanent">Prohibición permanente</string>
+    <string name="ban_item_remove_data">Eliminar datos</string>
+    <string name="ban_item_duration_days">Duración (días)</string>
 </resources>

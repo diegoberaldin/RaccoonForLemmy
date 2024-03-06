@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Modererte kommentarer</string>
     <string name="moderator_zone_action_posts">Modererte innlegg</string>
     <string name="message_auth_issue">Det oppstod en feil under henting av brukerdata. Prøv å oppdatere skjermen</string>
+    <string name="ban_reason_placeholder">Årsak (valgfritt)</string>
+    <string name="ban_item_permanent">Permanent forbud</string>
+    <string name="ban_item_remove_data">Fjern data</string>
+    <string name="ban_item_duration_days">Varighet (dager)</string>
 </resources>

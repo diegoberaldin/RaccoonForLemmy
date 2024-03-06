@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Tráchtanna modhnaithe</string>
     <string name="moderator_zone_action_posts">Poist mhodhnaithe</string>
     <string name="message_auth_issue">Tharla earráid agus sonraí úsáideora á bhfáil agat, bain triail as an scáileán a athnuachan</string>
+    <string name="ban_reason_placeholder">Fáth (roghnach)</string>
+    <string name="ban_item_permanent">Cosc buan</string>
+    <string name="ban_item_remove_data">Bain sonraí</string>
+    <string name="ban_item_duration_days">Fad (laethanta)</string>
 </resources>

@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Kummenti moderati</string>
     <string name="moderator_zone_action_posts">Postijiet moderati</string>
     <string name="message_auth_issue">Żball seħħ waqt li ġġib id-dejta tal-utent, ipprova aġġorna l-iskrin</string>
+    <string name="ban_reason_placeholder">Raġuni (mhux obbligatorju)</string>
+    <string name="ban_item_permanent">Projbizzjoni permanenti</string>
+    <string name="ban_item_remove_data">Neħħi d-data</string>
+    <string name="ban_item_duration_days">Tul (jiem)</string>
 </resources>

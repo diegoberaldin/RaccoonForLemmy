@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Modereeritud kommentaarid</string>
     <string name="moderator_zone_action_posts">Modereeritud postitused</string>
     <string name="message_auth_issue">Kasutajaandmete toomisel ilmnes viga. Proovige ekraani värskendada</string>
+    <string name="ban_reason_placeholder">Põhjus (valikuline)</string>
+    <string name="ban_item_permanent">Alaline keeld</string>
+    <string name="ban_item_remove_data">Eemalda andmed</string>
+    <string name="ban_item_duration_days">Kestus (päeva)</string>
 </resources>

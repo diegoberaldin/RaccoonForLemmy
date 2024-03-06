@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Commenti da moderare</string>
     <string name="moderator_zone_action_posts">Post da moderare</string>
     <string name="message_auth_issue">Si è verificato un errore nel recupero dei dati utente, fare refresh della schermata</string>
+    <string name="ban_reason_placeholder">Motivazione (opzionale)</string>
+    <string name="ban_item_permanent">Ban permanente</string>
+    <string name="ban_item_remove_data">Rimuovi dati</string>
+    <string name="ban_item_duration_days">Durata (giorni)</string>
 </resources>

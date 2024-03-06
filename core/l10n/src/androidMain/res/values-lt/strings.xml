@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Moderuojami komentarai</string>
     <string name="moderator_zone_action_posts">Moderuojami įrašai</string>
     <string name="message_auth_issue">Gaunant vartotojo duomenis įvyko klaida. Pabandykite atnaujinti ekraną</string>
+    <string name="ban_reason_placeholder">Priežastis (neprivaloma)</string>
+    <string name="ban_item_permanent">Nuolatinis draudimas</string>
+    <string name="ban_item_remove_data">Pašalinti duomenis</string>
+    <string name="ban_item_duration_days">Trukmė (dienomis)</string>
 </resources>

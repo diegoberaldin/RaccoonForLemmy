@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Commentaires à modérer</string>
     <string name="moderator_zone_action_posts">Publications à modérer</string>
     <string name="message_auth_issue">Une erreur s\'est produite lors de la récupération des données utilisateur, essayez d\'actualiser l\'écran</string>
+    <string name="ban_reason_placeholder">Raison (facultatif)</string>
+    <string name="ban_item_permanent">Interdiction permanente</string>
+    <string name="ban_item_remove_data">Supprimer données</string>
+    <string name="ban_item_duration_days">Durée (jours)</string>
 </resources>

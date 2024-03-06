@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Denetlenen yorumlar</string>
     <string name="moderator_zone_action_posts">Denetlenen gönderiler</string>
     <string name="message_auth_issue">Kullanıcı verileri alınırken bir hata oluştu, ekranı yenilemeyi deneyin</string>
+    <string name="ban_reason_placeholder">Sebep (isteğe bağlı)</string>
+    <string name="ban_item_permanent">Kalıcı yasak</string>
+    <string name="ban_item_remove_data">Verileri kaldır</string>
+    <string name="ban_item_duration_days">Süre (gün)</string>
 </resources>

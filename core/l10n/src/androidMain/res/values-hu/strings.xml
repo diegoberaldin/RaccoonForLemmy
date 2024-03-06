@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Moderált megjegyzések</string>
     <string name="moderator_zone_action_posts">Moderált bejegyzések</string>
     <string name="message_auth_issue">Hiba történt a felhasználói adatok lekérése közben, próbálja meg frissíteni a képernyőt</string>
+    <string name="ban_reason_placeholder">Ok (nem kötelező)</string>
+    <string name="ban_item_permanent">Végleges eltiltás</string>
+    <string name="ban_item_remove_data">Távolítsa el az adatokat</string>
+    <string name="ban_item_duration_days">Időtartam (nap)</string>
 </resources>

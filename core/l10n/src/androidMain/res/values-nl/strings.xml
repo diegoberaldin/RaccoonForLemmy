@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Gemodereerde opmerkingen</string>
     <string name="moderator_zone_action_posts">Gemodereerde berichten</string>
     <string name="message_auth_issue">Er is een fout opgetreden tijdens het ophalen van gebruikersgegevens. Probeer het scherm te vernieuwen</string>
+    <string name="ban_reason_placeholder">Reden (optioneel)</string>
+    <string name="ban_item_permanent">Permanente verbanning</string>
+    <string name="ban_item_remove_data">Gegevens verwijderen</string>
+    <string name="ban_item_duration_days">Duur (dagen)</string>
 </resources>

@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">تعليقات خاضعة للإشراف</string>
     <string name="moderator_zone_action_posts">المشاركات الخاضعة للإشراف</string>
     <string name="message_auth_issue">حدث خطأ أثناء جلب بيانات المستخدم، حاول تحديث الشاشة</string>
+    <string name="ban_reason_placeholder">لسبب (اختياري)</string>
+    <string name="ban_item_permanent">فرض حظر دائم</string>
+    <string name="ban_item_remove_data">إزالة البيانات</string>
+    <string name="ban_item_duration_days">المدة (أيام)</string>
 </resources>

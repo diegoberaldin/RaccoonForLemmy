@@ -332,4 +332,8 @@
     <string name="moderator_zone_action_comments">Модерируемые комментарии</string>
     <string name="moderator_zone_action_posts">Модерируемые сообщения</string>
     <string name="message_auth_issue">Произошла ошибка при получении пользовательских данных. Попробуйте обновить экран.</string>
+    <string name="ban_reason_placeholder">Причина (необязательно)</string>
+    <string name="ban_item_permanent">Постоянный бан</string>
+    <string name="ban_item_remove_data">Удалить данные</string>
+    <string name="ban_item_duration_days">Продолжительность (дни)</string>
 </resources>

@@ -333,4 +333,8 @@
     <string name="moderator_zone_action_comments">Moderirani komentari</string>
     <string name="moderator_zone_action_posts">Moderirani postovi</string>
     <string name="message_auth_issue">Došlo je do pogreške prilikom dohvaćanja korisničkih podataka, pokušajte osvježiti zaslon</string>
+    <string name="ban_reason_placeholder">Razlog (neobavezno)</string>
+    <string name="ban_item_permanent">Trajna zabrana</string>
+    <string name="ban_item_remove_data">Ukloni podatke</string>
+    <string name="ban_item_duration_days">Trajanje (dani)</string>
 </resources>

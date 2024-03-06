@@ -332,4 +332,8 @@
     <string name="moderator_zone_action_comments">Модеровані коментарі</string>
     <string name="moderator_zone_action_posts">Модеровані дописи</string>
     <string name="message_auth_issue">Під час отримання даних користувача сталася помилка. Спробуйте оновити екран</string>
+    <string name="ban_reason_placeholder">Причина (необов\'язково)</string>
+    <string name="ban_item_permanent">Постійний бан</string>
+    <string name="ban_item_remove_data">Видалити дані</string>
+    <string name="ban_item_duration_days">Тривалість (дні)</string>
 </resources>
