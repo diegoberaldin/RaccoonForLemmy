@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +23,8 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,17 +37,20 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
@@ -102,6 +107,7 @@ class AccountSettingsScreen : Screen {
         val galleryHelper = remember { getGalleryHelper() }
         var openAvatarPicker by remember { mutableStateOf(false) }
         var openBannerPicker by remember { mutableStateOf(false) }
+        var confirmBackWithUnsavedChangesDialog by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
@@ -117,8 +123,23 @@ class AccountSettingsScreen : Screen {
             }.launchIn(this)
         }
 
+        DisposableEffect(key) {
+            navigationCoordinator.setCanGoBackCallback {
+                if (uiState.hasUnsavedChanges) {
+                    confirmBackWithUnsavedChangesDialog = true
+                    return@setCanGoBackCallback false
+                }
+                true
+            }
+            onDispose {
+                navigationCoordinator.setCanGoBackCallback(null)
+            }
+        }
+
         Scaffold(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier
+                .safeContentPadding()
+                .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
@@ -134,7 +155,11 @@ class AccountSettingsScreen : Screen {
                             Image(
                                 modifier = Modifier.onClick(
                                     onClick = rememberCallback {
-                                        navigationCoordinator.popScreen()
+                                        if (uiState.hasUnsavedChanges) {
+                                            confirmBackWithUnsavedChangesDialog = true
+                                        } else {
+                                            navigationCoordinator.popScreen()
+                                        }
                                     },
                                 ),
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -153,17 +178,11 @@ class AccountSettingsScreen : Screen {
                             )
                         )
                         Icon(
-                            modifier = Modifier
-                                .then(
-                                    if (!uiState.loading) {
-                                        Modifier
-                                    } else Modifier.rotate(iconRotate)
-                                )
-                                .onClick(
-                                    onClick = rememberCallback {
-                                        model.reduce(AccountSettingsMviModel.Intent.Submit)
-                                    },
-                                ),
+                            modifier = Modifier.then(
+                                if (!uiState.loading) {
+                                    Modifier
+                                } else Modifier.rotate(iconRotate)
+                            ),
                             imageVector = Icons.Default.Sync,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -181,7 +200,7 @@ class AccountSettingsScreen : Screen {
                 }
             },
         ) { paddingValues ->
-            Box(
+            Column(
                 modifier = Modifier
                     .padding(paddingValues)
                     .then(
@@ -193,7 +212,7 @@ class AccountSettingsScreen : Screen {
                     )
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
+                    modifier = Modifier.weight(1f).verticalScroll(scrollState),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     SettingsHeader(
@@ -218,6 +237,7 @@ class AccountSettingsScreen : Screen {
                     AccountSettingsImageInfo(
                         title = LocalXmlStrings.current.settingsWebBanner,
                         imageModifier = Modifier.fillMaxWidth().aspectRatio(3.5f),
+                        contentScale = ContentScale.Crop,
                         url = uiState.banner,
                         onEdit = rememberCallback {
                             openBannerPicker = true
@@ -361,6 +381,20 @@ class AccountSettingsScreen : Screen {
                         },
                     )
                 }
+
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Button(
+                        enabled = uiState.hasUnsavedChanges,
+                        onClick = {
+                            model.reduce(AccountSettingsMviModel.Intent.Submit)
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.actionSave)
+                    }
+                }
             }
         }
 
@@ -427,6 +461,36 @@ class AccountSettingsScreen : Screen {
                 openBannerPicker = false
                 model.reduce(AccountSettingsMviModel.Intent.BannerSelected(bytes))
             }
+        }
+
+        if (confirmBackWithUnsavedChangesDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    confirmBackWithUnsavedChangesDialog = false
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            confirmBackWithUnsavedChangesDialog = false
+                        },
+                    ) {
+                        Text(text = "No, stay here")
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            confirmBackWithUnsavedChangesDialog = false
+                            navigationCoordinator.popScreen()
+                        },
+                    ) {
+                        Text(text = "Yes, quit")
+                    }
+                },
+                text = {
+                    Text(text = "There are unsaved changes, are you sure you want to quit?")
+                },
+            )
         }
     }
 }

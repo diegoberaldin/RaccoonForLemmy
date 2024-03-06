@@ -8,8 +8,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
 @Stable
 interface AccountSettingsMviModel :
-    MviModel<AccountSettingsMviModel.Intent, AccountSettingsMviModel.UiState, AccountSettingsMviModel.Effect>,
-    ScreenModel {
+    ScreenModel,
+    MviModel<AccountSettingsMviModel.Intent, AccountSettingsMviModel.UiState, AccountSettingsMviModel.Effect> {
 
     sealed interface Intent {
         data class ChangeDisplayName(val value: String) : Intent
@@ -29,9 +29,7 @@ interface AccountSettingsMviModel :
 
                 other as AvatarSelected
 
-                if (!value.contentEquals(other.value)) return false
-
-                return true
+                return value.contentEquals(other.value)
             }
 
             override fun hashCode(): Int {
@@ -46,9 +44,7 @@ interface AccountSettingsMviModel :
 
                 other as BannerSelected
 
-                if (!value.contentEquals(other.value)) return false
-
-                return true
+                return value.contentEquals(other.value)
             }
 
             override fun hashCode(): Int {
@@ -61,6 +57,7 @@ interface AccountSettingsMviModel :
 
     data class UiState(
         val loading: Boolean = false,
+        val hasUnsavedChanges: Boolean = false,
         val avatar: String = "",
         val banner: String = "",
         val bio: String = "",

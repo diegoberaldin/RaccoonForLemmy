@@ -24,6 +24,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 internal fun AccountSettingsImageInfo(
     modifier: Modifier = Modifier,
     imageModifier: Modifier = Modifier,
+    contentScale : ContentScale = ContentScale.FillBounds,
     title: String = "",
     url: String = "",
     onEdit: (() -> Unit)? = null,
@@ -55,7 +56,7 @@ internal fun AccountSettingsImageInfo(
                     modifier = imageModifier,
                     url = url,
                     quality = FilterQuality.Low,
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = contentScale,
                 )
             } else {
                 Box(
