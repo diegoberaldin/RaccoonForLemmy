@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Opak</string>
     <string name="bar_theme_transparent">Şeffaf</string>
     <string name="settings_bar_theme">Durum ve gezinme çubuğunun teması</string>
-    <string name="settings_colors_and_fonts">Renkler ve yazı tipleri</string>
+    <string name="settings_colors_and_fonts">Uygulama görünümü</string>
     <string name="settings_about_view_google_play">Google Play\'de görüntüle</string>
     <string name="settings_user_manual">Kullanım kılavuzu</string>
     <string name="settings_show_scores">Puanları göster</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Başlıkların metin boyutu</string>
     <string name="settings_comment_font_scale">Yorumların metin boyutu</string>
     <string name="settings_ancillary_font_scale">Yardımcı metinlerin boyutu</string>
-    <string name="settings_configure_content">İçerik görünümünü yapılandırma</string>
+    <string name="settings_configure_content">İçerik görünümü</string>
     <string name="settings_configure_text">Metin</string>
     <string name="settings_configure_customizations">Özelleştirmeler</string>
     <string name="navigation_drawer_title_drafts">Taslaklar</string>

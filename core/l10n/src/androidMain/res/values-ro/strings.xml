@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Opac</string>
     <string name="bar_theme_transparent">Transparent</string>
     <string name="settings_bar_theme">Tema barei de stare și navigare</string>
-    <string name="settings_colors_and_fonts">Culori și fonturi</string>
+    <string name="settings_colors_and_fonts">Aspectul aplicației</string>
     <string name="settings_about_view_google_play">Vizualizează pe Google Play</string>
     <string name="settings_user_manual">Manual de utilizare</string>
     <string name="settings_show_scores">Arată scoruri</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Dimensiunea textului titlurilor</string>
     <string name="settings_comment_font_scale">Dimensiunea textului comentariilor</string>
     <string name="settings_ancillary_font_scale">Dimensiunea textelor auxiliare</string>
-    <string name="settings_configure_content">Configurați aspectul conținutului</string>
+    <string name="settings_configure_content">Aspectul conținutului</string>
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Personalizări</string>
     <string name="navigation_drawer_title_drafts">Ciorne</string>

@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Opaki</string>
     <string name="bar_theme_transparent">Trasparenti</string>
     <string name="settings_bar_theme">Tema tal-istatus u l-bar tan-navigazzjoni</string>
-    <string name="settings_colors_and_fonts">Kuluri u fonts</string>
+    <string name="settings_colors_and_fonts">Applikazzjoni dehra</string>
     <string name="settings_about_view_google_play">Ara fuq Google Play</string>
     <string name="settings_user_manual">Manwal għall-utent</string>
     <string name="settings_show_scores">Uri punteġġi</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Daqs tat-test tat-titoli</string>
     <string name="settings_comment_font_scale">Daqs tat-test tal-kummenti</string>
     <string name="settings_ancillary_font_scale">Daqs tat-testi anċillari</string>
-    <string name="settings_configure_content">Ikkonfigura d-dehra tal-kontenut</string>
+    <string name="settings_configure_content">Dehra tal-kontenut</string>
     <string name="settings_configure_text">Test</string>
     <string name="settings_configure_customizations">Customizations</string>
     <string name="navigation_drawer_title_drafts">Abbozzi</string>

@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Áttetsző</string>
     <string name="bar_theme_transparent">Átlátszó</string>
     <string name="settings_bar_theme">Az állapot és a navigációs sáv témája</string>
-    <string name="settings_colors_and_fonts">Színek és betűtípusok</string>
+    <string name="settings_colors_and_fonts">Alkalmazás megjelenése</string>
     <string name="settings_about_view_google_play">Megtekintés a Google Playen</string>
     <string name="settings_user_manual">Használati utasítás</string>
     <string name="settings_show_scores">Pontok megjelenítése</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Címek szövegmérete</string>
     <string name="settings_comment_font_scale">Megjegyzések szövegmérete</string>
     <string name="settings_ancillary_font_scale">A segédszövegek mérete</string>
-    <string name="settings_configure_content">Konfigurálja a tartalom megjelenését</string>
+    <string name="settings_configure_content">Tartalmi megjelenés</string>
     <string name="settings_configure_text">Szöveg</string>
     <string name="settings_configure_customizations">Testreszabások</string>
     <string name="navigation_drawer_title_drafts">Tervezetek</string>

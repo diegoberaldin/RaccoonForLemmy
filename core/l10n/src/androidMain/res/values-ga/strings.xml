@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Teimhneach</string>
     <string name="bar_theme_transparent">Trédhearcach</string>
     <string name="settings_bar_theme">Téama an bharra stádais agus nascleanúna</string>
-    <string name="settings_colors_and_fonts">Dathanna agus clónna</string>
+    <string name="settings_colors_and_fonts">Cuma iarratais</string>
     <string name="settings_about_view_google_play">Amharc ar Google Play</string>
     <string name="settings_user_manual">Lámhleabhar úsáideora</string>
     <string name="settings_show_scores">Taispeáin scóir</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Méid téacs na dteideal</string>
     <string name="settings_comment_font_scale">Méid téacs na dtuairimí</string>
     <string name="settings_ancillary_font_scale">Méid na dtéacsanna coimhdeacha</string>
-    <string name="settings_configure_content">Cumraigh cuma ábhar</string>
+    <string name="settings_configure_content">Cuma ábhar</string>
     <string name="settings_configure_text">Téacs</string>
     <string name="settings_configure_customizations">Saincheapadh</string>
     <string name="navigation_drawer_title_drafts">Dréachtaí</string>

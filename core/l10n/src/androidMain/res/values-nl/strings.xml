@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Ondoorzichtig</string>
     <string name="bar_theme_transparent">Transparant</string>
     <string name="settings_bar_theme">Thema van de status- en navigatiebalk</string>
-    <string name="settings_colors_and_fonts">Kleuren en lettertypen</string>
+    <string name="settings_colors_and_fonts">Applicatie uiterlijk</string>
     <string name="settings_about_view_google_play">Bekijk op Google Play</string>
     <string name="settings_user_manual">Handleiding</string>
     <string name="settings_show_scores">Scores tonen</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Tekstgrootte van titels</string>
     <string name="settings_comment_font_scale">Tekstgrootte van opmerkingen</string>
     <string name="settings_ancillary_font_scale">Grootte van ondersteunende teksten</string>
-    <string name="settings_configure_content">Configureer het uiterlijk van de inhoud</string>
+    <string name="settings_configure_content">Inhoud uiterlijk</string>
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Aanpassingen</string>
     <string name="navigation_drawer_title_drafts">Concepten</string>

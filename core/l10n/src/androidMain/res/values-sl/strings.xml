@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Neprozoren</string>
     <string name="bar_theme_transparent">Pregleden</string>
     <string name="settings_bar_theme">Tema statusne in navigacijske vrstice</string>
-    <string name="settings_colors_and_fonts">Barve in pisave</string>
+    <string name="settings_colors_and_fonts">Videz aplikacije</string>
     <string name="settings_about_view_google_play">Ogled v Google Play</string>
     <string name="settings_user_manual">Navodila za uporabo</string>
     <string name="settings_show_scores">Pokaži rezultate</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Velikost besedila naslovov</string>
     <string name="settings_comment_font_scale">Velikost besedila komentarjev</string>
     <string name="settings_ancillary_font_scale">Velikost pomožnih besedil</string>
-    <string name="settings_configure_content">Konfigurirajte videz vsebine</string>
+    <string name="settings_configure_content">Videz vsebine</string>
     <string name="settings_configure_text">Besedilo</string>
     <string name="settings_configure_customizations">Prilagoditve</string>
     <string name="navigation_drawer_title_drafts">Osnutki</string>

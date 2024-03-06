@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Opaque</string>
     <string name="bar_theme_transparent">Transparent</string>
     <string name="settings_bar_theme">Thème barre d\'état et de navigation</string>
-    <string name="settings_colors_and_fonts">Couleurs et polices</string>
+    <string name="settings_colors_and_fonts">Apparence de l\'application</string>
     <string name="settings_about_view_google_play">Voir sur Google Play</string>
     <string name="settings_user_manual">Manuel de l\'utilisateur</string>
     <string name="settings_show_scores">Afficher les votes</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Taille du texte des titres</string>
     <string name="settings_comment_font_scale">Taille du texte des commentaires</string>
     <string name="settings_ancillary_font_scale">Taille des textes annexes</string>
-    <string name="settings_configure_content">Configurer l\'apparence du contenu</string>
+    <string name="settings_configure_content">Apparence du contenu</string>
     <string name="settings_configure_text">Texte</string>
     <string name="settings_configure_customizations">Personnalisations</string>
     <string name="navigation_drawer_title_drafts">Brouillons</string>

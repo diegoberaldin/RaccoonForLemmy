@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Nepriehľadné</string>
     <string name="bar_theme_transparent">Transparentné</string>
     <string name="settings_bar_theme">Téma stavovej a navigačnej lišty</string>
-    <string name="settings_colors_and_fonts">Farby a písma</string>
+    <string name="settings_colors_and_fonts">Vzhľad aplikácie</string>
     <string name="settings_about_view_google_play">Zobraziť v službe Google Play</string>
     <string name="settings_user_manual">Používateľská príručka</string>
     <string name="settings_show_scores">Zobraziť skóre</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Veľkosť textu titulkov</string>
     <string name="settings_comment_font_scale">Veľkosť textu komentárov</string>
     <string name="settings_ancillary_font_scale">Veľkosť pomocných textov</string>
-    <string name="settings_configure_content">Konfigurácia vzhľadu obsahu</string>
+    <string name="settings_configure_content">Vzhľad obsahu</string>
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Prispôsobenia</string>
     <string name="navigation_drawer_title_drafts">Koncepty</string>

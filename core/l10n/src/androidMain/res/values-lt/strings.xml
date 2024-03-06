@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Nepermatomas</string>
     <string name="bar_theme_transparent">Skaidrus</string>
     <string name="settings_bar_theme">Būsenos ir naršymo juostos tema</string>
-    <string name="settings_colors_and_fonts">Spalvos ir šriftai</string>
+    <string name="settings_colors_and_fonts">Programos išvaizda</string>
     <string name="settings_about_view_google_play">Žiūrėti Google Play</string>
     <string name="settings_user_manual">Vartotojo vadovas</string>
     <string name="settings_show_scores">Rodyti įverčius</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Antraštės teksto dydis</string>
     <string name="settings_comment_font_scale">Komentarų teksto dydis</string>
     <string name="settings_ancillary_font_scale">Pagalbinių tekstų dydis</string>
-    <string name="settings_configure_content">Konfigūruokite turinio išvaizdą</string>
+    <string name="settings_configure_content">Turinio išvaizda</string>
     <string name="settings_configure_text">Tekstas</string>
     <string name="settings_configure_customizations">Pritaikymai</string>
     <string name="navigation_drawer_title_drafts">Juodraščiai</string>

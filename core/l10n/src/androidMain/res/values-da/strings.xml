@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Uigennemsigtig</string>
     <string name="bar_theme_transparent">Gennemsigtig</string>
     <string name="settings_bar_theme">Tema for status- og navigationslinjen</string>
-    <string name="settings_colors_and_fonts">Farver og skrifttyper</string>
+    <string name="settings_colors_and_fonts">Ansøgningens udseende</string>
     <string name="settings_about_view_google_play">Se på Google Play</string>
     <string name="settings_user_manual">Brugermanual</string>
     <string name="settings_show_scores">Vis point</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Tekststørrelse på titler</string>
     <string name="settings_comment_font_scale">Tekststørrelse af kommentarer</string>
     <string name="settings_ancillary_font_scale">Størrelse af hjælpetekster</string>
-    <string name="settings_configure_content">Konfigurer indholdets udseende</string>
+    <string name="settings_configure_content">Indholdsudseende</string>
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Tilpasninger</string>
     <string name="navigation_drawer_title_drafts">Udkast</string>

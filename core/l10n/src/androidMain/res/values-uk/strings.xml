@@ -313,7 +313,7 @@
     <string name="bar_theme_opaque">Непрозорий</string>
     <string name="bar_theme_transparent">Прозорий</string>
     <string name="settings_bar_theme">Тема панелі стану та навігації</string>
-    <string name="settings_colors_and_fonts">Кольори та шрифти</string>
+    <string name="settings_colors_and_fonts">Зовнішній вигляд програми</string>
     <string name="settings_about_view_google_play">Переглянути в Google Play</string>
     <string name="settings_user_manual">Посібник користувача</string>
     <string name="settings_show_scores">Показати бали</string>
@@ -324,7 +324,7 @@
     <string name="settings_title_font_scale">Розмір тексту заголовків</string>
     <string name="settings_comment_font_scale">Розмір тексту коментарів</string>
     <string name="settings_ancillary_font_scale">Розмір допоміжних текстів</string>
-    <string name="settings_configure_content">Налаштувати зовнішній вигляд вмісту</string>
+    <string name="settings_configure_content">Зовнішній вигляд вмісту</string>
     <string name="settings_configure_text">текст</string>
     <string name="settings_configure_customizations">Налаштування</string>
     <string name="navigation_drawer_title_drafts">Чернетки</string>

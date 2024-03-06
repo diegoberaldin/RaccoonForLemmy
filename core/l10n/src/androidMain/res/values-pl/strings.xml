@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Nieprzejrzysty</string>
     <string name="bar_theme_transparent">Przezroczysty</string>
     <string name="settings_bar_theme">Motyw paska stanu i nawigacji</string>
-    <string name="settings_colors_and_fonts">Kolory i czcionki</string>
+    <string name="settings_colors_and_fonts">Wygląd aplikacji</string>
     <string name="settings_about_view_google_play">Zobacz w Google Play</string>
     <string name="settings_user_manual">Instrukcja obsługi</string>
     <string name="settings_show_scores">Pokaż statystyki</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Rozmiar tekstu tytułów</string>
     <string name="settings_comment_font_scale">Rozmiar tekstu komentarzy</string>
     <string name="settings_ancillary_font_scale">Rozmiar tekstów pomocniczych</string>
-    <string name="settings_configure_content">Skonfiguruj wygląd treści</string>
+    <string name="settings_configure_content">Wygląd treści</string>
     <string name="settings_configure_text">Tekst</string>
     <string name="settings_configure_customizations">Modyfikacje</string>
     <string name="navigation_drawer_title_drafts">Projektowanie</string>

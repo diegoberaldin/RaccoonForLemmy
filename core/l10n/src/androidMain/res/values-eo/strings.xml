@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Opaka</string>
     <string name="bar_theme_transparent">Travidebla</string>
     <string name="settings_bar_theme">Temo de la statuso kaj navigadbreto</string>
-    <string name="settings_colors_and_fonts">Koloroj kaj tiparoj</string>
+    <string name="settings_colors_and_fonts">Aplika aspekto</string>
     <string name="settings_about_view_google_play">Vidi sur Google Play</string>
     <string name="settings_user_manual">Uzantmanlibro</string>
     <string name="settings_show_scores">Montri votojn</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Tekstograndeco de titoloj</string>
     <string name="settings_comment_font_scale">Tekstograndeco de komentoj</string>
     <string name="settings_ancillary_font_scale">Grandeco de helpaj tekstoj</string>
-    <string name="settings_configure_content">Agordi enhavan aspekton</string>
+    <string name="settings_configure_content">Enhavo aspekto</string>
     <string name="settings_configure_text">Teksto</string>
     <string name="settings_configure_customizations">Personigoj</string>
     <string name="navigation_drawer_title_drafts">Malnetoj</string>

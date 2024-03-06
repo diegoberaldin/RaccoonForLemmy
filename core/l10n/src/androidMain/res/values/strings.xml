@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Opaque</string>
     <string name="bar_theme_transparent">Transparent</string>
     <string name="settings_bar_theme">System notification and navigation bar theme</string>
-    <string name="settings_colors_and_fonts">Colors and fonts</string>
+    <string name="settings_colors_and_fonts">Application appearance</string>
     <string name="settings_about_view_google_play">View on Google Play</string>
     <string name="settings_user_manual">User manual</string>
     <string name="settings_show_scores">Show scores</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Title text size</string>
     <string name="settings_comment_font_scale">Comment text size</string>
     <string name="settings_ancillary_font_scale">Ancillary text size</string>
-    <string name="settings_configure_content">Configure content appearance</string>
+    <string name="settings_configure_content">Content appearance</string>
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Customizations</string>
     <string name="navigation_drawer_title_drafts">Drafts</string>

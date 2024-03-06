@@ -314,7 +314,7 @@
     <string name="bar_theme_opaque">Ogenomskinlig</string>
     <string name="bar_theme_transparent">Transparent</string>
     <string name="settings_bar_theme">Tema för status- och navigeringsfältet</string>
-    <string name="settings_colors_and_fonts">Färger och typsnitt</string>
+    <string name="settings_colors_and_fonts">Applikationens utseende</string>
     <string name="settings_about_view_google_play">Visa på Google Play</string>
     <string name="settings_user_manual">Användarmanual</string>
     <string name="settings_show_scores">Visa betyg</string>
@@ -325,7 +325,7 @@
     <string name="settings_title_font_scale">Textstorlek på titlar</string>
     <string name="settings_comment_font_scale">Textstorlek på kommentarer</string>
     <string name="settings_ancillary_font_scale">Storlek på tilläggstexter</string>
-    <string name="settings_configure_content">Konfigurera innehållets utseende</string>
+    <string name="settings_configure_content">Innehållets utseende</string>
     <string name="settings_configure_text">Text</string>
     <string name="settings_configure_customizations">Anpassningar</string>
     <string name="navigation_drawer_title_drafts">Utkast</string>

@@ -313,7 +313,7 @@
     <string name="bar_theme_opaque">Непрозрачный</string>
     <string name="bar_theme_transparent">Прозрачный</string>
     <string name="settings_bar_theme">Тема статусной и навигационной панели</string>
-    <string name="settings_colors_and_fonts">Цвета и шрифты</string>
+    <string name="settings_colors_and_fonts">Внешний вид приложения</string>
     <string name="settings_about_view_google_play">Посмотреть в Google Play</string>
     <string name="settings_user_manual">Руководство пользователя</string>
     <string name="settings_show_scores">Показать оценки</string>
@@ -324,7 +324,7 @@
     <string name="settings_title_font_scale">Размер текста заголовков</string>
     <string name="settings_comment_font_scale">Размер текста комментариев</string>
     <string name="settings_ancillary_font_scale">Размер вспомогательных текстов</string>
-    <string name="settings_configure_content">Настроить внешний вид контента</string>
+    <string name="settings_configure_content">Внешний вид контента</string>
     <string name="settings_configure_text">Текст</string>
     <string name="settings_configure_customizations">Настройки</string>
     <string name="navigation_drawer_title_drafts">Черновики</string>
