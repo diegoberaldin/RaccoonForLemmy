@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Cosc buan</string>
     <string name="ban_item_remove_data">Bain sonraí</string>
     <string name="ban_item_duration_days">Fad (laethanta)</string>
+    <string name="message_unsaved_changes">Tá athruithe gan sábháil, an bhfuil tú cinnte gur mhaith leat scoir?</string>
+    <string name="button_no_stay">Ní hea, fan anseo</string>
+    <string name="button_yes_quit">Sea, scoir</string>
 </resources>

@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">lon tenpo ale</string>
     <string name="ban_item_remove_data">o weka e sona</string>
     <string name="ban_item_duration_days">tenpo suno</string>
+    <string name="message_unsaved_changes">sina ante e sona, taso sina awen ala e ona. sina wile ala wile tawa weka?</string>
+    <string name="button_no_stay">o awen</string>
+    <string name="button_yes_quit">o tawa weka</string>
 </resources>

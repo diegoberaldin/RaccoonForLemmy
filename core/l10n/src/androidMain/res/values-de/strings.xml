@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Permanenter Bann</string>
     <string name="ban_item_remove_data">Daten entfernen</string>
     <string name="ban_item_duration_days">Dauer (Tage)</string>
+    <string name="message_unsaved_changes">Es gibt nicht gespeicherte Änderungen. Möchten Sie den Vorgang wirklich beenden?</string>
+    <string name="button_no_stay">Nein, bleib hier</string>
+    <string name="button_yes_quit">Ja, beenden</string>
 </resources>

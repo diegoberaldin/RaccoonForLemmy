@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Permanent forbud</string>
     <string name="ban_item_remove_data">Fjern data</string>
     <string name="ban_item_duration_days">Varighet (dager)</string>
+    <string name="message_unsaved_changes">Det er ulagrede endringer, er du sikker på at du vil avslutte?</string>
+    <string name="button_no_stay">Nei, bli her</string>
+    <string name="button_yes_quit">Ja, gå ut</string>
 </resources>

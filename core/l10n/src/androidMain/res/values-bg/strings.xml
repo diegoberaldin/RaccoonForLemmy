@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Постоянна забрана</string>
     <string name="ban_item_remove_data">Премахване на данни</string>
     <string name="ban_item_duration_days">Продължителност (дни)</string>
+    <string name="message_unsaved_changes">Има незапазени промени, сигурни ли сте, че искате да излезете?</string>
+    <string name="button_no_stay">Не, остани тук</string>
+    <string name="button_yes_quit">Да, изход</string>
 </resources>

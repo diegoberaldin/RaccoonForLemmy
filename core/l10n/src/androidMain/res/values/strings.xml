@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Permanent ban</string>
     <string name="ban_item_remove_data">Remove data</string>
     <string name="ban_item_duration_days">Duration (days)</string>
+    <string name="message_unsaved_changes">There are unsaved changes, are you sure you want to quit?</string>
+    <string name="button_no_stay">No, stay here</string>
+    <string name="button_yes_quit">Yes, quit</string>
 </resources>

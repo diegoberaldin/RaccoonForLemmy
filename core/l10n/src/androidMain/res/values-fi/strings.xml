@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Pysyvä kielto</string>
     <string name="ban_item_remove_data">Poista tiedot</string>
     <string name="ban_item_duration_days">Kesto (päivää)</string>
+    <string name="message_unsaved_changes">Tallentamattomia muutoksia on. Haluatko varmasti poistua?</string>
+    <string name="button_no_stay">Ei, pysy täällä</string>
+    <string name="button_yes_quit">Kyllä, poistu</string>
 </resources>

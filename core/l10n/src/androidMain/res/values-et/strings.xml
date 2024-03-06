@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Alaline keeld</string>
     <string name="ban_item_remove_data">Eemalda andmed</string>
     <string name="ban_item_duration_days">Kestus (päeva)</string>
+    <string name="message_unsaved_changes">On salvestamata muudatusi. Kas soovite kindlasti väljuda?</string>
+    <string name="button_no_stay">Ei, jää siia</string>
+    <string name="button_yes_quit">Jah, välju</string>
 </resources>

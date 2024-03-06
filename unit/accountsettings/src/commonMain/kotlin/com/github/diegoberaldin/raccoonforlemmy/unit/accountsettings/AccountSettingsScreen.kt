@@ -474,7 +474,7 @@ class AccountSettingsScreen : Screen {
                             confirmBackWithUnsavedChangesDialog = false
                         },
                     ) {
-                        Text(text = "No, stay here")
+                        Text(text = LocalXmlStrings.current.buttonNoStay)
                     }
                 },
                 confirmButton = {
@@ -484,11 +484,11 @@ class AccountSettingsScreen : Screen {
                             navigationCoordinator.popScreen()
                         },
                     ) {
-                        Text(text = "Yes, quit")
+                        Text(text = LocalXmlStrings.current.buttonYesQuit)
                     }
                 },
                 text = {
-                    Text(text = "There are unsaved changes, are you sure you want to quit?")
+                    Text(text = LocalXmlStrings.current.messageUnsavedChanges)
                 },
             )
         }

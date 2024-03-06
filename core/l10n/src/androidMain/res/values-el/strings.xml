@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Μόνιμη απαγόρευση</string>
     <string name="ban_item_remove_data">Κατάργηση δεδομένων</string>
     <string name="ban_item_duration_days">Διάρκεια (ημέρες)</string>
+    <string name="message_unsaved_changes">Υπάρχουν μη αποθηκευμένες αλλαγές, είστε βέβαιοι ότι θέλετε να βγείτε;</string>
+    <string name="button_no_stay">Όχι, μείνε εδώ</string>
+    <string name="button_yes_quit">Ναι, βγες</string>
 </resources>

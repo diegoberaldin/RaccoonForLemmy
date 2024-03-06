@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Projbizzjoni permanenti</string>
     <string name="ban_item_remove_data">Neħħi d-data</string>
     <string name="ban_item_duration_days">Tul (jiem)</string>
+    <string name="message_unsaved_changes">Hemm bidliet mhux salvati, żgur li trid toħroġ?</string>
+    <string name="button_no_stay">Le, oqgħod hawn</string>
+    <string name="button_yes_quit">Iva, ħruġ</string>
 </resources>

@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Ban permanente</string>
     <string name="ban_item_remove_data">Rimuovi dati</string>
     <string name="ban_item_duration_days">Durata (giorni)</string>
+    <string name="message_unsaved_changes">Ci sono modifiche non salvate. Sei sicuro di voler uscire?</string>
+    <string name="button_no_stay">No, resta qui</string>
+    <string name="button_yes_quit">Sì, esci</string>
 </resources>

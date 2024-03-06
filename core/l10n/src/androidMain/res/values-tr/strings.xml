@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Kalıcı yasak</string>
     <string name="ban_item_remove_data">Verileri kaldır</string>
     <string name="ban_item_duration_days">Süre (gün)</string>
+    <string name="message_unsaved_changes">Kaydedilmemiş değişiklikler var, çıkmak istediğinizden emin misiniz?</string>
+    <string name="button_no_stay">Hayır, burada kal</string>
+    <string name="button_yes_quit">Evet, çık</string>
 </resources>

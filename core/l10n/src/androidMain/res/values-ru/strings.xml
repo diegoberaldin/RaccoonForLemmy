@@ -336,4 +336,7 @@
     <string name="ban_item_permanent">Постоянный бан</string>
     <string name="ban_item_remove_data">Удалить данные</string>
     <string name="ban_item_duration_days">Продолжительность (дни)</string>
+    <string name="message_unsaved_changes">Есть несохраненные изменения. Вы уверены, что хотите выйти?</string>
+    <string name="button_no_stay">Нет, оставайся здесь</string>
+    <string name="button_yes_quit">Да, выход</string>
 </resources>

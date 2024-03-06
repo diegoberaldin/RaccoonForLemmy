@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Nuolatinis draudimas</string>
     <string name="ban_item_remove_data">Pašalinti duomenis</string>
     <string name="ban_item_duration_days">Trukmė (dienomis)</string>
+    <string name="message_unsaved_changes">Yra neišsaugotų pakeitimų. Ar tikrai norite išeiti?</string>
+    <string name="button_no_stay">Ne, pasilik čia</string>
+    <string name="button_yes_quit">Taip, išeiti</string>
 </resources>

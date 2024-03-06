@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Interdicție permanentă</string>
     <string name="ban_item_remove_data">Elimină datele</string>
     <string name="ban_item_duration_days">Durată (zile)</string>
+    <string name="message_unsaved_changes">Există modificări nesalvate, ești sigur că vrei să ieși?</string>
+    <string name="button_no_stay">Nu, stai aici</string>
+    <string name="button_yes_quit">Da, ieși</string>
 </resources>

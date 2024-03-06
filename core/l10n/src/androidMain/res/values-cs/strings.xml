@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Trvalý zákaz</string>
     <string name="ban_item_remove_data">Odebrat data</string>
     <string name="ban_item_duration_days">Délka (dny)</string>
+    <string name="message_unsaved_changes">Existují neuložené změny. Opravdu chcete skončit?</string>
+    <string name="button_no_stay">Ne, zůstaň tady</string>
+    <string name="button_yes_quit">Ano, odejít</string>
 </resources>

@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Ndalim i përhershëm</string>
     <string name="ban_item_remove_data">Hiq të dhënat</string>
     <string name="ban_item_duration_days">Kohëzgjatja (ditë)</string>
+    <string name="message_unsaved_changes">Ka ndryshime të paruajtura, je i sigurt që dëshiron të dalësh?</string>
+    <string name="button_no_stay">Jo, rri këtu</string>
+    <string name="button_yes_quit">Po, dil</string>
 </resources>

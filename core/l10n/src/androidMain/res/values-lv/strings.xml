@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Pastāvīgs aizliegums</string>
     <string name="ban_item_remove_data">Noņemiet datus</string>
     <string name="ban_item_duration_days">Ilgums (dienas)</string>
+    <string name="message_unsaved_changes">Ir nesaglabātas izmaiņas. Vai tiešām vēlaties iziet?</string>
+    <string name="button_no_stay">Nē, paliec šeit</string>
+    <string name="button_yes_quit">Jā, iziet</string>
 </resources>

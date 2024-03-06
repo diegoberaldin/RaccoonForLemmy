@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Permanente verbanning</string>
     <string name="ban_item_remove_data">Gegevens verwijderen</string>
     <string name="ban_item_duration_days">Duur (dagen)</string>
+    <string name="message_unsaved_changes">Er zijn niet-opgeslagen wijzigingen. Weet u zeker dat u wilt afsluiten?</string>
+    <string name="button_no_stay">Nee, blijf hier</string>
+    <string name="button_yes_quit">Ja, vertrek</string>
 </resources>

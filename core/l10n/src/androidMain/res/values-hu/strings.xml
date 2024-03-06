@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Végleges eltiltás</string>
     <string name="ban_item_remove_data">Távolítsa el az adatokat</string>
     <string name="ban_item_duration_days">Időtartam (nap)</string>
+    <string name="message_unsaved_changes">Vannak nem mentett módosítások. Biztosan kilép?</string>
+    <string name="button_no_stay">Nem, maradj itt</string>
+    <string name="button_yes_quit">Igen, kilép</string>
 </resources>

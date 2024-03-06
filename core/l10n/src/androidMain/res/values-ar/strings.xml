@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">فرض حظر دائم</string>
     <string name="ban_item_remove_data">إزالة البيانات</string>
     <string name="ban_item_duration_days">المدة (أيام)</string>
+    <string name="message_unsaved_changes">هناك تغييرات لم يتم حفظها، هل أنت متأكد من أنك تريد الخروج؟</string>
+    <string name="button_no_stay">لا، ابق هنا</string>
+    <string name="button_yes_quit">نعم، الخروج</string>
 </resources>

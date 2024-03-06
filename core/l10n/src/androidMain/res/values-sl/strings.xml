@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Trajna prepoved</string>
     <string name="ban_item_remove_data">Odstrani podatke</string>
     <string name="ban_item_duration_days">Trajanje (dnevi)</string>
+    <string name="message_unsaved_changes">Obstajajo neshranjene spremembe. Ste prepričani, da želite zapustiti?</string>
+    <string name="button_no_stay">Ne, ostani tukaj</string>
+    <string name="button_yes_quit">Ja, izhod</string>
 </resources>

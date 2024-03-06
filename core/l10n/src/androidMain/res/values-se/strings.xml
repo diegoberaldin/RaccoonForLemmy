@@ -337,4 +337,7 @@
     <string name="ban_item_permanent">Permanent förbud</string>
     <string name="ban_item_remove_data">Ta bort data</string>
     <string name="ban_item_duration_days">Varaktighet (dagar)</string>
+    <string name="message_unsaved_changes">Det finns osparade ändringar, är du säker på att du vill avsluta?</string>
+    <string name="button_no_stay">Nej, stanna här</string>
+    <string name="button_yes_quit">Ja, avsluta</string>
 </resources>
