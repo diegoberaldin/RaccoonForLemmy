@@ -28,6 +28,7 @@ internal class DefaultSwitchAccountUseCase(
         notificationCenter.send(NotificationCenterEvent.Logout)
         serviceProvider.changeInstance(instance)
         identityRepository.storeToken(jwt)
+        identityRepository.refreshLoggedState()
 
         val newSettings = settingsRepository.getSettings(accountId)
         settingsRepository.changeCurrentSettings(newSettings)

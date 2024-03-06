@@ -41,6 +41,7 @@ internal class DefaultLoginUseCase(
             } else {
                 val accountSettings = siteRepository.getAccountSettings(auth)
                 identityRepository.storeToken(auth)
+                identityRepository.refreshLoggedState()
 
                 val account = AccountModel(
                     username = username,
