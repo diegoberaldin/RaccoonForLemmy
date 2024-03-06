@@ -46,10 +46,13 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsIntValueRow
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -157,10 +160,10 @@ class BanUserScreen(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val commentFocusRequester = remember { FocusRequester() }
+                val focusRequester = remember { FocusRequester() }
                 TextField(
                     modifier = Modifier
-                        .focusRequester(commentFocusRequester)
+                        .focusRequester(focusRequester)
                         .heightIn(min = 300.dp, max = 500.dp)
                         .fillMaxWidth(),
                     colors = TextFieldDefaults.colors(
@@ -169,7 +172,8 @@ class BanUserScreen(
                         disabledContainerColor = Color.Transparent,
                     ),
                     label = {
-                        Text(text = LocalXmlStrings.current.createReportPlaceholder)
+                        // TODO: l10n
+                        Text(text = "Reason (optional)")
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = uiState.text,
@@ -191,6 +195,42 @@ class BanUserScreen(
                         }
                     },
                 )
+
+                if (uiState.targetBanValue) {
+                    // it is a ban (as opposed to unban)
+                    SettingsSwitchRow(
+                        // TODO: l10n
+                        title = "Permanent ban",
+                        value = uiState.permanent,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(BanUserMviModel.Intent.ChangePermanent(value))
+                        },
+                    )
+
+                    if (!uiState.permanent) {
+                        SettingsIntValueRow(
+                            // TODO: l10n
+                            title = "Duration (days)",
+                            value = uiState.days,
+                            onIncrement = rememberCallback {
+                                model.reduce(BanUserMviModel.Intent.IncrementDays)
+                            },
+                            onDecrement = rememberCallback {
+                                model.reduce(BanUserMviModel.Intent.DecrementDays)
+                            },
+                        )
+                    }
+
+                    SettingsSwitchRow(
+                        // TODO: l10n
+                        title = "Remove data",
+                        value = uiState.removeData,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(BanUserMviModel.Intent.ChangeRemoveData(value))
+                        },
+                    )
+                }
+
                 Spacer(Modifier.height(Spacing.xxl))
             }
 

@@ -32,12 +32,23 @@ class BanUserViewModel(
 
     override fun reduce(intent: BanUserMviModel.Intent) {
         when (intent) {
-            is BanUserMviModel.Intent.ChangeDays -> updateState { it.copy(days = intent.value) }
+            BanUserMviModel.Intent.IncrementDays -> incrementDays()
+            BanUserMviModel.Intent.DecrementDays -> decrementDays()
             is BanUserMviModel.Intent.ChangePermanent -> updateState { it.copy(permanent = intent.value) }
             is BanUserMviModel.Intent.ChangeRemoveData -> updateState { it.copy(removeData = intent.value) }
             is BanUserMviModel.Intent.SetText -> updateState { it.copy(text = intent.value) }
             BanUserMviModel.Intent.Submit -> submit()
         }
+    }
+
+    private fun incrementDays() {
+        val newValue = uiState.value.days + 1
+        updateState { it.copy(days = newValue) }
+    }
+
+    private fun decrementDays() {
+        val newValue = (uiState.value.days - 1).coerceAtLeast(1)
+        updateState { it.copy(days = newValue) }
     }
 
     private fun submit() {
@@ -47,7 +58,7 @@ class BanUserViewModel(
         }
         val text = currentState.text
         val removeData = currentState.removeData.takeIf { newValue } ?: false
-        val days = currentState.days?.toLong().takeIf { newValue }
+        val days = currentState.days.toLong().takeIf { newValue }
 
         updateState { it.copy(loading = true) }
         scope?.launch(Dispatchers.IO) {
