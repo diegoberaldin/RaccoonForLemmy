@@ -98,9 +98,19 @@ class ProfileLoggedViewModel(
             }.launchIn(this)
 
             if (uiState.value.posts.isEmpty()) {
-                withContext(Dispatchers.IO) {
-                    refreshUser()
-                    refresh(initial = true)
+                val userFromCache = identityRepository.cachedUser
+                if (userFromCache != null) {
+                    updateState {
+                        it.copy(
+                            user = userFromCache,
+                            initial = false,
+                        )
+                    }
+                } else {
+                    withContext(Dispatchers.IO) {
+                        refreshUser()
+                        refresh(initial = true)
+                    }
                 }
             }
         }
