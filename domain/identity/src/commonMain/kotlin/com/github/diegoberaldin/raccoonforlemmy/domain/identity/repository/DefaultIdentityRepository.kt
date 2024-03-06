@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.network.NetworkManager
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -16,6 +17,8 @@ internal class DefaultIdentityRepository(
 
     override val authToken = MutableStateFlow<String?>(null)
     override val isLogged = MutableStateFlow<Boolean?>(null)
+    override var cachedUser: UserModel? = null
+        private set
 
     override suspend fun startup() = withContext(Dispatchers.IO) {
         val account = accountRepository.getActive()
@@ -33,6 +36,7 @@ internal class DefaultIdentityRepository(
 
     override fun clearToken() {
         authToken.value = ""
+        cachedUser = null
         isLogged.value = false
     }
 
@@ -42,8 +46,8 @@ internal class DefaultIdentityRepository(
             isLogged.value = false
         } else {
             val newIsLogged = if (networkManager.isNetworkAvailable()) {
-                val currentUser = siteRepository.getCurrentUser(auth)
-                currentUser != null
+                cachedUser = siteRepository.getCurrentUser(auth)
+                cachedUser != null
             } else {
                 null
             }
