@@ -56,6 +56,7 @@ private object KeyStoreKeys {
     const val SHOW_SCORES = "showScores"
     const val PREFER_USER_NICKNAMES = "preferUserNicknames"
     const val COMMENT_BAR_THICKNESS = "commentBarThickness"
+    const val IMAGE_SOURCE_PATH = "imageSourcePath"
 }
 
 internal class DefaultSettingsRepository(
@@ -125,7 +126,8 @@ internal class DefaultSettingsRepository(
                 opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
                 showScores = if (settings.showScores) 1L else 0L,
                 preferUserNicknames = if (settings.preferUserNicknames) 1L else 0L,
-                commentBarThickness = settings.commentBarThickness.toLong()
+                commentBarThickness = settings.commentBarThickness.toLong(),
+                imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
             )
         }
 
@@ -180,6 +182,7 @@ internal class DefaultSettingsRepository(
                     showScores = keyStore[KeyStoreKeys.SHOW_SCORES, true],
                     preferUserNicknames = keyStore[KeyStoreKeys.PREFER_USER_NICKNAMES, true],
                     commentBarThickness = keyStore[KeyStoreKeys.COMMENT_BAR_THICKNESS, 1],
+                    imageSourcePath = keyStore[KeyStoreKeys.IMAGE_SOURCE_PATH, false],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -280,6 +283,7 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.SHOW_SCORES, settings.showScores)
                 keyStore.save(KeyStoreKeys.PREFER_USER_NICKNAMES, settings.preferUserNicknames)
                 keyStore.save(KeyStoreKeys.COMMENT_BAR_THICKNESS, settings.commentBarThickness)
+                keyStore.save(KeyStoreKeys.IMAGE_SOURCE_PATH, settings.imageSourcePath)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -338,6 +342,7 @@ internal class DefaultSettingsRepository(
                     showScores = if (settings.showScores) 1L else 0L,
                     preferUserNicknames = if (settings.preferUserNicknames) 1L else 0L,
                     commentBarThickness = settings.commentBarThickness.toLong(),
+                    imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
                 )
             }
         }
@@ -412,4 +417,5 @@ private fun GetBy.toModel() = SettingsModel(
     showScores = showScores == 1L,
     preferUserNicknames = preferUserNicknames == 1L,
     commentBarThickness = commentBarThickness.toInt(),
+    imageSourcePath = imageSourcePath == 1L,
 )
