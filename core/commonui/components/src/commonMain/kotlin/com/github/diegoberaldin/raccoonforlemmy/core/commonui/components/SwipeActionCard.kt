@@ -5,22 +5,24 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxDefaults
+import androidx.compose.material3.SwipeToDismissBoxState
 import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import kotlinx.coroutines.flow.launchIn
@@ -35,7 +37,7 @@ data class SwipeAction(
     val onTriggered: () -> Unit,
 )
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwipeActionCard(
     modifier: Modifier = Modifier,
@@ -50,7 +52,7 @@ fun SwipeActionCard(
         var secondNotified by remember { mutableStateOf(false) }
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
         var lastProgress by remember { mutableStateOf(0.0f) }
-        val dismissState = rememberSwipeToDismissBoxState(
+        val dismissState = rememberNoFlingSwipeToDismissBoxState(
             confirmValueChange = rememberCallbackArgs { value ->
                 when (value) {
                     SwipeToDismissBoxValue.StartToEnd -> {
@@ -161,5 +163,35 @@ fun SwipeActionCard(
         )
     } else {
         content()
+    }
+}
+
+/**
+ * CREDITS:
+ * https://issuetracker.google.com/issues/252334353#comment16
+ */
+@Composable
+@ExperimentalMaterial3Api
+private fun rememberNoFlingSwipeToDismissBoxState(
+    initialValue: SwipeToDismissBoxValue = SwipeToDismissBoxValue.Settled,
+    confirmValueChange: (SwipeToDismissBoxValue) -> Boolean = { true },
+    positionalThreshold: (totalDistance: Float) -> Float =
+        SwipeToDismissBoxDefaults.positionalThreshold,
+): SwipeToDismissBoxState {
+    // instead of LocalDensity.current we use a value that makes velocityThreshold to skyrocket
+    val density = Density(Float.POSITIVE_INFINITY)
+    return rememberSaveable(
+        saver = SwipeToDismissBoxState.Saver(
+            confirmValueChange = confirmValueChange,
+            density = density,
+            positionalThreshold = positionalThreshold
+        )
+    ) {
+        SwipeToDismissBoxState(
+            initialValue = initialValue,
+            density = density,
+            confirmValueChange = confirmValueChange,
+            positionalThreshold = positionalThreshold
+        )
     }
 }
