@@ -106,6 +106,7 @@ class ProfileLoggedViewModel(
                             initial = false,
                         )
                     }
+                    refreshModeratedCommunities()
                 } else {
                     withContext(Dispatchers.IO) {
                         refreshUser()
@@ -203,15 +204,20 @@ class ProfileLoggedViewModel(
                         user = siteRepository.getCurrentUser(auth)
                         yield()
                     }
-                    val moderatedCommunities = userRepository.getModeratedCommunities(id = user?.id)
-                    updateState {
-                        it.copy(
-                            user = user,
-                            moderatedCommunityIds = moderatedCommunities.map { c -> c.id },
-                        )
-                    }
+                    updateState { it.copy(user = user) }
+                    refreshModeratedCommunities()
                 }
             }
+        }
+    }
+
+    private suspend fun refreshModeratedCommunities() {
+        val userId = uiState.value.user?.id ?: return
+        val moderatedCommunities = userRepository.getModeratedCommunities(id = userId)
+        updateState {
+            it.copy(
+                moderatedCommunityIds = moderatedCommunities.map { c -> c.id },
+            )
         }
     }
 
