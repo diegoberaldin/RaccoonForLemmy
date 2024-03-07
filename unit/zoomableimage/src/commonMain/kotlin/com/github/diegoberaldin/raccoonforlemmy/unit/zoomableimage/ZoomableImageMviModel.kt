@@ -6,11 +6,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 
 @Stable
 interface ZoomableImageMviModel :
-    MviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect>,
-    ScreenModel {
+    ScreenModel,
+    MviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect> {
     sealed interface Intent {
         data class Share(val url: String) : Intent
-        data class SaveToGallery(val url: String) : Intent
+        data class SaveToGallery(
+            val source: String,
+            val url: String,
+        ) : Intent
     }
 
     data class UiState(

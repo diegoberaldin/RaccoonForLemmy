@@ -43,6 +43,7 @@ import kotlinx.coroutines.flow.onEach
 
 class ZoomableImageScreen(
     private val url: String,
+    private val source: String = "",
 ) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -95,7 +96,12 @@ class ZoomableImageScreen(
                         Icon(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
-                                    model.reduce(ZoomableImageMviModel.Intent.SaveToGallery(url))
+                                    model.reduce(
+                                        ZoomableImageMviModel.Intent.SaveToGallery(
+                                            url = url,
+                                            source = source,
+                                        )
+                                    )
                                 },
                             ),
                             imageVector = Icons.Default.Download,

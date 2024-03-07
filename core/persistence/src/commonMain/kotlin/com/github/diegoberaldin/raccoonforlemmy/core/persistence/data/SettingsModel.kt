@@ -53,4 +53,5 @@ data class SettingsModel(
     val showScores: Boolean = true,
     val preferUserNicknames: Boolean = true,
     val commentBarThickness: Int = 1,
+    val imageSourcePath: Boolean = false,
 )

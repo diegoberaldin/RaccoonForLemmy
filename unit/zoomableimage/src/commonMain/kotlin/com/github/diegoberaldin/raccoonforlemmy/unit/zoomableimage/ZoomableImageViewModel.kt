@@ -38,11 +38,15 @@ class ZoomableImageViewModel(
                 }
             }
 
-            is ZoomableImageMviModel.Intent.SaveToGallery -> downloadAndSave(intent.url)
+            is ZoomableImageMviModel.Intent.SaveToGallery -> downloadAndSave(
+                folder = intent.source,
+                url = intent.url,
+            )
         }
     }
 
-    private fun downloadAndSave(url: String) {
+    private fun downloadAndSave(url: String, folder: String) {
+        val imageSourcePath = settingsRepository.currentSettings.value.imageSourcePath
         scope?.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             try {
@@ -51,7 +55,11 @@ class ZoomableImageViewModel(
                     val idx = s.lastIndexOf(".").takeIf { it >= 0 } ?: s.length
                     s.substring(idx).takeIf { it.isNotEmpty() } ?: ".jpeg"
                 }
-                galleryHelper.saveToGallery(bytes, "${epochMillis()}.$extension")
+                galleryHelper.saveToGallery(
+                    bytes = bytes,
+                    name = "${epochMillis()}$extension",
+                    additionalPathSegment = folder.takeIf { imageSourcePath },
+                )
                 emitEffect(ZoomableImageMviModel.Effect.ShareSuccess)
             } catch (e: Throwable) {
                 e.printStackTrace()
