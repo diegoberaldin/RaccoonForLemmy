@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -265,17 +266,14 @@ fun InboxReplySubtitle(
                 ),
             ) {
                 options.forEach { option ->
-                    Text(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.m,
-                            vertical = Spacing.s,
-                        ).onClick(
-                            onClick = rememberCallback {
-                                optionsExpanded = false
-                                onOptionSelected?.invoke(option.id)
-                            },
-                        ),
-                        text = option.text,
+                    DropdownMenuItem(
+                        text = {
+                            Text(option.text)
+                        },
+                        onClick = rememberCallback {
+                            optionsExpanded = false
+                            onOptionSelected?.invoke(option.id)
+                        },
                     )
                 }
             }

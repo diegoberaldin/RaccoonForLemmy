@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,11 +23,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
@@ -97,17 +96,14 @@ fun InstanceItem(
                     ),
                 ) {
                     options.forEach { option ->
-                        Text(
-                            modifier = Modifier.padding(
-                                horizontal = Spacing.m,
-                                vertical = Spacing.s,
-                            ).onClick(
-                                onClick = rememberCallback {
-                                    optionsMenuOpen = false
-                                    onOptionSelected?.invoke(option.id)
-                                },
-                            ),
-                            text = option.text,
+                        DropdownMenuItem(
+                            text = {
+                                Text(option.text)
+                            },
+                            onClick = rememberCallback {
+                                optionsMenuOpen = false
+                                onOptionSelected?.invoke(option.id)
+                            },
                         )
                     }
                 }

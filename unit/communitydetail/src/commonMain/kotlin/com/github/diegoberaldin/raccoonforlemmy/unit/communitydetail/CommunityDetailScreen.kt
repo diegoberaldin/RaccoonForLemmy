@@ -42,6 +42,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -354,80 +355,77 @@ class CommunityDetailScreen(
                                 ),
                             ) {
                                 options.forEach { option ->
-                                    Text(
-                                        modifier = Modifier.padding(
-                                            horizontal = Spacing.m,
-                                            vertical = Spacing.s,
-                                        ).onClick(
-                                            onClick = rememberCallback {
-                                                optionsExpanded = false
-                                                when (option.id) {
-                                                    OptionId.BlockInstance -> model.reduce(
-                                                        CommunityDetailMviModel.Intent.BlockInstance
+                                    DropdownMenuItem(
+                                        text = {
+                                            Text(option.text)
+                                        },
+                                        onClick = rememberCallback {
+                                            optionsExpanded = false
+                                            when (option.id) {
+                                                OptionId.BlockInstance -> model.reduce(
+                                                    CommunityDetailMviModel.Intent.BlockInstance
+                                                )
+
+                                                OptionId.Block -> model.reduce(
+                                                    CommunityDetailMviModel.Intent.Block
+                                                )
+
+                                                OptionId.InfoInstance -> {
+                                                    navigationCoordinator.pushScreen(
+                                                        InstanceInfoScreen(
+                                                            url = uiState.community.instanceUrl,
+                                                        ),
                                                     )
-
-                                                    OptionId.Block -> model.reduce(
-                                                        CommunityDetailMviModel.Intent.Block
-                                                    )
-
-                                                    OptionId.InfoInstance -> {
-                                                        navigationCoordinator.pushScreen(
-                                                            InstanceInfoScreen(
-                                                                url = uiState.community.instanceUrl,
-                                                            ),
-                                                        )
-                                                    }
-
-                                                    OptionId.Info -> {
-                                                        navigationCoordinator.showBottomSheet(
-                                                            CommunityInfoScreen(uiState.community.id),
-                                                        )
-                                                    }
-
-                                                    OptionId.OpenReports -> {
-                                                        val screen = ReportListScreen(
-                                                            communityId = uiState.community.id
-                                                        )
-                                                        navigationCoordinator.pushScreen(screen)
-                                                    }
-
-                                                    OptionId.Favorite -> {
-                                                        model.reduce(
-                                                            CommunityDetailMviModel.Intent.ToggleFavorite,
-                                                        )
-                                                    }
-
-                                                    OptionId.ViewModlog -> {
-                                                        val screen = ModlogScreen(
-                                                            communityId = uiState.community.id,
-                                                        )
-                                                        navigationCoordinator.pushScreen(screen)
-                                                    }
-
-                                                    OptionId.Share -> {
-                                                        val urls = buildList {
-                                                            if (uiState.community.host != uiState.instance) {
-                                                                this += "https://${uiState.instance}/c/${uiState.community.readableHandle}"
-                                                            }
-                                                            this += "https://${uiState.community.host}/c/${uiState.community.name}"
-                                                        }
-                                                        if (urls.size == 1) {
-                                                            model.reduce(
-                                                                CommunityDetailMviModel.Intent.Share(
-                                                                    urls.first()
-                                                                )
-                                                            )
-                                                        } else {
-                                                            val screen = ShareBottomSheet(urls = urls)
-                                                            navigationCoordinator.showBottomSheet(screen)
-                                                        }
-                                                    }
-
-                                                    else -> Unit
                                                 }
-                                            },
-                                        ),
-                                        text = option.text,
+
+                                                OptionId.Info -> {
+                                                    navigationCoordinator.showBottomSheet(
+                                                        CommunityInfoScreen(uiState.community.id),
+                                                    )
+                                                }
+
+                                                OptionId.OpenReports -> {
+                                                    val screen = ReportListScreen(
+                                                        communityId = uiState.community.id
+                                                    )
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.Favorite -> {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.ToggleFavorite,
+                                                    )
+                                                }
+
+                                                OptionId.ViewModlog -> {
+                                                    val screen = ModlogScreen(
+                                                        communityId = uiState.community.id,
+                                                    )
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.Share -> {
+                                                    val urls = buildList {
+                                                        if (uiState.community.host != uiState.instance) {
+                                                            this += "https://${uiState.instance}/c/${uiState.community.readableHandle}"
+                                                        }
+                                                        this += "https://${uiState.community.host}/c/${uiState.community.name}"
+                                                    }
+                                                    if (urls.size == 1) {
+                                                        model.reduce(
+                                                            CommunityDetailMviModel.Intent.Share(
+                                                                urls.first()
+                                                            )
+                                                        )
+                                                    } else {
+                                                        val screen = ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    }
+                                                }
+
+                                                else -> Unit
+                                            }
+                                        },
                                     )
                                 }
                             }

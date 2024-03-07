@@ -33,6 +33,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -279,55 +280,52 @@ class UserDetailScreen(
                                 ),
                             ) {
                                 options.forEach { option ->
-                                    Text(
-                                        modifier = Modifier.padding(
-                                            horizontal = Spacing.m,
-                                            vertical = Spacing.s,
-                                        ).onClick(
-                                            onClick = rememberCallback {
-                                                optionsExpanded = false
-                                                when (option.id) {
-                                                    OptionId.BlockInstance -> model.reduce(
-                                                        UserDetailMviModel.Intent.BlockInstance
-                                                    )
+                                    DropdownMenuItem(
+                                        text = {
+                                            Text(option.text)
+                                        },
+                                        onClick = rememberCallback {
+                                            optionsExpanded = false
+                                            when (option.id) {
+                                                OptionId.BlockInstance -> model.reduce(
+                                                    UserDetailMviModel.Intent.BlockInstance
+                                                )
 
-                                                    OptionId.Block -> model.reduce(
-                                                        UserDetailMviModel.Intent.Block
-                                                    )
+                                                OptionId.Block -> model.reduce(
+                                                    UserDetailMviModel.Intent.Block
+                                                )
 
-                                                    OptionId.Info -> {
+                                                OptionId.Info -> {
+                                                    navigationCoordinator.showBottomSheet(
+                                                        UserInfoScreen(uiState.user.id),
+                                                    )
+                                                }
+
+                                                OptionId.Share -> {
+                                                    val urls = buildList {
+                                                        if (uiState.user.host != uiState.instance) {
+                                                            this += "https://${uiState.instance}/u/${uiState.user.readableHandle}"
+                                                        }
+                                                        this += "https://${uiState.user.host}/u/${uiState.user.name}"
+                                                    }
+                                                    if (urls.size == 1) {
+                                                        model.reduce(
+                                                            UserDetailMviModel.Intent.Share(
+                                                                urls.first()
+                                                            )
+                                                        )
+                                                    } else {
+                                                        val screen =
+                                                            ShareBottomSheet(urls = urls)
                                                         navigationCoordinator.showBottomSheet(
-                                                            UserInfoScreen(uiState.user.id),
+                                                            screen
                                                         )
                                                     }
-
-                                                    OptionId.Share -> {
-                                                        val urls = buildList {
-                                                            if (uiState.user.host != uiState.instance) {
-                                                                this += "https://${uiState.instance}/u/${uiState.user.readableHandle}"
-                                                            }
-                                                            this += "https://${uiState.user.host}/u/${uiState.user.name}"
-                                                        }
-                                                        if (urls.size == 1) {
-                                                            model.reduce(
-                                                                UserDetailMviModel.Intent.Share(
-                                                                    urls.first()
-                                                                )
-                                                            )
-                                                        } else {
-                                                            val screen =
-                                                                ShareBottomSheet(urls = urls)
-                                                            navigationCoordinator.showBottomSheet(
-                                                                screen
-                                                            )
-                                                        }
-                                                    }
-
-                                                    else -> Unit
                                                 }
-                                            },
-                                        ),
-                                        text = option.text,
+
+                                                else -> Unit
+                                            }
+                                        },
                                     )
                                 }
                             }

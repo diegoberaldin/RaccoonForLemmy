@@ -14,6 +14,7 @@ import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -203,17 +204,14 @@ private fun DraftFooter(
             ),
         ) {
             options.forEach { option ->
-                Text(
-                    modifier = Modifier.padding(
-                        horizontal = Spacing.m,
-                        vertical = Spacing.s,
-                    ).onClick(
-                        onClick = rememberCallback {
-                            optionsExpanded = false
-                            onOptionSelected?.invoke(option.id)
-                        },
-                    ),
-                    text = option.text,
+                DropdownMenuItem(
+                    text = {
+                        Text(option.text)
+                    },
+                    onClick = rememberCallback {
+                        optionsExpanded = false
+                        onOptionSelected?.invoke(option.id)
+                    },
                 )
             }
         }

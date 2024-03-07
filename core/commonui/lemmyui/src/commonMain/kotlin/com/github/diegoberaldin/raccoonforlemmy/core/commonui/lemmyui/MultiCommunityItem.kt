@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -115,17 +116,14 @@ fun MultiCommunityItem(
                     ),
                 ) {
                     options.forEach { option ->
-                        Text(
-                            modifier = Modifier.padding(
-                                horizontal = Spacing.m,
-                                vertical = Spacing.s,
-                            ).onClick(
-                                onClick = rememberCallback {
-                                    optionsMenuOpen = false
-                                    onOptionSelected?.invoke(option.id)
-                                },
-                            ),
-                            text = option.text,
+                        DropdownMenuItem(
+                            text = {
+                                Text(option.text)
+                            },
+                            onClick = rememberCallback {
+                                optionsMenuOpen = false
+                                onOptionSelected?.invoke(option.id)
+                            },
                         )
                     }
                 }
