@@ -46,6 +46,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.components.ModeratedCommunityCell
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -173,7 +174,8 @@ class UserInfoScreen(
                                                 delay(100)
                                                 navigationCoordinator.pushScreen(
                                                     ZoomableImageScreen(
-                                                        url
+                                                        url = url,
+                                                        source = uiState.user.readableHandle,
                                                     )
                                                 )
                                             }

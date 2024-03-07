@@ -219,7 +219,12 @@ class CommunityInfoScreen(
                                     navigationCoordinator.hideBottomSheet()
                                     scope.launch {
                                         delay(100)
-                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = uiState.community.readableHandle,
+                                            )
+                                        )
                                     }
                                 },
                                 onOpenCommunity = { community, instance ->

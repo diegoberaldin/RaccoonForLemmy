@@ -87,6 +87,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.rememberKeepScreenOn
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
@@ -324,7 +325,10 @@ class PostListScreen : Screen {
                         items(
                             items = uiState.posts,
                             // isLogged is added to the key to force swipe action refresh
-                            key = { it.id.toString() + (it.updateDate ?: it.publishDate) + uiState.isLogged },
+                            key = {
+                                it.id.toString() + (it.updateDate
+                                    ?: it.publishDate) + uiState.isLogged
+                            },
                         ) { post ->
                             LaunchedEffect(post.id) {
                                 if (settings.markAsReadWhileScrolling && !post.read) {
@@ -501,7 +505,10 @@ class PostListScreen : Screen {
                                         onOpenImage = rememberCallbackArgs(model, post) { url ->
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
                                             navigationCoordinator.pushScreen(
-                                                ZoomableImageScreen(url)
+                                                ZoomableImageScreen(
+                                                    url = url,
+                                                    source = post.community?.readableHandle.orEmpty(),
+                                                )
                                             )
                                         },
                                         options = buildList {

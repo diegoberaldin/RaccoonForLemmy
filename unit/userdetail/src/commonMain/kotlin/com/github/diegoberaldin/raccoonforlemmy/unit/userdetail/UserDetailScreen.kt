@@ -423,7 +423,8 @@ class UserDetailScreen(
                             onOpenImage = rememberCallbackArgs { url ->
                                 navigationCoordinator.pushScreen(
                                     ZoomableImageScreen(
-                                        url
+                                        url = url,
+                                        source = uiState.user?.readableHandle.orEmpty(),
                                     )
                                 )
                             },
@@ -655,7 +656,10 @@ class UserDetailScreen(
                                         },
                                         onOpenImage = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(
-                                                ZoomableImageScreen(url),
+                                                ZoomableImageScreen(
+                                                    url = url,
+                                                    source = post.community?.readableHandle.orEmpty(),
+                                                ),
                                             )
                                         },
                                         options = buildList {
@@ -884,7 +888,10 @@ class UserDetailScreen(
                                         },
                                         onImageClick = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(
-                                                ZoomableImageScreen(url)
+                                                ZoomableImageScreen(
+                                                    url = url,
+                                                    source = comment.community?.readableHandle.orEmpty(),
+                                                )
                                             )
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled) {

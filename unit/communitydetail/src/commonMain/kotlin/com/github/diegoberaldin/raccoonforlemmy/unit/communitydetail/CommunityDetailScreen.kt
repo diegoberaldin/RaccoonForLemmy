@@ -547,7 +547,12 @@ class CommunityDetailScreen(
                                 community = uiState.community,
                                 autoLoadImages = uiState.autoLoadImages,
                                 onOpenImage = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                    navigationCoordinator.pushScreen(
+                                        ZoomableImageScreen(
+                                            url = url,
+                                            source = uiState.community.readableHandle,
+                                        )
+                                    )
                                 },
                             )
                         }
@@ -757,7 +762,10 @@ class CommunityDetailScreen(
                                                 )
                                             )
                                             navigationCoordinator.pushScreen(
-                                                ZoomableImageScreen(url),
+                                                ZoomableImageScreen(
+                                                    url = url,
+                                                    source = uiState.community.readableHandle,
+                                                ),
                                             )
                                         },
                                         options = buildList {

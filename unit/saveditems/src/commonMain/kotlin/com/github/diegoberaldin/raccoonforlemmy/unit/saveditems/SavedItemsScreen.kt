@@ -68,6 +68,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
@@ -264,7 +265,10 @@ class SavedItemsScreen : Screen {
                                     },
                                     onOpenImage = rememberCallbackArgs { url ->
                                         navigatorCoordinator.pushScreen(
-                                            ZoomableImageScreen(url),
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = post.community?.readableHandle.orEmpty(),
+                                            ),
                                         )
                                     },
                                     options = buildList {
@@ -355,7 +359,12 @@ class SavedItemsScreen : Screen {
                                         )
                                     },
                                     onImageClick = rememberCallbackArgs { url ->
-                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = comment.community?.readableHandle.orEmpty(),
+                                            )
+                                        )
                                     },
                                     onUpVote = {
                                         model.reduce(

@@ -85,6 +85,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
@@ -444,7 +445,12 @@ class MultiCommunityScreen(
                                     },
                                     onOpenImage = rememberCallbackArgs { url ->
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
-                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = post.community?.readableHandle.orEmpty(),
+                                            )
+                                        )
                                     },
                                     options = buildList {
                                         add(

@@ -101,6 +101,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
@@ -508,7 +509,10 @@ class PostDetailScreen(
                                 },
                                 onOpenImage = rememberCallbackArgs { url ->
                                     navigationCoordinator.pushScreen(
-                                        ZoomableImageScreen(url),
+                                        ZoomableImageScreen(
+                                            url = url,
+                                            source = uiState.post.community?.readableHandle.orEmpty(),
+                                        ),
                                     )
                                 },
                             )
@@ -789,7 +793,10 @@ class PostDetailScreen(
                                                     },
                                                     onImageClick = rememberCallbackArgs { url ->
                                                         navigationCoordinator.pushScreen(
-                                                            ZoomableImageScreen(url)
+                                                            ZoomableImageScreen(
+                                                                url = url,
+                                                                source = uiState.post.community?.readableHandle.orEmpty(),
+                                                            )
                                                         )
                                                     },
                                                     options = buildList {

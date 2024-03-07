@@ -68,6 +68,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.components.MessageCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.components.MessageCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
@@ -250,7 +251,12 @@ class InboxChatScreen(
                                 content = content,
                                 date = date,
                                 onOpenImage = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                    navigationCoordinator.pushScreen(
+                                        ZoomableImageScreen(
+                                            url = url,
+                                            source = message.creator?.readableHandle.orEmpty(),
+                                        )
+                                    )
                                 },
                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
                                     detailOpener.openCommunityDetail(

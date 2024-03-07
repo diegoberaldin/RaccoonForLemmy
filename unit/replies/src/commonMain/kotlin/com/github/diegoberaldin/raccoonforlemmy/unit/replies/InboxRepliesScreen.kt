@@ -56,6 +56,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -238,7 +239,12 @@ class InboxRepliesScreen : Tab {
                                     detailOpener.openCommunityDetail(community = community)
                                 },
                                 onImageClick = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                    navigationCoordinator.pushScreen(
+                                        ZoomableImageScreen(
+                                            url = url,
+                                            source = reply.post.community?.readableHandle.orEmpty(),
+                                        )
+                                    )
                                 },
                                 onUpVote = rememberCallbackArgs(model) { _ ->
                                     model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))

@@ -65,6 +65,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments.ModdedCommentsScreen
@@ -178,7 +179,12 @@ object ProfileLoggedScreen : Tab {
                                     user = user,
                                     autoLoadImages = uiState.autoLoadImages,
                                     onOpenImage = rememberCallbackArgs { url ->
-                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = uiState.user?.readableHandle.orEmpty(),
+                                            )
+                                        )
                                     },
                                 )
                             }
@@ -276,7 +282,10 @@ object ProfileLoggedScreen : Tab {
                                     },
                                     onOpenImage = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(
-                                            ZoomableImageScreen(url),
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = post.community?.readableHandle.orEmpty(),
+                                            ),
                                         )
                                     },
                                     onUpVote = rememberCallback(model) {
@@ -406,7 +415,12 @@ object ProfileLoggedScreen : Tab {
                                     hideAuthor = true,
                                     hideIndent = true,
                                     onImageClick = rememberCallbackArgs { url ->
-                                        navigationCoordinator.pushScreen(ZoomableImageScreen(url))
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = comment.community?.readableHandle.orEmpty(),
+                                            )
+                                        )
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
                                         detailOpener.openCommunityDetail(community, instance)
