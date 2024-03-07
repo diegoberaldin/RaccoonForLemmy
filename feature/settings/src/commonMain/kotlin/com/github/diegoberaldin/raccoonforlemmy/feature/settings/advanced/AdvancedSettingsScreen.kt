@@ -121,13 +121,26 @@ class AdvancedSettingsScreen : Screen {
                         )
                     }
 
+                    // image source path
+                    SettingsSwitchRow(
+                        // TODO: l10n
+                        title = "Save images in specific sub-directories",
+                        subtitle = "use community or user handle in paths",
+                        value = uiState.imageSourcePath,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                AdvancedSettingsMviModel.Intent.ChangeImageSourcePath(value),
+                            )
+                        },
+                    )
+
                     // navigation bar titles
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsNavigationBarTitlesVisible,
                         value = uiState.navBarTitlesVisible,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeNavBarTitlesVisible(value)
+                                AdvancedSettingsMviModel.Intent.ChangeNavBarTitlesVisible(value),
                             )
                         },
                     )

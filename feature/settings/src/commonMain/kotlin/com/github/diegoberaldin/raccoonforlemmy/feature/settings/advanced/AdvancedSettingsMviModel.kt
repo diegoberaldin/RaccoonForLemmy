@@ -6,8 +6,8 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 interface AdvancedSettingsMviModel :
-    MviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect>,
-    ScreenModel {
+    ScreenModel,
+    MviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect> {
 
     sealed interface Intent {
         data class ChangeEnableDoubleTapAction(val value: Boolean) : Intent
@@ -19,6 +19,7 @@ interface AdvancedSettingsMviModel :
         data class ChangeSearchPostTitleOnly(val value: Boolean) : Intent
         data class ChangeEdgeToEdge(val value: Boolean) : Intent
         data class ChangeInfiniteScrollDisabled(val value: Boolean) : Intent
+        data class ChangeImageSourcePath(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -36,6 +37,7 @@ interface AdvancedSettingsMviModel :
         val edgeToEdge: Boolean = true,
         val infiniteScrollDisabled: Boolean = false,
         val opaqueSystemBars: Boolean = false,
+        val imageSourcePath: Boolean = false,
     )
 
     sealed interface Effect

@@ -33,6 +33,7 @@ fun SettingsRow(
     onTap: (() -> Unit)? = null,
 ) {
     val fullColor = MaterialTheme.colorScheme.onBackground
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
     Row(
         modifier = modifier
             .padding(vertical = Spacing.s, horizontal = Spacing.m)
@@ -64,7 +65,7 @@ fun SettingsRow(
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.labelMedium,
-                    color = fullColor,
+                    color = ancillaryColor,
                 )
             }
         }

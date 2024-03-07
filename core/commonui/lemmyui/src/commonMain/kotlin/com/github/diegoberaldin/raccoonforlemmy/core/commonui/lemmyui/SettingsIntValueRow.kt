@@ -25,6 +25,8 @@ fun SettingsIntValueRow(
     onIncrement: () -> Unit,
     onDecrement: () -> Unit,
 ) {
+    val fullColor = MaterialTheme.colorScheme.onBackground
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
     Row(
         modifier = Modifier.padding(horizontal = Spacing.m),
         verticalAlignment = Alignment.CenterVertically,
@@ -35,13 +37,13 @@ fun SettingsIntValueRow(
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = fullColor,
             )
             if (subtitle != null) {
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = ancillaryColor,
                 )
             }
         }
@@ -60,7 +62,7 @@ fun SettingsIntValueRow(
                 textAlign = TextAlign.Center,
                 text = value.toString(),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = fullColor,
             )
             FeedbackButton(
                 imageVector = Icons.Default.ArrowCircleUp,

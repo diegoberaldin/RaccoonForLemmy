@@ -25,16 +25,18 @@ fun SettingsSwitchRow(
         Column(
             modifier = Modifier.weight(1f),
         ) {
+            val fullColor = MaterialTheme.colorScheme.onBackground
+            val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = fullColor,
             )
             if (subtitle != null) {
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = ancillaryColor,
                 )
             }
         }

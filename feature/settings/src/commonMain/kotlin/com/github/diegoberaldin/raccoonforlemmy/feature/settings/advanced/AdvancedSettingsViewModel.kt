@@ -75,8 +75,8 @@ class AdvancedSettingsViewModel(
                 edgeToEdge = settings.edgeToEdge,
                 infiniteScrollDisabled = !settings.infiniteScrollEnabled,
                 opaqueSystemBars = settings.opaqueSystemBars,
-
-                )
+                imageSourcePath = settings.imageSourcePath,
+            )
         }
     }
 
@@ -107,6 +107,8 @@ class AdvancedSettingsViewModel(
             is AdvancedSettingsMviModel.Intent.ChangeEdgeToEdge -> changeEdgeToEdge(intent.value)
             is AdvancedSettingsMviModel.Intent.ChangeInfiniteScrollDisabled ->
                 changeInfiniteScrollDisabled(intent.value)
+
+            is AdvancedSettingsMviModel.Intent.ChangeImageSourcePath -> changeImageSourcePath(intent.value)
         }
     }
 
@@ -240,6 +242,16 @@ class AdvancedSettingsViewModel(
         scope?.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 opaqueSystemBars = opaque
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeImageSourcePath(value: Boolean) {
+        updateState { it.copy(imageSourcePath = value) }
+        scope?.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                imageSourcePath = value
             )
             saveSettings(settings)
         }
