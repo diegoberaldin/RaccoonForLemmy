@@ -3,7 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.os.Build
+import android.os.Environment
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,25 +17,32 @@ import kotlinx.coroutines.launch
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent.inject
 
+private const val DEFAULT_BASE_PATH = "RaccoonForLemmy"
+
 class DefaultGalleryHelper(
     private val context: Context,
 ) : GalleryHelper {
 
-    override fun saveToGallery(bytes: ByteArray, name: String) {
-        val resolver = context.applicationContext.contentResolver
+    override val supportsCustomPath: Boolean = true
 
-        val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-        } else {
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+    override fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String?) {
+        val relativePath = buildString {
+            append(Environment.DIRECTORY_PICTURES)
+            append("/")
+            append(DEFAULT_BASE_PATH)
+            if (!additionalPathSegment.isNullOrEmpty()) {
+                append("/")
+                append(additionalPathSegment)
+            }
         }
-
+        val resolver = context.applicationContext.contentResolver
         val details = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, name)
             put(MediaStore.Images.Media.IS_PENDING, 1)
+            put(MediaStore.Images.Media.RELATIVE_PATH, relativePath)
         }
 
-        val uri = resolver.insert(collection, details)
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, details)
         if (uri != null) {
             resolver.openFileDescriptor(uri, "w", null).use { pfd ->
                 ParcelFileDescriptor.AutoCloseOutputStream(pfd).use {

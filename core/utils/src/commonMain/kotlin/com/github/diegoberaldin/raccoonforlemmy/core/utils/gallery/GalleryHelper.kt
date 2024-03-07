@@ -7,7 +7,10 @@ import org.koin.core.module.Module
 
 @Stable
 interface GalleryHelper {
-    fun saveToGallery(bytes: ByteArray, name: String)
+
+    val supportsCustomPath: Boolean
+
+    fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String? = null)
 
     @Composable
     fun getImageFromGallery(result: (ByteArray) -> Unit)

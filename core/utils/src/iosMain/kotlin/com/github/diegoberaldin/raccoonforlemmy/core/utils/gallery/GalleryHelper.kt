@@ -42,8 +42,10 @@ fun ImageBytes.toByteArray(): ByteArray = ByteArray(this@toByteArray.length.toIn
 
 class DefaultGalleryHelper : GalleryHelper {
 
+    override val supportsCustomPath: Boolean = false
+
     @OptIn(ExperimentalForeignApi::class)
-    override fun saveToGallery(bytes: ByteArray, name: String) {
+    override fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String?) {
         val image = UIImage(bytes.toImageBytes())
         UIImageWriteToSavedPhotosAlbum(image, null, null, null)
     }
