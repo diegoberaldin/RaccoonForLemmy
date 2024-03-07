@@ -339,4 +339,6 @@
     <string name="message_unsaved_changes">Есть несохраненные изменения. Вы уверены, что хотите выйти?</string>
     <string name="button_no_stay">Нет, оставайся здесь</string>
     <string name="button_yes_quit">Да, выход</string>
+    <string name="settings_item_image_source_path">Сохраняйте изображения в определенных подкаталогах.</string>
+    <string name="settings_subtitle_image_source_path">используйте дескриптор сообщества или пользователя в путях</string>
 </resources>

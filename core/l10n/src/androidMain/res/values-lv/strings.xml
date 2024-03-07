@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Ir nesaglabātas izmaiņas. Vai tiešām vēlaties iziet?</string>
     <string name="button_no_stay">Nē, paliec šeit</string>
     <string name="button_yes_quit">Jā, iziet</string>
+    <string name="settings_item_image_source_path">Saglabājiet attēlus noteiktos apakšdirektorijos</string>
+    <string name="settings_subtitle_image_source_path">ceļos izmantojiet kopienu vai lietotāja rokturi</string>
 </resources>

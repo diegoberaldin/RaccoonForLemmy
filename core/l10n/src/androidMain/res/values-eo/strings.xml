@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Estas nekonservitaj ŝanĝoj, ĉu vi certas, ke vi volas eliri?</string>
     <string name="button_no_stay">Ne, resti ĉi tie</string>
     <string name="button_yes_quit">Jes, eliri</string>
+    <string name="settings_item_image_source_path">Konservi bildojn en specifaj subdosierujoj</string>
+    <string name="settings_subtitle_image_source_path">uzi komunumon aŭ uzantan tenilon en vojoj</string>
 </resources>

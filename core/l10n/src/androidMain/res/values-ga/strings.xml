@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Tá athruithe gan sábháil, an bhfuil tú cinnte gur mhaith leat scoir?</string>
     <string name="button_no_stay">Ní hea, fan anseo</string>
     <string name="button_yes_quit">Sea, scoir</string>
+    <string name="settings_item_image_source_path">Sábháil íomhánna i bhfo-eolaire ar leith</string>
+    <string name="settings_subtitle_image_source_path">úsáid pobail nó láimhseáil úsáideora i gcosáin</string>
 </resources>

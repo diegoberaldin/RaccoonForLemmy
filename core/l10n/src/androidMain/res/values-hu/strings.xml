@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Vannak nem mentett módosítások. Biztosan kilép?</string>
     <string name="button_no_stay">Nem, maradj itt</string>
     <string name="button_yes_quit">Igen, kilép</string>
+    <string name="settings_item_image_source_path">Mentse el a képeket meghatározott alkönyvtárakba</string>
+    <string name="settings_subtitle_image_source_path">közösségi vagy felhasználói fogantyú használata az elérési utakban</string>
 </resources>

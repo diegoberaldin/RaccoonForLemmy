@@ -339,4 +339,6 @@
     <string name="message_unsaved_changes">Є незбережені зміни. Ви впевнені, що бажаєте вийти?</string>
     <string name="button_no_stay">Ні, залишайся тут</string>
     <string name="button_yes_quit">Так, вихід</string>
+    <string name="settings_item_image_source_path">Зберігайте зображення в певних підкаталогах</string>
+    <string name="settings_subtitle_image_source_path">використовуйте дескриптор спільноти або користувача в шляхах</string>
 </resources>

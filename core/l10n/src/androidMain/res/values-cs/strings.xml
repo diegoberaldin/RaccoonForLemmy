@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Existují neuložené změny. Opravdu chcete skončit?</string>
     <string name="button_no_stay">Ne, zůstaň tady</string>
     <string name="button_yes_quit">Ano, odejít</string>
+    <string name="settings_item_image_source_path">Ukládejte obrázky do konkrétních podadresářů</string>
+    <string name="settings_subtitle_image_source_path">použijte komunitní nebo uživatelský popisovač v cestách</string>
 </resources>

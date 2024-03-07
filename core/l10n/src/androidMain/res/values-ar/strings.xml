@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">هناك تغييرات لم يتم حفظها، هل أنت متأكد من أنك تريد الخروج؟</string>
     <string name="button_no_stay">لا، ابق هنا</string>
     <string name="button_yes_quit">نعم، الخروج</string>
+    <string name="settings_item_image_source_path">حفظ الصور في أدلة فرعية محددة</string>
+    <string name="settings_subtitle_image_source_path">استخدم المجتمع أو مقبض المستخدم في المسارات</string>
 </resources>

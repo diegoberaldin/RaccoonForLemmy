@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Il y a des modifications non enregistrées, êtes-vous sûr de vouloir quitter ?</string>
     <string name="button_no_stay">Non, rester ici</string>
     <string name="button_yes_quit">Oui, quitter</string>
+    <string name="settings_item_image_source_path">Enregistrez les images dans des sous-répertoires spécifiques</string>
+    <string name="settings_subtitle_image_source_path">utiliser la communauté ou le handle d\'utilisateur dans les chemins</string>
 </resources>

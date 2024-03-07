@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Hemm bidliet mhux salvati, żgur li trid toħroġ?</string>
     <string name="button_no_stay">Le, oqgħod hawn</string>
     <string name="button_yes_quit">Iva, ħruġ</string>
+    <string name="settings_item_image_source_path">Ħlief immaġini f\'sub-direttorji speċifiċi</string>
+    <string name="settings_subtitle_image_source_path">uża l-komunità jew il-manku tal-utent fil-mogħdijiet</string>
 </resources>

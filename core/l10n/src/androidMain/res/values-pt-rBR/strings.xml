@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Existem alterações não salvas. Tem certeza de que deseja sair?</string>
     <string name="button_no_stay">Não, ficar aqui</string>
     <string name="button_yes_quit">Sim, sair</string>
+    <string name="settings_item_image_source_path">Salve imagens em subdiretórios específicos</string>
+    <string name="settings_subtitle_image_source_path">use comunidade ou identificador de usuário em caminhos</string>
 </resources>

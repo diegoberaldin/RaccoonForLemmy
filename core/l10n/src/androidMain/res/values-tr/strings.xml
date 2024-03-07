@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Kaydedilmemiş değişiklikler var, çıkmak istediğinizden emin misiniz?</string>
     <string name="button_no_stay">Hayır, burada kal</string>
     <string name="button_yes_quit">Evet, çık</string>
+    <string name="settings_item_image_source_path">Görüntüleri belirli alt dizinlere kaydedin</string>
+    <string name="settings_subtitle_image_source_path">yollarda topluluk veya kullanıcı tanıtıcısını kullanın</string>
 </resources>

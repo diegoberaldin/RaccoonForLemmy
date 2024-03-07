@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">There are unsaved changes, are you sure you want to quit?</string>
     <string name="button_no_stay">No, stay here</string>
     <string name="button_yes_quit">Yes, quit</string>
+    <string name="settings_item_image_source_path">Save images in specific sub-directories</string>
+    <string name="settings_subtitle_image_source_path">use community or user handle in paths</string>
 </resources>

@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Er zijn niet-opgeslagen wijzigingen. Weet u zeker dat u wilt afsluiten?</string>
     <string name="button_no_stay">Nee, blijf hier</string>
     <string name="button_yes_quit">Ja, vertrek</string>
+    <string name="settings_item_image_source_path">Bewaar afbeeldingen in specifieke submappen</string>
+    <string name="settings_subtitle_image_source_path">gebruik community- of gebruikershandle in paden</string>
 </resources>

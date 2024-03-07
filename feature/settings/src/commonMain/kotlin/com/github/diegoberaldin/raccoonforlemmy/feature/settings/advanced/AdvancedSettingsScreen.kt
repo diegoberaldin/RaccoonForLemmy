@@ -123,9 +123,8 @@ class AdvancedSettingsScreen : Screen {
 
                     // image source path
                     SettingsSwitchRow(
-                        // TODO: l10n
-                        title = "Save images in specific sub-directories",
-                        subtitle = "use community or user handle in paths",
+                        title = LocalXmlStrings.current.settingsItemImageSourcePath,
+                        subtitle = LocalXmlStrings.current.settingsSubtitleImageSourcePath,
                         value = uiState.imageSourcePath,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(

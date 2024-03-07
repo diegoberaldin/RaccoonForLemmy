@@ -339,5 +339,7 @@
     <string name="ban_item_duration_days">Duración (días)</string>
     <string name="message_unsaved_changes">Hay cambios sin guardar, ¿está seguro de que quiere salir?</string>
     <string name="button_no_stay">No, quedar aquí</string>
-    <string name="button_yes_quit">si, salir</string>
+    <string name="button_yes_quit">Sí, salir</string>
+    <string name="settings_item_image_source_path">Guardar imágenes en subdirectorios específicos</string>
+    <string name="settings_subtitle_image_source_path">utilizar la comunidad o el identificador de usuario en las rutas</string>
 </resources>

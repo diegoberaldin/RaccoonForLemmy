@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Postoje nespremljene promjene, jeste li sigurni da želite izaći?</string>
     <string name="button_no_stay">Ne, ostani ovdje</string>
     <string name="button_yes_quit">Da, izlaz</string>
+    <string name="settings_item_image_source_path">Spremite slike u određene poddirektorije</string>
+    <string name="settings_subtitle_image_source_path">upotrijebite ručku zajednice ili korisnika u stazama</string>
 </resources>

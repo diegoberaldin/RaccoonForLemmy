@@ -340,4 +340,6 @@
     <string name="message_unsaved_changes">Yra neišsaugotų pakeitimų. Ar tikrai norite išeiti?</string>
     <string name="button_no_stay">Ne, pasilik čia</string>
     <string name="button_yes_quit">Taip, išeiti</string>
+    <string name="settings_item_image_source_path">Išsaugokite vaizdus tam tikruose pakatalogiuose</string>
+    <string name="settings_subtitle_image_source_path">keliuose naudokite bendruomenės arba vartotojo rankenėlę</string>
 </resources>
