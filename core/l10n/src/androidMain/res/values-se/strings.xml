@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Ja, avsluta</string>
     <string name="settings_item_image_source_path">Spara bilder i specifika underkataloger</string>
     <string name="settings_subtitle_image_source_path">använd gemenskap eller användarhandtag i sökvägar</string>
+    <string name="settings_title_display">Skärm</string>
+    <string name="settings_title_reading">Läsning och innehåll</string>
+    <string name="settings_title_pictures">Bilder</string>
+    <string name="settings_title_experimental">Experiment</string>
 </resources>

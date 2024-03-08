@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Ja, gå ut</string>
     <string name="settings_item_image_source_path">Lagre bilder i bestemte underkataloger</string>
     <string name="settings_subtitle_image_source_path">bruk fellesskap eller brukerhåndtak i baner</string>
+    <string name="settings_title_display">Skjerm</string>
+    <string name="settings_title_reading">Lesing og innhold</string>
+    <string name="settings_title_pictures">Bilder</string>
+    <string name="settings_title_experimental">Eksperimenter</string>
 </resources>

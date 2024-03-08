@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Sea, scoir</string>
     <string name="settings_item_image_source_path">Sábháil íomhánna i bhfo-eolaire ar leith</string>
     <string name="settings_subtitle_image_source_path">úsáid pobail nó láimhseáil úsáideora i gcosáin</string>
+    <string name="settings_title_display">Scáileán</string>
+    <string name="settings_title_reading">Léamh agus ábhar</string>
+    <string name="settings_title_pictures">Pictiúirí</string>
+    <string name="settings_title_experimental">Turgnaimh</string>
 </resources>

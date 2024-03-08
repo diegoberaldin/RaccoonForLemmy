@@ -342,4 +342,8 @@
     <string name="button_yes_quit">o tawa weka</string>
     <string name="settings_item_image_source_path">o awen e sitelen lon poki pi nimi lili</string>
     <string name="settings_subtitle_image_source_path">o kepeken e nimi kulupu/nimi jan lon linja</string>
+    <string name="settings_title_display">leko</string>
+    <string name="settings_title_reading">lipu</string>
+    <string name="settings_title_pictures">sitelen</string>
+    <string name="settings_title_experimental">lukin</string>
 </resources>

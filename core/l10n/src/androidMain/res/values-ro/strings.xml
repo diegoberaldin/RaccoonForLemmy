@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Da, ieși</string>
     <string name="settings_item_image_source_path">Salvă imaginile în anumite subdirectoare</string>
     <string name="settings_subtitle_image_source_path">utilizează comunitatea sau identificatorul utilizatorului în căi</string>
+    <string name="settings_title_display">Ecran</string>
+    <string name="settings_title_reading">Lectură și conținut</string>
+    <string name="settings_title_pictures">Imagini</string>
+    <string name="settings_title_experimental">Experimente</string>
 </resources>

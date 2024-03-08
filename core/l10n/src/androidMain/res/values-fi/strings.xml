@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Kyllä, poistu</string>
     <string name="settings_item_image_source_path">Tallenna kuvat tiettyihin alihakemistoihin</string>
     <string name="settings_subtitle_image_source_path">käytä yhteisö- tai käyttäjäkahvaa poluissa</string>
+    <string name="settings_title_display">Näyttö</string>
+    <string name="settings_title_reading">Lukeminen ja sisältö</string>
+    <string name="settings_title_pictures">Kuvia</string>
+    <string name="settings_title_experimental">Kokeilut</string>
 </resources>

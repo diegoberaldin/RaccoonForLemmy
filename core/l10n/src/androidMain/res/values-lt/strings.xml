@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Taip, išeiti</string>
     <string name="settings_item_image_source_path">Išsaugokite vaizdus tam tikruose pakatalogiuose</string>
     <string name="settings_subtitle_image_source_path">keliuose naudokite bendruomenės arba vartotojo rankenėlę</string>
+    <string name="settings_title_display">Ekranas</string>
+    <string name="settings_title_reading">Skaitymas ir turinys</string>
+    <string name="settings_title_pictures">Paveikslėliai</string>
+    <string name="settings_title_experimental">Eksperimentai</string>
 </resources>

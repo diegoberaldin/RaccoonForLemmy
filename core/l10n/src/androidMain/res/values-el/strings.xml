@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Ναι, βγες</string>
     <string name="settings_item_image_source_path">Αποθηκεύστε εικόνες σε συγκεκριμένους υποκαταλόγους</string>
     <string name="settings_subtitle_image_source_path">χρήση κοινότητας ή χειρισμού χρήστη σε μονοπάτια</string>
+    <string name="settings_title_display">Οθόνη</string>
+    <string name="settings_title_reading">Ανάγνωση και περιεχόμενο</string>
+    <string name="settings_title_pictures">Εικόνες</string>
+    <string name="settings_title_experimental">Πειράματα</string>
 </resources>

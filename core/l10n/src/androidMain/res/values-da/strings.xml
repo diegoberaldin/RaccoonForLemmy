@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Ja, exit</string>
     <string name="settings_item_image_source_path">Gem billeder i specifikke undermapper</string>
     <string name="settings_subtitle_image_source_path">bruge fællesskab eller brugerhåndtag i stier</string>
+    <string name="settings_title_display">Skærm</string>
+    <string name="settings_title_reading">Læsning og indhold</string>
+    <string name="settings_title_pictures">Billeder</string>
+    <string name="settings_title_experimental">Eksperimenter</string>
 </resources>

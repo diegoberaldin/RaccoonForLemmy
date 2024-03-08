@@ -342,4 +342,8 @@
     <string name="button_yes_quit">نعم، الخروج</string>
     <string name="settings_item_image_source_path">حفظ الصور في أدلة فرعية محددة</string>
     <string name="settings_subtitle_image_source_path">استخدم المجتمع أو مقبض المستخدم في المسارات</string>
+    <string name="settings_title_display">شاشة</string>
+    <string name="settings_title_reading">القراءة والمحتويات</string>
+    <string name="settings_title_pictures">الصور</string>
+    <string name="settings_title_experimental">التجارب</string>
 </resources>

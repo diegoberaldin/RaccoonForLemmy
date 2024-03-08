@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Yes, quit</string>
     <string name="settings_item_image_source_path">Save images in specific sub-directories</string>
     <string name="settings_subtitle_image_source_path">use community or user handle in paths</string>
+    <string name="settings_title_display">Display</string>
+    <string name="settings_title_reading">Reading and contents</string>
+    <string name="settings_title_pictures">Pictures</string>
+    <string name="settings_title_experimental">Experiments</string>
 </resources>

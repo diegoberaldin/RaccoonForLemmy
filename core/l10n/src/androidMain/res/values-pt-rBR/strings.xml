@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Sim, sair</string>
     <string name="settings_item_image_source_path">Salve imagens em subdiretórios específicos</string>
     <string name="settings_subtitle_image_source_path">use comunidade ou identificador de usuário em caminhos</string>
+    <string name="settings_title_display">Tela</string>
+    <string name="settings_title_reading">Leitura e conteúdos</string>
+    <string name="settings_title_pictures">Fotos</string>
+    <string name="settings_title_experimental">Experimentos</string>
 </resources>

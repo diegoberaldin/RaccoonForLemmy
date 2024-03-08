@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Sì, esci</string>
     <string name="settings_item_image_source_path">Salva le immagini in sottodirectory specifiche</string>
     <string name="settings_subtitle_image_source_path">utilizza handle comunità o utente nei percorsi</string>
+    <string name="settings_title_display">Display</string>
+    <string name="settings_title_reading">Lettura e contenuti</string>
+    <string name="settings_title_pictures">Immagini</string>
+    <string name="settings_title_experimental">Esperimenti</string>
 </resources>

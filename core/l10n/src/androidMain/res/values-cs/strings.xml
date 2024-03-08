@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Ano, odejít</string>
     <string name="settings_item_image_source_path">Ukládejte obrázky do konkrétních podadresářů</string>
     <string name="settings_subtitle_image_source_path">použijte komunitní nebo uživatelský popisovač v cestách</string>
+    <string name="settings_title_display">Obrazovka</string>
+    <string name="settings_title_reading">Čtení a obsah</string>
+    <string name="settings_title_pictures">obrázky</string>
+    <string name="settings_title_experimental">Experimenty</string>
 </resources>

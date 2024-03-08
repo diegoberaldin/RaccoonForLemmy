@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Ja, izhod</string>
     <string name="settings_item_image_source_path">Shranite slike v določene podimenike</string>
     <string name="settings_subtitle_image_source_path">uporabite ročaj skupnosti ali uporabnika v poteh</string>
+    <string name="settings_title_display">Zaslon</string>
+    <string name="settings_title_reading">Branje in vsebina</string>
+    <string name="settings_title_pictures">Slike</string>
+    <string name="settings_title_experimental">Eksperimenti</string>
 </resources>

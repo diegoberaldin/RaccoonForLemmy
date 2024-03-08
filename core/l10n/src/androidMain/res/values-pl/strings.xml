@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Tak, wyjdź</string>
     <string name="settings_item_image_source_path">Zapisuj obrazy w określonych podkatalogach</string>
     <string name="settings_subtitle_image_source_path">użyj uchwytu społeczności lub użytkownika w ścieżkach</string>
+    <string name="settings_title_display">Ekran</string>
+    <string name="settings_title_reading">Lektura i treść</string>
+    <string name="settings_title_pictures">Kino</string>
+    <string name="settings_title_experimental">Eksperymenty</string>
 </resources>

@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Sí, salir</string>
     <string name="settings_item_image_source_path">Guardar imágenes en subdirectorios específicos</string>
     <string name="settings_subtitle_image_source_path">utilizar la comunidad o el identificador de usuario en las rutas</string>
+    <string name="settings_title_display">Pantalla</string>
+    <string name="settings_title_reading">Lectura y contenidos</string>
+    <string name="settings_title_pictures">Fotos</string>
+    <string name="settings_title_experimental">Experimentos</string>
 </resources>

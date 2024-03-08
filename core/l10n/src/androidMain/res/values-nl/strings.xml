@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Ja, vertrek</string>
     <string name="settings_item_image_source_path">Bewaar afbeeldingen in specifieke submappen</string>
     <string name="settings_subtitle_image_source_path">gebruik community- of gebruikershandle in paden</string>
+    <string name="settings_title_display">Scherm</string>
+    <string name="settings_title_reading">Lezen en inhoud</string>
+    <string name="settings_title_pictures">Afbeeldingen</string>
+    <string name="settings_title_experimental">Experimenten</string>
 </resources>

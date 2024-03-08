@@ -11,6 +11,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.DisplaySettings
+import androidx.compose.material.icons.filled.Photo
+import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,6 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BarThemeBottomSheet
@@ -105,36 +110,10 @@ class AdvancedSettingsScreen : Screen {
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
-                    if (uiState.isLogged) {
-                        // default inbox type
-                        SettingsRow(
-                            title = LocalXmlStrings.current.settingsDefaultInboxType,
-                            value = if (uiState.defaultInboxUnreadOnly) {
-                                LocalXmlStrings.current.inboxListingTypeUnread
-                            } else {
-                                LocalXmlStrings.current.inboxListingTypeAll
-                            },
-                            onTap = rememberCallback {
-                                val sheet = InboxTypeSheet()
-                                navigationCoordinator.showBottomSheet(sheet)
-                            },
-                        )
-                    }
-
-                    if (uiState.imageSourceSupported) {
-                        // image source path
-                        SettingsSwitchRow(
-                            title = LocalXmlStrings.current.settingsItemImageSourcePath,
-                            subtitle = LocalXmlStrings.current.settingsSubtitleImageSourcePath,
-                            value = uiState.imageSourcePath,
-                            onValueChanged = rememberCallbackArgs(model) { value ->
-                                model.reduce(
-                                    AdvancedSettingsMviModel.Intent.ChangeImageSourcePath(value),
-                                )
-                            },
-                        )
-                    }
-
+                    SettingsHeader(
+                        title = LocalXmlStrings.current.settingsTitleDisplay,
+                        icon = Icons.Default.DisplaySettings,
+                    )
                     // navigation bar titles
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsNavigationBarTitlesVisible,
@@ -187,16 +166,25 @@ class AdvancedSettingsScreen : Screen {
                         },
                     )
 
-                    // auto-expand comments
-                    SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsAutoExpandComments,
-                        value = uiState.autoExpandComments,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeAutoExpandComments(value)
-                            )
-                        },
+                    SettingsHeader(
+                        title = LocalXmlStrings.current.settingsTitleReading,
+                        icon = Icons.Default.Book,
                     )
+                    if (uiState.isLogged) {
+                        // default inbox type
+                        SettingsRow(
+                            title = LocalXmlStrings.current.settingsDefaultInboxType,
+                            value = if (uiState.defaultInboxUnreadOnly) {
+                                LocalXmlStrings.current.inboxListingTypeUnread
+                            } else {
+                                LocalXmlStrings.current.inboxListingTypeAll
+                            },
+                            onTap = rememberCallback {
+                                val sheet = InboxTypeSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
+                        )
+                    }
 
                     // infinite scrolling
                     SettingsSwitchRow(
@@ -205,6 +193,17 @@ class AdvancedSettingsScreen : Screen {
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 AdvancedSettingsMviModel.Intent.ChangeInfiniteScrollDisabled(value)
+                            )
+                        },
+                    )
+
+                    // auto-expand comments
+                    SettingsSwitchRow(
+                        title = LocalXmlStrings.current.settingsAutoExpandComments,
+                        value = uiState.autoExpandComments,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                AdvancedSettingsMviModel.Intent.ChangeAutoExpandComments(value)
                             )
                         },
                     )
@@ -256,6 +255,39 @@ class AdvancedSettingsScreen : Screen {
                         },
                     )
 
+                    SettingsHeader(
+                        title = LocalXmlStrings.current.settingsTitlePictures,
+                        icon = Icons.Default.Photo,
+                    )
+                    // image loading
+                    SettingsSwitchRow(
+                        title = LocalXmlStrings.current.settingsAutoLoadImages,
+                        value = uiState.autoLoadImages,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                AdvancedSettingsMviModel.Intent.ChangeAutoLoadImages(value)
+                            )
+                        },
+                    )
+
+                    if (uiState.imageSourceSupported) {
+                        // image source path
+                        SettingsSwitchRow(
+                            title = LocalXmlStrings.current.settingsItemImageSourcePath,
+                            subtitle = LocalXmlStrings.current.settingsSubtitleImageSourcePath,
+                            value = uiState.imageSourcePath,
+                            onValueChanged = rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    AdvancedSettingsMviModel.Intent.ChangeImageSourcePath(value),
+                                )
+                            },
+                        )
+                    }
+
+                    SettingsHeader(
+                        title = LocalXmlStrings.current.settingsTitleExperimental,
+                        icon = Icons.Default.Science,
+                    )
                     if (uiState.isLogged) {
                         // double tap
                         SettingsSwitchRow(
@@ -270,17 +302,6 @@ class AdvancedSettingsScreen : Screen {
                             },
                         )
                     }
-
-                    // image loading
-                    SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsAutoLoadImages,
-                        value = uiState.autoLoadImages,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeAutoLoadImages(value)
-                            )
-                        },
-                    )
 
                     // search posts only in title
                     SettingsSwitchRow(

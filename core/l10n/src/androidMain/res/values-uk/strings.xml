@@ -341,4 +341,8 @@
     <string name="button_yes_quit">Так, вихід</string>
     <string name="settings_item_image_source_path">Зберігайте зображення в певних підкаталогах</string>
     <string name="settings_subtitle_image_source_path">використовуйте дескриптор спільноти або користувача в шляхах</string>
+    <string name="settings_title_display">Екран</string>
+    <string name="settings_title_reading">Читання та зміст</string>
+    <string name="settings_title_pictures">Картинки</string>
+    <string name="settings_title_experimental">Експерименти</string>
 </resources>

@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Jes, eliri</string>
     <string name="settings_item_image_source_path">Konservi bildojn en specifaj subdosierujoj</string>
     <string name="settings_subtitle_image_source_path">uzi komunumon aŭ uzantan tenilon en vojoj</string>
+    <string name="settings_title_display">Ekrano</string>
+    <string name="settings_title_reading">Legado kaj enhavo</string>
+    <string name="settings_title_pictures">Bildoj</string>
+    <string name="settings_title_experimental">Eksperimentoj</string>
 </resources>

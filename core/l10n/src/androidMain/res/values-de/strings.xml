@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Ja, beenden</string>
     <string name="settings_item_image_source_path">Speichern Sie Bilder in bestimmten Unterverzeichnissen</string>
     <string name="settings_subtitle_image_source_path">Verwenden Sie Community- oder Benutzer-Handle in Pfaden</string>
+    <string name="settings_title_display">Bildschirm</string>
+    <string name="settings_title_reading">Lektüre und Inhalt</string>
+    <string name="settings_title_pictures">Bilder</string>
+    <string name="settings_title_experimental">Experimente</string>
 </resources>

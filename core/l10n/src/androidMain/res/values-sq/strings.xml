@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Po, dil</string>
     <string name="settings_item_image_source_path">Ruani imazhet në nën-drejtori të veçanta</string>
     <string name="settings_subtitle_image_source_path">përdorni bashkësinë ose dorezën e përdoruesit në shtigje</string>
+    <string name="settings_title_display">Ekrani</string>
+    <string name="settings_title_reading">Leximi dhe përmbajtja</string>
+    <string name="settings_title_pictures">Fotot</string>
+    <string name="settings_title_experimental">Eksperimentet</string>
 </resources>

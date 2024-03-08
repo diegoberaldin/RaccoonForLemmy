@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Jā, iziet</string>
     <string name="settings_item_image_source_path">Saglabājiet attēlus noteiktos apakšdirektorijos</string>
     <string name="settings_subtitle_image_source_path">ceļos izmantojiet kopienu vai lietotāja rokturi</string>
+    <string name="settings_title_display">Ekrāns</string>
+    <string name="settings_title_reading">Lasīšana un saturs</string>
+    <string name="settings_title_pictures">Bildes</string>
+    <string name="settings_title_experimental">Eksperimenti</string>
 </resources>

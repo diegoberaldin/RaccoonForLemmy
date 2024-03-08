@@ -342,4 +342,8 @@
     <string name="button_yes_quit">Evet, çık</string>
     <string name="settings_item_image_source_path">Görüntüleri belirli alt dizinlere kaydedin</string>
     <string name="settings_subtitle_image_source_path">yollarda topluluk veya kullanıcı tanıtıcısını kullanın</string>
+    <string name="settings_title_display">Ekran</string>
+    <string name="settings_title_reading">Okuma ve içindekiler</string>
+    <string name="settings_title_pictures">Resimler</string>
+    <string name="settings_title_experimental">Deneyler</string>
 </resources>

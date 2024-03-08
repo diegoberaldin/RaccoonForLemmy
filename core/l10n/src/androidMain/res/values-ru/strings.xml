@@ -341,4 +341,8 @@
     <string name="button_yes_quit">Да, выход</string>
     <string name="settings_item_image_source_path">Сохраняйте изображения в определенных подкаталогах.</string>
     <string name="settings_subtitle_image_source_path">используйте дескриптор сообщества или пользователя в путях</string>
+    <string name="settings_title_display">Экран</string>
+    <string name="settings_title_reading">Чтение и содержание</string>
+    <string name="settings_title_pictures">Картинки</string>
+    <string name="settings_title_experimental">Эксперименты</string>
 </resources>
