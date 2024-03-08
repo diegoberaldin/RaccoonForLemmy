@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.GalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxDefaultType
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -26,6 +27,7 @@ class AdvancedSettingsViewModel(
     private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
     private val contentResetCoordinator: ContentResetCoordinator,
+    private val galleryHelper: GalleryHelper,
 ) : AdvancedSettingsMviModel,
     DefaultMviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect>(
         initialState = AdvancedSettingsMviModel.UiState(),
@@ -75,6 +77,7 @@ class AdvancedSettingsViewModel(
                 edgeToEdge = settings.edgeToEdge,
                 infiniteScrollDisabled = !settings.infiniteScrollEnabled,
                 opaqueSystemBars = settings.opaqueSystemBars,
+                imageSourceSupported = galleryHelper.supportsCustomPath,
                 imageSourcePath = settings.imageSourcePath,
             )
         }

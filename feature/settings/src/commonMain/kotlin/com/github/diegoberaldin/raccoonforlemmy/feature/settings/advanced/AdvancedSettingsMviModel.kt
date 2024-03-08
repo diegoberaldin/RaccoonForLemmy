@@ -37,6 +37,7 @@ interface AdvancedSettingsMviModel :
         val edgeToEdge: Boolean = true,
         val infiniteScrollDisabled: Boolean = false,
         val opaqueSystemBars: Boolean = false,
+        val imageSourceSupported: Boolean = true,
         val imageSourcePath: Boolean = false,
     )
 
