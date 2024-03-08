@@ -150,6 +150,7 @@ class CreatePostScreen(
             if (referencePost != null) {
                 model.reduce(CreatePostMviModel.Intent.SetTitle(referencePost.title))
                 model.reduce(CreatePostMviModel.Intent.SetUrl(referencePost.url.orEmpty()))
+                model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(TextFieldValue(referencePost.text)))
                 model.reduce(CreatePostMviModel.Intent.ChangeLanguage(referencePost.languageId))
             }
 
