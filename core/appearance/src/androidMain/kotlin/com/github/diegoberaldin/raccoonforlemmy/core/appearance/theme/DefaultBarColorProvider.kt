@@ -33,6 +33,10 @@ class DefaultBarColorProvider : BarColorProvider {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         setDecorFitsSystemWindows(false)
                     }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        isStatusBarContrastEnforced = true
+                        isNavigationBarContrastEnforced = true
+                    }
                 }
 
                 WindowCompat.getInsetsController(this, decorView).apply {
