@@ -19,9 +19,12 @@ sealed interface DrawerEvent {
 interface DrawerCoordinator {
     val events: SharedFlow<DrawerEvent>
     val gesturesEnabled: StateFlow<Boolean>
+    val drawerOpened: StateFlow<Boolean>
 
     suspend fun toggleDrawer()
     suspend fun closeDrawer()
     suspend fun sendEvent(event: DrawerEvent)
     fun setGesturesEnabled(value: Boolean)
+
+    fun changeDrawerOpened(value: Boolean)
 }

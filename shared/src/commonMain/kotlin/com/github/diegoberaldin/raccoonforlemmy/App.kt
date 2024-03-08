@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -171,7 +172,16 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         }.launchIn(this)
     }
 
+
+
     LaunchedEffect(drawerCoordinator) {
+        // centralizes the information about drawer opening
+        snapshotFlow {
+            drawerState.isClosed
+        }.onEach { closed ->
+            drawerCoordinator.changeDrawerOpened(!closed)
+        }.launchIn(this)
+
         drawerCoordinator.events.onEach { evt ->
             when (evt) {
                 DrawerEvent.Toggle -> {

@@ -7,6 +7,7 @@ class DefaultDrawerCoordinator : DrawerCoordinator {
 
     override val events = MutableSharedFlow<DrawerEvent>()
     override val gesturesEnabled = MutableStateFlow(true)
+    override val drawerOpened = MutableStateFlow(false)
 
     override suspend fun toggleDrawer() {
         events.emit(DrawerEvent.Toggle)
@@ -22,5 +23,9 @@ class DefaultDrawerCoordinator : DrawerCoordinator {
 
     override fun setGesturesEnabled(value: Boolean) {
         gesturesEnabled.value = value
+    }
+
+    override fun changeDrawerOpened(value: Boolean) {
+        drawerOpened.value = value
     }
 }
