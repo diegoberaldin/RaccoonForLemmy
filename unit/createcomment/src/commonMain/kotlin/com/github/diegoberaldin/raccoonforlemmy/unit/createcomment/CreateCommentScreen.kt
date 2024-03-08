@@ -1,14 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.createcomment
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,26 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -57,13 +32,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypograp
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.*
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -193,17 +162,19 @@ class CreateCommentScreen(
                         )
                     },
                     actions = {
-                        IconButton(
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.Save,
-                                    contentDescription = null,
-                                )
-                            },
-                            onClick = rememberCallback(model) {
-                                model.reduce(CreateCommentMviModel.Intent.SaveDraft)
-                            },
-                        )
+                        if (uiState.editedComment == null) {
+                            IconButton(
+                                content = {
+                                    Icon(
+                                        imageVector = Icons.Default.Save,
+                                        contentDescription = null,
+                                    )
+                                },
+                                onClick = rememberCallback(model) {
+                                    model.reduce(CreateCommentMviModel.Intent.SaveDraft)
+                                },
+                            )
+                        }
                         IconButton(
                             content = {
                                 Icon(
