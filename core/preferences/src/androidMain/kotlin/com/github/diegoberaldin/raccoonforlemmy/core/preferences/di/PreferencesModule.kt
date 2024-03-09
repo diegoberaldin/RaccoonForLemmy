@@ -8,24 +8,36 @@ import com.github.diegoberaldin.raccoonforlemmy.core.preferences.DefaultTemporar
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual val corePreferencesModule = module {
-    singleOf(::SharedPreferencesProvider)
-    single<Settings> {
-        val sharedPreferencesProvider: SharedPreferencesProvider by inject()
-        SharedPreferencesSettings(
-            sharedPreferencesProvider.sharedPreferences,
-            false,
+    single { params ->
+        SharedPreferencesProvider(
+            name = params[0],
+            context = get(),
         )
     }
-    single<TemporaryKeyStore> {
-        DefaultTemporaryKeyStore(settings = get())
+    single<Settings> { params ->
+        val sharedPreferencesProvider: SharedPreferencesProvider = get(parameters = {
+            parametersOf(params[0])
+        })
+        SharedPreferencesSettings(
+            delegate = sharedPreferencesProvider.sharedPreferences,
+            commit = false,
+        )
+    }
+    single<TemporaryKeyStore>(named("default")) {
+        DefaultTemporaryKeyStore(settings = get(parameters = { parametersOf(null) }))
+    }
+    factory<TemporaryKeyStore>(named("custom")) { params ->
+        DefaultTemporaryKeyStore(settings = get(parameters = { parametersOf(params[0]) }))
     }
 }
 
 private class SharedPreferencesProvider(
+    name: String? = null,
     context: Context,
 ) {
 
@@ -36,7 +48,7 @@ private class SharedPreferencesProvider(
     private val masterKeyAlias: String = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
     val sharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
-        PREFERENCES_NAME,
+        name ?: PREFERENCES_NAME,
         masterKeyAlias,
         context,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,

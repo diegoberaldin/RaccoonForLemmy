@@ -21,7 +21,7 @@ val coreIdentityModule = module {
     single<ApiConfigurationRepository> {
         DefaultApiConfigurationRepository(
             serviceProvider = get(named("default")),
-            keyStore = get(),
+            keyStore = get(named("default")),
         )
     }
     single<IdentityRepository> {

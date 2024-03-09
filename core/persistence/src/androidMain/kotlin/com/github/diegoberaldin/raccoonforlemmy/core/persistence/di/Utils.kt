@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DefaultDriverFa
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DriverFactory
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent
 
@@ -18,7 +19,7 @@ actual val persistenceInnerModule = module {
     }
     single<DatabaseKeyProvider> {
         DefaultDatabaseKeyProvider(
-            keyStore = get(),
+            keyStore = get(named("default")),
         )
     }
 }
