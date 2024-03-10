@@ -61,4 +61,8 @@ internal class DefaultTemporaryKeyStore(
     override fun remove(key: String) {
         settings.remove(key)
     }
+
+    override fun removeAll() {
+        settings.clear()
+    }
 }

@@ -3,7 +3,9 @@ package com.github.diegoberaldin.raccoonforlemmy.core.persistence.di
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DatabaseProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DefaultDatabaseProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultAccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultCommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultDraftRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultFavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultInstanceSelectionRepository
@@ -14,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Favo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.InstanceSelectionRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -53,6 +56,11 @@ val corePersistenceModule = module {
     single<DraftRepository> {
         DefaultDraftRepository(
             provider = get(),
+        )
+    }
+    single<CommunitySortRepository> {
+        DefaultCommunitySortRepository(
+            keyStore = get(named("custom"), parameters = { parametersOf("communitySort") })
         )
     }
 }

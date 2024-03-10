@@ -120,6 +120,11 @@ interface TemporaryKeyStore {
     fun remove(key: String)
 
     /**
+     * Removes all entries from the store.
+     */
+    fun removeAll()
+
+    /**
      * Retrieve a string list given its key.
      */
     fun get(
