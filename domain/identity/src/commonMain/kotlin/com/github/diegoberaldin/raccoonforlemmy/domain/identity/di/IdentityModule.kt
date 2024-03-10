@@ -44,6 +44,7 @@ val coreIdentityModule = module {
             accountRepository = get(),
             settingsRepository = get(),
             siteRepository = get(),
+            communitySortRepository = get(),
         )
     }
     single<LogoutUseCase> {
@@ -53,6 +54,7 @@ val coreIdentityModule = module {
             notificationCenter = get(),
             settingsRepository = get(),
             contentResetCoordinator = get(),
+            communitySortRepository = get(),
         )
     }
     single<SwitchAccountUseCase> {
@@ -62,6 +64,7 @@ val coreIdentityModule = module {
             settingsRepository = get(),
             serviceProvider = get(named("default")),
             notificationCenter = get(),
+            communitySortRepository = get(),
         )
     }
     single<DeleteAccountUseCase> {

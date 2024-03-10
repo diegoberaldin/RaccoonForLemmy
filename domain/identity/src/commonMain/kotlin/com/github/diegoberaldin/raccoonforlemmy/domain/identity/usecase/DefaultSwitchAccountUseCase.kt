@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 
@@ -14,6 +15,7 @@ internal class DefaultSwitchAccountUseCase(
     private val serviceProvider: ServiceProvider,
     private val notificationCenter: NotificationCenter,
     private val settingsRepository: SettingsRepository,
+    private val communitySortRepository: CommunitySortRepository,
 ) : SwitchAccountUseCase {
     override suspend fun invoke(account: AccountModel) {
         val accountId = account.id ?: return
@@ -26,6 +28,7 @@ internal class DefaultSwitchAccountUseCase(
         }
         accountRepository.setActive(accountId, true)
         notificationCenter.send(NotificationCenterEvent.Logout)
+        communitySortRepository.clear()
         serviceProvider.changeInstance(instance)
         identityRepository.storeToken(jwt)
         identityRepository.refreshLoggedState()
