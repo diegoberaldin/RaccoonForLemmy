@@ -25,6 +25,7 @@ val communityDetailModule = module {
             accountRepository = get(),
             favoriteCommunityRepository = get(),
             itemCache = get(),
+            communitySortRepository = get(),
         )
     }
 }

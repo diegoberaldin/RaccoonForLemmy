@@ -19,7 +19,6 @@ interface CommunityDetailMviModel :
     sealed interface Intent {
         data object Refresh : Intent
         data object LoadNextPage : Intent
-        data class ChangeSort(val value: SortType) : Intent
         data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class SavePost(val id: Int, val feedback: Boolean = false) : Intent

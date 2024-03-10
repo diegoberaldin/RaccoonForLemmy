@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.FavoriteCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.FavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload.ImagePreloadManager
@@ -19,6 +20,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
@@ -50,6 +53,7 @@ class CommunityDetailViewModel(
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val notificationCenter: NotificationCenter,
     private val itemCache: LemmyItemCache,
+    private val communitySortRepository: CommunitySortRepository,
 ) : CommunityDetailMviModel,
     DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>(
         initialState = CommunityDetailMviModel.UiState(),
@@ -139,6 +143,10 @@ class CommunityDetailViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
+                    if (evt.defaultForCommunity) {
+                        val handle = uiState.value.community.readableHandle
+                        communitySortRepository.saveSort(handle, evt.value.toInt())
+                    }
                     applySortType(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
@@ -151,9 +159,10 @@ class CommunityDetailViewModel(
                 updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
             if (uiState.value.posts.isEmpty()) {
-                val defaultPostSortType =
-                    settingsRepository.currentSettings.value.defaultPostSortType
-                updateState { it.copy(sortType = defaultPostSortType.toSortType()) }
+                val defaultPostSortType = settingsRepository.currentSettings.value.defaultPostSortType.toSortType()
+                val customPostSortType =
+                    communitySortRepository.getSort(uiState.value.community.readableHandle)?.toSortType()
+                updateState { it.copy(sortType = customPostSortType ?: defaultPostSortType) }
                 refresh()
             }
         }
@@ -206,7 +215,6 @@ class CommunityDetailViewModel(
             }
 
             CommunityDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            is CommunityDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
             CommunityDetailMviModel.Intent.Subscribe -> subscribe()
             CommunityDetailMviModel.Intent.Unsubscribe -> unsubscribe()
             is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
