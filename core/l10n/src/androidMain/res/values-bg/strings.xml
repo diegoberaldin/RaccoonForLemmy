@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Четене и съдържание</string>
     <string name="settings_title_pictures">Снимки</string>
     <string name="settings_title_experimental">Експерименти</string>
+    <string name="community_set_custom_sort">Персонализиран тип сортиране</string>
 </resources>

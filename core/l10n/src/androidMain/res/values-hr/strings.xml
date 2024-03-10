@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Čitanje i sadržaj</string>
     <string name="settings_title_pictures">Slike</string>
     <string name="settings_title_experimental">Eksperimenti</string>
+    <string name="community_set_custom_sort">Vrsta prilagođenog sortiranja</string>
 </resources>

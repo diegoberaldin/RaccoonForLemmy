@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Lectura y contenidos</string>
     <string name="settings_title_pictures">Fotos</string>
     <string name="settings_title_experimental">Experimentos</string>
+    <string name="community_set_custom_sort">Tipo de orden personalizado</string>
 </resources>

@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Lecture et contenu</string>
     <string name="settings_title_pictures">Des photos</string>
     <string name="settings_title_experimental">Expériences</string>
+    <string name="community_set_custom_sort">Type de tri personnalisé</string>
 </resources>

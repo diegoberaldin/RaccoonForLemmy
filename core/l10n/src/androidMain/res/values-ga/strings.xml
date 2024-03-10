@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Léamh agus ábhar</string>
     <string name="settings_title_pictures">Pictiúirí</string>
     <string name="settings_title_experimental">Turgnaimh</string>
+    <string name="community_set_custom_sort">Cineál sórtála saincheaptha</string>
 </resources>

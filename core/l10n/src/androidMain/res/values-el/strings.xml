@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Ανάγνωση και περιεχόμενο</string>
     <string name="settings_title_pictures">Εικόνες</string>
     <string name="settings_title_experimental">Πειράματα</string>
+    <string name="community_set_custom_sort">Προσαρμοσμένος τύπος ταξινόμησης</string>
 </resources>

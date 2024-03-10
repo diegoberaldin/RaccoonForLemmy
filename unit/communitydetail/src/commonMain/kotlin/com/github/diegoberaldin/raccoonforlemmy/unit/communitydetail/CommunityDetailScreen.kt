@@ -290,8 +290,7 @@ class CommunityDetailScreen(
                                 )
                                 this += Option(
                                     OptionId.SetCustomSort,
-                                    // TODO: l10n
-                                    "Set custom sort type",
+                                    LocalXmlStrings.current.communitySetCustomSort,
                                 )
                                 this += Option(
                                     OptionId.InfoInstance,

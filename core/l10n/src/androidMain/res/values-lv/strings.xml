@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Lasīšana un saturs</string>
     <string name="settings_title_pictures">Bildes</string>
     <string name="settings_title_experimental">Eksperimenti</string>
+    <string name="community_set_custom_sort">Pielāgots kārtošanas veids</string>
 </resources>

@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Legado kaj enhavo</string>
     <string name="settings_title_pictures">Bildoj</string>
     <string name="settings_title_experimental">Eksperimentoj</string>
+    <string name="community_set_custom_sort">Propra ordiga tipo</string>
 </resources>

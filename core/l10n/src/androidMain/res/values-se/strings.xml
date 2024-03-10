@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Läsning och innehåll</string>
     <string name="settings_title_pictures">Bilder</string>
     <string name="settings_title_experimental">Experiment</string>
+    <string name="community_set_custom_sort">Anpassad sorteringstyp</string>
 </resources>

@@ -345,4 +345,5 @@
     <string name="settings_title_reading">Чтение и содержание</string>
     <string name="settings_title_pictures">Картинки</string>
     <string name="settings_title_experimental">Эксперименты</string>
+    <string name="community_set_custom_sort">Пользовательский тип сортировки</string>
 </resources>

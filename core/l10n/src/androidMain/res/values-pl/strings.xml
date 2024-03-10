@@ -346,4 +346,5 @@
     <string name="settings_title_reading">Lektura i treść</string>
     <string name="settings_title_pictures">Kino</string>
     <string name="settings_title_experimental">Eksperymenty</string>
+    <string name="community_set_custom_sort">Niestandardowy typ sortowania</string>
 </resources>
