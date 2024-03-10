@@ -15,7 +15,6 @@ interface MultiCommunityMviModel :
     sealed interface Intent {
         data object Refresh : Intent
         data object LoadNextPage : Intent
-        data class ChangeSort(val value: SortType) : Intent
         data object HapticIndication : Intent
         data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent

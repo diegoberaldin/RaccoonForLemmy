@@ -145,8 +145,6 @@ class SavedItemsViewModel(
                     post = uiState.value.posts.first { it.id == intent.id },
                 )
             }
-
-            is SavedItemsMviModel.Intent.ChangeSort -> applySortType(intent.value)
         }
     }
 

@@ -109,7 +109,6 @@ class MultiCommunityViewModel(
 
     override fun reduce(intent: MultiCommunityMviModel.Intent) {
         when (intent) {
-            is MultiCommunityMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is MultiCommunityMviModel.Intent.DownVotePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()

@@ -179,7 +179,6 @@ class PostListViewModel(
                 refresh()
             }
 
-            is PostListMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is PostListMviModel.Intent.ChangeListing -> applyListingType(intent.value)
             is PostListMviModel.Intent.DownVotePost -> {
                 if (intent.feedback) {

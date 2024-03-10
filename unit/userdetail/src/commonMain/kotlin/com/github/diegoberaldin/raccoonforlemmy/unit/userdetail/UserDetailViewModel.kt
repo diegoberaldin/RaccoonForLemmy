@@ -133,7 +133,6 @@ class UserDetailViewModel(
 
     override fun reduce(intent: UserDetailMviModel.Intent) {
         when (intent) {
-            is UserDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
             is UserDetailMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is UserDetailMviModel.Intent.DownVoteComment -> {
                 if (intent.feedback) {

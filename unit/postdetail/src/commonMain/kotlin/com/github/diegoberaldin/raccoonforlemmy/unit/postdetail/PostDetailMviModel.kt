@@ -21,7 +21,6 @@ interface PostDetailMviModel :
         data object RefreshPost : Intent
         data object LoadNextPage : Intent
         data class FetchMoreComments(val parentId: Int) : Intent
-        data class ChangeSort(val value: SortType) : Intent
         data class UpVotePost(val feedback: Boolean = false) : Intent
         data class DownVotePost(val feedback: Boolean = false) : Intent
         data class SavePost(val post: PostModel, val feedback: Boolean = false) : Intent

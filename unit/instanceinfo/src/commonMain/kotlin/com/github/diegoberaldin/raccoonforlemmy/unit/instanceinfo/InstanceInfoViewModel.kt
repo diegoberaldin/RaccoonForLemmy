@@ -72,7 +72,6 @@ class InstanceInfoViewModel(
         when (intent) {
             InstanceInfoMviModel.Intent.LoadNextPage -> loadNextPage()
             InstanceInfoMviModel.Intent.Refresh -> refresh()
-            is InstanceInfoMviModel.Intent.ChangeSortType -> changeSortType(intent.value)
         }
     }
 

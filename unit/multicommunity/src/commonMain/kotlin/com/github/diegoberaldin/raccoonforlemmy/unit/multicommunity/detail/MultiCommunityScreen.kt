@@ -185,9 +185,7 @@ class MultiCommunityScreen(
                                     modifier = Modifier.onClick(
                                         onClick = rememberCallback {
                                             val sheet = SortBottomSheet(
-                                                sheetKey = key,
                                                 values = uiState.availableSortTypes.map { it.toInt() },
-                                                comments = false,
                                                 expandTop = true,
                                             )
                                             navigationCoordinator.showBottomSheet(sheet)

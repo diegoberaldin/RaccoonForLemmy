@@ -206,7 +206,6 @@ class SettingsScreen : Screen {
                         value = uiState.defaultListingType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = ListingTypeBottomSheet(
-                                sheetKey = key,
                                 isLogged = uiState.isLogged,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
@@ -219,10 +218,8 @@ class SettingsScreen : Screen {
                         value = uiState.defaultPostSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
-                                sheetKey = key,
                                 values = uiState.availableSortTypesForPosts.map { it.toInt() },
                                 expandTop = true,
-                                comments = false,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
@@ -234,7 +231,6 @@ class SettingsScreen : Screen {
                         value = uiState.defaultCommentSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
-                                sheetKey = key,
                                 comments = true,
                                 values = uiState.availableSortTypesForComments.map { it.toInt() },
                             )

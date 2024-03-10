@@ -18,7 +18,6 @@ interface UserDetailMviModel :
     ScreenModel {
 
     sealed interface Intent {
-        data class ChangeSort(val value: SortType) : Intent
         data object Refresh : Intent
         data object LoadNextPage : Intent
         data class ChangeSection(val section: UserDetailSection) : Intent

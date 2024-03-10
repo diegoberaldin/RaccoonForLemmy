@@ -169,7 +169,6 @@ class ExploreScreen : Screen {
                     onSelectListingType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = ListingTypeBottomSheet(
-                            sheetKey = key,
                             isLogged = uiState.isLogged,
                         )
                         navigationCoordinator.showBottomSheet(sheet)
@@ -177,9 +176,7 @@ class ExploreScreen : Screen {
                     onSelectSortType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = SortBottomSheet(
-                            sheetKey = key,
                             values = uiState.availableSortTypes.map { it.toInt() },
-                            comments = false,
                             expandTop = true,
                         )
                         navigationCoordinator.showBottomSheet(sheet)

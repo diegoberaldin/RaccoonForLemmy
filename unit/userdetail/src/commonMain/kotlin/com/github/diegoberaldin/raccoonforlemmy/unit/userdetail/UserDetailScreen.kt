@@ -222,9 +222,7 @@ class UserDetailScreen(
                             modifier = Modifier.onClick(
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
-                                        sheetKey = key,
                                         values = uiState.availableSortTypes.map { it.toInt() },
-                                        comments = false,
                                         expandTop = true,
                                     )
                                     navigationCoordinator.showBottomSheet(sheet)
@@ -424,7 +422,7 @@ class UserDetailScreen(
                                 navigationCoordinator.pushScreen(
                                     ZoomableImageScreen(
                                         url = url,
-                                        source = uiState.user?.readableHandle.orEmpty(),
+                                        source = uiState.user.readableHandle,
                                     )
                                 )
                             },

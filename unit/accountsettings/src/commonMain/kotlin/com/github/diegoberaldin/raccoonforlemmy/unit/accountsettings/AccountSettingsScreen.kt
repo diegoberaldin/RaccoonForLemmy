@@ -305,7 +305,6 @@ class AccountSettingsScreen : Screen {
                         value = uiState.defaultListingType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = ListingTypeBottomSheet(
-                                sheetKey = key,
                                 isLogged = true,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
@@ -318,10 +317,8 @@ class AccountSettingsScreen : Screen {
                         value = uiState.defaultSortType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = SortBottomSheet(
-                                sheetKey = key,
                                 values = uiState.availableSortTypes.map { it.toInt() },
                                 expandTop = true,
-                                comments = false,
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },

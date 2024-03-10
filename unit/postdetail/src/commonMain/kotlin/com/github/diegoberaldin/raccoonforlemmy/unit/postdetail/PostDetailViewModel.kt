@@ -244,7 +244,6 @@ class PostDetailViewModel(
 
             PostDetailMviModel.Intent.RefreshPost -> refreshPost()
             PostDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            is PostDetailMviModel.Intent.ChangeSort -> applySortType(intent.value)
 
             is PostDetailMviModel.Intent.DownVoteComment -> {
                 if (intent.feedback) {

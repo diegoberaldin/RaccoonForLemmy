@@ -134,8 +134,6 @@ class InstanceInfoScreen(
                                 modifier = Modifier.onClick(
                                     onClick = rememberCallback {
                                         val sheet = SortBottomSheet(
-                                            sheetKey = key,
-                                            comments = false,
                                             values = uiState.availableSortTypes.map { it.toInt() },
                                             expandTop = true,
                                         )
