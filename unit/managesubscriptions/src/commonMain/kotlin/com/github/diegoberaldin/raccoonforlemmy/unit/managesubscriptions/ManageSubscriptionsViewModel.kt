@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -33,9 +34,8 @@ class ManageSubscriptionsViewModel(
         initialState = ManageSubscriptionsMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
@@ -85,7 +85,7 @@ class ManageSubscriptionsViewModel(
             return
         }
         updateState { it.copy(refreshing = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             val accountId = accountRepository.getActive()?.id ?: 0L
             val favoriteCommunityIds =
@@ -109,7 +109,7 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun handleUnsubscription(community: CommunityModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             communityRepository.unsubscribe(
                 auth = auth, id = community.id
@@ -121,7 +121,7 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun deleteMultiCommunity(community: MultiCommunityModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             multiCommunityRepository.delete(community)
             updateState {
                 val newCommunities = it.multiCommunities.filter { c -> c.id != community.id }
@@ -148,7 +148,7 @@ class ManageSubscriptionsViewModel(
 
     private fun toggleFavorite(community: CommunityModel) {
         val communityId = community.id
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val accountId = accountRepository.getActive()?.id ?: 0L
             val newValue = !community.favorite
             if (newValue) {

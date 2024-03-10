@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
@@ -17,9 +18,8 @@ class MainViewModel(
         initialState = MainScreenMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch(Dispatchers.IO) {
+    init {
+        screenModelScope.launch(Dispatchers.IO) {
             identityRepository.startup()
 
             inboxCoordinator.totalUnread.onEach { unreadCount ->

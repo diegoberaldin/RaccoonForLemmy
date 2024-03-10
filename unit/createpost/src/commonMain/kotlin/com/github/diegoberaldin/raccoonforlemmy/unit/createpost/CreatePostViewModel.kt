@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.createpost
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -43,9 +44,8 @@ class CreatePostViewModel(
         initialState = CreatePostMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             val editedPost = editedPostId?.let {
                 itemCache.getPost(it)
             }
@@ -150,7 +150,7 @@ class CreatePostViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
@@ -167,7 +167,7 @@ class CreatePostViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
@@ -241,7 +241,7 @@ class CreatePostViewModel(
         }
 
         updateState { it.copy(loading = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 when {
@@ -294,7 +294,7 @@ class CreatePostViewModel(
         val nsfw = currentState.nsfw
         val languageId = currentState.currentLanguageId
 
-        scope?.launch {
+        screenModelScope.launch {
             val accountId = accountRepository.getActive()?.id ?: return@launch
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value

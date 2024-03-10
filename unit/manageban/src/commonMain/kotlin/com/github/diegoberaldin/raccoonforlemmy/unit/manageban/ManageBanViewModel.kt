@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.manageban
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -24,9 +25,8 @@ class ManageBanViewModel(
         initialState = ManageBanMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
@@ -51,7 +51,7 @@ class ManageBanViewModel(
             }
 
             ManageBanMviModel.Intent.Refresh -> {
-                scope?.launch(Dispatchers.IO) {
+                screenModelScope.launch(Dispatchers.IO) {
                     refresh()
                 }
             }
@@ -76,7 +76,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanUser(id: Int) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 userRepository.block(
@@ -92,7 +92,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanCommunity(id: Int) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 communityRepository.block(
@@ -108,7 +108,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanInstance(id: Int) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 siteRepository.block(

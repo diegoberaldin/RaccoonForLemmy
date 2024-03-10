@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.messages
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -29,9 +30,8 @@ class InboxMessagesViewModel(
 
     private var currentPage: Int = 1
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             coordinator.events.onEach {
                 when (it) {
                     InboxCoordinator.Event.Refresh -> refresh()
@@ -71,11 +71,11 @@ class InboxMessagesViewModel(
 
     override fun reduce(intent: InboxMessagesMviModel.Intent) {
         when (intent) {
-            InboxMessagesMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            InboxMessagesMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            InboxMessagesMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
+            InboxMessagesMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
                 refresh()
             }
         }
@@ -99,7 +99,7 @@ class InboxMessagesViewModel(
             return
         }
         updateState { it.copy(unreadOnly = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             refresh(initial = true)
             emitEffect(InboxMessagesMviModel.Effect.BackToTop)
         }
@@ -152,7 +152,7 @@ class InboxMessagesViewModel(
     }
 
     private fun updateUnreadItems() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val unreadCount = coordinator.updateUnreadCount()
             emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
         }

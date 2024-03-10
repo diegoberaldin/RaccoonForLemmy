@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.configurecontentview
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
@@ -28,9 +29,8 @@ class ConfigureContentViewViewModel(
         initialState = ConfigureContentViewMviModel.State()
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             themeRepository.postLayout.onEach { value ->
                 updateState { it.copy(postLayout = value) }
             }.launchIn(this)
@@ -95,7 +95,7 @@ class ConfigureContentViewViewModel(
 
     private fun changePostLayout(value: PostLayout) {
         themeRepository.changePostLayout(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 postLayout = value.toInt()
             )
@@ -105,7 +105,7 @@ class ConfigureContentViewViewModel(
 
     private fun changeVoteFormat(value: VoteFormat) {
         updateState { it.copy(voteFormat = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.let {
                 if (value == VoteFormat.Hidden) {
                     it.copy(showScores = false)
@@ -122,7 +122,7 @@ class ConfigureContentViewViewModel(
 
     private fun changeFullHeightImages(value: Boolean) {
         updateState { it.copy(fullHeightImages = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 fullHeightImages = value
             )
@@ -132,7 +132,7 @@ class ConfigureContentViewViewModel(
 
     private fun changePreferUserNicknames(value: Boolean) {
         updateState { it.copy(preferUserNicknames = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 preferUserNicknames = value
             )
@@ -142,7 +142,7 @@ class ConfigureContentViewViewModel(
 
     private fun changePostBodyMaxLines(value: Int?) {
         updateState { it.copy(postBodyMaxLines = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 postBodyMaxLines = value
             )
@@ -159,7 +159,7 @@ class ConfigureContentViewViewModel(
                 ContentFontClass.AncillaryText -> it.copy(ancillary = value)
             }
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 contentFontScale = contentFontScale
             )
@@ -169,7 +169,7 @@ class ConfigureContentViewViewModel(
 
     private fun changeContentFontFamily(value: UiFontFamily) {
         themeRepository.changeContentFontFamily(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 contentFontFamily = value.toInt()
             )
@@ -179,7 +179,7 @@ class ConfigureContentViewViewModel(
 
     private fun changeCommentBarThickness(value: Int) {
         themeRepository.changeCommentBarThickness(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 commentBarThickness = value
             )

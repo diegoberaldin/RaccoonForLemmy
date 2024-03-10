@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.userinfo
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -19,9 +20,8 @@ class UserInfoViewModel(
         initialState = UserInfoMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             val user = itemCache.getUser(userId) ?: UserModel()
             updateState {
                 it.copy(user = user)

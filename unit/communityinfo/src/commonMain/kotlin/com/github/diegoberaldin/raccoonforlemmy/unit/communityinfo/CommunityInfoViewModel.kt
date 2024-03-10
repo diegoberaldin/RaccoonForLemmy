@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -19,9 +20,8 @@ class CommunityInfoViewModel(
         initialState = CommunityInfoMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             if (uiState.value.community.id == 0) {
                 val community = itemCache.getCommunity(communityId) ?: CommunityModel()
                 updateState { it.copy(community = community) }

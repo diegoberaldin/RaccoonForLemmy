@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.profile.main
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LogoutUseCase
@@ -15,9 +16,8 @@ class ProfileMainViewModel(
         initialState = ProfileMainMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             identityRepository.isLogged.onEach { logged ->
                 updateState { it.copy(logged = logged) }
             }.launchIn(this)
@@ -31,7 +31,7 @@ class ProfileMainViewModel(
     }
 
     private fun handleLogout() {
-        scope?.launch {
+        screenModelScope.launch {
             logout()
         }
     }

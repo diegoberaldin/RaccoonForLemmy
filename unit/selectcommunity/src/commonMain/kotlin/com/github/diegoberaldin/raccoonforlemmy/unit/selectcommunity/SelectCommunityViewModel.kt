@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -25,9 +26,8 @@ class SelectCommunityViewModel(
     private var communities: List<CommunityModel> = emptyList()
     private var debounceJob: Job? = null
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
@@ -51,7 +51,7 @@ class SelectCommunityViewModel(
     private fun setSearch(value: String) {
         debounceJob?.cancel()
         updateState { it.copy(searchText = value) }
-        debounceJob = scope?.launch(Dispatchers.IO) {
+        debounceJob = screenModelScope.launch(Dispatchers.IO) {
             delay(1_000)
             updateState {
                 val filtered = filterCommunities()
@@ -61,7 +61,7 @@ class SelectCommunityViewModel(
     }
 
     private fun populate() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             communities = communityRepository.getSubscribed(auth).sortedBy { it.name }
             updateState {

@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.colors
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
@@ -32,9 +33,8 @@ class SettingsColorAndFontViewModel(
         initialState = SettingsColorAndFontMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             themeRepository.uiTheme.onEach { value ->
                 updateState { it.copy(uiTheme = value) }
             }.launchIn(this)
@@ -112,7 +112,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeFontFamily(value: UiFontFamily) {
         themeRepository.changeUiFontFamily(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 uiFontFamily = value.toInt()
             )
@@ -122,7 +122,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeUiFontScale(value: Float) {
         themeRepository.changeUiFontScale(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 uiFontScale = value
             )
@@ -134,7 +134,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeDynamicColors(value: Boolean) {
         themeRepository.changeDynamicColors(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 dynamicColors = value
             )
@@ -144,7 +144,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeCustomSeedColor(value: Color?) {
         themeRepository.changeCustomSeedColor(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 customSeedColor = value?.toArgb()
             )
@@ -154,7 +154,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeUpVoteColor(value: Color?) {
         themeRepository.changeUpVoteColor(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 upVoteColor = value?.toArgb()
             )
@@ -164,7 +164,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeDownVoteColor(value: Color?) {
         themeRepository.changeDownVoteColor(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 downVoteColor = value?.toArgb()
             )
@@ -174,7 +174,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeReplyColor(value: Color?) {
         themeRepository.changeReplyColor(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 replyColor = value?.toArgb()
             )
@@ -184,7 +184,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeSaveColor(value: Color?) {
         themeRepository.changeSaveColor(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 saveColor = value?.toArgb()
             )
@@ -194,7 +194,7 @@ class SettingsColorAndFontViewModel(
 
     private fun changeCommentBarTheme(value: CommentBarTheme) {
         themeRepository.changeCommentBarTheme(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 commentBarTheme = value.toInt()
             )

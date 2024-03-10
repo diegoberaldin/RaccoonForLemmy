@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.postdetail
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -55,15 +56,14 @@ class PostDetailViewModel(
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
 
-    override fun onStarted() {
-        super.onStarted()
+    init {
         updateState {
             it.copy(
                 instance = otherInstance.takeIf { n -> n.isNotEmpty() }
                     ?: apiConfigurationRepository.instance.value,
             )
         }
-        scope?.launch {
+        screenModelScope.launch {
             if (uiState.value.post.id == 0) {
                 val post = itemCache.getPost(postId) ?: PostModel()
                 updateState {
@@ -224,7 +224,7 @@ class PostDetailViewModel(
         } else {
             // comment to highlight found
             commentWasHighlighted = true
-            scope?.launch(Dispatchers.Main) {
+            screenModelScope.launch(Dispatchers.Main) {
                 emitEffect(PostDetailMviModel.Effect.ScrollToComment(indexOfHighlight))
             }
         }
@@ -232,13 +232,13 @@ class PostDetailViewModel(
 
     override fun reduce(intent: PostDetailMviModel.Intent) {
         when (intent) {
-            PostDetailMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            PostDetailMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 if (!uiState.value.initial) {
                     loadNextPage()
                 }
             }
 
-            PostDetailMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
+            PostDetailMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -326,7 +326,7 @@ class PostDetailViewModel(
     }
 
     private fun refreshPost() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             val updatedPost = postRepository.get(
                 id = postId,
@@ -416,7 +416,7 @@ class PostDetailViewModel(
             return
         }
         updateState { it.copy(sortType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             emitEffect(PostDetailMviModel.Effect.BackToTop)
             refresh()
         }
@@ -429,7 +429,7 @@ class PostDetailViewModel(
     }
 
     private fun loadMoreComments(parentId: Int, loadUntilHighlight: Boolean = false) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val currentState = uiState.value
             val auth = identityRepository.authToken.value
             val sort = currentState.sortType
@@ -482,7 +482,7 @@ class PostDetailViewModel(
             voted = newValue,
         )
         updateState { it.copy(post = newPost) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -511,7 +511,7 @@ class PostDetailViewModel(
         updateState {
             it.copy(post = newPost)
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -536,7 +536,7 @@ class PostDetailViewModel(
             saved = newValue,
         )
         updateState { it.copy(post = newPost) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -575,7 +575,7 @@ class PostDetailViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -597,7 +597,7 @@ class PostDetailViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -622,7 +622,7 @@ class PostDetailViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -641,7 +641,7 @@ class PostDetailViewModel(
     }
 
     private fun deleteComment(id: Int) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             handleCommentDelete(id)
@@ -654,7 +654,7 @@ class PostDetailViewModel(
     }
 
     private fun deletePost() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = postId, auth = auth)
             notificationCenter.send(
@@ -665,7 +665,7 @@ class PostDetailViewModel(
     }
 
     private fun toggleExpanded(comment: CommentModel) {
-        scope?.launch(Dispatchers.Main) {
+        screenModelScope.launch(Dispatchers.Main) {
             val commentId = comment.id
             val newExpanded = !comment.expanded
             updateState {
@@ -697,7 +697,7 @@ class PostDetailViewModel(
     }
 
     private fun feature(post: PostModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.featureInCommunity(
                 postId = post.id,
@@ -711,7 +711,7 @@ class PostDetailViewModel(
     }
 
     private fun lock(post: PostModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.lock(
                 postId = post.id,
@@ -725,7 +725,7 @@ class PostDetailViewModel(
     }
 
     private fun distinguish(comment: CommentModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newComment = commentRepository.distinguish(
                 commentId = comment.id,
@@ -739,7 +739,7 @@ class PostDetailViewModel(
     }
 
     private fun toggleModeratorStatus(userId: Int) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val isModerator = uiState.value.moderators.containsId(userId)
             val auth = identityRepository.authToken.value.orEmpty()
             val post = uiState.value.post

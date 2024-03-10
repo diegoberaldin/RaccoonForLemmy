@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -50,7 +49,6 @@ class SelectCommunityDialog : Screen {
     @Composable
     override fun Content() {
         val model = getScreenModel<SelectCommunityMviModel>()
-        model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
 

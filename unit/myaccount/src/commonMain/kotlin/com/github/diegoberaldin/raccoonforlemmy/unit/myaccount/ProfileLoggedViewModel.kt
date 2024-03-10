@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.myaccount
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ProfileLoggedSection
@@ -51,15 +52,14 @@ class ProfileLoggedViewModel(
 
     private var currentPage = 1
 
-    @OptIn(FlowPreview::class)
-    override fun onStarted() {
-        super.onStarted()
+    init {
         updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
-        scope?.launch {
+        screenModelScope.launch {
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
 
+            @OptIn(FlowPreview::class)
             identityRepository.isLogged.drop(1).debounce(250).onEach { logged ->
                 if (logged == true) {
                     updateState {
@@ -122,11 +122,11 @@ class ProfileLoggedViewModel(
             is ProfileLoggedMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is ProfileLoggedMviModel.Intent.DeleteComment -> deleteComment(intent.id)
             is ProfileLoggedMviModel.Intent.DeletePost -> deletePost(intent.id)
-            ProfileLoggedMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            ProfileLoggedMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            ProfileLoggedMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
+            ProfileLoggedMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -353,7 +353,7 @@ class ProfileLoggedViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -375,7 +375,7 @@ class ProfileLoggedViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -397,7 +397,7 @@ class ProfileLoggedViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -419,7 +419,7 @@ class ProfileLoggedViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -438,7 +438,7 @@ class ProfileLoggedViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -460,7 +460,7 @@ class ProfileLoggedViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -508,7 +508,7 @@ class ProfileLoggedViewModel(
     }
 
     private fun deletePost(id: Int) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = id, auth = auth)
             handlePostDelete(id)
@@ -516,7 +516,7 @@ class ProfileLoggedViewModel(
     }
 
     private fun deleteComment(id: Int) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             refresh()

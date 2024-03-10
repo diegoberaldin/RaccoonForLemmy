@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.saveditems
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -43,10 +44,9 @@ class SavedItemsViewModel(
 
     private var currentPage: Int = 1
 
-    override fun onStarted() {
-        super.onStarted()
+    init {
         updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
-        scope?.launch {
+        screenModelScope.launch {
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -166,7 +166,7 @@ class SavedItemsViewModel(
             return
         }
 
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val user = siteRepository.getCurrentUser(auth.orEmpty()) ?: return@launch
@@ -278,7 +278,7 @@ class SavedItemsViewModel(
             voted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -303,7 +303,7 @@ class SavedItemsViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -328,7 +328,7 @@ class SavedItemsViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -353,7 +353,7 @@ class SavedItemsViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -372,7 +372,7 @@ class SavedItemsViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -394,7 +394,7 @@ class SavedItemsViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(

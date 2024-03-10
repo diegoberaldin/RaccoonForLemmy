@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -35,9 +36,8 @@ class ReportListViewModel(
 
     private var currentPage = 1
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -66,7 +66,7 @@ class ReportListViewModel(
             is ReportListMviModel.Intent.ChangeSection -> changeSection(intent.value)
             is ReportListMviModel.Intent.ChangeUnresolvedOnly -> changeUnresolvedOnly(intent.value)
             ReportListMviModel.Intent.Refresh -> refresh()
-            ReportListMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            ReportListMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
@@ -108,7 +108,7 @@ class ReportListViewModel(
                 initial = initial,
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             loadNextPage()
         }
     }
@@ -197,7 +197,7 @@ class ReportListViewModel(
     }
 
     private fun resolve(report: PostReportModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(asyncInProgress = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val newReport = postRepository.resolveReport(
@@ -217,7 +217,7 @@ class ReportListViewModel(
     }
 
     private fun resolve(report: CommentReportModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(asyncInProgress = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val newReport = commentRepository.resolveReport(

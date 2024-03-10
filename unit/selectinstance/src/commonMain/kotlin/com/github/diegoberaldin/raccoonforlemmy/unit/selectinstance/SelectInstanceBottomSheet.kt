@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
@@ -56,7 +55,6 @@ class SelectInstanceBottomSheet : Screen {
     @Composable
     override fun Content() {
         val model = getScreenModel<SelectInstanceMviModel>(key)
-        model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         var changeInstanceDialogOpen by remember {
             mutableStateOf(false)

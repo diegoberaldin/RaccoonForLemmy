@@ -1,8 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.architecture
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,9 +22,6 @@ abstract class DefaultMviModel<Intent, State, Effect>(
     override val uiState = MutableStateFlow(initialState)
     override val effects = MutableSharedFlow<Effect>()
 
-    protected var scope: CoroutineScope? = null
-        private set
-
     /**
      * Emit an effect (event).
      *
@@ -48,14 +42,5 @@ abstract class DefaultMviModel<Intent, State, Effect>(
 
     override fun reduce(intent: Intent) {
         // Noop
-    }
-
-    override fun onStarted() {
-        scope = CoroutineScope(SupervisorJob())
-    }
-
-    override fun onDisposed() {
-        scope?.cancel()
-        scope = null
     }
 }

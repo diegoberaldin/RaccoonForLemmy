@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -30,9 +31,8 @@ class AccountSettingsViewModel(
 
     private var accountSettings: AccountSettingsModel? = null
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     updateState { it.copy(defaultSortType = evt.value) }
@@ -183,7 +183,7 @@ class AccountSettingsViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
@@ -203,7 +203,7 @@ class AccountSettingsViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
@@ -238,7 +238,7 @@ class AccountSettingsViewModel(
             showReadPosts = currentState.showReadPosts,
         ) ?: return
         updateState { it.copy(loading = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 siteRepository.updateAccountSettings(

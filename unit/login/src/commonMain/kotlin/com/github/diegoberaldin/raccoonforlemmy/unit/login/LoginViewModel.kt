@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.login
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
@@ -17,7 +18,7 @@ import kotlinx.coroutines.withContext
 
 class LoginViewModel(
     private val login: LoginUseCase,
-    private val apiConfigurationRepository: ApiConfigurationRepository,
+    apiConfigurationRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
     private val accountRepository: AccountRepository,
     private val siteRepository: SiteRepository,
@@ -28,8 +29,7 @@ class LoginViewModel(
         initialState = LoginMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
+    init {
         val instance = apiConfigurationRepository.instance.value
         updateState {
             it.copy(instanceName = instance)
@@ -114,7 +114,7 @@ class LoginViewModel(
             return
         }
 
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
 
             val res = communityRepository.getAll(

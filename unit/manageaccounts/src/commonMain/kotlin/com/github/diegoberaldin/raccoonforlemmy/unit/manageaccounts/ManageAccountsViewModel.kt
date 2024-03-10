@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
@@ -27,10 +28,9 @@ class ManageAccountsViewModel(
         initialState = ManageAccountsMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
+    init {
         if (uiState.value.accounts.isEmpty()) {
-            scope?.launch {
+            screenModelScope.launch {
                 settingsRepository.currentSettings.onEach { settings ->
                     updateState {
                         it.copy(
@@ -57,13 +57,13 @@ class ManageAccountsViewModel(
             is ManageAccountsMviModel.Intent.DeleteAccount -> {
                 uiState.value.accounts.getOrNull(intent.index)?.also { account ->
                     if (account.active) {
-                        scope?.launch(Dispatchers.IO) {
+                        screenModelScope.launch(Dispatchers.IO) {
                             logout()
                             deleteAccount(account)
                             close()
                         }
                     } else {
-                        scope?.launch(Dispatchers.IO) {
+                        screenModelScope.launch(Dispatchers.IO) {
                             deleteAccount(account)
                             updateState {
                                 it.copy(accounts = it.accounts.filter { a -> a.id != account.id })
@@ -79,7 +79,7 @@ class ManageAccountsViewModel(
         if (account.active) {
             return
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             switchAccount(account)
             contentResetCoordinator.resetHome = true
             contentResetCoordinator.resetExplore = true

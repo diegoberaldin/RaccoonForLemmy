@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.remove
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -41,7 +42,7 @@ class RemoveViewModel(
         val text = uiState.value.text
 
         updateState { it.copy(loading = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 if (postId != null) {

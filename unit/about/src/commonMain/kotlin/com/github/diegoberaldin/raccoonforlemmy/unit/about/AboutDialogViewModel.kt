@@ -10,8 +10,7 @@ class AboutDialogViewModel(
         initialState = AboutDialogMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
+    init {
         updateState {
             it.copy(
                 version = AppInfo.versionCode,

@@ -15,13 +15,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowRight
 import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.Message
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -41,7 +41,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
@@ -61,7 +60,6 @@ class ConfigureSwipeActionsScreen : Screen {
     @Composable
     override fun Content() {
         val model = getScreenModel<ConfigureSwipeActionsMviModel>()
-        model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
@@ -156,7 +154,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         ConfigureActionItem(
                             icon = when (idx) {
                                 1 -> Icons.Default.KeyboardDoubleArrowLeft
-                                else -> Icons.Filled.KeyboardArrowLeft
+                                else -> Icons.AutoMirrored.Filled.KeyboardArrowLeft
                             },
                             action = action,
                             options = buildList {
@@ -212,7 +210,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         ConfigureActionItem(
                             icon = when (idx) {
                                 1 -> Icons.Default.KeyboardDoubleArrowRight
-                                else -> Icons.Filled.KeyboardArrowRight
+                                else -> Icons.AutoMirrored.Filled.KeyboardArrowRight
                             },
                             action = action,
                             options = buildList {
@@ -257,7 +255,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     item {
                         SettingsHeader(
                             title = LocalXmlStrings.current.exploreResultTypeComments,
-                            icon = Icons.Filled.Message,
+                            icon = Icons.AutoMirrored.Filled.Message,
                             rightButton = @Composable {
                                 TextButton(
                                     contentPadding = PaddingValues(
@@ -295,7 +293,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         ConfigureActionItem(
                             icon = when (idx) {
                                 1 -> Icons.Default.KeyboardDoubleArrowLeft
-                                else -> Icons.Filled.KeyboardArrowLeft
+                                else -> Icons.AutoMirrored.Filled.KeyboardArrowLeft
                             },
                             action = action,
                             options = buildList {
@@ -351,7 +349,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         ConfigureActionItem(
                             icon = when (idx) {
                                 1 -> Icons.Default.KeyboardDoubleArrowRight
-                                else -> Icons.Filled.KeyboardArrowRight
+                                else -> Icons.AutoMirrored.Filled.KeyboardArrowRight
                             },
                             action = action,
                             options = buildList {
@@ -434,7 +432,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         ConfigureActionItem(
                             icon = when (idx) {
                                 1 -> Icons.Default.KeyboardDoubleArrowLeft
-                                else -> Icons.Filled.KeyboardArrowLeft
+                                else -> Icons.AutoMirrored.Filled.KeyboardArrowLeft
                             },
                             action = action,
                             options = buildList {
@@ -490,7 +488,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         ConfigureActionItem(
                             icon = when (idx) {
                                 1 -> Icons.Default.KeyboardDoubleArrowRight
-                                else -> Icons.Filled.KeyboardArrowRight
+                                else -> Icons.AutoMirrored.Filled.KeyboardArrowRight
                             },
                             action = action,
                             options = buildList {

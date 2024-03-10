@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -35,9 +36,8 @@ class MultiCommunityEditorViewModel(
     private var communities: List<Pair<CommunityModel, Boolean>> = emptyList()
     private var debounceJob: Job? = null
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
@@ -63,7 +63,7 @@ class MultiCommunityEditorViewModel(
     }
 
     private fun populate() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val editedCommunity = communityId?.toLong()?.let {
                 multiCommunityRepository.getById(it)
             }
@@ -88,7 +88,7 @@ class MultiCommunityEditorViewModel(
     private fun setSearch(value: String) {
         debounceJob?.cancel()
         updateState { it.copy(searchText = value) }
-        debounceJob = scope?.launch(Dispatchers.IO) {
+        debounceJob = screenModelScope.launch(Dispatchers.IO) {
             delay(1_000)
             updateState {
                 val filtered = filterCommunities()
@@ -152,7 +152,7 @@ class MultiCommunityEditorViewModel(
             return
         }
 
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val icon = currentState.icon
             val communityIds = currentState.communities.filter { it.second }.map { it.first.id }
             val editedCommunity = communityId?.toLong()?.let {

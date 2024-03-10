@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.advanced
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
@@ -33,9 +34,8 @@ class AdvancedSettingsViewModel(
         initialState = AdvancedSettingsMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             themeRepository.navItemTitles.onEach { value ->
                 updateState { it.copy(navBarTitlesVisible = value) }
             }.launchIn(this)
@@ -117,7 +117,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeNavBarTitlesVisible(value: Boolean) {
         themeRepository.changeNavItemTitles(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 navigationTitlesVisible = value
             )
@@ -127,7 +127,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeEnableDoubleTapAction(value: Boolean) {
         updateState { it.copy(enableDoubleTapAction = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 enableDoubleTapAction = value
             )
@@ -137,7 +137,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeAutoLoadImages(value: Boolean) {
         updateState { it.copy(autoLoadImages = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 autoLoadImages = value
             )
@@ -147,7 +147,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeAutoExpandComments(value: Boolean) {
         updateState { it.copy(autoExpandComments = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 autoExpandComments = value
             )
@@ -157,7 +157,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeHideNavigationBarWhileScrolling(value: Boolean) {
         updateState { it.copy(hideNavigationBarWhileScrolling = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 hideNavigationBarWhileScrolling = value
             )
@@ -167,7 +167,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeMarkAsReadWhileScrolling(value: Boolean) {
         updateState { it.copy(markAsReadWhileScrolling = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 markAsReadWhileScrolling = value
             )
@@ -177,7 +177,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeZombieModeInterval(value: Duration) {
         updateState { it.copy(zombieModeInterval = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 zombieModeInterval = value
             )
@@ -187,7 +187,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeZombieModeScrollAmount(value: Float) {
         updateState { it.copy(zombieModeScrollAmount = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 zombieModeScrollAmount = value
             )
@@ -197,7 +197,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeDefaultInboxUnreadOnly(value: Boolean) {
         updateState { it.copy(defaultInboxUnreadOnly = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultInboxType = value.toInboxDefaultType(),
             )
@@ -208,7 +208,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeSearchPostTitleOnly(value: Boolean) {
         updateState { it.copy(searchPostTitleOnly = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 searchPostTitleOnly = value
             )
@@ -218,7 +218,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeEdgeToEdge(value: Boolean) {
         updateState { it.copy(edgeToEdge = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 edgeToEdge = value
             )
@@ -228,7 +228,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeInfiniteScrollDisabled(value: Boolean) {
         updateState { it.copy(infiniteScrollDisabled = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 infiniteScrollEnabled = !value
             )
@@ -242,7 +242,7 @@ class AdvancedSettingsViewModel(
             else -> false
         }
         updateState { it.copy(opaqueSystemBars = opaque) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 opaqueSystemBars = opaque
             )
@@ -252,7 +252,7 @@ class AdvancedSettingsViewModel(
 
     private fun changeImageSourcePath(value: Boolean) {
         updateState { it.copy(imageSourcePath = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 imageSourcePath = value
             )

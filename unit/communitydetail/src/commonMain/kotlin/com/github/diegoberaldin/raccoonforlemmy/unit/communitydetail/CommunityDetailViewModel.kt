@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -63,9 +64,8 @@ class CommunityDetailViewModel(
     private var pageCursor: String? = null
     private var hideReadPosts = false
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             if (uiState.value.community.id == 0) {
                 val community = itemCache.getCommunity(communityId) ?: CommunityModel()
                 updateState {
@@ -175,11 +175,11 @@ class CommunityDetailViewModel(
 
     override fun reduce(intent: CommunityDetailMviModel.Intent) {
         when (intent) {
-            CommunityDetailMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            CommunityDetailMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            CommunityDetailMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
+            CommunityDetailMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -301,7 +301,7 @@ class CommunityDetailViewModel(
             return
         }
         updateState { it.copy(sortType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             emitEffect(CommunityDetailMviModel.Effect.BackToTop)
             refresh()
         }
@@ -393,7 +393,7 @@ class CommunityDetailViewModel(
             voted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -417,7 +417,7 @@ class CommunityDetailViewModel(
             return
         }
         val newPost = post.copy(read = true)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.setRead(
@@ -440,7 +440,7 @@ class CommunityDetailViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -466,7 +466,7 @@ class CommunityDetailViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -487,7 +487,7 @@ class CommunityDetailViewModel(
 
     private fun subscribe() {
         hapticFeedback.vibrate()
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             communityRepository.subscribe(
                 auth = identityRepository.authToken.value,
                 id = communityId,
@@ -499,7 +499,7 @@ class CommunityDetailViewModel(
 
     private fun unsubscribe() {
         hapticFeedback.vibrate()
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val community = communityRepository.unsubscribe(
                 auth = identityRepository.authToken.value,
                 id = communityId,
@@ -530,7 +530,7 @@ class CommunityDetailViewModel(
 
     private fun blockCommunity() {
         updateState { it.copy(asyncInProgress = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value
                 communityRepository.block(communityId, true, auth).getOrThrow()
@@ -545,7 +545,7 @@ class CommunityDetailViewModel(
 
     private fun blockInstance() {
         updateState { it.copy(asyncInProgress = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val community = uiState.value.community
                 val instanceId = community.instanceId
@@ -581,7 +581,7 @@ class CommunityDetailViewModel(
     }
 
     private fun feature(post: PostModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.featureInCommunity(
                 postId = post.id,
@@ -595,7 +595,7 @@ class CommunityDetailViewModel(
     }
 
     private fun lock(post: PostModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.lock(
                 postId = post.id,
@@ -609,7 +609,7 @@ class CommunityDetailViewModel(
     }
 
     private fun toggleModeratorStatus(userId: Int) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val isModerator = uiState.value.moderators.containsId(userId)
             val auth = identityRepository.authToken.value.orEmpty()
             val newModerators = communityRepository.addModerator(
@@ -625,7 +625,7 @@ class CommunityDetailViewModel(
     }
 
     private fun toggleFavorite() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val accountId = accountRepository.getActive()?.id ?: 0L
             val newValue = !uiState.value.community.favorite
             if (newValue) {

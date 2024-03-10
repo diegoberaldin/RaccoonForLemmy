@@ -38,7 +38,6 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.architecture.bindToLifecycle
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
@@ -74,7 +73,6 @@ object ModalDrawerContent : Tab {
     @Composable
     override fun Content() {
         val model = getScreenModel<ModalDrawerMviModel>()
-        model.bindToLifecycle(key)
         val uiState by model.uiState.collectAsState()
         val coordinator = remember { getDrawerCoordinator() }
         val themeRepository = remember { getThemeRepository() }

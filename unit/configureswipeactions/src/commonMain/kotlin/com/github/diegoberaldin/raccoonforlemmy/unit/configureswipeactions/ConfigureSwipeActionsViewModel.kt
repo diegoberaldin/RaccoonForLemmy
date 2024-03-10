@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -23,9 +24,8 @@ class ConfigureSwipeActionsViewModel(
         initialState = ConfigureSwipeActionsMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             notificationCenter.subscribe(NotificationCenterEvent.ActionsOnSwipeSelected::class)
                 .onEach { evt ->
                     when (evt.target) {
@@ -88,7 +88,7 @@ class ConfigureSwipeActionsViewModel(
     }
 
     private fun addActionPosts(action: ActionOnSwipe, direction: ActionOnSwipeDirection) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value
             val accountId = accountRepository.getActive()?.id ?: return@launch
             val newActions = when (direction) {
@@ -132,7 +132,7 @@ class ConfigureSwipeActionsViewModel(
     }
 
     private fun removeActionPosts(action: ActionOnSwipe, direction: ActionOnSwipeDirection) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value
             val accountId = accountRepository.getActive()?.id ?: return@launch
             val newActions = when (direction) {
@@ -176,7 +176,7 @@ class ConfigureSwipeActionsViewModel(
     }
 
     private fun addActionComments(action: ActionOnSwipe, direction: ActionOnSwipeDirection) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value
             val accountId = accountRepository.getActive()?.id ?: return@launch
             val newActions = when (direction) {
@@ -220,7 +220,7 @@ class ConfigureSwipeActionsViewModel(
     }
 
     private fun removeActionComments(action: ActionOnSwipe, direction: ActionOnSwipeDirection) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value
             val accountId = accountRepository.getActive()?.id ?: return@launch
             val newActions = when (direction) {
@@ -264,7 +264,7 @@ class ConfigureSwipeActionsViewModel(
     }
 
     private fun addActionInbox(action: ActionOnSwipe, direction: ActionOnSwipeDirection) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value
             val accountId = accountRepository.getActive()?.id ?: return@launch
             val newActions = when (direction) {
@@ -308,7 +308,7 @@ class ConfigureSwipeActionsViewModel(
     }
 
     private fun removeActionInbox(action: ActionOnSwipe, direction: ActionOnSwipeDirection) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value
             val accountId = accountRepository.getActive()?.id ?: return@launch
             val newActions = when (direction) {
@@ -357,7 +357,7 @@ class ConfigureSwipeActionsViewModel(
             actionsOnSwipeToStartPosts = ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS,
             actionsOnSwipeToEndPosts = ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS,
         )
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val accountId = accountRepository.getActive()?.id ?: return@launch
             settingsRepository.updateSettings(newSettings, accountId)
             settingsRepository.changeCurrentSettings(newSettings)
@@ -372,7 +372,7 @@ class ConfigureSwipeActionsViewModel(
             actionsOnSwipeToStartComments = ActionOnSwipe.DEFAULT_SWIPE_TO_START_COMMENTS,
             actionsOnSwipeToEndComments = ActionOnSwipe.DEFAULT_SWIPE_TO_END_COMMENTS,
         )
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val accountId = accountRepository.getActive()?.id ?: return@launch
             settingsRepository.updateSettings(newSettings, accountId)
             settingsRepository.changeCurrentSettings(newSettings)
@@ -387,7 +387,7 @@ class ConfigureSwipeActionsViewModel(
             actionsOnSwipeToStartInbox = ActionOnSwipe.DEFAULT_SWIPE_TO_START_INBOX,
             actionsOnSwipeToEndInbox = ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
         )
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val accountId = accountRepository.getActive()?.id ?: return@launch
             settingsRepository.updateSettings(newSettings, accountId)
             settingsRepository.changeCurrentSettings(newSettings)

@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.createreport
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
@@ -38,7 +39,7 @@ class CreateReportViewModel(
         val text = uiState.value.text
 
         updateState { it.copy(loading = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 if (postId != null) {

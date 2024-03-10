@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -33,9 +34,8 @@ class InstanceInfoViewModel(
 
     private var currentPage = 1
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
@@ -88,7 +88,7 @@ class InstanceInfoViewModel(
             return
         }
 
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
@@ -135,7 +135,7 @@ class InstanceInfoViewModel(
 
     private fun changeSortType(value: SortType) {
         updateState { it.copy(sortType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             emitEffect(InstanceInfoMviModel.Effect.BackToTop)
             refresh()
         }

@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.InstanceSelectionRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
@@ -26,21 +27,20 @@ class SelectInstanceViewModel(
 
     private val saveOperationChannel = Channel<List<String>>()
 
-    @OptIn(FlowPreview::class)
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             apiConfigurationRepository.instance.onEach { instance ->
                 updateState { it.copy(currentInstance = instance) }
             }.launchIn(this)
 
+            @OptIn(FlowPreview::class)
             saveOperationChannel.receiveAsFlow().debounce(500).onEach { newInstances ->
                 instanceRepository.updateAll(newInstances)
             }.launchIn(this)
         }
 
         if (uiState.value.instances.isEmpty()) {
-            scope?.launch(Dispatchers.IO) {
+            screenModelScope.launch(Dispatchers.IO) {
                 val instances = instanceRepository.getAll()
                 updateState { it.copy(instances = instances) }
             }
@@ -64,7 +64,7 @@ class SelectInstanceViewModel(
     }
 
     private fun deleteInstance(value: String) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             instanceRepository.remove(value)
             val instances = instanceRepository.getAll()
             updateState { it.copy(instances = instances) }
@@ -83,7 +83,7 @@ class SelectInstanceViewModel(
             return
         }
 
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(changeInstanceLoading = true) }
             val res = communityRepository.getAll(
                 instance = instanceName,
@@ -120,7 +120,7 @@ class SelectInstanceViewModel(
             val element = removeAt(from)
             add(to, element)
         }
-        scope?.launch {
+        screenModelScope.launch {
             saveOperationChannel.send(newInstances)
             updateState {
                 it.copy(instances = newInstances)
@@ -130,7 +130,7 @@ class SelectInstanceViewModel(
 
     private fun confirmSelection(value: String) {
         apiConfigurationRepository.changeInstance(value)
-        scope?.launch {
+        screenModelScope.launch {
             emitEffect(SelectInstanceMviModel.Effect.Confirm(value))
         }
     }

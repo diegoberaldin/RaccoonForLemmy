@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.settings.main
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -40,9 +41,8 @@ class SettingsViewModel(
         initialState = SettingsMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             themeRepository.uiTheme.onEach { value ->
                 updateState { it.copy(uiTheme = value) }
             }.launchIn(this)
@@ -119,7 +119,7 @@ class SettingsViewModel(
 
     private fun changeTheme(value: UiTheme?) {
         themeRepository.changeUiTheme(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 theme = value?.toInt()
             )
@@ -129,7 +129,7 @@ class SettingsViewModel(
 
     private fun changeLanguage(value: String) {
         l10nManager.changeLanguage(value)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 locale = value
             )
@@ -139,7 +139,7 @@ class SettingsViewModel(
 
     private fun changeDefaultListingType(value: ListingType) {
         updateState { it.copy(defaultListingType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultListingType = value.toInt()
             )
@@ -151,7 +151,7 @@ class SettingsViewModel(
 
     private fun changeDefaultPostSortType(value: SortType) {
         updateState { it.copy(defaultPostSortType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultPostSortType = value.toInt()
             )
@@ -163,7 +163,7 @@ class SettingsViewModel(
 
     private fun changeDefaultCommentSortType(value: SortType) {
         updateState { it.copy(defaultCommentSortType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultCommentSortType = value.toInt()
             )
@@ -173,7 +173,7 @@ class SettingsViewModel(
 
     private fun changeIncludeNsfw(value: Boolean) {
         updateState { it.copy(includeNsfw = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 includeNsfw = value
             )
@@ -183,7 +183,7 @@ class SettingsViewModel(
 
     private fun changeBlurNsfw(value: Boolean) {
         updateState { it.copy(blurNsfw = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 blurNsfw = value
             )
@@ -193,7 +193,7 @@ class SettingsViewModel(
 
     private fun changeOpenUrlsInExternalBrowser(value: Boolean) {
         updateState { it.copy(openUrlsInExternalBrowser = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 openUrlsInExternalBrowser = value
             )
@@ -203,7 +203,7 @@ class SettingsViewModel(
 
     private fun changeEnableSwipeActions(value: Boolean) {
         updateState { it.copy(enableSwipeActions = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 enableSwipeActions = value
             )
@@ -223,7 +223,7 @@ class SettingsViewModel(
     }
 
     private fun handleLogout() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.getSettings(null)
             updateState {
                 it.copy(

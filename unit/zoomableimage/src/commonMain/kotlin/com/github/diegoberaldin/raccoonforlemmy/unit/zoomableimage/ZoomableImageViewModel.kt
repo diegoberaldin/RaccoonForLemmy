@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
@@ -21,9 +22,8 @@ class ZoomableImageViewModel(
         initialState = ZoomableImageMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
             }.launchIn(this)
@@ -47,7 +47,7 @@ class ZoomableImageViewModel(
 
     private fun downloadAndSave(url: String, folder: String) {
         val imageSourcePath = settingsRepository.currentSettings.value.imageSourcePath
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             try {
                 val bytes = galleryHelper.download(url)

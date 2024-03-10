@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.createcomment
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -42,9 +43,8 @@ class CreateCommentViewModel(
         initialState = CreateCommentMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             val originalPostFromCache = postId?.let { itemCache.getPost(it) }
             val originalCommentFromCache = parentId?.let { itemCache.getComment(it) }
@@ -154,7 +154,7 @@ class CreateCommentViewModel(
         }
 
         updateState { it.copy(loading = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 if (postId != null) {
@@ -201,7 +201,7 @@ class CreateCommentViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
@@ -233,7 +233,7 @@ class CreateCommentViewModel(
         val body = currentState.textValue.text
         val languageId = currentState.currentLanguageId
 
-        scope?.launch {
+        screenModelScope.launch {
             val accountId = accountRepository.getActive()?.id ?: return@launch
             updateState { it.copy(loading = true) }
             val draft = DraftModel(

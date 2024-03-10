@@ -24,15 +24,4 @@ interface MviModel<Intent, State, Effect> {
      * @param intent View intent to process
      */
     fun reduce(intent: Intent)
-
-    /**
-     * To be called whenever the view component becomes visible to start listening events,
-     * initialize the coroutine scope, etc.
-     */
-    fun onStarted()
-
-    /**
-     * To be called wheneer the view component is not visible any more to cancel ongoing operations.
-     */
-    fun onDisposed()
 }

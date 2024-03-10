@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -47,9 +48,8 @@ class MultiCommunityViewModel(
 
     private var hideReadPosts = false
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             if ((uiState.value.community.id ?: 0) == 0L) {
                 val community =
                     multiCommunityRepository.getById(communityId.toLong()) ?: MultiCommunityModel()
@@ -166,7 +166,7 @@ class MultiCommunityViewModel(
             return
         }
 
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val sort = currentState.sortType ?: SortType.Active
@@ -230,7 +230,7 @@ class MultiCommunityViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -251,7 +251,7 @@ class MultiCommunityViewModel(
             return
         }
         val newPost = post.copy(read = true)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.setRead(
@@ -274,7 +274,7 @@ class MultiCommunityViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -297,7 +297,7 @@ class MultiCommunityViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(

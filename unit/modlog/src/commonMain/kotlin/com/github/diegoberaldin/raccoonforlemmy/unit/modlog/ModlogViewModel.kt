@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.modlog
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -24,9 +25,8 @@ class ModlogViewModel(
 
     private var currentPage: Int = 1
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -48,7 +48,7 @@ class ModlogViewModel(
     override fun reduce(intent: ModlogMviModel.Intent) {
         when (intent) {
             ModlogMviModel.Intent.Refresh -> refresh()
-            ModlogMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            ModlogMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 loadNextPage()
             }
         }
@@ -63,7 +63,7 @@ class ModlogViewModel(
                 initial = initial,
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             loadNextPage()
         }
     }
@@ -75,7 +75,7 @@ class ModlogViewModel(
             return
         }
 
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val refreshing = currentState.refreshing

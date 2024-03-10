@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.ban
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -23,8 +24,7 @@ class BanUserViewModel(
         initialState = BanUserMviModel.UiState(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
+    init {
         updateState {
             it.copy(targetBanValue = newValue)
         }
@@ -61,7 +61,7 @@ class BanUserViewModel(
         val days = currentState.days.toLong().takeIf { newValue }
 
         updateState { it.copy(loading = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val newUser = communityRepository.banUser(

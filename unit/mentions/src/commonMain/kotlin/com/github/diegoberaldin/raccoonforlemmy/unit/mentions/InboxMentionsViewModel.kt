@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.mentions
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -34,9 +35,8 @@ class InboxMentionsViewModel(
 
     private var currentPage: Int = 1
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             coordinator.events.onEach {
                 when (it) {
                     InboxCoordinator.Event.Refresh -> refresh()
@@ -75,11 +75,11 @@ class InboxMentionsViewModel(
 
     override fun reduce(intent: InboxMentionsMviModel.Intent) {
         when (intent) {
-            InboxMentionsMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            InboxMentionsMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            InboxMentionsMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
+            InboxMentionsMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -120,7 +120,7 @@ class InboxMentionsViewModel(
 
     private fun changeUnreadOnly(value: Boolean) {
         updateState { it.copy(unreadOnly = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             refresh(initial = true)
             emitEffect(InboxMentionsMviModel.Effect.BackToTop)
         }
@@ -181,7 +181,7 @@ class InboxMentionsViewModel(
 
     private fun markAsRead(read: Boolean, mention: PersonMentionModel) {
         val auth = identityRepository.authToken.value
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             userRepository.setMentionRead(
                 read = read,
                 mentionId = mention.id,
@@ -215,7 +215,7 @@ class InboxMentionsViewModel(
             score = newComment.score,
         )
         handleItemUpdate(newMention)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -237,7 +237,7 @@ class InboxMentionsViewModel(
             score = newComment.score,
         )
         handleItemUpdate(newMention)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -252,7 +252,7 @@ class InboxMentionsViewModel(
     }
 
     private fun updateUnreadItems() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val unreadCount = coordinator.updateUnreadCount()
             emitEffect(InboxMentionsMviModel.Effect.UpdateUnreadItems(unreadCount))
         }

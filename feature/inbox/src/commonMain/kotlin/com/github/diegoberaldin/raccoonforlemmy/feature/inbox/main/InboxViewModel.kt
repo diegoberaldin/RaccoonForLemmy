@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -29,9 +30,8 @@ class InboxViewModel(
 
     private var firstLoad = true
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             identityRepository.isLogged.onEach { logged ->
                 updateState { it.copy(isLogged = logged) }
             }.launchIn(this)
@@ -86,7 +86,7 @@ class InboxViewModel(
     }
 
     private fun markAllRead() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             userRepository.readAll(auth)
             emitEffect(InboxMviModel.Effect.Refresh)

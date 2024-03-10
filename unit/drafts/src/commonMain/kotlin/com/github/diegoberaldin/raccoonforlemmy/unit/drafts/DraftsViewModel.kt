@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.drafts
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -26,9 +27,8 @@ class DraftsViewModel(
         initialState = DraftsMviModel.State(),
     ) {
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -62,7 +62,7 @@ class DraftsViewModel(
                 initial = initial,
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val currentState = uiState.value
             updateState { it.copy(loading = true) }
             val refreshing = currentState.refreshing
@@ -126,7 +126,7 @@ class DraftsViewModel(
     }
 
     private fun deleteDraft(model: DraftModel) {
-        scope?.launch {
+        screenModelScope.launch {
             model.id?.also { id ->
                 draftRepository.delete(id)
             }

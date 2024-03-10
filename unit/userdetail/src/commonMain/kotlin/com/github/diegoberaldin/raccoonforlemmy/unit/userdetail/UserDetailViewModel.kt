@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.userdetail
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserDetailSection
@@ -56,15 +57,14 @@ class UserDetailViewModel(
 
     private var currentPage = 1
 
-    override fun onStarted() {
-        super.onStarted()
+    init {
         updateState {
             it.copy(
                 instance = otherInstance.takeIf { n -> n.isNotEmpty() }
                     ?: apiConfigurationRepository.instance.value,
             )
         }
-        scope?.launch {
+        screenModelScope.launch {
             if (uiState.value.user.id == 0) {
                 val user = itemCache.getUser(userId) ?: UserModel()
                 updateState {
@@ -86,7 +86,7 @@ class UserDetailViewModel(
             }.launchIn(this)
         }
 
-        scope?.launch {
+        screenModelScope.launch {
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
@@ -155,11 +155,11 @@ class UserDetailViewModel(
             }
 
             UserDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            UserDetailMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            UserDetailMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
-            UserDetailMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
+            UserDetailMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
                 refresh()
             }
 
@@ -213,7 +213,7 @@ class UserDetailViewModel(
             return
         }
         updateState { it.copy(sortType = value) }
-        scope?.launch(Dispatchers.Main) {
+        screenModelScope.launch(Dispatchers.Main) {
             emitEffect(UserDetailMviModel.Effect.BackToTop)
         }
     }
@@ -227,7 +227,7 @@ class UserDetailViewModel(
     }
 
     private fun updateAvailableSortTypes() {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val sortTypes = if (uiState.value.section == UserDetailSection.Posts) {
                 getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
             } else {
@@ -379,7 +379,7 @@ class UserDetailViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -401,7 +401,7 @@ class UserDetailViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -423,7 +423,7 @@ class UserDetailViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -445,7 +445,7 @@ class UserDetailViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -464,7 +464,7 @@ class UserDetailViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -486,7 +486,7 @@ class UserDetailViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -531,7 +531,7 @@ class UserDetailViewModel(
 
     private fun blockUser() {
         updateState { it.copy(asyncInProgress = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value
                 userRepository.block(userId, true, auth).getOrThrow()
@@ -546,7 +546,7 @@ class UserDetailViewModel(
 
     private fun blockInstance() {
         updateState { it.copy(asyncInProgress = true) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val user = uiState.value.user
                 val instanceId = user.instanceId

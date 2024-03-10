@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -48,16 +49,15 @@ class ModalDrawerViewModel(
 
     private val searchEventChannel = Channel<Unit>()
 
-    @OptIn(FlowPreview::class)
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             apiConfigurationRepository.instance.onEach { instance ->
                 updateState {
                     it.copy(instance = instance)
                 }
             }.launchIn(this)
 
+            @OptIn(FlowPreview::class)
             identityRepository.isLogged.debounce(250).onEach { _ ->
                 refreshUser()
                 refresh()
@@ -78,6 +78,7 @@ class ModalDrawerViewModel(
                 }
             }.launchIn(this)
 
+            @OptIn(FlowPreview::class)
             searchEventChannel.receiveAsFlow().debounce(1000).onEach {
                 refresh()
             }.launchIn(this)
@@ -121,13 +122,13 @@ class ModalDrawerViewModel(
 
     override fun reduce(intent: ModalDrawerMviModel.Intent) {
         when (intent) {
-            ModalDrawerMviModel.Intent.Refresh -> scope?.launch(Dispatchers.IO) {
+            ModalDrawerMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
                 refresh()
             }
 
             is ModalDrawerMviModel.Intent.SetSearch -> {
                 updateState { it.copy(searchText = intent.value) }
-                scope?.launch(Dispatchers.IO) {
+                screenModelScope.launch(Dispatchers.IO) {
                     searchEventChannel.send(Unit)
                 }
             }

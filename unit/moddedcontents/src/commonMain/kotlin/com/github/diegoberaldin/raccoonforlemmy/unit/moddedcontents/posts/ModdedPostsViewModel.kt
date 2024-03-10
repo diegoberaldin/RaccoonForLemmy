@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.posts
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -35,9 +36,8 @@ class ModdedPostsViewModel(
     private var currentPage = 1
     private var pageCursor: String? = null
 
-    override fun onStarted() {
-        super.onStarted()
-        scope?.launch {
+    init {
+        screenModelScope.launch {
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -73,7 +73,7 @@ class ModdedPostsViewModel(
             }
 
             ModdedPostsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            ModdedPostsMviModel.Intent.LoadNextPage -> scope?.launch(Dispatchers.IO) {
+            ModdedPostsMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
                 loadNextPage()
             }
 
@@ -118,7 +118,7 @@ class ModdedPostsViewModel(
                 initial = initial,
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             loadNextPage()
         }
     }
@@ -195,7 +195,7 @@ class ModdedPostsViewModel(
             voted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -220,7 +220,7 @@ class ModdedPostsViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -242,7 +242,7 @@ class ModdedPostsViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -261,7 +261,7 @@ class ModdedPostsViewModel(
     }
 
     private fun feature(post: PostModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.featureInCommunity(
                 postId = post.id,
@@ -275,7 +275,7 @@ class ModdedPostsViewModel(
     }
 
     private fun lock(post: PostModel) {
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.lock(
                 postId = post.id,

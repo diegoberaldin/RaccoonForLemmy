@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.search.main
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
@@ -39,7 +40,7 @@ class ExploreViewModel(
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
-    private val contentResetCoordinator: ContentResetCoordinator,
+    contentResetCoordinator: ContentResetCoordinator,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : ExploreMviModel,
     DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>(
@@ -50,14 +51,13 @@ class ExploreViewModel(
     private var debounceJob: Job? = null
     private var firstLoad = true
 
-    override fun onStarted() {
-        super.onStarted()
+    init {
         updateState {
             it.copy(
                 instance = apiConfigRepository.instance.value,
             )
         }
-        scope?.launch {
+        screenModelScope.launch {
             identityRepository.isLogged.onEach { isLogged ->
                 updateState {
                     it.copy(isLogged = isLogged ?: false)
@@ -122,7 +122,7 @@ class ExploreViewModel(
                     sortType = sortType,
                 )
             }
-            scope?.launch(Dispatchers.IO) {
+            screenModelScope.launch(Dispatchers.IO) {
                 refresh()
                 emitEffect(ExploreMviModel.Effect.BackToTop)
             }
@@ -137,13 +137,13 @@ class ExploreViewModel(
     override fun reduce(intent: ExploreMviModel.Intent) {
         when (intent) {
             ExploreMviModel.Intent.LoadNextPage -> {
-                scope?.launch(Dispatchers.IO) {
+                screenModelScope.launch(Dispatchers.IO) {
                     loadNextPage()
                 }
             }
 
             ExploreMviModel.Intent.Refresh -> {
-                scope?.launch(Dispatchers.IO) {
+                screenModelScope.launch(Dispatchers.IO) {
                     refresh()
                 }
             }
@@ -236,7 +236,7 @@ class ExploreViewModel(
     private fun setSearch(value: String) {
         debounceJob?.cancel()
         updateState { it.copy(searchText = value) }
-        debounceJob = scope?.launch(Dispatchers.IO) {
+        debounceJob = screenModelScope.launch(Dispatchers.IO) {
             delay(1_000)
             emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
@@ -245,7 +245,7 @@ class ExploreViewModel(
 
     private fun changeListingType(value: ListingType) {
         updateState { it.copy(listingType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
@@ -253,7 +253,7 @@ class ExploreViewModel(
 
     private fun changeSortType(value: SortType) {
         updateState { it.copy(sortType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
@@ -261,7 +261,7 @@ class ExploreViewModel(
 
     private fun changeResultType(value: SearchResultType) {
         updateState { it.copy(resultType = value) }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
@@ -395,7 +395,7 @@ class ExploreViewModel(
                 },
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -439,7 +439,7 @@ class ExploreViewModel(
                 },
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -483,7 +483,7 @@ class ExploreViewModel(
                 },
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -527,7 +527,7 @@ class ExploreViewModel(
                 },
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -568,7 +568,7 @@ class ExploreViewModel(
                 },
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -612,7 +612,7 @@ class ExploreViewModel(
                 },
             )
         }
-        scope?.launch(Dispatchers.IO) {
+        screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
