@@ -33,7 +33,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 
 class ListingTypeBottomSheet(
-    private val sheetKey: String,
     private val isLogged: Boolean = false,
 ) : Screen {
     @Composable
@@ -89,7 +88,6 @@ class ListingTypeBottomSheet(
                                         notificationCenter.send(
                                             NotificationCenterEvent.ChangeFeedType(
                                                 value = value,
-                                                key = sheetKey,
                                             )
                                         )
                                         navigationCoordinator.hideBottomSheet()

@@ -21,13 +21,13 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import kotlin.time.Duration
 
 sealed interface NotificationCenterEvent {
-    data class ChangeSortType(val value: SortType, val key: String? = null) :
+    data class ChangeSortType(val value: SortType, val defaultForCommunity: Boolean) :
         NotificationCenterEvent
 
-    data class ChangeCommentSortType(val value: SortType, val key: String? = null) :
+    data class ChangeCommentSortType(val value: SortType) :
         NotificationCenterEvent
 
-    data class ChangeFeedType(val value: ListingType, val key: String? = null) :
+    data class ChangeFeedType(val value: ListingType) :
         NotificationCenterEvent
 
     data class ChangeInboxType(val unreadOnly: Boolean) : NotificationCenterEvent

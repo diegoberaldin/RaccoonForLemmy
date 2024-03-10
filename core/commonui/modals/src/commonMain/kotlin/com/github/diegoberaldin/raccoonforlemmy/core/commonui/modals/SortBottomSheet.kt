@@ -42,9 +42,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 
 class SortBottomSheet(
-    private val sheetKey: String,
-    private val comments: Boolean,
     private val values: List<Int>,
+    private val comments: Boolean = false,
+    private val defaultForCommunity: Boolean = false,
     private val expandTop: Boolean = false,
 ) : Screen {
     @Composable
@@ -68,7 +68,7 @@ class SortBottomSheet(
                     values = values,
                     expandTop = expandTop,
                     comments = comments,
-                    sheetKey = sheetKey,
+                    defaultForCommunity = defaultForCommunity,
                 )
             )
         }
@@ -76,10 +76,10 @@ class SortBottomSheet(
 }
 
 internal class SortBottomSheetMain(
-    private val sheetKey: String,
     private val comments: Boolean,
     private val values: List<Int>,
     private val expandTop: Boolean = false,
+    private val defaultForCommunity: Boolean = false,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -118,19 +118,18 @@ internal class SortBottomSheetMain(
                                         navigator.push(
                                             SortBottomSheetTop(
                                                 comments = comments,
-                                                sheetKey = sheetKey,
+                                                defaultForCommunity = defaultForCommunity,
                                             )
                                         )
                                     } else {
                                         val event = if (comments) {
                                             NotificationCenterEvent.ChangeCommentSortType(
                                                 value = sortValue,
-                                                key = sheetKey,
                                             )
                                         } else {
                                             NotificationCenterEvent.ChangeSortType(
                                                 value = sortValue,
-                                                key = sheetKey,
+                                                defaultForCommunity = defaultForCommunity,
                                             )
                                         }
                                         notificationCenter.send(event)
@@ -167,7 +166,6 @@ internal class SortBottomSheetMain(
 }
 
 internal class SortBottomSheetTop(
-    private val sheetKey: String,
     private val comments: Boolean,
     private val values: List<Int> = listOf(
         SortType.Top.PastHour,
@@ -178,6 +176,7 @@ internal class SortBottomSheetTop(
         SortType.Top.Month,
         SortType.Top.Year,
     ).map { it.toInt() },
+    private val defaultForCommunity: Boolean = false,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -229,12 +228,11 @@ internal class SortBottomSheetTop(
                                     val event = if (comments) {
                                         NotificationCenterEvent.ChangeCommentSortType(
                                             value = sortValue,
-                                            key = sheetKey,
                                         )
                                     } else {
                                         NotificationCenterEvent.ChangeSortType(
                                             value = sortValue,
-                                            key = sheetKey,
+                                            defaultForCommunity = defaultForCommunity,
                                         )
                                     }
                                     notificationCenter.send(event)
