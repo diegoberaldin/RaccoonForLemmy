@@ -159,7 +159,7 @@ class DefaultDetailOpener(
                 resultType = SearchResultType.Communities,
                 page = page,
                 limit = 50,
-            )?.filterIsInstance<SearchResult.Community>().orEmpty()
+            ).filterIsInstance<SearchResult.Community>()
 
             val found = results.firstOrNull {
                 it.model.name == name && it.model.host == host

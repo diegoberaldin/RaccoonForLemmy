@@ -85,11 +85,11 @@ class SelectInstanceViewModel(
 
         screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(changeInstanceLoading = true) }
-            val res = communityRepository.getAll(
+            val res = communityRepository.getList(
                 instance = instanceName,
                 page = 1,
                 limit = 1
-            ) ?: emptyList()
+            )
             if (res.isEmpty()) {
                 updateState {
                     it.copy(

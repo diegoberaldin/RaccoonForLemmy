@@ -22,6 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentR
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
@@ -34,6 +35,7 @@ class ExploreViewModel(
     private val apiConfigRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
+    private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
     private val themeRepository: ThemeRepository,
@@ -295,22 +297,62 @@ class ExploreViewModel(
             listingType = listingType,
             sortType = sortType,
         )
-        if (!itemList.isNullOrEmpty()) {
+        val additionalResolvedCommunity =
+            if (resultType == SearchResultType.All || resultType == SearchResultType.Communities && currentPage == 1) {
+                communityRepository.getResolved(
+                    query = searchText,
+                    auth = auth,
+                )
+            } else {
+                null
+            }
+        val additionalResolvedUser =
+            if (resultType == SearchResultType.All || resultType == SearchResultType.Users && currentPage == 1) {
+                userRepository.getResolved(
+                    query = searchText,
+                    auth = auth,
+                )
+            } else {
+                null
+            }
+        if (itemList.isNotEmpty()) {
             currentPage++
         }
-        val itemsToAdd = itemList.orEmpty().filter { item ->
+        val itemsToAdd = itemList.filter { item ->
             if (settings.includeNsfw) {
                 true
             } else {
                 isSafeForWork(item)
             }
         }.let {
-            if (resultType == SearchResultType.Posts && settings.searchPostTitleOnly && searchText.isNotEmpty()) {
-                // apply the more restrictive title-only search
-                it.filterIsInstance<SearchResult.Post>()
-                    .filter { r -> r.model.title.contains(other = searchText, ignoreCase = true) }
-            } else {
-                it
+            when (resultType) {
+                SearchResultType.Communities -> {
+                    if (additionalResolvedCommunity != null && it.none { r -> r is SearchResult.Community && r.model.id == additionalResolvedCommunity.id }) {
+                        it + SearchResult.Community(additionalResolvedCommunity)
+                    } else {
+                        it
+                    }
+                }
+
+                SearchResultType.Users -> {
+                    if (additionalResolvedUser != null && it.none { r -> r is SearchResult.User && r.model.id == additionalResolvedUser.id }) {
+                        it + SearchResult.User(additionalResolvedUser)
+                    } else {
+                        it
+                    }
+                }
+
+                SearchResultType.Posts -> {
+                    if (settings.searchPostTitleOnly && searchText.isNotEmpty()) {
+                        // apply the more restrictive title-only search
+                        it.filterIsInstance<SearchResult.Post>()
+                            .filter { r -> r.model.title.contains(other = searchText, ignoreCase = true) }
+                    } else {
+                        it
+                    }
+                }
+
+                else -> it
             }
         }.filter { r1 ->
             // prevents accidental duplication
@@ -325,7 +367,7 @@ class ExploreViewModel(
             it.copy(
                 results = newItems,
                 loading = false,
-                canFetchMore = itemList?.isEmpty() != true,
+                canFetchMore = itemList.isNotEmpty(),
                 refreshing = false,
             )
         }

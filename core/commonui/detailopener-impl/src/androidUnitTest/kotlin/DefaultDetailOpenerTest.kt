@@ -77,7 +77,6 @@ class DefaultDetailOpenerTest {
             communityRepository.getAll(
                 query = any(),
                 auth = any(),
-                instance = any(),
                 page = any(),
                 limit = any(),
                 listingType = any(),
@@ -98,7 +97,6 @@ class DefaultDetailOpenerTest {
             communityRepository.getAll(
                 query = communityName,
                 auth = token,
-                instance = any(),
                 page = any(),
                 limit = any(),
                 listingType = ListingType.All,

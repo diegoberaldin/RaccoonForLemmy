@@ -8,7 +8,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LoginUseCase
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
@@ -117,12 +116,11 @@ class LoginViewModel(
         screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
 
-            val res = communityRepository.getAll(
+            val res = communityRepository.getList(
                 instance = instance,
                 page = 1,
                 limit = 1,
-                resultType = SearchResultType.Communities,
-            ) ?: emptyList()
+            )
             if (res.isEmpty()) {
                 updateState {
                     it.copy(

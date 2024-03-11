@@ -10,7 +10,6 @@ val instanceInfoModule = module {
             url = it[0],
             siteRepository = get(),
             communityRepository = get(),
-            identityRepository = get(),
             settingsRepository = get(),
             notificationCenter = get(),
             getSortTypesUseCase = get(),

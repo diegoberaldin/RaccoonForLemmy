@@ -5,10 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
@@ -23,7 +20,6 @@ class InstanceInfoViewModel(
     private val url: String,
     private val siteRepository: SiteRepository,
     private val communityRepository: CommunityRepository,
-    private val identityRepository: IdentityRepository,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val getSortTypesUseCase: GetSortTypesUseCase,
@@ -90,32 +86,27 @@ class InstanceInfoViewModel(
 
         screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
             val refreshing = currentState.refreshing
             val instance = url.replace("https://", "")
-            val itemList = communityRepository.getAll(
-                auth = auth,
+            val itemList = communityRepository.getList(
                 instance = instance,
                 page = currentPage,
-                listingType = ListingType.Local,
                 sortType = currentState.sortType,
-                resultType = SearchResultType.Communities,
                 limit = 50,
-            )?.filterIsInstance<SearchResult.Community>()
-                ?.let {
-                    if (refreshing) {
-                        it
-                    } else {
-                        // prevents accidental duplication
-                        it.filter { c1 ->
-                            currentState.communities.none { c2 -> c1.model.id == c2.id }
-                        }
+            ).filterIsInstance<SearchResult.Community>().let {
+                if (refreshing) {
+                    it
+                } else {
+                    // prevents accidental duplication
+                    it.filter { c1 ->
+                        currentState.communities.none { c2 -> c1.model.id == c2.id }
                     }
                 }
-            if (!itemList.isNullOrEmpty()) {
+            }
+            if (itemList.isNotEmpty()) {
                 currentPage++
             }
-            val itemsToAdd = itemList.orEmpty().filter { e ->
+            val itemsToAdd = itemList.filter { e ->
                 e.model.instanceUrl == url
             }.map { it.model }
             updateState {
@@ -126,7 +117,7 @@ class InstanceInfoViewModel(
                         it.communities + itemsToAdd
                     },
                     loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
+                    canFetchMore = itemList.isNotEmpty(),
                     refreshing = false,
                 )
             }
