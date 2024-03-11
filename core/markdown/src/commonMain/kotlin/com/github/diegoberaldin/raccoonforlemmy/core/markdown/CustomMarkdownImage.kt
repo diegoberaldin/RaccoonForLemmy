@@ -84,7 +84,7 @@ internal fun CustomMarkdownImage(
                 res
             }
             CircularProgressIndicator(
-                progress = prog,
+                progress = { prog },
                 color = MaterialTheme.colorScheme.primary,
             )
         },

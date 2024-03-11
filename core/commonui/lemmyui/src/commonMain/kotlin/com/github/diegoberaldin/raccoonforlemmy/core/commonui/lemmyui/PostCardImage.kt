@@ -73,7 +73,7 @@ fun PostCardImage(
                     res
                 }
                 CircularProgressIndicator(
-                    progress = prog,
+                    progress = { prog },
                     color = MaterialTheme.colorScheme.primary,
                 )
             },
