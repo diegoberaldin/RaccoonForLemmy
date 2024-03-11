@@ -9,6 +9,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 interface UserRepository {
 
+    suspend fun getResolved(
+        query: String,
+        auth: String? = null,
+    ): UserModel?
+
     suspend fun get(
         id: Int,
         auth: String? = null,

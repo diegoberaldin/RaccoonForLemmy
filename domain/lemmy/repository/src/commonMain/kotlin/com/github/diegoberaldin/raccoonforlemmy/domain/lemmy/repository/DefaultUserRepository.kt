@@ -20,6 +20,14 @@ internal class DefaultUserRepository(
     private val customServices: ServiceProvider,
 ) : UserRepository {
 
+    override suspend fun getResolved(query: String, auth: String?): UserModel? = kotlin.runCatching {
+        val response = services.search.resolveObject(
+            authHeader = auth,
+            q = query,
+        ).body()
+        response?.user?.toModel()
+    }.getOrNull()
+
     override suspend fun get(
         id: Int,
         auth: String?,

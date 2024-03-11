@@ -23,49 +23,63 @@ internal class DefaultCommunityRepository(
     override suspend fun getAll(
         query: String,
         auth: String?,
-        instance: String?,
         page: Int,
         limit: Int,
         listingType: ListingType,
         sortType: SortType,
         resultType: SearchResultType,
-    ): List<SearchResult>? = runCatching {
-        if (instance.isNullOrEmpty()) {
-            val response = services.search.search(
-                authHeader = auth.toAuthHeader(),
-                q = query,
-                auth = auth,
-                page = page,
-                limit = limit,
-                type = resultType.toDto(),
-                listingType = listingType.toDto(),
-                sort = sortType.toDto(),
-            ).body()
-            val posts = response?.posts?.map { it.toModel() }.orEmpty()
-            val comments = response?.comments?.map { it.toModel() }.orEmpty()
-            val communities = response?.communities?.map { it.toModel() }.orEmpty()
-            val users = response?.users?.map { it.toModel() }.orEmpty()
-            // returns everything
-            posts.map {
-                SearchResult.Post(it)
-            } + comments.map {
-                SearchResult.Comment(it)
-            } + communities.map {
-                SearchResult.Community(it)
-            } + users.map {
-                SearchResult.User(it)
-            }
-        } else {
-            customServices.changeInstance(instance)
-            val response = customServices.community.getAll(
-                page = page,
-                limit = limit,
-                sort = sortType.toDto(),
-            ).body()
-            response?.communities?.map {
-                SearchResult.Community(model = it.toModel())
-            }.orEmpty()
+    ): List<SearchResult> = runCatching {
+        val searchResponse = services.search.search(
+            authHeader = auth.toAuthHeader(),
+            q = query,
+            auth = auth,
+            page = page,
+            limit = limit,
+            type = resultType.toDto(),
+            listingType = listingType.toDto(),
+            sort = sortType.toDto(),
+        ).body()
+        buildList<SearchResult> {
+            val posts = searchResponse?.posts?.map { it.toModel() }.orEmpty()
+            this += posts.map { SearchResult.Post(it) }
+
+            val comments = searchResponse?.comments?.map { it.toModel() }.orEmpty()
+            this += comments.map { SearchResult.Comment(it) }
+
+            val communities = searchResponse?.communities?.map { it.toModel() }.orEmpty()
+            this += communities.map { SearchResult.Community(it) }
+
+            val users = searchResponse?.users?.map { it.toModel() }.orEmpty()
+            this += users.map { SearchResult.User(it) }
         }
+    }.getOrElse { emptyList() }
+
+    override suspend fun getList(
+        instance: String,
+        page: Int,
+        limit: Int,
+        sortType: SortType,
+    ): List<CommunityModel> = runCatching {
+        customServices.changeInstance(instance)
+        val response = customServices.community.getAll(
+            page = page,
+            limit = limit,
+            sort = sortType.toDto(),
+        ).body()
+        response?.communities?.map {
+            it.toModel()
+        }.orEmpty()
+    }.getOrElse { emptyList() }
+
+    override suspend fun getResolved(
+        query: String,
+        auth: String?,
+    ): CommunityModel? = runCatching {
+        val resolveResponse = services.search.resolveObject(
+            authHeader = auth.toAuthHeader(),
+            q = query
+        ).body()
+        resolveResponse?.community?.toModel()
     }.getOrNull()
 
     override suspend fun getSubscribed(

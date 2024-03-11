@@ -16,13 +16,24 @@ interface CommunityRepository {
     suspend fun getAll(
         query: String = "",
         auth: String? = null,
-        instance: String? = null,
         page: Int,
         limit: Int = DEFAULT_PAGE_SIZE,
         listingType: ListingType = ListingType.All,
         sortType: SortType = SortType.Active,
         resultType: SearchResultType = SearchResultType.All,
-    ): List<SearchResult>?
+    ): List<SearchResult>
+
+    suspend fun getList(
+        instance: String,
+        page: Int,
+        limit: Int = DEFAULT_PAGE_SIZE,
+        sortType: SortType = SortType.Active,
+    ): List<CommunityModel>
+
+    suspend fun getResolved(
+        query: String,
+        auth: String? = null,
+    ): CommunityModel?
 
     suspend fun getSubscribed(
         auth: String? = null,
