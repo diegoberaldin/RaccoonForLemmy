@@ -1,2 +1,5 @@
 ALTER TABLE SettingsEntity
 ADD COLUMN  imageSourcePath INTEGER NOT NULL DEFAULT 0;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  defaultExploreType INTEGER NOT NULL DEFAULT 2;

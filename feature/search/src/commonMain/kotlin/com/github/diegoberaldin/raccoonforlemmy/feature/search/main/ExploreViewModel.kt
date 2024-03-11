@@ -116,7 +116,7 @@ class ExploreViewModel(
         if (firstLoad) {
             firstLoad = false
             val settings = settingsRepository.currentSettings.value
-            val listingType = settings.defaultListingType.toListingType()
+            val listingType = settings.defaultExploreType.toListingType()
             val sortType = settings.defaultPostSortType.toSortType()
             updateState {
                 it.copy(

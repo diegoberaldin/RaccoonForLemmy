@@ -17,6 +17,7 @@ data class SettingsModel(
     val defaultPostSortType: Int = 1,
     val defaultInboxType: Int = 0,
     val defaultCommentSortType: Int = 3,
+    val defaultExploreType: Int = 2,
     val includeNsfw: Boolean = false,
     val blurNsfw: Boolean = true,
     val navigationTitlesVisible: Boolean = true,

@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.advanced
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -25,6 +26,7 @@ interface AdvancedSettingsMviModel :
     data class UiState(
         val isLogged: Boolean = false,
         val autoLoadImages: Boolean = false,
+        val defaultExploreType: ListingType = ListingType.All,
         val defaultInboxUnreadOnly: Boolean = true,
         val navBarTitlesVisible: Boolean = false,
         val enableDoubleTapAction: Boolean = true,

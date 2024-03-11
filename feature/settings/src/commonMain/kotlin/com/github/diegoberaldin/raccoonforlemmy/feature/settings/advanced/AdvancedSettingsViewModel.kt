@@ -14,6 +14,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.GalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxDefaultType
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -48,6 +51,10 @@ class AdvancedSettingsViewModel(
                 .onEach { evt ->
                     changeZombieModeInterval(evt.value)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    changeExploreType(evt.value)
+                }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
                 .onEach { evt ->
                     changeZombieModeScrollAmount(evt.value)
@@ -65,6 +72,7 @@ class AdvancedSettingsViewModel(
         val settings = settingsRepository.currentSettings.value
         updateState {
             it.copy(
+                defaultExploreType = settings.defaultExploreType.toListingType(),
                 defaultInboxUnreadOnly = settings.defaultInboxType.toInboxUnreadOnly(),
                 enableDoubleTapAction = settings.enableDoubleTapAction,
                 autoLoadImages = settings.autoLoadImages,
@@ -211,6 +219,16 @@ class AdvancedSettingsViewModel(
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 searchPostTitleOnly = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeExploreType(value: ListingType) {
+        updateState { it.copy(defaultExploreType = value) }
+        screenModelScope.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                defaultExploreType = value.toInt(),
             )
             saveSettings(settings)
         }

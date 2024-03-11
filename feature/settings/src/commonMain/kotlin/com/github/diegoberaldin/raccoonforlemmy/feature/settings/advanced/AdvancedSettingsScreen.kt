@@ -44,6 +44,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSw
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -52,6 +53,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDuration
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import kotlin.math.roundToInt
 
 class AdvancedSettingsScreen : Screen {
@@ -167,6 +169,14 @@ class AdvancedSettingsScreen : Screen {
                     SettingsHeader(
                         title = LocalXmlStrings.current.settingsTitleReading,
                         icon = Icons.Default.Book,
+                    )
+                    SettingsRow(
+                        title = "Default explore feed type",
+                        value = uiState.defaultExploreType.toReadableName(),
+                        onTap = rememberCallback {
+                            val sheet = ListingTypeBottomSheet(isLogged = uiState.isLogged)
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
                     )
                     if (uiState.isLogged) {
                         // default inbox type

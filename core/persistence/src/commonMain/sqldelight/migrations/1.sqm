@@ -3,7 +3,7 @@ CREATE TABLE SettingsEntity (
     theme INTEGER DEFAULT NULL,
     contentFontScale REAL NOT NULL DEFAULT 1,
     locale TEXT DEFAULT NULL,
-    defaultListingType INTEGER NOT NULL DEFAULT 0,
+    defaultListingType INTEGER NOT NULL DEFAULT 2,
     defaultPostSortType INTEGER NOT NULL DEFAULT 0,
     defaultCommentSortType INTEGER NOT NULL DEFAULT 3,
     includeNsfw INTEGER NOT NULL DEFAULT 1,

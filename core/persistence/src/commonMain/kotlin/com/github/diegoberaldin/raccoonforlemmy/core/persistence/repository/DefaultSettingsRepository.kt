@@ -29,6 +29,7 @@ private object KeyStoreKeys {
     const val DEFAULT_POST_SORT_TYPE = "defaultPostSortType"
     const val DEFAULT_INBOX_TYPE = "defaultInboxType"
     const val DEFAULT_COMMENT_SORT_TYPE = "defaultCommentSortType"
+    const val DEFAULT_EXPLORE_TYPE = "defaultExploreType"
     const val INCLUDE_NSFW = "includeNsfw"
     const val BLUR_NSFW = "blurNsfw"
     const val NAV_ITEM_TITLES_VISIBLE = "navItemTitlesVisible"
@@ -128,6 +129,7 @@ internal class DefaultSettingsRepository(
                 preferUserNicknames = if (settings.preferUserNicknames) 1L else 0L,
                 commentBarThickness = settings.commentBarThickness.toLong(),
                 imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
+                defaultExploreType = settings.defaultExploreType.toLong(),
             )
         }
 
@@ -153,6 +155,7 @@ internal class DefaultSettingsRepository(
                     defaultPostSortType = keyStore[KeyStoreKeys.DEFAULT_POST_SORT_TYPE, 1],
                     defaultCommentSortType = keyStore[KeyStoreKeys.DEFAULT_COMMENT_SORT_TYPE, 3],
                     defaultInboxType = keyStore[KeyStoreKeys.DEFAULT_INBOX_TYPE, 0],
+                    defaultExploreType = keyStore[KeyStoreKeys.DEFAULT_EXPLORE_TYPE, 2],
                     includeNsfw = keyStore[KeyStoreKeys.INCLUDE_NSFW, false],
                     blurNsfw = keyStore[KeyStoreKeys.BLUR_NSFW, true],
                     navigationTitlesVisible = keyStore[KeyStoreKeys.NAV_ITEM_TITLES_VISIBLE, true],
@@ -227,6 +230,7 @@ internal class DefaultSettingsRepository(
                     settings.defaultCommentSortType
                 )
                 keyStore.save(KeyStoreKeys.DEFAULT_INBOX_TYPE, settings.defaultInboxType)
+                keyStore.save(KeyStoreKeys.DEFAULT_EXPLORE_TYPE, settings.defaultExploreType)
                 keyStore.save(KeyStoreKeys.INCLUDE_NSFW, settings.includeNsfw)
                 keyStore.save(KeyStoreKeys.BLUR_NSFW, settings.blurNsfw)
                 keyStore.save(
@@ -343,6 +347,7 @@ internal class DefaultSettingsRepository(
                     preferUserNicknames = if (settings.preferUserNicknames) 1L else 0L,
                     commentBarThickness = settings.commentBarThickness.toLong(),
                     imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
+                    defaultExploreType = settings.defaultExploreType.toLong(),
                 )
             }
         }
@@ -418,4 +423,5 @@ private fun GetBy.toModel() = SettingsModel(
     preferUserNicknames = preferUserNicknames == 1L,
     commentBarThickness = commentBarThickness.toInt(),
     imageSourcePath = imageSourcePath == 1L,
+    defaultExploreType = defaultExploreType.toInt(),
 )
