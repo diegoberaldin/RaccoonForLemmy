@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolveObjectResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SearchType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
@@ -24,4 +25,10 @@ interface SearchService {
         @Query("limit") limit: Int? = null,
         @Query("auth") auth: String? = null,
     ): Response<SearchResponse>
+
+    @GET("resolve_object")
+    suspend fun resolveObject(
+        @Header("Authorization") authHeader: String? = null,
+        @Query("q") q: String,
+    ): Response<ResolveObjectResponse>
 }
