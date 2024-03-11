@@ -354,9 +354,13 @@ class ExploreViewModel(
 
                 else -> it
             }
-        }.filter { r1 ->
-            // prevents accidental duplication
-            currentState.results.none { r2 -> getItemKey(r1) == getItemKey(r2) }
+        }.filter { item ->
+            if (refreshing) {
+                true
+            } else {
+                // prevents accidental duplication
+                currentState.results.none { other -> getItemKey(item) == getItemKey(other) }
+            }
         }
         updateState {
             val newItems = if (refreshing) {
