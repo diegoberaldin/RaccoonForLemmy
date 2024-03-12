@@ -9,7 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeySto
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
 import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual val corePreferencesModule = module {
@@ -28,27 +27,22 @@ actual val corePreferencesModule = module {
             commit = false,
         )
     }
-    single<TemporaryKeyStore>(named("default")) {
-        DefaultTemporaryKeyStore(settings = get(parameters = { parametersOf(null) }))
-    }
-    factory<TemporaryKeyStore>(named("custom")) { params ->
-        DefaultTemporaryKeyStore(settings = get(parameters = { parametersOf(params[0]) }))
+    single<TemporaryKeyStore> {
+        DefaultTemporaryKeyStore(settings = get(parameters = { parametersOf(PREFERENCES_NAME) }))
     }
 }
 
+private const val PREFERENCES_NAME = "secret_shared_prefs"
+
 private class SharedPreferencesProvider(
-    name: String? = null,
+    name: String,
     context: Context,
 ) {
-
-    companion object {
-        const val PREFERENCES_NAME = "secret_shared_prefs"
-    }
 
     private val masterKeyAlias: String = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
     val sharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
-        name ?: PREFERENCES_NAME,
+        name,
         masterKeyAlias,
         context,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,

@@ -16,8 +16,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Favo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.InstanceSelectionRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val corePersistenceModule = module {
@@ -35,7 +33,7 @@ val corePersistenceModule = module {
     single<SettingsRepository> {
         DefaultSettingsRepository(
             provider = get(),
-            keyStore = get(named("default")),
+            keyStore = get(),
         )
     }
     single<MultiCommunityRepository> {
@@ -50,7 +48,7 @@ val corePersistenceModule = module {
     }
     single<InstanceSelectionRepository> {
         DefaultInstanceSelectionRepository(
-            keyStore = get(named("default")),
+            keyStore = get(),
         )
     }
     single<DraftRepository> {
@@ -60,7 +58,7 @@ val corePersistenceModule = module {
     }
     single<CommunitySortRepository> {
         DefaultCommunitySortRepository(
-            keyStore = get(named("custom"), parameters = { parametersOf("communitySort") })
+            keyStore = get()
         )
     }
 }
