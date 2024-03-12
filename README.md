@@ -18,7 +18,7 @@ A Kotlin Multiplatform client for Lemmy (mainly Android).
 
 <div align="center">
   <div style="display: flex; flex-flow: row wrap; justify-content: center; align-items: center;">
-    <a href="https://github.com/ImranR98/Obtainium/releases"><img width="200"  src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/c341aeee-f779-41f0-b230-0c3081da3de5" /></a>
+    <a href="https://github.com/ImranR98/Obtainium/releases"><img width="200" src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/c341aeee-f779-41f0-b230-0c3081da3de5" /></a>
     <a href="https://play.google.com/store/apps/details?id=com.github.diegoberaldin.raccoonforlemmy.android"><img width="200" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" /></a>
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.github.diegoberaldin.raccoonforlemmy.android"><img width="200"  src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/5d8c0e3d-552f-488e-b032-987aeadd4c4a" /></a>
   </div>
@@ -136,19 +136,19 @@ with a platform like Lemmy.
 This involves a high level of discretion and personal taste, I know, but this project _is_ all
 about experimenting and learning.
 
-## Techical notes:
+## Technical notes:
 
 The project uses the following technologies:
 
 - [Koin](https://github.com/InsertKoinIO/koin) for dependency injection
 - [Voyager](https://github.com/adrielcafe/voyager) for screen navigation
-- [Ktor](https://github.com/ktorio/ktor) and [Ktorfit](https://github.com/Foso/Ktorfit) for
-  networking
+- [Ktor](https://github.com/ktorio/ktor) and [Ktorfit](https://github.com/Foso/Ktorfit) for networking
 - [Lyricist](https://github.com/adrielcafe/lyricist) for l10n
-- [Multiplatform settings](https://github.com/russhwolf/multiplatform-settings) for encrypted
-  preferences
-- [SQLDelight](https://github.com/cashapp/sqldelight)
-  and [SQLCipher](https://github.com/sqlcipher/sqlcipher) for local persistence
+- [Multiplatform settings](https://github.com/russhwolf/multiplatform-settings) for encrypted preferences
+- [SQLDelight](https://github.com/cashapp/sqldelight) and [SQLCipher](https://github.com/sqlcipher/sqlcipher) for local
+  persistence
+- [Multiplatform Markdown Renderer](https://github.com/mikepenz/multiplatform-markdown-renderer) for Markdown
+  rendering
 
 More info about the technologies used in the project can be found in
 the [CONTRIBUTING.md](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/CONTRIBUTING.md).
