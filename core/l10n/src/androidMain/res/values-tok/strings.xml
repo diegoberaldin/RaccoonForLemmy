@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">sitelen</string>
     <string name="settings_title_experimental">lukin</string>
     <string name="community_set_custom_sort">nanpa pi kulupu ni</string>
+    <string name="settings_default_explore_type">nasin pi lipu lukin</string>
 </resources>

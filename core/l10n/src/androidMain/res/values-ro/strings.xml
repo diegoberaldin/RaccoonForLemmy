@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Imagini</string>
     <string name="settings_title_experimental">Experimente</string>
     <string name="community_set_custom_sort">Tip de sortare personalizat</string>
+    <string name="settings_default_explore_type">Tip prestabilit de listare pentru Exploră</string>
 </resources>

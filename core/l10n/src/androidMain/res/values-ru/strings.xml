@@ -346,4 +346,5 @@
     <string name="settings_title_pictures">Картинки</string>
     <string name="settings_title_experimental">Эксперименты</string>
     <string name="community_set_custom_sort">Пользовательский тип сортировки</string>
+    <string name="settings_default_explore_type">Тип фида по умолчанию для изучения</string>
 </resources>

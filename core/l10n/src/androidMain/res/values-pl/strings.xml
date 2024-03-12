@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Kino</string>
     <string name="settings_title_experimental">Eksperymenty</string>
     <string name="community_set_custom_sort">Niestandardowy typ sortowania</string>
+    <string name="settings_default_explore_type">Domyślny typ kanału do eksploracji</string>
 </resources>

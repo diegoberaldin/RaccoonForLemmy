@@ -170,8 +170,9 @@ class AdvancedSettingsScreen : Screen {
                         title = LocalXmlStrings.current.settingsTitleReading,
                         icon = Icons.Default.Book,
                     )
+                    // default explore type
                     SettingsRow(
-                        title = "Default explore feed type",
+                        title =  LocalXmlStrings.current.settingsDefaultExploreType,
                         value = uiState.defaultExploreType.toReadableName(),
                         onTap = rememberCallback {
                             val sheet = ListingTypeBottomSheet(isLogged = uiState.isLogged)

@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Stampi</string>
     <string name="settings_title_experimental">Esperimenti</string>
     <string name="community_set_custom_sort">Tip ta \'xorta tad-dwana</string>
+    <string name="settings_default_explore_type">Tip ta\' għalf default għall-esplorazzjoni</string>
 </resources>

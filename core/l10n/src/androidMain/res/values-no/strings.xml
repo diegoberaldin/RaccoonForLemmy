@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Bilder</string>
     <string name="settings_title_experimental">Eksperimenter</string>
     <string name="community_set_custom_sort">Egendefinert sorteringstype</string>
+    <string name="settings_default_explore_type">Standard feedtype for utforske</string>
 </resources>

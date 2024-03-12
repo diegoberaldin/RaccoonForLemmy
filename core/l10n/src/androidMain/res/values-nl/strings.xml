@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Afbeeldingen</string>
     <string name="settings_title_experimental">Experimenten</string>
     <string name="community_set_custom_sort">Aangepast sorteertype</string>
+    <string name="settings_default_explore_type">Standaardtype feed voor verkennen</string>
 </resources>

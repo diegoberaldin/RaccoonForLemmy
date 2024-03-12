@@ -346,4 +346,5 @@
     <string name="settings_title_pictures">Картинки</string>
     <string name="settings_title_experimental">Експерименти</string>
     <string name="community_set_custom_sort">Спеціальний тип сортування</string>
+    <string name="settings_default_explore_type">Тип каналу за замовчуванням для дослідження</string>
 </resources>

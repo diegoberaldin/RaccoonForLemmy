@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Billeder</string>
     <string name="settings_title_experimental">Eksperimenter</string>
     <string name="community_set_custom_sort">Brugerdefineret sorteringstype</string>
+    <string name="settings_default_explore_type">Standardtype feed til udforskning</string>
 </resources>

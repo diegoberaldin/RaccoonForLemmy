@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">الصور</string>
     <string name="settings_title_experimental">التجارب</string>
     <string name="community_set_custom_sort">نوع الفرز المخصص</string>
+    <string name="settings_default_explore_type">نوع الخلاصة الافتراضي للاستكشاف</string>
 </resources>

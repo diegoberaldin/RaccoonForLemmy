@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Pildid</string>
     <string name="settings_title_experimental">Eksperimendid</string>
     <string name="community_set_custom_sort">Kohandatud sortimise tüüp</string>
+    <string name="settings_default_explore_type">Vaikimisi uuritava voo tüüp</string>
 </resources>

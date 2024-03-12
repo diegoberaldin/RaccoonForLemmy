@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Pictures</string>
     <string name="settings_title_experimental">Experiments</string>
     <string name="community_set_custom_sort">Set custom sort type</string>
+    <string name="settings_default_explore_type">Default feed type for explore</string>
 </resources>

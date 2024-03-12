@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Εικόνες</string>
     <string name="settings_title_experimental">Πειράματα</string>
     <string name="community_set_custom_sort">Προσαρμοσμένος τύπος ταξινόμησης</string>
+    <string name="settings_default_explore_type">Προεπιλεγμένος τύπος ροής για εξερεύνηση</string>
 </resources>

@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Obrázky</string>
     <string name="settings_title_experimental">Experimenty</string>
     <string name="community_set_custom_sort">Vlastný typ triedenia</string>
+    <string name="settings_default_explore_type">Predvolený typ informačného kanála na preskúmanie</string>
 </resources>

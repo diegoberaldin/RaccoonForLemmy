@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Bilder</string>
     <string name="settings_title_experimental">Experimente</string>
     <string name="community_set_custom_sort">Benutzerdefinierter Sortiertyp</string>
+    <string name="settings_default_explore_type">Standard-Feedtyp für Explore</string>
 </resources>

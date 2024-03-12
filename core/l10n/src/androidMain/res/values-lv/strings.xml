@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Bildes</string>
     <string name="settings_title_experimental">Eksperimenti</string>
     <string name="community_set_custom_sort">Pielāgots kārtošanas veids</string>
+    <string name="settings_default_explore_type">Noklusējuma plūsmas veids izpētei</string>
 </resources>

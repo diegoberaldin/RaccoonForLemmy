@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Paveikslėliai</string>
     <string name="settings_title_experimental">Eksperimentai</string>
     <string name="community_set_custom_sort">Pasirinktinis rūšiavimo tipas</string>
+    <string name="settings_default_explore_type">Numatytasis sklaidos kanalo tipas, skirtas tyrinėti</string>
 </resources>

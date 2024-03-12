@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Immagini</string>
     <string name="settings_title_experimental">Esperimenti</string>
     <string name="community_set_custom_sort">Tipo di ordinamento personalizzato</string>
+    <string name="settings_default_explore_type">Tipo di feed predefinito per Esplora</string>
 </resources>

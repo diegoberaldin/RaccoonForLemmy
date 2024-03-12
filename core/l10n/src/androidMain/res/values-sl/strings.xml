@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Slike</string>
     <string name="settings_title_experimental">Eksperimenti</string>
     <string name="community_set_custom_sort">Vrsta razvrščanja po meri</string>
+    <string name="settings_default_explore_type">Privzeta vrsta vira za raziskovanje</string>
 </resources>

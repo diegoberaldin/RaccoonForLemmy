@@ -347,4 +347,5 @@
     <string name="settings_title_pictures">Slike</string>
     <string name="settings_title_experimental">Eksperimenti</string>
     <string name="community_set_custom_sort">Vrsta prilagođenog sortiranja</string>
+    <string name="settings_default_explore_type">Zadana vrsta feeda za istraživanje</string>
 </resources>
