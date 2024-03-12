@@ -6,8 +6,10 @@ class DefaultDatabaseProvider(
     private val driverFactory: DriverFactory,
 ) : DatabaseProvider {
 
-    override fun getDatabase(): AppDatabase {
+    private val db: AppDatabase by lazy {
         val driver = driverFactory.createDriver()
-        return AppDatabase(driver)
+        AppDatabase(driver)
     }
+
+    override fun getDatabase(): AppDatabase = db
 }
