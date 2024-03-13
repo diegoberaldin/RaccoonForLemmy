@@ -4,23 +4,28 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -28,10 +33,12 @@ import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.SyncDisabled
 import androidx.compose.material.icons.outlined.AddCircleOutline
@@ -50,6 +57,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -70,6 +78,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -135,7 +145,7 @@ class CommunityDetailScreen(
     override val key: ScreenKey
         get() = super.key + communityId.toString()
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<CommunityDetailMviModel>(
@@ -220,10 +230,17 @@ class CommunityDetailScreen(
                 WindowInsets.navigationBars
             },
             topBar = {
+                val statusBarInset = WindowInsets.statusBars.getTop(LocalDensity.current)
                 val maxTopInset = Dimensions.topBarHeight.value.toInt()
                 var topInset by remember { mutableStateOf(maxTopInset) }
                 snapshotFlow { topAppBarState.collapsedFraction }.onEach {
-                    topInset = (maxTopInset * (1 - it)).toInt()
+                    topInset = (maxTopInset * (1 - it)).toInt().let { insetValue ->
+                        if (uiState.searching) {
+                            insetValue.coerceAtLeast(statusBarInset)
+                        } else {
+                            insetValue
+                        }
+                    }
                 }.launchIn(scope)
 
                 TopAppBar(
@@ -287,6 +304,21 @@ class CommunityDetailScreen(
                                 this += Option(
                                     OptionId.Info, LocalXmlStrings.current.communityDetailInfo
                                 )
+                                if (!isOnOtherInstance) {
+                                    this += Option(
+                                        OptionId.Search,
+                                        if (uiState.searching) {
+                                            LocalXmlStrings.current.actionExitSearch
+                                        } else {
+                                            buildString {
+                                                append(LocalXmlStrings.current.actionSearchInCommunity)
+                                                append(" (")
+                                                append(LocalXmlStrings.current.beta)
+                                                append(")")
+                                            }
+                                        },
+                                    )
+                                }
                                 this += Option(
                                     OptionId.SetCustomSort,
                                     LocalXmlStrings.current.communitySetCustomSort,
@@ -433,6 +465,10 @@ class CommunityDetailScreen(
                                                     navigationCoordinator.showBottomSheet(screen)
                                                 }
 
+                                                OptionId.Search -> {
+                                                    model.reduce(CommunityDetailMviModel.Intent.ChangeSearching(!uiState.searching))
+                                                }
+
                                                 else -> Unit
                                             }
                                         },
@@ -528,48 +564,462 @@ class CommunityDetailScreen(
             },
         ) { padding ->
             if (uiState.currentUserId != null) {
-                val pullRefreshState = rememberPullRefreshState(
-                    refreshing = uiState.refreshing,
-                    onRefresh = rememberCallback(model) {
-                        model.reduce(CommunityDetailMviModel.Intent.Refresh)
-                    },
-                )
-                Box(
-                    modifier = Modifier
-                        .padding(padding)
-                        .then(
-                            if (settings.hideNavigationBarWhileScrolling) {
-                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                            } else {
-                                Modifier
-                            }
-                        )
-                        .nestedScroll(fabNestedScrollConnection)
-                        .pullRefresh(pullRefreshState),
+                Column(
+                    modifier = Modifier.padding(padding),
                 ) {
-                    LazyColumn(
-                        state = lazyListState,
-                        userScrollEnabled = !uiState.zombieModeActive,
-                    ) {
-                        item {
-                            CommunityHeader(
-                                modifier = Modifier.padding(bottom = Spacing.xs),
-                                community = uiState.community,
-                                autoLoadImages = uiState.autoLoadImages,
-                                onOpenImage = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(
-                                        ZoomableImageScreen(
-                                            url = url,
-                                            source = uiState.community.readableHandle,
-                                        )
-                                    )
-                                },
+                    if (uiState.searching) {
+                        TextField(
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = Spacing.xs,
+                                    vertical = Spacing.s,
+                                ).fillMaxWidth(),
+                            label = {
+                                Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                            },
+                            singleLine = true,
+                            value = uiState.searchText,
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                            ),
+                            onValueChange = { value ->
+                                model.reduce(CommunityDetailMviModel.Intent.SetSearch(value))
+                            },
+                            trailingIcon = {
+                                Icon(
+                                    modifier = Modifier.onClick(
+                                        onClick = rememberCallback {
+                                            if (uiState.searchText.isNotEmpty()) {
+                                                model.reduce(CommunityDetailMviModel.Intent.SetSearch(""))
+                                            }
+                                        },
+                                    ),
+                                    imageVector = if (uiState.searchText.isEmpty()) Icons.Default.Search else Icons.Default.Clear,
+                                    contentDescription = null,
+                                )
+                            },
+                        )
+                    }
+
+                    val pullRefreshState = rememberPullRefreshState(
+                        refreshing = uiState.refreshing,
+                        onRefresh = rememberCallback(model) {
+                            model.reduce(CommunityDetailMviModel.Intent.Refresh)
+                        },
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .then(
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    Modifier
+                                }
                             )
-                        }
-                        if (uiState.posts.isEmpty() && uiState.loading) {
-                            items(5) {
-                                PostCardPlaceholder(
-                                    postLayout = uiState.postLayout,
+                            .nestedScroll(fabNestedScrollConnection)
+                            .pullRefresh(pullRefreshState),
+                    ) {
+                        LazyColumn(
+                            state = lazyListState,
+                            userScrollEnabled = !uiState.zombieModeActive,
+                        ) {
+                            if (!uiState.searching) {
+                                item {
+                                    CommunityHeader(
+                                        modifier = Modifier.padding(bottom = Spacing.xs),
+                                        community = uiState.community,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        onOpenImage = rememberCallbackArgs { url ->
+                                            navigationCoordinator.pushScreen(
+                                                ZoomableImageScreen(
+                                                    url = url,
+                                                    source = uiState.community.readableHandle,
+                                                )
+                                            )
+                                        },
+                                    )
+                                }
+                            }
+                            if (uiState.posts.isEmpty() && uiState.loading) {
+                                items(5) {
+                                    PostCardPlaceholder(
+                                        postLayout = uiState.postLayout,
+                                    )
+                                    if (uiState.postLayout != PostLayout.Card) {
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    } else {
+                                        Spacer(modifier = Modifier.height(Spacing.s))
+                                    }
+                                }
+                            }
+                            items(
+                                items = uiState.posts,
+                                key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
+                            ) { post ->
+                                LaunchedEffect(post.id) {
+                                    if (settings.markAsReadWhileScrolling && !post.read) {
+                                        model.reduce(CommunityDetailMviModel.Intent.MarkAsRead(post.id))
+                                    }
+                                }
+
+                                @Composable
+                                fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
+                                    mapNotNull {
+                                        when (it) {
+                                            ActionOnSwipe.UpVote -> SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.ArrowCircleUp,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                                onTriggered = rememberCallback {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.UpVotePost(post.id),
+                                                    )
+                                                },
+                                            )
+
+                                            ActionOnSwipe.DownVote -> SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.ArrowCircleDown,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                                onTriggered = rememberCallback {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.DownVotePost(post.id),
+                                                    )
+                                                },
+                                            )
+
+                                            ActionOnSwipe.Reply -> SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.AutoMirrored.Filled.Reply,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor = replyColor ?: defaultReplyColor,
+                                                onTriggered = rememberCallback {
+                                                    detailOpener.openReply(originalPost = post)
+                                                },
+                                            )
+
+                                            ActionOnSwipe.Save -> SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Bookmark,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor = saveColor ?: defaultSaveColor,
+                                                onTriggered = rememberCallback {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.SavePost(
+                                                            id = post.id,
+                                                        ),
+                                                    )
+                                                },
+                                            )
+
+
+                                            else -> null
+                                        }
+                                    }
+
+                                SwipeActionCard(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    enabled = uiState.swipeActionsEnabled,
+                                    onGestureBegin = rememberCallback(model) {
+                                        model.reduce(CommunityDetailMviModel.Intent.HapticIndication)
+                                    },
+                                    swipeToStartActions = if (uiState.isLogged) {
+                                        uiState.actionsOnSwipeToStartPosts.toSwipeActions()
+                                    } else {
+                                        emptyList()
+                                    },
+                                    swipeToEndActions = if (uiState.isLogged) {
+                                        uiState.actionsOnSwipeToEndPosts.toSwipeActions()
+                                    } else {
+                                        emptyList()
+                                    },
+                                    content = {
+                                        PostCard(
+                                            post = post,
+                                            isFromModerator = uiState.moderators.containsId(post.creator?.id),
+                                            postLayout = uiState.postLayout,
+                                            limitBodyHeight = true,
+                                            fullHeightImage = uiState.fullHeightImages,
+                                            voteFormat = uiState.voteFormat,
+                                            autoLoadImages = uiState.autoLoadImages,
+                                            preferNicknames = uiState.preferNicknames,
+                                            showScores = uiState.showScores,
+                                            actionButtonsActive = uiState.isLogged,
+                                            blurNsfw = when {
+                                                uiState.community.nsfw -> false
+                                                else -> uiState.blurNsfw
+                                            },
+                                            onClick = rememberCallback(model) {
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.MarkAsRead(
+                                                        post.id
+                                                    )
+                                                )
+                                                detailOpener.openPostDetail(
+                                                    post = post,
+                                                    otherInstance = otherInstanceName,
+                                                    isMod = uiState.moderators.containsId(uiState.currentUserId),
+                                                )
+                                            },
+                                            onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.UpVotePost(
+                                                            id = post.id,
+                                                            feedback = true,
+                                                        ),
+                                                    )
+                                                }
+                                            },
+                                            onOpenCreator = rememberCallbackArgs { user, instance ->
+                                                detailOpener.openUserDetail(user, instance)
+                                            },
+                                            onOpenPost = rememberCallbackArgs { p, instance ->
+                                                detailOpener.openPostDetail(p, instance)
+                                            },
+                                            onOpenWeb = rememberCallbackArgs { url ->
+                                                navigationCoordinator.pushScreen(
+                                                    WebViewScreen(url)
+                                                )
+                                            },
+                                            onUpVote = rememberCallback(model) {
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.UpVotePost(
+                                                            id = post.id,
+                                                        ),
+                                                    )
+                                                }
+                                            },
+                                            onDownVote = rememberCallback(model) {
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.DownVotePost(
+                                                            id = post.id,
+                                                        ),
+                                                    )
+                                                }
+                                            },
+                                            onSave = rememberCallback(model) {
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.SavePost(
+                                                            id = post.id,
+                                                        ),
+                                                    )
+                                                }
+                                            },
+                                            onReply = rememberCallback {
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.MarkAsRead(
+                                                            post.id
+                                                        )
+                                                    )
+                                                    detailOpener.openPostDetail(post)
+                                                }
+                                            },
+                                            onOpenImage = rememberCallbackArgs(model) { url ->
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.MarkAsRead(
+                                                        post.id
+                                                    )
+                                                )
+                                                navigationCoordinator.pushScreen(
+                                                    ZoomableImageScreen(
+                                                        url = url,
+                                                        source = uiState.community.readableHandle,
+                                                    ),
+                                                )
+                                            },
+                                            options = buildList {
+                                                this += Option(
+                                                    OptionId.Share,
+                                                    LocalXmlStrings.current.postActionShare,
+                                                )
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    this += Option(
+                                                        OptionId.Hide,
+                                                        LocalXmlStrings.current.postActionHide,
+                                                    )
+                                                }
+                                                this += Option(
+                                                    OptionId.SeeRaw,
+                                                    LocalXmlStrings.current.postActionSeeRaw,
+                                                )
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    this += Option(
+                                                        OptionId.CrossPost,
+                                                        LocalXmlStrings.current.postActionCrossPost
+                                                    )
+                                                    this += Option(
+                                                        OptionId.Report,
+                                                        LocalXmlStrings.current.postActionReport,
+                                                    )
+                                                }
+                                                if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
+                                                    this += Option(
+                                                        OptionId.Edit,
+                                                        LocalXmlStrings.current.postActionEdit,
+                                                    )
+                                                    this += Option(
+                                                        OptionId.Delete,
+                                                        LocalXmlStrings.current.commentActionDelete,
+                                                    )
+                                                }
+                                                if (uiState.moderators.containsId(uiState.currentUserId)) {
+                                                    this += Option(
+                                                        OptionId.FeaturePost,
+                                                        if (post.featuredCommunity) {
+                                                            LocalXmlStrings.current.modActionUnmarkAsFeatured
+                                                        } else {
+                                                            LocalXmlStrings.current.modActionMarkAsFeatured
+                                                        },
+                                                    )
+                                                    this += Option(
+                                                        OptionId.LockPost,
+                                                        if (post.locked) {
+                                                            LocalXmlStrings.current.modActionUnlock
+                                                        } else {
+                                                            LocalXmlStrings.current.modActionLock
+                                                        },
+                                                    )
+                                                    this += Option(
+                                                        OptionId.Remove,
+                                                        LocalXmlStrings.current.modActionRemove,
+                                                    )
+                                                    this += Option(
+                                                        OptionId.BanUser,
+                                                        if (post.creator?.banned == true) {
+                                                            LocalXmlStrings.current.modActionAllow
+                                                        } else {
+                                                            LocalXmlStrings.current.modActionBan
+                                                        },
+                                                    )
+                                                    post.creator?.id?.also { creatorId ->
+                                                        if (uiState.currentUserId != creatorId) {
+                                                            this += Option(
+                                                                OptionId.AddMod,
+                                                                if (uiState.moderators.containsId(
+                                                                        creatorId
+                                                                    )
+                                                                ) {
+                                                                    LocalXmlStrings.current.modActionRemoveMod
+                                                                } else {
+                                                                    LocalXmlStrings.current.modActionAddMod
+                                                                },
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                                when (optionId) {
+                                                    OptionId.Delete -> model.reduce(
+                                                        CommunityDetailMviModel.Intent.DeletePost(post.id)
+                                                    )
+
+                                                    OptionId.Edit -> {
+                                                        detailOpener.openCreatePost(editedPost = post)
+                                                    }
+
+                                                    OptionId.Report -> {
+                                                        navigationCoordinator.pushScreen(
+                                                            CreateReportScreen(postId = post.id)
+                                                        )
+                                                    }
+
+                                                    OptionId.CrossPost -> {
+                                                        detailOpener.openCreatePost(crossPost = post)
+                                                    }
+
+                                                    OptionId.SeeRaw -> {
+                                                        rawContent = post
+                                                    }
+
+                                                    OptionId.Hide -> model.reduce(
+                                                        CommunityDetailMviModel.Intent.Hide(post.id)
+                                                    )
+
+                                                    OptionId.Share -> {
+                                                        val urls = listOfNotNull(
+                                                            post.originalUrl,
+                                                            "https://${uiState.instance}/post/${post.id}"
+                                                        ).distinct()
+                                                        if (urls.size == 1) {
+                                                            model.reduce(
+                                                                CommunityDetailMviModel.Intent.Share(
+                                                                    urls.first()
+                                                                )
+                                                            )
+                                                        } else {
+                                                            val screen = ShareBottomSheet(urls = urls)
+                                                            navigationCoordinator.showBottomSheet(screen)
+                                                        }
+                                                    }
+
+                                                    OptionId.FeaturePost -> model.reduce(
+                                                        CommunityDetailMviModel.Intent.ModFeaturePost(
+                                                            post.id
+                                                        )
+                                                    )
+
+                                                    OptionId.LockPost -> model.reduce(
+                                                        CommunityDetailMviModel.Intent.ModLockPost(post.id)
+                                                    )
+
+                                                    OptionId.Remove -> {
+                                                        val screen = RemoveScreen(postId = post.id)
+                                                        navigationCoordinator.pushScreen(screen)
+                                                    }
+
+                                                    OptionId.BanUser -> {
+                                                        post.creator?.id?.also { userId ->
+                                                            val screen = BanUserScreen(
+                                                                userId = userId,
+                                                                communityId = uiState.community.id,
+                                                                newValue = post.creator?.banned != true,
+                                                                postId = post.id,
+                                                            )
+                                                            navigationCoordinator.pushScreen(screen)
+                                                        }
+                                                    }
+
+                                                    OptionId.AddMod -> {
+                                                        post.creator?.id?.also { userId ->
+                                                            model.reduce(
+                                                                CommunityDetailMviModel.Intent.ModToggleModUser(
+                                                                    userId
+                                                                )
+                                                            )
+                                                        }
+                                                    }
+
+                                                    else -> Unit
+                                                }
+                                            })
+                                    },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
                                     HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
@@ -577,431 +1027,57 @@ class CommunityDetailScreen(
                                     Spacer(modifier = Modifier.height(Spacing.s))
                                 }
                             }
-                        }
-                        items(
-                            items = uiState.posts,
-                            key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
-                        ) { post ->
-                            LaunchedEffect(post.id) {
-                                if (settings.markAsReadWhileScrolling && !post.read) {
-                                    model.reduce(CommunityDetailMviModel.Intent.MarkAsRead(post.id))
-                                }
-                            }
-
-                            @Composable
-                            fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
-                                mapNotNull {
-                                    when (it) {
-                                        ActionOnSwipe.UpVote -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.ArrowCircleUp,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = upVoteColor ?: defaultUpvoteColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    CommunityDetailMviModel.Intent.UpVotePost(post.id),
-                                                )
-                                            },
-                                        )
-
-                                        ActionOnSwipe.DownVote -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.ArrowCircleDown,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = downVoteColor ?: defaultDownVoteColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    CommunityDetailMviModel.Intent.DownVotePost(post.id),
-                                                )
-                                            },
-                                        )
-
-                                        ActionOnSwipe.Reply -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.AutoMirrored.Filled.Reply,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = replyColor ?: defaultReplyColor,
-                                            onTriggered = rememberCallback {
-                                                detailOpener.openReply(originalPost = post)
-                                            },
-                                        )
-
-                                        ActionOnSwipe.Save -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Bookmark,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = saveColor ?: defaultSaveColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    CommunityDetailMviModel.Intent.SavePost(
-                                                        id = post.id,
-                                                    ),
-                                                )
-                                            },
-                                        )
-
-
-                                        else -> null
-                                    }
-                                }
-
-                            SwipeActionCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                enabled = uiState.swipeActionsEnabled,
-                                onGestureBegin = rememberCallback(model) {
-                                    model.reduce(CommunityDetailMviModel.Intent.HapticIndication)
-                                },
-                                swipeToStartActions = if (uiState.isLogged) {
-                                    uiState.actionsOnSwipeToStartPosts.toSwipeActions()
-                                } else {
-                                    emptyList()
-                                },
-                                swipeToEndActions = if (uiState.isLogged) {
-                                    uiState.actionsOnSwipeToEndPosts.toSwipeActions()
-                                } else {
-                                    emptyList()
-                                },
-                                content = {
-                                    PostCard(
-                                        post = post,
-                                        isFromModerator = uiState.moderators.containsId(post.creator?.id),
-                                        postLayout = uiState.postLayout,
-                                        limitBodyHeight = true,
-                                        fullHeightImage = uiState.fullHeightImages,
-                                        voteFormat = uiState.voteFormat,
-                                        autoLoadImages = uiState.autoLoadImages,
-                                        preferNicknames = uiState.preferNicknames,
-                                        showScores = uiState.showScores,
-                                        actionButtonsActive = uiState.isLogged,
-                                        blurNsfw = when {
-                                            uiState.community.nsfw -> false
-                                            else -> uiState.blurNsfw
-                                        },
-                                        onClick = rememberCallback(model) {
-                                            model.reduce(
-                                                CommunityDetailMviModel.Intent.MarkAsRead(
-                                                    post.id
-                                                )
-                                            )
-                                            detailOpener.openPostDetail(
-                                                post = post,
-                                                otherInstance = otherInstanceName,
-                                                isMod = uiState.moderators.containsId(uiState.currentUserId),
-                                            )
-                                        },
-                                        onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(
-                                                    CommunityDetailMviModel.Intent.UpVotePost(
-                                                        id = post.id,
-                                                        feedback = true,
-                                                    ),
-                                                )
-                                            }
-                                        },
-                                        onOpenCreator = rememberCallbackArgs { user, instance ->
-                                            detailOpener.openUserDetail(user, instance)
-                                        },
-                                        onOpenPost = rememberCallbackArgs { p, instance ->
-                                            detailOpener.openPostDetail(p, instance)
-                                        },
-                                        onOpenWeb = rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(
-                                                WebViewScreen(url)
-                                            )
-                                        },
-                                        onUpVote = rememberCallback(model) {
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                model.reduce(
-                                                    CommunityDetailMviModel.Intent.UpVotePost(
-                                                        id = post.id,
-                                                    ),
-                                                )
-                                            }
-                                        },
-                                        onDownVote = rememberCallback(model) {
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                model.reduce(
-                                                    CommunityDetailMviModel.Intent.DownVotePost(
-                                                        id = post.id,
-                                                    ),
-                                                )
-                                            }
-                                        },
-                                        onSave = rememberCallback(model) {
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                model.reduce(
-                                                    CommunityDetailMviModel.Intent.SavePost(
-                                                        id = post.id,
-                                                    ),
-                                                )
-                                            }
-                                        },
-                                        onReply = rememberCallback {
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                model.reduce(
-                                                    CommunityDetailMviModel.Intent.MarkAsRead(
-                                                        post.id
-                                                    )
-                                                )
-                                                detailOpener.openPostDetail(post)
-                                            }
-                                        },
-                                        onOpenImage = rememberCallbackArgs(model) { url ->
-                                            model.reduce(
-                                                CommunityDetailMviModel.Intent.MarkAsRead(
-                                                    post.id
-                                                )
-                                            )
-                                            navigationCoordinator.pushScreen(
-                                                ZoomableImageScreen(
-                                                    url = url,
-                                                    source = uiState.community.readableHandle,
-                                                ),
-                                            )
-                                        },
-                                        options = buildList {
-                                            this += Option(
-                                                OptionId.Share,
-                                                LocalXmlStrings.current.postActionShare,
-                                            )
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                this += Option(
-                                                    OptionId.Hide,
-                                                    LocalXmlStrings.current.postActionHide,
-                                                )
-                                            }
-                                            this += Option(
-                                                OptionId.SeeRaw,
-                                                LocalXmlStrings.current.postActionSeeRaw,
-                                            )
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                this += Option(
-                                                    OptionId.CrossPost,
-                                                    LocalXmlStrings.current.postActionCrossPost
-                                                )
-                                                this += Option(
-                                                    OptionId.Report,
-                                                    LocalXmlStrings.current.postActionReport,
-                                                )
-                                            }
-                                            if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
-                                                this += Option(
-                                                    OptionId.Edit,
-                                                    LocalXmlStrings.current.postActionEdit,
-                                                )
-                                                this += Option(
-                                                    OptionId.Delete,
-                                                    LocalXmlStrings.current.commentActionDelete,
-                                                )
-                                            }
-                                            if (uiState.moderators.containsId(uiState.currentUserId)) {
-                                                this += Option(
-                                                    OptionId.FeaturePost,
-                                                    if (post.featuredCommunity) {
-                                                        LocalXmlStrings.current.modActionUnmarkAsFeatured
-                                                    } else {
-                                                        LocalXmlStrings.current.modActionMarkAsFeatured
-                                                    },
-                                                )
-                                                this += Option(
-                                                    OptionId.LockPost,
-                                                    if (post.locked) {
-                                                        LocalXmlStrings.current.modActionUnlock
-                                                    } else {
-                                                        LocalXmlStrings.current.modActionLock
-                                                    },
-                                                )
-                                                this += Option(
-                                                    OptionId.Remove,
-                                                    LocalXmlStrings.current.modActionRemove,
-                                                )
-                                                this += Option(
-                                                    OptionId.BanUser,
-                                                    if (post.creator?.banned == true) {
-                                                        LocalXmlStrings.current.modActionAllow
-                                                    } else {
-                                                        LocalXmlStrings.current.modActionBan
-                                                    },
-                                                )
-                                                post.creator?.id?.also { creatorId ->
-                                                    if (uiState.currentUserId != creatorId) {
-                                                        this += Option(
-                                                            OptionId.AddMod,
-                                                            if (uiState.moderators.containsId(
-                                                                    creatorId
-                                                                )
-                                                            ) {
-                                                                LocalXmlStrings.current.modActionRemoveMod
-                                                            } else {
-                                                                LocalXmlStrings.current.modActionAddMod
-                                                            },
-                                                        )
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                            when (optionId) {
-                                                OptionId.Delete -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.DeletePost(post.id)
-                                                )
-
-                                                OptionId.Edit -> {
-                                                    detailOpener.openCreatePost(editedPost = post)
-                                                }
-
-                                                OptionId.Report -> {
-                                                    navigationCoordinator.pushScreen(
-                                                        CreateReportScreen(postId = post.id)
-                                                    )
-                                                }
-
-                                                OptionId.CrossPost -> {
-                                                    detailOpener.openCreatePost(crossPost = post)
-                                                }
-
-                                                OptionId.SeeRaw -> {
-                                                    rawContent = post
-                                                }
-
-                                                OptionId.Hide -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.Hide(post.id)
-                                                )
-
-                                                OptionId.Share -> {
-                                                    val urls = listOfNotNull(
-                                                        post.originalUrl,
-                                                        "https://${uiState.instance}/post/${post.id}"
-                                                    ).distinct()
-                                                    if (urls.size == 1) {
-                                                        model.reduce(
-                                                            CommunityDetailMviModel.Intent.Share(
-                                                                urls.first()
-                                                            )
-                                                        )
-                                                    } else {
-                                                        val screen = ShareBottomSheet(urls = urls)
-                                                        navigationCoordinator.showBottomSheet(screen)
-                                                    }
-                                                }
-
-                                                OptionId.FeaturePost -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.ModFeaturePost(
-                                                        post.id
-                                                    )
-                                                )
-
-                                                OptionId.LockPost -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.ModLockPost(post.id)
-                                                )
-
-                                                OptionId.Remove -> {
-                                                    val screen = RemoveScreen(postId = post.id)
-                                                    navigationCoordinator.pushScreen(screen)
-                                                }
-
-                                                OptionId.BanUser -> {
-                                                    post.creator?.id?.also { userId ->
-                                                        val screen = BanUserScreen(
-                                                            userId = userId,
-                                                            communityId = uiState.community.id,
-                                                            newValue = post.creator?.banned != true,
-                                                            postId = post.id,
-                                                        )
-                                                        navigationCoordinator.pushScreen(screen)
-                                                    }
-                                                }
-
-                                                OptionId.AddMod -> {
-                                                    post.creator?.id?.also { userId ->
-                                                        model.reduce(
-                                                            CommunityDetailMviModel.Intent.ModToggleModUser(
-                                                                userId
-                                                            )
-                                                        )
-                                                    }
-                                                }
-
-                                                else -> Unit
-                                            }
-                                        })
-                                },
-                            )
-                            if (uiState.postLayout != PostLayout.Card) {
-                                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
-                            } else {
-                                Spacer(modifier = Modifier.height(Spacing.s))
-                            }
-                        }
-                        item {
-                            if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
-                                if (settings.infiniteScrollEnabled) {
-                                    model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
-                                } else {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
-                                        horizontalArrangement = Arrangement.Center,
-                                        verticalAlignment = Alignment.CenterVertically,
-                                    ) {
-                                        Button(
-                                            onClick = rememberCallback(model) {
-                                                model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
-                                            },
+                            item {
+                                if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
+                                    if (settings.infiniteScrollEnabled) {
+                                        model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
+                                    } else {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                                            horizontalArrangement = Arrangement.Center,
+                                            verticalAlignment = Alignment.CenterVertically,
                                         ) {
-                                            Text(
-                                                text = LocalXmlStrings.current.postListLoadMorePosts,
-                                                style = MaterialTheme.typography.labelSmall,
-                                            )
+                                            Button(
+                                                onClick = rememberCallback(model) {
+                                                    model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
+                                                },
+                                            ) {
+                                                Text(
+                                                    text = LocalXmlStrings.current.postListLoadMorePosts,
+                                                    style = MaterialTheme.typography.labelSmall,
+                                                )
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            if (uiState.loading && !uiState.refreshing) {
-                                Box(
-                                    modifier = Modifier.fillMaxWidth().padding(Spacing.xs),
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    CircularProgressIndicator(
-                                        modifier = Modifier.size(25.dp),
-                                        color = MaterialTheme.colorScheme.primary,
-                                    )
+                                if (uiState.loading && !uiState.refreshing) {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth().padding(Spacing.xs),
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.size(25.dp),
+                                            color = MaterialTheme.colorScheme.primary,
+                                        )
+                                    }
                                 }
                             }
+                            item {
+                                Spacer(modifier = Modifier.height(Spacing.xxl))
+                            }
                         }
-                        item {
-                            Spacer(modifier = Modifier.height(Spacing.xxl))
+
+                        PullRefreshIndicator(
+                            refreshing = uiState.refreshing,
+                            state = pullRefreshState,
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            backgroundColor = MaterialTheme.colorScheme.background,
+                            contentColor = MaterialTheme.colorScheme.onBackground,
+                        )
+
+                        if (uiState.asyncInProgress) {
+                            ProgressHud()
                         }
-                    }
-
-                    PullRefreshIndicator(
-                        refreshing = uiState.refreshing,
-                        state = pullRefreshState,
-                        modifier = Modifier.align(Alignment.TopCenter),
-                        backgroundColor = MaterialTheme.colorScheme.background,
-                        contentColor = MaterialTheme.colorScheme.onBackground,
-                    )
-
-                    if (uiState.asyncInProgress) {
-                        ProgressHud()
                     }
                 }
             }

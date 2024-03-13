@@ -30,4 +30,5 @@ sealed class OptionId(val value: Int) {
     data object ViewModlog : OptionId(22)
     data object Unban : OptionId(23)
     data object SetCustomSort : OptionId(24)
+    data object Search : OptionId(25)
 }
