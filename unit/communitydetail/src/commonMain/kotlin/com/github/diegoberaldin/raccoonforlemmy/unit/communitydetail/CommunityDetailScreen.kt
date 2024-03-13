@@ -109,6 +109,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
@@ -235,7 +236,7 @@ class CommunityDetailScreen(
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = uiState.community.name,
+                            text = uiState.community.readableName(uiState.preferNicknames),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
