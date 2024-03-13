@@ -18,6 +18,7 @@ interface CommunityRepository {
         auth: String? = null,
         page: Int,
         limit: Int = DEFAULT_PAGE_SIZE,
+        communityId: Int? = null,
         listingType: ListingType = ListingType.All,
         sortType: SortType = SortType.Active,
         resultType: SearchResultType = SearchResultType.All,
