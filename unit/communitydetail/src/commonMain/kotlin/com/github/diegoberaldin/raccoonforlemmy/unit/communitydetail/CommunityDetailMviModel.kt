@@ -38,6 +38,8 @@ interface CommunityDetailMviModel :
         data class ModToggleModUser(val id: Int) : Intent
         data object ToggleFavorite : Intent
         data class Share(val url: String) : Intent
+        data class SetSearch(val value: String) : Intent
+        data class ChangeSearching(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -65,6 +67,8 @@ interface CommunityDetailMviModel :
         val availableSortTypes: List<SortType> = emptyList(),
         val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = emptyList(),
+        val searching: Boolean = false,
+        val searchText: String = "",
     )
 
     sealed interface Effect {
