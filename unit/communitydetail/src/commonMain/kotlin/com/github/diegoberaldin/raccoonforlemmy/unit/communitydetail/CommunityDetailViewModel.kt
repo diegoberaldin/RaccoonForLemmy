@@ -18,6 +18,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiCo
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
@@ -30,11 +32,16 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyIte
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class CommunityDetailViewModel(
     private val communityId: Int,
     private val otherInstance: String,
@@ -63,6 +70,7 @@ class CommunityDetailViewModel(
     private var currentPage: Int = 1
     private var pageCursor: String? = null
     private var hideReadPosts = false
+    private val searchChannel = Channel<Unit>()
 
     init {
         screenModelScope.launch {
@@ -151,6 +159,12 @@ class CommunityDetailViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
+            }.launchIn(this)
+
+            searchChannel.receiveAsFlow().debounce(1_000).onEach {
+                updateState { it.copy(loading = false) }
+                emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+                refresh()
             }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
@@ -262,6 +276,17 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.ToggleFavorite -> {
                 toggleFavorite()
             }
+
+            is CommunityDetailMviModel.Intent.ChangeSearching -> {
+                updateState { it.copy(searching = intent.value) }
+                if (!intent.value) {
+                    updateSearchText("")
+                }
+            }
+
+            is CommunityDetailMviModel.Intent.SetSearch -> {
+                updateSearchText(intent.value)
+            }
         }
     }
 
@@ -319,27 +344,51 @@ class CommunityDetailViewModel(
         val sort = currentState.sortType
         val community = currentState.community
         val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
-        val (itemList, nextPage) = postRepository.getAll(
-            auth = auth,
-            otherInstance = otherInstance,
-            communityId = community.id,
-            communityName = community.name,
-            page = currentPage,
-            pageCursor = pageCursor,
-            sort = sort,
-        )?.let {
-            if (refreshing) {
-                it
-            } else {
-                // prevents accidental duplication
-                val posts = it.first
-                it.copy(
-                    first = posts.filter { p1 ->
+
+        val (itemList, nextPage) = if (currentState.searching) {
+            communityRepository.getAll(
+                auth = auth,
+                communityId = community.id,
+                page = currentPage,
+                sortType = sort,
+                resultType = SearchResultType.Posts,
+                query = currentState.searchText,
+            ).mapNotNull {
+                (it as? SearchResult.Post)?.model
+            }.let { posts ->
+                if (refreshing) {
+                    posts
+                } else {
+                    // prevents accidental duplication
+                    posts.filter { p1 ->
                         currentState.posts.none { p2 -> p2.id == p1.id }
-                    },
-                )
-            }
-        } ?: (null to null)
+                    }
+                }
+            } to null
+        } else {
+            postRepository.getAll(
+                auth = auth,
+                otherInstance = otherInstance,
+                communityId = community.id,
+                communityName = community.name,
+                page = currentPage,
+                pageCursor = pageCursor,
+                sort = sort,
+            )?.let {
+                if (refreshing) {
+                    it
+                } else {
+                    // prevents accidental duplication
+                    val posts = it.first
+                    it.copy(
+                        first = posts.filter { p1 ->
+                            currentState.posts.none { p2 -> p2.id == p1.id }
+                        },
+                    )
+                }
+            } ?: (null to null)
+        }
+
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
@@ -349,19 +398,26 @@ class CommunityDetailViewModel(
         val itemsToAdd = itemList.orEmpty()
             .filterNot { post ->
                 post.deleted
-            }
-            .filter { post ->
-                if (hideReadPosts) {
-                    !post.read
+            }.let {
+                if (!hideReadPosts) {
+                    it
                 } else {
-                    true
+                    it.filter { post -> !post.read }
                 }
-            }
-            .filter { post ->
+            }.let {
                 if (includeNsfw || community.nsfw) {
-                    true
+                    it
                 } else {
-                    !post.nsfw
+                    it.filter { post -> !post.nsfw }
+                }
+            }.let {
+                if (!currentState.searching) {
+                    it
+                } else {
+                    it.filter { post ->
+                        post.title.contains(currentState.searchText, ignoreCase = true)
+                                || post.text.contains(currentState.searchText, ignoreCase = true)
+                    }
                 }
             }
         if (uiState.value.autoLoadImages) {
@@ -371,12 +427,12 @@ class CommunityDetailViewModel(
                 }
             }
         }
+        val newItems = if (refreshing) {
+            itemsToAdd
+        } else {
+            currentState.posts + itemsToAdd
+        }
         updateState {
-            val newItems = if (refreshing) {
-                itemsToAdd
-            } else {
-                it.posts + itemsToAdd
-            }
             it.copy(
                 posts = newItems,
                 loading = false,
@@ -638,6 +694,13 @@ class CommunityDetailViewModel(
             }
             val newCommunity = uiState.value.community.copy(favorite = newValue)
             updateState { it.copy(community = newCommunity) }
+        }
+    }
+
+    private fun updateSearchText(value: String) {
+        updateState { it.copy(searchText = value) }
+        screenModelScope.launch {
+            searchChannel.send(Unit)
         }
     }
 }
