@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Reply
+import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Shield
@@ -108,6 +109,13 @@ class UserInfoScreen(
                         Column(
                             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                         ) {
+                            SelectionContainer {
+                                DetailInfoItem(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    icon = Icons.Default.AlternateEmail,
+                                    title = uiState.user.readableHandle,
+                                )
+                            }
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Cake,
