@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.AlternateEmail
@@ -109,11 +110,13 @@ class CommunityInfoScreen(
                         Column(
                             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                         ) {
-                            DetailInfoItem(
-                                modifier = Modifier.fillMaxWidth(),
-                                icon = Icons.Default.AlternateEmail,
-                                title = uiState.community.readableHandle,
-                            )
+                            SelectionContainer {
+                                DetailInfoItem(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    icon = Icons.Default.AlternateEmail,
+                                    title = uiState.community.readableHandle,
+                                )
+                            }
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Cake,
