@@ -347,4 +347,7 @@
     <string name="settings_title_experimental">Експерименти</string>
     <string name="community_set_custom_sort">Спеціальний тип сортування</string>
     <string name="settings_default_explore_type">Тип каналу за замовчуванням для дослідження</string>
+    <string name="action_search_in_community">Пошук у спільноті</string>
+    <string name="action_exit_search">Вийти з пошуку</string>
+    <string name="beta">Бета</string>
 </resources>

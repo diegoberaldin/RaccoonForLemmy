@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Kokeilut</string>
     <string name="community_set_custom_sort">Mukautettu lajittelutyyppi</string>
     <string name="settings_default_explore_type">Tutkimuksen oletussyötetyyppi</string>
+    <string name="action_search_in_community">Hae yhteisöstä</string>
+    <string name="action_exit_search">Poistu hausta</string>
+    <string name="beta">Beeta</string>
 </resources>

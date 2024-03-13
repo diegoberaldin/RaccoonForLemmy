@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">lukin</string>
     <string name="community_set_custom_sort">nanpa pi kulupu ni</string>
     <string name="settings_default_explore_type">nasin pi lipu lukin</string>
+    <string name="action_search_in_community">o lukin lon kulupu</string>
+    <string name="action_exit_search">o weka e lukin</string>
+    <string name="beta">sin</string>
 </resources>

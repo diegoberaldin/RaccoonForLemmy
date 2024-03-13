@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Eksperimenti</string>
     <string name="community_set_custom_sort">Vrsta prilagođenog sortiranja</string>
     <string name="settings_default_explore_type">Zadana vrsta feeda za istraživanje</string>
+    <string name="action_search_in_community">Pretraživanje unutar zajednice</string>
+    <string name="action_exit_search">Izlaz iz pretraživanja</string>
+    <string name="beta">Beta</string>
 </resources>

@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Eksperimendid</string>
     <string name="community_set_custom_sort">Kohandatud sortimise tüüp</string>
     <string name="settings_default_explore_type">Vaikimisi uuritava voo tüüp</string>
+    <string name="action_search_in_community">Otsige kogukonnast</string>
+    <string name="action_exit_search">Välju otsingust</string>
+    <string name="beta">Beeta</string>
 </resources>

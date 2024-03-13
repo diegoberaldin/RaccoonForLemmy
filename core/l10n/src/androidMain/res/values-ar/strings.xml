@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">التجارب</string>
     <string name="community_set_custom_sort">نوع الفرز المخصص</string>
     <string name="settings_default_explore_type">نوع الخلاصة الافتراضي للاستكشاف</string>
+    <string name="action_search_in_community">البحث داخل المجتمع</string>
+    <string name="action_exit_search">الخروج من البحث</string>
+    <string name="beta">بيتا</string>
 </resources>

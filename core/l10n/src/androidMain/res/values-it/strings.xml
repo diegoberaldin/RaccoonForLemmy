@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Esperimenti</string>
     <string name="community_set_custom_sort">Tipo di ordinamento personalizzato</string>
     <string name="settings_default_explore_type">Tipo di feed predefinito per Esplora</string>
+    <string name="action_search_in_community">Cerca all\'interno della comunità</string>
+    <string name="action_exit_search">Esci dalla ricerca</string>
+    <string name="beta">Beta</string>
 </resources>

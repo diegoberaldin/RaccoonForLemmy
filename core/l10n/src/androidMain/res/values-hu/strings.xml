@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Kísérletek</string>
     <string name="community_set_custom_sort">Egyedi rendezési típus</string>
     <string name="settings_default_explore_type">Alapértelmezett hírcsatornatípus a felfedezéshez</string>
+    <string name="action_search_in_community">Keresés a közösségen belül</string>
+    <string name="action_exit_search">Lépjen ki a keresésből</string>
+    <string name="beta">Beta</string>
 </resources>

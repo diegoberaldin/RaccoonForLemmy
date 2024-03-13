@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Turgnaimh</string>
     <string name="community_set_custom_sort">Cineál sórtála saincheaptha</string>
     <string name="settings_default_explore_type">An cineál beatha réamhshocraithe le haghaidh iniúchta</string>
+    <string name="action_search_in_community">Cuardaigh laistigh den phobal</string>
+    <string name="action_exit_search">Scoir an cuardach</string>
+    <string name="beta">Béite</string>
 </resources>

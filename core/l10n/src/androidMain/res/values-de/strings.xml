@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Experimente</string>
     <string name="community_set_custom_sort">Benutzerdefinierter Sortiertyp</string>
     <string name="settings_default_explore_type">Standard-Feedtyp für Explore</string>
+    <string name="action_search_in_community">Suche innerhalb der Community</string>
+    <string name="action_exit_search">Suche beenden</string>
+    <string name="beta">Beta</string>
 </resources>

@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Expériences</string>
     <string name="community_set_custom_sort">Type de tri personnalisé</string>
     <string name="settings_default_explore_type">Type de liste par défaut pour Explorer</string>
+    <string name="action_search_in_community">Rechercher au sein de la communauté</string>
+    <string name="action_exit_search">Quitter la recherche</string>
+    <string name="beta">Bêta</string>
 </resources>

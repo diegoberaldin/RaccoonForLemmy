@@ -347,4 +347,7 @@
     <string name="settings_title_experimental">Эксперименты</string>
     <string name="community_set_custom_sort">Пользовательский тип сортировки</string>
     <string name="settings_default_explore_type">Тип фида по умолчанию для изучения</string>
+    <string name="action_search_in_community">Поиск в сообществе</string>
+    <string name="action_exit_search">Выйти из поиска</string>
+    <string name="beta">Бета</string>
 </resources>

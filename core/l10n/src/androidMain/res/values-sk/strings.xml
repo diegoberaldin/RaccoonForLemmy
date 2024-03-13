@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Experimenty</string>
     <string name="community_set_custom_sort">Vlastný typ triedenia</string>
     <string name="settings_default_explore_type">Predvolený typ informačného kanála na preskúmanie</string>
+    <string name="action_search_in_community">Hľadajte v rámci komunity</string>
+    <string name="action_exit_search">Ukončiť vyhľadávanie</string>
+    <string name="beta">Beta</string>
 </resources>

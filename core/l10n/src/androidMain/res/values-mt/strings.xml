@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Esperimenti</string>
     <string name="community_set_custom_sort">Tip ta \'xorta tad-dwana</string>
     <string name="settings_default_explore_type">Tip ta\' għalf default għall-esplorazzjoni</string>
+    <string name="action_search_in_community">Fittex fil-komunità</string>
+    <string name="action_exit_search">Ħruġ tat-tfittxija</string>
+    <string name="beta">Beta</string>
 </resources>

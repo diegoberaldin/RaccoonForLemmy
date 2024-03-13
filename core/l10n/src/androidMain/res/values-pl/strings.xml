@@ -348,4 +348,7 @@
     <string name="settings_title_experimental">Eksperymenty</string>
     <string name="community_set_custom_sort">Niestandardowy typ sortowania</string>
     <string name="settings_default_explore_type">Domyślny typ kanału do eksploracji</string>
+    <string name="action_search_in_community">Szukaj w społeczności</string>
+    <string name="action_exit_search">Wyjdź z wyszukiwania</string>
+    <string name="beta">Beta</string>
 </resources>
