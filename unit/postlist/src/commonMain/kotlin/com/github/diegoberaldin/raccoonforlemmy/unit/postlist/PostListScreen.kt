@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.ClearAll
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.SyncDisabled
@@ -268,6 +269,16 @@ class PostListScreen : Screen {
                                             topAppBarState.heightOffset = 0f
                                             topAppBarState.contentOffset = 0f
                                         }
+                                    },
+                                )
+
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.Default.Create,
+                                    text = LocalXmlStrings.current.actionCreatePost,
+                                    onSelected = rememberCallback {
+                                        detailOpener.openCreatePost(
+                                            forceCommunitySelection = true,
+                                        )
                                     },
                                 )
                             }
@@ -565,7 +576,10 @@ class PostListScreen : Screen {
                                                 }
 
                                                 OptionId.CrossPost -> {
-                                                    detailOpener.openCreatePost(crossPost = post)
+                                                    detailOpener.openCreatePost(
+                                                        crossPost = post,
+                                                        forceCommunitySelection = true,
+                                                    )
                                                 }
 
                                                 OptionId.SeeRaw -> {
