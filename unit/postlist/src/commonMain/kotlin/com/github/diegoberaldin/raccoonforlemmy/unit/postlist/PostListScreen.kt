@@ -195,6 +195,7 @@ class PostListScreen : Screen {
                     onSelectListingType = rememberCallback {
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
+                            screenKey = "postList"
                         )
                         navigationCoordinator.showBottomSheet(sheet)
                     },
@@ -207,6 +208,7 @@ class PostListScreen : Screen {
                         val sheet = SortBottomSheet(
                             values = uiState.availableSortTypes.map { it.toInt() },
                             expandTop = true,
+                            screenKey = "postList",
                         )
                         navigationCoordinator.showBottomSheet(sheet)
                     },

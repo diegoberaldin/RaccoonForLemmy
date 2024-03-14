@@ -172,10 +172,13 @@ class AdvancedSettingsScreen : Screen {
                     )
                     // default explore type
                     SettingsRow(
-                        title =  LocalXmlStrings.current.settingsDefaultExploreType,
+                        title = LocalXmlStrings.current.settingsDefaultExploreType,
                         value = uiState.defaultExploreType.toReadableName(),
                         onTap = rememberCallback {
-                            val sheet = ListingTypeBottomSheet(isLogged = uiState.isLogged)
+                            val sheet = ListingTypeBottomSheet(
+                                isLogged = uiState.isLogged,
+                                screenKey = "advancedSettings",
+                            )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )

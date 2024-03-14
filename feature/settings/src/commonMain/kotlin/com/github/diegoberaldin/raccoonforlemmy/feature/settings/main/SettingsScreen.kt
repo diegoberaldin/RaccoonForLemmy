@@ -205,6 +205,7 @@ class SettingsScreen : Screen {
                         onTap = rememberCallback {
                             val sheet = ListingTypeBottomSheet(
                                 isLogged = uiState.isLogged,
+                                screenKey = "settings",
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
@@ -218,6 +219,7 @@ class SettingsScreen : Screen {
                             val sheet = SortBottomSheet(
                                 values = uiState.availableSortTypesForPosts.map { it.toInt() },
                                 expandTop = true,
+                                screenKey = "settings",
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
@@ -231,6 +233,7 @@ class SettingsScreen : Screen {
                             val sheet = SortBottomSheet(
                                 comments = true,
                                 values = uiState.availableSortTypesForComments.map { it.toInt() },
+                                screenKey = "settings",
                             )
                             navigationCoordinator.showBottomSheet(sheet)
                         },

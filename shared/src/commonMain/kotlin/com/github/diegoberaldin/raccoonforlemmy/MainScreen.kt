@@ -134,7 +134,7 @@ internal object MainScreen : Screen {
                     when (evt) {
                         is DrawerEvent.ChangeListingType -> {
                             if (tabNavigator.current == HomeTab) {
-                                notificationCenter.send(NotificationCenterEvent.ChangeFeedType(evt.value))
+                                notificationCenter.send(NotificationCenterEvent.ChangeFeedType(evt.value, "postList"))
                             } else {
                                 with(navigationCoordinator) {
                                     changeTab(HomeTab)
@@ -144,7 +144,7 @@ internal object MainScreen : Screen {
                                     // wait for transition to finish
                                     delay(750)
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeFeedType(evt.value)
+                                        NotificationCenterEvent.ChangeFeedType(evt.value, "postList")
                                     )
                                 }
                             }

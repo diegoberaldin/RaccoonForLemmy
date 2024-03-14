@@ -34,6 +34,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 
 class ListingTypeBottomSheet(
     private val isLogged: Boolean = false,
+    private val screenKey: String? = null,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -88,6 +89,7 @@ class ListingTypeBottomSheet(
                                         notificationCenter.send(
                                             NotificationCenterEvent.ChangeFeedType(
                                                 value = value,
+                                                screenKey = screenKey,
                                             )
                                         )
                                         navigationCoordinator.hideBottomSheet()

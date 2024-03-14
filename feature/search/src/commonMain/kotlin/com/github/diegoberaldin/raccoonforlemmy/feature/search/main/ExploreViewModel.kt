@@ -99,12 +99,16 @@ class ExploreViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
-                    changeListingType(evt.value)
+                    if (evt.screenKey == "explore") {
+                        changeListingType(evt.value)
+                    }
                 }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    changeSortType(evt.value)
+                    if (evt.screenKey == "explore") {
+                        changeSortType(evt.value)
+                    }
                 }.launchIn(this)
         }
 

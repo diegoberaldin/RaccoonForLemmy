@@ -67,15 +67,21 @@ class SettingsViewModel(
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
-                    changeDefaultListingType(evt.value)
+                    if (evt.screenKey == "settings") {
+                        changeDefaultListingType(evt.value)
+                    }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    changeDefaultPostSortType(evt.value)
+                    if (evt.screenKey == "settings") {
+                        changeDefaultPostSortType(evt.value)
+                    }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
                 .onEach { evt ->
-                    changeDefaultCommentSortType(evt.value)
+                    if (evt.screenKey == "settings") {
+                        changeDefaultCommentSortType(evt.value)
+                    }
                 }.launchIn(this)
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()

@@ -53,7 +53,9 @@ class AdvancedSettingsViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
-                    changeExploreType(evt.value)
+                    if (evt.screenKey == "advancedSettings") {
+                        changeExploreType(evt.value)
+                    }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
                 .onEach { evt ->

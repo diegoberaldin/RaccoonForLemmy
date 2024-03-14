@@ -35,11 +35,15 @@ class AccountSettingsViewModel(
         screenModelScope.launch {
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    updateState { it.copy(defaultSortType = evt.value) }
+                    if (evt.screenKey == "accountSettings") {
+                        updateState { it.copy(defaultSortType = evt.value) }
+                    }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
-                    updateState { it.copy(defaultListingType = evt.value) }
+                    if (evt.screenKey == "accountSettings") {
+                        updateState { it.copy(defaultListingType = evt.value) }
+                    }
                 }.launchIn(this)
 
             if (accountSettings == null) {

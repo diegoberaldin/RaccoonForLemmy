@@ -134,6 +134,7 @@ class InstanceInfoScreen(
                                         val sheet = SortBottomSheet(
                                             values = uiState.availableSortTypes.map { it.toInt() },
                                             expandTop = true,
+                                            screenKey = "instanceInfo",
                                         )
                                         navigationCoordinator.showBottomSheet(sheet)
                                     },

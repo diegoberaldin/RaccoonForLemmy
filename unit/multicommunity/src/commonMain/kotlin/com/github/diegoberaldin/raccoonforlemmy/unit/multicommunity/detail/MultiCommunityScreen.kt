@@ -185,6 +185,7 @@ class MultiCommunityScreen(
                                             val sheet = SortBottomSheet(
                                                 values = uiState.availableSortTypes.map { it.toInt() },
                                                 expandTop = true,
+                                                screenKey = "multiCommunity",
                                             )
                                             navigationCoordinator.showBottomSheet(sheet)
                                         },

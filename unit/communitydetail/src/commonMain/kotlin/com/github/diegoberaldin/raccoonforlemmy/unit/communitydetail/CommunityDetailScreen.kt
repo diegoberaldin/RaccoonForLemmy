@@ -289,6 +289,7 @@ class CommunityDetailScreen(
                                     val sheet = SortBottomSheet(
                                         values = uiState.availableSortTypes.map { it.toInt() },
                                         expandTop = true,
+                                        screenKey = uiState.community.readableHandle,
                                     )
                                     navigationCoordinator.showBottomSheet(sheet)
                                 },
@@ -461,6 +462,7 @@ class CommunityDetailScreen(
                                                         values = uiState.availableSortTypes.map { it.toInt() },
                                                         defaultForCommunity = true,
                                                         expandTop = true,
+                                                        screenKey = uiState.community.readableHandle,
                                                     )
                                                     navigationCoordinator.showBottomSheet(screen)
                                                 }

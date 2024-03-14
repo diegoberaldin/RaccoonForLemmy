@@ -46,6 +46,7 @@ class SortBottomSheet(
     private val comments: Boolean = false,
     private val defaultForCommunity: Boolean = false,
     private val expandTop: Boolean = false,
+    private val screenKey: String? = null,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -69,6 +70,7 @@ class SortBottomSheet(
                     expandTop = expandTop,
                     comments = comments,
                     defaultForCommunity = defaultForCommunity,
+                    screenKey = screenKey,
                 )
             )
         }
@@ -80,6 +82,7 @@ internal class SortBottomSheetMain(
     private val values: List<Int>,
     private val expandTop: Boolean = false,
     private val defaultForCommunity: Boolean = false,
+    private val screenKey: String?,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -119,17 +122,20 @@ internal class SortBottomSheetMain(
                                             SortBottomSheetTop(
                                                 comments = comments,
                                                 defaultForCommunity = defaultForCommunity,
+                                                screenKey = screenKey,
                                             )
                                         )
                                     } else {
                                         val event = if (comments) {
                                             NotificationCenterEvent.ChangeCommentSortType(
                                                 value = sortValue,
+                                                screenKey = screenKey,
                                             )
                                         } else {
                                             NotificationCenterEvent.ChangeSortType(
                                                 value = sortValue,
                                                 defaultForCommunity = defaultForCommunity,
+                                                screenKey = screenKey,
                                             )
                                         }
                                         notificationCenter.send(event)
@@ -177,6 +183,7 @@ internal class SortBottomSheetTop(
         SortType.Top.Year,
     ).map { it.toInt() },
     private val defaultForCommunity: Boolean = false,
+    private val screenKey: String?,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -228,11 +235,13 @@ internal class SortBottomSheetTop(
                                     val event = if (comments) {
                                         NotificationCenterEvent.ChangeCommentSortType(
                                             value = sortValue,
+                                            screenKey = screenKey,
                                         )
                                     } else {
                                         NotificationCenterEvent.ChangeSortType(
                                             value = sortValue,
                                             defaultForCommunity = defaultForCommunity,
+                                            screenKey = screenKey,
                                         )
                                     }
                                     notificationCenter.send(event)

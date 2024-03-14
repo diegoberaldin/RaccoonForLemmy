@@ -222,6 +222,7 @@ class UserDetailScreen(
                                     val sheet = SortBottomSheet(
                                         values = uiState.availableSortTypes.map { it.toInt() },
                                         expandTop = true,
+                                        screenKey = uiState.user.readableHandle,
                                     )
                                     navigationCoordinator.showBottomSheet(sheet)
                                 },

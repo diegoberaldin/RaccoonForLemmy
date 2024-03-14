@@ -103,11 +103,15 @@ class PostListViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
-                    applyListingType(evt.value)
+                    if (evt.screenKey == "postList") {
+                        applyListingType(evt.value)
+                    }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    applySortType(evt.value)
+                    if (evt.screenKey == "postList") {
+                        applySortType(evt.value)
+                    }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                 handleLogout()

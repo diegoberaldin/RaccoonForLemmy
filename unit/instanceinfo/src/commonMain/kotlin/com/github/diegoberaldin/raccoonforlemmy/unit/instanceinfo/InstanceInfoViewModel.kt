@@ -42,7 +42,9 @@ class InstanceInfoViewModel(
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    changeSortType(evt.value)
+                    if (evt.screenKey == "instanceInfo") {
+                        changeSortType(evt.value)
+                    }
                 }.launchIn(this)
 
             val metadata = siteRepository.getMetadata(url)

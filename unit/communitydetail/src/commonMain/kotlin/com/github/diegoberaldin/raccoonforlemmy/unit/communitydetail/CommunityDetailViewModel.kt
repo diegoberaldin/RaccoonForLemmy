@@ -151,11 +151,13 @@ class CommunityDetailViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    if (evt.defaultForCommunity) {
-                        val handle = uiState.value.community.readableHandle
-                        communitySortRepository.saveSort(handle, evt.value.toInt())
+                    if (evt.screenKey == uiState.value.community.readableHandle) {
+                        if (evt.defaultForCommunity) {
+                            val handle = uiState.value.community.readableHandle
+                            communitySortRepository.saveSort(handle, evt.value.toInt())
+                        }
+                        applySortType(evt.value)
                     }
-                    applySortType(evt.value)
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)

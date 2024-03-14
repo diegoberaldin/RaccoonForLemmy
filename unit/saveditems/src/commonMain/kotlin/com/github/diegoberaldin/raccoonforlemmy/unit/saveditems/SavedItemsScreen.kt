@@ -112,6 +112,7 @@ class SavedItemsScreen : Screen {
                                 onClick = rememberCallback {
                                     val sheet = SortBottomSheet(
                                         values = uiState.availableSortTypes.map { it.toInt() },
+                                        screenKey = "savedItems",
                                     )
                                     navigatorCoordinator.showBottomSheet(sheet)
                                 },

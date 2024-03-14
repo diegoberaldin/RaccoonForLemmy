@@ -79,7 +79,9 @@ class MultiCommunityViewModel(
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    applySortType(evt.value)
+                    if (evt.screenKey == "multiCommunity") {
+                        applySortType(evt.value)
+                    }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
