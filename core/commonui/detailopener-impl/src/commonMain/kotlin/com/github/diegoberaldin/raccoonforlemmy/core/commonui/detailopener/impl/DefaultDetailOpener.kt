@@ -49,7 +49,9 @@ class DefaultDetailOpener(
                     defaultResult
                 }
             }
-            itemCache.putCommunity(actualCommunity)
+            withContext(Dispatchers.IO) {
+                itemCache.putCommunity(actualCommunity)
+            }
             navigationCoordinator.pushScreen(
                 CommunityDetailScreen(
                     communityId = actualCommunity.id,
@@ -61,7 +63,9 @@ class DefaultDetailOpener(
 
     override fun openUserDetail(user: UserModel, otherInstance: String) {
         scope.launch {
-            itemCache.putUser(user)
+            withContext(Dispatchers.IO) {
+                itemCache.putUser(user)
+            }
             navigationCoordinator.pushScreen(
                 UserDetailScreen(
                     userId = user.id,
@@ -78,7 +82,9 @@ class DefaultDetailOpener(
         isMod: Boolean,
     ) {
         scope.launch {
-            itemCache.putPost(post)
+            withContext(Dispatchers.IO) {
+                itemCache.putPost(post)
+            }
             navigationCoordinator.pushScreen(
                 PostDetailScreen(
                     postId = post.id,
@@ -98,14 +104,16 @@ class DefaultDetailOpener(
         initialText: String?,
     ) {
         scope.launch {
-            if (originalPost != null) {
-                itemCache.putPost(originalPost)
-            }
-            if (originalComment != null) {
-                itemCache.putComment(originalComment)
-            }
-            if (editedComment != null) {
-                itemCache.putComment(editedComment)
+            withContext(Dispatchers.IO) {
+                if (originalPost != null) {
+                    itemCache.putPost(originalPost)
+                }
+                if (originalComment != null) {
+                    itemCache.putComment(originalComment)
+                }
+                if (editedComment != null) {
+                    itemCache.putComment(editedComment)
+                }
             }
             val screen = CreateCommentScreen(
                 draftId = draftId,
@@ -127,13 +135,16 @@ class DefaultDetailOpener(
         initialTitle: String?,
         initialUrl: String?,
         initialNsfw: Boolean?,
+        forceCommunitySelection: Boolean,
     ) {
         scope.launch {
-            if (editedPost != null) {
-                itemCache.putPost(editedPost)
-            }
-            if (crossPost != null) {
-                itemCache.putPost(crossPost)
+            withContext(Dispatchers.IO) {
+                if (editedPost != null) {
+                    itemCache.putPost(editedPost)
+                }
+                if (crossPost != null) {
+                    itemCache.putPost(crossPost)
+                }
             }
             val screen = CreatePostScreen(
                 draftId = draftId,
@@ -144,6 +155,7 @@ class DefaultDetailOpener(
                 initialTitle = initialTitle,
                 initialUrl = initialUrl,
                 initialNsfw = initialNsfw,
+                forceCommunitySelection = forceCommunitySelection,
             )
             navigationCoordinator.pushScreen(screen)
         }

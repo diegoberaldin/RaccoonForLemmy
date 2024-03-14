@@ -58,7 +58,7 @@ fun DraftCard(
     postLayout: PostLayout,
     modifier: Modifier = Modifier,
     options: List<Option> = emptyList(),
-    onOpen: (() -> Unit?)? = null,
+    onOpen: () -> Unit,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     Box(
@@ -76,11 +76,7 @@ fun DraftCard(
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }
-        ).onClick(
-            onClick = rememberCallback {
-                onOpen?.invoke()
-            },
-        ),
+        ).onClick(onClick = onOpen),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
@@ -118,6 +114,7 @@ fun DraftCard(
                             horizontal = Spacing.xs,
                         ),
                         text = title,
+                        onClick = onOpen,
                     )
                 }
             }
@@ -128,7 +125,8 @@ fun DraftCard(
                         horizontal = Spacing.xs,
                     ),
                     text = draft.body,
-                    maxLines = 50,
+                    maxLines = 40,
+                    onClick = onOpen
                 )
             }
             DraftFooter(

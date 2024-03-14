@@ -42,5 +42,6 @@ interface DetailOpener {
         initialTitle: String? = null,
         initialUrl: String? = null,
         initialNsfw: Boolean? = null,
+        forceCommunitySelection: Boolean = false,
     )
 }
