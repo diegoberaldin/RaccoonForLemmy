@@ -51,7 +51,7 @@ class ManageBanViewModel(
             }
 
             ManageBanMviModel.Intent.Refresh -> {
-                screenModelScope.launch(Dispatchers.IO) {
+                screenModelScope.launch {
                     refresh()
                 }
             }
@@ -76,7 +76,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanUser(id: Int) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 userRepository.block(
@@ -92,7 +92,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanCommunity(id: Int) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 communityRepository.block(
@@ -108,7 +108,7 @@ class ManageBanViewModel(
     }
 
     private fun unbanInstance(id: Int) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
                 siteRepository.block(

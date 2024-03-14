@@ -5,8 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class CreateReportViewModel(
@@ -39,7 +37,7 @@ class CreateReportViewModel(
         val text = uiState.value.text
 
         updateState { it.copy(loading = true) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 if (postId != null) {

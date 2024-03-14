@@ -13,8 +13,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -75,11 +73,11 @@ class InboxMentionsViewModel(
 
     override fun reduce(intent: InboxMentionsMviModel.Intent) {
         when (intent) {
-            InboxMentionsMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            InboxMentionsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
 
-            InboxMentionsMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
+            InboxMentionsMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
             }
 
@@ -120,7 +118,7 @@ class InboxMentionsViewModel(
 
     private fun changeUnreadOnly(value: Boolean) {
         updateState { it.copy(unreadOnly = value) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             refresh(initial = true)
             emitEffect(InboxMentionsMviModel.Effect.BackToTop)
         }
@@ -181,7 +179,7 @@ class InboxMentionsViewModel(
 
     private fun markAsRead(read: Boolean, mention: PersonMentionModel) {
         val auth = identityRepository.authToken.value
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             userRepository.setMentionRead(
                 read = read,
                 mentionId = mention.id,
@@ -215,7 +213,7 @@ class InboxMentionsViewModel(
             score = newComment.score,
         )
         handleItemUpdate(newMention)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -237,7 +235,7 @@ class InboxMentionsViewModel(
             score = newComment.score,
         )
         handleItemUpdate(newMention)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -252,7 +250,7 @@ class InboxMentionsViewModel(
     }
 
     private fun updateUnreadItems() {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val unreadCount = coordinator.updateUnreadCount()
             emitEffect(InboxMentionsMviModel.Effect.UpdateUnreadItems(unreadCount))
         }

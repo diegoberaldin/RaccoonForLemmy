@@ -20,8 +20,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.Communit
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -145,7 +143,7 @@ class CreatePostViewModel(
         val communityId = community.id
         val name = community.readableName(preferNicknames)
         val auth = identityRepository.authToken.value.orEmpty()
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val communityInfo = name.ifEmpty {
                 val remoteCommunity = communityRepository.get(auth = auth, id = communityId)
                 remoteCommunity?.name.orEmpty()
@@ -163,7 +161,7 @@ class CreatePostViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
@@ -180,7 +178,7 @@ class CreatePostViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
@@ -254,7 +252,7 @@ class CreatePostViewModel(
         }
 
         updateState { it.copy(loading = true) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 when {

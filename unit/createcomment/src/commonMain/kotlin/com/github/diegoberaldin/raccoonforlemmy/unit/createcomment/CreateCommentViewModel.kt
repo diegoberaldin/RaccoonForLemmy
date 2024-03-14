@@ -17,8 +17,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentR
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -154,7 +152,7 @@ class CreateCommentViewModel(
         }
 
         updateState { it.copy(loading = true) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 if (postId != null) {
@@ -201,7 +199,7 @@ class CreateCommentViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)

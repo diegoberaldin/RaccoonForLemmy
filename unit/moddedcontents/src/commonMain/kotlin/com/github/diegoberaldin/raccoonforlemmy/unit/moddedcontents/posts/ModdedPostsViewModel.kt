@@ -73,7 +73,7 @@ class ModdedPostsViewModel(
             }
 
             ModdedPostsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            ModdedPostsMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            ModdedPostsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
 
@@ -118,7 +118,7 @@ class ModdedPostsViewModel(
                 initial = initial,
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             loadNextPage()
         }
     }
@@ -195,7 +195,7 @@ class ModdedPostsViewModel(
             voted = newValue,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -220,7 +220,7 @@ class ModdedPostsViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(

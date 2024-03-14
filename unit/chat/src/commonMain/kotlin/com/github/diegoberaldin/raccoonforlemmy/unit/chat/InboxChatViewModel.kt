@@ -11,8 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -36,7 +34,7 @@ class InboxChatViewModel(
 
     init {
         screenModelScope.launch {
-            launch(Dispatchers.IO) {
+            launch {
                 val auth = identityRepository.authToken.value.orEmpty()
 
                 settingsRepository.currentSettings.onEach { settings ->
@@ -77,7 +75,7 @@ class InboxChatViewModel(
     override fun reduce(intent: InboxChatMviModel.Intent) {
         when (intent) {
             InboxChatMviModel.Intent.LoadNextPage -> {
-                screenModelScope.launch(Dispatchers.IO) {
+                screenModelScope.launch {
                     loadNextPage()
                 }
             }
@@ -164,7 +162,7 @@ class InboxChatViewModel(
 
     private fun markAsRead(read: Boolean, messageId: Int) {
         val auth = identityRepository.authToken.value
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val newMessage = messageRepository.markAsRead(
                 read = read,
                 messageId = messageId,
@@ -194,7 +192,7 @@ class InboxChatViewModel(
         if (bytes.isEmpty()) {
             return
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val url = postRepository.uploadImage(auth, bytes)
@@ -221,7 +219,7 @@ class InboxChatViewModel(
         val editedMessageId = uiState.value.editedMessageId
         val isEditing = editedMessageId != null
         if (text.isNotEmpty()) {
-            screenModelScope.launch(Dispatchers.IO) {
+            screenModelScope.launch {
                 val auth = identityRepository.authToken.value
                 val newMessage = if (isEditing) {
                     messageRepository.edit(
@@ -265,7 +263,7 @@ class InboxChatViewModel(
     }
 
     private fun deleteMessage(message: PrivateMessageModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value
             runCatching {
                 messageRepository.delete(

@@ -9,8 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftType
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DraftRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -62,7 +60,7 @@ class DraftsViewModel(
                 initial = initial,
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val currentState = uiState.value
             updateState { it.copy(loading = true) }
             val refreshing = currentState.refreshing

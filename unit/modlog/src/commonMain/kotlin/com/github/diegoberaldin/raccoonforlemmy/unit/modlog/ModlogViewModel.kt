@@ -6,8 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.ModlogRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -48,7 +46,7 @@ class ModlogViewModel(
     override fun reduce(intent: ModlogMviModel.Intent) {
         when (intent) {
             ModlogMviModel.Intent.Refresh -> refresh()
-            ModlogMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            ModlogMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
         }
@@ -63,7 +61,7 @@ class ModlogViewModel(
                 initial = initial,
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             loadNextPage()
         }
     }
@@ -75,7 +73,7 @@ class ModlogViewModel(
             return
         }
 
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val refreshing = currentState.refreshing

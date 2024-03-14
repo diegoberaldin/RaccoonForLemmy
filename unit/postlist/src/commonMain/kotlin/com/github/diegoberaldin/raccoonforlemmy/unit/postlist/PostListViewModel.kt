@@ -158,7 +158,7 @@ class PostListViewModel(
                 sortType = settings.defaultPostSortType.toSortType(),
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             refresh()
             emitEffect(PostListMviModel.Effect.BackToTop)
         }
@@ -171,11 +171,11 @@ class PostListViewModel(
 
     override fun reduce(intent: PostListMviModel.Intent) {
         when (intent) {
-            PostListMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            PostListMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
 
-            PostListMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
+            PostListMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
             }
 
@@ -335,7 +335,7 @@ class PostListViewModel(
             return
         }
         updateState { it.copy(sortType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             emitEffect(PostListMviModel.Effect.BackToTop)
             refresh()
         }

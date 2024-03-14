@@ -122,11 +122,11 @@ class ProfileLoggedViewModel(
             is ProfileLoggedMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is ProfileLoggedMviModel.Intent.DeleteComment -> deleteComment(intent.id)
             is ProfileLoggedMviModel.Intent.DeletePost -> deletePost(intent.id)
-            ProfileLoggedMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            ProfileLoggedMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
 
-            ProfileLoggedMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
+            ProfileLoggedMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
             }
 
@@ -353,7 +353,7 @@ class ProfileLoggedViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -375,7 +375,7 @@ class ProfileLoggedViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -397,7 +397,7 @@ class ProfileLoggedViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -419,7 +419,7 @@ class ProfileLoggedViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -438,7 +438,7 @@ class ProfileLoggedViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -460,7 +460,7 @@ class ProfileLoggedViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(

@@ -12,6 +12,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ZoomableImageViewModel(
     private val settingsRepository: SettingsRepository,
@@ -47,7 +48,7 @@ class ZoomableImageViewModel(
 
     private fun downloadAndSave(url: String, folder: String) {
         val imageSourcePath = settingsRepository.currentSettings.value.imageSourcePath
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
             try {
                 val bytes = galleryHelper.download(url)
@@ -55,11 +56,13 @@ class ZoomableImageViewModel(
                     val idx = s.lastIndexOf(".").takeIf { it >= 0 } ?: s.length
                     s.substring(idx).takeIf { it.isNotEmpty() } ?: ".jpeg"
                 }
-                galleryHelper.saveToGallery(
-                    bytes = bytes,
-                    name = "${epochMillis()}$extension",
-                    additionalPathSegment = folder.takeIf { imageSourcePath },
-                )
+                withContext(Dispatchers.IO) {
+                    galleryHelper.saveToGallery(
+                        bytes = bytes,
+                        name = "${epochMillis()}$extension",
+                        additionalPathSegment = folder.takeIf { imageSourcePath },
+                    )
+                }
                 emitEffect(ZoomableImageMviModel.Effect.ShareSuccess)
             } catch (e: Throwable) {
                 e.printStackTrace()

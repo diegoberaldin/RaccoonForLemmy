@@ -12,8 +12,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -66,7 +64,7 @@ class ReportListViewModel(
             is ReportListMviModel.Intent.ChangeSection -> changeSection(intent.value)
             is ReportListMviModel.Intent.ChangeUnresolvedOnly -> changeUnresolvedOnly(intent.value)
             ReportListMviModel.Intent.Refresh -> refresh()
-            ReportListMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            ReportListMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
 
@@ -108,7 +106,7 @@ class ReportListViewModel(
                 initial = initial,
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             loadNextPage()
         }
     }
@@ -197,7 +195,7 @@ class ReportListViewModel(
     }
 
     private fun resolve(report: PostReportModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(asyncInProgress = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val newReport = postRepository.resolveReport(
@@ -217,7 +215,7 @@ class ReportListViewModel(
     }
 
     private fun resolve(report: CommentReportModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(asyncInProgress = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             val newReport = commentRepository.resolveReport(

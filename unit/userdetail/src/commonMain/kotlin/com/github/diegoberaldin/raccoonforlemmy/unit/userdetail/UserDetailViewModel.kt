@@ -158,11 +158,11 @@ class UserDetailViewModel(
             }
 
             UserDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            UserDetailMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            UserDetailMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
 
-            UserDetailMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
+            UserDetailMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
             }
 
@@ -230,7 +230,7 @@ class UserDetailViewModel(
     }
 
     private fun updateAvailableSortTypes() {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val sortTypes = if (uiState.value.section == UserDetailSection.Posts) {
                 getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
             } else {
@@ -382,7 +382,7 @@ class UserDetailViewModel(
             voted = newVote,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -404,7 +404,7 @@ class UserDetailViewModel(
             downVoted = newValue,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -426,7 +426,7 @@ class UserDetailViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -448,7 +448,7 @@ class UserDetailViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -467,7 +467,7 @@ class UserDetailViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -489,7 +489,7 @@ class UserDetailViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(

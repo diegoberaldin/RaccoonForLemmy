@@ -168,7 +168,7 @@ class SavedItemsViewModel(
             return
         }
 
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
             val user = siteRepository.getCurrentUser(auth.orEmpty()) ?: return@launch
@@ -280,7 +280,7 @@ class SavedItemsViewModel(
             voted = newValue,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(

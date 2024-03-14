@@ -24,7 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepo
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.populateLoadMoreComments
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.sortToNestedOrder
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -232,13 +231,13 @@ class PostDetailViewModel(
 
     override fun reduce(intent: PostDetailMviModel.Intent) {
         when (intent) {
-            PostDetailMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            PostDetailMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 if (!uiState.value.initial) {
                     loadNextPage()
                 }
             }
 
-            PostDetailMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
+            PostDetailMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
             }
 
@@ -326,7 +325,7 @@ class PostDetailViewModel(
     }
 
     private fun refreshPost() {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value
             val updatedPost = postRepository.get(
                 id = postId,
@@ -416,7 +415,7 @@ class PostDetailViewModel(
             return
         }
         updateState { it.copy(sortType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             emitEffect(PostDetailMviModel.Effect.BackToTop)
             refresh()
         }
@@ -429,7 +428,7 @@ class PostDetailViewModel(
     }
 
     private fun loadMoreComments(parentId: Int, loadUntilHighlight: Boolean = false) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val currentState = uiState.value
             val auth = identityRepository.authToken.value
             val sort = currentState.sortType
@@ -482,7 +481,7 @@ class PostDetailViewModel(
             voted = newValue,
         )
         updateState { it.copy(post = newPost) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -511,7 +510,7 @@ class PostDetailViewModel(
         updateState {
             it.copy(post = newPost)
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -536,7 +535,7 @@ class PostDetailViewModel(
             saved = newValue,
         )
         updateState { it.copy(post = newPost) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -575,7 +574,7 @@ class PostDetailViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -597,7 +596,7 @@ class PostDetailViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -622,7 +621,7 @@ class PostDetailViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -641,7 +640,7 @@ class PostDetailViewModel(
     }
 
     private fun deleteComment(id: Int) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             handleCommentDelete(id)
@@ -654,7 +653,7 @@ class PostDetailViewModel(
     }
 
     private fun deletePost() {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = postId, auth = auth)
             notificationCenter.send(
@@ -697,7 +696,7 @@ class PostDetailViewModel(
     }
 
     private fun feature(post: PostModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.featureInCommunity(
                 postId = post.id,
@@ -711,7 +710,7 @@ class PostDetailViewModel(
     }
 
     private fun lock(post: PostModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.lock(
                 postId = post.id,
@@ -725,7 +724,7 @@ class PostDetailViewModel(
     }
 
     private fun distinguish(comment: CommentModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             val newComment = commentRepository.distinguish(
                 commentId = comment.id,
@@ -739,7 +738,7 @@ class PostDetailViewModel(
     }
 
     private fun toggleModeratorStatus(userId: Int) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val isModerator = uiState.value.moderators.containsId(userId)
             val auth = identityRepository.authToken.value.orEmpty()
             val post = uiState.value.post

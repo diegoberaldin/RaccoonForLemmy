@@ -122,13 +122,13 @@ class ModalDrawerViewModel(
 
     override fun reduce(intent: ModalDrawerMviModel.Intent) {
         when (intent) {
-            ModalDrawerMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
+            ModalDrawerMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
             }
 
             is ModalDrawerMviModel.Intent.SetSearch -> {
                 updateState { it.copy(searchText = intent.value) }
-                screenModelScope.launch(Dispatchers.IO) {
+                screenModelScope.launch {
                     searchEventChannel.send(Unit)
                 }
             }

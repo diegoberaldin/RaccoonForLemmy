@@ -71,11 +71,11 @@ class InboxMessagesViewModel(
 
     override fun reduce(intent: InboxMessagesMviModel.Intent) {
         when (intent) {
-            InboxMessagesMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            InboxMessagesMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
 
-            InboxMessagesMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
+            InboxMessagesMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
             }
         }
@@ -99,7 +99,7 @@ class InboxMessagesViewModel(
             return
         }
         updateState { it.copy(unreadOnly = value) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             refresh(initial = true)
             emitEffect(InboxMessagesMviModel.Effect.BackToTop)
         }
@@ -152,7 +152,7 @@ class InboxMessagesViewModel(
     }
 
     private fun updateUnreadItems() {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val unreadCount = coordinator.updateUnreadCount()
             emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
         }

@@ -9,8 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -54,7 +52,7 @@ class ModdedCommentsViewModel(
 
     override fun reduce(intent: ModdedCommentsMviModel.Intent) {
         when (intent) {
-            ModdedCommentsMviModel.Intent.LoadNextPage -> screenModelScope.launch(Dispatchers.IO) {
+            ModdedCommentsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
 
@@ -106,7 +104,7 @@ class ModdedCommentsViewModel(
                 initial = initial,
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             loadNextPage()
         }
     }
@@ -180,7 +178,7 @@ class ModdedCommentsViewModel(
             voted = newValue,
         )
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -199,7 +197,7 @@ class ModdedCommentsViewModel(
         val newValue = comment.myVote >= 0
         val newComment = commentRepository.asDownVoted(comment, newValue)
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -221,7 +219,7 @@ class ModdedCommentsViewModel(
             saved = newValue,
         )
         handleCommentUpdate(newComment)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -237,7 +235,7 @@ class ModdedCommentsViewModel(
     }
 
     private fun distinguish(comment: CommentModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             val newComment = commentRepository.distinguish(
                 commentId = comment.id,

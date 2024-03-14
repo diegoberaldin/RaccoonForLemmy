@@ -12,7 +12,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LoginUse
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -114,7 +113,7 @@ class LoginViewModel(
             return
         }
 
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
 
             val res = communityRepository.getList(

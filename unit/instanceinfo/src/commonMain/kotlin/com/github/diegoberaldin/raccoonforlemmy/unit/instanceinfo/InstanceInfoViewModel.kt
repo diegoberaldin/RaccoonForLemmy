@@ -10,8 +10,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -86,7 +84,7 @@ class InstanceInfoViewModel(
             return
         }
 
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(loading = true) }
             val refreshing = currentState.refreshing
             val instance = url.replace("https://", "")
@@ -128,7 +126,7 @@ class InstanceInfoViewModel(
 
     private fun changeSortType(value: SortType) {
         updateState { it.copy(sortType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             emitEffect(InstanceInfoMviModel.Effect.BackToTop)
             refresh()
         }

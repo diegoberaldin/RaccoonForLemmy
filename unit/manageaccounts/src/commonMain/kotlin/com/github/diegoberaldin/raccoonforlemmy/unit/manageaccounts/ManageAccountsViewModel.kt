@@ -11,7 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.DeleteAc
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.LogoutUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.SwitchAccountUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -58,13 +57,13 @@ class ManageAccountsViewModel(
             is ManageAccountsMviModel.Intent.DeleteAccount -> {
                 uiState.value.accounts.getOrNull(intent.index)?.also { account ->
                     if (account.active) {
-                        screenModelScope.launch(Dispatchers.IO) {
+                        screenModelScope.launch {
                             logout()
                             deleteAccount(account)
                             close()
                         }
                     } else {
-                        screenModelScope.launch(Dispatchers.IO) {
+                        screenModelScope.launch {
                             deleteAccount(account)
                             updateState {
                                 it.copy(accounts = it.accounts.filter { a -> a.id != account.id })
@@ -80,7 +79,7 @@ class ManageAccountsViewModel(
         if (account.active) {
             return
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             switchAccount(account)
             notificationCenter.send(NotificationCenterEvent.ResetHome)
             notificationCenter.send(NotificationCenterEvent.ResetExplore)
