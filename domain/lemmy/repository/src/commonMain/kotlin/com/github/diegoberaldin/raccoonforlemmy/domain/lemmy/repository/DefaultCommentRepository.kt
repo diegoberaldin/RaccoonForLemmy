@@ -19,6 +19,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.to
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toCommentDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 
 internal class DefaultCommentRepository(
     private val services: ServiceProvider,
@@ -34,46 +37,50 @@ internal class DefaultCommentRepository(
         type: ListingType,
         sort: SortType,
         maxDepth: Int,
-    ): List<CommentModel>? = runCatching {
-        val response = if (instance.isNullOrEmpty()) {
-            services.comment.getAll(
-                authHeader = auth.toAuthHeader(),
-                auth = auth,
-                postId = postId,
-                page = page,
-                limit = limit,
-                type = type.toDto(),
-                sort = sort.toCommentDto(),
-                maxDepth = maxDepth,
-            )
-        } else {
-            customServices.changeInstance(instance)
-            customServices.comment.getAll(
-                postId = postId,
-                page = page,
-                limit = limit,
-                type = type.toDto(),
-                sort = sort.toCommentDto(),
-                maxDepth = maxDepth,
-            )
-        }
-        val dto = response.body()?.comments ?: emptyList()
-        dto.map { it.toModel() }
-    }.getOrNull()
-
-    override suspend fun getBy(id: Int, auth: String?, instance: String?): CommentModel? =
+    ): List<CommentModel>? = withContext(Dispatchers.IO) {
         runCatching {
-            if (instance.isNullOrEmpty()) {
-                services.comment.getBy(
+            val response = if (instance.isNullOrEmpty()) {
+                services.comment.getAll(
                     authHeader = auth.toAuthHeader(),
-                    id = id,
                     auth = auth,
-                ).body()
+                    postId = postId,
+                    page = page,
+                    limit = limit,
+                    type = type.toDto(),
+                    sort = sort.toCommentDto(),
+                    maxDepth = maxDepth,
+                )
             } else {
                 customServices.changeInstance(instance)
-                customServices.comment.getBy(id = id).body()
-            }?.commentView?.toModel()
+                customServices.comment.getAll(
+                    postId = postId,
+                    page = page,
+                    limit = limit,
+                    type = type.toDto(),
+                    sort = sort.toCommentDto(),
+                    maxDepth = maxDepth,
+                )
+            }
+            val dto = response.body()?.comments ?: emptyList()
+            dto.map { it.toModel() }
         }.getOrNull()
+    }
+
+    override suspend fun getBy(id: Int, auth: String?, instance: String?): CommentModel? =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                if (instance.isNullOrEmpty()) {
+                    services.comment.getBy(
+                        authHeader = auth.toAuthHeader(),
+                        id = id,
+                        auth = auth,
+                    ).body()
+                } else {
+                    customServices.changeInstance(instance)
+                    customServices.comment.getBy(id = id).body()
+                }?.commentView?.toModel()
+            }.getOrNull()
+        }
 
     override suspend fun getChildren(
         parentId: Int,
@@ -83,30 +90,32 @@ internal class DefaultCommentRepository(
         type: ListingType,
         sort: SortType,
         maxDepth: Int,
-    ): List<CommentModel>? = runCatching {
-        val response = if (instance.isNullOrEmpty()) {
-            services.comment.getAll(
-                authHeader = auth.toAuthHeader(),
-                auth = auth,
-                parentId = parentId,
-                limit = limit,
-                type = type.toDto(),
-                sort = sort.toCommentDto(),
-                maxDepth = maxDepth,
-            )
-        } else {
-            customServices.changeInstance(instance)
-            customServices.comment.getAll(
-                parentId = parentId,
-                limit = limit,
-                type = type.toDto(),
-                sort = sort.toCommentDto(),
-                maxDepth = maxDepth,
-            )
-        }
-        val dto = response.body()?.comments ?: emptyList()
-        dto.map { it.toModel() }
-    }.getOrNull()
+    ): List<CommentModel>? = withContext(Dispatchers.IO) {
+        runCatching {
+            val response = if (instance.isNullOrEmpty()) {
+                services.comment.getAll(
+                    authHeader = auth.toAuthHeader(),
+                    auth = auth,
+                    parentId = parentId,
+                    limit = limit,
+                    type = type.toDto(),
+                    sort = sort.toCommentDto(),
+                    maxDepth = maxDepth,
+                )
+            } else {
+                customServices.changeInstance(instance)
+                customServices.comment.getAll(
+                    parentId = parentId,
+                    limit = limit,
+                    type = type.toDto(),
+                    sort = sort.toCommentDto(),
+                    maxDepth = maxDepth,
+                )
+            }
+            val dto = response.body()?.comments ?: emptyList()
+            dto.map { it.toModel() }
+        }.getOrNull()
+    }
 
     override fun asUpVoted(comment: CommentModel, voted: Boolean) = comment.copy(
         myVote = if (voted) 1 else 0,
@@ -144,13 +153,19 @@ internal class DefaultCommentRepository(
         }
     )
 
-    override suspend fun upVote(comment: CommentModel, auth: String, voted: Boolean) {
-        val data = CreateCommentLikeForm(
-            commentId = comment.id,
-            score = if (voted) 1 else 0,
-            auth = auth,
-        )
-        services.comment.like(authHeader = auth.toAuthHeader(), form = data)
+    override suspend fun upVote(
+        comment: CommentModel,
+        auth: String,
+        voted: Boolean,
+    ) = withContext(Dispatchers.IO) {
+        runCatching {
+            val data = CreateCommentLikeForm(
+                commentId = comment.id,
+                score = if (voted) 1 else 0,
+                auth = auth,
+            )
+            services.comment.like(authHeader = auth.toAuthHeader(), form = data)
+        }
     }
 
     override fun asDownVoted(comment: CommentModel, downVoted: Boolean) = comment.copy(
@@ -190,13 +205,15 @@ internal class DefaultCommentRepository(
     )
 
     override suspend fun downVote(comment: CommentModel, auth: String, downVoted: Boolean) =
-        runCatching {
-            val data = CreateCommentLikeForm(
-                commentId = comment.id,
-                score = if (downVoted) -1 else 0,
-                auth = auth,
-            )
-            services.comment.like(authHeader = auth.toAuthHeader(), form = data)
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data = CreateCommentLikeForm(
+                    commentId = comment.id,
+                    score = if (downVoted) -1 else 0,
+                    auth = auth,
+                )
+                services.comment.like(authHeader = auth.toAuthHeader(), form = data)
+            }
         }
 
     override fun asSaved(comment: CommentModel, saved: Boolean) = comment.copy(saved = saved)
@@ -216,94 +233,107 @@ internal class DefaultCommentRepository(
         text: String,
         languageId: Int?,
         auth: String,
-    ) = runCatching {
-        val data = CreateCommentForm(
-            content = text,
-            postId = postId,
-            parentId = parentId,
-            languageId = languageId,
-            auth = auth,
-        )
-        services.comment.create(authHeader = auth.toAuthHeader(), form = data)
-        Unit
-    }.getOrDefault(Unit)
+    ) = withContext(Dispatchers.IO) {
+        runCatching {
+            val data = CreateCommentForm(
+                content = text,
+                postId = postId,
+                parentId = parentId,
+                languageId = languageId,
+                auth = auth,
+            )
+            services.comment.create(authHeader = auth.toAuthHeader(), form = data)
+            Unit
+        }.getOrDefault(Unit)
+    }
 
     override suspend fun edit(
         commentId: Int,
         text: String,
         languageId: Int?,
         auth: String,
-    ) = runCatching {
-        val data = EditCommentForm(
-            content = text,
-            commentId = commentId,
-            languageId = languageId,
-            auth = auth,
-        )
-        services.comment.edit(authHeader = auth.toAuthHeader(), form = data)
-        Unit
-    }.getOrDefault(Unit)
+    ) = withContext(Dispatchers.IO) {
+        runCatching {
+            val data = EditCommentForm(
+                content = text,
+                commentId = commentId,
+                languageId = languageId,
+                auth = auth,
+            )
+            services.comment.edit(authHeader = auth.toAuthHeader(), form = data)
+            Unit
+        }.getOrDefault(Unit)
+    }
 
     override suspend fun delete(
         commentId: Int,
         auth: String,
-    ) = runCatching {
-        val data = DeleteCommentForm(
-            commentId = commentId,
-            deleted = true,
-        )
-        services.comment.delete(authHeader = auth.toAuthHeader(), form = data)
-        Unit
-    }.getOrDefault(Unit)
+    ) = withContext(Dispatchers.IO) {
+        runCatching {
+            val data = DeleteCommentForm(
+                commentId = commentId,
+                deleted = true,
+            )
+            services.comment.delete(authHeader = auth.toAuthHeader(), form = data)
+            Unit
+        }.getOrDefault(Unit)
+    }
 
-    override suspend fun report(commentId: Int, reason: String, auth: String) = runCatching {
-        val data = CreateCommentReportForm(
-            commentId = commentId,
-            reason = reason,
-            auth = auth,
-        )
-        services.comment.createReport(
-            form = data,
-            authHeader = auth.toAuthHeader(),
-        )
-        Unit
-    }.getOrDefault(Unit)
+    override suspend fun report(commentId: Int, reason: String, auth: String) =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data = CreateCommentReportForm(
+                    commentId = commentId,
+                    reason = reason,
+                    auth = auth,
+                )
+                services.comment.createReport(
+                    form = data,
+                    authHeader = auth.toAuthHeader(),
+                )
+                Unit
+            }.getOrDefault(Unit)
+        }
 
     override suspend fun remove(
         commentId: Int,
         auth: String,
         removed: Boolean,
         reason: String,
-    ): CommentModel? = runCatching {
-        val data = RemoveCommentForm(
-            commentId = commentId,
-            removed = removed,
-            reason = reason,
-            auth = auth,
-        )
-        val response = services.comment.remove(
-            form = data,
-            authHeader = auth.toAuthHeader(),
-        )
-        response.body()?.commentView?.toModel()
-    }.getOrNull()
+    ): CommentModel? = withContext(Dispatchers.IO) {
+        runCatching {
+            val data = RemoveCommentForm(
+                commentId = commentId,
+                removed = removed,
+                reason = reason,
+                auth = auth,
+            )
+            val response = services.comment.remove(
+                form = data,
+                authHeader = auth.toAuthHeader(),
+            )
+            response.body()?.commentView?.toModel()
+        }.getOrNull()
+    }
 
     override suspend fun distinguish(
         commentId: Int,
         auth: String,
         distinguished: Boolean,
-    ): CommentModel? = runCatching {
-        val data = DistinguishCommentForm(
-            commentId = commentId,
-            distinguished = distinguished,
-            auth = auth,
-        )
-        val response = services.comment.distinguish(
-            form = data,
-            authHeader = auth.toAuthHeader(),
-        )
-        response.body()?.commentView?.toModel()
-    }.getOrNull()
+    ): CommentModel? = withContext(Dispatchers.IO) {
+        runCatching {
+            val data = DistinguishCommentForm(
+                commentId = commentId,
+                distinguished = distinguished,
+                auth = auth,
+            )
+            val response = services.comment.distinguish(
+                form = data,
+                authHeader = auth.toAuthHeader(),
+            )
+            response.body()?.commentView?.toModel()
+        }.getOrNull()
+    }
 
     override suspend fun getReports(
         auth: String,
@@ -311,34 +341,38 @@ internal class DefaultCommentRepository(
         page: Int,
         limit: Int,
         unresolvedOnly: Boolean,
-    ): List<CommentReportModel>? = runCatching {
-        val response = services.comment.listReports(
-            authHeader = auth.toAuthHeader(),
-            auth = auth,
-            communityId = communityId,
-            page = page,
-            limit = limit,
-            unresolvedOnly = unresolvedOnly
-        )
-        response.body()?.commentReports?.map {
-            it.toModel()
-        }
-    }.getOrNull()
+    ): List<CommentReportModel>? = withContext(Dispatchers.IO) {
+        runCatching {
+            val response = services.comment.listReports(
+                authHeader = auth.toAuthHeader(),
+                auth = auth,
+                communityId = communityId,
+                page = page,
+                limit = limit,
+                unresolvedOnly = unresolvedOnly
+            )
+            response.body()?.commentReports?.map {
+                it.toModel()
+            }
+        }.getOrNull()
+    }
 
     override suspend fun resolveReport(
         reportId: Int,
         auth: String,
         resolved: Boolean,
-    ): CommentReportModel? = runCatching {
-        val data = ResolveCommentReportForm(
-            reportId = reportId,
-            resolved = resolved,
-            auth = auth,
-        )
-        val response = services.comment.resolveReport(
-            form = data,
-            authHeader = auth.toAuthHeader(),
-        )
-        response.body()?.commentReportView?.toModel()
-    }.getOrNull()
+    ): CommentReportModel? = withContext(Dispatchers.IO) {
+        runCatching {
+            val data = ResolveCommentReportForm(
+                reportId = reportId,
+                resolved = resolved,
+                auth = auth,
+            )
+            val response = services.comment.resolveReport(
+                form = data,
+                authHeader = auth.toAuthHeader(),
+            )
+            response.body()?.commentReportView?.toModel()
+        }.getOrNull()
+    }
 }

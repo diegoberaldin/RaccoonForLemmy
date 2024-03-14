@@ -41,7 +41,12 @@ interface CommentRepository {
     fun asUpVoted(comment: CommentModel, voted: Boolean): CommentModel
     fun asUpVoted(mention: PersonMentionModel, voted: Boolean): PersonMentionModel
 
-    suspend fun upVote(comment: CommentModel, auth: String, voted: Boolean)
+    suspend fun upVote(
+        comment: CommentModel,
+        auth: String,
+        voted: Boolean,
+    ): Result<Response<CommentResponse>>
+
     fun asDownVoted(comment: CommentModel, downVoted: Boolean): CommentModel
     fun asDownVoted(mention: PersonMentionModel, downVoted: Boolean): PersonMentionModel
 
