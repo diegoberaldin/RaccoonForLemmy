@@ -14,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.isValidUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
@@ -89,14 +90,7 @@ class CreatePostViewModel(
     override fun reduce(intent: CreatePostMviModel.Intent) {
         when (intent) {
             is CreatePostMviModel.Intent.SetCommunity -> {
-                val community = intent.value
-                val preferNicknames = uiState.value.preferNicknames
-                updateState {
-                    it.copy(
-                        communityId = community.id,
-                        communityInfo = community.readableName(preferNicknames),
-                    )
-                }
+                updateCommunity(intent.value)
             }
 
             is CreatePostMviModel.Intent.SetTitle -> {
@@ -143,6 +137,25 @@ class CreatePostViewModel(
             CreatePostMviModel.Intent.Send -> submit()
 
             CreatePostMviModel.Intent.SaveDraft -> saveDraft()
+        }
+    }
+
+    private fun updateCommunity(community: CommunityModel) {
+        val preferNicknames = uiState.value.preferNicknames
+        val communityId = community.id
+        val name = community.readableName(preferNicknames)
+        val auth = identityRepository.authToken.value.orEmpty()
+        screenModelScope.launch(Dispatchers.IO) {
+            val communityInfo = name.ifEmpty {
+                val remoteCommunity = communityRepository.get(auth = auth, id = communityId)
+                remoteCommunity?.name.orEmpty()
+            }
+            updateState {
+                it.copy(
+                    communityId = communityId,
+                    communityInfo = communityInfo,
+                )
+            }
         }
     }
 
@@ -298,8 +311,9 @@ class CreatePostViewModel(
             val accountId = accountRepository.getActive()?.id ?: return@launch
             updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value
-            val community =
-                communityId?.let { communityRepository.get(auth = auth, id = communityId) }
+            val community = communityId?.let {
+                communityRepository.get(auth = auth, id = communityId)
+            }
             val draft = DraftModel(
                 id = draftId,
                 type = DraftType.Post,

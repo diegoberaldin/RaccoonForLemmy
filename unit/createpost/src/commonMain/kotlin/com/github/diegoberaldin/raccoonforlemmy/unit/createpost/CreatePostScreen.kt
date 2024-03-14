@@ -94,6 +94,7 @@ class CreatePostScreen(
     private val initialTitle: String? = null,
     private val initialUrl: String? = null,
     private val initialNsfw: Boolean? = null,
+    private val forceCommunitySelection: Boolean = false,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -292,7 +293,7 @@ class CreatePostScreen(
                 modifier = Modifier.padding(padding).verticalScroll(rememberScrollState()),
             ) {
                 // community
-                if (crossPost != null) {
+                if (forceCommunitySelection) {
                     TextField(
                         modifier = Modifier.fillMaxWidth().onFocusChanged(
                             rememberCallbackArgs { state ->
