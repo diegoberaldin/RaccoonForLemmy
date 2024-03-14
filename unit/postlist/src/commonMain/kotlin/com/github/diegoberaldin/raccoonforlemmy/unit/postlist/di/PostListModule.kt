@@ -20,7 +20,6 @@ val postListModule = module {
             hapticFeedback = get(),
             zombieModeHelper = get(),
             imagePreloadManager = get(),
-            contentResetCoordinator = get(),
             getSortTypesUseCase = get(),
         )
     }

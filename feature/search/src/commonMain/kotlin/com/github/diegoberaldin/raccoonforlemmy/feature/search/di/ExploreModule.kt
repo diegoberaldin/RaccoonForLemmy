@@ -17,7 +17,6 @@ val exploreTabModule = module {
             settingsRepository = get(),
             notificationCenter = get(),
             hapticFeedback = get(),
-            contentResetCoordinator = get(),
             getSortTypesUseCase = get(),
         )
     }

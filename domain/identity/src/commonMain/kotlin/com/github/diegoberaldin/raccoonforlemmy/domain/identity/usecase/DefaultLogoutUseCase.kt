@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase
 
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
@@ -13,12 +12,11 @@ internal class DefaultLogoutUseCase(
     private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
     private val settingsRepository: SettingsRepository,
-    private val contentResetCoordinator: ContentResetCoordinator,
     private val communitySortRepository: CommunitySortRepository,
 ) : LogoutUseCase {
     override suspend operator fun invoke() {
-        contentResetCoordinator.resetHome = true
-        contentResetCoordinator.resetExplore = true
+        notificationCenter.send(NotificationCenterEvent.ResetExplore)
+        notificationCenter.send(NotificationCenterEvent.ResetHome)
 
         identityRepository.clearToken()
         communitySortRepository.clear()

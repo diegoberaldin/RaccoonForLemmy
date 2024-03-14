@@ -3,7 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.search.main
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -42,7 +41,6 @@ class ExploreViewModel(
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
-    contentResetCoordinator: ContentResetCoordinator,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : ExploreMviModel,
     DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>(
@@ -51,7 +49,6 @@ class ExploreViewModel(
 
     private var currentPage: Int = 1
     private var debounceJob: Job? = null
-    private var firstLoad = true
 
     init {
         updateState {
@@ -103,35 +100,33 @@ class ExploreViewModel(
                         changeListingType(evt.value)
                     }
                 }.launchIn(this)
-
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.screenKey == "explore") {
                         changeSortType(evt.value)
                     }
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ResetExplore::class).onEach {
+                onFirstLoad()
+            }.launchIn(this)
         }
 
-        if (contentResetCoordinator.resetExplore) {
-            contentResetCoordinator.resetExplore = false
-            // apply new feed and sort type
-            firstLoad = true
+        onFirstLoad()
+    }
+
+    private fun onFirstLoad() {
+        val settings = settingsRepository.currentSettings.value
+        val listingType = settings.defaultExploreType.toListingType()
+        val sortType = settings.defaultPostSortType.toSortType()
+        updateState {
+            it.copy(
+                listingType = listingType,
+                sortType = sortType,
+            )
         }
-        if (firstLoad) {
-            firstLoad = false
-            val settings = settingsRepository.currentSettings.value
-            val listingType = settings.defaultExploreType.toListingType()
-            val sortType = settings.defaultPostSortType.toSortType()
-            updateState {
-                it.copy(
-                    listingType = listingType,
-                    sortType = sortType,
-                )
-            }
-            screenModelScope.launch(Dispatchers.IO) {
-                refresh()
-                emitEffect(ExploreMviModel.Effect.BackToTop)
-            }
+        screenModelScope.launch(Dispatchers.IO) {
+            refresh()
+            emitEffect(ExploreMviModel.Effect.BackToTop)
         }
     }
 

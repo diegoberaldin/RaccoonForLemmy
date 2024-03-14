@@ -2,7 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.login
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
@@ -22,7 +23,7 @@ class LoginViewModel(
     private val accountRepository: AccountRepository,
     private val siteRepository: SiteRepository,
     private val communityRepository: CommunityRepository,
-    private val contentResetCoordinator: ContentResetCoordinator,
+    private val notificationCenter: NotificationCenter,
 ) : LoginMviModel,
     DefaultMviModel<LoginMviModel.Intent, LoginMviModel.UiState, LoginMviModel.Effect>(
         initialState = LoginMviModel.UiState(),
@@ -157,8 +158,8 @@ class LoginViewModel(
                         jwt = auth
                     )
                 }
-                contentResetCoordinator.resetHome = true
-                contentResetCoordinator.resetExplore = true
+                notificationCenter.send(NotificationCenterEvent.ResetExplore)
+                notificationCenter.send(NotificationCenterEvent.ResetHome)
                 withContext(Dispatchers.Main) {
                     emitEffect(LoginMviModel.Effect.LoginSuccess)
                 }

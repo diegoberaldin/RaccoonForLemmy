@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.L10nManager
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
@@ -33,7 +32,6 @@ class SettingsViewModel(
     private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
     private val crashReportConfiguration: CrashReportConfiguration,
-    private val contentResetCoordinator: ContentResetCoordinator,
     private val l10nManager: L10nManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : SettingsMviModel,
@@ -150,8 +148,7 @@ class SettingsViewModel(
                 defaultListingType = value.toInt()
             )
             saveSettings(settings)
-            contentResetCoordinator.resetHome = true
-            contentResetCoordinator.resetExplore = true
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
         }
     }
 
@@ -162,8 +159,7 @@ class SettingsViewModel(
                 defaultPostSortType = value.toInt()
             )
             saveSettings(settings)
-            contentResetCoordinator.resetHome = true
-            contentResetCoordinator.resetExplore = true
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
         }
     }
 

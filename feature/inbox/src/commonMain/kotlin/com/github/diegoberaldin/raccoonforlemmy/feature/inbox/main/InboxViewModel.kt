@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -22,7 +21,6 @@ class InboxViewModel(
     private val coordinator: InboxCoordinator,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
-    private val contentResetCoordinator: ContentResetCoordinator,
 ) : InboxMviModel,
     DefaultMviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect>(
         initialState = InboxMviModel.UiState(),
@@ -50,20 +48,17 @@ class InboxViewModel(
                 .onEach { evt ->
                     changeUnreadOnly(evt.unreadOnly)
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ResetInbox::class).onEach {
+                onFirstLoad()
+            }.launchIn(this)
+        }
+        onFirstLoad()
+    }
 
-            if (contentResetCoordinator.resetInbox) {
-                contentResetCoordinator.resetInbox = false
-                // apply new inbox type
-                firstLoad = true
-            }
-            if (firstLoad) {
-                firstLoad = false
-                val settingsUnreadOnly =
-                    settingsRepository.currentSettings.value.defaultInboxType.toInboxUnreadOnly()
-                if (uiState.value.unreadOnly != settingsUnreadOnly) {
-                    changeUnreadOnly(settingsUnreadOnly)
-                }
-            }
+    private fun onFirstLoad() {
+        val settingsUnreadOnly = settingsRepository.currentSettings.value.defaultInboxType.toInboxUnreadOnly()
+        if (uiState.value.unreadOnly != settingsUnreadOnly) {
+            changeUnreadOnly(settingsUnreadOnly)
         }
     }
 

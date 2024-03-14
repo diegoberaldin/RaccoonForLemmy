@@ -12,7 +12,7 @@ val manageAccountsModule = module {
             switchAccount = get(),
             logout = get(),
             deleteAccount = get(),
-            contentResetCoordinator = get(),
+            notificationCenter = get(),
         )
     }
 }

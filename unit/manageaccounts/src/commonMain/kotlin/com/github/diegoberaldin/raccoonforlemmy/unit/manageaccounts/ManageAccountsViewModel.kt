@@ -2,7 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -22,7 +23,7 @@ class ManageAccountsViewModel(
     private val switchAccount: SwitchAccountUseCase,
     private val logout: LogoutUseCase,
     private val deleteAccount: DeleteAccountUseCase,
-    private val contentResetCoordinator: ContentResetCoordinator,
+    private val notificationCenter: NotificationCenter,
 ) : ManageAccountsMviModel,
     DefaultMviModel<ManageAccountsMviModel.Intent, ManageAccountsMviModel.UiState, ManageAccountsMviModel.Effect>(
         initialState = ManageAccountsMviModel.UiState(),
@@ -81,9 +82,10 @@ class ManageAccountsViewModel(
         }
         screenModelScope.launch(Dispatchers.IO) {
             switchAccount(account)
-            contentResetCoordinator.resetHome = true
-            contentResetCoordinator.resetExplore = true
-            contentResetCoordinator.resetInbox = true
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
+            notificationCenter.send(NotificationCenterEvent.ResetExplore)
+            notificationCenter.send(NotificationCenterEvent.ResetInbox)
+
             close()
         }
     }

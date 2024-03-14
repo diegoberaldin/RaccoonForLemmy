@@ -3,7 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.postlist
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -45,7 +44,6 @@ class PostListViewModel(
     private val hapticFeedback: HapticFeedback,
     private val zombieModeHelper: ZombieModeHelper,
     private val imagePreloadManager: ImagePreloadManager,
-    contentResetCoordinator: ContentResetCoordinator,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : PostListMviModel,
     DefaultMviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>(
@@ -54,7 +52,6 @@ class PostListViewModel(
 
     private var currentPage: Int = 1
     private var pageCursor: String? = null
-    private var firstLoad = true
     private var hideReadPosts = false
 
     init {
@@ -135,6 +132,9 @@ class PostListViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ResetHome::class).onEach {
+                onFirstLoad()
+            }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
                 if (uiState.value.zombieModeActive) {
@@ -147,24 +147,20 @@ class PostListViewModel(
             updateState { it.copy(currentUserId = user?.id ?: 0) }
         }
 
-        if (contentResetCoordinator.resetHome) {
-            contentResetCoordinator.resetHome = false
-            // apply new feed and sort type
-            firstLoad = true
+        onFirstLoad()
+    }
+
+    private fun onFirstLoad() {
+        val settings = settingsRepository.currentSettings.value
+        updateState {
+            it.copy(
+                listingType = settings.defaultListingType.toListingType(),
+                sortType = settings.defaultPostSortType.toSortType(),
+            )
         }
-        if (firstLoad) {
-            firstLoad = false
-            val settings = settingsRepository.currentSettings.value
-            updateState {
-                it.copy(
-                    listingType = settings.defaultListingType.toListingType(),
-                    sortType = settings.defaultPostSortType.toSortType(),
-                )
-            }
-            screenModelScope.launch(Dispatchers.IO) {
-                refresh()
-                emitEffect(PostListMviModel.Effect.BackToTop)
-            }
+        screenModelScope.launch(Dispatchers.IO) {
+            refresh()
+            emitEffect(PostListMviModel.Effect.BackToTop)
         }
     }
 

@@ -20,7 +20,6 @@ val inboxTabModule = module {
             coordinator = get(),
             settingsRepository = get(),
             notificationCenter = get(),
-            contentResetCoordinator = get(),
         )
     }
 }

@@ -20,7 +20,6 @@ val settingsTabModule = module {
             identityRepository = get(),
             notificationCenter = get(),
             crashReportConfiguration = get(),
-            contentResetCoordinator = get(),
             getSortTypesUseCase = get(),
         )
     }
@@ -41,7 +40,6 @@ val settingsTabModule = module {
             themeRepository = get(),
             identityRepository = get(),
             notificationCenter = get(),
-            contentResetCoordinator = get(),
             galleryHelper = get(),
         )
     }

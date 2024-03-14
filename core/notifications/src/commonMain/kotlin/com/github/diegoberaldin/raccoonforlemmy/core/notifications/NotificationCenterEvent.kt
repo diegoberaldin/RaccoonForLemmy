@@ -79,4 +79,8 @@ sealed interface NotificationCenterEvent {
     data class ChangeSystemBarTheme(val value: UiBarTheme) : NotificationCenterEvent
     data object DraftDeleted : NotificationCenterEvent
     data class ModeratorZoneActionSelected(val value: Int) : NotificationCenterEvent
+
+    data object ResetHome : NotificationCenterEvent
+    data object ResetExplore : NotificationCenterEvent
+    data object ResetInbox : NotificationCenterEvent
 }

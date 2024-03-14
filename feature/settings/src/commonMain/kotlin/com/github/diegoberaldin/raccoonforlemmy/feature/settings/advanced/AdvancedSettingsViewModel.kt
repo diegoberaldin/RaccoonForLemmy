@@ -4,7 +4,6 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
-import com.github.diegoberaldin.raccoonforlemmy.core.notifications.ContentResetCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
@@ -30,7 +29,6 @@ class AdvancedSettingsViewModel(
     private val settingsRepository: SettingsRepository,
     private val accountRepository: AccountRepository,
     private val notificationCenter: NotificationCenter,
-    private val contentResetCoordinator: ContentResetCoordinator,
     private val galleryHelper: GalleryHelper,
 ) : AdvancedSettingsMviModel,
     DefaultMviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect>(
@@ -212,7 +210,7 @@ class AdvancedSettingsViewModel(
                 defaultInboxType = value.toInboxDefaultType(),
             )
             saveSettings(settings)
-            contentResetCoordinator.resetInbox = true
+            notificationCenter.send(NotificationCenterEvent.ResetInbox)
         }
     }
 
@@ -234,6 +232,7 @@ class AdvancedSettingsViewModel(
             )
             saveSettings(settings)
         }
+
     }
 
     private fun changeEdgeToEdge(value: Boolean) {
