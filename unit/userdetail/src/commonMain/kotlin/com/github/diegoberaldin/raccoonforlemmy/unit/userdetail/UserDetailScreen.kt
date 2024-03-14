@@ -699,7 +699,8 @@ class UserDetailScreen(
 
                                                 OptionId.CrossPost -> {
                                                     detailOpener.openCreatePost(
-                                                        crossPost = post
+                                                        crossPost = post,
+                                                        forceCommunitySelection = true,
                                                     )
                                                 }
 

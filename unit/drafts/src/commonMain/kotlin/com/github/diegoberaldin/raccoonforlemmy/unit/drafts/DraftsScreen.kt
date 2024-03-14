@@ -97,7 +97,7 @@ class DraftsScreen : Screen {
                     },
                     title = {
                         Text(
-                            text =  LocalXmlStrings.current.navigationDrawerTitleDrafts,
+                            text = LocalXmlStrings.current.navigationDrawerTitleDrafts,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -185,6 +185,7 @@ class DraftsScreen : Screen {
                                             initialTitle = draft.title,
                                             initialUrl = draft.url,
                                             initialNsfw = draft.nsfw,
+                                            forceCommunitySelection = true,
                                         )
                                     },
                                     options = buildList {

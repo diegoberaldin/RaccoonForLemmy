@@ -108,7 +108,7 @@ class SelectCommunityDialog : Screen {
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 500.dp, max = 500.dp)
-                        .padding(horizontal = Spacing.m)
+                        .padding(horizontal = Spacing.xs)
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),

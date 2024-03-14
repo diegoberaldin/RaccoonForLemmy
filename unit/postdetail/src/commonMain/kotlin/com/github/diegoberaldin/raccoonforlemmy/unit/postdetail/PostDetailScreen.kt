@@ -446,7 +446,10 @@ class PostDetailScreen(
                                         }
 
                                         OptionId.CrossPost -> {
-                                            detailOpener.openCreatePost(crossPost = uiState.post)
+                                            detailOpener.openCreatePost(
+                                                crossPost = uiState.post,
+                                                forceCommunitySelection = true,
+                                            )
                                         }
 
                                         OptionId.SeeRaw -> {

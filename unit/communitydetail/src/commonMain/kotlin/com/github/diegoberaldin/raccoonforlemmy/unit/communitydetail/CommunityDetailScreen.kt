@@ -953,7 +953,10 @@ class CommunityDetailScreen(
                                                     }
 
                                                     OptionId.CrossPost -> {
-                                                        detailOpener.openCreatePost(crossPost = post)
+                                                        detailOpener.openCreatePost(
+                                                            crossPost = post,
+                                                            forceCommunitySelection = true,
+                                                        )
                                                     }
 
                                                     OptionId.SeeRaw -> {
