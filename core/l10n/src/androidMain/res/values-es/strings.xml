@@ -273,7 +273,6 @@
     <string name="user_detail_info">Información sobre el usuario</string>
     <string name="user_info_moderates">Moderador de</string>
     <string name="user_info_admin">Administrador</string>
-    <string name="settings_about_chat_discord">Chat en Discord</string>
     <string name="settings_reply_color">Color de las respuestas</string>
     <string name="settings_section_account">Configuración de la cuenta</string>
     <string name="settings_web_preferences">Preferencias web</string>

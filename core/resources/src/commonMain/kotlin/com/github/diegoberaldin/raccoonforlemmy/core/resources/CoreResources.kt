@@ -5,14 +5,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
-@OptIn(ExperimentalResourceApi::class)
 object CoreResources {
-
-    val discord: Painter
-        @Composable
-        get() = drawable("ic_discord")
 
     val github: Painter
         @Composable

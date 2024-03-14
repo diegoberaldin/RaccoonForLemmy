@@ -188,18 +188,6 @@ class AboutDialog : Screen {
                             },
                         )
                     }
-                    item {
-                        AboutItem(
-                            painter = CoreResources.discord,
-                            text = LocalXmlStrings.current.settingsAboutChatDiscord,
-                            textDecoration = TextDecoration.Underline,
-                            onClick = {
-                                runCatching {
-                                    uriHandler.openUri(AboutConstants.DISCORD_URL)
-                                }
-                            },
-                        )
-                    }
                 }
                 Button(
                     onClick = {

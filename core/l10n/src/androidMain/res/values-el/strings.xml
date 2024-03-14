@@ -273,7 +273,6 @@
     <string name="user_detail_info">Πληροφορίες χρήστη</string>
     <string name="user_info_moderates">Συντονιστής των</string>
     <string name="user_info_admin">διαχειριστής</string>
-    <string name="settings_about_chat_discord">Συνομιλία στο Discord</string>
     <string name="settings_reply_color">Χρώμα της ενέργειας απάντησης</string>
     <string name="settings_section_account">Ρυθμίσεις λογαριασμού</string>
     <string name="settings_web_preferences">Προτιμήσεις Ιστού</string>

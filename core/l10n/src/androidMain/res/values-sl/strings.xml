@@ -273,7 +273,6 @@
     <string name="user_detail_info">Informacije o uporabniku</string>
     <string name="user_info_moderates">Moderator od</string>
     <string name="user_info_admin">skrbnik</string>
-    <string name="settings_about_chat_discord">Klepet na Discordu</string>
     <string name="settings_reply_color">Barva dejanja odgovora</string>
     <string name="settings_section_account">Nastavitve računa</string>
     <string name="settings_web_preferences">Spletne nastavitve</string>

@@ -273,7 +273,6 @@
     <string name="user_detail_info">Информация за потребителя</string>
     <string name="user_info_moderates">Модератор на</string>
     <string name="user_info_admin">администратор</string>
-    <string name="settings_about_chat_discord">Чат в Discord</string>
     <string name="settings_reply_color">цвят на отговора</string>
     <string name="settings_section_account">Настройки на акаунта</string>
     <string name="settings_web_preferences">Уеб предпочитания</string>

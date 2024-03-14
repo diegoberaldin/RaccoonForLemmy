@@ -273,11 +273,10 @@
     <string name="user_detail_info">Käyttäjän tiedot</string>
     <string name="user_info_moderates">Moderaattori</string>
     <string name="user_info_admin">järjestelmänvalvoja</string>
-    <string name="settings_about_chat_discord">Chat Discordissa</string>
     <string name="settings_reply_color">Vastaustoiminnon väri</string>
     <string name="settings_section_account">Tilin asetukset</string>
     <string name="settings_web_preferences">Web-asetukset</string>
-    <string name="settings_web_header_personal">Henkilökohtaisia ​​tietoja</string>
+    <string name="settings_web_header_personal">Henkilökohtaisia tietoja</string>
     <string name="settings_web_header_contents">Sisällys</string>
     <string name="settings_web_header_notifications">Ilmoitukset</string>
     <string name="settings_web_avatar">hahmo</string>

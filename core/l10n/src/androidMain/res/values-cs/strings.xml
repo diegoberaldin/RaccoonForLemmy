@@ -273,7 +273,6 @@
     <string name="user_detail_info">Uživatelské informace</string>
     <string name="user_info_moderates">Moderátor</string>
     <string name="user_info_admin">správce</string>
-    <string name="settings_about_chat_discord">Chat na Discordu</string>
     <string name="settings_reply_color">Barva akce odpovědi</string>
     <string name="settings_section_account">Nastavení účtu</string>
     <string name="settings_web_preferences">Předvolby webu</string>

@@ -161,7 +161,6 @@ the [CONTRIBUTING.md](https://github.com/diegoberaldin/RaccoonForLemmy/blob/mast
 - create a post on the project's [community](https://lemmy.world/c/raccoonforlemmy) on
   Lemmy.world for broader questions, opinions, personal feedback, suggestions, insults or whatever
   you feel like writing
-- join the project's [Discord server](https://discord.gg/erxQRFjJ);
 - if you are a translator and want to help out with l10n or submit some corrections but you don't
   feel confident with repository forks, pull requests, managing resource files, etc. feel free to
   drop an email or contact me in any way.

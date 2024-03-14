@@ -273,7 +273,6 @@
     <string name="user_detail_info">Brukerinformasjon</string>
     <string name="user_info_moderates">Moderator for</string>
     <string name="user_info_admin">administrator</string>
-    <string name="settings_about_chat_discord">Chat på Discord</string>
     <string name="settings_reply_color">Fargen på svarhandlingen</string>
     <string name="settings_section_account">Kontoinnstillinger</string>
     <string name="settings_web_preferences">Nettpreferanser</string>

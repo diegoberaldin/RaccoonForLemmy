@@ -79,9 +79,6 @@ In this group, we often quote every raccoon's motto: «Live Fast, Eat Trash» (a
 This section is probably going to change over time, anyway we are a small group of volunteers who in
 their spare time contribute to the project.
 
-To ask more questions or chat directly with people, you can find us
-on [this Discord server](https://discord.gg/erxQRFjJ).
-
 ### 2.2 Code of Conduct
 
 When interacting with other members of the community, be them end-users, developers, supporters or
@@ -103,9 +100,6 @@ whatever, remember that we are raccoons, and we follow these principles:
 
 There are many ways you can interact with members of the community:
 
-- use the [Discord server](https://discord.gg/erxQRFjJ) to chat in real time with other team
-  members, there are two rooms in the space: "General" is for general information about the app
-  development and "Trashcan" is more for smalltalk and random topics;
 - use the [Lemmy community](https://lemmy.world/c/raccoonforlemmy) to receive updates about the new
   releases, participate into public discussions in the Lemmy style and provide your feedback or even
   share your memes about raccoons with any other interested people;
