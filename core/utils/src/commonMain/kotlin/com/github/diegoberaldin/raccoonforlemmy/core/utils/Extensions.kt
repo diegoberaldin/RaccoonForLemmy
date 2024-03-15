@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.Locales
-import io.ktor.utils.io.core.toByteArray
+import io.ktor.utils.io.core.*
 import org.kotlincrypto.hash.md.MD5
 import kotlin.math.round
 
@@ -44,6 +44,7 @@ fun String.toLanguageName() = when (this) {
     Locales.Sk -> "Slovenčina"
     Locales.Sl -> "Slovenščina"
     Locales.Sq -> "Shqip"
+    Locales.Sr -> "Српски"
     Locales.Tok -> "toki pona"
     Locales.Tr -> "Türkçe"
     Locales.Uk -> "Українська"
@@ -82,6 +83,7 @@ fun String.toLanguageFlag(): AnnotatedString = when (this) {
     Locales.Sk -> "🇸🇰"
     Locales.Sl -> "🇸🇮"
     Locales.Sq -> "🇦🇱"
+    Locales.Sr -> "🇷🇸️"
     Locales.Tok -> "🦝️"
     Locales.Tr -> "🇹🇷"
     Locales.Uk -> "🇺🇦"

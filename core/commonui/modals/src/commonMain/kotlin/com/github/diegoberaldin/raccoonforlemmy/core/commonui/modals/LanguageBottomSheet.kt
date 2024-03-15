@@ -90,6 +90,7 @@ class LanguageBottomSheet : Screen {
                     Locales.Sk,
                     Locales.Sl,
                     Locales.Sq,
+                    Locales.Sr,
                     Locales.Fi,
                     Locales.Se,
                     Locales.Tok,
