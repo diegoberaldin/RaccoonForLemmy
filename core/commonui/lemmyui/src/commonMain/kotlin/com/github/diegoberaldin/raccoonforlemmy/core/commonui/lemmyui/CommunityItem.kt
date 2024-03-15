@@ -66,7 +66,7 @@ fun CommunityItem(
     var optionsMenuOpen by remember { mutableStateOf(false) }
 
     Row(
-        modifier = modifier.padding(horizontal = Spacing.s),
+        modifier = modifier.padding(Spacing.s),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
@@ -86,7 +86,8 @@ fun CommunityItem(
             )
         }
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f).padding(start = Spacing.xs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             val translationAmount = 3.dp.toLocalPixel()
             Text(
@@ -128,57 +129,57 @@ fun CommunityItem(
                 )
             }
         }
-    }
 
-    if (showFavorite) {
-        if (community.favorite) {
-            Icon(
-                modifier = Modifier.size(IconSize.s),
-                imageVector = Icons.Default.Star,
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
+        if (showFavorite) {
+            if (community.favorite) {
+                Icon(
+                    modifier = Modifier.size(IconSize.s),
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.onBackground,
+                )
+            }
         }
-    }
 
-    if (options.isNotEmpty()) {
-        Box {
-            Icon(
-                modifier = Modifier.size(IconSize.m)
-                    .padding(Spacing.xs)
-                    .onGloballyPositioned {
-                        optionsOffset = it.positionInParent()
-                    }
-                    .onClick(
-                        onClick = rememberCallback {
-                            optionsMenuOpen = true
-                        },
+        if (options.isNotEmpty()) {
+            Box {
+                Icon(
+                    modifier = Modifier.size(IconSize.m)
+                        .padding(Spacing.xs)
+                        .onGloballyPositioned {
+                            optionsOffset = it.positionInParent()
+                        }
+                        .onClick(
+                            onClick = rememberCallback {
+                                optionsMenuOpen = true
+                            },
+                        ),
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = null,
+                    tint = ancillaryColor,
+                )
+
+                CustomDropDown(
+                    expanded = optionsMenuOpen,
+                    onDismiss = {
+                        optionsMenuOpen = false
+                    },
+                    offset = DpOffset(
+                        x = optionsOffset.x.toLocalDp(),
+                        y = optionsOffset.y.toLocalDp(),
                     ),
-                imageVector = Icons.Default.MoreVert,
-                contentDescription = null,
-                tint = ancillaryColor,
-            )
-
-            CustomDropDown(
-                expanded = optionsMenuOpen,
-                onDismiss = {
-                    optionsMenuOpen = false
-                },
-                offset = DpOffset(
-                    x = optionsOffset.x.toLocalDp(),
-                    y = optionsOffset.y.toLocalDp(),
-                ),
-            ) {
-                options.forEach { option ->
-                    DropdownMenuItem(
-                        text = {
-                            Text(option.text)
-                        },
-                        onClick = rememberCallback {
-                            optionsMenuOpen = false
-                            onOptionSelected?.invoke(option.id)
-                        },
-                    )
+                ) {
+                    options.forEach { option ->
+                        DropdownMenuItem(
+                            text = {
+                                Text(option.text)
+                            },
+                            onClick = rememberCallback {
+                                optionsMenuOpen = false
+                                onOptionSelected?.invoke(option.id)
+                            },
+                        )
+                    }
                 }
             }
         }

@@ -54,7 +54,7 @@ fun MultiCommunityItem(
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
     Row(
-        modifier = modifier.padding(horizontal = Spacing.s),
+        modifier = modifier.padding(Spacing.s),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
@@ -74,7 +74,7 @@ fun MultiCommunityItem(
 
 
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f).padding(start = Spacing.xs)
         ) {
             Text(
                 modifier = Modifier.padding(vertical = Spacing.s),
