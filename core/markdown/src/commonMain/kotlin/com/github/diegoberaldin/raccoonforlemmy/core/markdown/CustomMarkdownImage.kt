@@ -29,9 +29,11 @@ internal fun CustomMarkdownImage(
     onOpenImage: ((String) -> Unit)?,
     autoLoadImages: Boolean,
 ) {
-    val link = node.findChildOfTypeRecursive(MarkdownElementTypes.LINK_DESTINATION)
-        ?.getTextInNode(content)
-        ?.toString().orEmpty()
+    val link = runCatching {
+        node.findChildOfTypeRecursive(MarkdownElementTypes.LINK_DESTINATION)
+            ?.getTextInNode(content)
+            ?.toString().orEmpty()
+    }.getOrElse { "" }
     CustomMarkdownImage(
         url = link,
         autoLoadImages = autoLoadImages,
