@@ -31,9 +31,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.scaleFactor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getColorSchemeProvider
@@ -228,13 +226,7 @@ class SettingsColorAndFontScreen : Screen {
                         title = LocalXmlStrings.current.settingsUiFontScale,
                         value = uiState.uiFontScale.toFontScale().toReadableName(),
                         onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet(
-                                values = listOf(
-                                    FontScale.Large,
-                                    FontScale.Normal,
-                                    FontScale.Small,
-                                ).map { it.scaleFactor },
-                            )
+                            val sheet = FontScaleBottomSheet()
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
