@@ -40,6 +40,7 @@ interface CommunityDetailMviModel :
         data class Share(val url: String) : Intent
         data class SetSearch(val value: String) : Intent
         data class ChangeSearching(val value: Boolean) : Intent
+        data class Copy(val value: String) : Intent
     }
 
     data class UiState(
@@ -76,5 +77,6 @@ interface CommunityDetailMviModel :
         data class BlockError(val message: String?) : Effect
         data object BackToTop : Effect
         data class ZombieModeTick(val index: Int) : Effect
+        data class TriggerCopy(val text: String) : Effect
     }
 }

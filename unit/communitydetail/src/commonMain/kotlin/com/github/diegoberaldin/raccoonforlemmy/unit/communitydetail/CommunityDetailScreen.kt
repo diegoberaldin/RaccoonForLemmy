@@ -78,7 +78,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
@@ -102,6 +104,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -180,6 +183,7 @@ class CommunityDetailScreen(
         val settings by settingsRepository.currentSettings.collectAsState()
         val keepScreenOn = rememberKeepScreenOn()
         val detailOpener = remember { getDetailOpener() }
+        val clipboardManager = LocalClipboardManager.current
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -208,6 +212,10 @@ class CommunityDetailScreen(
                                 animationSpec = tween(350),
                             )
                         }
+                    }
+
+                    is CommunityDetailMviModel.Effect.TriggerCopy -> {
+                        clipboardManager.setText(AnnotatedString(text = effect.text))
                     }
                 }
             }.launchIn(this)
@@ -860,6 +868,10 @@ class CommunityDetailScreen(
                                                     OptionId.Share,
                                                     LocalXmlStrings.current.postActionShare,
                                                 )
+                                                this += Option(
+                                                    OptionId.Copy,
+                                                    LocalXmlStrings.current.actionCopyClipboard,
+                                                )
                                                 if (uiState.isLogged && !isOnOtherInstance) {
                                                     this += Option(
                                                         OptionId.Hide,
@@ -1018,6 +1030,21 @@ class CommunityDetailScreen(
                                                                     userId
                                                                 )
                                                             )
+                                                        }
+                                                    }
+
+                                                    OptionId.Copy -> {
+                                                        val texts = listOfNotNull(
+                                                            post.title.takeIf { it.isNotBlank() },
+                                                            post.text.takeIf { it.isNotBlank() },
+                                                        ).distinct()
+                                                        if (texts.size == 1) {
+                                                            model.reduce(
+                                                                CommunityDetailMviModel.Intent.Copy(texts.first())
+                                                            )
+                                                        } else {
+                                                            val screen = CopyPostBottomSheet(post.title, post.text)
+                                                            navigationCoordinator.showBottomSheet(screen)
                                                         }
                                                     }
 

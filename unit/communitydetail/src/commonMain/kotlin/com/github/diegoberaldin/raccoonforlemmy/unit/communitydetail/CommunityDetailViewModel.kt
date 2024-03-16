@@ -162,6 +162,9 @@ class CommunityDetailViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
+                emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(it.value))
+            }.launchIn(this)
 
             searchChannel.receiveAsFlow().debounce(1_000).onEach {
                 updateState { it.copy(loading = false) }
@@ -286,8 +289,9 @@ class CommunityDetailViewModel(
                 }
             }
 
-            is CommunityDetailMviModel.Intent.SetSearch -> {
-                updateSearchText(intent.value)
+            is CommunityDetailMviModel.Intent.SetSearch -> updateSearchText(intent.value)
+            is CommunityDetailMviModel.Intent.Copy -> screenModelScope.launch {
+                emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(intent.value))
             }
         }
     }
