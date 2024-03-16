@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Αναζήτηση εντός της κοινότητας</string>
     <string name="action_exit_search">Έξοδος από την αναζήτηση</string>
     <string name="beta">Βήτα</string>
+    <string name="action_copy_clipboard">Αντιγραφή στο πρόχειρο</string>
+    <string name="copy_title">Αντιγραφή τίτλου</string>
+    <string name="copy_text">Αντιγραφή κειμένου</string>
+    <string name="copy_both">Αντιγράψτε και τα δύο</string>
 </resources>

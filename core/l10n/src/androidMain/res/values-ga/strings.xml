@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Cuardaigh laistigh den phobal</string>
     <string name="action_exit_search">Scoir an cuardach</string>
     <string name="beta">Béite</string>
+    <string name="action_copy_clipboard">Cóipeáil chuig an ngearrthaisce</string>
+    <string name="copy_title">Cóipeáil teideal</string>
+    <string name="copy_text">Cóipeáil téacs</string>
+    <string name="copy_both">Cóipeáil an dá cheann</string>
 </resources>

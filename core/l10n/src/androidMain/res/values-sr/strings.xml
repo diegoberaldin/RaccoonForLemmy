@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Тражи унутар заједнице</string>
     <string name="action_exit_search">Изађите из претраге</string>
     <string name="beta">Бета</string>
+    <string name="action_copy_clipboard">Копирај у међуспремник</string>
+    <string name="copy_title">Копирај наслов</string>
+    <string name="copy_text">Копирај текст</string>
+    <string name="copy_both">Копирај оба</string>
 </resources>

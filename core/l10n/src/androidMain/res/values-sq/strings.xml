@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Kërko brenda komunitetit</string>
     <string name="action_exit_search">Dilni nga kërkimi</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Kopjo në kujtesën e fragmenteve</string>
+    <string name="copy_title">Kopjo titullin</string>
+    <string name="copy_text">Kopjo tekstin</string>
+    <string name="copy_both">Kopjo të dyja</string>
 </resources>

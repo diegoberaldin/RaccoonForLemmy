@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Fittex fil-komunità</string>
     <string name="action_exit_search">Ħruġ tat-tfittxija</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Ikkopja fil-clipboard</string>
+    <string name="copy_title">Titolu kopja</string>
+    <string name="copy_text">Ikkopja t-test</string>
+    <string name="copy_both">Ikkopja t-tnejn</string>
 </resources>

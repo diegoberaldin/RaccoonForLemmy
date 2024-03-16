@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Hľadajte v rámci komunity</string>
     <string name="action_exit_search">Ukončiť vyhľadávanie</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Skopírovať do schránky</string>
+    <string name="copy_title">Skopírovať názov</string>
+    <string name="copy_text">Kopírovať text</string>
+    <string name="copy_both">Skopírujte obe</string>
 </resources>

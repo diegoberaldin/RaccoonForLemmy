@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Otsige kogukonnast</string>
     <string name="action_exit_search">Välju otsingust</string>
     <string name="beta">Beeta</string>
+    <string name="action_copy_clipboard">Kopeerida lõikelauale</string>
+    <string name="copy_title">Kopeeri pealkiri</string>
+    <string name="copy_text">Kopeeri tekst</string>
+    <string name="copy_both">Kopeerige mõlemad</string>
 </resources>

@@ -350,4 +350,8 @@
     <string name="action_search_in_community">o lukin lon kulupu</string>
     <string name="action_exit_search">o weka e lukin</string>
     <string name="beta">sin</string>
+    <string name="action_copy_clipboard">o awen</string>
+    <string name="copy_title">o awen e toki suli</string>
+    <string name="copy_text">o awen e toki</string>
+    <string name="copy_both">o awen e tu</string>
 </resources>

@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Ieškokite bendruomenėje</string>
     <string name="action_exit_search">Išeikite iš paieškos</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Nukopijuoti į iškarpinę</string>
+    <string name="copy_title">Kopijuoti pavadinimą</string>
+    <string name="copy_text">Nukopijuokite tekstą</string>
+    <string name="copy_both">Nukopijuokite abu</string>
 </resources>

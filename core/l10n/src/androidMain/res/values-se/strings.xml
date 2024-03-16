@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Sök inom gemenskapen</string>
     <string name="action_exit_search">Avsluta sökningen</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Kopiera till urklipp</string>
+    <string name="copy_title">Kopiera titel</string>
+    <string name="copy_text">Kopiera text</string>
+    <string name="copy_both">Kopiera båda</string>
 </resources>

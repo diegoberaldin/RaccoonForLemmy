@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Topluluk içinde ara</string>
     <string name="action_exit_search">Aramadan çık</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Panoya kopyala</string>
+    <string name="copy_title">Başlığı kopyala</string>
+    <string name="copy_text">Metni kopyala</string>
+    <string name="copy_both">Her ikisini de kopyala</string>
 </resources>

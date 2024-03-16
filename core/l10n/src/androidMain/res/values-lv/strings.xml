@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Meklēt kopienā</string>
     <string name="action_exit_search">Iziet no meklēšanas</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Kopēt starpliktuvē</string>
+    <string name="copy_title">Kopēt virsrakstu</string>
+    <string name="copy_text">Kopēt tekstu</string>
+    <string name="copy_both">Kopējiet abus</string>
 </resources>

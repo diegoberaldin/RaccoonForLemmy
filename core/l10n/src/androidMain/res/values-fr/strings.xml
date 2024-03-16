@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Rechercher au sein de la communauté</string>
     <string name="action_exit_search">Quitter la recherche</string>
     <string name="beta">Bêta</string>
+    <string name="action_copy_clipboard">Copier dans le presse-papier</string>
+    <string name="copy_title">Copier le titre</string>
+    <string name="copy_text">Copier le texte</string>
+    <string name="copy_both">Copiez les deux</string>
 </resources>

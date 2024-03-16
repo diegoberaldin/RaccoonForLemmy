@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Търсете в общността</string>
     <string name="action_exit_search">Изход от търсенето</string>
     <string name="beta">Бета</string>
+    <string name="action_copy_clipboard">Копиране в клипборда</string>
+    <string name="copy_title">Копирайте заглавието</string>
+    <string name="copy_text">Копиране на текст</string>
+    <string name="copy_both">Копирайте и двете</string>
 </resources>

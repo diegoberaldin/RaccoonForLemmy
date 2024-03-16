@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Căută în comunitate</string>
     <string name="action_exit_search">Ieși din căutare</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Copiază în clipboard</string>
+    <string name="copy_title">Copiază titlul</string>
+    <string name="copy_text">Copiază textul</string>
+    <string name="copy_both">Copiază ambele</string>
 </resources>

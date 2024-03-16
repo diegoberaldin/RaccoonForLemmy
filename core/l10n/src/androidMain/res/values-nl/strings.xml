@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Zoek binnen de gemeenschap</string>
     <string name="action_exit_search">Zoekopdracht afsluiten</string>
     <string name="beta">Bèt</string>
+    <string name="action_copy_clipboard">Kopieer naar klembord</string>
+    <string name="copy_title">Titel kopiëren</string>
+    <string name="copy_text">Kopieer tekst</string>
+    <string name="copy_both">Kopieer beide</string>
 </resources>

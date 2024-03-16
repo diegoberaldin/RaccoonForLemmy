@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Search within community</string>
     <string name="action_exit_search">Exit search</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Copy to clipboard</string>
+    <string name="copy_title">Copy title</string>
+    <string name="copy_text">Copy text</string>
+    <string name="copy_both">Copy both</string>
 </resources>

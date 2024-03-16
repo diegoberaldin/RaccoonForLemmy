@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Hae yhteisöstä</string>
     <string name="action_exit_search">Poistu hausta</string>
     <string name="beta">Beeta</string>
+    <string name="action_copy_clipboard">Kopioi leikepöydälle</string>
+    <string name="copy_title">Kopioi otsikko</string>
+    <string name="copy_text">Kopioi teksti</string>
+    <string name="copy_both">Kopioi molemmat</string>
 </resources>

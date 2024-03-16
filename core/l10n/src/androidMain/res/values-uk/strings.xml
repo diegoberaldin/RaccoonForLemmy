@@ -349,4 +349,8 @@
     <string name="action_search_in_community">Пошук у спільноті</string>
     <string name="action_exit_search">Вийти з пошуку</string>
     <string name="beta">Бета</string>
+    <string name="action_copy_clipboard">Копіювати в буфер обміну</string>
+    <string name="copy_title">Скопіюйте назву</string>
+    <string name="copy_text">Скопіюйте текст</string>
+    <string name="copy_both">Скопіюйте обидва</string>
 </resources>

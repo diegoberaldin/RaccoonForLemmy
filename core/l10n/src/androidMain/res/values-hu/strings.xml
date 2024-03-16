@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Keresés a közösségen belül</string>
     <string name="action_exit_search">Lépjen ki a keresésből</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Másolja a vágólapra</string>
+    <string name="copy_title">Cím másolása</string>
+    <string name="copy_text">Szöveg másolása</string>
+    <string name="copy_both">Másolja mindkettőt</string>
 </resources>

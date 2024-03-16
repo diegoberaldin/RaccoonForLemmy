@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Serĉu ene de komunumo</string>
     <string name="action_exit_search">Eliru serĉon</string>
     <string name="beta">Betao</string>
+    <string name="action_copy_clipboard">Kopii al tondujo</string>
+    <string name="copy_title">Kopiu titolon</string>
+    <string name="copy_text">Kopiu tekston</string>
+    <string name="copy_both">Kopiu ambaŭ</string>
 </resources>

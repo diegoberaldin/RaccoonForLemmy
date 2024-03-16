@@ -350,4 +350,8 @@
     <string name="action_search_in_community">البحث داخل المجتمع</string>
     <string name="action_exit_search">الخروج من البحث</string>
     <string name="beta">بيتا</string>
+    <string name="action_copy_clipboard">نسخ إلى الحافظة</string>
+    <string name="copy_title">انسخ العنوان</string>
+    <string name="copy_text">نسخ النص</string>
+    <string name="copy_both">انسخ كلاهما</string>
 </resources>

@@ -350,4 +350,8 @@
     <string name="action_search_in_community">Søg i fællesskabet</string>
     <string name="action_exit_search">Afslut søgning</string>
     <string name="beta">Beta</string>
+    <string name="action_copy_clipboard">Kopier til udklipsholder</string>
+    <string name="copy_title">Kopiér titel</string>
+    <string name="copy_text">Kopier tekst</string>
+    <string name="copy_both">Kopier begge dele</string>
 </resources>
