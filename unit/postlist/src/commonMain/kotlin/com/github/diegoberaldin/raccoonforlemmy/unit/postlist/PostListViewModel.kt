@@ -135,6 +135,9 @@ class PostListViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ResetHome::class).onEach {
                 onFirstLoad()
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
+                emitEffect(PostListMviModel.Effect.TriggerCopy(it.value))
+            }.launchIn(this)
 
             zombieModeHelper.index.onEach { index ->
                 if (uiState.value.zombieModeActive) {
@@ -238,6 +241,10 @@ class PostListViewModel(
                     initialValue = intent.index,
                     interval = settingsRepository.currentSettings.value.zombieModeInterval,
                 )
+            }
+
+            is PostListMviModel.Intent.Copy -> screenModelScope.launch {
+                emitEffect(PostListMviModel.Effect.TriggerCopy(intent.value))
             }
         }
     }

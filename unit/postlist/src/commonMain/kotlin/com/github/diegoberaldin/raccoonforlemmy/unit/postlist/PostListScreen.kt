@@ -55,7 +55,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -74,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BlockBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
@@ -133,6 +136,7 @@ class PostListScreen : Screen {
         val bottomNavigationInset = with(LocalDensity.current) {
             WindowInsets.navigationBars.getBottom(this).toDp()
         }
+        val clipboardManager = LocalClipboardManager.current
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -159,6 +163,10 @@ class PostListScreen : Screen {
                                 animationSpec = tween(350),
                             )
                         }
+                    }
+
+                    is PostListMviModel.Effect.TriggerCopy -> {
+                        clipboardManager.setText(AnnotatedString(text = effect.text))
                     }
                 }
             }.launchIn(this)
@@ -524,6 +532,10 @@ class PostListScreen : Screen {
                                                 OptionId.Share,
                                                 LocalXmlStrings.current.postActionShare,
                                             )
+                                            this += Option(
+                                                OptionId.Copy,
+                                                LocalXmlStrings.current.actionCopyClipboard,
+                                            )
                                             if (uiState.isLogged) {
                                                 this += Option(
                                                     OptionId.Hide,
@@ -604,11 +616,8 @@ class PostListScreen : Screen {
                                                             )
                                                         )
                                                     } else {
-                                                        val screen =
-                                                            ShareBottomSheet(urls = urls)
-                                                        navigationCoordinator.showBottomSheet(
-                                                            screen
-                                                        )
+                                                        val screen = ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(screen)
                                                     }
                                                 }
 
@@ -628,6 +637,21 @@ class PostListScreen : Screen {
                                                         userInstanceId = post.creator?.instanceId,
                                                     )
                                                     navigationCoordinator.showBottomSheet(screen)
+                                                }
+
+                                                OptionId.Copy -> {
+                                                    val texts = listOfNotNull(
+                                                        post.title.takeIf { it.isNotBlank() },
+                                                        post.text.takeIf { it.isNotBlank() },
+                                                    ).distinct()
+                                                    if (texts.size == 1) {
+                                                        model.reduce(
+                                                            PostListMviModel.Intent.Copy(texts.first())
+                                                        )
+                                                    } else {
+                                                        val screen = CopyPostBottomSheet(post.title, post.text)
+                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    }
                                                 }
 
                                                 else -> Unit

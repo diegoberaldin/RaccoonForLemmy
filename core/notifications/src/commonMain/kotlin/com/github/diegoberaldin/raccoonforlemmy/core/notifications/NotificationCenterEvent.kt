@@ -83,4 +83,6 @@ sealed interface NotificationCenterEvent {
     data object ResetHome : NotificationCenterEvent
     data object ResetExplore : NotificationCenterEvent
     data object ResetInbox : NotificationCenterEvent
+
+    data class CopyText(val value: String) : NotificationCenterEvent
 }

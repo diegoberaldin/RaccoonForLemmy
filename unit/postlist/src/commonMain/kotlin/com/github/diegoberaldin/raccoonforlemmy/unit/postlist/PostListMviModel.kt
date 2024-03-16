@@ -31,6 +31,7 @@ interface PostListMviModel :
         data object ClearRead : Intent
         data class StartZombieMode(val index: Int) : Intent
         data object PauseZombieMode : Intent
+        data class Copy(val value: String) : Intent
     }
 
     data class UiState(
@@ -61,5 +62,6 @@ interface PostListMviModel :
     sealed interface Effect {
         data object BackToTop : Effect
         data class ZombieModeTick(val index: Int) : Effect
+        data class TriggerCopy(val text: String) : Effect
     }
 }
