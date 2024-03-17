@@ -66,9 +66,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsType
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments.ModdedCommentsScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.posts.ModdedPostsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.components.ProfileShortcutSection
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
@@ -127,12 +127,9 @@ object ProfileLoggedScreen : Tab {
                             navigationCoordinator.pushScreen(ReportListScreen())
                         }
 
-                        ModeratorZoneAction.ModeratedComments -> {
-                            navigationCoordinator.pushScreen(ModdedCommentsScreen())
-                        }
-
-                        ModeratorZoneAction.ModeratedPosts -> {
-                            navigationCoordinator.pushScreen(ModdedPostsScreen())
+                        ModeratorZoneAction.ModeratedContents -> {
+                            val screen = FilteredContentsScreen(type = FilteredContentsType.Moderated)
+                            navigationCoordinator.pushScreen(screen)
                         }
                     }
                 }.launchIn(this)
@@ -203,6 +200,10 @@ object ProfileLoggedScreen : Tab {
                                 onOpenModeratorZone = rememberCallback {
                                     val screen = ModeratorZoneBottomSheet()
                                     navigationCoordinator.showBottomSheet(screen)
+                                },
+                                onOpenVotes = rememberCallback {
+                                    val screen = FilteredContentsScreen(type = FilteredContentsType.Votes)
+                                    navigationCoordinator.pushScreen(screen)
                                 },
                             )
                         }
