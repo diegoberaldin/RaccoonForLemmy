@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.comments.components
+package com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
