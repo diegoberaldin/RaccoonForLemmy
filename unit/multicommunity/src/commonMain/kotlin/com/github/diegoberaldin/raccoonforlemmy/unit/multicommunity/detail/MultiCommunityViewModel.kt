@@ -86,6 +86,9 @@ class MultiCommunityViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
+                emitEffect(MultiCommunityMviModel.Effect.TriggerCopy(it.value))
+            }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -147,10 +150,16 @@ class MultiCommunityViewModel(
 
             MultiCommunityMviModel.Intent.ClearRead -> clearRead()
             is MultiCommunityMviModel.Intent.MarkAsRead -> markAsRead(
-                post = uiState.value.posts.first { it.id == intent.id })
+                post = uiState.value.posts.first { it.id == intent.id },
+            )
 
             is MultiCommunityMviModel.Intent.Hide -> hide(
-                post = uiState.value.posts.first { it.id == intent.id })
+                post = uiState.value.posts.first { it.id == intent.id },
+            )
+
+            is MultiCommunityMviModel.Intent.Copy -> screenModelScope.launch {
+                emitEffect(MultiCommunityMviModel.Effect.TriggerCopy(intent.value))
+            }
         }
     }
 

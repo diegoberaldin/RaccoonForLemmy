@@ -23,6 +23,7 @@ interface MultiCommunityMviModel :
         data class Hide(val id: Int) : Intent
         data object ClearRead : Intent
         data class Share(val url: String) : Intent
+        data class Copy(val value: String) : Intent
     }
 
     data class UiState(
@@ -48,5 +49,7 @@ interface MultiCommunityMviModel :
         val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = emptyList(),
     )
 
-    sealed interface Effect
+    sealed interface Effect {
+        data class TriggerCopy(val text: String) : Effect
+    }
 }

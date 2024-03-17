@@ -55,6 +55,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -74,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -125,6 +128,17 @@ class MultiCommunityScreen(
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val detailOpener = remember { getDetailOpener() }
+        val clipboardManager = LocalClipboardManager.current
+
+        LaunchedEffect(model) {
+            model.effects.onEach { effect ->
+                when (effect) {
+                    is MultiCommunityMviModel.Effect.TriggerCopy -> {
+                        clipboardManager.setText(AnnotatedString(text = effect.text))
+                    }
+                }
+            }.launchIn(this)
+        }
 
         Scaffold(
             contentWindowInsets = if (settings.edgeToEdge) {
@@ -450,24 +464,22 @@ class MultiCommunityScreen(
                                         )
                                     },
                                     options = buildList {
-                                        add(
-                                            Option(
-                                                OptionId.Share,
-                                                LocalXmlStrings.current.postActionShare
-                                            )
+                                        this += Option(
+                                            OptionId.Share,
+                                            LocalXmlStrings.current.postActionShare,
+                                        )
+                                        this += Option(
+                                            OptionId.Copy,
+                                            LocalXmlStrings.current.actionCopyClipboard,
                                         )
                                         if (uiState.currentUserId != null) {
-                                            add(
-                                                Option(
-                                                    OptionId.Hide,
-                                                    LocalXmlStrings.current.postActionHide
-                                                )
+                                            this += Option(
+                                                OptionId.Hide,
+                                                LocalXmlStrings.current.postActionHide,
                                             )
-                                            add(
-                                                Option(
-                                                    OptionId.Report,
-                                                    LocalXmlStrings.current.postActionReport
-                                                )
+                                            this += Option(
+                                                OptionId.Report,
+                                                LocalXmlStrings.current.postActionReport,
                                             )
                                         }
                                     },
@@ -500,6 +512,21 @@ class MultiCommunityScreen(
                                                     )
                                                 } else {
                                                     val screen = ShareBottomSheet(urls = urls)
+                                                    navigationCoordinator.showBottomSheet(screen)
+                                                }
+                                            }
+
+                                            OptionId.Copy -> {
+                                                val texts = listOfNotNull(
+                                                    post.title.takeIf { it.isNotBlank() },
+                                                    post.text.takeIf { it.isNotBlank() },
+                                                ).distinct()
+                                                if (texts.size == 1) {
+                                                    model.reduce(
+                                                        MultiCommunityMviModel.Intent.Copy(texts.first())
+                                                    )
+                                                } else {
+                                                    val screen = CopyPostBottomSheet(post.title, post.text)
                                                     navigationCoordinator.showBottomSheet(screen)
                                                 }
                                             }
