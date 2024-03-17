@@ -95,4 +95,21 @@ interface UserRepository {
         auth: String? = null,
         id: Int?,
     ): List<CommunityModel>
+
+    suspend fun getLikedPosts(
+        auth: String? = null,
+        page: Int,
+        pageCursor: String? = null,
+        limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
+        sort: SortType = SortType.New,
+        liked: Boolean = true,
+    ): Pair<List<PostModel>, String?>?
+
+    suspend fun getLikedComments(
+        auth: String? = null,
+        page: Int,
+        limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
+        sort: SortType = SortType.New,
+        liked: Boolean = true,
+    ): List<CommentModel>?
 }

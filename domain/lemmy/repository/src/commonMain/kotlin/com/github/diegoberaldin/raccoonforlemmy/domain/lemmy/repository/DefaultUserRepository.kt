@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockPersonForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkAllAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkCommentAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPersonMentionAsReadForm
@@ -13,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toCommentDto
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -278,6 +280,54 @@ internal class DefaultUserRepository(
             response?.moderates?.map {
                 it.community.toModel()
             }.orEmpty()
+        }.getOrElse { emptyList() }
+    }
+
+    override suspend fun getLikedPosts(
+        auth: String?,
+        page: Int,
+        pageCursor: String?,
+        limit: Int,
+        sort: SortType,
+        liked: Boolean,
+    ): Pair<List<PostModel>, String?>? = withContext(Dispatchers.IO) {
+        runCatching {
+            val response = services.post.getAll(
+                authHeader = auth.toAuthHeader(),
+                auth = auth,
+                page = page,
+                pageCursor = pageCursor,
+                limit = limit,
+                sort = sort.toDto(),
+                type = ListingType.All,
+                likedOnly = if (liked) true else null,
+                dislikedOnly = if (!liked) true else null,
+            )
+            val body = response.body()
+            val posts = body?.posts?.map { it.toModel() } ?: emptyList()
+            posts to body?.nextPage
+        }.getOrNull()
+    }
+
+    override suspend fun getLikedComments(
+        auth: String?,
+        page: Int,
+        limit: Int,
+        sort: SortType,
+        liked: Boolean
+    ): List<CommentModel>? = withContext(Dispatchers.IO) {
+        runCatching {
+            val response = services.comment.getAll(
+                authHeader = auth.toAuthHeader(),
+                auth = auth,
+                page = page,
+                limit = limit,
+                sort = sort.toCommentDto(),
+                type = ListingType.All,
+                likedOnly = if (liked) true else null,
+                dislikedOnly = if (!liked) true else null,
+            ).body()
+            response?.comments?.map { it.toModel() }
         }.getOrElse { emptyList() }
     }
 }

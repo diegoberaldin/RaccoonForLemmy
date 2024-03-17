@@ -29,7 +29,7 @@ import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.http.Query
 import de.jensklingenberg.ktorfit.http.Url
-import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.*
 
 interface PostService {
 
@@ -45,6 +45,8 @@ interface PostService {
         @Query("community_id") communityId: Int? = null,
         @Query("community_name") communityName: String? = null,
         @Query("saved_only") savedOnly: Boolean? = null,
+        @Query("liked_only") likedOnly: Boolean? = null,
+        @Query("disliked_only") dislikedOnly: Boolean? = null,
     ): Response<GetPostsResponse>
 
     @GET("post")

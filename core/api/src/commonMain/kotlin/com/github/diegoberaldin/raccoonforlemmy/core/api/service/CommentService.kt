@@ -42,6 +42,8 @@ interface CommentService {
         @Query("community_id") communityId: Int? = null,
         @Query("community_name") communityName: String? = null,
         @Query("saved_only") savedOnly: Boolean? = null,
+        @Query("liked_only") likedOnly: Boolean? = null,
+        @Query("disliked_only") dislikedOnly: Boolean? = null,
     ): Response<GetCommentsResponse>
 
     @GET("comment")
