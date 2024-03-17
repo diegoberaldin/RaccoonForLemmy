@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Customizations</string>
     <string name="navigation_drawer_title_drafts">Abbozzi</string>
     <string name="moderator_zone_title">Għodda għall-moderaturi</string>
-    <string name="moderator_zone_action_comments">Kummenti moderati</string>
-    <string name="moderator_zone_action_posts">Postijiet moderati</string>
+    <string name="moderator_zone_action_contents">Kontenut għall-moderat</string>
     <string name="message_auth_issue">Żball seħħ waqt li ġġib id-dejta tal-utent, ipprova aġġorna l-iskrin</string>
     <string name="ban_reason_placeholder">Raġuni (mhux obbligatorju)</string>
     <string name="ban_item_permanent">Projbizzjoni permanenti</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Titolu kopja</string>
     <string name="copy_text">Ikkopja t-test</string>
     <string name="copy_both">Ikkopja t-tnejn</string>
+    <string name="profile_upvotes_downvotes">Voti pożittivi &amp; negattivi</string>
+    <string name="filtered_contents_type">Tip ta\' kontenut</string>
 </resources>

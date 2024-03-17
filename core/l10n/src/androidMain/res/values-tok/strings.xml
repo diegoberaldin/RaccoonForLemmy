@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">ijo ante</string>
     <string name="navigation_drawer_title_drafts">lukin sitelen</string>
     <string name="moderator_zone_title">ilo tawa jan lawa</string>
-    <string name="moderator_zone_action_comments">toki lili pi kulupu lawa</string>
-    <string name="moderator_zone_action_posts">lipu pi kulupu lawa</string>
+    <string name="moderator_zone_action_contents">ijo pi kulupu lawa</string>
     <string name="message_auth_issue">kama sona ijo la, pakala wan li lon. o lukin open e lipu ni lon tenpo nanpa tu</string>
     <string name="ban_reason_placeholder">Tan (sina wile la)</string>
     <string name="ban_item_permanent">lon tenpo ale</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">o awen e toki suli</string>
     <string name="copy_text">o awen e toki</string>
     <string name="copy_both">o awen e tu</string>
+    <string name="profile_upvotes_downvotes">pana wile pona &amp; ike</string>
+    <string name="filtered_contents_type">nasin</string>
 </resources>

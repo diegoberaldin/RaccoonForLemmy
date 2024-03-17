@@ -328,8 +328,7 @@
     <string name="settings_configure_customizations">Настройки</string>
     <string name="navigation_drawer_title_drafts">Черновики</string>
     <string name="moderator_zone_title">Инструменты для модераторов</string>
-    <string name="moderator_zone_action_comments">Модерируемые комментарии</string>
-    <string name="moderator_zone_action_posts">Модерируемые сообщения</string>
+    <string name="moderator_zone_action_contents">Содержание для модерации</string>
     <string name="message_auth_issue">Произошла ошибка при получении пользовательских данных. Попробуйте обновить экран.</string>
     <string name="ban_reason_placeholder">Причина (необязательно)</string>
     <string name="ban_item_permanent">Постоянный бан</string>
@@ -353,4 +352,6 @@
     <string name="copy_title">Копировать заголовок</string>
     <string name="copy_text">Копировать текст</string>
     <string name="copy_both">Скопируйте оба</string>
+    <string name="profile_upvotes_downvotes">Голоса за &amp; отрицательные голоса</string>
+    <string name="filtered_contents_type">Тип содержимого</string>
 </resources>

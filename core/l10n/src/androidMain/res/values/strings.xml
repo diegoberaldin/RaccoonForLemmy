@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Customizations</string>
     <string name="navigation_drawer_title_drafts">Drafts</string>
     <string name="moderator_zone_title">Moderation tools</string>
-    <string name="moderator_zone_action_comments">Moderated comments</string>
-    <string name="moderator_zone_action_posts">Moderated posts</string>
+    <string name="moderator_zone_action_contents">Moderated contents</string>
     <string name="message_auth_issue">An error occurred while fetching user data, try refreshing the screen</string>
     <string name="ban_reason_placeholder">Reason (optional)</string>
     <string name="ban_item_permanent">Permanent ban</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Copy title</string>
     <string name="copy_text">Copy text</string>
     <string name="copy_both">Copy both</string>
+    <string name="profile_upvotes_downvotes">Upvotes &amp; downvotes</string>
+    <string name="filtered_contents_type">Content type</string>
 </resources>

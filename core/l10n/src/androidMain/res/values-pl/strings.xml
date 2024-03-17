@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Modyfikacje</string>
     <string name="navigation_drawer_title_drafts">Projektowanie</string>
     <string name="moderator_zone_title">Narzędzia dla moderatorów</string>
-    <string name="moderator_zone_action_comments">Moderowane komentarze</string>
-    <string name="moderator_zone_action_posts">Moderowane posty</string>
+    <string name="moderator_zone_action_contents">Treść do moderacji</string>
     <string name="message_auth_issue">Wystąpił błąd podczas pobierania danych użytkownika. Spróbuj odświeżyć ekran</string>
     <string name="ban_reason_placeholder">Powód (opcjonalnie)</string>
     <string name="ban_item_permanent">Stały zakaz</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Skopiuj tytuł</string>
     <string name="copy_text">Skopiuj tekst</string>
     <string name="copy_both">Skopiuj oba</string>
+    <string name="profile_upvotes_downvotes">Głosy za i głosów przeciwnych</string>
+    <string name="filtered_contents_type">Typ zawartości</string>
 </resources>

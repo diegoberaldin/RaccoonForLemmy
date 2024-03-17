@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Mukautukset</string>
     <string name="navigation_drawer_title_drafts">Luonnokset</string>
     <string name="moderator_zone_title">Työkaluja moderaattoreille</string>
-    <string name="moderator_zone_action_comments">Moderoidut kommentit</string>
-    <string name="moderator_zone_action_posts">Valvotut viestit</string>
+    <string name="moderator_zone_action_contents">Sisältö keskitettäväksi</string>
     <string name="message_auth_issue">Käyttäjätietoja haettaessa tapahtui virhe. Yritä päivittää näyttö</string>
     <string name="ban_reason_placeholder">Syy (valinnainen)</string>
     <string name="ban_item_permanent">Pysyvä kielto</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopioi otsikko</string>
     <string name="copy_text">Kopioi teksti</string>
     <string name="copy_both">Kopioi molemmat</string>
+    <string name="profile_upvotes_downvotes">Plussat &amp; miinusääniä</string>
+    <string name="filtered_contents_type">Sisältötyyppi</string>
 </resources>

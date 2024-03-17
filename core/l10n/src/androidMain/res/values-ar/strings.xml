@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">التخصيصات</string>
     <string name="navigation_drawer_title_drafts">المسودات</string>
     <string name="moderator_zone_title">أدوات للمشرفين</string>
-    <string name="moderator_zone_action_comments">تعليقات خاضعة للإشراف</string>
-    <string name="moderator_zone_action_posts">المشاركات الخاضعة للإشراف</string>
+    <string name="moderator_zone_action_contents">محتويات إلى معتدلة</string>
     <string name="message_auth_issue">حدث خطأ أثناء جلب بيانات المستخدم، حاول تحديث الشاشة</string>
     <string name="ban_reason_placeholder">لسبب (اختياري)</string>
     <string name="ban_item_permanent">فرض حظر دائم</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">انسخ العنوان</string>
     <string name="copy_text">نسخ النص</string>
     <string name="copy_both">انسخ كلاهما</string>
+    <string name="profile_upvotes_downvotes">التصويتات المؤيدة &amp; التصويت السلبي</string>
+    <string name="filtered_contents_type">نوع المحتوى</string>
 </resources>

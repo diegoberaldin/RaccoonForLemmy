@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Прилагођавања</string>
     <string name="navigation_drawer_title_drafts">Нацрти</string>
     <string name="moderator_zone_title">Алати за модерирање</string>
-    <string name="moderator_zone_action_comments">Модерирани коментари</string>
-    <string name="moderator_zone_action_posts">Модерирани постови</string>
+    <string name="moderator_zone_action_contents">Садржај за модерирање</string>
     <string name="message_auth_issue">Дошло је до грешке при преузимању корисничких података, покушајте да освежите екран</string>
     <string name="ban_reason_placeholder">Разлог (опционо)</string>
     <string name="ban_item_permanent">Трајна забрана</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Копирај наслов</string>
     <string name="copy_text">Копирај текст</string>
     <string name="copy_both">Копирај оба</string>
+    <string name="profile_upvotes_downvotes">Гласови за &amp; довнвотес</string>
+    <string name="filtered_contents_type">Тип садржаја</string>
 </resources>

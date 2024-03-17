@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Aanpassingen</string>
     <string name="navigation_drawer_title_drafts">Concepten</string>
     <string name="moderator_zone_title">Hulpmiddelen voor moderators</string>
-    <string name="moderator_zone_action_comments">Gemodereerde opmerkingen</string>
-    <string name="moderator_zone_action_posts">Gemodereerde berichten</string>
+    <string name="moderator_zone_action_contents">Inhoud tot matig</string>
     <string name="message_auth_issue">Er is een fout opgetreden tijdens het ophalen van gebruikersgegevens. Probeer het scherm te vernieuwen</string>
     <string name="ban_reason_placeholder">Reden (optioneel)</string>
     <string name="ban_item_permanent">Permanente verbanning</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Titel kopiëren</string>
     <string name="copy_text">Kopieer tekst</string>
     <string name="copy_both">Kopieer beide</string>
+    <string name="profile_upvotes_downvotes">Stemmen &amp; tegenstemmen</string>
+    <string name="filtered_contents_type">Inhoudstype</string>
 </resources>

@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Prilagodbe</string>
     <string name="navigation_drawer_title_drafts">Nacrti</string>
     <string name="moderator_zone_title">Alati za moderatore</string>
-    <string name="moderator_zone_action_comments">Moderirani komentari</string>
-    <string name="moderator_zone_action_posts">Moderirani postovi</string>
+    <string name="moderator_zone_action_contents">Sadržaj za moderiranje</string>
     <string name="message_auth_issue">Došlo je do pogreške prilikom dohvaćanja korisničkih podataka, pokušajte osvježiti zaslon</string>
     <string name="ban_reason_placeholder">Razlog (neobavezno)</string>
     <string name="ban_item_permanent">Trajna zabrana</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopiraj naslov</string>
     <string name="copy_text">Kopiraj tekst</string>
     <string name="copy_both">Kopirajte oba</string>
+    <string name="profile_upvotes_downvotes">Glasovi za &amp; glasovi protiv</string>
+    <string name="filtered_contents_type">Vrsta sadržaja</string>
 </resources>

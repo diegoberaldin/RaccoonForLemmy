@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Tilpasninger</string>
     <string name="navigation_drawer_title_drafts">Utkast</string>
     <string name="moderator_zone_title">Verktøy for moderatorer</string>
-    <string name="moderator_zone_action_comments">Modererte kommentarer</string>
-    <string name="moderator_zone_action_posts">Modererte innlegg</string>
+    <string name="moderator_zone_action_contents">Innhold å moderere</string>
     <string name="message_auth_issue">Det oppstod en feil under henting av brukerdata. Prøv å oppdatere skjermen</string>
     <string name="ban_reason_placeholder">Årsak (valgfritt)</string>
     <string name="ban_item_permanent">Permanent forbud</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopier tittel</string>
     <string name="copy_text">Kopier tekst</string>
     <string name="copy_both">Kopier begge deler</string>
+    <string name="profile_upvotes_downvotes">Oppstemmer &amp; nedstemmer</string>
+    <string name="filtered_contents_type">Innholdstype</string>
 </resources>

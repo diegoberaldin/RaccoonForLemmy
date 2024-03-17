@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Přizpůsobení</string>
     <string name="navigation_drawer_title_drafts">Pracovní verze</string>
     <string name="moderator_zone_title">Nástroje pro moderátory</string>
-    <string name="moderator_zone_action_comments">Moderované komentáře</string>
-    <string name="moderator_zone_action_posts">Moderované příspěvky</string>
+    <string name="moderator_zone_action_contents">Obsah k moderování</string>
     <string name="message_auth_issue">Při načítání uživatelských dat došlo k chybě, zkuste obnovit obrazovku</string>
     <string name="ban_reason_placeholder">Důvod (volitelné)</string>
     <string name="ban_item_permanent">Trvalý zákaz</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Zkopírujte název</string>
     <string name="copy_text">Zkopírujte text</string>
     <string name="copy_both">Zkopírujte oba</string>
+    <string name="profile_upvotes_downvotes">Hlasy pro &amp; záporné hlasy</string>
+    <string name="filtered_contents_type">Typ obsahu</string>
 </resources>

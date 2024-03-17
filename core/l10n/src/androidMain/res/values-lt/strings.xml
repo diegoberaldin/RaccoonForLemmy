@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Pritaikymai</string>
     <string name="navigation_drawer_title_drafts">Juodraščiai</string>
     <string name="moderator_zone_title">Priemonės moderatoriams</string>
-    <string name="moderator_zone_action_comments">Moderuojami komentarai</string>
-    <string name="moderator_zone_action_posts">Moderuojami įrašai</string>
+    <string name="moderator_zone_action_contents">Turinys vidutinis</string>
     <string name="message_auth_issue">Gaunant vartotojo duomenis įvyko klaida. Pabandykite atnaujinti ekraną</string>
     <string name="ban_reason_placeholder">Priežastis (neprivaloma)</string>
     <string name="ban_item_permanent">Nuolatinis draudimas</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopijuoti pavadinimą</string>
     <string name="copy_text">Nukopijuokite tekstą</string>
     <string name="copy_both">Nukopijuokite abu</string>
+    <string name="profile_upvotes_downvotes">Balsavimai &amp; neigiamų balsų</string>
+    <string name="filtered_contents_type">Turinio tipas</string>
 </resources>

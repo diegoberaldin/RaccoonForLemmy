@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Pielāgojumi</string>
     <string name="navigation_drawer_title_drafts">Melnraksti</string>
     <string name="moderator_zone_title">Rīki moderatoriem</string>
-    <string name="moderator_zone_action_comments">Regulēti komentāri</string>
-    <string name="moderator_zone_action_posts">Regulētas ziņas</string>
+    <string name="moderator_zone_action_contents">Saturs līdz mērenam</string>
     <string name="message_auth_issue">Ienesot lietotāja datus, radās kļūda. Mēģiniet atsvaidzināt ekrānu</string>
     <string name="ban_reason_placeholder">Iemesls (pēc izvēles)</string>
     <string name="ban_item_permanent">Pastāvīgs aizliegums</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopēt virsrakstu</string>
     <string name="copy_text">Kopēt tekstu</string>
     <string name="copy_both">Kopējiet abus</string>
+    <string name="profile_upvotes_downvotes">Apbalvojumi &amp; negatīvie balsojumi</string>
+    <string name="filtered_contents_type">Satura veids</string>
 </resources>

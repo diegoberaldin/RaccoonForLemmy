@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Testreszabások</string>
     <string name="navigation_drawer_title_drafts">Tervezetek</string>
     <string name="moderator_zone_title">Eszközök moderátorok számára</string>
-    <string name="moderator_zone_action_comments">Moderált megjegyzések</string>
-    <string name="moderator_zone_action_posts">Moderált bejegyzések</string>
+    <string name="moderator_zone_action_contents">Tartalom moderálandó</string>
     <string name="message_auth_issue">Hiba történt a felhasználói adatok lekérése közben, próbálja meg frissíteni a képernyőt</string>
     <string name="ban_reason_placeholder">Ok (nem kötelező)</string>
     <string name="ban_item_permanent">Végleges eltiltás</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Cím másolása</string>
     <string name="copy_text">Szöveg másolása</string>
     <string name="copy_both">Másolja mindkettőt</string>
+    <string name="profile_upvotes_downvotes">Pozitív szavazatok &amp; negatív szavazatok</string>
+    <string name="filtered_contents_type">Tartalom típus</string>
 </resources>

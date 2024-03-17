@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Özelleştirmeler</string>
     <string name="navigation_drawer_title_drafts">Taslaklar</string>
     <string name="moderator_zone_title">Moderatörler için araçlar</string>
-    <string name="moderator_zone_action_comments">Denetlenen yorumlar</string>
-    <string name="moderator_zone_action_posts">Denetlenen gönderiler</string>
+    <string name="moderator_zone_action_contents">Denetlenecek içerikler</string>
     <string name="message_auth_issue">Kullanıcı verileri alınırken bir hata oluştu, ekranı yenilemeyi deneyin</string>
     <string name="ban_reason_placeholder">Sebep (isteğe bağlı)</string>
     <string name="ban_item_permanent">Kalıcı yasak</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Başlığı kopyala</string>
     <string name="copy_text">Metni kopyala</string>
     <string name="copy_both">Her ikisini de kopyala</string>
+    <string name="profile_upvotes_downvotes">Olumlu oylar &amp; olumsuz oylar</string>
+    <string name="filtered_contents_type">İçerik türü</string>
 </resources>

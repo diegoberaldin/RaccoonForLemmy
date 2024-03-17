@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Personalizări</string>
     <string name="navigation_drawer_title_drafts">Ciorne</string>
     <string name="moderator_zone_title">Instrumente pentru moderatori</string>
-    <string name="moderator_zone_action_comments">Comentarii moderate</string>
-    <string name="moderator_zone_action_posts">Postări moderate</string>
+    <string name="moderator_zone_action_contents">Conținute la moderat</string>
     <string name="message_auth_issue">A apărut o eroare la preluarea datelor utilizatorului, încercearcă să reîmprospătezi ecranul</string>
     <string name="ban_reason_placeholder">Motiv (opțional)</string>
     <string name="ban_item_permanent">Interdicție permanentă</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Copiază titlul</string>
     <string name="copy_text">Copiază textul</string>
     <string name="copy_both">Copiază ambele</string>
+    <string name="profile_upvotes_downvotes">Voturi pozitive și amp; voturi negative</string>
+    <string name="filtered_contents_type">Tipul de conținut</string>
 </resources>

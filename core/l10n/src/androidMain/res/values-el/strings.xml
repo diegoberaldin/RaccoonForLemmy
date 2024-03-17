@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Προσαρμογές</string>
     <string name="navigation_drawer_title_drafts">Προσχέδια</string>
     <string name="moderator_zone_title">Εργαλεία για συντονιστές</string>
-    <string name="moderator_zone_action_comments">Εποπτευμένα σχόλια</string>
-    <string name="moderator_zone_action_posts">Εποπτευόμενες αναρτήσεις</string>
+    <string name="moderator_zone_action_contents">Περιεχόμενα για μέτρια</string>
     <string name="message_auth_issue">Παρουσιάστηκε σφάλμα κατά την ανάκτηση δεδομένων χρήστη, δοκιμάστε να ανανεώσετε την οθόνη</string>
     <string name="ban_reason_placeholder">Αιτία (προαιρετικό)</string>
     <string name="ban_item_permanent">Μόνιμη απαγόρευση</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Αντιγραφή τίτλου</string>
     <string name="copy_text">Αντιγραφή κειμένου</string>
     <string name="copy_both">Αντιγράψτε και τα δύο</string>
+    <string name="profile_upvotes_downvotes">θετικές &amp; αρνητικές ψήφοι</string>
+    <string name="filtered_contents_type">Τύπος περιεχομένου</string>
 </resources>

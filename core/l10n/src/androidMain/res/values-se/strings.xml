@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Anpassningar</string>
     <string name="navigation_drawer_title_drafts">Utkast</string>
     <string name="moderator_zone_title">Verktyg för moderatorer</string>
-    <string name="moderator_zone_action_comments">Modererade kommentarer</string>
-    <string name="moderator_zone_action_posts">Modererade inlägg</string>
+    <string name="moderator_zone_action_contents">Innehållet till måttligt</string>
     <string name="message_auth_issue">Ett fel uppstod när användardata skulle hämtas, försök att uppdatera skärmen</string>
     <string name="ban_reason_placeholder">Orsak (valfritt)</string>
     <string name="ban_item_permanent">Permanent förbud</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopiera titel</string>
     <string name="copy_text">Kopiera text</string>
     <string name="copy_both">Kopiera båda</string>
+    <string name="profile_upvotes_downvotes">Uppröster &amp; nedröster</string>
+    <string name="filtered_contents_type">Innehållstyp</string>
 </resources>

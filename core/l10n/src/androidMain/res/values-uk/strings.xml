@@ -328,8 +328,7 @@
     <string name="settings_configure_customizations">Налаштування</string>
     <string name="navigation_drawer_title_drafts">Чернетки</string>
     <string name="moderator_zone_title">Інструменти для модераторів</string>
-    <string name="moderator_zone_action_comments">Модеровані коментарі</string>
-    <string name="moderator_zone_action_posts">Модеровані дописи</string>
+    <string name="moderator_zone_action_contents">Вміст модерувати</string>
     <string name="message_auth_issue">Під час отримання даних користувача сталася помилка. Спробуйте оновити екран</string>
     <string name="ban_reason_placeholder">Причина (необов\'язково)</string>
     <string name="ban_item_permanent">Постійний бан</string>
@@ -353,4 +352,6 @@
     <string name="copy_title">Скопіюйте назву</string>
     <string name="copy_text">Скопіюйте текст</string>
     <string name="copy_both">Скопіюйте обидва</string>
+    <string name="profile_upvotes_downvotes">Голоси за &amp; голоси проти</string>
+    <string name="filtered_contents_type">Тип вмісту</string>
 </resources>

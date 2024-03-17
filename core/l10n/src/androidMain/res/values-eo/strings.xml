@@ -183,7 +183,7 @@
     <string name="settings_default_comment_sort_type">Apriora komenta speco</string>
     <string name="settings_default_listing_type">Apriora listada speco</string>
     <string name="settings_default_post_sort_type">Apriora afiŝa speco</string>
-    <string name="settings_downvote_color">Koloro de la malfavoraj voĉdonoj</string>
+    <string name="settings_downvote_color">Koloro de la malfavoraj voĉoj</string>
     <string name="settings_dynamic_colors">Uzi dinamikajn kolorojn</string>
     <string name="settings_enable_crash_report">Enŝalti kraŝraportojn</string>
     <string name="settings_enable_double_tap">Enŝalti duoblan frapan agon</string>
@@ -209,7 +209,7 @@
     <string name="settings_ui_font_family">UI tiparo</string>
     <string name="settings_ui_font_scale">UI tekstograndeco</string>
     <string name="settings_ui_theme">UI etoso</string>
-    <string name="settings_upvote_color">Koloro de la porvoĉoj</string>
+    <string name="settings_upvote_color">Koloro de la favoraj voĉoj</string>
     <string name="settings_hide_navigation_bar">Kaŝi navigobreton dum rulumado</string>
     <string name="settings_zombie_mode_interval">Tempodaŭro de la zombia reĝimo</string>
     <string name="settings_zombie_mode_scroll_amount">Rula kvanto de la zombia reĝimo</string>
@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Personigoj</string>
     <string name="navigation_drawer_title_drafts">Malnetoj</string>
     <string name="moderator_zone_title">Iloj por moderigaĵoj</string>
-    <string name="moderator_zone_action_comments">Moderigitaj komentoj</string>
-    <string name="moderator_zone_action_posts">Moderigitaj afiŝoj</string>
+    <string name="moderator_zone_action_contents">Enhavon moderigi</string>
     <string name="message_auth_issue">Okazis eraro dum venigado de uzantdatenoj, provu refreŝigi la ekranon</string>
     <string name="ban_reason_placeholder">Kialo (laŭvola)</string>
     <string name="ban_item_permanent">Konstanta malpermeso</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopiu titolon</string>
     <string name="copy_text">Kopiu tekston</string>
     <string name="copy_both">Kopiu ambaŭ</string>
+    <string name="profile_upvotes_downvotes">Favoraj &amp; malfavoraj voĉoj</string>
+    <string name="filtered_contents_type">Enhavo tipo</string>
 </resources>

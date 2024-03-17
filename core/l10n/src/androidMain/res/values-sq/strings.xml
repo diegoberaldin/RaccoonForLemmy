@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Përshtatjet</string>
     <string name="navigation_drawer_title_drafts">Draftet</string>
     <string name="moderator_zone_title">Mjete për moderatorët</string>
-    <string name="moderator_zone_action_comments">Komentet e moderuara</string>
-    <string name="moderator_zone_action_posts">Postimet e moderuara</string>
+    <string name="moderator_zone_action_contents">Përmbajtja për të moderuar</string>
     <string name="message_auth_issue">Ndodhi një gabim gjatë marrjes së të dhënave të përdoruesit, provoni të rifreskoni ekranin</string>
     <string name="ban_reason_placeholder">Arsyeja (opsionale)</string>
     <string name="ban_item_permanent">Ndalim i përhershëm</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopjo titullin</string>
     <string name="copy_text">Kopjo tekstin</string>
     <string name="copy_both">Kopjo të dyja</string>
+    <string name="profile_upvotes_downvotes">Vota pozitive &amp; vota kundër</string>
+    <string name="filtered_contents_type">Lloji i përmbajtjes</string>
 </resources>

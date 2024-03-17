@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Персонализации</string>
     <string name="navigation_drawer_title_drafts">Чернови</string>
     <string name="moderator_zone_title">Инструменти за модератори</string>
-    <string name="moderator_zone_action_comments">Модерирани коментари</string>
-    <string name="moderator_zone_action_posts">Модерирани публикации</string>
+    <string name="moderator_zone_action_contents">Съдържание за модериране</string>
     <string name="message_auth_issue">Възникна грешка при извличането на потребителски данни, опитайте да обновите екрана</string>
     <string name="ban_reason_placeholder">Причина (по избор)</string>
     <string name="ban_item_permanent">Постоянна забрана</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Копирайте заглавието</string>
     <string name="copy_text">Копиране на текст</string>
     <string name="copy_both">Копирайте и двете</string>
+    <string name="profile_upvotes_downvotes">Гласове за &amp; гласове против</string>
+    <string name="filtered_contents_type">Тип съдържание</string>
 </resources>

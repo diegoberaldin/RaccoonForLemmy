@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Saincheapadh</string>
     <string name="navigation_drawer_title_drafts">Dréachtaí</string>
     <string name="moderator_zone_title">Uirlisí le haghaidh modhnóirí</string>
-    <string name="moderator_zone_action_comments">Tráchtanna modhnaithe</string>
-    <string name="moderator_zone_action_posts">Poist mhodhnaithe</string>
+    <string name="moderator_zone_action_contents">Ábhar go measartha</string>
     <string name="message_auth_issue">Tharla earráid agus sonraí úsáideora á bhfáil agat, bain triail as an scáileán a athnuachan</string>
     <string name="ban_reason_placeholder">Fáth (roghnach)</string>
     <string name="ban_item_permanent">Cosc buan</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Cóipeáil teideal</string>
     <string name="copy_text">Cóipeáil téacs</string>
     <string name="copy_both">Cóipeáil an dá cheann</string>
+    <string name="profile_upvotes_downvotes">Vótaí &amp; vótaí anuas</string>
+    <string name="filtered_contents_type">Cineál ábhair</string>
 </resources>

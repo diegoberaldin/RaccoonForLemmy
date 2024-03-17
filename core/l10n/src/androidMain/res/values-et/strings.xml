@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Kohandused</string>
     <string name="navigation_drawer_title_drafts">Mustandid</string>
     <string name="moderator_zone_title">Tööriistad moderaatoritele</string>
-    <string name="moderator_zone_action_comments">Modereeritud kommentaarid</string>
-    <string name="moderator_zone_action_posts">Modereeritud postitused</string>
+    <string name="moderator_zone_action_contents">Sisu mõõdukaks</string>
     <string name="message_auth_issue">Kasutajaandmete toomisel ilmnes viga. Proovige ekraani värskendada</string>
     <string name="ban_reason_placeholder">Põhjus (valikuline)</string>
     <string name="ban_item_permanent">Alaline keeld</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Kopeeri pealkiri</string>
     <string name="copy_text">Kopeeri tekst</string>
     <string name="copy_both">Kopeerige mõlemad</string>
+    <string name="profile_upvotes_downvotes">Poolthääled &amp; miinushääli</string>
+    <string name="filtered_contents_type">Sisu tüüp</string>
 </resources>

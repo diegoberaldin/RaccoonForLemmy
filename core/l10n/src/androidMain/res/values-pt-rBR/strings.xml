@@ -329,8 +329,7 @@
     <string name="settings_configure_customizations">Personalizações</string>
     <string name="navigation_drawer_title_drafts">Rascunhos</string>
     <string name="moderator_zone_title">Ferramentas para moderadores</string>
-    <string name="moderator_zone_action_comments">Comentários moderados</string>
-    <string name="moderator_zone_action_posts">Posts moderados</string>
+    <string name="moderator_zone_action_contents">Conteúdos para moderar</string>
     <string name="message_auth_issue">Ocorreu um erro ao buscar dados do usuário. Tente atualizar a tela</string>
     <string name="ban_reason_placeholder">Razão (opcional)</string>
     <string name="ban_item_permanent">Proibição permanente</string>
@@ -354,4 +353,6 @@
     <string name="copy_title">Copiar título</string>
     <string name="copy_text">Copiar texto</string>
     <string name="copy_both">Copie ambos</string>
+    <string name="profile_upvotes_downvotes">Votos positivos &amp; negativos</string>
+    <string name="filtered_contents_type">Tipo de conteúdo</string>
 </resources>
