@@ -63,7 +63,7 @@ kotlin {
                 implementation(projects.unit.createreport)
                 implementation(projects.unit.drafts)
                 implementation(projects.unit.managesubscriptions)
-                implementation(projects.unit.moddedcontents)
+                implementation(projects.unit.filteredcontents)
                 implementation(projects.unit.modlog)
                 implementation(projects.unit.rawcontent)
                 implementation(projects.unit.remove)

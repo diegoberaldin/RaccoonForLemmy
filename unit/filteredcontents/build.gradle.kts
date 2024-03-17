@@ -21,7 +21,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "moddedcontents"
+            baseName = "filteredcontents"
         }
     }
 
@@ -44,6 +44,7 @@ kotlin {
                 implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.lemmyui)
+                implementation(projects.core.commonui.modals)
                 implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
                 implementation(projects.core.notifications)
@@ -70,7 +71,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
