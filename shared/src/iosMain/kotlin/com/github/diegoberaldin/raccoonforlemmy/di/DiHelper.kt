@@ -36,10 +36,10 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.di.createPostMod
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.di.createReportModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.di.draftsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.di.filteredContentsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.di.manageBanModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.di.manageSubscriptionsModule
-import com.github.diegoberaldin.raccoonforlemmy.unit.moddedcontents.di.moddedContentsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.di.modlogModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.di.postDetailModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
@@ -105,7 +105,7 @@ fun initKoin() {
             configureSwipeActionsModule,
             configureContentViewModule,
             draftsModule,
-            moddedContentsModule,
+            filteredContentsModule,
         )
     }
 
