@@ -16,7 +16,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -36,7 +35,6 @@ import kotlinx.coroutines.yield
 class ProfileLoggedViewModel(
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
-    private val siteRepository: SiteRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
     private val userRepository: UserRepository,
@@ -106,7 +104,6 @@ class ProfileLoggedViewModel(
                             initial = false,
                         )
                     }
-                    refreshModeratedCommunities()
                 } else {
                     withContext(Dispatchers.IO) {
                         refreshUser()
@@ -195,29 +192,19 @@ class ProfileLoggedViewModel(
         if (auth.isEmpty()) {
             updateState { it.copy(user = null) }
         } else {
-            var user = siteRepository.getCurrentUser(auth)
+            var user = identityRepository.cachedUser
             runCatching {
                 withTimeout(2000) {
                     while (user == null) {
                         // retry getting user if non-empty auth
                         delay(500)
-                        user = siteRepository.getCurrentUser(auth)
+                        identityRepository.refreshLoggedState()
+                        user = identityRepository.cachedUser
                         yield()
                     }
                     updateState { it.copy(user = user) }
-                    refreshModeratedCommunities()
                 }
             }
-        }
-    }
-
-    private suspend fun refreshModeratedCommunities() {
-        val userId = uiState.value.user?.id ?: return
-        val moderatedCommunities = userRepository.getModeratedCommunities(id = userId)
-        updateState {
-            it.copy(
-                moderatedCommunityIds = moderatedCommunities.map { c -> c.id },
-            )
         }
     }
 

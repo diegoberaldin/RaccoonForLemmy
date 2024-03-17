@@ -15,6 +15,7 @@ data class UserModel(
     val banned: Boolean = false,
     val updateDate: String? = null,
     val admin: Boolean = false,
+    val moderator: Boolean = false,
 )
 
 fun List<UserModel>.containsId(value: Int?): Boolean = any { it.id == value }

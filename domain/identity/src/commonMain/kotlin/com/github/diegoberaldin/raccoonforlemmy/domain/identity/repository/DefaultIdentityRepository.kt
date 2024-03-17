@@ -4,6 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Acco
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.network.NetworkManager
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ internal class DefaultIdentityRepository(
     private val accountRepository: AccountRepository,
     private val siteRepository: SiteRepository,
     private val networkManager: NetworkManager,
+    private val userRepository: UserRepository,
 ) : IdentityRepository {
 
     override val authToken = MutableStateFlow<String?>(null)
@@ -46,12 +48,23 @@ internal class DefaultIdentityRepository(
             isLogged.value = false
         } else {
             val newIsLogged = if (networkManager.isNetworkAvailable()) {
-                cachedUser = siteRepository.getCurrentUser(auth)
+                refreshCachedUser()
                 cachedUser != null
             } else {
                 null
             }
             isLogged.value = newIsLogged
         }
+    }
+
+    private suspend fun refreshCachedUser() {
+        val auth = authToken.value.orEmpty()
+        val remoteUser = siteRepository.getCurrentUser(auth)?.let { user ->
+            val communities = userRepository.getModeratedCommunities(auth, id = user.id)
+            user.copy(
+                moderator = communities.isNotEmpty()
+            )
+        }
+        cachedUser = remoteUser
     }
 }

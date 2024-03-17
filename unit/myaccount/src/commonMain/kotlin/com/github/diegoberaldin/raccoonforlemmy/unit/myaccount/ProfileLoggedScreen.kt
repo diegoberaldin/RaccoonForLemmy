@@ -190,7 +190,7 @@ object ProfileLoggedScreen : Tab {
                         item {
                             ProfileShortcutSection(
                                 modifier = Modifier.padding(bottom = Spacing.xs),
-                                isMod = uiState.moderatedCommunityIds.isNotEmpty(),
+                                isMod = uiState.user?.moderator == true,
                                 onOpenSaved = rememberCallback {
                                     navigationCoordinator.pushScreen(SavedItemsScreen())
                                 },

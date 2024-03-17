@@ -45,7 +45,6 @@ interface ProfileLoggedMviModel :
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
         val showScores: Boolean = true,
-        val moderatedCommunityIds: List<Int> = emptyList(),
     )
 
     sealed interface Effect

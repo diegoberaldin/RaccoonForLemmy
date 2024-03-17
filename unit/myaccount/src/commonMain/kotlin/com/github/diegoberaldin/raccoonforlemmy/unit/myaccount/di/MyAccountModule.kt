@@ -9,7 +9,6 @@ val myAccountModule = module {
         ProfileLoggedViewModel(
             identityRepository = get(),
             apiConfigurationRepository = get(),
-            siteRepository = get(),
             userRepository = get(),
             postRepository = get(),
             commentRepository = get(),
