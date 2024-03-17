@@ -31,6 +31,7 @@ interface UserDetailMviModel :
         data class Share(val url: String) : Intent
         data object Block : Intent
         data object BlockInstance : Intent
+        data class Copy(val value: String) : Intent
     }
 
     data class UiState(
@@ -67,5 +68,6 @@ interface UserDetailMviModel :
         data object BlockSuccess : Effect
         data class BlockError(val message: String?) : Effect
         data object BackToTop : Effect
+        data class TriggerCopy(val text: String): Effect
     }
 }

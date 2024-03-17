@@ -87,6 +87,9 @@ class UserDetailViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
+                emitEffect(UserDetailMviModel.Effect.TriggerCopy(it.value))
+            }.launchIn(this)
         }
 
         screenModelScope.launch {
@@ -208,6 +211,9 @@ class UserDetailViewModel(
 
             UserDetailMviModel.Intent.Block -> blockUser()
             UserDetailMviModel.Intent.BlockInstance -> blockInstance()
+            is UserDetailMviModel.Intent.Copy -> screenModelScope.launch {
+                emitEffect(UserDetailMviModel.Effect.TriggerCopy(intent.value))
+            }
         }
     }
 

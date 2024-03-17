@@ -63,6 +63,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
@@ -90,6 +92,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserDetailSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -158,15 +161,16 @@ class UserDetailScreen(
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val detailOpener = remember { getDetailOpener() }
+        val clipboardManager = LocalClipboardManager.current
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
         }
         LaunchedEffect(model) {
-            model.effects.onEach {
-                when (it) {
+            model.effects.onEach { effect ->
+                when (effect) {
                     is UserDetailMviModel.Effect.BlockError -> {
-                        snackbarHostState.showSnackbar(it.message ?: genericError)
+                        snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
 
                     UserDetailMviModel.Effect.BlockSuccess -> {
@@ -177,6 +181,10 @@ class UserDetailScreen(
                         scope.launch {
                             lazyListState.scrollToItem(0)
                         }
+                    }
+
+                    is UserDetailMviModel.Effect.TriggerCopy -> {
+                        clipboardManager.setText(AnnotatedString(text = effect.text))
                     }
                 }
             }.launchIn(this)
@@ -660,30 +668,26 @@ class UserDetailScreen(
                                             )
                                         },
                                         options = buildList {
-                                            add(
-                                                Option(
-                                                    OptionId.Share,
-                                                    LocalXmlStrings.current.postActionShare
-                                                )
+                                            this += Option(
+                                                OptionId.Share,
+                                                LocalXmlStrings.current.postActionShare
                                             )
-                                            add(
-                                                Option(
-                                                    OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw
-                                                )
+                                            this += Option(
+                                                OptionId.Copy,
+                                                LocalXmlStrings.current.actionCopyClipboard,
+                                            )
+                                            this += Option(
+                                                OptionId.SeeRaw,
+                                                LocalXmlStrings.current.postActionSeeRaw
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
-                                                add(
-                                                    Option(
-                                                        OptionId.CrossPost,
-                                                        LocalXmlStrings.current.postActionCrossPost
-                                                    )
+                                                this += Option(
+                                                    OptionId.CrossPost,
+                                                    LocalXmlStrings.current.postActionCrossPost
                                                 )
-                                                add(
-                                                    Option(
-                                                        OptionId.Report,
-                                                        LocalXmlStrings.current.postActionReport
-                                                    )
+                                                this += Option(
+                                                    OptionId.Report,
+                                                    LocalXmlStrings.current.postActionReport
                                                 )
                                             }
                                         },
@@ -725,6 +729,21 @@ class UserDetailScreen(
                                                         navigationCoordinator.showBottomSheet(
                                                             screen
                                                         )
+                                                    }
+                                                }
+
+                                                OptionId.Copy -> {
+                                                    val texts = listOfNotNull(
+                                                        post.title.takeIf { it.isNotBlank() },
+                                                        post.text.takeIf { it.isNotBlank() },
+                                                    ).distinct()
+                                                    if (texts.size == 1) {
+                                                        model.reduce(
+                                                            UserDetailMviModel.Intent.Copy(texts.first())
+                                                        )
+                                                    } else {
+                                                        val screen = CopyPostBottomSheet(post.title, post.text)
+                                                        navigationCoordinator.showBottomSheet(screen)
                                                     }
                                                 }
 
