@@ -62,8 +62,7 @@ class ModeratorZoneBottomSheet : Screen {
                 val values = listOf(
                     ModeratorZoneAction.GlobalReports,
                     ModeratorZoneAction.GlobalModLog,
-                    ModeratorZoneAction.ModeratedComments,
-                    ModeratorZoneAction.ModeratedPosts,
+                    ModeratorZoneAction.ModeratedContents,
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
