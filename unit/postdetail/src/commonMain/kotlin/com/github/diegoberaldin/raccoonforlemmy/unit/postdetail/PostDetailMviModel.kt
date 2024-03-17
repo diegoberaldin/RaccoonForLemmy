@@ -36,6 +36,7 @@ interface PostDetailMviModel :
         data class ModDistinguishComment(val commentId: Int) : Intent
         data class ModToggleModUser(val id: Int) : Intent
         data class Share(val url: String) : Intent
+        data class Copy(val value: String) : Intent
     }
 
     data class UiState(
@@ -68,5 +69,6 @@ interface PostDetailMviModel :
         data object Close : Effect
         data class ScrollToComment(val index: Int) : Effect
         data object BackToTop : Effect
+        data class TriggerCopy(val text: String) : Effect
     }
 }

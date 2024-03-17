@@ -62,6 +62,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -86,6 +88,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -166,25 +169,30 @@ class PostDetailScreen(
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val detailOpener = remember { getDetailOpener() }
+        val clipboardManager = LocalClipboardManager.current
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
         }
         LaunchedEffect(model) {
-            model.effects.onEach { evt ->
-                when (evt) {
+            model.effects.onEach { effect ->
+                when (effect) {
                     PostDetailMviModel.Effect.Close -> {
                         navigationCoordinator.popScreen()
                     }
 
                     is PostDetailMviModel.Effect.ScrollToComment -> {
-                        lazyListState.scrollToItem(evt.index)
+                        lazyListState.scrollToItem(effect.index)
                     }
 
                     PostDetailMviModel.Effect.BackToTop -> {
                         scope.launch {
                             lazyListState.scrollToItem(0)
                         }
+                    }
+
+                    is PostDetailMviModel.Effect.TriggerCopy -> {
+                        clipboardManager.setText(AnnotatedString(text = effect.text))
                     }
                 }
             }.launchIn(this)
@@ -363,30 +371,35 @@ class PostDetailScreen(
                                 },
                                 options = buildList {
                                     this += Option(
-                                        OptionId.Share, LocalXmlStrings.current.postActionShare
+                                        OptionId.Share,
+                                        LocalXmlStrings.current.postActionShare,
+                                    )
+                                    this += Option(
+                                        OptionId.Copy,
+                                        LocalXmlStrings.current.actionCopyClipboard,
                                     )
                                     this += Option(
                                         OptionId.SeeRaw,
-                                        LocalXmlStrings.current.postActionSeeRaw
+                                        LocalXmlStrings.current.postActionSeeRaw,
                                     )
                                     if (uiState.isLogged && !isOnOtherInstance) {
                                         this += Option(
                                             OptionId.CrossPost,
-                                            LocalXmlStrings.current.postActionCrossPost
+                                            LocalXmlStrings.current.postActionCrossPost,
                                         )
                                         this += Option(
                                             OptionId.Report,
-                                            LocalXmlStrings.current.postActionReport
+                                            LocalXmlStrings.current.postActionReport,
                                         )
                                     }
                                     if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                         this += Option(
                                             OptionId.Edit,
-                                            LocalXmlStrings.current.postActionEdit
+                                            LocalXmlStrings.current.postActionEdit,
                                         )
                                         this += Option(
                                             OptionId.Delete,
-                                            LocalXmlStrings.current.commentActionDelete
+                                            LocalXmlStrings.current.commentActionDelete,
                                         )
                                     }
                                     if (uiState.isModerator) {
@@ -396,18 +409,19 @@ class PostDetailScreen(
                                                 LocalXmlStrings.current.modActionUnmarkAsFeatured
                                             } else {
                                                 LocalXmlStrings.current.modActionMarkAsFeatured
-                                            }
+                                            },
                                         )
                                         this += Option(
-                                            OptionId.LockPost, if (uiState.post.locked) {
+                                            OptionId.LockPost,
+                                            if (uiState.post.locked) {
                                                 LocalXmlStrings.current.modActionUnlock
                                             } else {
                                                 LocalXmlStrings.current.modActionLock
-                                            }
+                                            },
                                         )
                                         this += Option(
                                             OptionId.Remove,
-                                            LocalXmlStrings.current.modActionRemove
+                                            LocalXmlStrings.current.modActionRemove,
                                         )
                                         this += Option(
                                             OptionId.BanUser,
@@ -501,6 +515,21 @@ class PostDetailScreen(
                                                         userId
                                                     )
                                                 )
+                                            }
+                                        }
+
+                                        OptionId.Copy -> {
+                                            val texts = listOfNotNull(
+                                                uiState.post.title.takeIf { it.isNotBlank() },
+                                                uiState.post.text.takeIf { it.isNotBlank() },
+                                            ).distinct()
+                                            if (texts.size == 1) {
+                                                model.reduce(
+                                                    PostDetailMviModel.Intent.Copy(texts.first())
+                                                )
+                                            } else {
+                                                val screen = CopyPostBottomSheet(uiState.post.title, uiState.post.text)
+                                                navigationCoordinator.showBottomSheet(screen)
                                             }
                                         }
 
