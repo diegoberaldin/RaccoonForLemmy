@@ -128,7 +128,7 @@ class ManageAccountsScreen : Screen {
                                 Text(LocalXmlStrings.current.manageAccountsButtonAdd)
                             }
                         }
-                        Spacer(modifier = Modifier.height(Spacing.s))
+                        Spacer(modifier = Modifier.height(Spacing.interItem))
                     }
                 }
             }

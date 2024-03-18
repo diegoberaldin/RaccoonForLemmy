@@ -62,7 +62,7 @@ class ShareBottomSheet(
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     for (value in urls) {
                         Row(

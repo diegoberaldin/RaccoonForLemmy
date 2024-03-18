@@ -99,7 +99,7 @@ class VoteThemeBottomSheet(
             )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 values.forEachIndexed { idx, value ->
                     val text = if (idx == values.lastIndex) {

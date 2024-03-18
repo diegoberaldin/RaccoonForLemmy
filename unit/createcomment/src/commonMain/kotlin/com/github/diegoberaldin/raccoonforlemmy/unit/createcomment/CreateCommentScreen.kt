@@ -367,7 +367,7 @@ class CreateCommentScreen(
                                 rawContent = originalComment
                             },
                         )
-                        HorizontalDivider()
+                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                     } else if (originalPost != null) {
                         PostCard(
                             modifier = referenceModifier,

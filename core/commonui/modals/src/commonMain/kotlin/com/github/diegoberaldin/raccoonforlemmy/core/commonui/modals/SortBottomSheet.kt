@@ -104,7 +104,7 @@ internal class SortBottomSheetMain(
             )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 for (value in values) {
                     val sortValue = value.toSortType()
@@ -219,7 +219,7 @@ internal class SortBottomSheetTop(
             }
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 for (value in values) {
                     val sortValue = value.toSortType()

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,7 +82,7 @@ fun CommentCard(
     )
 
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Box(
             modifier = Modifier.onClick(
@@ -151,6 +152,10 @@ fun CommentCard(
                     }
                 }
                 PostCardFooter(
+                    modifier = Modifier.padding(
+                        top = Spacing.xxs,
+                        bottom = Spacing.xs,
+                    ),
                     score = comment.score,
                     showScores = showScores,
                     voteFormat = voteFormat,
@@ -172,12 +177,13 @@ fun CommentCard(
                 )
             }
             if (!hideIndent && comment.depth > 0) {
+                val width = barWidth * commentBarThickness
                 Box(
                     modifier = Modifier
                         .padding(top = Spacing.xxs)
-                        .width(barWidth * commentBarThickness)
+                        .width(width)
                         .height(commentHeight.toLocalDp())
-                        .background(color = barColor)
+                        .background(color = barColor, shape = RoundedCornerShape(width / 2))
                 )
             }
         }

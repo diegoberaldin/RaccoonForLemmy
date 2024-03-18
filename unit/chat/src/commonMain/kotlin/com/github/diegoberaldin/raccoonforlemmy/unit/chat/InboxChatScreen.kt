@@ -321,6 +321,7 @@ class InboxChatScreen(
                                     }
                                 },
                             )
+                            Spacer(modifier = Modifier.height(Spacing.s))
                         }
                         item {
                             if (!uiState.initial && !uiState.loading && !uiState.refreshing && uiState.canFetchMore) {

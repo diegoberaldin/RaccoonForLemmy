@@ -316,9 +316,9 @@ class ExploreScreen : Screen {
                                     postLayout = uiState.postLayout,
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
-                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                                 } else {
-                                    Spacer(modifier = Modifier.height(Spacing.s))
+                                    Spacer(modifier = Modifier.height(Spacing.interItem))
                                 }
                             }
                         }
@@ -521,9 +521,9 @@ class ExploreScreen : Screen {
                                         },
                                     )
                                     if (uiState.postLayout != PostLayout.Card) {
-                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                                     } else {
-                                        Spacer(modifier = Modifier.height(Spacing.s))
+                                        Spacer(modifier = Modifier.height(Spacing.interItem))
                                     }
                                 }
 
@@ -710,7 +710,7 @@ class ExploreScreen : Screen {
                                         },
                                     )
                                     HorizontalDivider(
-                                        modifier = Modifier.padding(vertical = Spacing.xxxs),
+                                        modifier = Modifier.padding(vertical = Spacing.interItem),
                                         thickness = 0.25.dp
                                     )
                                 }

@@ -71,7 +71,7 @@ class BlockBottomSheet(
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     val values: List<Triple<BlockActionType, Int, String>> = buildList {
                         if (userName != null && userId != null) {

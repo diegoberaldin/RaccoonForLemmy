@@ -248,7 +248,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         }
                     }
                     item {
-                        Spacer(modifier = Modifier.height(Spacing.s))
+                        Spacer(modifier = Modifier.height(Spacing.interItem))
                     }
 
                     // comments
@@ -387,7 +387,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         }
                     }
                     item {
-                        Spacer(modifier = Modifier.height(Spacing.s))
+                        Spacer(modifier = Modifier.height(Spacing.interItem))
                     }
 
                     // inbox

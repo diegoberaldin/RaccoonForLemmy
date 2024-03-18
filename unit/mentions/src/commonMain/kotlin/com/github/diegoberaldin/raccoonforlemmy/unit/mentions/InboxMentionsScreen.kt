@@ -122,9 +122,9 @@ class InboxMentionsScreen : Tab {
                             postLayout = uiState.postLayout,
                         )
                         if (uiState.postLayout != PostLayout.Card) {
-                            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                         } else {
-                            Spacer(modifier = Modifier.height(Spacing.s))
+                            Spacer(modifier = Modifier.height(Spacing.interItem))
                         }
                     }
                 }
@@ -284,9 +284,9 @@ class InboxMentionsScreen : Tab {
                         },
                     )
                     if (uiState.postLayout != PostLayout.Card) {
-                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                     } else {
-                        Spacer(modifier = Modifier.height(Spacing.s))
+                        Spacer(modifier = Modifier.height(Spacing.interItem))
                     }
                 }
                 item {

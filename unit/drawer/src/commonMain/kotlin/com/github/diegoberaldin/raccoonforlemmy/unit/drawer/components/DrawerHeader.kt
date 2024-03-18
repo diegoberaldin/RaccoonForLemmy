@@ -71,7 +71,7 @@ internal fun DrawerHeader(
 
             Row {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     Text(
                         text = buildString {
@@ -114,7 +114,7 @@ internal fun DrawerHeader(
                 title = anonymousTitle,
             )
             Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 Text(
                     text = anonymousTitle,
