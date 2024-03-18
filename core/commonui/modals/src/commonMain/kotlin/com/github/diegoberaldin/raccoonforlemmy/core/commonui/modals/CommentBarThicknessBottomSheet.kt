@@ -68,7 +68,7 @@ class CommentBarThicknessBottomSheet(
 
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 for (value in values) {
                     Row(

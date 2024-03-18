@@ -271,9 +271,9 @@ class FilteredContentsScreen(
                                 items(5) {
                                     PostCardPlaceholder(uiState.postLayout)
                                     if (uiState.postLayout != PostLayout.Card) {
-                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                                     } else {
-                                        Spacer(modifier = Modifier.height(Spacing.s))
+                                        Spacer(modifier = Modifier.height(Spacing.interItem))
                                     }
                                 }
                             }
@@ -511,9 +511,9 @@ class FilteredContentsScreen(
                                 items(5) {
                                     ModdedCommentPlaceholder(postLayout = uiState.postLayout)
                                     if (uiState.postLayout != PostLayout.Card) {
-                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                                     } else {
-                                        Spacer(modifier = Modifier.height(Spacing.s))
+                                        Spacer(modifier = Modifier.height(Spacing.interItem))
                                     }
                                 }
                             }

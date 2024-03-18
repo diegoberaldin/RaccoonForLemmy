@@ -18,11 +18,14 @@ fun BottomSheetHandle(
 ) {
     Box(
         modifier = modifier.width(60.dp)
+            .padding(
+                top = Spacing.s,
+                bottom = Spacing.xxxs,
+            )
             .height(3.dp)
-            .padding(vertical = Spacing.xxxs)
             .background(
-                color = MaterialTheme.colorScheme.onBackground,
-                shape = RoundedCornerShape(1.dp),
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
+                shape = RoundedCornerShape(1.5.dp),
             ),
     )
 }

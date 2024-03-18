@@ -163,7 +163,7 @@ class UserInfoScreen(
                     uiState.user.bio?.takeIf { it.isNotEmpty() }?.also { biography ->
                         item {
                             Column(
-                                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                             ) {
                                 Text(
                                     text = LocalXmlStrings.current.settingsWebBio,
@@ -228,7 +228,7 @@ class UserInfoScreen(
                     uiState.user.matrixUserId?.also { matrixUserId ->
                         item {
                             Column(
-                                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                             ) {
                                 Text(
                                     text = LocalXmlStrings.current.settingsWebMatrix,

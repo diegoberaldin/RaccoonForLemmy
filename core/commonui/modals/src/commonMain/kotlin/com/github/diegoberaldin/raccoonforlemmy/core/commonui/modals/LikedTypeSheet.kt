@@ -59,7 +59,7 @@ class LikedTypeSheet : Screen {
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     Row(
                         modifier = Modifier

@@ -37,7 +37,7 @@ internal fun AccountSettingsFormattedInfo(
             ),
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
                 text = title,

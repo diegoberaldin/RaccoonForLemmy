@@ -133,7 +133,7 @@ class SelectInstanceBottomSheet : Screen {
             LazyColumn(
                 state = lazyListState,
                 modifier = Modifier.fillMaxWidth().weight(1f),
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 if (uiState.instances.isEmpty()) {
                     item {

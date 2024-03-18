@@ -73,7 +73,7 @@ class FontFamilyBottomSheet(
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     for (value in values) {
                         val family = value.toUiFontFamily()

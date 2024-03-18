@@ -467,9 +467,9 @@ class UserDetailScreen(
                                     postLayout = uiState.postLayout,
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
-                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                                 } else {
-                                    Spacer(modifier = Modifier.height(Spacing.s))
+                                    Spacer(modifier = Modifier.height(Spacing.interItem))
                                 }
                             }
                         }
@@ -753,9 +753,9 @@ class UserDetailScreen(
                                 },
                             )
                             if (uiState.postLayout != PostLayout.Card) {
-                                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.s))
+                                HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                             } else {
-                                Spacer(modifier = Modifier.height(Spacing.s))
+                                Spacer(modifier = Modifier.height(Spacing.interItem))
                             }
                         }
 

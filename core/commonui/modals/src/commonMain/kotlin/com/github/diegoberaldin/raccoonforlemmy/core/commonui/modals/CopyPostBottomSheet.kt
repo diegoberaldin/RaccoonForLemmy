@@ -63,7 +63,7 @@ class CopyPostBottomSheet(
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     val titleCanBeCopied = !title.isNullOrBlank()
                     val textCanBeCopied = !text.isNullOrBlank()

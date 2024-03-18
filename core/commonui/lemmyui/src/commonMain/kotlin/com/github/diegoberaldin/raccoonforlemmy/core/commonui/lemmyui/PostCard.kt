@@ -200,7 +200,7 @@ private fun CompactPost(
                     }
                 )
             },
-        verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+        verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {
         CommunityAndCreatorInfo(
             community = post.community,
@@ -275,6 +275,7 @@ private fun CompactPost(
             }
         }
         PostCardFooter(
+            modifier = Modifier.padding(top = Spacing.xxs),
             comments = post.comments,
             voteFormat = voteFormat,
             score = post.score,
@@ -348,7 +349,7 @@ private fun ExtendedPost(
                     }
                 )
             },
-        verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+        verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {
         CommunityAndCreatorInfo(
             modifier = Modifier.padding(horizontal = Spacing.xxs),

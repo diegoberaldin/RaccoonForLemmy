@@ -42,7 +42,7 @@ fun CommentCardPlaceholder(
                 )
                 Column(
                     modifier = Modifier.padding(vertical = Spacing.xxxs),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxxs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     Box(
                         modifier = Modifier.height(IconSize.s)
