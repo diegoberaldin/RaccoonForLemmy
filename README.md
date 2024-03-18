@@ -68,7 +68,7 @@ for some technical notes.
 - view post feed and comments with different listing and sort types;
 - possibility to upvote and downvote (with configurable swipe actions);
 - community and user detail (with info about moderators/moderated communities);
-- user profile with one's own posts, comments and saved items;
+- review your posts and comments (created by you, bookmarked, liked/disliked);
 - inbox with replies, mentions and direct messages;
 - global search with different result types (all, posts, comments, user, communities);
 - create and edit new posts (with optional images);
@@ -85,56 +85,51 @@ for some technical notes.
 - multi-community (community aggregation);
 - view the moderation log;
 - community moderation tool (examine and resolve reports, ban users, feature posts, block
-  further comments from posts, mark comments as distinguished, remove posts/comments);
-- save posts and comments you are creating as draft to edit them later.
+  further comments from posts, mark comments as distinguished, remove posts/comments, examine all posts/comments created
+  in your communities);
+- save posts and comments you are creating as drafts to edit them later;
 
 Most clients for Lemmy currently offer the first points (with various degrees of completion), so
 there is nothing special about Raccoon for Lemmy, whereas the last ones are less common and are
 directed to more demanding users.
 
-Concerning customization, the ability to change some aspects like font face or size and app
-colors, vote format, bar transparency and so on was of paramount importance from the very beginning.
-Similarly, users should be able to use the app in their native language and change the UI language
-independently from the system language.
+Concerning customization, the ability to change some aspects like font face or size and app colors, vote format, bar
+transparency and so on was of paramount importance from the very beginning. Similarly, users should be able to use the
+app in their native language and change the UI language independently of the system language.
 
-This app is also intended for moderators who want to use their mobile device, offering moderation
-tools (feature post, lock post, distinguish comment, remove post/comment, ban users) and the ability
-to revert any of these actions.
+This app is also intended for moderators who want to use their mobile device, offering moderation tools (feature post,
+lock post, distinguish comment, remove post/comment, ban users) and the ability to revert any of these actions.
 
-The project is under active development, so expect new features to be added over time. Have a
-look on the issues labeled with "feature" in the issue tracker to get an idea of what's going to
-come next.
+The project is under active development, so expect new features to be added over time. Have a look on the issues labeled
+with "feature" in the issue tracker to get an idea of what's going to come next.
 
-If you have ideas, feedback, suggestions or comments remember to speak up and use your
-voice. You can add reports or request features and they will be considered.
+If you have ideas, feedback, suggestions or comments remember to speak up and use your voice. You can add reports or
+request features and they will be considered.
 
 ## Why was the project started?
 
 Because raccoons are so adorable, aren't they? 🦝🦝🦝
 
-Joking apart, one of the main goals was to experiment with KMP and learn how to properly deal
-with the challenges of a multiplatform environment, and a medium-sized project like this was an
-ideal testing ground for that technology.
+Joking apart, one of the main goals was to experiment with KMP and learn how to properly deal with the challenges of a
+multiplatform environment, and a medium-sized project like this was an ideal testing ground for that technology.
 
-Secondly, I felt that the Android ecosystem of Lemmy apps was a little "poor" with few
-native apps (fewer open source), while the "market" is dominated by iOS and cross platform clients.
-I️ ❤️ Kotlin, I ❤️ Free and Open Source Software and I ❤️ native app development, so there was a
-niche that needed to be filled.
+Secondly, I felt that the Android ecosystem of Lemmy apps was a little "poor" with few native apps (fewer open source),
+while the "market" is dominated by iOS and cross-platform clients. I️ ❤️ Kotlin, I ❤️ Free and Open Source Software and
+I ❤️ native app development, so there was a niche that could be filled.
 
-Developing a new client was an opportunity to add all the good features that were "scattered" across
-different apps, e.g. the feature richness of [Liftoff](https://github.com/liftoff-app/liftoff), the
+Developing a new client was an opportunity to add all the good features that were "scattered" across different apps,
+e.g. the feature richness of [Liftoff](https://github.com/liftoff-app/liftoff), the
 multi-community feature of
 [Summit](https://github.com/idunnololz/summit-for-lemmy) and the polished UI of the really great
 [Thunder](https://github.com/thunder-app/thunder) and so on. This app tries to be configurable
 enough to make users feel "at home" and choose what they want, while at the same time having a not
 too cluttered interface (except for the Settings screen - I know!)
 
-In the third place, this app has been a means to dig deeper inside Lemmy's internals and become more
-humble and patient towards other apps because there are technical difficulties in having to deal
-with a platform like Lemmy.
+In the third place, this app has been a means to dig deeper inside Lemmy's internals and become more humble and patient
+towards other apps because there are technical difficulties in having to deal with a platform like Lemmy.
 
-This involves a high level of discretion and personal taste, I know, but this project _is_ all
-about experimenting and learning.
+This involves a high level of discretion and personal taste, I know, but this project _is_ all about experimenting and
+learning.
 
 ## Technical notes:
 
@@ -165,8 +160,7 @@ the [CONTRIBUTING.md](https://github.com/diegoberaldin/RaccoonForLemmy/blob/mast
   feel confident with repository forks, pull requests, managing resource files, etc. feel free to
   drop an email or contact me in any way.
 
-Please remember: every contribution is welcome and everyone's opinion matters here. This is a
-community project, open source, ad-free and free of charge, and it belongs to us all so don't be
-afraid to get involved.
+Please remember: every contribution is welcome and everyone's opinion matters here. This is a community project, open
+source, ad-free and free of charge, and it belongs to us all so don't be afraid to get involved.
 
 And don't forget every 🦝's motto: «Live Fast, Eat Trash» (abbreviated L.F.E.T.).
