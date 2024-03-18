@@ -293,7 +293,7 @@ class UserDetailViewModel(
                     )
                 }.await()
                 val comments = async {
-                    if (currentPage == 1 && currentState.comments.isEmpty()) {
+                    if (currentPage == 1 && (currentState.comments.isEmpty() || refreshing)) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
                         userRepository.getComments(

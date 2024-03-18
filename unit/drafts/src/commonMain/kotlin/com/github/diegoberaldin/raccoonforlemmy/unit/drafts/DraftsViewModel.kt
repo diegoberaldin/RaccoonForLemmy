@@ -75,7 +75,7 @@ class DraftsViewModel(
                         )
                     }.await()
                     val commentDrafts = async {
-                        if (initial && currentState.commentDrafts.isEmpty()) {
+                        if (initial && (currentState.commentDrafts.isEmpty() || refreshing)) {
                             // this is needed because otherwise on first selector change
                             // the lazy column scrolls back to top (it must have an empty data set)
                             draftRepository.getAll(

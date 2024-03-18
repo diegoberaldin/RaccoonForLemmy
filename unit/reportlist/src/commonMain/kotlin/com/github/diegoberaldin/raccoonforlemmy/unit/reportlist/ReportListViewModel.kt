@@ -134,7 +134,7 @@ class ReportListViewModel(
                     )
                 }.await()
                 val commentReports = async {
-                    if (currentPage == 1 && currentState.commentReports.isEmpty()) {
+                    if (currentPage == 1 && (currentState.commentReports.isEmpty() || refreshing)) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
                         commentRepository.getReports(
