@@ -48,7 +48,7 @@ class ProfileLoggedViewModel(
         initialState = ProfileLoggedMviModel.UiState()
     ) {
 
-    private var currentPage = 1
+    private val currentPage = mutableMapOf<ProfileLoggedSection, Int>()
 
     init {
         updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
@@ -209,7 +209,8 @@ class ProfileLoggedViewModel(
     }
 
     private suspend fun refresh(initial: Boolean = false) {
-        currentPage = 1
+        currentPage[ProfileLoggedSection.Posts] = 1
+        currentPage[ProfileLoggedSection.Comments] = 1
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -245,23 +246,24 @@ class ProfileLoggedViewModel(
         val section = currentState.section
         val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
         if (section == ProfileLoggedSection.Posts) {
+            val page = currentPage[ProfileLoggedSection.Posts] ?: 1
             coroutineScope {
                 val itemList = async {
                     userRepository.getPosts(
                         auth = auth,
                         id = userId,
-                        page = currentPage,
+                        page = page,
                         sort = SortType.New,
                     )
                 }.await()
                 val comments = async {
-                    if (currentPage == 1 && (currentState.comments.isEmpty() || refreshing)) {
+                    if (page == 1 && (currentState.comments.isEmpty() || refreshing)) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
                         userRepository.getComments(
                             auth = auth,
                             id = userId,
-                            page = currentPage,
+                            page = 1,
                             sort = SortType.New,
                         ).orEmpty()
                     } else {
@@ -299,14 +301,15 @@ class ProfileLoggedViewModel(
                     )
                 }
                 if (!itemList.isNullOrEmpty()) {
-                    currentPage++
+                    currentPage[ProfileLoggedSection.Posts] = page + 1
                 }
             }
         } else {
+            val page = currentPage[ProfileLoggedSection.Comments] ?: 1
             val itemList = userRepository.getComments(
                 auth = auth,
                 id = userId,
-                page = currentPage,
+                page = page,
                 sort = SortType.New,
             )
             val commentsToAdd = itemList.orEmpty()
@@ -328,7 +331,7 @@ class ProfileLoggedViewModel(
                 )
             }
             if (!itemList.isNullOrEmpty()) {
-                currentPage++
+                currentPage[ProfileLoggedSection.Comments] = page + 1
             }
         }
     }

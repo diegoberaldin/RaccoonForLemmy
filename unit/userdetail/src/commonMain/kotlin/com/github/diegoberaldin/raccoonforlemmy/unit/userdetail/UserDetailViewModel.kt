@@ -56,7 +56,7 @@ class UserDetailViewModel(
         initialState = UserDetailMviModel.UiState(),
     ) {
 
-    private var currentPage = 1
+    private val currentPage = mutableMapOf<UserDetailSection, Int>()
 
     init {
         updateState {
@@ -247,7 +247,8 @@ class UserDetailViewModel(
     }
 
     private suspend fun refresh(initial: Boolean = false) {
-        currentPage = 1
+        currentPage[UserDetailSection.Posts] = 1
+        currentPage[UserDetailSection.Comments] = 1
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -281,25 +282,26 @@ class UserDetailViewModel(
         val userId = currentState.user.id
         val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
         if (section == UserDetailSection.Posts) {
+            val page = currentPage[UserDetailSection.Posts] ?: 1
             coroutineScope {
                 val itemList = async {
                     userRepository.getPosts(
                         auth = auth,
                         id = userId,
-                        page = currentPage,
+                        page = page,
                         sort = currentState.sortType,
                         username = uiState.value.user.name,
                         otherInstance = otherInstance,
                     )
                 }.await()
                 val comments = async {
-                    if (currentPage == 1 && (currentState.comments.isEmpty() || refreshing)) {
+                    if (page == 1 && (currentState.comments.isEmpty() || refreshing)) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
                         userRepository.getComments(
                             auth = auth,
                             id = userId,
-                            page = currentPage,
+                            page = 1,
                             sort = currentState.sortType,
                             username = uiState.value.user.name,
                             otherInstance = otherInstance,
@@ -346,14 +348,15 @@ class UserDetailViewModel(
                     )
                 }
                 if (!itemList.isNullOrEmpty()) {
-                    currentPage++
+                    currentPage[UserDetailSection.Posts] = page + 1
                 }
             }
         } else {
+            val page = currentPage[UserDetailSection.Comments] ?: 1
             val itemList = userRepository.getComments(
                 auth = auth,
                 id = userId,
-                page = currentPage,
+                page = page,
                 sort = currentState.sortType,
                 otherInstance = otherInstance,
             )
@@ -376,7 +379,7 @@ class UserDetailViewModel(
                 )
             }
             if (!itemList.isNullOrEmpty()) {
-                currentPage++
+                currentPage[UserDetailSection.Comments] = page + 1
             }
         }
     }

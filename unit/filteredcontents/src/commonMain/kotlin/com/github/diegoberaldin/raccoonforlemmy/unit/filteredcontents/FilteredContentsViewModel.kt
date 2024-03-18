@@ -41,7 +41,7 @@ class FilteredContentsViewModel(
         initialState = FilteredContentsMviModel.State(),
     ) {
 
-    private var currentPage = 1
+    private val currentPage = mutableMapOf<FilteredContentsSection, Int>()
     private var pageCursor: String? = null
 
     init {
@@ -157,7 +157,8 @@ class FilteredContentsViewModel(
     }
 
     private fun refresh(initial: Boolean = false) {
-        currentPage = 1
+        currentPage[FilteredContentsSection.Posts] = 1
+        currentPage[FilteredContentsSection.Comments] = 1
         pageCursor = null
         updateState {
             it.copy(
@@ -198,11 +199,12 @@ class FilteredContentsViewModel(
         val refreshing = currentState.refreshing
 
         if (currentState.section == FilteredContentsSection.Posts) {
+            val page = currentPage[FilteredContentsSection.Posts] ?: 1
             coroutineScope {
                 val itemList = async {
                     postRepository.getAll(
                         auth = auth,
-                        page = currentPage,
+                        page = page,
                         pageCursor = pageCursor,
                         type = ListingType.ModeratorView,
                         sort = SortType.New,
@@ -227,21 +229,18 @@ class FilteredContentsViewModel(
                     }
                 }.await()
                 val comments = async {
-                    if (currentPage == 1 && (currentState.comments.isEmpty() || refreshing)) {
+                    if (page == 1 && (currentState.comments.isEmpty() || refreshing)) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
                         commentRepository.getAll(
                             auth = auth,
-                            page = currentPage,
+                            page = 1,
                             type = ListingType.ModeratorView,
                         ).orEmpty()
                     } else {
                         currentState.comments
                     }
                 }.await()
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage++
-                }
                 val itemsToAdd = itemList.orEmpty().filter { post ->
                     !post.deleted
                 }
@@ -268,13 +267,14 @@ class FilteredContentsViewModel(
                     )
                 }
                 if (!itemList.isNullOrEmpty()) {
-                    currentPage++
+                    currentPage[FilteredContentsSection.Posts] = page + 1
                 }
             }
         } else {
+            val page = currentPage[FilteredContentsSection.Comments] ?: 1
             val itemList = commentRepository.getAll(
                 auth = auth,
-                page = currentPage,
+                page = page,
                 type = ListingType.ModeratorView,
             )?.let { list ->
                 if (refreshing) {
@@ -305,7 +305,7 @@ class FilteredContentsViewModel(
                 )
             }
             if (!itemList.isNullOrEmpty()) {
-                currentPage++
+                currentPage[FilteredContentsSection.Comments] = page + 1
             }
         }
     }
@@ -317,11 +317,12 @@ class FilteredContentsViewModel(
         val refreshing = currentState.refreshing
 
         if (currentState.section == FilteredContentsSection.Posts) {
+            val page = currentPage[FilteredContentsSection.Posts] ?: 1
             coroutineScope {
                 val itemList = async {
                     userRepository.getLikedPosts(
                         auth = auth,
-                        page = currentPage,
+                        page = page,
                         pageCursor = pageCursor,
                         liked = currentState.liked,
                         sort = SortType.New,
@@ -346,12 +347,12 @@ class FilteredContentsViewModel(
                     }
                 }.await()
                 val comments = async {
-                    if (currentPage == 1 && (currentState.comments.isEmpty() || refreshing)) {
+                    if (page == 1 && (currentState.comments.isEmpty() || refreshing)) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
                         userRepository.getLikedComments(
                             auth = auth,
-                            page = currentPage,
+                            page = 1,
                             liked = currentState.liked,
                             sort = SortType.New,
                         ).orEmpty()
@@ -359,9 +360,6 @@ class FilteredContentsViewModel(
                         currentState.comments
                     }
                 }.await()
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage++
-                }
                 val itemsToAdd = itemList.orEmpty().filter { post ->
                     !post.deleted
                 }
@@ -388,13 +386,14 @@ class FilteredContentsViewModel(
                     )
                 }
                 if (!itemList.isNullOrEmpty()) {
-                    currentPage++
+                    currentPage[FilteredContentsSection.Posts] = page + 1
                 }
             }
         } else {
+            val page = currentPage[FilteredContentsSection.Comments] ?: 1
             val itemList = userRepository.getLikedComments(
                 auth = auth,
-                page = currentPage,
+                page = page,
                 liked = currentState.liked,
                 sort = SortType.New,
             )?.let { list ->
@@ -426,7 +425,7 @@ class FilteredContentsViewModel(
                 )
             }
             if (!itemList.isNullOrEmpty()) {
-                currentPage++
+                currentPage[FilteredContentsSection.Comments] = page + 1
             }
         }
     }

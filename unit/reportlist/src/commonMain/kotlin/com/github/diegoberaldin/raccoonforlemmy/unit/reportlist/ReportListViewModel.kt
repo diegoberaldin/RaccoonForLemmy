@@ -32,7 +32,7 @@ class ReportListViewModel(
         initialState = ReportListMviModel.UiState(),
     ) {
 
-    private var currentPage = 1
+    private val currentPage = mutableMapOf<ReportListSection, Int>()
 
     init {
         screenModelScope.launch {
@@ -98,7 +98,8 @@ class ReportListViewModel(
     }
 
     private fun refresh(initial: Boolean = false) {
-        currentPage = 1
+        currentPage[ReportListSection.Posts] = 1
+        currentPage[ReportListSection.Comments] = 1
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -124,23 +125,24 @@ class ReportListViewModel(
         val section = currentState.section
         val unresolvedOnly = currentState.unresolvedOnly
         if (section == ReportListSection.Posts) {
+            val page = currentPage[ReportListSection.Posts] ?: 1
             coroutineScope {
                 val itemList = async {
                     postRepository.getReports(
                         auth = auth,
                         communityId = communityId,
-                        page = currentPage,
+                        page = page,
                         unresolvedOnly = unresolvedOnly,
                     )
                 }.await()
                 val commentReports = async {
-                    if (currentPage == 1 && (currentState.commentReports.isEmpty() || refreshing)) {
+                    if (page == 1 && (currentState.commentReports.isEmpty() || refreshing)) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
                         commentRepository.getReports(
                             auth = auth,
                             communityId = communityId,
-                            page = currentPage,
+                            page = 1,
                             unresolvedOnly = unresolvedOnly,
                         ).orEmpty()
                     } else {
@@ -163,14 +165,15 @@ class ReportListViewModel(
                     )
                 }
                 if (!itemList.isNullOrEmpty()) {
-                    currentPage++
+                    currentPage[ReportListSection.Posts] = page + 1
                 }
             }
         } else {
+            val page = currentPage[ReportListSection.Comments] ?: 1
             val itemList = commentRepository.getReports(
                 auth = auth,
                 communityId = communityId,
-                page = currentPage,
+                page = page,
                 unresolvedOnly = unresolvedOnly,
             )
 
@@ -189,7 +192,7 @@ class ReportListViewModel(
                 )
             }
             if (!itemList.isNullOrEmpty()) {
-                currentPage++
+                currentPage[ReportListSection.Comments] = page + 1
             }
         }
     }
