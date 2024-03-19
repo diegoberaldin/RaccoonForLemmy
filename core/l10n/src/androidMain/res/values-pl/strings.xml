@@ -355,4 +355,5 @@
     <string name="copy_both">Skopiuj oba</string>
     <string name="profile_upvotes_downvotes">Głosy za i głosów przeciwnych</string>
     <string name="filtered_contents_type">Typ zawartości</string>
+    <string name="action_search_in_comments">Szukaj w komentarzach</string>
 </resources>

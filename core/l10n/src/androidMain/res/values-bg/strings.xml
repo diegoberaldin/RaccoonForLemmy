@@ -355,4 +355,5 @@
     <string name="copy_both">Копирайте и двете</string>
     <string name="profile_upvotes_downvotes">Гласове за &amp; гласове против</string>
     <string name="filtered_contents_type">Тип съдържание</string>
+    <string name="action_search_in_comments">Търсете в коментарите</string>
 </resources>

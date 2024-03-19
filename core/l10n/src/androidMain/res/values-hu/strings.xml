@@ -355,4 +355,5 @@
     <string name="copy_both">Másolja mindkettőt</string>
     <string name="profile_upvotes_downvotes">Pozitív szavazatok &amp; negatív szavazatok</string>
     <string name="filtered_contents_type">Tartalom típus</string>
+    <string name="action_search_in_comments">Keress a megjegyzésekben</string>
 </resources>

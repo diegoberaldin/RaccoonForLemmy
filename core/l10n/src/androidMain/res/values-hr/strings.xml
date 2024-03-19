@@ -355,4 +355,5 @@
     <string name="copy_both">Kopirajte oba</string>
     <string name="profile_upvotes_downvotes">Glasovi za &amp; glasovi protiv</string>
     <string name="filtered_contents_type">Vrsta sadržaja</string>
+    <string name="action_search_in_comments">Tražite u komentarima</string>
 </resources>

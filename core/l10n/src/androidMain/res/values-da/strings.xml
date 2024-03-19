@@ -355,4 +355,5 @@
     <string name="copy_both">Kopier begge dele</string>
     <string name="profile_upvotes_downvotes">Opstemmer &amp; nedstemmer</string>
     <string name="filtered_contents_type">Indholdstype</string>
+    <string name="action_search_in_comments">Søg i kommentarer</string>
 </resources>

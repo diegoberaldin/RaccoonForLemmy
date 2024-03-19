@@ -355,4 +355,5 @@
     <string name="copy_both">Kopieer beide</string>
     <string name="profile_upvotes_downvotes">Stemmen &amp; tegenstemmen</string>
     <string name="filtered_contents_type">Inhoudstype</string>
+    <string name="action_search_in_comments">Zoek in opmerkingen</string>
 </resources>

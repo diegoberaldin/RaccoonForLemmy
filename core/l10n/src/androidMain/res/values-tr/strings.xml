@@ -355,4 +355,5 @@
     <string name="copy_both">Her ikisini de kopyala</string>
     <string name="profile_upvotes_downvotes">Olumlu oylar &amp; olumsuz oylar</string>
     <string name="filtered_contents_type">İçerik türü</string>
+    <string name="action_search_in_comments">Yorumlarda ara</string>
 </resources>

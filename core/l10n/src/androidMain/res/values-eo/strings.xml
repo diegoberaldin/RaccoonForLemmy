@@ -346,7 +346,7 @@
     <string name="settings_title_experimental">Eksperimentoj</string>
     <string name="community_set_custom_sort">Propra ordiga tipo</string>
     <string name="settings_default_explore_type">Defaŭlta speco de nutraĵo por esploro</string>
-    <string name="action_search_in_community">Serĉu ene de komunumo</string>
+    <string name="action_search_in_community">Serĉi ene de komunumo</string>
     <string name="action_exit_search">Eliru serĉon</string>
     <string name="beta">Betao</string>
     <string name="action_copy_clipboard">Kopii al tondujo</string>
@@ -355,4 +355,5 @@
     <string name="copy_both">Kopiu ambaŭ</string>
     <string name="profile_upvotes_downvotes">Favoraj &amp; malfavoraj voĉoj</string>
     <string name="filtered_contents_type">Enhavo tipo</string>
+    <string name="action_search_in_comments">Serĉi en komentoj</string>
 </resources>

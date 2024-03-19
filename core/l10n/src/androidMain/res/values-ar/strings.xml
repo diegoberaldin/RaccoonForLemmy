@@ -355,4 +355,5 @@
     <string name="copy_both">انسخ كلاهما</string>
     <string name="profile_upvotes_downvotes">التصويتات المؤيدة &amp; التصويت السلبي</string>
     <string name="filtered_contents_type">نوع المحتوى</string>
+    <string name="action_search_in_comments">البحث في التعليقات</string>
 </resources>

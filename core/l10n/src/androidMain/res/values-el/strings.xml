@@ -355,4 +355,5 @@
     <string name="copy_both">Αντιγράψτε και τα δύο</string>
     <string name="profile_upvotes_downvotes">θετικές &amp; αρνητικές ψήφοι</string>
     <string name="filtered_contents_type">Τύπος περιεχομένου</string>
+    <string name="action_search_in_comments">Αναζήτηση στα σχόλια</string>
 </resources>

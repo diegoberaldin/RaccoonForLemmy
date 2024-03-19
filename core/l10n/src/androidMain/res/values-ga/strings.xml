@@ -355,4 +355,5 @@
     <string name="copy_both">Cóipeáil an dá cheann</string>
     <string name="profile_upvotes_downvotes">Vótaí &amp; vótaí anuas</string>
     <string name="filtered_contents_type">Cineál ábhair</string>
+    <string name="action_search_in_comments">Cuardaigh i dtuairimí</string>
 </resources>

@@ -354,4 +354,5 @@
     <string name="copy_both">Скопируйте оба</string>
     <string name="profile_upvotes_downvotes">Голоса за &amp; отрицательные голоса</string>
     <string name="filtered_contents_type">Тип содержимого</string>
+    <string name="action_search_in_comments">Искать в комментариях</string>
 </resources>

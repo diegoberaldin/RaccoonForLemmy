@@ -355,4 +355,5 @@
     <string name="copy_both">Kopjo të dyja</string>
     <string name="profile_upvotes_downvotes">Vota pozitive &amp; vota kundër</string>
     <string name="filtered_contents_type">Lloji i përmbajtjes</string>
+    <string name="action_search_in_comments">Kërkoni në komente</string>
 </resources>

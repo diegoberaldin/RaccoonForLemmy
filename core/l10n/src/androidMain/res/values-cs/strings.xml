@@ -355,4 +355,5 @@
     <string name="copy_both">Zkopírujte oba</string>
     <string name="profile_upvotes_downvotes">Hlasy pro &amp; záporné hlasy</string>
     <string name="filtered_contents_type">Typ obsahu</string>
+    <string name="action_search_in_comments">Hledejte v komentářích</string>
 </resources>

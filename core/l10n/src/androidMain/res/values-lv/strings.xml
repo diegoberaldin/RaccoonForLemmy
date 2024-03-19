@@ -355,4 +355,5 @@
     <string name="copy_both">Kopējiet abus</string>
     <string name="profile_upvotes_downvotes">Apbalvojumi &amp; negatīvie balsojumi</string>
     <string name="filtered_contents_type">Satura veids</string>
+    <string name="action_search_in_comments">Meklējiet komentāros</string>
 </resources>

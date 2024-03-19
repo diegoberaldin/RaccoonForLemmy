@@ -355,4 +355,5 @@
     <string name="copy_both">Nukopijuokite abu</string>
     <string name="profile_upvotes_downvotes">Balsavimai &amp; neigiamų balsų</string>
     <string name="filtered_contents_type">Turinio tipas</string>
+    <string name="action_search_in_comments">Ieškokite komentaruose</string>
 </resources>
