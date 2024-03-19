@@ -23,9 +23,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -33,18 +35,23 @@ import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -57,25 +64,34 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAction
@@ -100,6 +116,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
@@ -208,7 +225,26 @@ class PostDetailScreen(
                 WindowInsets.navigationBars
             },
             topBar = {
+                val statusBarInset = WindowInsets.statusBars.getTop(LocalDensity.current)
+                val maxTopInset = Dimensions.topBarHeight.value.toInt()
+                var topInset by remember { mutableStateOf(maxTopInset) }
+                snapshotFlow { topAppBarState.collapsedFraction }.onEach {
+                    topInset = (maxTopInset * (1 - it)).toInt().let { insetValue ->
+                        if (uiState.searching) {
+                            insetValue.coerceAtLeast(statusBarInset)
+                        } else {
+                            insetValue
+                        }
+                    }
+                }.launchIn(scope)
+
                 TopAppBar(
+                    windowInsets = if (settings.edgeToEdge) {
+                        WindowInsets(0, topInset, 0, 0)
+                    } else {
+                        TopAppBarDefaults.windowInsets
+                    },
+                    scrollBehavior = scrollBehavior,
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
@@ -217,7 +253,6 @@ class PostDetailScreen(
                             overflow = TextOverflow.Ellipsis,
                         )
                     },
-                    scrollBehavior = scrollBehavior,
                     actions = {
                         Image(
                             modifier = Modifier.onClick(
@@ -233,6 +268,67 @@ class PostDetailScreen(
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
+
+                        // options menu
+                        Box {
+                            val options = buildList {
+                                this += Option(
+                                    OptionId.Search,
+                                    if (uiState.searching) {
+                                        LocalXmlStrings.current.actionExitSearch
+                                    } else {
+                                        buildString {
+                                            append(LocalXmlStrings.current.actionSearchInComments)
+                                            append(" (")
+                                            append(LocalXmlStrings.current.beta)
+                                            append(")")
+                                        }
+                                    },
+                                )
+                            }
+                            var optionsExpanded by remember { mutableStateOf(false) }
+                            var optionsOffset by remember { mutableStateOf(Offset.Zero) }
+                            Image(
+                                modifier = Modifier.onGloballyPositioned {
+                                    optionsOffset = it.positionInParent()
+                                }.padding(start = Spacing.s).onClick(
+                                    onClick = rememberCallback {
+                                        optionsExpanded = true
+                                    },
+                                ),
+                                imageVector = Icons.Default.MoreVert,
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
+                            CustomDropDown(
+                                expanded = optionsExpanded,
+                                onDismiss = {
+                                    optionsExpanded = false
+                                },
+                                offset = DpOffset(
+                                    x = optionsOffset.x.toLocalDp(),
+                                    y = optionsOffset.y.toLocalDp(),
+                                ),
+                            ) {
+                                options.forEach { option ->
+                                    DropdownMenuItem(
+                                        text = {
+                                            Text(option.text)
+                                        },
+                                        onClick = rememberCallback {
+                                            optionsExpanded = false
+                                            when (option.id) {
+                                                OptionId.Search -> {
+                                                    model.reduce(PostDetailMviModel.Intent.ChangeSearching(!uiState.searching))
+                                                }
+
+                                                else -> Unit
+                                            }
+                                        },
+                                    )
+                                }
+                            }
+                        }
                     },
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
@@ -289,21 +385,63 @@ class PostDetailScreen(
                 }
             },
         ) { padding ->
-            if (uiState.currentUserId != null) {
+            if (uiState.currentUserId == null) {
+                return@Scaffold
+            }
+            Column(
+                modifier = Modifier.padding(padding),
+            ) {
+                if (uiState.searching) {
+                    TextField(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = Spacing.xs,
+                                vertical = Spacing.s,
+                            ).fillMaxWidth(),
+                        label = {
+                            Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                        },
+                        singleLine = true,
+                        value = uiState.searchText,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                        ),
+                        onValueChange = { value ->
+                            model.reduce(PostDetailMviModel.Intent.SetSearch(value))
+                        },
+                        trailingIcon = {
+                            Icon(
+                                modifier = Modifier.onClick(
+                                    onClick = rememberCallback {
+                                        if (uiState.searchText.isNotEmpty()) {
+                                            model.reduce(PostDetailMviModel.Intent.SetSearch(""))
+                                        }
+                                    },
+                                ),
+                                imageVector = if (uiState.searchText.isEmpty()) Icons.Default.Search else Icons.Default.Clear,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+                }
                 val pullRefreshState = rememberPullRefreshState(
                     refreshing = uiState.refreshing,
                     onRefresh = rememberCallback(model) {
                         model.reduce(PostDetailMviModel.Intent.Refresh)
                     },
                 )
+
                 Box(
-                    modifier = Modifier.padding(padding).then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        }
-                    ).nestedScroll(fabNestedScrollConnection).pullRefresh(pullRefreshState),
+                    modifier = Modifier
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            }
+                        )
+                        .nestedScroll(fabNestedScrollConnection)
+                        .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         state = lazyListState
@@ -1206,6 +1344,15 @@ class PostDetailScreen(
                                                 .padding(top = Spacing.xs),
                                             textAlign = TextAlign.Center,
                                             text = LocalXmlStrings.current.messageEmptyComments,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                        )
+                                    } else if (uiState.searching) {
+                                        Text(
+                                            modifier = Modifier.fillMaxWidth()
+                                                .padding(top = Spacing.xs),
+                                            textAlign = TextAlign.Center,
+                                            text = LocalXmlStrings.current.messageEmptyList,
                                             style = MaterialTheme.typography.bodyMedium,
                                             color = MaterialTheme.colorScheme.onBackground,
                                         )
