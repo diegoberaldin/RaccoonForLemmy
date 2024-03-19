@@ -37,6 +37,8 @@ interface PostDetailMviModel :
         data class ModToggleModUser(val id: Int) : Intent
         data class Share(val url: String) : Intent
         data class Copy(val value: String) : Intent
+        data class SetSearch(val value: String) : Intent
+        data class ChangeSearching(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -63,6 +65,8 @@ interface PostDetailMviModel :
         val availableSortTypes: List<SortType> = emptyList(),
         val actionsOnSwipeToStartComments: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndComments: List<ActionOnSwipe> = emptyList(),
+        val searching: Boolean = false,
+        val searchText: String = "",
     )
 
     sealed interface Effect {
