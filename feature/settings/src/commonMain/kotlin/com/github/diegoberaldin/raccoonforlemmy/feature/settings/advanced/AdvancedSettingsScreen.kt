@@ -45,6 +45,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BarThemeBot
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -68,6 +69,7 @@ class AdvancedSettingsScreen : Screen {
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val scrollState = rememberScrollState()
         var screenWidth by remember { mutableStateOf(0f) }
+        var languageDialogOpened by remember { mutableStateOf(false) }
 
         Scaffold(
             modifier = Modifier
@@ -198,6 +200,20 @@ class AdvancedSettingsScreen : Screen {
                         )
                     }
 
+                    // default language
+                    val languageValue = uiState.availableLanguages.firstOrNull { l ->
+                        l.id == uiState.defaultLanguageId
+                    }?.takeIf { l ->
+                        l.id > 0 // undetermined language
+                    }?.name ?: LocalXmlStrings.current.undetermined
+                    SettingsRow(
+                        title = LocalXmlStrings.current.advancedSettingsDefaultLanguage,
+                        value = languageValue,
+                        onTap = rememberCallback {
+                            languageDialogOpened = true
+                        },
+                    )
+
                     // infinite scrolling
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsInfiniteScrollDisabled,
@@ -327,6 +343,19 @@ class AdvancedSettingsScreen : Screen {
                     )
                 }
             }
+        }
+
+        if (languageDialogOpened) {
+            SelectLanguageDialog(
+                currentLanguageId = uiState.defaultLanguageId,
+                languages = uiState.availableLanguages,
+                onSelect = { languageId ->
+                    model.reduce(AdvancedSettingsMviModel.Intent.ChangeDefaultLanguage(languageId))
+                },
+                onDismiss = {
+                    languageDialogOpened = false
+                }
+            )
         }
     }
 }

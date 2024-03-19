@@ -16,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -28,6 +29,7 @@ class AdvancedSettingsViewModel(
     private val identityRepository: IdentityRepository,
     private val settingsRepository: SettingsRepository,
     private val accountRepository: AccountRepository,
+    private val siteRepository: SiteRepository,
     private val notificationCenter: NotificationCenter,
     private val galleryHelper: GalleryHelper,
 ) : AdvancedSettingsMviModel,
@@ -67,6 +69,8 @@ class AdvancedSettingsViewModel(
                 .onEach { evt ->
                     changeSystemBarTheme(evt.value)
                 }.launchIn(this)
+
+            updateAvailableLanguages()
         }
 
         val settings = settingsRepository.currentSettings.value
@@ -87,6 +91,7 @@ class AdvancedSettingsViewModel(
                 opaqueSystemBars = settings.opaqueSystemBars,
                 imageSourceSupported = galleryHelper.supportsCustomPath,
                 imageSourcePath = settings.imageSourcePath,
+                defaultLanguageId = settings.defaultLanguageId,
             )
         }
     }
@@ -120,6 +125,7 @@ class AdvancedSettingsViewModel(
                 changeInfiniteScrollDisabled(intent.value)
 
             is AdvancedSettingsMviModel.Intent.ChangeImageSourcePath -> changeImageSourcePath(intent.value)
+            is AdvancedSettingsMviModel.Intent.ChangeDefaultLanguage -> changeDefaultLanguageId(intent.value)
         }
     }
 
@@ -274,6 +280,24 @@ class AdvancedSettingsViewModel(
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 imageSourcePath = value
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun updateAvailableLanguages() {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value
+            val languages = siteRepository.getLanguages(auth)
+            updateState { it.copy(availableLanguages = languages) }
+        }
+    }
+
+    private fun changeDefaultLanguageId(value: Int?) {
+        updateState { it.copy(defaultLanguageId = value) }
+        screenModelScope.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                defaultLanguageId = value,
             )
             saveSettings(settings)
         }

@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.advanced
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -21,6 +22,7 @@ interface AdvancedSettingsMviModel :
         data class ChangeEdgeToEdge(val value: Boolean) : Intent
         data class ChangeInfiniteScrollDisabled(val value: Boolean) : Intent
         data class ChangeImageSourcePath(val value: Boolean) : Intent
+        data class ChangeDefaultLanguage(val value: Int?) : Intent
     }
 
     data class UiState(
@@ -41,6 +43,8 @@ interface AdvancedSettingsMviModel :
         val opaqueSystemBars: Boolean = false,
         val imageSourceSupported: Boolean = true,
         val imageSourcePath: Boolean = false,
+        val defaultLanguageId: Int? = null,
+        val availableLanguages: List<LanguageModel> = emptyList(),
     )
 
     sealed interface Effect
