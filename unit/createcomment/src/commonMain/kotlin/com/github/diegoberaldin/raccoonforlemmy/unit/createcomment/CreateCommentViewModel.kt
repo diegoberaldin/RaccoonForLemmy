@@ -95,6 +95,7 @@ class CreateCommentViewModel(
                         preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
                         showScores = settings.showScores,
+                        currentLanguageId = settings.defaultLanguageId,
                     )
                 }
             }.launchIn(this)

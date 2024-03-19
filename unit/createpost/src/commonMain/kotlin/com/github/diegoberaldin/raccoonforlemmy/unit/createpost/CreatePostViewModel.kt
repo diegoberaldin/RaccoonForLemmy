@@ -64,6 +64,7 @@ class CreatePostViewModel(
                         preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
                         showScores = settings.showScores,
+                        currentLanguageId = settings.defaultLanguageId,
                     )
                 }
             }.launchIn(this)
