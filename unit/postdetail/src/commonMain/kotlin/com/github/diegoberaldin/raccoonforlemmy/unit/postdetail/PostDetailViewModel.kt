@@ -24,10 +24,15 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepo
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.populateLoadMoreComments
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.sortToNestedOrder
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class PostDetailViewModel(
     private val postId: Int,
     private val otherInstance: String,
@@ -54,6 +59,7 @@ class PostDetailViewModel(
     private var currentPage: Int = 1
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
+    private val searchEventChannel = Channel<Unit>()
 
     init {
         updateState {
@@ -72,28 +78,7 @@ class PostDetailViewModel(
                     )
                 }
             }
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.UserBannedComment::class)
-                .onEach { evt ->
-                    val commentId = evt.commentId
-                    val newUser = evt.user
-                    updateState {
-                        it.copy(
-                            comments = it.comments.map { c ->
-                                if (c.id == commentId) {
-                                    c.copy(
-                                        creator = newUser,
-                                        updateDate = newUser.updateDate,
-                                    )
-                                } else {
-                                    c
-                                }
-                            },
-                        )
-                    }
-                }.launchIn(this)
+
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -138,6 +123,33 @@ class PostDetailViewModel(
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
                 emitEffect(PostDetailMviModel.Effect.TriggerCopy(it.value))
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
+                handlePostUpdate(evt.model)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.UserBannedComment::class)
+                .onEach { evt ->
+                    val commentId = evt.commentId
+                    val newUser = evt.user
+                    updateState {
+                        it.copy(
+                            comments = it.comments.map { c ->
+                                if (c.id == commentId) {
+                                    c.copy(
+                                        creator = newUser,
+                                        updateDate = newUser.updateDate,
+                                    )
+                                } else {
+                                    c
+                                }
+                            },
+                        )
+                    }
+                }.launchIn(this)
+            searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
+                updateState { it.copy(loading = false) }
+                emitEffect(PostDetailMviModel.Effect.BackToTop)
+                refresh()
             }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
@@ -327,6 +339,15 @@ class PostDetailViewModel(
             is PostDetailMviModel.Intent.Copy -> screenModelScope.launch {
                 emitEffect(PostDetailMviModel.Effect.TriggerCopy(intent.value))
             }
+
+            is PostDetailMviModel.Intent.ChangeSearching -> {
+                updateState { it.copy(searching = intent.value) }
+                if (!intent.value) {
+                    updateSearchText("")
+                }
+            }
+
+            is PostDetailMviModel.Intent.SetSearch -> updateSearchText(intent.value)
         }
     }
 
@@ -391,9 +412,18 @@ class PostDetailViewModel(
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
-        val itemsToAdd = itemList.orEmpty()
-            .filterNot {
-                it.deleted
+        val itemsToAdd = itemList
+            .orEmpty()
+            .filterNot { comment ->
+                comment.deleted
+            }.let {
+                if (currentState.searching) {
+                    it.filter { comment ->
+                        comment.text.contains(other = currentState.searchText, ignoreCase = true)
+                    }
+                } else {
+                    it
+                }
             }
         updateState {
             val newComments = if (refreshing) {
@@ -404,7 +434,7 @@ class PostDetailViewModel(
             it.copy(
                 comments = newComments,
                 loading = false,
-                // deleted commments should not be counted
+                // deleted comments should not be counted
                 canFetchMore = itemsToAdd.isNotEmpty(),
                 refreshing = false,
                 initial = false,
@@ -760,6 +790,13 @@ class PostDetailViewModel(
                     it.copy(moderators = newModerators)
                 }
             }
+        }
+    }
+
+    private fun updateSearchText(value: String) {
+        updateState { it.copy(searchText = value) }
+        screenModelScope.launch {
+            searchEventChannel.send(Unit)
         }
     }
 }
