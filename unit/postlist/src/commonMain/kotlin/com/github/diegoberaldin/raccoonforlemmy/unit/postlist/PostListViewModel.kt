@@ -472,6 +472,7 @@ class PostListViewModel(
                 isLogged = false,
             )
         }
+        onFirstLoad()
     }
 
     private fun handlePostDelete(id: Int) {

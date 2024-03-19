@@ -397,6 +397,7 @@ class ExploreViewModel(
                 results = emptyList(),
             )
         }
+        onFirstLoad()
     }
 
     private fun handlePostUpdate(post: PostModel) {
