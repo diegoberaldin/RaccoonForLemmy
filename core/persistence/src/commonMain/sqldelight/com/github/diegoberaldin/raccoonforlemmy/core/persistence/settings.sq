@@ -52,6 +52,7 @@ CREATE TABLE SettingsEntity (
     commentBarThickness INTEGER NOT NULL DEFAULT 0,
     imageSourcePath INTEGER NOT NULL DEFAULT 0,
     defaultExploreType INTEGER NOT NULL DEFAULT 2,
+    defaultLanguageId INTEGER DEFAULT NULL,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
 );
@@ -109,8 +110,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     commentBarThickness,
     imageSourcePath,
     defaultExploreType,
+    defaultLanguageId,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -217,7 +220,8 @@ SET theme = ?,
     preferUserNicknames = ?,
     commentBarThickness = ?,
     imageSourcePath = ?,
-    defaultExploreType = ?
+    defaultExploreType = ?,
+    defaultLanguageId = ?
 WHERE account_id = ?;
 
 getBy:
@@ -273,6 +277,7 @@ SELECT
     preferUserNicknames,
     commentBarThickness,
     imageSourcePath,
-    defaultExploreType
+    defaultExploreType,
+    defaultLanguageId
 FROM SettingsEntity
 WHERE account_id = ?;

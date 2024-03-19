@@ -58,6 +58,7 @@ private object KeyStoreKeys {
     const val PREFER_USER_NICKNAMES = "preferUserNicknames"
     const val COMMENT_BAR_THICKNESS = "commentBarThickness"
     const val IMAGE_SOURCE_PATH = "imageSourcePath"
+    const val DEFAULT_LANGUAGE_ID = "defaultLanguageId"
 }
 
 internal class DefaultSettingsRepository(
@@ -130,6 +131,7 @@ internal class DefaultSettingsRepository(
                 commentBarThickness = settings.commentBarThickness.toLong(),
                 imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
                 defaultExploreType = settings.defaultExploreType.toLong(),
+                defaultLanguageId = settings.defaultLanguageId?.toLong(),
             )
         }
 
@@ -186,6 +188,9 @@ internal class DefaultSettingsRepository(
                     preferUserNicknames = keyStore[KeyStoreKeys.PREFER_USER_NICKNAMES, true],
                     commentBarThickness = keyStore[KeyStoreKeys.COMMENT_BAR_THICKNESS, 1],
                     imageSourcePath = keyStore[KeyStoreKeys.IMAGE_SOURCE_PATH, false],
+                    defaultLanguageId = if (keyStore.containsKey(KeyStoreKeys.DEFAULT_LANGUAGE_ID)) {
+                        keyStore[KeyStoreKeys.DEFAULT_LANGUAGE_ID, 0]
+                    } else null,
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -288,6 +293,11 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.PREFER_USER_NICKNAMES, settings.preferUserNicknames)
                 keyStore.save(KeyStoreKeys.COMMENT_BAR_THICKNESS, settings.commentBarThickness)
                 keyStore.save(KeyStoreKeys.IMAGE_SOURCE_PATH, settings.imageSourcePath)
+                if (settings.defaultLanguageId != null) {
+                    keyStore.save(KeyStoreKeys.DEFAULT_LANGUAGE_ID, settings.defaultLanguageId)
+                } else {
+                    keyStore.remove(KeyStoreKeys.DEFAULT_LANGUAGE_ID)
+                }
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -348,6 +358,7 @@ internal class DefaultSettingsRepository(
                     commentBarThickness = settings.commentBarThickness.toLong(),
                     imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
                     defaultExploreType = settings.defaultExploreType.toLong(),
+                    defaultLanguageId = settings.defaultLanguageId?.toLong(),
                 )
             }
         }
@@ -424,4 +435,5 @@ private fun GetBy.toModel() = SettingsModel(
     commentBarThickness = commentBarThickness.toInt(),
     imageSourcePath = imageSourcePath == 1L,
     defaultExploreType = defaultExploreType.toInt(),
+    defaultLanguageId = defaultLanguageId?.toInt(),
 )
