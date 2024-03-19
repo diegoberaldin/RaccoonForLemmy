@@ -70,7 +70,7 @@ class CommunityDetailViewModel(
     private var currentPage: Int = 1
     private var pageCursor: String? = null
     private var hideReadPosts = false
-    private val searchChannel = Channel<Unit>()
+    private val searchEventChannel = Channel<Unit>()
 
     init {
         screenModelScope.launch {
@@ -166,7 +166,7 @@ class CommunityDetailViewModel(
                 emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(it.value))
             }.launchIn(this)
 
-            searchChannel.receiveAsFlow().debounce(1_000).onEach {
+            searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
                 updateState { it.copy(loading = false) }
                 emitEffect(CommunityDetailMviModel.Effect.BackToTop)
                 refresh()
@@ -706,7 +706,7 @@ class CommunityDetailViewModel(
     private fun updateSearchText(value: String) {
         updateState { it.copy(searchText = value) }
         screenModelScope.launch {
-            searchChannel.send(Unit)
+            searchEventChannel.send(Unit)
         }
     }
 }
