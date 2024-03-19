@@ -13,13 +13,16 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class MultiCommunityEditorViewModel(
     private val communityId: Int?,
     private val identityRepository: IdentityRepository,
@@ -34,7 +37,7 @@ class MultiCommunityEditorViewModel(
     ) {
 
     private var communities: List<Pair<CommunityModel, Boolean>> = emptyList()
-    private var debounceJob: Job? = null
+    private val searchEventChannel = Channel<Unit>()
 
     init {
         screenModelScope.launch {
@@ -44,6 +47,13 @@ class MultiCommunityEditorViewModel(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
                     )
+                }
+            }.launchIn(this)
+
+            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
+                updateState {
+                    val filtered = filterCommunities()
+                    it.copy(communities = filtered)
                 }
             }.launchIn(this)
         }
@@ -86,14 +96,9 @@ class MultiCommunityEditorViewModel(
     }
 
     private fun setSearch(value: String) {
-        debounceJob?.cancel()
         updateState { it.copy(searchText = value) }
-        debounceJob = screenModelScope.launch(Dispatchers.IO) {
-            delay(1_000)
-            updateState {
-                val filtered = filterCommunities()
-                it.copy(communities = filtered)
-            }
+        screenModelScope.launch {
+            searchEventChannel.send(Unit)
         }
     }
 

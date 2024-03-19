@@ -23,13 +23,16 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortT
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class ExploreViewModel(
     private val apiConfigRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
@@ -48,7 +51,7 @@ class ExploreViewModel(
     ) {
 
     private var currentPage: Int = 1
-    private var debounceJob: Job? = null
+    private var searchEventChannel = Channel<Unit>()
 
     init {
         updateState {
@@ -108,6 +111,11 @@ class ExploreViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ResetExplore::class).onEach {
                 onFirstLoad()
+            }.launchIn(this)
+
+            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
+                emitEffect(ExploreMviModel.Effect.BackToTop)
+                refresh()
             }.launchIn(this)
         }
 
@@ -235,12 +243,9 @@ class ExploreViewModel(
     }
 
     private fun setSearch(value: String) {
-        debounceJob?.cancel()
         updateState { it.copy(searchText = value) }
-        debounceJob = screenModelScope.launch(Dispatchers.IO) {
-            delay(1_000)
-            emitEffect(ExploreMviModel.Effect.BackToTop)
-            refresh()
+        screenModelScope.launch {
+            searchEventChannel.send(Unit)
         }
     }
 
