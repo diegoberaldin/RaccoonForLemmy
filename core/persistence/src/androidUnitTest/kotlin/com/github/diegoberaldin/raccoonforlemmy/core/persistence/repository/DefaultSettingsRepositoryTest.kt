@@ -140,6 +140,7 @@ class DefaultSettingsRepositoryTest {
                 commentBarThickness = model.commentBarThickness.toLong(),
                 imageSourcePath = if (model.imageSourcePath) 1 else 0,
                 defaultExploreType = model.defaultExploreType.toLong(),
+                defaultLanguageId = model.defaultLanguageId?.toLong(),
                 account_id = 1,
             )
         }
@@ -203,6 +204,7 @@ class DefaultSettingsRepositoryTest {
                 commentBarThickness = model.commentBarThickness.toLong(),
                 imageSourcePath = if (model.imageSourcePath) 1 else 0,
                 defaultExploreType = model.defaultExploreType.toLong(),
+                defaultLanguageId = model.defaultLanguageId?.toLong(),
                 account_id = 1,
             )
         }
@@ -263,6 +265,7 @@ class DefaultSettingsRepositoryTest {
         commentBarThickness: Long = 1,
         imageSourcePath: Boolean = false,
         separateUpAndDownVotes: Boolean = false,
+        defaultLanguageId: Int? = null,
     ) = GetBy(
         id = id,
         theme = theme,
@@ -316,5 +319,6 @@ class DefaultSettingsRepositoryTest {
         commentFontScale = commentFontScale,
         titleFontScale = titleFontScale,
         separateUpAndDownVotes = if (separateUpAndDownVotes) 1 else 0,
+        defaultLanguageId = defaultLanguageId?.toLong(),
     )
 }
