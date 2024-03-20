@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Poolthääled &amp; miinushääli</string>
     <string name="filtered_contents_type">Sisu tüüp</string>
     <string name="action_search_in_comments">Otsi kommentaaridest</string>
+    <string name="advanced_settings_default_language">Vaikimisi keel redaktoris</string>
+    <string name="undetermined">Määratlemata</string>
 </resources>

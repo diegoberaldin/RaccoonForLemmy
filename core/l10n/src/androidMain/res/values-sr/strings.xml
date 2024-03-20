@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Гласови за &amp; довнвотес</string>
     <string name="filtered_contents_type">Тип садржаја</string>
     <string name="action_search_in_comments">Тражи у коментарима</string>
+    <string name="advanced_settings_default_language">Подразумевани језик у уређивачу</string>
+    <string name="undetermined">Недефинисан</string>
 </resources>

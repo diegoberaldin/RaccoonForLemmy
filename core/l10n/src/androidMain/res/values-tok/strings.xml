@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">pana wile pona &amp; ike</string>
     <string name="filtered_contents_type">nasin</string>
     <string name="action_search_in_comments">o lukin lon toki lili</string>
+    <string name="advanced_settings_default_language">toki pi ilo sitelen</string>
+    <string name="undetermined">sona ala</string>
 </resources>

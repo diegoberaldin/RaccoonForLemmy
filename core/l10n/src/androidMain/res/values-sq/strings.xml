@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Vota pozitive &amp; vota kundër</string>
     <string name="filtered_contents_type">Lloji i përmbajtjes</string>
     <string name="action_search_in_comments">Kërkoni në komente</string>
+    <string name="advanced_settings_default_language">Gjuha e parazgjedhur në redaktues</string>
+    <string name="undetermined">E papërcaktuar</string>
 </resources>

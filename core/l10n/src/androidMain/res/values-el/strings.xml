@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">θετικές &amp; αρνητικές ψήφοι</string>
     <string name="filtered_contents_type">Τύπος περιεχομένου</string>
     <string name="action_search_in_comments">Αναζήτηση στα σχόλια</string>
+    <string name="advanced_settings_default_language">Προεπιλεγμένη γλώσσα στο πρόγραμμα επεξεργασίας</string>
+    <string name="undetermined">Απροσδιόριστος</string>
 </resources>

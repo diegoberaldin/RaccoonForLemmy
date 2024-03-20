@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Hlasy za &amp; záporné hlasy</string>
     <string name="filtered_contents_type">Druh obsahu</string>
     <string name="action_search_in_comments">Hľadajte v komentároch</string>
+    <string name="advanced_settings_default_language">Predvolený jazyk v editore</string>
+    <string name="undetermined">Nedefinované</string>
 </resources>

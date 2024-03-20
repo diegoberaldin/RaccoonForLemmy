@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Apbalvojumi &amp; negatīvie balsojumi</string>
     <string name="filtered_contents_type">Satura veids</string>
     <string name="action_search_in_comments">Meklējiet komentāros</string>
+    <string name="advanced_settings_default_language">Redaktora noklusējuma valoda</string>
+    <string name="undetermined">nenoteikts</string>
 </resources>

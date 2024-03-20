@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Oppstemmer &amp; nedstemmer</string>
     <string name="filtered_contents_type">Innholdstype</string>
     <string name="action_search_in_comments">Søk i kommentarfeltet</string>
+    <string name="advanced_settings_default_language">Standardspråk i editoren</string>
+    <string name="undetermined">Udefinert</string>
 </resources>

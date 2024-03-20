@@ -355,4 +355,6 @@
     <string name="profile_upvotes_downvotes">Голоси за &amp; голоси проти</string>
     <string name="filtered_contents_type">Тип вмісту</string>
     <string name="action_search_in_comments">Шукайте в коментарях</string>
+    <string name="advanced_settings_default_language">Мова за замовчуванням у редакторі</string>
+    <string name="undetermined">Невизначено</string>
 </resources>

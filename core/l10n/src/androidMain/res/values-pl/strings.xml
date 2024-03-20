@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Głosy za i głosów przeciwnych</string>
     <string name="filtered_contents_type">Typ zawartości</string>
     <string name="action_search_in_comments">Szukaj w komentarzach</string>
+    <string name="advanced_settings_default_language">Domyślny język w edytorze</string>
+    <string name="undetermined">Nieokreślony</string>
 </resources>

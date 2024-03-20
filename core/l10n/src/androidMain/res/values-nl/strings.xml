@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Stemmen &amp; tegenstemmen</string>
     <string name="filtered_contents_type">Inhoudstype</string>
     <string name="action_search_in_comments">Zoek in opmerkingen</string>
+    <string name="advanced_settings_default_language">Standaardtaal in de editor</string>
+    <string name="undetermined">Ongedefinieerd</string>
 </resources>

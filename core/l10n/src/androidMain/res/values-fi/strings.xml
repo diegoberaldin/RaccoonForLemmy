@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Plussat &amp; miinusääniä</string>
     <string name="filtered_contents_type">Sisältötyyppi</string>
     <string name="action_search_in_comments">Hae kommenteista</string>
+    <string name="advanced_settings_default_language">Editorin oletuskieli</string>
+    <string name="undetermined">Määrittämätön</string>
 </resources>

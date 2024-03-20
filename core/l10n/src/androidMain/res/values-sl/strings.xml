@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Glasovi za &amp; glasovi proti</string>
     <string name="filtered_contents_type">Vrsta vsebine</string>
     <string name="action_search_in_comments">Išči v komentarjih</string>
+    <string name="advanced_settings_default_language">Privzeti jezik v urejevalniku</string>
+    <string name="undetermined">Nedoločeno</string>
 </resources>

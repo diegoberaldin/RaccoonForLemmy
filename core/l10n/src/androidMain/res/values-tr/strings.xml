@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Olumlu oylar &amp; olumsuz oylar</string>
     <string name="filtered_contents_type">İçerik türü</string>
     <string name="action_search_in_comments">Yorumlarda ara</string>
+    <string name="advanced_settings_default_language">Düzenleyicideki varsayılan dil</string>
+    <string name="undetermined">Tanımsız</string>
 </resources>

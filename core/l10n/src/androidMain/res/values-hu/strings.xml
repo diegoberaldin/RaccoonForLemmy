@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Pozitív szavazatok &amp; negatív szavazatok</string>
     <string name="filtered_contents_type">Tartalom típus</string>
     <string name="action_search_in_comments">Keress a megjegyzésekben</string>
+    <string name="advanced_settings_default_language">Alapértelmezett nyelv a szerkesztőben</string>
+    <string name="undetermined">Határozatlan</string>
 </resources>

@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Vótaí &amp; vótaí anuas</string>
     <string name="filtered_contents_type">Cineál ábhair</string>
     <string name="action_search_in_comments">Cuardaigh i dtuairimí</string>
+    <string name="advanced_settings_default_language">Teanga réamhshocraithe san eagarthóir</string>
+    <string name="undetermined">Neamhshainithe</string>
 </resources>

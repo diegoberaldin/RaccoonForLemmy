@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Favoraj &amp; malfavoraj voĉoj</string>
     <string name="filtered_contents_type">Enhavo tipo</string>
     <string name="action_search_in_comments">Serĉi en komentoj</string>
+    <string name="advanced_settings_default_language">Defaŭlta lingvo en la redaktilo</string>
+    <string name="undetermined">Nedifinita</string>
 </resources>

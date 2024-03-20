@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Voturi pozitive &amp; voturi negative</string>
     <string name="filtered_contents_type">Tipul de conținut</string>
     <string name="action_search_in_comments">Căută în comentarii</string>
+    <string name="advanced_settings_default_language">Limba implicită în editor</string>
+    <string name="undetermined">Nedefinit</string>
 </resources>

@@ -355,4 +355,6 @@
     <string name="profile_upvotes_downvotes">Голоса за &amp; отрицательные голоса</string>
     <string name="filtered_contents_type">Тип содержимого</string>
     <string name="action_search_in_comments">Искать в комментариях</string>
+    <string name="advanced_settings_default_language">Язык по умолчанию в редакторе</string>
+    <string name="undetermined">Неопределенный</string>
 </resources>

@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Balsavimai &amp; neigiamų balsų</string>
     <string name="filtered_contents_type">Turinio tipas</string>
     <string name="action_search_in_comments">Ieškokite komentaruose</string>
+    <string name="advanced_settings_default_language">Numatytoji kalba redaktoriuje</string>
+    <string name="undetermined">Neapibrėžtas</string>
 </resources>

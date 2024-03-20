@@ -356,4 +356,6 @@
     <string name="profile_upvotes_downvotes">Votos positivos &amp; negativos</string>
     <string name="filtered_contents_type">Tipo de contenido</string>
     <string name="action_search_in_comments">Buscar en comentarios</string>
+    <string name="advanced_settings_default_language">Idioma predeterminado en el editor</string>
+    <string name="undetermined">Indefinido</string>
 </resources>
