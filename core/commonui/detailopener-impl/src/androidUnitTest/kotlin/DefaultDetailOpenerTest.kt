@@ -37,9 +37,9 @@ class DefaultDetailOpenerTest {
 
     private val identityRepository = mockk<IdentityRepository>()
 
-    private val lemmyItemCache = mockk<LemmyItemCache>(relaxUnitFun = true)
+    private val lemmyItemCache = mockk<LemmyItemCache>(relaxed = true)
 
-    private val navigationCoordinator = mockk<NavigationCoordinator>(relaxUnitFun = true)
+    private val navigationCoordinator = mockk<NavigationCoordinator>(relaxed = true)
 
     private val sut: DetailOpener = DefaultDetailOpener(
         navigationCoordinator = navigationCoordinator,
