@@ -130,6 +130,7 @@ class BanUserScreen(
                     },
                     actions = {
                         IconButton(
+                            modifier = Modifier.padding(horizontal = Spacing.xs),
                             content = {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.Send,

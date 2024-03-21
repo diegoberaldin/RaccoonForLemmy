@@ -176,11 +176,13 @@ class AccountSettingsScreen : Screen {
                             )
                         )
                         Icon(
-                            modifier = Modifier.then(
-                                if (!uiState.loading) {
-                                    Modifier
-                                } else Modifier.rotate(iconRotate)
-                            ),
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .then(
+                                    if (!uiState.loading) {
+                                        Modifier
+                                    } else Modifier.rotate(iconRotate)
+                                ),
                             imageVector = Icons.Default.Sync,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,

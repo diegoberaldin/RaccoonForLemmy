@@ -111,9 +111,12 @@ class MultiCommunityEditorScreen(
                         )
                     },
                     actions = {
-                        IconButton(onClick = {
-                            model.reduce(MultiCommunityEditorMviModel.Intent.Submit)
-                        }) {
+                        IconButton(
+                            modifier = Modifier.padding(horizontal = Spacing.xs),
+                            onClick = {
+                                model.reduce(MultiCommunityEditorMviModel.Intent.Submit)
+                            },
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.CheckCircle,
                                 contentDescription = null,

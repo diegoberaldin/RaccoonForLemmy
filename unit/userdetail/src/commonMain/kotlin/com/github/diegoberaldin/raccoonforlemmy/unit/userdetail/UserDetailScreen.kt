@@ -225,16 +225,18 @@ class UserDetailScreen(
                     actions = {
                         // sort button
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = rememberCallback {
-                                    val sheet = SortBottomSheet(
-                                        values = uiState.availableSortTypes.map { it.toInt() },
-                                        expandTop = true,
-                                        screenKey = uiState.user.readableHandle,
-                                    )
-                                    navigationCoordinator.showBottomSheet(sheet)
-                                },
-                            ),
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        val sheet = SortBottomSheet(
+                                            values = uiState.availableSortTypes.map { it.toInt() },
+                                            expandTop = true,
+                                            screenKey = uiState.user.readableHandle,
+                                        )
+                                        navigationCoordinator.showBottomSheet(sheet)
+                                    },
+                                ),
                             imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

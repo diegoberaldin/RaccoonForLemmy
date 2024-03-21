@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -116,20 +115,21 @@ class InstanceInfoScreen(
                         )
                     },
                     actions = {
-                        Row {
-                            val additionalLabel = uiState.sortType.getAdditionalLabel()
-                            if (additionalLabel.isNotEmpty()) {
-                                Text(
-                                    text = buildString {
-                                        append("(")
-                                        append(additionalLabel)
-                                        append(")")
-                                    }
-                                )
-                                Spacer(modifier = Modifier.width(Spacing.s))
-                            }
-                            Image(
-                                modifier = Modifier.onClick(
+                        val additionalLabel = uiState.sortType.getAdditionalLabel()
+                        if (additionalLabel.isNotEmpty()) {
+                            Text(
+                                text = buildString {
+                                    append("(")
+                                    append(additionalLabel)
+                                    append(")")
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(Spacing.xs))
+                        }
+                        Image(
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .onClick(
                                     onClick = rememberCallback {
                                         val sheet = SortBottomSheet(
                                             values = uiState.availableSortTypes.map { it.toInt() },
@@ -139,11 +139,10 @@ class InstanceInfoScreen(
                                         navigationCoordinator.showBottomSheet(sheet)
                                     },
                                 ),
-                                imageVector = uiState.sortType.toIcon(),
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                            )
-                        }
+                            imageVector = uiState.sortType.toIcon(),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                        )
                     }
                 )
             },

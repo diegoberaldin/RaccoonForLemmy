@@ -16,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import kotlin.time.Duration
@@ -86,4 +87,7 @@ sealed interface NotificationCenterEvent {
 
     data class CopyText(val value: String) : NotificationCenterEvent
     data class ChangedLikedType(val value: Boolean) : NotificationCenterEvent
+
+    data class ChangeSearchResultType(val value: SearchResultType, val screenKey: String?) :
+        NotificationCenterEvent
 }

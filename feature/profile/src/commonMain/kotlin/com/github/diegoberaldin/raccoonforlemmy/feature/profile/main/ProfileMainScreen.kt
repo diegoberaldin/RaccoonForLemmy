@@ -2,10 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.profile.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.ManageAccounts
@@ -113,24 +111,26 @@ internal object ProfileMainScreen : Tab {
                     actions = {
                         if (uiState.logged == true) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
-                                        navigationCoordinator.showBottomSheet(ManageAccountsScreen())
-                                    },
-                                ),
+                                modifier = Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = rememberCallback {
+                                            navigationCoordinator.showBottomSheet(ManageAccountsScreen())
+                                        },
+                                    ),
                                 imageVector = Icons.Default.ManageAccounts,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
 
-                            Spacer(modifier = Modifier.width(Spacing.m))
-
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
-                                        model.reduce(ProfileMainMviModel.Intent.Logout)
-                                    },
-                                ),
+                                modifier = Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = rememberCallback {
+                                            model.reduce(ProfileMainMviModel.Intent.Logout)
+                                        },
+                                    ),
                                 imageVector = Icons.AutoMirrored.Filled.Logout,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),

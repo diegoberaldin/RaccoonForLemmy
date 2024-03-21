@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomWebView
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.rememberWebViewNavigator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
@@ -73,11 +74,13 @@ class WebViewScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = rememberCallback {
-                                    shareHelper.share(url)
-                                },
-                            ),
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        shareHelper.share(url)
+                                    },
+                                ),
                             imageVector = Icons.Default.Share,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,

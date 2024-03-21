@@ -255,15 +255,17 @@ class PostDetailScreen(
                     },
                     actions = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = rememberCallback {
-                                    val sheet = SortBottomSheet(
-                                        comments = true,
-                                        values = uiState.availableSortTypes.map { it.toInt() },
-                                    )
-                                    navigationCoordinator.showBottomSheet(sheet)
-                                },
-                            ),
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        val sheet = SortBottomSheet(
+                                            comments = true,
+                                            values = uiState.availableSortTypes.map { it.toInt() },
+                                        )
+                                        navigationCoordinator.showBottomSheet(sheet)
+                                    },
+                                ),
                             imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

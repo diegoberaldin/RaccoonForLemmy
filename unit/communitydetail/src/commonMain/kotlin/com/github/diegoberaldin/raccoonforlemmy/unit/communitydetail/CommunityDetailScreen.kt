@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -270,15 +269,17 @@ class CommunityDetailScreen(
                         // subscribe button
                         if (!isOnOtherInstance && uiState.isLogged) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
-                                        when (uiState.community.subscribed) {
-                                            true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
-                                            false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
-                                            else -> Unit
-                                        }
-                                    },
-                                ),
+                                modifier = Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = rememberCallback {
+                                            when (uiState.community.subscribed) {
+                                                true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
+                                                false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
+                                                else -> Unit
+                                            }
+                                        },
+                                    ),
                                 imageVector = when (uiState.community.subscribed) {
                                     true -> Icons.Outlined.CheckCircle
                                     false -> Icons.Outlined.AddCircleOutline
@@ -287,21 +288,22 @@ class CommunityDetailScreen(
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
                             )
-                            Spacer(Modifier.width(Spacing.m))
                         }
 
                         // sort button
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = rememberCallback {
-                                    val sheet = SortBottomSheet(
-                                        values = uiState.availableSortTypes.map { it.toInt() },
-                                        expandTop = true,
-                                        screenKey = uiState.community.readableHandle,
-                                    )
-                                    navigationCoordinator.showBottomSheet(sheet)
-                                },
-                            ),
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        val sheet = SortBottomSheet(
+                                            values = uiState.availableSortTypes.map { it.toInt() },
+                                            expandTop = true,
+                                            screenKey = uiState.community.readableHandle,
+                                        )
+                                        navigationCoordinator.showBottomSheet(sheet)
+                                    },
+                                ),
                             imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

@@ -108,15 +108,17 @@ class SavedItemsScreen : Screen {
                     },
                     actions = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = rememberCallback {
-                                    val sheet = SortBottomSheet(
-                                        values = uiState.availableSortTypes.map { it.toInt() },
-                                        screenKey = "savedItems",
-                                    )
-                                    navigatorCoordinator.showBottomSheet(sheet)
-                                },
-                            ),
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        val sheet = SortBottomSheet(
+                                            values = uiState.availableSortTypes.map { it.toInt() },
+                                            screenKey = "savedItems",
+                                        )
+                                        navigatorCoordinator.showBottomSheet(sheet)
+                                    },
+                                ),
                             imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

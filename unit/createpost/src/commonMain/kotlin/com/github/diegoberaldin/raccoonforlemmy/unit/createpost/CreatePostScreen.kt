@@ -254,6 +254,7 @@ class CreatePostScreen(
                     actions = {
                         if (uiState.editedPost == null) {
                             IconButton(
+                                modifier = Modifier.padding(horizontal = Spacing.xs),
                                 content = {
                                     Icon(
                                         imageVector = Icons.Default.Save,
@@ -266,6 +267,7 @@ class CreatePostScreen(
                             )
                         }
                         IconButton(
+                            modifier = Modifier.padding(horizontal = Spacing.xs),
                             content = {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.Send,

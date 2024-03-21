@@ -147,11 +147,12 @@ internal fun PostsTopBar(
                         append(")")
                     }
                 )
-                Spacer(modifier = Modifier.width(Spacing.s))
+                Spacer(modifier = Modifier.width(Spacing.xs))
             }
             if (sortType != null) {
                 Image(
                     modifier = Modifier
+                        .padding(horizontal = Spacing.xs)
                         .onClick(
                             onClick = rememberCallback {
                                 onSelectSortType?.invoke()

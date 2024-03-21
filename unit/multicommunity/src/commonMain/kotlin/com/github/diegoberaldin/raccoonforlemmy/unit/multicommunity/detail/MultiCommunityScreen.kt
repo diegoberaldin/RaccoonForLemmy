@@ -180,21 +180,22 @@ class MultiCommunityScreen(
                         )
                     },
                     actions = {
-                        Row {
-                            val additionalLabel = sortType.getAdditionalLabel()
-                            if (additionalLabel.isNotEmpty()) {
-                                Text(
-                                    text = buildString {
-                                        append("(")
-                                        append(additionalLabel)
-                                        append(")")
-                                    }
-                                )
-                                Spacer(modifier = Modifier.width(Spacing.s))
-                            }
-                            if (sortType != null) {
-                                Image(
-                                    modifier = Modifier.onClick(
+                        val additionalLabel = sortType.getAdditionalLabel()
+                        if (additionalLabel.isNotEmpty()) {
+                            Text(
+                                text = buildString {
+                                    append("(")
+                                    append(additionalLabel)
+                                    append(")")
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(Spacing.xs))
+                        }
+                        if (sortType != null) {
+                            Image(
+                                modifier = Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
                                         onClick = rememberCallback {
                                             val sheet = SortBottomSheet(
                                                 values = uiState.availableSortTypes.map { it.toInt() },
@@ -204,11 +205,10 @@ class MultiCommunityScreen(
                                             navigationCoordinator.showBottomSheet(sheet)
                                         },
                                     ),
-                                    imageVector = sortType.toIcon(),
-                                    contentDescription = null,
-                                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                                )
-                            }
+                                imageVector = sortType.toIcon(),
+                                contentDescription = null,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                            )
                         }
                     }
                 )

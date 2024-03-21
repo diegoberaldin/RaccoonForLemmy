@@ -2,10 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Download
@@ -92,27 +90,30 @@ class ZoomableImageScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = rememberCallback {
-                                    model.reduce(
-                                        ZoomableImageMviModel.Intent.SaveToGallery(
-                                            url = url,
-                                            source = source,
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        model.reduce(
+                                            ZoomableImageMviModel.Intent.SaveToGallery(
+                                                url = url,
+                                                source = source,
+                                            )
                                         )
-                                    )
-                                },
-                            ),
+                                    },
+                                ),
                             imageVector = Icons.Default.Download,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
-                        Spacer(Modifier.width(Spacing.s))
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = rememberCallback {
-                                    model.reduce(ZoomableImageMviModel.Intent.Share(url))
-                                },
-                            ),
+                            modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
+                                .onClick(
+                                    onClick = rememberCallback {
+                                        model.reduce(ZoomableImageMviModel.Intent.Share(url))
+                                    },
+                                ),
                             imageVector = Icons.Default.Share,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,

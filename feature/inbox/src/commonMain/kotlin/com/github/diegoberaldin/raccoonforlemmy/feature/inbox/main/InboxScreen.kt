@@ -115,11 +115,13 @@ object InboxScreen : Tab {
                     actions = {
                         if (uiState.isLogged == true) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
-                                        model.reduce(InboxMviModel.Intent.ReadAll)
-                                    },
-                                ),
+                                modifier = Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = rememberCallback {
+                                            model.reduce(InboxMviModel.Intent.ReadAll)
+                                        },
+                                    ),
                                 imageVector = Icons.Default.DoneAll,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

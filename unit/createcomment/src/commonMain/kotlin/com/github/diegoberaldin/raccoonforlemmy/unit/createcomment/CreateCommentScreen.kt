@@ -193,6 +193,7 @@ class CreateCommentScreen(
                     actions = {
                         if (uiState.editedComment == null) {
                             IconButton(
+                                modifier = Modifier.padding(horizontal = Spacing.xs),
                                 content = {
                                     Icon(
                                         imageVector = Icons.Default.Save,
@@ -205,6 +206,7 @@ class CreateCommentScreen(
                             )
                         }
                         IconButton(
+                            modifier = Modifier.padding(horizontal = Spacing.xs),
                             content = {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.Send,
