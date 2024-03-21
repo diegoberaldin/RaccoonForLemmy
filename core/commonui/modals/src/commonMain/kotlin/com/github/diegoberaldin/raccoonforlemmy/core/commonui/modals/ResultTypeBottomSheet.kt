@@ -38,6 +38,7 @@ class ResultTypeBottomSheet(
         SearchResultType.Communities,
         SearchResultType.Comments,
         SearchResultType.Users,
+        SearchResultType.Urls,
     ),
     val screenKey: String,
 ) : Screen {

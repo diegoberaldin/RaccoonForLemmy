@@ -140,6 +140,7 @@ internal fun SearchResultType.toDto(): SearchType = when (this) {
     SearchResultType.Communities -> SearchType.Communities
     SearchResultType.Posts -> SearchType.Posts
     SearchResultType.Users -> SearchType.Users
+    SearchResultType.Urls -> SearchType.Url
 }
 
 internal fun Person.toModel() = UserModel(

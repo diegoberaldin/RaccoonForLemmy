@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.filled.AllInclusive
+import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Person
@@ -16,6 +17,7 @@ sealed interface SearchResultType {
     data object Comments : SearchResultType
     data object Users : SearchResultType
     data object Communities : SearchResultType
+    data object Urls : SearchResultType
 }
 
 
@@ -25,6 +27,7 @@ fun SearchResultType.toIcon(): ImageVector = when (this) {
     SearchResultType.Communities -> Icons.Default.Groups
     SearchResultType.Posts -> Icons.Default.Padding
     SearchResultType.Users -> Icons.Default.Person
+    SearchResultType.Urls -> Icons.Default.AlternateEmail
 }
 
 @Composable
@@ -34,4 +37,5 @@ fun SearchResultType.toReadableName(): String = when (this) {
     SearchResultType.Communities -> LocalXmlStrings.current.exploreResultTypeCommunities
     SearchResultType.Posts -> LocalXmlStrings.current.exploreResultTypePosts
     SearchResultType.Users -> LocalXmlStrings.current.exploreResultTypeUsers
+    SearchResultType.Urls -> LocalXmlStrings.current.createPostUrl
 }
