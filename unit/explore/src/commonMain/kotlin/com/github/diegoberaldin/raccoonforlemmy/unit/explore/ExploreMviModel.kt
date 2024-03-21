@@ -25,6 +25,7 @@ interface ExploreMviModel :
         data class UpVoteComment(val id: Int, val feedback: Boolean = false) : Intent
         data class DownVoteComment(val id: Int, val feedback: Boolean = false) : Intent
         data class SaveComment(val id: Int, val feedback: Boolean = false) : Intent
+        data class ToggleSubscription(val communityId: Int) : Intent
     }
 
     data class UiState(
@@ -56,5 +57,6 @@ interface ExploreMviModel :
 
     sealed interface Effect {
         data object BackToTop : Effect
+        data object OperationFailure : Effect
     }
 }

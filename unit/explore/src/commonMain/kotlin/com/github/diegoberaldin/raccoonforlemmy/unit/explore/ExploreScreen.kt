@@ -32,6 +32,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
@@ -126,6 +129,10 @@ class ExploreScreen(
         val detailOpener = remember { getDetailOpener() }
         val connection = navigationCoordinator.getBottomBarScrollConnection()
         val scope = rememberCoroutineScope()
+        val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
+        val otherInstanceName = remember { otherInstance }
+        val snackbarHostState = remember { SnackbarHostState() }
+        val errorMessage = LocalXmlStrings.current.messageGenericError
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -143,6 +150,10 @@ class ExploreScreen(
                         lazyListState.scrollToItem(0)
                         topAppBarState.heightOffset = 0f
                         topAppBarState.contentOffset = 0f
+                    }
+
+                    ExploreMviModel.Effect.OperationFailure -> {
+                        snackbarHostState.showSnackbar(errorMessage)
                     }
                 }
             }.launchIn(this)
@@ -182,9 +193,9 @@ class ExploreScreen(
                         val sheet = ResultTypeBottomSheet(
                             screenKey = buildString {
                                 append("explore")
-                                if (otherInstance.isNotBlank()) {
+                                if (isOnOtherInstance) {
                                     append("-")
-                                    append(otherInstance)
+                                    append(otherInstanceName)
                                 }
                             }
                         )
@@ -196,6 +207,15 @@ class ExploreScreen(
                         }
                     },
                 )
+            },
+            snackbarHost = {
+                SnackbarHost(snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        snackbarData = data,
+                    )
+                }
             },
         ) { padding ->
             Column(
@@ -282,6 +302,10 @@ class ExploreScreen(
                                         community = result.model,
                                         autoLoadImages = uiState.autoLoadImages,
                                         preferNicknames = uiState.preferNicknames,
+                                        showSubscribeButton = !isOnOtherInstance,
+                                        onSubscribe = rememberCallback(model) {
+                                            model.reduce(ExploreMviModel.Intent.ToggleSubscription(result.model.id))
+                                        }
                                     )
                                 }
 
