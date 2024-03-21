@@ -165,7 +165,7 @@ class DefaultDetailOpener(
         val auth = identityRepository.authToken.value
 
         tailrec suspend fun searchRec(page: Int = 0): CommunityModel? {
-            val results = communityRepository.getAll(
+            val results = communityRepository.search(
                 auth = auth,
                 query = name,
                 resultType = SearchResultType.Communities,

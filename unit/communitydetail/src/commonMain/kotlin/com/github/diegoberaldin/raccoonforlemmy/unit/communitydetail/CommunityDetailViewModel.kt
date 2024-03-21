@@ -352,7 +352,7 @@ class CommunityDetailViewModel(
         val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
 
         val (itemList, nextPage) = if (currentState.searching) {
-            communityRepository.getAll(
+            communityRepository.search(
                 auth = auth,
                 communityId = community.id,
                 page = currentPage,

@@ -74,7 +74,7 @@ class DefaultDetailOpenerTest {
         val community = CommunityModel(name = communityName, id = 1, host = otherInstance)
         every { identityRepository.authToken } returns MutableStateFlow(token)
         coEvery {
-            communityRepository.getAll(
+            communityRepository.search(
                 query = any(),
                 auth = any(),
                 page = any(),
@@ -94,7 +94,7 @@ class DefaultDetailOpenerTest {
                     assertIs<CommunityDetailScreen>(it)
                 },
             )
-            communityRepository.getAll(
+            communityRepository.search(
                 query = communityName,
                 auth = token,
                 page = any(),
