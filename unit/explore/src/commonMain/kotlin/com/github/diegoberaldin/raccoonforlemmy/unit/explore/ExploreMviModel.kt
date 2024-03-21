@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.search.main
+package com.github.diegoberaldin.raccoonforlemmy.unit.explore
 
 import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel

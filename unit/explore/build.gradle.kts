@@ -21,7 +21,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "search"
+            baseName = "explore"
         }
     }
 
@@ -54,15 +54,14 @@ kotlin {
                 implementation(projects.core.preferences)
                 implementation(projects.core.utils)
 
+                implementation(projects.unit.zoomableimage)
+                implementation(projects.unit.web)
+                implementation(projects.unit.createreport)
+                implementation(projects.unit.createcomment)
+
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
-
-                implementation(projects.unit.createreport)
-                implementation(projects.unit.createcomment)
-                implementation(projects.unit.explore)
-                implementation(projects.unit.web)
-                implementation(projects.unit.zoomableimage)
             }
         }
         val commonTest by getting {
@@ -74,7 +73,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.feature.search"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.explore"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

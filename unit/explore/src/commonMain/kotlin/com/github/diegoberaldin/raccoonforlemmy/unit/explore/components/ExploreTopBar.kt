@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.search.main
+package com.github.diegoberaldin.raccoonforlemmy.unit.explore.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

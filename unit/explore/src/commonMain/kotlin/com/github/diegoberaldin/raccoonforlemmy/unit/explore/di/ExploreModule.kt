@@ -1,10 +1,10 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.search.di
+package com.github.diegoberaldin.raccoonforlemmy.unit.explore.di
 
-import com.github.diegoberaldin.raccoonforlemmy.feature.search.main.ExploreMviModel
-import com.github.diegoberaldin.raccoonforlemmy.feature.search.main.ExploreViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreMviModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreViewModel
 import org.koin.dsl.module
 
-val exploreTabModule = module {
+val exploreModule = module {
     factory<ExploreMviModel> {
         ExploreViewModel(
             apiConfigRepository = get(),

@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.feature.search.main
+package com.github.diegoberaldin.raccoonforlemmy.unit.explore
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.DraggableState
@@ -89,6 +89,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
+import com.github.diegoberaldin.raccoonforlemmy.unit.explore.components.ExploreTopBar
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import kotlinx.coroutines.flow.launchIn

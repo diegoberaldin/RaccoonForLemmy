@@ -8,7 +8,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
-import com.github.diegoberaldin.raccoonforlemmy.feature.search.main.ExploreScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreScreen
 
 object ExploreTab : Tab {
 

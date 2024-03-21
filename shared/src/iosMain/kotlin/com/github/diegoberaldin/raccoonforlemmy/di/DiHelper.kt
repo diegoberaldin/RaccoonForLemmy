@@ -22,7 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.di.repos
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.di.homeTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.di.inboxTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.profileTabModule
-import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.exploreTabModule
+import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.searchTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.settingsTabModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.di.accountSettingsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
@@ -78,7 +78,7 @@ fun initKoin() {
             homeTabModule,
             inboxTabModule,
             profileTabModule,
-            exploreTabModule,
+            searchTabModule,
             settingsTabModule,
             banModule,
             zoomableImageModule,
