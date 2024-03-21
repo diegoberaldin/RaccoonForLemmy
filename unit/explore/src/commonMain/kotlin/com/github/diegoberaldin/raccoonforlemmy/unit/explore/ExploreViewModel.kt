@@ -112,6 +112,11 @@ class ExploreViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.ResetExplore::class).onEach {
                 onFirstLoad()
             }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSearchResultType::class).onEach { evt ->
+                if (evt.screenKey == "explore") {
+                    changeResultType(evt.value)
+                }
+            }.launchIn(this)
 
             searchEventChannel.receiveAsFlow().debounce(1000).onEach {
                 emitEffect(ExploreMviModel.Effect.BackToTop)
@@ -159,9 +164,6 @@ class ExploreViewModel(
 
             ExploreMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is ExploreMviModel.Intent.SetSearch -> setSearch(intent.value)
-            is ExploreMviModel.Intent.SetListingType -> changeListingType(intent.value)
-            is ExploreMviModel.Intent.SetSortType -> changeSortType(intent.value)
-            is ExploreMviModel.Intent.SetResultType -> changeResultType(intent.value)
             is ExploreMviModel.Intent.DownVotePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()

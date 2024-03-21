@@ -21,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
@@ -32,8 +33,10 @@ internal fun ExploreTopBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     listingType: ListingType,
     sortType: SortType,
+    resultType: SearchResultType,
     onSelectListingType: (() -> Unit)? = null,
     onSelectSortType: (() -> Unit)? = null,
+    onSelectResultTypeType: (() -> Unit)? = null,
     onHamburgerTapped: (() -> Unit)? = null,
 ) {
     TopAppBar(
@@ -89,6 +92,19 @@ internal fun ExploreTopBar(
             }
         },
         actions = {
+            Image(
+                modifier = Modifier
+                    .padding(horizontal = Spacing.xs)
+                    .onClick(
+                        onClick = rememberCallback {
+                            onSelectResultTypeType?.invoke()
+                        },
+                    ),
+                imageVector = resultType.toIcon(),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+            )
+
             val additionalLabel = sortType.getAdditionalLabel()
             if (additionalLabel.isNotEmpty()) {
                 Text(
@@ -98,15 +114,17 @@ internal fun ExploreTopBar(
                         append(")")
                     }
                 )
-                Spacer(modifier = Modifier.width(Spacing.s))
+                Spacer(modifier = Modifier.width(Spacing.xs))
             }
 
             Image(
-                modifier = Modifier.onClick(
-                    onClick = rememberCallback {
-                        onSelectSortType?.invoke()
-                    },
-                ),
+                modifier = Modifier
+                    .padding(horizontal = Spacing.xs)
+                    .onClick(
+                        onClick = rememberCallback {
+                            onSelectSortType?.invoke()
+                        },
+                    ),
                 imageVector = sortType.toIcon(),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

@@ -18,9 +18,6 @@ interface ExploreMviModel :
         data object Refresh : Intent
         data object LoadNextPage : Intent
         data class SetSearch(val value: String) : Intent
-        data class SetListingType(val value: ListingType) : Intent
-        data class SetSortType(val value: SortType) : Intent
-        data class SetResultType(val value: SearchResultType) : Intent
         data object HapticIndication : Intent
         data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
         data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
@@ -43,7 +40,7 @@ interface ExploreMviModel :
         val listingType: ListingType = ListingType.Local,
         val sortType: SortType = SortType.Active,
         val results: List<SearchResult> = emptyList(),
-        val resultType: SearchResultType = SearchResultType.All,
+        val resultType: SearchResultType = SearchResultType.Posts,
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
