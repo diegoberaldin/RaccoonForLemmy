@@ -281,7 +281,7 @@ class UserDetailScreen(
                             Image(
                                 modifier = Modifier.onGloballyPositioned {
                                     optionsOffset = it.positionInParent()
-                                }.padding(start = Spacing.s).onClick(
+                                }.onClick(
                                     onClick = rememberCallback {
                                         optionsExpanded = true
                                     },
