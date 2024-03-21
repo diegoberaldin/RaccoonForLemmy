@@ -91,6 +91,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImage
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 
 class ExploreScreen(
     private val otherInstance: String = "",
@@ -99,7 +100,7 @@ class ExploreScreen(
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<ExploreMviModel>()
+        val model = getScreenModel<ExploreMviModel>(parameters = { parametersOf(otherInstance) })
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
@@ -133,6 +134,13 @@ class ExploreScreen(
         val otherInstanceName = remember { otherInstance }
         val snackbarHostState = remember { SnackbarHostState() }
         val errorMessage = LocalXmlStrings.current.messageGenericError
+        val notificationEventKey = buildString {
+            append("explore")
+            if (isOnOtherInstance) {
+                append("-")
+                append(otherInstanceName)
+            }
+        }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -172,11 +180,12 @@ class ExploreScreen(
                     listingType = uiState.listingType,
                     sortType = uiState.sortType,
                     resultType = uiState.resultType,
+                    otherInstance = otherInstanceName,
                     onSelectListingType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
-                            screenKey = "explore",
+                            screenKey = notificationEventKey,
                         )
                         navigationCoordinator.showBottomSheet(sheet)
                     },
@@ -185,20 +194,12 @@ class ExploreScreen(
                         val sheet = SortBottomSheet(
                             values = uiState.availableSortTypes.map { it.toInt() },
                             expandTop = true,
-                            screenKey = "explore",
+                            screenKey = notificationEventKey,
                         )
                         navigationCoordinator.showBottomSheet(sheet)
                     },
                     onSelectResultTypeType = rememberCallback {
-                        val sheet = ResultTypeBottomSheet(
-                            screenKey = buildString {
-                                append("explore")
-                                if (isOnOtherInstance) {
-                                    append("-")
-                                    append(otherInstanceName)
-                                }
-                            }
-                        )
+                        val sheet = ResultTypeBottomSheet(screenKey = notificationEventKey)
                         navigationCoordinator.showBottomSheet(sheet)
                     },
                     onHamburgerTapped = rememberCallback {
@@ -206,6 +207,9 @@ class ExploreScreen(
                             drawerCoordinator.toggleDrawer()
                         }
                     },
+                    onBack = rememberCallback {
+                        navigationCoordinator.popScreen()
+                    }
                 )
             },
             snackbarHost = {
@@ -296,7 +300,10 @@ class ExploreScreen(
                                     CommunityItem(
                                         modifier = Modifier.fillMaxWidth().onClick(
                                             onClick = rememberCallback {
-                                                detailOpener.openCommunityDetail(result.model)
+                                                detailOpener.openCommunityDetail(
+                                                    community = result.model,
+                                                    otherInstance = otherInstanceName,
+                                                )
                                             },
                                         ),
                                         community = result.model,
@@ -393,7 +400,7 @@ class ExploreScreen(
 
                                     SwipeActionCard(
                                         modifier = Modifier.fillMaxWidth(),
-                                        enabled = uiState.swipeActionsEnabled,
+                                        enabled = uiState.swipeActionsEnabled && !isOnOtherInstance,
                                         onGestureBegin = rememberCallback(model) {
                                             model.reduce(ExploreMviModel.Intent.HapticIndication)
                                         },
@@ -420,9 +427,12 @@ class ExploreScreen(
                                                 blurNsfw = uiState.blurNsfw,
                                                 actionButtonsActive = uiState.isLogged,
                                                 onClick = rememberCallback {
-                                                    detailOpener.openPostDetail(result.model)
+                                                    detailOpener.openPostDetail(
+                                                        post = result.model,
+                                                        otherInstance = otherInstanceName,
+                                                    )
                                                 },
-                                                onDoubleClick = if (!uiState.doubleTapActionEnabled) {
+                                                onDoubleClick = if (!uiState.doubleTapActionEnabled || isOnOtherInstance) {
                                                     null
                                                 } else {
                                                     rememberCallback(model) {
@@ -438,37 +448,38 @@ class ExploreScreen(
                                                 },
                                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                     detailOpener.openCommunityDetail(
-                                                        community,
-                                                        instance,
+                                                        community = community,
+                                                        otherInstance = instance.takeIf {
+                                                            it.isNotEmpty()
+                                                        } ?: otherInstanceName,
                                                     )
                                                 },
                                                 onOpenCreator = rememberCallbackArgs { user, instance ->
-                                                    detailOpener.openUserDetail(user, instance)
+                                                    detailOpener.openUserDetail(
+                                                        user = user,
+                                                        otherInstance = instance.takeIf {
+                                                            it.isNotEmpty()
+                                                        } ?: otherInstanceName,
+                                                    )
                                                 },
                                                 onUpVote = rememberCallback(model) {
                                                     if (uiState.isLogged) {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.UpVotePost(
-                                                                id = result.model.id,
-                                                            ),
+                                                            ExploreMviModel.Intent.UpVotePost(result.model.id),
                                                         )
                                                     }
                                                 },
                                                 onDownVote = rememberCallback(model) {
                                                     if (uiState.isLogged) {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.DownVotePost(
-                                                                id = result.model.id,
-                                                            ),
+                                                            ExploreMviModel.Intent.DownVotePost(result.model.id),
                                                         )
                                                     }
                                                 },
                                                 onSave = rememberCallback(model) {
                                                     if (uiState.isLogged) {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.SavePost(
-                                                                id = result.model.id,
-                                                            ),
+                                                            ExploreMviModel.Intent.SavePost(result.model.id),
                                                         )
                                                     }
                                                 },
@@ -481,7 +492,12 @@ class ExploreScreen(
                                                     )
                                                 },
                                                 onOpenPost = rememberCallbackArgs { post, instance ->
-                                                    detailOpener.openPostDetail(post, instance)
+                                                    detailOpener.openPostDetail(
+                                                        post = post,
+                                                        otherInstance = instance.takeIf {
+                                                            it.isNotEmpty()
+                                                        } ?: otherInstanceName,
+                                                    )
 
                                                 },
                                                 onOpenWeb = rememberCallbackArgs { url ->
@@ -516,9 +532,7 @@ class ExploreScreen(
                                                         ?: defaultUpvoteColor,
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.UpVoteComment(
-                                                                result.model.id
-                                                            )
+                                                            ExploreMviModel.Intent.UpVoteComment(result.model.id)
                                                         )
                                                     },
                                                 )
@@ -535,9 +549,7 @@ class ExploreScreen(
                                                         ?: defaultDownVoteColor,
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.DownVoteComment(
-                                                                result.model.id
-                                                            ),
+                                                            ExploreMviModel.Intent.DownVoteComment(result.model.id),
                                                         )
                                                     },
                                                 )
@@ -556,6 +568,7 @@ class ExploreScreen(
                                                         detailOpener.openPostDetail(
                                                             post = PostModel(id = result.model.postId),
                                                             highlightCommentId = result.model.id,
+                                                            otherInstance = otherInstanceName,
                                                         )
                                                     },
                                                 )
@@ -572,9 +585,7 @@ class ExploreScreen(
                                                         ?: defaultSaveColor,
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.SaveComment(
-                                                                id = result.model.id,
-                                                            ),
+                                                            ExploreMviModel.Intent.SaveComment(result.model.id),
                                                         )
                                                     },
                                                 )
@@ -615,6 +626,7 @@ class ExploreScreen(
                                                     detailOpener.openPostDetail(
                                                         post = PostModel(id = result.model.postId),
                                                         highlightCommentId = result.model.id,
+                                                        otherInstance = otherInstanceName,
                                                     )
                                                 },
                                                 onDoubleClick = if (!uiState.doubleTapActionEnabled) {
@@ -660,23 +672,30 @@ class ExploreScreen(
                                                 },
                                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                     detailOpener.openCommunityDetail(
-                                                        community,
-                                                        instance,
+                                                        community = community,
+                                                        otherInstance = instance.takeIf {
+                                                            it.isNotEmpty()
+                                                        } ?: otherInstanceName,
                                                     )
                                                 },
                                                 onOpenCreator = rememberCallbackArgs { user, instance ->
-                                                    detailOpener.openUserDetail(user, instance)
+                                                    detailOpener.openUserDetail(
+                                                        user = user,
+                                                        otherInstance = instance.takeIf {
+                                                            it.isNotEmpty()
+                                                        } ?: otherInstanceName,
+                                                    )
                                                 },
                                                 onOpenPost = rememberCallbackArgs { post, instance ->
                                                     detailOpener.openPostDetail(
                                                         post = post,
-                                                        otherInstance = instance,
+                                                        otherInstance = instance.takeIf {
+                                                            it.isNotEmpty()
+                                                        } ?: otherInstanceName,
                                                     )
                                                 },
                                                 onOpenWeb = rememberCallbackArgs { url ->
-                                                    navigationCoordinator.pushScreen(
-                                                        WebViewScreen(url)
-                                                    )
+                                                    navigationCoordinator.pushScreen(WebViewScreen(url))
                                                 },
                                             )
                                         },
@@ -691,7 +710,10 @@ class ExploreScreen(
                                     UserItem(
                                         modifier = Modifier.fillMaxWidth().onClick(
                                             onClick = rememberCallback {
-                                                detailOpener.openUserDetail(result.model, "")
+                                                detailOpener.openUserDetail(
+                                                    user = result.model,
+                                                    otherInstance = otherInstanceName,
+                                                )
                                             },
                                         ),
                                         user = result.model,

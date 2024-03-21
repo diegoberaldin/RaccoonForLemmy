@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -34,15 +35,30 @@ internal fun ExploreTopBar(
     listingType: ListingType,
     sortType: SortType,
     resultType: SearchResultType,
+    otherInstance: String = "",
     onSelectListingType: (() -> Unit)? = null,
     onSelectSortType: (() -> Unit)? = null,
     onSelectResultTypeType: (() -> Unit)? = null,
     onHamburgerTapped: (() -> Unit)? = null,
+    onBack: (() -> Unit)? = null,
 ) {
     TopAppBar(
         scrollBehavior = scrollBehavior,
         navigationIcon = {
             when {
+                otherInstance.isNotEmpty() -> {
+                    Image(
+                        modifier = Modifier.onClick(
+                            onClick = rememberCallback {
+                                onBack?.invoke()
+                            },
+                        ),
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                    )
+                }
+
                 onHamburgerTapped != null -> {
                     Image(
                         modifier = Modifier.onClick(
@@ -77,18 +93,29 @@ internal fun ExploreTopBar(
                     .padding(horizontal = Spacing.s)
                     .onClick(
                         onClick = rememberCallback {
-                            onSelectListingType?.invoke()
+                            if (otherInstance.isEmpty()) {
+                                onSelectListingType?.invoke()
+                            }
                         },
                     ),
             ) {
                 Text(
-                    text = LocalXmlStrings.current.navigationSearch,
+                    text = buildString {
+                        append(LocalXmlStrings.current.navigationSearch)
+                        if (otherInstance.isNotEmpty()) {
+                            append(" (")
+                            append(otherInstance)
+                            append(")")
+                        }
+                    },
                     style = MaterialTheme.typography.titleMedium,
                 )
-                Text(
-                    text = listingType.toReadableName(),
-                    style = MaterialTheme.typography.titleSmall,
-                )
+                if (otherInstance.isEmpty()) {
+                    Text(
+                        text = listingType.toReadableName(),
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                }
             }
         },
         actions = {
