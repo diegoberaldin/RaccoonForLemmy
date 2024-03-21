@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,9 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
@@ -35,6 +38,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Placeho
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
@@ -48,6 +52,8 @@ fun UserItem(
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
+    val displayName = user.readableName(true)
+    val userHandle = user.readableHandle
     val avatar = user.avatar.orEmpty()
     val iconSize = 30.dp
     val fullColor = MaterialTheme.colorScheme.onBackground
@@ -78,11 +84,32 @@ fun UserItem(
             )
         }
 
-        Text(
-            text = user.readableHandle,
-            style = MaterialTheme.typography.bodySmall,
-            color = fullColor,
-        )
+        Column(
+            modifier = Modifier.weight(1f).padding(start = Spacing.xs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+        ) {
+            val translationAmount = 3.dp.toLocalPixel()
+            Text(
+                text = buildString {
+                    append(displayName)
+                },
+                style = MaterialTheme.typography.bodyLarge,
+                color = fullColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                modifier = Modifier.graphicsLayer {
+                    translationY = -translationAmount
+                },
+                text = buildString {
+                    append("!")
+                    append(userHandle)
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = ancillaryColor,
+            )
+        }
 
         if (options.isNotEmpty()) {
             Box {

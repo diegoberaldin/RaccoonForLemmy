@@ -57,7 +57,7 @@ fun CommunityItem(
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     val title = community.readableName(true)
-    val communityName = community.readableHandle
+    val communityHandle = community.readableHandle
     val communityIcon = community.icon.orEmpty()
     val iconSize = if (small) IconSize.m else IconSize.l
     val fullColor = MaterialTheme.colorScheme.onBackground
@@ -105,7 +105,7 @@ fun CommunityItem(
                 },
                 text = buildString {
                     append("!")
-                    append(communityName)
+                    append(communityHandle)
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = ancillaryColor,
