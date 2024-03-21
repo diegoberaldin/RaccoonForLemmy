@@ -5,8 +5,9 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreViewModel
 import org.koin.dsl.module
 
 val exploreModule = module {
-    factory<ExploreMviModel> {
+    factory<ExploreMviModel> { params ->
         ExploreViewModel(
+            otherInstance = params[0],
             apiConfigRepository = get(),
             identityRepository = get(),
             communityRepository = get(),

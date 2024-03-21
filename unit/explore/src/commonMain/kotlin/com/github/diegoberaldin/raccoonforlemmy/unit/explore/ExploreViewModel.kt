@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class ExploreViewModel(
+    private val otherInstance: String,
     private val apiConfigRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
@@ -52,6 +53,15 @@ class ExploreViewModel(
 
     private var currentPage: Int = 1
     private var searchEventChannel = Channel<Unit>()
+    private val isOnOtherInstance: Boolean get() = otherInstance.isNotEmpty()
+    private val notificationEventKey: String
+        get() = buildString {
+            append("explore")
+            if (isOnOtherInstance) {
+                append("-")
+                append(otherInstance)
+            }
+        }
 
     init {
         updateState {
@@ -99,13 +109,13 @@ class ExploreViewModel(
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
-                    if (evt.screenKey == "explore") {
+                    if (evt.screenKey == notificationEventKey) {
                         changeListingType(evt.value)
                     }
                 }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    if (evt.screenKey == "explore") {
+                    if (evt.screenKey == notificationEventKey) {
                         changeSortType(evt.value)
                     }
                 }.launchIn(this)
@@ -113,7 +123,7 @@ class ExploreViewModel(
                 onFirstLoad()
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSearchResultType::class).onEach { evt ->
-                if (evt.screenKey == "explore") {
+                if (evt.screenKey == notificationEventKey) {
                     changeResultType(evt.value)
                 }
             }.launchIn(this)
@@ -129,7 +139,7 @@ class ExploreViewModel(
 
     private fun onFirstLoad() {
         val settings = settingsRepository.currentSettings.value
-        val listingType = settings.defaultExploreType.toListingType()
+        val listingType = if (isOnOtherInstance) ListingType.Local else settings.defaultExploreType.toListingType()
         val sortType = settings.defaultPostSortType.toSortType()
         updateState {
             it.copy(
@@ -297,13 +307,14 @@ class ExploreViewModel(
         val sortType = currentState.sortType
         val resultType = currentState.resultType
         val settings = settingsRepository.currentSettings.value
-        val itemList = communityRepository.getAll(
+        val itemList = communityRepository.search(
             query = searchText,
             auth = auth,
             resultType = resultType,
             page = currentPage,
             listingType = listingType,
             sortType = sortType,
+            instance = otherInstance,
         )
         val additionalResolvedCommunity =
             if (resultType == SearchResultType.All || resultType == SearchResultType.Communities && currentPage == 1) {
