@@ -242,7 +242,11 @@ internal fun CommunityView.toModel() = community.toModel().copy(
     monthlyActiveUsers = counts.usersActiveMonth,
     weeklyActiveUsers = counts.usersActiveWeek,
     dailyActiveUsers = counts.usersActiveDay,
-    subscribed = subscribed == SubscribedType.Subscribed,
+    subscribed = when(subscribed){
+        SubscribedType.Subscribed -> true
+        SubscribedType.NotSubscribed -> false
+        SubscribedType.Pending -> null
+    },
     subscribers = counts.subscribers,
     posts = counts.posts,
     comments = counts.comments,
