@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Serĉi en komentoj</string>
     <string name="advanced_settings_default_language">Defaŭlta lingvo en la redaktilo</string>
     <string name="undetermined">Nedifinita</string>
+    <string name="explore_result_type_title">Rezulta tipo</string>
 </resources>

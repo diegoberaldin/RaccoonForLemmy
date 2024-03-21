@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Yorumlarda ara</string>
     <string name="advanced_settings_default_language">Düzenleyicideki varsayılan dil</string>
     <string name="undetermined">Tanımsız</string>
+    <string name="explore_result_type_title">Sonuç türü</string>
 </resources>

@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Szukaj w komentarzach</string>
     <string name="advanced_settings_default_language">Domyślny język w edytorze</string>
     <string name="undetermined">Nieokreślony</string>
+    <string name="explore_result_type_title">Typ wyniku</string>
 </resources>

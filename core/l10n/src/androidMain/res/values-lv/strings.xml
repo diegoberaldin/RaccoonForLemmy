@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Meklējiet komentāros</string>
     <string name="advanced_settings_default_language">Redaktora noklusējuma valoda</string>
     <string name="undetermined">nenoteikts</string>
+    <string name="explore_result_type_title">Rezultāta veids</string>
 </resources>

@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Išči v komentarjih</string>
     <string name="advanced_settings_default_language">Privzeti jezik v urejevalniku</string>
     <string name="undetermined">Nedoločeno</string>
+    <string name="explore_result_type_title">Vrsta rezultata</string>
 </resources>

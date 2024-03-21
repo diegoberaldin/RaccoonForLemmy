@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Otsi kommentaaridest</string>
     <string name="advanced_settings_default_language">Vaikimisi keel redaktoris</string>
     <string name="undetermined">Määratlemata</string>
+    <string name="explore_result_type_title">Tulemuse tüüp</string>
 </resources>

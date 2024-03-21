@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Cerca nei commenti</string>
     <string name="advanced_settings_default_language">Lingua di default nell\'editor</string>
     <string name="undetermined">Non definito</string>
+    <string name="explore_result_type_title">Tipo di risultato</string>
 </resources>

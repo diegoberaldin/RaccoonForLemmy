@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Αναζήτηση στα σχόλια</string>
     <string name="advanced_settings_default_language">Προεπιλεγμένη γλώσσα στο πρόγραμμα επεξεργασίας</string>
     <string name="undetermined">Απροσδιόριστος</string>
+    <string name="explore_result_type_title">Τύπος αποτελέσματος</string>
 </resources>

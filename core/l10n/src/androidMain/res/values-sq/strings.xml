@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Kërkoni në komente</string>
     <string name="advanced_settings_default_language">Gjuha e parazgjedhur në redaktues</string>
     <string name="undetermined">E papërcaktuar</string>
+    <string name="explore_result_type_title">Lloji i rezultatit</string>
 </resources>

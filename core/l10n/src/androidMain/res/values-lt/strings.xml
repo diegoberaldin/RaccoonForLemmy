@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Ieškokite komentaruose</string>
     <string name="advanced_settings_default_language">Numatytoji kalba redaktoriuje</string>
     <string name="undetermined">Neapibrėžtas</string>
+    <string name="explore_result_type_title">Rezultato tipas</string>
 </resources>

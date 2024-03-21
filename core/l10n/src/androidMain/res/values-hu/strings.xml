@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Keress a megjegyzésekben</string>
     <string name="advanced_settings_default_language">Alapértelmezett nyelv a szerkesztőben</string>
     <string name="undetermined">Határozatlan</string>
+    <string name="explore_result_type_title">Az eredmény típusa</string>
 </resources>

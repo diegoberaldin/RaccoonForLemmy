@@ -357,4 +357,5 @@
     <string name="action_search_in_comments">Искать в комментариях</string>
     <string name="advanced_settings_default_language">Язык по умолчанию в редакторе</string>
     <string name="undetermined">Неопределенный</string>
+    <string name="explore_result_type_title">Тип результата</string>
 </resources>

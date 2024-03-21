@@ -357,4 +357,5 @@
     <string name="action_search_in_comments">Шукайте в коментарях</string>
     <string name="advanced_settings_default_language">Мова за замовчуванням у редакторі</string>
     <string name="undetermined">Невизначено</string>
+    <string name="explore_result_type_title">Тип результату</string>
 </resources>

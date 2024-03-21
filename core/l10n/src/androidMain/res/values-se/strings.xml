@@ -358,4 +358,5 @@
     <string name="action_search_in_comments">Sök i kommentarer</string>
     <string name="advanced_settings_default_language">Standardspråk i editorn</string>
     <string name="undetermined">Odefinierad</string>
+    <string name="explore_result_type_title">Resultattyp</string>
 </resources>
