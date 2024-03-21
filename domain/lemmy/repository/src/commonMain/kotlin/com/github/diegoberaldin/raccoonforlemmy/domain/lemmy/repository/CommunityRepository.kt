@@ -13,12 +13,13 @@ interface CommunityRepository {
         const val DEFAULT_PAGE_SIZE = 20
     }
 
-    suspend fun getAll(
+    suspend fun search(
         query: String = "",
         auth: String? = null,
         page: Int,
         limit: Int = DEFAULT_PAGE_SIZE,
         communityId: Int? = null,
+        instance: String? = null,
         listingType: ListingType = ListingType.All,
         sortType: SortType = SortType.Active,
         resultType: SearchResultType = SearchResultType.All,

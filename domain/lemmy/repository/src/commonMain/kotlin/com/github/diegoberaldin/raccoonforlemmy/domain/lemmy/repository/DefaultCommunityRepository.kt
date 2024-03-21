@@ -23,28 +23,44 @@ internal class DefaultCommunityRepository(
     private val customServices: ServiceProvider,
 ) : CommunityRepository {
 
-    override suspend fun getAll(
+    override suspend fun search(
         query: String,
         auth: String?,
         page: Int,
         limit: Int,
         communityId: Int?,
+        instance: String?,
         listingType: ListingType,
         sortType: SortType,
         resultType: SearchResultType,
     ): List<SearchResult> = withContext(Dispatchers.IO) {
         runCatching {
-            val searchResponse = services.search.search(
-                authHeader = auth.toAuthHeader(),
-                q = query,
-                auth = auth,
-                page = page,
-                limit = limit,
-                communityId = communityId,
-                type = resultType.toDto(),
-                listingType = listingType.toDto(),
-                sort = sortType.toDto(),
-            ).body()
+            val searchResponse = if (instance.isNullOrEmpty()) {
+                services.search.search(
+                    authHeader = auth.toAuthHeader(),
+                    q = query,
+                    auth = auth,
+                    page = page,
+                    limit = limit,
+                    communityId = communityId,
+                    type = resultType.toDto(),
+                    listingType = listingType.toDto(),
+                    sort = sortType.toDto(),
+                ).body()
+            } else {
+                customServices.changeInstance(instance)
+                customServices.search.search(
+                    authHeader = auth.toAuthHeader(),
+                    q = query,
+                    auth = auth,
+                    page = page,
+                    limit = limit,
+                    communityId = communityId,
+                    type = resultType.toDto(),
+                    listingType = listingType.toDto(),
+                    sort = sortType.toDto(),
+                ).body()
+            }
             buildList<SearchResult> {
                 val posts = searchResponse?.posts?.map { it.toModel() }.orEmpty()
                 this += posts.map { SearchResult.Post(it) }
