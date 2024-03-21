@@ -113,6 +113,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.UserInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -246,10 +247,23 @@ class UserDetailScreen(
                         Box {
                             val options = buildList {
                                 this += Option(
-                                    OptionId.Info, LocalXmlStrings.current.userDetailInfo
+                                    OptionId.Info,
+                                    LocalXmlStrings.current.userDetailInfo
                                 )
                                 this += Option(
-                                    OptionId.Share, LocalXmlStrings.current.postActionShare
+                                    OptionId.ExploreInstance,
+                                    buildString {
+                                        append(LocalXmlStrings.current.navigationSearch)
+                                        append(" ")
+                                        append(uiState.user.host)
+                                        append(" (")
+                                        append(LocalXmlStrings.current.beta)
+                                        append(")")
+                                    },
+                                )
+                                this += Option(
+                                    OptionId.Share,
+                                    LocalXmlStrings.current.postActionShare
                                 )
                                 if (uiState.isLogged) {
                                     this += Option(
@@ -294,18 +308,16 @@ class UserDetailScreen(
                                         onClick = rememberCallback {
                                             optionsExpanded = false
                                             when (option.id) {
-                                                OptionId.BlockInstance -> model.reduce(
-                                                    UserDetailMviModel.Intent.BlockInstance
-                                                )
+                                                OptionId.BlockInstance -> {
+                                                    model.reduce(UserDetailMviModel.Intent.BlockInstance)
+                                                }
 
-                                                OptionId.Block -> model.reduce(
-                                                    UserDetailMviModel.Intent.Block
-                                                )
+                                                OptionId.Block -> {
+                                                    model.reduce(UserDetailMviModel.Intent.Block)
+                                                }
 
                                                 OptionId.Info -> {
-                                                    navigationCoordinator.showBottomSheet(
-                                                        UserInfoScreen(uiState.user.id),
-                                                    )
+                                                    navigationCoordinator.showBottomSheet(UserInfoScreen(uiState.user.id))
                                                 }
 
                                                 OptionId.Share -> {
@@ -317,17 +329,17 @@ class UserDetailScreen(
                                                     }
                                                     if (urls.size == 1) {
                                                         model.reduce(
-                                                            UserDetailMviModel.Intent.Share(
-                                                                urls.first()
-                                                            )
+                                                            UserDetailMviModel.Intent.Share(urls.first())
                                                         )
                                                     } else {
-                                                        val screen =
-                                                            ShareBottomSheet(urls = urls)
-                                                        navigationCoordinator.showBottomSheet(
-                                                            screen
-                                                        )
+                                                        val screen = ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(screen)
                                                     }
+                                                }
+
+                                                OptionId.ExploreInstance -> {
+                                                    val screen = ExploreScreen(otherInstance = uiState.user.host)
+                                                    navigationCoordinator.pushScreen(screen)
                                                 }
 
                                                 else -> Unit
@@ -495,9 +507,7 @@ class UserDetailScreen(
                                                 ?: defaultUpvoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.UpVotePost(
-                                                        post.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.UpVotePost(post.id),
                                                 )
                                             },
                                         )
@@ -514,9 +524,7 @@ class UserDetailScreen(
                                                 ?: defaultDownVoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.DownVotePost(
-                                                        post.id,
-                                                    )
+                                                    UserDetailMviModel.Intent.DownVotePost(post.id)
                                                 )
                                             },
                                         )
@@ -548,9 +556,7 @@ class UserDetailScreen(
                                                 ?: defaultSaveColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.SavePost(
-                                                        id = post.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.SavePost(id = post.id),
                                                 )
                                             },
                                         )
@@ -609,9 +615,7 @@ class UserDetailScreen(
                                         } else {
                                             rememberCallback(model) {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.UpVotePost(
-                                                        id = post.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.UpVotePost(id = post.id),
                                                 )
                                             }
                                         },
@@ -620,9 +624,7 @@ class UserDetailScreen(
                                         } else {
                                             rememberCallback(model) {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.DownVotePost(
-                                                        id = post.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.DownVotePost(post.id),
                                                 )
                                             }
                                         },
@@ -631,28 +633,30 @@ class UserDetailScreen(
                                         } else {
                                             rememberCallback(model) {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.SavePost(
-                                                        id = post.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.SavePost(post.id),
                                                 )
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
                                             detailOpener.openCommunityDetail(
-                                                community,
-                                                instance,
+                                                community = community,
+                                                otherInstance = instance,
                                             )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
-                                            detailOpener.openUserDetail(user, instance)
+                                            detailOpener.openUserDetail(
+                                                user = user,
+                                                otherInstance = instance
+                                            )
                                         },
                                         onOpenPost = rememberCallbackArgs { p, instance ->
-                                            detailOpener.openPostDetail(p, instance)
+                                            detailOpener.openPostDetail(
+                                                post = p,
+                                                otherInstance = instance
+                                            )
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(
-                                                WebViewScreen(url)
-                                            )
+                                            navigationCoordinator.pushScreen(WebViewScreen(url))
                                         },
                                         onReply = if (!uiState.isLogged || isOnOtherInstance) {
                                             null
@@ -697,9 +701,7 @@ class UserDetailScreen(
                                             when (optionId) {
                                                 OptionId.Report -> {
                                                     navigationCoordinator.pushScreen(
-                                                        CreateReportScreen(
-                                                            postId = post.id
-                                                        )
+                                                        CreateReportScreen(post.id)
                                                     )
                                                 }
 
@@ -721,16 +723,11 @@ class UserDetailScreen(
                                                     ).distinct()
                                                     if (urls.size == 1) {
                                                         model.reduce(
-                                                            UserDetailMviModel.Intent.Share(
-                                                                urls.first()
-                                                            )
+                                                            UserDetailMviModel.Intent.Share(urls.first())
                                                         )
                                                     } else {
-                                                        val screen =
-                                                            ShareBottomSheet(urls = urls)
-                                                        navigationCoordinator.showBottomSheet(
-                                                            screen
-                                                        )
+                                                        val screen = ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(screen)
                                                     }
                                                 }
 
@@ -803,9 +800,7 @@ class UserDetailScreen(
                                                 ?: defaultUpvoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.UpVoteComment(
-                                                        comment.id
-                                                    )
+                                                    UserDetailMviModel.Intent.UpVoteComment(comment.id)
                                                 )
                                             },
                                         )
@@ -822,9 +817,7 @@ class UserDetailScreen(
                                                 ?: defaultDownVoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.DownVoteComment(
-                                                        comment.id
-                                                    ),
+                                                    UserDetailMviModel.Intent.DownVoteComment(comment.id),
                                                 )
                                             },
                                         )
@@ -859,9 +852,7 @@ class UserDetailScreen(
                                                 ?: defaultSaveColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.SaveComment(
-                                                        id = comment.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.SaveComment(comment.id),
                                                 )
                                             },
                                         )
@@ -930,9 +921,7 @@ class UserDetailScreen(
                                         } else {
                                             rememberCallback(model) {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.SaveComment(
-                                                        id = comment.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.SaveComment(comment.id),
                                                 )
                                             }
                                         },
@@ -941,9 +930,7 @@ class UserDetailScreen(
                                         } else {
                                             rememberCallback(model) {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.UpVoteComment(
-                                                        id = comment.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.UpVoteComment(comment.id),
                                                 )
                                             }
                                         },
@@ -952,9 +939,7 @@ class UserDetailScreen(
                                         } else {
                                             rememberCallback(model) {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.DownVoteComment(
-                                                        id = comment.id,
-                                                    ),
+                                                    UserDetailMviModel.Intent.DownVoteComment(comment.id),
                                                 )
                                             }
                                         },
@@ -969,30 +954,35 @@ class UserDetailScreen(
                                             }
                                         },
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            detailOpener.openCommunityDetail(community, instance)
+                                            detailOpener.openCommunityDetail(
+                                                community = community,
+                                                otherInstance = instance
+                                            )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
-                                            detailOpener.openUserDetail(user, instance)
+                                            detailOpener.openUserDetail(
+                                                user = user,
+                                                otherInstance = instance
+                                            )
                                         },
                                         onOpenPost = rememberCallbackArgs { post, instance ->
-                                            detailOpener.openPostDetail(post, instance)
+                                            detailOpener.openPostDetail(
+                                                post = post,
+                                                otherInstance = instance
+                                            )
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(WebViewScreen(url))
                                         },
                                         options = buildList {
-                                            add(
-                                                Option(
-                                                    OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw
-                                                )
+                                            this += Option(
+                                                OptionId.SeeRaw,
+                                                LocalXmlStrings.current.postActionSeeRaw,
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
-                                                add(
-                                                    Option(
-                                                        OptionId.Report,
-                                                        LocalXmlStrings.current.postActionReport
-                                                    )
+                                                this += Option(
+                                                    OptionId.Report,
+                                                    LocalXmlStrings.current.postActionReport,
                                                 )
                                             }
                                         },
@@ -1000,9 +990,7 @@ class UserDetailScreen(
                                             when (optionId) {
                                                 OptionId.Report -> {
                                                     navigationCoordinator.pushScreen(
-                                                        CreateReportScreen(
-                                                            commentId = comment.id
-                                                        ),
+                                                        CreateReportScreen(comment.id),
                                                     )
                                                 }
 
@@ -1146,7 +1134,8 @@ class UserDetailScreen(
                                     },
                                 )
                             }
-                        })
+                        },
+                    )
                 }
             }
         }

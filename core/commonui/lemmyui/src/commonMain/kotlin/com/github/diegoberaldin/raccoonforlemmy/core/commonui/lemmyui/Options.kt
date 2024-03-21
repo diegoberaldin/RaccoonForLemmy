@@ -32,4 +32,5 @@ sealed class OptionId(val value: Int) {
     data object SetCustomSort : OptionId(24)
     data object Search : OptionId(25)
     data object Copy : OptionId(26)
+    data object ExploreInstance : OptionId(27)
 }

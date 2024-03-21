@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
@@ -127,6 +126,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
@@ -147,7 +147,7 @@ class CommunityDetailScreen(
     override val key: ScreenKey
         get() = super.key + communityId.toString()
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<CommunityDetailMviModel>(
@@ -339,6 +339,17 @@ class CommunityDetailScreen(
                                     LocalXmlStrings.current.communityDetailInstanceInfo
                                 )
                                 this += Option(
+                                    OptionId.ExploreInstance,
+                                    buildString {
+                                        append(LocalXmlStrings.current.navigationSearch)
+                                        append(" ")
+                                        append(uiState.community.host)
+                                        append(" (")
+                                        append(LocalXmlStrings.current.beta)
+                                        append(")")
+                                    },
+                                )
+                                this += Option(
                                     OptionId.Share, LocalXmlStrings.current.postActionShare
                                 )
                                 if (uiState.isLogged) {
@@ -479,6 +490,11 @@ class CommunityDetailScreen(
 
                                                 OptionId.Search -> {
                                                     model.reduce(CommunityDetailMviModel.Intent.ChangeSearching(!uiState.searching))
+                                                }
+
+                                                OptionId.ExploreInstance -> {
+                                                    val screen = ExploreScreen(otherInstance = uiState.community.host)
+                                                    navigationCoordinator.pushScreen(screen)
                                                 }
 
                                                 else -> Unit
@@ -754,12 +770,12 @@ class CommunityDetailScreen(
                                     onGestureBegin = rememberCallback(model) {
                                         model.reduce(CommunityDetailMviModel.Intent.HapticIndication)
                                     },
-                                    swipeToStartActions = if (uiState.isLogged) {
+                                    swipeToStartActions = if (uiState.isLogged && !isOnOtherInstance) {
                                         uiState.actionsOnSwipeToStartPosts.toSwipeActions()
                                     } else {
                                         emptyList()
                                     },
-                                    swipeToEndActions = if (uiState.isLogged) {
+                                    swipeToEndActions = if (uiState.isLogged && !isOnOtherInstance) {
                                         uiState.actionsOnSwipeToEndPosts.toSwipeActions()
                                     } else {
                                         emptyList()
