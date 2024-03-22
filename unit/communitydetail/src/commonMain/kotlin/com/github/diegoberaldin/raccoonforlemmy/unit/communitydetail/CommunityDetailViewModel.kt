@@ -556,6 +556,7 @@ class CommunityDetailViewModel(
             )
             if (community != null) {
                 updateState { it.copy(community = community) }
+                notificationCenter.send(NotificationCenterEvent.CommunitySubscriptionChanged(community))
             }
         }
     }
@@ -569,6 +570,7 @@ class CommunityDetailViewModel(
             )
             if (community != null) {
                 updateState { it.copy(community = community) }
+                notificationCenter.send(NotificationCenterEvent.CommunitySubscriptionChanged(community))
             }
         }
     }
