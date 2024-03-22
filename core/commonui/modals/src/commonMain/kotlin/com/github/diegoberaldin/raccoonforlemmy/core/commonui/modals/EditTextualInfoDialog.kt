@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.components
+package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
-internal fun AccountSettingsImageInfo(
+fun SettingsImageInfo(
     modifier: Modifier = Modifier,
     imageModifier: Modifier = Modifier,
     contentScale : ContentScale = ContentScale.FillBounds,

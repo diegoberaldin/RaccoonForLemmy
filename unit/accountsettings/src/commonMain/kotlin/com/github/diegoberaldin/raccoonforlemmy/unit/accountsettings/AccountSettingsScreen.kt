@@ -58,9 +58,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsFormattedInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsImageInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsTextualInfo
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.EditFormattedInfoDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.EditTextualInfoDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -72,11 +77,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
-import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.components.AccountSettingsFormattedInfo
-import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.components.AccountSettingsImageInfo
-import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.components.AccountSettingsTextualInfo
-import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.components.EditFormattedInfoDialog
-import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.components.EditTextualInfoDialog
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -151,15 +151,16 @@ class AccountSettingsScreen : Screen {
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
-                                        if (uiState.hasUnsavedChanges) {
-                                            confirmBackWithUnsavedChangesDialog = true
-                                        } else {
-                                            navigationCoordinator.popScreen()
-                                        }
-                                    },
-                                ),
+                                modifier = Modifier
+                                    .onClick(
+                                        onClick = rememberCallback {
+                                            if (uiState.hasUnsavedChanges) {
+                                                confirmBackWithUnsavedChangesDialog = true
+                                            } else {
+                                                navigationCoordinator.popScreen()
+                                            }
+                                        },
+                                    ),
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -222,7 +223,7 @@ class AccountSettingsScreen : Screen {
 
                     // avatar
                     val avatarSize = IconSize.xxl
-                    AccountSettingsImageInfo(
+                    SettingsImageInfo(
                         title = LocalXmlStrings.current.settingsWebAvatar,
                         imageModifier = Modifier
                             .size(avatarSize)
@@ -234,7 +235,7 @@ class AccountSettingsScreen : Screen {
                     )
 
                     // banner
-                    AccountSettingsImageInfo(
+                    SettingsImageInfo(
                         title = LocalXmlStrings.current.settingsWebBanner,
                         imageModifier = Modifier.fillMaxWidth().aspectRatio(3.5f),
                         contentScale = ContentScale.Crop,
@@ -245,7 +246,7 @@ class AccountSettingsScreen : Screen {
                     )
 
                     // display name
-                    AccountSettingsTextualInfo(
+                    SettingsTextualInfo(
                         title = LocalXmlStrings.current.settingsWebDisplayName,
                         value = uiState.displayName,
                         valueStyle = contentTypography.bodyMedium,
@@ -255,7 +256,7 @@ class AccountSettingsScreen : Screen {
                     )
 
                     // email
-                    AccountSettingsTextualInfo(
+                    SettingsTextualInfo(
                         title = LocalXmlStrings.current.settingsWebEmail,
                         value = uiState.email,
                         valueStyle = contentTypography.bodyMedium,
@@ -265,7 +266,7 @@ class AccountSettingsScreen : Screen {
                     )
 
                     // Matrix user ID
-                    AccountSettingsTextualInfo(
+                    SettingsTextualInfo(
                         title = LocalXmlStrings.current.settingsWebMatrix,
                         value = uiState.matrixUserId,
                         valueStyle = contentTypography.bodyMedium.copy(
@@ -277,7 +278,7 @@ class AccountSettingsScreen : Screen {
                     )
 
                     // bio
-                    AccountSettingsFormattedInfo(
+                    SettingsFormattedInfo(
                         title = LocalXmlStrings.current.settingsWebBio,
                         value = uiState.bio,
                         onEdit = rememberCallback {

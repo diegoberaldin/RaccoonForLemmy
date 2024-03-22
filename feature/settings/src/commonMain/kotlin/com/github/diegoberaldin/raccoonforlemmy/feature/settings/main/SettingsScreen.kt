@@ -319,7 +319,8 @@ class SettingsScreen : Screen {
                         value = uiState.includeNsfw,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))
-                        })
+                        },
+                    )
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsBlurNsfw,
                         value = uiState.blurNsfw,
