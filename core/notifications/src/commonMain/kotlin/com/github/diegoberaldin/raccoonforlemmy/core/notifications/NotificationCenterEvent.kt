@@ -90,4 +90,6 @@ sealed interface NotificationCenterEvent {
 
     data class ChangeSearchResultType(val value: SearchResultType, val screenKey: String?) :
         NotificationCenterEvent
+
+    data class CommunitySubscriptionChanged(val value: CommunityModel) : NotificationCenterEvent
 }
