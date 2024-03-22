@@ -72,6 +72,7 @@ kotlin {
                 implementation(projects.unit.createreport)
                 implementation(projects.unit.drafts)
                 implementation(projects.unit.drawer)
+                implementation(projects.unit.editcommunity)
                 implementation(projects.unit.instanceinfo)
                 implementation(projects.unit.manageban)
                 implementation(projects.unit.managesubscriptions)
