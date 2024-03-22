@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedbac
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
@@ -126,6 +127,9 @@ class ExploreViewModel(
                 if (evt.screenKey == notificationEventKey) {
                     changeResultType(evt.value)
                 }
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CommunitySubscriptionChanged::class).onEach { evt ->
+                handleCommunityUpdate(evt.value)
             }.launchIn(this)
 
             searchEventChannel.receiveAsFlow().debounce(1000).onEach {
@@ -730,20 +734,24 @@ class ExploreViewModel(
             }
             if (newValue == null) {
                 emitEffect(ExploreMviModel.Effect.OperationFailure)
-                return@launch
+            } else {
+                handleCommunityUpdate(newValue)
             }
-            updateState {
-                it.copy(
-                    results = it.results.map { res ->
-                        if (res !is SearchResult.Community) return@map res
-                        if (res.model.id == community.id) {
-                            res.copy(model = newValue)
-                        } else {
-                            res
-                        }
-                    },
-                )
-            }
+        }
+    }
+
+    private fun handleCommunityUpdate(community: CommunityModel) {
+        updateState {
+            it.copy(
+                results = it.results.map { res ->
+                    if (res !is SearchResult.Community) return@map res
+                    if (res.model.id == community.id) {
+                        res.copy(model = community)
+                    } else {
+                        res
+                    }
+                },
+            )
         }
     }
 }
