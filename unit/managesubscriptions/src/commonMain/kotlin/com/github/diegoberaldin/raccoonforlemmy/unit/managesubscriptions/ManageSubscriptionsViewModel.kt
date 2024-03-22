@@ -44,10 +44,12 @@ class ManageSubscriptionsViewModel(
                     )
                 }
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.MultiCommunityCreated::class)
-                .onEach { evt ->
-                    handleMultiCommunityCreated(evt.model)
-                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.MultiCommunityCreated::class).onEach { evt ->
+                handleMultiCommunityCreated(evt.model)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CommunitySubscriptionChanged::class).onEach { evt ->
+                handleCommunityUpdate(evt.value)
+            }.launchIn(this)
         }
         if (uiState.value.communities.isEmpty()) {
             refresh()
@@ -60,7 +62,7 @@ class ManageSubscriptionsViewModel(
             ManageSubscriptionsMviModel.Intent.Refresh -> refresh()
             is ManageSubscriptionsMviModel.Intent.Unsubscribe -> {
                 uiState.value.communities.firstOrNull { it.id == intent.id }?.also { community ->
-                    handleUnsubscription(community)
+                    unsubscribe(community)
                 }
             }
 
@@ -108,7 +110,7 @@ class ManageSubscriptionsViewModel(
         }
     }
 
-    private fun handleUnsubscription(community: CommunityModel) {
+    private fun unsubscribe(community: CommunityModel) {
         screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             communityRepository.unsubscribe(
