@@ -126,6 +126,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity.EditCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
@@ -313,7 +314,8 @@ class CommunityDetailScreen(
                         Box {
                             val options = buildList {
                                 this += Option(
-                                    OptionId.Info, LocalXmlStrings.current.communityDetailInfo
+                                    OptionId.Info,
+                                    LocalXmlStrings.current.communityDetailInfo,
                                 )
                                 if (!isOnOtherInstance) {
                                     this += Option(
@@ -336,7 +338,7 @@ class CommunityDetailScreen(
                                 )
                                 this += Option(
                                     OptionId.InfoInstance,
-                                    LocalXmlStrings.current.communityDetailInstanceInfo
+                                    LocalXmlStrings.current.communityDetailInstanceInfo,
                                 )
                                 this += Option(
                                     OptionId.ExploreInstance,
@@ -350,16 +352,16 @@ class CommunityDetailScreen(
                                     },
                                 )
                                 this += Option(
-                                    OptionId.Share, LocalXmlStrings.current.postActionShare
+                                    OptionId.Share, LocalXmlStrings.current.postActionShare,
                                 )
                                 if (uiState.isLogged) {
                                     this += Option(
                                         OptionId.Block,
-                                        LocalXmlStrings.current.communityDetailBlock
+                                        LocalXmlStrings.current.communityDetailBlock,
                                     )
                                     this += Option(
                                         OptionId.BlockInstance,
-                                        LocalXmlStrings.current.communityDetailBlockInstance
+                                        LocalXmlStrings.current.communityDetailBlockInstance,
                                     )
                                 }
                                 if (uiState.currentUserId != null && otherInstanceName.isEmpty()) {
@@ -381,7 +383,12 @@ class CommunityDetailScreen(
                                 if (uiState.moderators.containsId(uiState.currentUserId)) {
                                     this += Option(
                                         OptionId.OpenReports,
-                                        LocalXmlStrings.current.modActionOpenReports
+                                        LocalXmlStrings.current.modActionOpenReports,
+                                    )
+
+                                    this += Option(
+                                        OptionId.Edit,
+                                        LocalXmlStrings.current.communityActionEdit,
                                     )
                                 }
                             }
@@ -494,6 +501,12 @@ class CommunityDetailScreen(
 
                                                 OptionId.ExploreInstance -> {
                                                     val screen = ExploreScreen(otherInstance = uiState.community.host)
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.Edit -> {
+                                                    scope.launch {  }
+                                                    val screen = EditCommunityScreen(uiState.community.id)
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
