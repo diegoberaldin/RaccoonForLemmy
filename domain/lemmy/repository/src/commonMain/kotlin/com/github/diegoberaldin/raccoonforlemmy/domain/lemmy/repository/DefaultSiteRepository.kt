@@ -102,15 +102,16 @@ internal class DefaultSiteRepository(
     override suspend fun updateAccountSettings(
         auth: String,
         value: AccountSettingsModel,
-    ) = withContext(Dispatchers.IO) {
-        runCatching {
-            val formData = value.toDto().copy(auth = auth)
-            services.user.saveUserSettings(
-                authHeader = auth.toAuthHeader(),
-                form = formData,
-            )
-            Unit
-        }.getOrElse { }
+    ): Unit = withContext(Dispatchers.IO) {
+        val formData = value.toDto().copy(auth = auth)
+        val response = services.user.saveUserSettings(
+            authHeader = auth.toAuthHeader(),
+            form = formData,
+        )
+        if (!response.isSuccessful) {
+            val error = response.errorBody().toString()
+            throw Exception(error)
+        }
     }
 
     override suspend fun getBans(auth: String): AccountBansModel? = withContext(Dispatchers.IO) {

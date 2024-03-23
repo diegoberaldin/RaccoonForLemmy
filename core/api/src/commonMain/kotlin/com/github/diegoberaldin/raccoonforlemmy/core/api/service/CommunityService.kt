@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityRes
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListCommunitiesResponse
@@ -17,6 +18,7 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.http.Query
 
 interface CommunityService {
@@ -66,4 +68,11 @@ interface CommunityService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: AddModToCommunityForm,
     ): Response<AddModToCommunityResponse>
+
+    @PUT("community")
+    @Headers("Content-Type: application/json")
+    suspend fun edit(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: EditCommunityForm,
+    ): Response<CommunityResponse>
 }

@@ -85,4 +85,9 @@ interface CommunityRepository {
         userId: Int,
         added: Boolean,
     ): List<UserModel>
+
+    suspend fun update(
+        auth: String? = null,
+        community: CommunityModel,
+    ): Unit
 }

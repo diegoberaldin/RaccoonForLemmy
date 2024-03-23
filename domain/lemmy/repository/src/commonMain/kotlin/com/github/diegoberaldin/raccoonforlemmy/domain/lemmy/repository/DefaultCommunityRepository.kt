@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AddModToCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -263,4 +264,25 @@ internal class DefaultCommunityRepository(
             }.orEmpty()
         }.getOrElse { emptyList() }
     }
+
+    override suspend fun update(auth: String?, community: CommunityModel): Unit =
+        withContext(Dispatchers.IO) {
+            val data = EditCommunityForm(
+                communityId = community.id,
+                icon = community.icon,
+                banner = community.banner,
+                title = community.name,
+                description = community.description,
+                nsfw = community.nsfw,
+                postingRestrictedToMods = community.postingRestrictedToMods,
+            )
+            val response = services.community.edit(
+                authHeader = auth.toAuthHeader(),
+                form = data
+            )
+            if (!response.isSuccessful) {
+                val error = response.errorBody().toString()
+                throw Exception(error)
+            }
+        }
 }

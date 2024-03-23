@@ -21,6 +21,7 @@ data class CommunityModel(
     val posts: Int = 0,
     val comments: Int = 0,
     val creationDate: String? = null,
+    val postingRestrictedToMods: Boolean? = null,
     @Transient val favorite: Boolean = false,
 )
 

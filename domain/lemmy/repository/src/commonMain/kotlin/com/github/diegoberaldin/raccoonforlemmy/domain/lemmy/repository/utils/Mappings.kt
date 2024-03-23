@@ -236,6 +236,7 @@ internal fun Community.toModel() = CommunityModel(
     host = actorId.toHost(),
     nsfw = nsfw,
     creationDate = published,
+    postingRestrictedToMods = postingRestrictedToMods,
 )
 
 internal fun CommunityView.toModel() = community.toModel().copy(
