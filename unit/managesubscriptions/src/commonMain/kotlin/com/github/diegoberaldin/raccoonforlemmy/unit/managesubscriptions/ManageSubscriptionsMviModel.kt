@@ -16,6 +16,7 @@ interface ManageSubscriptionsMviModel :
         data class Unsubscribe(val id: Int) : Intent
         data class DeleteMultiCommunity(val id: Int) : Intent
         data class ToggleFavorite(val id: Int) : Intent
+        data class SetSearch(val value: String) : Intent
     }
 
     data class UiState(
@@ -25,7 +26,10 @@ interface ManageSubscriptionsMviModel :
         val communities: List<CommunityModel> = emptyList(),
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
+        val searchText: String = "",
     )
 
-    sealed interface Effect
+    sealed interface Effect {
+        data object BackToTop : Effect
+    }
 }
