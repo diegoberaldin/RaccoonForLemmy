@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -86,6 +87,7 @@ class SelectCommunityDialog : Screen {
                     value = uiState.searchText,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Search,
                     ),
                     onValueChange = { value ->
                         model.reduce(SelectCommunityMviModel.Intent.SetSearch(value))

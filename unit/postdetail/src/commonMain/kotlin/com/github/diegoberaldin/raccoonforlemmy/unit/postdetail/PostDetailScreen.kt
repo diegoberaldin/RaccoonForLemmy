@@ -70,14 +70,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -187,6 +191,15 @@ class PostDetailScreen(
         val settings by settingsRepository.currentSettings.collectAsState()
         val detailOpener = remember { getDetailOpener() }
         val clipboardManager = LocalClipboardManager.current
+        val focusManager = LocalFocusManager.current
+        val keyboardScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                    focusManager.clearFocus()
+                    return Offset.Zero
+                }
+            }
+        }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -407,6 +420,7 @@ class PostDetailScreen(
                         value = uiState.searchText,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Search,
                         ),
                         onValueChange = { value ->
                             model.reduce(PostDetailMviModel.Intent.SetSearch(value))
@@ -443,6 +457,7 @@ class PostDetailScreen(
                             }
                         )
                         .nestedScroll(fabNestedScrollConnection)
+                        .nestedScroll(keyboardScrollConnection)
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(

@@ -32,6 +32,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -79,6 +85,15 @@ object ModalDrawerContent : Tab {
         val scope = rememberCoroutineScope()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
+        val focusManager = LocalFocusManager.current
+        val keyboardScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                    focusManager.clearFocus()
+                    return Offset.Zero
+                }
+            }
+        }
 
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
         LaunchedEffect(themeRepository) {
@@ -129,6 +144,7 @@ object ModalDrawerContent : Tab {
                 Box(
                     modifier = Modifier
                         .weight(1f)
+                        .nestedScroll(keyboardScrollConnection)
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
@@ -140,8 +156,8 @@ object ModalDrawerContent : Tab {
                                 modifier = Modifier
                                     .scale(0.95f)
                                     .padding(
-                                        horizontal = Spacing.xs,
-                                        vertical = Spacing.xs,
+                                        horizontal = Spacing.xxs,
+                                        vertical = Spacing.xxs,
                                     ).fillMaxWidth(),
                                 label = {
                                     Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
@@ -150,6 +166,7 @@ object ModalDrawerContent : Tab {
                                 value = uiState.searchText,
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Text,
+                                    imeAction = ImeAction.Search,
                                 ),
                                 onValueChange = { value ->
                                     model.reduce(ModalDrawerMviModel.Intent.SetSearch(value))

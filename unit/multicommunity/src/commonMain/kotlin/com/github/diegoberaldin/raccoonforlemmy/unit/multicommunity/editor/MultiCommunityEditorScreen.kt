@@ -291,6 +291,7 @@ class MultiCommunityEditorScreen(
                         value = uiState.searchText,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Search,
                         ),
                         onValueChange = { value ->
                             model.reduce(MultiCommunityEditorMviModel.Intent.SetSearch(value))
