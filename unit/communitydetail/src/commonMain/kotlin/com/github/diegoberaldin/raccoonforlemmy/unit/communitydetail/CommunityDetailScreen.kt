@@ -338,9 +338,6 @@ class CommunityDetailScreen(
                                         } else {
                                             buildString {
                                                 append(LocalXmlStrings.current.actionSearchInCommunity)
-                                                append(" (")
-                                                append(LocalXmlStrings.current.beta)
-                                                append(")")
                                             }
                                         },
                                     )

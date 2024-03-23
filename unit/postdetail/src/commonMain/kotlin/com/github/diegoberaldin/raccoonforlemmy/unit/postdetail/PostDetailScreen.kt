@@ -294,9 +294,6 @@ class PostDetailScreen(
                                     } else {
                                         buildString {
                                             append(LocalXmlStrings.current.actionSearchInComments)
-                                            append(" (")
-                                            append(LocalXmlStrings.current.beta)
-                                            append(")")
                                         }
                                     },
                                 )
