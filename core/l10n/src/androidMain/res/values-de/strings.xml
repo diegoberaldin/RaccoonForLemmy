@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Standardsprache im Editor</string>
     <string name="undetermined">Nicht definiert</string>
     <string name="explore_result_type_title">Ergebnistyp</string>
+    <string name="community_action_edit">Community bearbeiten</string>
+    <string name="edit_community_header_textual">Textinformationen</string>
+    <string name="edit_community_item_sidebar">Seitenleiste</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Das Posten ist auf Moderatoren beschränkt</string>
 </resources>

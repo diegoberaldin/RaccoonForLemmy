@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Lingwa default fl-editur</string>
     <string name="undetermined">Mhux definit</string>
     <string name="explore_result_type_title">Tip ta\' riżultat</string>
+    <string name="community_action_edit">Editja komunità</string>
+    <string name="edit_community_header_textual">Informazzjoni testwali</string>
+    <string name="edit_community_item_sidebar">Istrixxa tal-ġenb</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Posting ristrett għall-moderaturi</string>
 </resources>

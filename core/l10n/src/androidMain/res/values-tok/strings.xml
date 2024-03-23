@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">toki pi ilo sitelen</string>
     <string name="undetermined">sona ala</string>
     <string name="explore_result_type_title">nasin ijo</string>
+    <string name="community_action_edit">o ante e kulupu</string>
+    <string name="edit_community_header_textual">sona sitelen</string>
+    <string name="edit_community_item_sidebar">lipu leko</string>
+    <string name="edit_community_item_posting_restricted_to_mods">jan lawa taso li ken sitelen</string>
 </resources>

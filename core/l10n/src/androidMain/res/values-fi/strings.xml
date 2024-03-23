@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Editorin oletuskieli</string>
     <string name="undetermined">Määrittämätön</string>
     <string name="explore_result_type_title">Tuloksen tyyppi</string>
+    <string name="community_action_edit">Muokkaa yhteisöä</string>
+    <string name="edit_community_header_textual">Tekstimuotoinen tieto</string>
+    <string name="edit_community_item_sidebar">Sivupalkki</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Lähetys on rajoitettu valvojille</string>
 </resources>

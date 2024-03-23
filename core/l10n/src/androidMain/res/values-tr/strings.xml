@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Düzenleyicideki varsayılan dil</string>
     <string name="undetermined">Tanımsız</string>
     <string name="explore_result_type_title">Sonuç türü</string>
+    <string name="community_action_edit">Topluluğu düzenle</string>
+    <string name="edit_community_header_textual">Metinsel bilgi</string>
+    <string name="edit_community_item_sidebar">Kenar çubuğu</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Gönderim moderatörlerle sınırlıdır</string>
 </resources>

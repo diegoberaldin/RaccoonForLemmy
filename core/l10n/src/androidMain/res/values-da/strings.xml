@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Standardsprog i editoren</string>
     <string name="undetermined">Udefineret</string>
     <string name="explore_result_type_title">Resultattype</string>
+    <string name="community_action_edit">Rediger fællesskab</string>
+    <string name="edit_community_header_textual">Tekstmæssige oplysninger</string>
+    <string name="edit_community_item_sidebar">Sidebjælke</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Indlæg begrænset til moderatorer</string>
 </resources>

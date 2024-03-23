@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Vaikimisi keel redaktoris</string>
     <string name="undetermined">Määratlemata</string>
     <string name="explore_result_type_title">Tulemuse tüüp</string>
+    <string name="community_action_edit">Redigeeri kogukonda</string>
+    <string name="edit_community_header_textual">Tekstiline teave</string>
+    <string name="edit_community_item_sidebar">Külgriba</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Postitamine on piiratud moderaatoritega</string>
 </resources>

@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Redaktora noklusējuma valoda</string>
     <string name="undetermined">nenoteikts</string>
     <string name="explore_result_type_title">Rezultāta veids</string>
+    <string name="community_action_edit">Rediģēt kopienu</string>
+    <string name="edit_community_header_textual">Teksta informācija</string>
+    <string name="edit_community_item_sidebar">Sānjosla</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Publicēšana ir atļauta tikai moderatoriem</string>
 </resources>

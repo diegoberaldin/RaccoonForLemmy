@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Gjuha e parazgjedhur në redaktues</string>
     <string name="undetermined">E papërcaktuar</string>
     <string name="explore_result_type_title">Lloji i rezultatit</string>
+    <string name="community_action_edit">Redakto komunitetin</string>
+    <string name="edit_community_header_textual">Informacioni tekstual</string>
+    <string name="edit_community_item_sidebar">Shiriti anësor</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Postimi është i kufizuar për moderatorët</string>
 </resources>

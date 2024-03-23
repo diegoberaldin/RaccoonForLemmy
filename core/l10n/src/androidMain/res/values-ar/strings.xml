@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">للغة الافتراضية في المحرر</string>
     <string name="undetermined">غير معرف</string>
     <string name="explore_result_type_title">نوع النتيجة</string>
+    <string name="community_action_edit">تحرير المجتمع</string>
+    <string name="edit_community_header_textual">معلومات نصية</string>
+    <string name="edit_community_item_sidebar">الشريط الجانبي</string>
+    <string name="edit_community_item_posting_restricted_to_mods">النشر يقتصر على المشرفين</string>
 </resources>

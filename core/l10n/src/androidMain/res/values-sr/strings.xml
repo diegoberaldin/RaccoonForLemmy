@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Подразумевани језик у уређивачу</string>
     <string name="undetermined">Недефинисан</string>
     <string name="explore_result_type_title">Тип резултата</string>
+    <string name="community_action_edit">Уредите заједницу</string>
+    <string name="edit_community_header_textual">Текстуалне информације</string>
+    <string name="edit_community_item_sidebar">Бочна трака</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Објављивање је ограничено на модераторе</string>
 </resources>

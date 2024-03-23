@@ -358,4 +358,8 @@
     <string name="advanced_settings_default_language">Язык по умолчанию в редакторе</string>
     <string name="undetermined">Неопределенный</string>
     <string name="explore_result_type_title">Тип результата</string>
+    <string name="community_action_edit">Изменить сообщество</string>
+    <string name="edit_community_header_textual">Текстовая информация</string>
+    <string name="edit_community_item_sidebar">Боковая панель</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Публикация доступна только модераторам</string>
 </resources>

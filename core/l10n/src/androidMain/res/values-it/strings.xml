@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Lingua di default nell\'editor</string>
     <string name="undetermined">Non definito</string>
     <string name="explore_result_type_title">Tipo di risultato</string>
+    <string name="community_action_edit">Modifica comunità</string>
+    <string name="edit_community_header_textual">Informazioni testuali</string>
+    <string name="edit_community_item_sidebar">Sidebar</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Pubblicazione riservata ai moderatori</string>
 </resources>

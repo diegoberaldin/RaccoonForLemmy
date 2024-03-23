@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Език по подразбиране в редактора</string>
     <string name="undetermined">Недефиниран</string>
     <string name="explore_result_type_title">Тип резултат</string>
+    <string name="community_action_edit">Редактиране на общността</string>
+    <string name="edit_community_header_textual">Текстова информация</string>
+    <string name="edit_community_item_sidebar">Странична лента</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Публикуването е ограничено до модератори</string>
 </resources>

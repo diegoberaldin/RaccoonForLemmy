@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Limba implicită în editor</string>
     <string name="undetermined">Nedefinit</string>
     <string name="explore_result_type_title">Tip de rezultat</string>
+    <string name="community_action_edit">Editează comunitatea</string>
+    <string name="edit_community_header_textual">Informații textuale</string>
+    <string name="edit_community_item_sidebar">Bara laterală</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Postare limitată la moderatori</string>
 </resources>

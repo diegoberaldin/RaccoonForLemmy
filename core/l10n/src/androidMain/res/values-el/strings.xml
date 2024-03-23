@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Προεπιλεγμένη γλώσσα στο πρόγραμμα επεξεργασίας</string>
     <string name="undetermined">Απροσδιόριστος</string>
     <string name="explore_result_type_title">Τύπος αποτελέσματος</string>
+    <string name="community_action_edit">Επεξεργασία κοινότητας</string>
+    <string name="edit_community_header_textual">Κειμενικές πληροφορίες</string>
+    <string name="edit_community_item_sidebar">Πλαϊνή γραμμή</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Η ανάρτηση περιορίζεται στους συντονιστές</string>
 </resources>

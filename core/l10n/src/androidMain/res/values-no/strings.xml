@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Standardspråk i editoren</string>
     <string name="undetermined">Udefinert</string>
     <string name="explore_result_type_title">Resultattype</string>
+    <string name="community_action_edit">Rediger fellesskap</string>
+    <string name="edit_community_header_textual">Tekstinformasjon</string>
+    <string name="edit_community_item_sidebar">Sidefelt</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Innlegg begrenset til moderatorer</string>
 </resources>

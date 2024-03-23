@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Defaŭlta lingvo en la redaktilo</string>
     <string name="undetermined">Nedifinita</string>
     <string name="explore_result_type_title">Rezulta tipo</string>
+    <string name="community_action_edit">Redaktu komunumon</string>
+    <string name="edit_community_header_textual">Tekstaj informoj</string>
+    <string name="edit_community_item_sidebar">Flankmenuo</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Afiŝado limigita al moderigaĵoj</string>
 </resources>

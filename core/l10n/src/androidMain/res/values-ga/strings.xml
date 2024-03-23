@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Teanga réamhshocraithe san eagarthóir</string>
     <string name="undetermined">Neamhshainithe</string>
     <string name="explore_result_type_title">Cineál toraidh</string>
+    <string name="community_action_edit">Cuir pobal in eagar</string>
+    <string name="edit_community_header_textual">Eolas téacsach</string>
+    <string name="edit_community_item_sidebar">Barra Taoibh</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Tá postáil teoranta do mhodhnóirí</string>
 </resources>

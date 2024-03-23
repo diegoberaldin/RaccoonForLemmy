@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Numatytoji kalba redaktoriuje</string>
     <string name="undetermined">Neapibrėžtas</string>
     <string name="explore_result_type_title">Rezultato tipas</string>
+    <string name="community_action_edit">Redaguoti bendruomenę</string>
+    <string name="edit_community_header_textual">Tekstinė informacija</string>
+    <string name="edit_community_item_sidebar">Šoninė juosta</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Skelbti gali tik moderatoriai</string>
 </resources>

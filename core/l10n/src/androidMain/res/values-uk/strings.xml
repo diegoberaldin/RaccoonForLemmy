@@ -358,4 +358,8 @@
     <string name="advanced_settings_default_language">Мова за замовчуванням у редакторі</string>
     <string name="undetermined">Невизначено</string>
     <string name="explore_result_type_title">Тип результату</string>
+    <string name="community_action_edit">Редагувати спільноту</string>
+    <string name="edit_community_header_textual">Текстова інформація</string>
+    <string name="edit_community_item_sidebar">Бічна панель</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Публікація обмежена модераторами</string>
 </resources>

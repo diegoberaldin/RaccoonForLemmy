@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Predvolený jazyk v editore</string>
     <string name="undetermined">Nedefinované</string>
     <string name="explore_result_type_title">Typ výsledku</string>
+    <string name="community_action_edit">Upraviť komunitu</string>
+    <string name="edit_community_header_textual">Textové informácie</string>
+    <string name="edit_community_item_sidebar">Bočný panel</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Príspevok je obmedzený na moderátorov</string>
 </resources>

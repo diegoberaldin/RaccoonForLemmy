@@ -359,4 +359,8 @@
     <string name="advanced_settings_default_language">Standardspråk i editorn</string>
     <string name="undetermined">Odefinierad</string>
     <string name="explore_result_type_title">Resultattyp</string>
+    <string name="community_action_edit">Redigera grupp</string>
+    <string name="edit_community_header_textual">Textinformation</string>
+    <string name="edit_community_item_sidebar">Sidofält</string>
+    <string name="edit_community_item_posting_restricted_to_mods">Inlägg begränsat till moderatorer</string>
 </resources>
