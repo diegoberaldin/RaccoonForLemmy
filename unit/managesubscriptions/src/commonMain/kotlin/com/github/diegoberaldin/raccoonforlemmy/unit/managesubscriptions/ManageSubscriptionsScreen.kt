@@ -253,7 +253,7 @@ class ManageSubscriptionsScreen : Screen {
                             ) {
                                 Text(
                                     text = LocalXmlStrings.current.manageSubscriptionsHeaderMulticommunities,
-                                    style = MaterialTheme.typography.headlineSmall,
+                                    style = MaterialTheme.typography.titleLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
                                 Spacer(modifier = Modifier.weight(1f))
@@ -293,7 +293,7 @@ class ManageSubscriptionsScreen : Screen {
                                     )
                                     this += Option(
                                         OptionId.Delete,
-                                        LocalXmlStrings.current.communityActionUnsubscribe,
+                                        LocalXmlStrings.current.commentActionDelete,
                                     )
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -322,7 +322,7 @@ class ManageSubscriptionsScreen : Screen {
                             ) {
                                 Text(
                                     text = LocalXmlStrings.current.manageSubscriptionsHeaderSubscriptions,
-                                    style = MaterialTheme.typography.headlineSmall,
+                                    style = MaterialTheme.typography.titleLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
                             }
@@ -361,16 +361,12 @@ class ManageSubscriptionsScreen : Screen {
                                 onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                     when (optionId) {
                                         OptionId.Unsubscribe -> {
-                                            model.reduce(
-                                                ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id),
-                                            )
+                                            model.reduce(ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id))
                                         }
 
                                         OptionId.Favorite -> {
                                             model.reduce(
-                                                ManageSubscriptionsMviModel.Intent.ToggleFavorite(
-                                                    community.id
-                                                )
+                                                ManageSubscriptionsMviModel.Intent.ToggleFavorite(community.id)
                                             )
                                         }
 
