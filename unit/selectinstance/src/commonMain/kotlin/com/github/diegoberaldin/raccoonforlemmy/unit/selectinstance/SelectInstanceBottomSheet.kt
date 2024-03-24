@@ -14,6 +14,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -71,6 +73,7 @@ class SelectInstanceBottomSheet : Screen {
                     )
                 )
             }
+        var instanceToDelete by remember { mutableStateOf<String?>(null) }
 
         LaunchedEffect(model) {
             model.effects.onEach { evt ->
@@ -189,11 +192,7 @@ class SelectInstanceBottomSheet : Screen {
                                 onOptionSelected = rememberCallbackArgs { optionId ->
                                     when (optionId) {
                                         OptionId.Delete -> {
-                                            model.reduce(
-                                                SelectInstanceMviModel.Intent.DeleteInstance(
-                                                    instance,
-                                                ),
-                                            )
+                                            instanceToDelete = instance
                                         }
 
                                         else -> Unit
@@ -219,6 +218,36 @@ class SelectInstanceBottomSheet : Screen {
                 },
                 onSubmit = {
                     model.reduce(SelectInstanceMviModel.Intent.SubmitChangeInstanceDialog)
+                },
+            )
+        }
+
+        instanceToDelete?.also { instance ->
+            AlertDialog(
+                onDismissRequest = {
+                    instanceToDelete = null
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            instanceToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            model.reduce(SelectInstanceMviModel.Intent.DeleteInstance(instance))
+                            instanceToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
                 },
             )
         }

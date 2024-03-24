@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.SyncDisabled
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -137,6 +138,7 @@ class PostListScreen : Screen {
             WindowInsets.navigationBars.getBottom(this).toDp()
         }
         val clipboardManager = LocalClipboardManager.current
+        var itemIdToDelete by remember { mutableStateOf<Int?>(null) }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -573,9 +575,9 @@ class PostListScreen : Screen {
                                         },
                                         onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                             when (optionId) {
-                                                OptionId.Delete -> model.reduce(
-                                                    PostListMviModel.Intent.DeletePost(post.id)
-                                                )
+                                                OptionId.Delete -> {
+                                                    itemIdToDelete = post.id
+                                                }
 
                                                 OptionId.Edit -> {
                                                     detailOpener.openCreatePost(editedPost = post)
@@ -761,6 +763,36 @@ class PostListScreen : Screen {
                     )
                 }
             }
+        }
+
+        itemIdToDelete?.also { itemId ->
+            AlertDialog(
+                onDismissRequest = {
+                    itemIdToDelete = null
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            itemIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            model.reduce(PostListMviModel.Intent.DeletePost(itemId))
+                            itemIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+            )
         }
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
@@ -65,6 +66,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
+import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsType
@@ -98,6 +100,8 @@ object ProfileLoggedScreen : Tab {
         val detailOpener = remember { getDetailOpener() }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
+        var postIdToDelete by remember { mutableStateOf<Int?>(null) }
+        var commentIdToDelete by remember { mutableStateOf<Int?>(null) }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -336,9 +340,9 @@ object ProfileLoggedScreen : Tab {
                                     },
                                     onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                         when (optionId) {
-                                            OptionId.Delete -> model.reduce(
-                                                ProfileLoggedMviModel.Intent.DeletePost(post.id)
-                                            )
+                                            OptionId.Delete -> {
+                                                postIdToDelete = post.id
+                                            }
 
                                             OptionId.Edit -> {
                                                 detailOpener.openCreatePost(
@@ -474,11 +478,7 @@ object ProfileLoggedScreen : Tab {
                                     onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                         when (optionId) {
                                             OptionId.Delete -> {
-                                                model.reduce(
-                                                    ProfileLoggedMviModel.Intent.DeleteComment(
-                                                        comment.id
-                                                    )
-                                                )
+                                                commentIdToDelete = comment.id
                                             }
 
                                             OptionId.Edit -> {
@@ -623,6 +623,65 @@ object ProfileLoggedScreen : Tab {
                     )
                 }
             }
+        }
+
+        postIdToDelete?.also { itemId ->
+            AlertDialog(
+                onDismissRequest = {
+                    postIdToDelete = null
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            postIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            model.reduce(ProfileLoggedMviModel.Intent.DeletePost(itemId))
+                            postIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+            )
+        }
+        commentIdToDelete?.also { itemId ->
+            AlertDialog(
+                onDismissRequest = {
+                    commentIdToDelete = null
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            commentIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            model.reduce(ProfileLoggedMviModel.Intent.DeleteComment(itemId))
+                            commentIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+            )
         }
     }
 }

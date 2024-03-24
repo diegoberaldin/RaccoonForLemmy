@@ -22,6 +22,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -99,6 +101,7 @@ class InboxChatScreen(
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val lazyListState = rememberLazyListState()
         val detailOpener = remember { getDetailOpener() }
+        var itemIdToDelete by remember { mutableStateOf<Int?>(null) }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -296,9 +299,7 @@ class InboxChatScreen(
                                     when (optionId) {
                                         OptionId.Edit -> {
                                             model.reduce(
-                                                InboxChatMviModel.Intent.EditMessage(
-                                                    message.id
-                                                )
+                                                InboxChatMviModel.Intent.EditMessage(message.id)
                                             )
                                             message.content?.also {
                                                 textFieldValue = TextFieldValue(text = it)
@@ -310,11 +311,7 @@ class InboxChatScreen(
                                         }
 
                                         OptionId.Delete -> {
-                                            model.reduce(
-                                                InboxChatMviModel.Intent.DeleteMessage(
-                                                    message.id
-                                                )
-                                            )
+                                            itemIdToDelete = message.id
                                         }
 
                                         else -> Unit
@@ -367,6 +364,36 @@ class InboxChatScreen(
                     )
                 }
             }
+        }
+
+        itemIdToDelete?.also { itemId ->
+            AlertDialog(
+                onDismissRequest = {
+                    itemIdToDelete = null
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            itemIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            model.reduce(InboxChatMviModel.Intent.DeleteMessage(itemId))
+                            itemIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+            )
         }
     }
 }

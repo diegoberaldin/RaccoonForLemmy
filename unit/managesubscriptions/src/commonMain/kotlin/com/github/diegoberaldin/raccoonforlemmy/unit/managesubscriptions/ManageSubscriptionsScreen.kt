@@ -29,6 +29,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -109,6 +111,7 @@ class ManageSubscriptionsScreen : Screen {
                 }
             }
         }
+        var multiCommunityIdToDelete by remember { mutableStateOf<Int?>(null) }
 
         LaunchedEffect(model) {
             model.effects.onEach { event ->
@@ -302,11 +305,9 @@ class ManageSubscriptionsScreen : Screen {
                                         }
 
                                         OptionId.Delete -> {
-                                            model.reduce(
-                                                ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(
-                                                    (community.id ?: 0).toInt()
-                                                ),
-                                            )
+                                            community.id?.also {
+                                                multiCommunityIdToDelete = it.toInt()
+                                            }
                                         }
 
                                         else -> Unit
@@ -345,7 +346,7 @@ class ManageSubscriptionsScreen : Screen {
                                 showFavorite = true,
                                 options = buildList {
                                     this += Option(
-                                        OptionId.Delete,
+                                        OptionId.Unsubscribe,
                                         LocalXmlStrings.current.communityActionUnsubscribe,
                                     )
                                     this += Option(
@@ -359,7 +360,7 @@ class ManageSubscriptionsScreen : Screen {
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                     when (optionId) {
-                                        OptionId.Delete -> {
+                                        OptionId.Unsubscribe -> {
                                             model.reduce(
                                                 ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id),
                                             )
@@ -403,6 +404,36 @@ class ManageSubscriptionsScreen : Screen {
                     }
                 }
             }
+        }
+
+        multiCommunityIdToDelete?.also { itemId ->
+            AlertDialog(
+                onDismissRequest = {
+                    multiCommunityIdToDelete = null
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            multiCommunityIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            model.reduce(ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(itemId))
+                            multiCommunityIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+            )
         }
     }
 }

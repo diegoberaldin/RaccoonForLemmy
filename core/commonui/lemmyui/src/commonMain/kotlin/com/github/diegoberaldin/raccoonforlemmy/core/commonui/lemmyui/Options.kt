@@ -33,4 +33,5 @@ sealed class OptionId(val value: Int) {
     data object Search : OptionId(25)
     data object Copy : OptionId(26)
     data object ExploreInstance : OptionId(27)
+    data object Unsubscribe : OptionId(28)
 }

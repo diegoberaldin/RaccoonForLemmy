@@ -45,6 +45,7 @@ import androidx.compose.material.icons.outlined.Pending
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
@@ -197,6 +198,7 @@ class CommunityDetailScreen(
                 }
             }
         }
+        var itemIdToDelete by remember { mutableStateOf<Int?>(null) }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -515,7 +517,7 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.Edit -> {
-                                                    scope.launch {  }
+                                                    scope.launch { }
                                                     val screen = EditCommunityScreen(uiState.community.id)
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
@@ -993,9 +995,9 @@ class CommunityDetailScreen(
                                             },
                                             onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                                 when (optionId) {
-                                                    OptionId.Delete -> model.reduce(
-                                                        CommunityDetailMviModel.Intent.DeletePost(post.id)
-                                                    )
+                                                    OptionId.Delete -> {
+                                                        itemIdToDelete = post.id
+                                                    }
 
                                                     OptionId.Edit -> {
                                                         detailOpener.openCreatePost(editedPost = post)
@@ -1216,6 +1218,36 @@ class CommunityDetailScreen(
                     )
                 }
             }
+        }
+
+        itemIdToDelete?.also { itemId ->
+            AlertDialog(
+                onDismissRequest = {
+                    itemIdToDelete = null
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            itemIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            model.reduce(CommunityDetailMviModel.Intent.DeletePost(itemId))
+                            itemIdToDelete = null
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+            )
         }
     }
 }
