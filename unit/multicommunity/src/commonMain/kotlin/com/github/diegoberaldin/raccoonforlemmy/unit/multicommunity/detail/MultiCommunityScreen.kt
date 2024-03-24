@@ -105,9 +105,7 @@ class MultiCommunityScreen(
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<MultiCommunityMviModel>(parameters = {
-            parametersOf(communityId)
-        })
+        val model = getScreenModel<MultiCommunityMviModel>(parameters = { parametersOf(communityId) })
         val uiState by model.uiState.collectAsState()
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)

@@ -89,6 +89,9 @@ class MultiCommunityViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
                 emitEffect(MultiCommunityMviModel.Effect.TriggerCopy(it.value))
             }.launchIn(this)
+            identityRepository.isLogged.onEach { logged ->
+                updateState { it.copy(isLogged = logged ?: false) }
+            }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -143,9 +146,7 @@ class MultiCommunityViewModel(
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                toggleUpVote(
-                    post = uiState.value.posts.first { it.id == intent.id },
-                )
+                toggleUpVote(post = uiState.value.posts.first { it.id == intent.id })
             }
 
             MultiCommunityMviModel.Intent.ClearRead -> clearRead()
