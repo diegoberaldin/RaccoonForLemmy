@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Tekstinė informacija</string>
     <string name="edit_community_item_sidebar">Šoninė juosta</string>
     <string name="edit_community_item_posting_restricted_to_mods">Skelbti gali tik moderatoriai</string>
+    <string name="message_are_you_sure">Ar tikrai norite tęsti?</string>
+    <string name="button_cancel">Atšaukti</string>
 </resources>

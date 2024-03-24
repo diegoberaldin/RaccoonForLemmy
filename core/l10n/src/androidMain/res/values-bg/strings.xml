@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Текстова информация</string>
     <string name="edit_community_item_sidebar">Странична лента</string>
     <string name="edit_community_item_posting_restricted_to_mods">Публикуването е ограничено до модератори</string>
+    <string name="message_are_you_sure">Сигурни ли сте, че искате да продължите?</string>
+    <string name="button_cancel">Отказ</string>
 </resources>

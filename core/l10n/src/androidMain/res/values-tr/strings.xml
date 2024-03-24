@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Metinsel bilgi</string>
     <string name="edit_community_item_sidebar">Kenar çubuğu</string>
     <string name="edit_community_item_posting_restricted_to_mods">Gönderim moderatörlerle sınırlıdır</string>
+    <string name="message_are_you_sure">Devam etmek istediğinizden emin misiniz?</string>
+    <string name="button_cancel">İptal etmek</string>
 </resources>

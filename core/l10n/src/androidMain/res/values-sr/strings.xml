@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Текстуалне информације</string>
     <string name="edit_community_item_sidebar">Бочна трака</string>
     <string name="edit_community_item_posting_restricted_to_mods">Објављивање је ограничено на модераторе</string>
+    <string name="message_are_you_sure">Да ли сте сигурни да желите да наставите?</string>
+    <string name="button_cancel">Поништити, отказати</string>
 </resources>

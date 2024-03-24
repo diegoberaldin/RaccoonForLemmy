@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Tekstaj informoj</string>
     <string name="edit_community_item_sidebar">Flankmenuo</string>
     <string name="edit_community_item_posting_restricted_to_mods">Afiŝado limigita al moderigaĵoj</string>
+    <string name="message_are_you_sure">Ĉu vi certas, ke vi volas daŭrigi?</string>
+    <string name="button_cancel">Nuligi</string>
 </resources>

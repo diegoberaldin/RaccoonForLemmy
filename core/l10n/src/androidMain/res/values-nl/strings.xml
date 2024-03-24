@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Tekstuele informatie</string>
     <string name="edit_community_item_sidebar">Zijbalk</string>
     <string name="edit_community_item_posting_restricted_to_mods">Berichten beperkt tot moderators</string>
+    <string name="message_are_you_sure">Weet je zeker dat je verder wilt gaan?</string>
+    <string name="button_cancel">Annuleren</string>
 </resources>

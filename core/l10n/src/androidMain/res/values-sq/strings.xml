@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Informacioni tekstual</string>
     <string name="edit_community_item_sidebar">Shiriti anësor</string>
     <string name="edit_community_item_posting_restricted_to_mods">Postimi është i kufizuar për moderatorët</string>
+    <string name="message_are_you_sure">Je i sigurt që dëshiron të vazhdosh?</string>
+    <string name="button_cancel">Anulo</string>
 </resources>

@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Tekstiline teave</string>
     <string name="edit_community_item_sidebar">Külgriba</string>
     <string name="edit_community_item_posting_restricted_to_mods">Postitamine on piiratud moderaatoritega</string>
+    <string name="message_are_you_sure">Kas olete kindel, et soovite jätkata?</string>
+    <string name="button_cancel">Tühista</string>
 </resources>

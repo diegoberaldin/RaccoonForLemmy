@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Teksta informācija</string>
     <string name="edit_community_item_sidebar">Sānjosla</string>
     <string name="edit_community_item_posting_restricted_to_mods">Publicēšana ir atļauta tikai moderatoriem</string>
+    <string name="message_are_you_sure">Vai tiešām vēlaties turpināt?</string>
+    <string name="button_cancel">Atcelt</string>
 </resources>

@@ -362,4 +362,6 @@
     <string name="edit_community_header_textual">Текстовая информация</string>
     <string name="edit_community_item_sidebar">Боковая панель</string>
     <string name="edit_community_item_posting_restricted_to_mods">Публикация доступна только модераторам</string>
+    <string name="message_are_you_sure">Вы уверены, что хотите продолжить?</string>
+    <string name="button_cancel">Отмена</string>
 </resources>

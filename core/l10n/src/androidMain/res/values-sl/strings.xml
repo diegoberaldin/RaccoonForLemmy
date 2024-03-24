@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Besedilne informacije</string>
     <string name="edit_community_item_sidebar">Stranska vrstica</string>
     <string name="edit_community_item_posting_restricted_to_mods">Objavljanje je omejeno na moderatorje</string>
+    <string name="message_are_you_sure">Ste prepričani, da želite nadaljevati?</string>
+    <string name="button_cancel">Prekliči</string>
 </resources>

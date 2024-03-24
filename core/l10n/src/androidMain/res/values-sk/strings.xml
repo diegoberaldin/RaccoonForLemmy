@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Textové informácie</string>
     <string name="edit_community_item_sidebar">Bočný panel</string>
     <string name="edit_community_item_posting_restricted_to_mods">Príspevok je obmedzený na moderátorov</string>
+    <string name="message_are_you_sure">Naozaj chcete pokračovať?</string>
+    <string name="button_cancel">Zrušiť</string>
 </resources>

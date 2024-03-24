@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Textinformation</string>
     <string name="edit_community_item_sidebar">Sidofält</string>
     <string name="edit_community_item_posting_restricted_to_mods">Inlägg begränsat till moderatorer</string>
+    <string name="message_are_you_sure">Är du säker på att du vill fortsätta?</string>
+    <string name="button_cancel">Annullera</string>
 </resources>

@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Tekstmæssige oplysninger</string>
     <string name="edit_community_item_sidebar">Sidebjælke</string>
     <string name="edit_community_item_posting_restricted_to_mods">Indlæg begrænset til moderatorer</string>
+    <string name="message_are_you_sure">Er du sikker på, at du vil fortsætte?</string>
+    <string name="button_cancel">Afbestille</string>
 </resources>

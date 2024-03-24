@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Informazzjoni testwali</string>
     <string name="edit_community_item_sidebar">Istrixxa tal-ġenb</string>
     <string name="edit_community_item_posting_restricted_to_mods">Posting ristrett għall-moderaturi</string>
+    <string name="message_are_you_sure">Int żgur li trid tipproċedi?</string>
+    <string name="button_cancel">Ikkanċella</string>
 </resources>

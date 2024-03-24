@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">sona sitelen</string>
     <string name="edit_community_item_sidebar">lipu leko</string>
     <string name="edit_community_item_posting_restricted_to_mods">jan lawa taso li ken sitelen</string>
+    <string name="message_are_you_sure">sina wile ala wile tawa sinpin</string>
+    <string name="button_cancel">o monsi</string>
 </resources>

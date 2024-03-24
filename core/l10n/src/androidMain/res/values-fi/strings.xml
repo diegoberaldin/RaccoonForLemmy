@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Tekstimuotoinen tieto</string>
     <string name="edit_community_item_sidebar">Sivupalkki</string>
     <string name="edit_community_item_posting_restricted_to_mods">Lähetys on rajoitettu valvojille</string>
+    <string name="message_are_you_sure">Haluatko varmasti jatkaa?</string>
+    <string name="button_cancel">Peruuttaa</string>
 </resources>

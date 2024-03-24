@@ -335,11 +335,11 @@
     <string name="ban_item_permanent">Proibição permanente</string>
     <string name="ban_item_remove_data">Remover dados</string>
     <string name="ban_item_duration_days">Duração (dias)</string>
-    <string name="message_unsaved_changes">Existem alterações não salvas. Tem certeza de que deseja sair?</string>
+    <string name="message_unsaved_changes">Existem alterações não salvas. Tendes certeza de que desejais sair?</string>
     <string name="button_no_stay">Não, ficar aqui</string>
     <string name="button_yes_quit">Sim, sair</string>
-    <string name="settings_item_image_source_path">Salve imagens em subdiretórios específicos</string>
-    <string name="settings_subtitle_image_source_path">use comunidade ou identificador de usuário em caminhos</string>
+    <string name="settings_item_image_source_path">Salvar imagens em subdiretórios específicos</string>
+    <string name="settings_subtitle_image_source_path">usar comunidade ou identificador de usuário em caminhos</string>
     <string name="settings_title_display">Tela</string>
     <string name="settings_title_reading">Leitura e conteúdos</string>
     <string name="settings_title_pictures">Fotos</string>
@@ -363,4 +363,6 @@
     <string name="edit_community_header_textual">Informação textual</string>
     <string name="edit_community_item_sidebar">Barra lateral</string>
     <string name="edit_community_item_posting_restricted_to_mods">Postagem restrita a moderadores</string>
+    <string name="message_are_you_sure">Tendes certeza de que desejais prosseguir?</string>
+    <string name="button_cancel">Cancelar</string>
 </resources>
