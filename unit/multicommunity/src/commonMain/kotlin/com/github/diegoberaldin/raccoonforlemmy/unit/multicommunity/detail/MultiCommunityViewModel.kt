@@ -109,7 +109,7 @@ class MultiCommunityViewModel(
                         )
                     }
                     paginator.setCommunities(uiState.value.community.communityIds)
-                    refresh()
+                    refresh(initial = true)
                 }
             }
         }
@@ -164,10 +164,10 @@ class MultiCommunityViewModel(
         }
     }
 
-    private fun refresh() {
+    private fun refresh(initial: Boolean = false) {
         hideReadPosts = false
         paginator.reset()
-        updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState { it.copy(canFetchMore = true, refreshing = true, initial = initial) }
         loadNextPage()
     }
 
@@ -222,6 +222,7 @@ class MultiCommunityViewModel(
                     loading = false,
                     canFetchMore = canFetchMore,
                     refreshing = false,
+                    initial = newPosts.isEmpty(),
                 )
             }
         }

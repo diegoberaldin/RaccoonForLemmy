@@ -285,8 +285,9 @@ class MultiCommunityScreen(
                         }
                     }
                     items(
-                        uiState.posts,
-                        { it.id.toString() + (it.updateDate ?: it.publishDate) }) { post ->
+                        items = uiState.posts,
+                        key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
+                    ) { post ->
                         LaunchedEffect(post.id) {
                             if (settings.markAsReadWhileScrolling && !post.read) {
                                 model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
@@ -576,7 +577,7 @@ class MultiCommunityScreen(
                         }
                     }
 
-                    if (uiState.posts.isEmpty() && !uiState.loading) {
+                    if (uiState.posts.isEmpty() && !uiState.initial) {
                         item {
                             Text(
                                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),

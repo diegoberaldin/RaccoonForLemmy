@@ -28,6 +28,7 @@ interface MultiCommunityMviModel :
 
     data class UiState(
         val currentUserId: Int? = null,
+        val initial: Boolean = true,
         val refreshing: Boolean = false,
         val loading: Boolean = false,
         val canFetchMore: Boolean = true,
