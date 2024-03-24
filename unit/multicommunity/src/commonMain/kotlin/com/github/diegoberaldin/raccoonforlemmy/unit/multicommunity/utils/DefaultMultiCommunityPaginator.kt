@@ -40,5 +40,5 @@ class DefaultMultiCommunityPaginator(
                 addAll(elements)
             }
         }
-    }.sortedBy { it.publishDate }
+    }.sortedByDescending { it.publishDate }
 }
