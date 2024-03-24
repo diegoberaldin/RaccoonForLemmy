@@ -273,8 +273,14 @@ class MultiCommunityEditorScreen(
                 }
 
                 Spacer(modifier = Modifier.height(Spacing.s))
-                Column {
-                    Text(text = LocalXmlStrings.current.multiCommunityEditorCommunities)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.s),
+                ) {
+                    Text(
+                        text = LocalXmlStrings.current.multiCommunityEditorCommunities
+                    )
 
                     // search field
                     TextField(
@@ -314,8 +320,9 @@ class MultiCommunityEditorScreen(
                     )
                 }
                 LazyColumn(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(horizontal = Spacing.m)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.s)
                         .weight(1f),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
@@ -326,8 +333,10 @@ class MultiCommunityEditorScreen(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             CommunityItem(
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier
+                                    .weight(1f)
                                     .background(MaterialTheme.colorScheme.background),
+                                noPadding = true,
                                 community = community,
                                 preferNicknames = uiState.preferNicknames,
                             )

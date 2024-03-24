@@ -105,7 +105,7 @@ class MultiCommunityEditorViewModel(
     private fun filterCommunities(): List<Pair<CommunityModel, Boolean>> {
         val searchText = uiState.value.searchText
         val res = if (searchText.isNotEmpty()) {
-            communities.filter { it.first.name.contains(searchText) }
+            communities.filter { it.first.name.contains(other = searchText, ignoreCase = true) }
         } else {
             communities
         }

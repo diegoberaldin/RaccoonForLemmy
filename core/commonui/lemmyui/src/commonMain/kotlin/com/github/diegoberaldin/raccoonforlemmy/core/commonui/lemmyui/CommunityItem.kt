@@ -52,6 +52,7 @@ fun CommunityItem(
     community: CommunityModel,
     modifier: Modifier = Modifier,
     small: Boolean = false,
+    noPadding: Boolean = false,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
     showSubscribers: Boolean = false,
@@ -71,7 +72,13 @@ fun CommunityItem(
     var optionsMenuOpen by remember { mutableStateOf(false) }
 
     Row(
-        modifier = modifier.padding(Spacing.s),
+        modifier = modifier.then(
+            if (noPadding) {
+                Modifier
+            } else {
+                Modifier.padding(Spacing.s)
+            }
+        ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
