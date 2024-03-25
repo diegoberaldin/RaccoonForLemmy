@@ -30,11 +30,15 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ZoomableImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareImageBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.getShareHelper
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -51,15 +55,17 @@ class ZoomableImageScreen(
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val errorMessage = LocalXmlStrings.current.messageGenericError
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
+        val shareHelper = remember { getShareHelper() }
+        val notificationCenter = remember { getNotificationCenter() }
 
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
-                    ZoomableImageMviModel.Effect.ShareSuccess -> {
-                        snackbarHostState.showSnackbar(successMessage)
-                    }
+                    ZoomableImageMviModel.Effect.ShareSuccess -> snackbarHostState.showSnackbar(successMessage)
+                    ZoomableImageMviModel.Effect.ShareFailure -> snackbarHostState.showSnackbar(errorMessage)
                 }
             }.launchIn(this)
         }
@@ -111,7 +117,14 @@ class ZoomableImageScreen(
                                 .padding(horizontal = Spacing.xs)
                                 .onClick(
                                     onClick = rememberCallback {
-                                        model.reduce(ZoomableImageMviModel.Intent.Share(url))
+                                        if (shareHelper.supportsShareImage) {
+                                            val sheet = ShareImageBottomSheet(url, source)
+                                            navigationCoordinator.showBottomSheet(sheet)
+                                        } else {
+                                            notificationCenter.send(
+                                                NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url)
+                                            )
+                                        }
                                     },
                                 ),
                             imageVector = Icons.Default.Share,
