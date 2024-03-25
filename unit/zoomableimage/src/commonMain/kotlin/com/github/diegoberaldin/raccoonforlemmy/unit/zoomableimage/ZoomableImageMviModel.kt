@@ -9,7 +9,6 @@ interface ZoomableImageMviModel :
     ScreenModel,
     MviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect> {
     sealed interface Intent {
-        data class Share(val url: String) : Intent
         data class SaveToGallery(
             val source: String,
             val url: String,
@@ -23,5 +22,6 @@ interface ZoomableImageMviModel :
 
     sealed interface Effect {
         data object ShareSuccess : Effect
+        data object ShareFailure : Effect
     }
 }
