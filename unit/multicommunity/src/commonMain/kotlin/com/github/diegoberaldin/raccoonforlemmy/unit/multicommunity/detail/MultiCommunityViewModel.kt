@@ -191,17 +191,17 @@ class MultiCommunityViewModel(
                 currentIds = if (refreshing) emptyList() else currentState.posts.map { it.id }
             )
             val canFetchMore = paginator.canFetchMore
-            val itemsToAdd = itemList.filter { post ->
+            val itemsToAdd = itemList.let{
                 if (includeNsfw) {
-                    true
+                    it
                 } else {
-                    !post.nsfw
+                    it.filter { post -> !post.nsfw }
                 }
-            }.filter { post ->
-                if (hideReadPosts) {
-                    !post.read
+            }.let {
+                if (!hideReadPosts) {
+                    it
                 } else {
-                    true
+                    it.filter { post -> !post.read }
                 }
             }
             if (uiState.value.autoLoadImages) {
@@ -344,9 +344,7 @@ class MultiCommunityViewModel(
         hideReadPosts = true
         updateState {
             val newPosts = it.posts.filter { e -> !e.read }
-            it.copy(
-                posts = newPosts,
-            )
+            it.copy(posts = newPosts)
         }
     }
 

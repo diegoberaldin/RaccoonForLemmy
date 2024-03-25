@@ -83,8 +83,7 @@ class MultiCommunityEditorViewModel(
             }
             updateState {
                 val newCommunities = communities
-                val availableIcons =
-                    newCommunities.filter { i -> i.second }.mapNotNull { i -> i.first.icon }
+                val availableIcons = newCommunities.filter { i -> i.second }.mapNotNull { i -> i.first.icon }
                 it.copy(
                     communities = newCommunities,
                     name = editedCommunity?.name.orEmpty(),

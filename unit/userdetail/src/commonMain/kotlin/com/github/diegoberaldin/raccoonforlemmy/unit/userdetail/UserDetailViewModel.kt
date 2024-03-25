@@ -311,15 +311,15 @@ class UserDetailViewModel(
                     }
                 }.await()
                 val postsToAdd = itemList.orEmpty()
+                    .let {
+                        if (includeNsfw) {
+                            it
+                        } else {
+                            it.filter { post -> !post.nsfw }
+                        }
+                    }
                     .filterNot { post ->
                         post.deleted
-                    }
-                    .filter { post ->
-                        if (includeNsfw) {
-                            true
-                        } else {
-                            !post.nsfw
-                        }
                     }
                 val commentsToAdd = comments
                     .filterNot { post ->

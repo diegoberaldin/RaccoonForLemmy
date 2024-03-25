@@ -273,12 +273,11 @@ class ProfileLoggedViewModel(
                 val postsToAdd = itemList.orEmpty()
                     .filterNot { post ->
                         post.deleted
-                    }
-                    .filter { post ->
+                    }.let {
                         if (includeNsfw) {
-                            true
+                            it
                         } else {
-                            !post.nsfw
+                            it.filter { post -> !post.nsfw }
                         }
                     }
                 val commentsToAdd = comments

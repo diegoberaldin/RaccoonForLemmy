@@ -417,13 +417,17 @@ class CommunityDetailViewModel(
                     it.filter { post -> !post.nsfw }
                 }
             }.let {
-                if (!currentState.searching) {
-                    it
-                } else {
+                if (currentState.searching) {
                     it.filter { post ->
-                        post.title.contains(currentState.searchText, ignoreCase = true)
-                                || post.text.contains(currentState.searchText, ignoreCase = true)
+                        listOf(post.title, post.text).any { s ->
+                            s.contains(
+                                other = currentState.searchText,
+                                ignoreCase = true,
+                            )
+                        }
                     }
+                } else {
+                    it
                 }
             }
         if (uiState.value.autoLoadImages) {

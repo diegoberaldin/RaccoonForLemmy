@@ -298,22 +298,20 @@ class PostListViewModel(
             pageCursor = nextPage
         }
         val itemsToAdd = itemList.orEmpty()
-            .filter { post ->
-                if (hideReadPosts) {
-                    !post.read
+            .let {
+                if (!hideReadPosts) {
+                    it
                 } else {
-                    true
+                    it.filter { post -> !post.read }
                 }
-            }
-            .filterNot { post ->
-                post.deleted
-            }
-            .filter { post ->
+            }.let {
                 if (includeNsfw) {
-                    true
+                    it
                 } else {
-                    !post.nsfw
+                    it.filter { post -> !post.nsfw }
                 }
+            }.filterNot { post ->
+                post.deleted
             }
         if (uiState.value.autoLoadImages) {
             itemsToAdd.forEach { post ->
@@ -487,9 +485,7 @@ class PostListViewModel(
         hideReadPosts = true
         updateState {
             val newPosts = it.posts.filter { e -> !e.read }
-            it.copy(
-                posts = newPosts,
-            )
+            it.copy(posts = newPosts)
         }
     }
 

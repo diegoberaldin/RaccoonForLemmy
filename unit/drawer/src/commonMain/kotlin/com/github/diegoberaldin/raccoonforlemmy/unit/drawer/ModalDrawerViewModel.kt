@@ -167,15 +167,15 @@ class ModalDrawerViewModel(
             favoriteCommunityRepository.getAll(accountId).map { it.communityId }
         val searchText = uiState.value.searchText
         val communities = communityRepository.getSubscribed(auth)
-            .filter { e ->
+            .let {
                 if (searchText.isEmpty()) {
-                    true
+                    it
                 } else {
-                    e.name.contains(other = searchText, ignoreCase = true)
-                            || e.title.contains(other = searchText, ignoreCase = true)
+                    it.filter { e ->
+                        listOf(e.name, e.title).any { s -> s.contains(other = searchText, ignoreCase = true) }
+                    }
                 }
-            }
-            .map { community ->
+            }.map { community ->
                 community.copy(favorite = community.id in favoriteCommunityIds)
             }
             .sortedBy { it.name }
@@ -186,11 +186,11 @@ class ModalDrawerViewModel(
             }
         val multiCommunitites = accountId?.let {
             multiCommunityRepository.getAll(it)
-                .filter { e ->
+                .let { communities ->
                     if (searchText.isEmpty()) {
-                        true
+                        communities
                     } else {
-                        e.name.contains(other = searchText, ignoreCase = true)
+                        communities.filter { c -> c.name.contains(other = searchText, ignoreCase = true) }
                     }
                 }
                 .sortedBy { e -> e.name }
