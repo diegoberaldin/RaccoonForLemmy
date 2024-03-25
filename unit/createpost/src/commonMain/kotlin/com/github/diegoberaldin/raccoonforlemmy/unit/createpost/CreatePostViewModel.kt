@@ -217,21 +217,15 @@ class CreatePostViewModel(
         }
 
         val communityId = currentState.communityId
-        val title = currentState.title
+        val title = currentState.title.trim()
         val url = currentState.url.takeIf { it.isNotEmpty() }?.trim()
-        val body = currentState.bodyValue.text
+        val body = currentState.bodyValue.text.takeIf { it.isNotBlank() }?.trim()
         val nsfw = currentState.nsfw
         val languageId = currentState.currentLanguageId
         var valid = true
         if (title.isEmpty()) {
             updateState {
                 it.copy(titleError = ValidationError.MissingField)
-            }
-            valid = false
-        }
-        if (body.isEmpty()) {
-            updateState {
-                it.copy(bodyError = ValidationError.MissingField)
             }
             valid = false
         }

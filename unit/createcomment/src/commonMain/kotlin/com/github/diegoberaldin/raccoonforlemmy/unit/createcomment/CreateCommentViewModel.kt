@@ -136,7 +136,7 @@ class CreateCommentViewModel(
                 textError = null,
             )
         }
-        val text = currentState.textValue.text
+        val text = currentState.textValue.text.trim()
         val languageId = currentState.currentLanguageId
 
         var valid = true
