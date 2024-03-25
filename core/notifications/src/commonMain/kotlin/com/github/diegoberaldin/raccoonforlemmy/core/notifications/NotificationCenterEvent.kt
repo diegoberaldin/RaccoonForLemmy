@@ -92,4 +92,9 @@ sealed interface NotificationCenterEvent {
         NotificationCenterEvent
 
     data class CommunitySubscriptionChanged(val value: CommunityModel) : NotificationCenterEvent
+
+    sealed interface ShareImageModeSelected : NotificationCenterEvent {
+        data class ModeUrl(val url: String) : ShareImageModeSelected
+        data class ModeFile(val url: String, val source: String) : ShareImageModeSelected
+    }
 }
