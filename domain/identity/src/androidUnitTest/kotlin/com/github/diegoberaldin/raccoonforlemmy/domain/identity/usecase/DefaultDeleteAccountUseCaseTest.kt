@@ -10,6 +10,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class DefaultDeleteAccountUseCaseTest {
+
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 

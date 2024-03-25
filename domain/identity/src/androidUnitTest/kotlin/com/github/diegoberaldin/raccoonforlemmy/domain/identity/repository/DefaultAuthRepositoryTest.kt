@@ -17,6 +17,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class DefaultAuthRepositoryTest {
+
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 

@@ -17,6 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class DefaultLogoutUseCaseTest {
+
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
@@ -34,7 +35,7 @@ class DefaultLogoutUseCaseTest {
     )
 
     @Test
-    fun givenNewAccount_whenExecute_thenInteractionsAreAsExpected() = runTest {
+    fun whenExecute_thenInteractionsAreAsExpected() = runTest {
         val accountId = 1L
         coEvery {
             accountRepository.getActive()

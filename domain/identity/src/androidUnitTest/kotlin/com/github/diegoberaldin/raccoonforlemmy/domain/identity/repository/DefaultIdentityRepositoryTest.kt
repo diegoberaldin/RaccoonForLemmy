@@ -20,6 +20,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class DefaultIdentityRepositoryTest {
+
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 

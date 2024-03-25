@@ -23,6 +23,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class DefaultLoginUseCaseTest {
+
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
