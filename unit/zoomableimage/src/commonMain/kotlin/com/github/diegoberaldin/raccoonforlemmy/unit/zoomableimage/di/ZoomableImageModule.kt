@@ -10,6 +10,7 @@ val zoomableImageModule = module {
             shareHelper = get(),
             galleryHelper = get(),
             settingsRepository = get(),
+            notificationCenter = get(),
         )
     }
 }
