@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">A hozzászólások csak moderátorokra korlátozódnak</string>
     <string name="message_are_you_sure">Biztosan folytatja?</string>
     <string name="button_cancel">Megszünteti</string>
+    <string name="share_mode_url">Megosztás URL-ként</string>
+    <string name="share_mode_file">Megosztás fájlként</string>
 </resources>

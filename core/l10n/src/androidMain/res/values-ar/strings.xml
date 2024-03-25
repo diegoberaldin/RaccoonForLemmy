@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">النشر يقتصر على المشرفين</string>
     <string name="message_are_you_sure">هل انت متأكد انك تريد المتابعة؟</string>
     <string name="button_cancel">يلغي</string>
+    <string name="share_mode_url">شارك كعنوان URL</string>
+    <string name="share_mode_file">شارك كملف</string>
 </resources>

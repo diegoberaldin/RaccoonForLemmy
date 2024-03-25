@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Das Posten ist auf Moderatoren beschränkt</string>
     <string name="message_are_you_sure">Sind Sie sicher, dass Sie fortfahren möchten?</string>
     <string name="button_cancel">Stornieren</string>
+    <string name="share_mode_url">Als URL teilen</string>
+    <string name="share_mode_file">Als Datei teilen</string>
 </resources>

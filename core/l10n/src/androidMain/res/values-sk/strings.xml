@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Príspevok je obmedzený na moderátorov</string>
     <string name="message_are_you_sure">Naozaj chcete pokračovať?</string>
     <string name="button_cancel">Zrušiť</string>
+    <string name="share_mode_url">Zdieľať ako URL</string>
+    <string name="share_mode_file">Zdieľať ako súbor</string>
 </resources>

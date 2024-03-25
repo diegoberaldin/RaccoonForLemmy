@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Postimi është i kufizuar për moderatorët</string>
     <string name="message_are_you_sure">Je i sigurt që dëshiron të vazhdosh?</string>
     <string name="button_cancel">Anulo</string>
+    <string name="share_mode_url">Ndani si URL</string>
+    <string name="share_mode_file">Ndani si skedar</string>
 </resources>

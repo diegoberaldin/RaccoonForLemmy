@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Објављивање је ограничено на модераторе</string>
     <string name="message_are_you_sure">Да ли сте сигурни да желите да наставите?</string>
     <string name="button_cancel">Поништити, отказати</string>
+    <string name="share_mode_url">Дели као УРЛ</string>
+    <string name="share_mode_file">Делите као датотеку</string>
 </resources>

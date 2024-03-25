@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">jan lawa taso li ken sitelen</string>
     <string name="message_are_you_sure">sina wile ala wile tawa sinpin</string>
     <string name="button_cancel">o monsi</string>
+    <string name="share_mode_url">o pana sama ilo URL</string>
+    <string name="share_mode_file">o pana sama ilo sona</string>
 </resources>

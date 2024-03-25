@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Gönderim moderatörlerle sınırlıdır</string>
     <string name="message_are_you_sure">Devam etmek istediğinizden emin misiniz?</string>
     <string name="button_cancel">İptal etmek</string>
+    <string name="share_mode_url">URL olarak paylaş</string>
+    <string name="share_mode_file">Dosya olarak paylaş</string>
 </resources>

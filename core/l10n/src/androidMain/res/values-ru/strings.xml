@@ -364,4 +364,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Публикация доступна только модераторам</string>
     <string name="message_are_you_sure">Вы уверены, что хотите продолжить?</string>
     <string name="button_cancel">Отмена</string>
+    <string name="share_mode_url">Поделиться как URL</string>
+    <string name="share_mode_file">Поделиться как файлом</string>
 </resources>

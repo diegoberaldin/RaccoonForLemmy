@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Publicēšana ir atļauta tikai moderatoriem</string>
     <string name="message_are_you_sure">Vai tiešām vēlaties turpināt?</string>
     <string name="button_cancel">Atcelt</string>
+    <string name="share_mode_url">Kopīgot kā URL</string>
+    <string name="share_mode_file">Kopīgot kā failu</string>
 </resources>

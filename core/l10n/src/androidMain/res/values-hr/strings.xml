@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Objavljivanje je ograničeno na moderatore</string>
     <string name="message_are_you_sure">Jeste li sigurni da želite nastaviti?</string>
     <string name="button_cancel">Otkazati</string>
+    <string name="share_mode_url">Dijeli kao URL</string>
+    <string name="share_mode_file">Dijeli kao datoteku</string>
 </resources>

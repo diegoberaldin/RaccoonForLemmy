@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Posting ristrett għall-moderaturi</string>
     <string name="message_are_you_sure">Int żgur li trid tipproċedi?</string>
     <string name="button_cancel">Ikkanċella</string>
+    <string name="share_mode_url">Aqsam bħala URL</string>
+    <string name="share_mode_file">Aqsam bħala fajl</string>
 </resources>

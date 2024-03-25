@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Innlegg begrenset til moderatorer</string>
     <string name="message_are_you_sure">Er du sikker på at du vil fortsette?</string>
     <string name="button_cancel">Avbryt</string>
+    <string name="share_mode_url">Del som URL</string>
+    <string name="share_mode_file">Del som fil</string>
 </resources>

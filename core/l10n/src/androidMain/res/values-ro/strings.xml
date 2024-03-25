@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Postare limitată la moderatori</string>
     <string name="message_are_you_sure">Sunteți sigur că doriți să continuați?</string>
     <string name="button_cancel">Anulare</string>
+    <string name="share_mode_url">Partajează ca URL</string>
+    <string name="share_mode_file">Partajează ca fișier</string>
 </resources>

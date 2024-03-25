@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Tá postáil teoranta do mhodhnóirí</string>
     <string name="message_are_you_sure">An bhfuil tú cinnte gur mhaith leat leanúint ar aghaidh?</string>
     <string name="button_cancel">Cealaigh</string>
+    <string name="share_mode_url">Roinn mar URL</string>
+    <string name="share_mode_file">Roinn mar chomhad</string>
 </resources>

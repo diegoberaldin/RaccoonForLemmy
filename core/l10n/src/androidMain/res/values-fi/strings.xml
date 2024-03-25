@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Lähetys on rajoitettu valvojille</string>
     <string name="message_are_you_sure">Haluatko varmasti jatkaa?</string>
     <string name="button_cancel">Peruuttaa</string>
+    <string name="share_mode_url">Jaa URL-osoitteena</string>
+    <string name="share_mode_file">Jaa tiedostona</string>
 </resources>

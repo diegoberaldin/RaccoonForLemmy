@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Pubblicazione riservata ai moderatori</string>
     <string name="message_are_you_sure">Sei sicuro di voler continuare?</string>
     <string name="button_cancel">Annulla</string>
+    <string name="share_mode_url">Condividi come URL</string>
+    <string name="share_mode_file">Condividi come file</string>
 </resources>

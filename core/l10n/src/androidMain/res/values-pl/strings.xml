@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Publikowanie zastrzeżone dla moderatorów</string>
     <string name="message_are_you_sure">Na pewno chcesz kontynuować?</string>
     <string name="button_cancel">Anulować</string>
+    <string name="share_mode_url">Udostępnij jako adres URL</string>
+    <string name="share_mode_file">Udostępnij jako plik</string>
 </resources>

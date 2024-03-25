@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Postitamine on piiratud moderaatoritega</string>
     <string name="message_are_you_sure">Kas olete kindel, et soovite jätkata?</string>
     <string name="button_cancel">Tühista</string>
+    <string name="share_mode_url">Jaga URL-ina</string>
+    <string name="share_mode_file">Jaga failina</string>
 </resources>

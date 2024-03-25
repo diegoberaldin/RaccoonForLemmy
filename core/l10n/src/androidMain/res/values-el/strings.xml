@@ -365,4 +365,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Η ανάρτηση περιορίζεται στους συντονιστές</string>
     <string name="message_are_you_sure">Είστε βέβαιοι ότι θέλετε να συνεχίσετε;</string>
     <string name="button_cancel">Ματαίωση</string>
+    <string name="share_mode_url">Κοινή χρήση ως URL</string>
+    <string name="share_mode_file">Κοινή χρήση ως αρχείο</string>
 </resources>

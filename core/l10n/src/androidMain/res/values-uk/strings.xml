@@ -364,4 +364,6 @@
     <string name="edit_community_item_posting_restricted_to_mods">Публікація обмежена модераторами</string>
     <string name="message_are_you_sure">Ви впевнені, що бажаєте продовжити?</string>
     <string name="button_cancel">Скасувати</string>
+    <string name="share_mode_url">Поділитися як URL</string>
+    <string name="share_mode_file">Поділитися як файл</string>
 </resources>
