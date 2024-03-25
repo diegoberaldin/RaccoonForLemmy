@@ -10,7 +10,7 @@ interface GalleryHelper {
 
     val supportsCustomPath: Boolean
 
-    fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String? = null)
+    fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String? = null): Any?
 
     @Composable
     fun getImageFromGallery(result: (ByteArray) -> Unit)

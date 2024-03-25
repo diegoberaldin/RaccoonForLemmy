@@ -25,7 +25,7 @@ class DefaultGalleryHelper(
 
     override val supportsCustomPath: Boolean = true
 
-    override fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String?) {
+    override fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String?): Any? {
         val relativePath = buildString {
             append(Environment.DIRECTORY_PICTURES)
             append("/")
@@ -53,6 +53,8 @@ class DefaultGalleryHelper(
             details.put(MediaStore.Images.Media.IS_PENDING, 0)
             resolver.update(uri, details, null, null)
         }
+
+        return uri
     }
 
     @Composable

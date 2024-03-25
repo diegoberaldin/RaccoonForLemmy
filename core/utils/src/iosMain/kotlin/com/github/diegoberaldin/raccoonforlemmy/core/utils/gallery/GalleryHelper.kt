@@ -45,9 +45,10 @@ class DefaultGalleryHelper : GalleryHelper {
     override val supportsCustomPath: Boolean = false
 
     @OptIn(ExperimentalForeignApi::class)
-    override fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String?) {
+    override fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String?): Any? {
         val image = UIImage(bytes.toImageBytes())
         UIImageWriteToSavedPhotosAlbum(image, null, null, null)
+        return null
     }
 
     @Composable
