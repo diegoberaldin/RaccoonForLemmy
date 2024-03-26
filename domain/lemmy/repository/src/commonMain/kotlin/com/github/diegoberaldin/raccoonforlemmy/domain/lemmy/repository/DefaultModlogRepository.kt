@@ -30,12 +30,20 @@ internal class DefaultModlogRepository(
             )
             val dto = response.body() ?: return@runCatching null
             val result = buildList<ModlogItem> {
+                this += dto.added?.map { it.toDto() }.orEmpty()
                 this += dto.addedToCommunity?.map { it.toDto() }.orEmpty()
+                this += dto.adminPurgedComments?.map { it.toDto() }.orEmpty()
+                this += dto.adminPurgedCommunities?.map { it.toDto() }.orEmpty()
+                this += dto.adminPurgedPersons?.map { it.toDto() }.orEmpty()
+                this += dto.adminPurgedPosts?.map { it.toDto() }.orEmpty()
+                this += dto.banned?.map { it.toDto() }.orEmpty()
                 this += dto.bannedFromCommunity?.map { it.toDto() }.orEmpty()
                 this += dto.featuredPosts?.map { it.toDto() }.orEmpty()
+                this += dto.hiddenCommunities?.map { it.toDto() }.orEmpty()
                 this += dto.lockedPosts?.map { it.toDto() }.orEmpty()
-                this += dto.removedPosts?.map { it.toDto() }.orEmpty()
                 this += dto.removedComments?.map { it.toDto() }.orEmpty()
+                this += dto.removedCommunities?.map { it.toDto() }.orEmpty()
+                this += dto.removedPosts?.map { it.toDto() }.orEmpty()
                 this += dto.transferredToCommunity?.map { it.toDto() }.orEmpty()
             }
             result.sortedByDescending { it.date }

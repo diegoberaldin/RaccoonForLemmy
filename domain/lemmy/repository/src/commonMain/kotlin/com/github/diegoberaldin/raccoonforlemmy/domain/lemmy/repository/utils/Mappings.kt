@@ -1,5 +1,9 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils
 
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AdminPurgeCommentView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AdminPurgeCommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AdminPurgePersonView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AdminPurgePostView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Comment
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReplyView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReportView
@@ -15,10 +19,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Moderat
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUser
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddCommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModBanFromCommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModBanView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModFeaturePostView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModHideCommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModLockPostView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModRemoveCommentView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModRemoveCommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModRemovePostView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModTransferCommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModlogActionType
@@ -243,7 +251,7 @@ internal fun CommunityView.toModel() = community.toModel().copy(
     monthlyActiveUsers = counts.usersActiveMonth,
     weeklyActiveUsers = counts.usersActiveWeek,
     dailyActiveUsers = counts.usersActiveDay,
-    subscribed = when(subscribed){
+    subscribed = when (subscribed) {
         SubscribedType.Subscribed -> true
         SubscribedType.NotSubscribed -> false
         SubscribedType.Pending -> null
@@ -372,19 +380,83 @@ internal fun ModlogItemType.toDto(): ModlogActionType = when (this) {
     ModlogItemType.All -> ModlogActionType.All
     ModlogItemType.ModRemovePost -> ModlogActionType.ModRemovePost
     ModlogItemType.ModLockPost -> ModlogActionType.ModLockPost
-    ModlogItemType.ModAdd -> ModlogActionType.ModAddCommunity
+    ModlogItemType.ModAddCommunity -> ModlogActionType.ModAddCommunity
     ModlogItemType.ModBanFromCommunity -> ModlogActionType.ModBanFromCommunity
     ModlogItemType.ModFeaturePost -> ModlogActionType.ModFeaturePost
     ModlogItemType.ModRemoveComment -> ModlogActionType.ModRemoveComment
     ModlogItemType.ModTransferCommunity -> ModlogActionType.ModTransferCommunity
+    ModlogItemType.ModRemoveCommunity -> ModlogActionType.ModRemoveCommunity
+    ModlogItemType.ModAdd -> ModlogActionType.ModAdd
+    ModlogItemType.ModBan -> ModlogActionType.ModBan
+    ModlogItemType.ModHideCommunity -> ModlogActionType.ModHideCommunity
+    ModlogItemType.AdminPurgePerson -> ModlogActionType.AdminPurgePerson
+    ModlogItemType.AdminPurgeCommunity -> ModlogActionType.AdminPurgeCommunity
+    ModlogItemType.AdminPurgePost -> ModlogActionType.AdminPurgePost
+    ModlogItemType.AdminPurgeComment -> ModlogActionType.AdminPurgeComment
 }
 
-internal fun ModAddCommunityView.toDto() = ModlogItem.ModAdd(
+internal fun ModAddView.toDto() = ModlogItem.ModAdd(
+    id = modAdd.id,
+    date = modAdd.date,
+    removed = modAdd.removed,
+    user = moddedPerson.toModel(),
+    moderator = moderator?.toModel(),
+)
+
+internal fun ModAddCommunityView.toDto() = ModlogItem.ModAddCommunity(
     id = modAddCommunity.id,
     date = modAddCommunity.date,
     removed = modAddCommunity.removed,
     user = moddedPerson.toModel(),
     moderator = moderator?.toModel(),
+)
+
+internal fun AdminPurgeCommunityView.toDto() = ModlogItem.AdminPurgeCommunity(
+    id = adminPurgeCommunity.id,
+    date = adminPurgeCommunity.date,
+    admin = admin?.toModel(),
+)
+
+internal fun AdminPurgeCommentView.toDto() = ModlogItem.AdminPurgeComment(
+    id = adminPurgeComment.id,
+    date = adminPurgeComment.date,
+    admin = admin?.toModel(),
+    post = post.toModel(),
+)
+
+internal fun AdminPurgePersonView.toDto() = ModlogItem.AdminPurgePerson(
+    id = adminPurgePerson.id,
+    date = adminPurgePerson.date,
+    admin = admin?.toModel(),
+)
+
+internal fun AdminPurgePostView.toDto() = ModlogItem.AdminPurgePost(
+    id = adminPurgePost.id,
+    date = adminPurgePost.date,
+    admin = admin?.toModel(),
+)
+
+internal fun ModBanView.toDto() = ModlogItem.ModBan(
+    id = modBan.id,
+    date = modBan.date,
+    banned = modBan.banned,
+    user = bannedPerson.toModel(),
+    moderator = moderator?.toModel(),
+)
+
+internal fun ModHideCommunityView.toDto() = ModlogItem.HideCommunity(
+    id = modHideCommunity.id,
+    date = modHideCommunity.date,
+    hidden = modHideCommunity.hidden,
+    admin = admin?.toModel(),
+    community = community.toModel(),
+)
+
+internal fun ModRemoveCommunityView.toDto() = ModlogItem.RemoveCommunity(
+    id = modRemoveCommunity.id,
+    date = modRemoveCommunity.date,
+    moderator = moderator?.toModel(),
+    community = community.toModel(),
 )
 
 internal fun ModBanFromCommunityView.toDto() = ModlogItem.ModBanFromCommunity(
