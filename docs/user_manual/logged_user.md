@@ -2,7 +2,7 @@
 
 ### 2.1 Home
 
-As for anonymous users, the home screen contains the post list with the same information displayed.
+When you are logged, as for anonymous users, the home screen contains the post list with the same information displayed.
 The main difference is that, as a logged user, you can save posts and vote (either up or down)
 contents. You will also find more options in the "…" button.
 
@@ -15,9 +15,10 @@ enabled the "Mark read while scrolling" option in the Settings screen) just seen
 
 ### 2.2 Sidebar
 
-For logged users, the side menu allows to see the list of subscriptions, with the ones that you
-marked as favorite to the top of the list. By clicking on each item, you will open the corresponding
-community or multi-community detail.
+The side menu allows to see the list of subscriptions, with the ones that you marked as favorite to the top of the list.
+By clicking on each item, you will open the corresponding community or multi-community detail.
+
+You can use the search field to look for a specific community.
 
 <img width="310" alt="side bar" src="images/logged_side_menu.jpg" />
 
@@ -26,12 +27,24 @@ community or multi-community detail.
 The Explore screen is similar to the one of anonymous users. Like in the home screen, the difference
 if that you can vote, save and reply to contents you are seeing.
 
-<img width="310" alt="explore" src="images/logged_explore.jpg" />
+<img width="310" alt="explore" src="images/explore.jpg" />
 
 ### 2.4 Profile
 
 The Profile screen shows the list of post and comments that you created and some textual statistics
 about your post and comment count and your Lemmy-birthday.
+
+Above the post and comments, you can find the shortcuts to access the following sections:
+
+- Manage subscriptions: a screen where you can review your subscriptions and create multi-communities
+- Saved: access the list of your saved items (posts and comments);
+- Drafts: access the unfinished posts and comments that you have saved;
+- Upvotes &amp; downvotes: review the contents that you have liked or disliked;
+- Moderation tools: if you are a moderator you can easily access:
+    - Report list: list of all the reports for posts and comments in your communities;
+    - Moderation log: global moderation log;
+    - Moderated contents: review all the contents that have been posted (either in the form of posts or comments) to
+      your communities.
 
 In the top right corner of the app bar, you'll find a button to log out and another one to change
 account (or access with a different one).
@@ -59,29 +72,24 @@ The settings screen for logged users is very similar to the one of anonymous use
 additional items and sub-screens.
 
 Please refer to [description of the page](#18-settings) for anonymous users for the common parts,
-here is a description of the additional functions:
+a short description of the additional functions will follow.
 
-- Posts and comments:
-    - Default inbox type: whether the Inbox includes all contents by default of just unread ones;
-- Behaviour:
-    - Mark posts as read when scrolling: instead of marking posts read with an explicit
-      interaction, posts are marked as read on the fly as they become visible while scrolling;
-    - Enable double tap action: instead of using swipe actions, this option activated the "
-      double tap to like" mode some users may be familiar with from other social apps;
-    - Configure swipe actions: opens the configure swipe actions screen;
-    - Enable swipe actions: whether the swipe to left/right actions are enabled in post and comment
+- General:
+    - Default feed type: you will find the "Subscribed" option which is not available for anonymous users;
+    - Enable swipe actions:whether the swipe to left/right actions are enabled in post and comment
       list, inbox and reports;
+    - Configure swipe actions: opens the configure swipe actions screen;
 - Account settings:
-    - Web preferences: allows you to edit web account preferences;
+    - Web preferences: allows you to edit your Lemmy web preferences;
     - Bans and filters: configure user/community/instance ban and filtering options.
 
 <img width="310" alt="settings 1" src="images/logged_settings_1.jpg" />
 <img width="310" alt="settings 3" src="images/logged_settings_2.jpg" />
-<img width="310" alt="settings 2" src="images/logged_settings_3.jpg" />
 
-#### 2.6.1 Colors and fonts
+#### 2.6.1 Application appearance
 
-This screen for anonymous users allows to configure custom colors for swipe actions:
+This screen is similar to the one for anonymous users, but additionally it allows to configure custom colors for swipe
+actions:
 
 - Upvote color: color of the upvote action (both used as a card background when swiping and to
   highlight the vote indicator when you have upvoted a content);
@@ -90,7 +98,18 @@ This screen for anonymous users allows to configure custom colors for swipe acti
 - Reply action color: card background color for the reply action;
 - Save action color: card background color for the save action;
 
-<img width="310" alt="colors and fonts" src="images/logged_color_fonts.jpg" />
+#### 2.6.2 Advanced settings
+
+Even in this case, the screen is very similar to the one anonymous users are presented, but it has some additional
+options:
+
+- Reading and contents:
+    - Default inbox type: whether the Inbox includes all contents by default of just unread ones;
+    - Mark posts as read when scrolling: instead of marking posts read with an explicit
+      interaction, posts are marked as read on the fly as they become visible while scrolling;
+- Experiments:
+    - Enable double tap action: instead of using swipe actions, this option activated the "double tap to like" mode some
+      users may be familiar with from other social apps.
 
 #### 2.6.2 Configure swipe actions
 
