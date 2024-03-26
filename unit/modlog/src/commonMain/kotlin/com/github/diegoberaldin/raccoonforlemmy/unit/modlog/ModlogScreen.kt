@@ -46,14 +46,22 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.AdminPurgeCommentItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.AdminPurgeCommunityItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.AdminPurgePersonItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.AdminPurgePostItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.HideCommunityItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModAddCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModAddItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModBanFromCommunityItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModBanItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModFeaturePostItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModLockPostItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModRemoveCommentItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModRemovePostItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModTransferCommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModlogItemPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.RemoveCommunityItem
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -176,8 +184,26 @@ class ModlogScreen(
                             key = { "${it.type}${it.id}" },
                         ) { item ->
                             when (item) {
-                                is ModlogItem.ModAdd -> {
-                                    ModAddItem(
+                                is ModlogItem.ModAdd -> ModAddItem(
+                                    item = item,
+                                    autoLoadImages = uiState.autoLoadImages,
+                                    postLayout = uiState.postLayout,
+                                    onOpenUser = rememberCallbackArgs { user ->
+                                        detailOpener.openUserDetail(user)
+                                    },
+                                )
+
+                                is ModlogItem.ModBan -> ModBanItem(
+                                    item = item,
+                                    autoLoadImages = uiState.autoLoadImages,
+                                    postLayout = uiState.postLayout,
+                                    onOpenUser = rememberCallbackArgs { user ->
+                                        detailOpener.openUserDetail(user)
+                                    },
+                                )
+
+                                is ModlogItem.ModAddCommunity -> {
+                                    ModAddCommunityItem(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
@@ -253,7 +279,71 @@ class ModlogScreen(
                                     )
                                 }
 
-                                else -> Unit
+                                is ModlogItem.AdminPurgeComment -> {
+                                    AdminPurgeCommentItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
+                                }
+
+                                is ModlogItem.AdminPurgeCommunity -> {
+                                    AdminPurgeCommunityItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
+                                }
+
+                                is ModlogItem.AdminPurgePerson -> {
+                                    AdminPurgePersonItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
+                                }
+
+                                is ModlogItem.AdminPurgePost -> {
+                                    AdminPurgePostItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
+                                }
+
+                                is ModlogItem.HideCommunity -> {
+                                    HideCommunityItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
+                                }
+
+                                is ModlogItem.RemoveCommunity -> {
+                                    RemoveCommunityItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser = rememberCallbackArgs { user ->
+                                            detailOpener.openUserDetail(user)
+                                        },
+                                    )
+                                }
                             }
                         }
                     }

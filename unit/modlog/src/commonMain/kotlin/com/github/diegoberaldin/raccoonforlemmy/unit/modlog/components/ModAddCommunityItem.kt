@@ -16,8 +16,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 @Composable
-internal fun ModAddItem(
-    item: ModlogItem.ModAdd,
+internal fun ModAddCommunityItem(
+    item: ModlogItem.ModAddCommunity,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,

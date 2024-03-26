@@ -16,8 +16,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 @Composable
-internal fun ModAddItem(
-    item: ModlogItem.ModAdd,
+internal fun HideCommunityItem(
+    item: ModlogItem.HideCommunity,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
@@ -30,10 +30,10 @@ internal fun ModAddItem(
         preferNicknames = preferNicknames,
         date = item.date,
         postLayout = postLayout,
-        moderator = item.moderator,
+        moderator = item.admin,
         onOpenUser = onOpenUser,
         onOpen = rememberCallback {
-            item.user?.also {
+            item.admin?.also {
                 onOpenUser?.invoke(it)
             }
         },
@@ -41,14 +41,14 @@ internal fun ModAddItem(
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.user?.readableName(preferNicknames).orEmpty()
+                        val name = item.community?.readableName(preferNicknames).orEmpty()
                         append(name)
                     }
                     append(" ")
-                    if (item.removed) {
-                        append(LocalXmlStrings.current.modlogItemModRemoved)
+                    if (item.hidden) {
+                        append(LocalXmlStrings.current.modlogItemHidden)
                     } else {
-                        append(LocalXmlStrings.current.modlogItemModAdded)
+                        append(LocalXmlStrings.current.modlogItemUnhidden)
                     }
                 },
                 style = MaterialTheme.typography.bodySmall,

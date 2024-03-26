@@ -10,14 +10,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ellipsize
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 @Composable
-internal fun ModAddItem(
-    item: ModlogItem.ModAdd,
+internal fun AdminPurgeCommentItem(
+    item: ModlogItem.AdminPurgeComment,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
@@ -30,25 +29,16 @@ internal fun ModAddItem(
         preferNicknames = preferNicknames,
         date = item.date,
         postLayout = postLayout,
-        moderator = item.moderator,
+        moderator = item.admin,
         onOpenUser = onOpenUser,
-        onOpen = rememberCallback {
-            item.user?.also {
-                onOpenUser?.invoke(it)
-            }
-        },
         innerContent = {
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.user?.readableName(preferNicknames).orEmpty()
-                        append(name)
-                    }
-                    append(" ")
-                    if (item.removed) {
-                        append(LocalXmlStrings.current.modlogItemModRemoved)
-                    } else {
-                        append(LocalXmlStrings.current.modlogItemModAdded)
+                    append(LocalXmlStrings.current.modlogItemCommentPurged)
+                    if (item.post != null) {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                            append(item.post?.title.ellipsize())
+                        }
                     }
                 },
                 style = MaterialTheme.typography.bodySmall,

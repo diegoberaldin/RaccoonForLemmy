@@ -16,8 +16,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 @Composable
-internal fun ModAddItem(
-    item: ModlogItem.ModAdd,
+internal fun ModBanItem(
+    item: ModlogItem.ModBan,
     modifier: Modifier = Modifier,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
@@ -45,10 +45,10 @@ internal fun ModAddItem(
                         append(name)
                     }
                     append(" ")
-                    if (item.removed) {
-                        append(LocalXmlStrings.current.modlogItemModRemoved)
+                    if (item.banned) {
+                        append(LocalXmlStrings.current.modlogItemUserBanned)
                     } else {
-                        append(LocalXmlStrings.current.modlogItemModAdded)
+                        append(LocalXmlStrings.current.modlogItemUserUnbanned)
                     }
                 },
                 style = MaterialTheme.typography.bodySmall,
