@@ -367,4 +367,10 @@
     <string name="button_cancel">Cancelar</string>
     <string name="share_mode_url">Compartilhar como URL</string>
     <string name="share_mode_file">Compartilhar como arquivo</string>
+    <string name="modlog_item_community_purged">purgou a comunidade</string>
+    <string name="modlog_item_comment_purged">purgou o comentário</string>
+    <string name="modlog_item_person_purged">purgou uma pessoa</string>
+    <string name="modlog_item_post_purged">purgou a postagem</string>
+    <string name="modlog_item_hidden">foi escondido</string>
+    <string name="modlog_item_unhidden">foi revelado</string>
 </resources>

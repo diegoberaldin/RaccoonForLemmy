@@ -367,4 +367,10 @@
     <string name="button_cancel">Anulować</string>
     <string name="share_mode_url">Udostępnij jako adres URL</string>
     <string name="share_mode_file">Udostępnij jako plik</string>
+    <string name="modlog_item_community_purged">oczyścił społeczność</string>
+    <string name="modlog_item_comment_purged">usunął komentarz</string>
+    <string name="modlog_item_person_purged">wyczyścił osobę</string>
+    <string name="modlog_item_post_purged">usunął post</string>
+    <string name="modlog_item_hidden">zostało ukryte</string>
+    <string name="modlog_item_unhidden">zostało ujawnione</string>
 </resources>

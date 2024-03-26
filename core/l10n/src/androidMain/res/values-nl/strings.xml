@@ -367,4 +367,10 @@
     <string name="button_cancel">Annuleren</string>
     <string name="share_mode_url">Deel als URL</string>
     <string name="share_mode_file">Deel als bestand</string>
+    <string name="modlog_item_community_purged">heeft de gemeenschap gezuiverd</string>
+    <string name="modlog_item_comment_purged">heeft commentaar verwijderd</string>
+    <string name="modlog_item_person_purged">heeft de persoon gezuiverd</string>
+    <string name="modlog_item_post_purged">heeft de post verwijderd</string>
+    <string name="modlog_item_hidden">is verborgen</string>
+    <string name="modlog_item_unhidden">is onthuld</string>
 </resources>

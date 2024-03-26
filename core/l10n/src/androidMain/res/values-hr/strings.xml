@@ -367,4 +367,10 @@
     <string name="button_cancel">Otkazati</string>
     <string name="share_mode_url">Dijeli kao URL</string>
     <string name="share_mode_file">Dijeli kao datoteku</string>
+    <string name="modlog_item_community_purged">je očistio zajednicu</string>
+    <string name="modlog_item_comment_purged">je izbrisao komentar</string>
+    <string name="modlog_item_person_purged">je očistio osobu</string>
+    <string name="modlog_item_post_purged">je izbrisao post</string>
+    <string name="modlog_item_hidden">je skriveno</string>
+    <string name="modlog_item_unhidden">je otkriveno</string>
 </resources>

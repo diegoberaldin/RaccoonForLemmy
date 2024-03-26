@@ -367,4 +367,10 @@
     <string name="button_cancel">Nuligi</string>
     <string name="share_mode_url">Kunhavigi kiel URL</string>
     <string name="share_mode_file">Kunhavigi kiel dosiero</string>
+    <string name="modlog_item_community_purged">purigis komunumon</string>
+    <string name="modlog_item_comment_purged">purigis komenton</string>
+    <string name="modlog_item_person_purged">havas elpurigitan personon</string>
+    <string name="modlog_item_post_purged">purigis postenon</string>
+    <string name="modlog_item_hidden">estis kaŝita</string>
+    <string name="modlog_item_unhidden">estis rivelita</string>
 </resources>

@@ -375,4 +375,10 @@
     <string name="button_cancel">Cancel</string>
     <string name="share_mode_url">Share as URL</string>
     <string name="share_mode_file">Share as file</string>
+    <string name="modlog_item_community_purged">purged community</string>
+    <string name="modlog_item_comment_purged">purged comment</string>
+    <string name="modlog_item_person_purged">purged person</string>
+    <string name="modlog_item_post_purged">purged post</string>
+    <string name="modlog_item_hidden">was hidden</string>
+    <string name="modlog_item_unhidden">was unhidden</string>
 </resources>

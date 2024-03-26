@@ -367,4 +367,10 @@
     <string name="button_cancel">Atcelt</string>
     <string name="share_mode_url">Kopīgot kā URL</string>
     <string name="share_mode_file">Kopīgot kā failu</string>
+    <string name="modlog_item_community_purged">ir iztīrījis kopienu</string>
+    <string name="modlog_item_comment_purged">ir izdzēsis komentāru</string>
+    <string name="modlog_item_person_purged">ir iztīrījis personu</string>
+    <string name="modlog_item_post_purged">ir iztīrījis ziņu</string>
+    <string name="modlog_item_hidden">ir paslēpts</string>
+    <string name="modlog_item_unhidden">ir atklāts</string>
 </resources>

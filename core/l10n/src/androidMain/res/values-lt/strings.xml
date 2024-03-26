@@ -367,4 +367,10 @@
     <string name="button_cancel">Atšaukti</string>
     <string name="share_mode_url">Bendrinti kaip URL</string>
     <string name="share_mode_file">Bendrinti kaip failą</string>
+    <string name="modlog_item_community_purged">išvalė bendruomenę</string>
+    <string name="modlog_item_comment_purged">išvalė komentarą</string>
+    <string name="modlog_item_person_purged">išvalė asmenį</string>
+    <string name="modlog_item_post_purged">išvalė postą</string>
+    <string name="modlog_item_hidden">buvo paslėptas</string>
+    <string name="modlog_item_unhidden">buvo atskleista</string>
 </resources>

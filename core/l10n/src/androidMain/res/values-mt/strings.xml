@@ -367,4 +367,10 @@
     <string name="button_cancel">Ikkanċella</string>
     <string name="share_mode_url">Aqsam bħala URL</string>
     <string name="share_mode_file">Aqsam bħala fajl</string>
+    <string name="modlog_item_community_purged">neħħiet il-komunità</string>
+    <string name="modlog_item_comment_purged">neħħiet kumment</string>
+    <string name="modlog_item_person_purged">tkun imnaddaf persuna</string>
+    <string name="modlog_item_post_purged">tnaddaf il-post</string>
+    <string name="modlog_item_hidden">ġiet moħbija</string>
+    <string name="modlog_item_unhidden">ġie żvelat</string>
 </resources>

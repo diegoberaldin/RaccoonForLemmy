@@ -367,4 +367,10 @@
     <string name="button_cancel">Cealaigh</string>
     <string name="share_mode_url">Roinn mar URL</string>
     <string name="share_mode_file">Roinn mar chomhad</string>
+    <string name="modlog_item_community_purged">tar éis pobail a ghlanadh</string>
+    <string name="modlog_item_comment_purged">tá glan trácht</string>
+    <string name="modlog_item_person_purged">tar éis duine a ghlanadh</string>
+    <string name="modlog_item_post_purged">tar éis post a ghlanadh</string>
+    <string name="modlog_item_hidden">curtha i bhfolach</string>
+    <string name="modlog_item_unhidden">curtha le fios</string>
 </resources>

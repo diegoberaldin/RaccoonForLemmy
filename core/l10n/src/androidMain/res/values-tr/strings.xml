@@ -367,4 +367,10 @@
     <string name="button_cancel">İptal etmek</string>
     <string name="share_mode_url">URL olarak paylaş</string>
     <string name="share_mode_file">Dosya olarak paylaş</string>
+    <string name="modlog_item_community_purged">toplumu temizledi</string>
+    <string name="modlog_item_comment_purged">yorumu temizledi</string>
+    <string name="modlog_item_person_purged">kişiyi tasfiye etti</string>
+    <string name="modlog_item_post_purged">gönderiyi temizledi</string>
+    <string name="modlog_item_hidden">gizlendi</string>
+    <string name="modlog_item_unhidden">ortaya çıktı</string>
 </resources>

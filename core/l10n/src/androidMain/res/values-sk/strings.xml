@@ -367,4 +367,10 @@
     <string name="button_cancel">Zrušiť</string>
     <string name="share_mode_url">Zdieľať ako URL</string>
     <string name="share_mode_file">Zdieľať ako súbor</string>
+    <string name="modlog_item_community_purged">vyčistil komunitu</string>
+    <string name="modlog_item_comment_purged">vymazal komentár</string>
+    <string name="modlog_item_person_purged">očistil osobu</string>
+    <string name="modlog_item_post_purged">vyčistil príspevok</string>
+    <string name="modlog_item_hidden">bol skrytý</string>
+    <string name="modlog_item_unhidden">bolo odhalené</string>
 </resources>

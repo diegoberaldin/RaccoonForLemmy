@@ -366,4 +366,10 @@
     <string name="button_cancel">Отмена</string>
     <string name="share_mode_url">Поделиться как URL</string>
     <string name="share_mode_file">Поделиться как файлом</string>
+    <string name="modlog_item_community_purged">удалил сообщество</string>
+    <string name="modlog_item_comment_purged">удалил комментарий</string>
+    <string name="modlog_item_person_purged">очистил человека</string>
+    <string name="modlog_item_post_purged">удалил сообщение</string>
+    <string name="modlog_item_hidden">был скрыт</string>
+    <string name="modlog_item_unhidden">было обнаружено</string>
 </resources>

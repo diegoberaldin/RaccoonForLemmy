@@ -367,4 +367,10 @@
     <string name="button_cancel">Anulo</string>
     <string name="share_mode_url">Ndani si URL</string>
     <string name="share_mode_file">Ndani si skedar</string>
+    <string name="modlog_item_community_purged">ka spastruar komunitetin</string>
+    <string name="modlog_item_comment_purged">ka fshirë komentin</string>
+    <string name="modlog_item_person_purged">ka pastruar personin</string>
+    <string name="modlog_item_post_purged">ka pastruar postin</string>
+    <string name="modlog_item_hidden">është fshehur</string>
+    <string name="modlog_item_unhidden">është zbuluar</string>
 </resources>

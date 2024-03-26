@@ -367,4 +367,10 @@
     <string name="button_cancel">يلغي</string>
     <string name="share_mode_url">شارك كعنوان URL</string>
     <string name="share_mode_file">شارك كملف</string>
+    <string name="modlog_item_community_purged">قام بتطهير المجتمع</string>
+    <string name="modlog_item_comment_purged">تمت إزالة التعليق</string>
+    <string name="modlog_item_person_purged">وقد تطهير الشخص</string>
+    <string name="modlog_item_post_purged">وقد تطهير آخر</string>
+    <string name="modlog_item_hidden">تم إخفاؤه</string>
+    <string name="modlog_item_unhidden">تم الكشف عنها</string>
 </resources>

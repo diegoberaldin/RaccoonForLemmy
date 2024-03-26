@@ -367,4 +367,10 @@
     <string name="button_cancel">Anulare</string>
     <string name="share_mode_url">Partajează ca URL</string>
     <string name="share_mode_file">Partajează ca fișier</string>
+    <string name="modlog_item_community_purged">a epurat comunitatea</string>
+    <string name="modlog_item_comment_purged">a epurat comentariul</string>
+    <string name="modlog_item_person_purged">a epurat persoana</string>
+    <string name="modlog_item_post_purged">a epurat postul</string>
+    <string name="modlog_item_hidden">a fost ascuns</string>
+    <string name="modlog_item_unhidden">a fost dezvăluit</string>
 </resources>

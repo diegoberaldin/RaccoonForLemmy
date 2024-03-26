@@ -367,4 +367,10 @@
     <string name="button_cancel">Отказ</string>
     <string name="share_mode_url">Споделете като URL</string>
     <string name="share_mode_file">Споделяне като файл</string>
+    <string name="modlog_item_community_purged">е прочистил общността</string>
+    <string name="modlog_item_comment_purged">е изчистил коментара</string>
+    <string name="modlog_item_person_purged">е прочистил човек</string>
+    <string name="modlog_item_post_purged">има изчистен пост</string>
+    <string name="modlog_item_hidden">е скрит</string>
+    <string name="modlog_item_unhidden">е разкрито</string>
 </resources>

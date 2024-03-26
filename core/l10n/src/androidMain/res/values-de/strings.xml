@@ -367,4 +367,10 @@
     <string name="button_cancel">Stornieren</string>
     <string name="share_mode_url">Als URL teilen</string>
     <string name="share_mode_file">Als Datei teilen</string>
+    <string name="modlog_item_community_purged">hat die Gemeinschaft gesäubert</string>
+    <string name="modlog_item_comment_purged">hat den Kommentar gelöscht</string>
+    <string name="modlog_item_person_purged">hat Person gereinigt</string>
+    <string name="modlog_item_post_purged">hat den Beitrag gelöscht</string>
+    <string name="modlog_item_hidden">wurde ausgeblendet</string>
+    <string name="modlog_item_unhidden">wurde enthüllt</string>
 </resources>

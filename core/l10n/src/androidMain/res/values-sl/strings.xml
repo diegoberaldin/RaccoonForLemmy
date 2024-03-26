@@ -367,4 +367,10 @@
     <string name="button_cancel">Prekliči</string>
     <string name="share_mode_url">Delite kot URL</string>
     <string name="share_mode_file">Delite kot datoteko</string>
+    <string name="modlog_item_community_purged">je očistil skupnost</string>
+    <string name="modlog_item_comment_purged">je izbrisal komentar</string>
+    <string name="modlog_item_person_purged">je očistil osebo</string>
+    <string name="modlog_item_post_purged">je izbrisal objavo</string>
+    <string name="modlog_item_hidden">je skrit</string>
+    <string name="modlog_item_unhidden">je razkrito</string>
 </resources>

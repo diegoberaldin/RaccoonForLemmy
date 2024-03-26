@@ -367,4 +367,10 @@
     <string name="button_cancel">o monsi</string>
     <string name="share_mode_url">o pana sama ilo URL</string>
     <string name="share_mode_file">o pana sama ilo sona</string>
+    <string name="modlog_item_community_purged">li weka e kulupu</string>
+    <string name="modlog_item_comment_purged">li weka e toki lili</string>
+    <string name="modlog_item_person_purged">li weka e jan</string>
+    <string name="modlog_item_post_purged">li weka e lipu</string>
+    <string name="modlog_item_hidden">li ken ala lukin</string>
+    <string name="modlog_item_unhidden">li ken lukin</string>
 </resources>

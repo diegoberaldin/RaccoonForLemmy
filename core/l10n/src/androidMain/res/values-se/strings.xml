@@ -367,4 +367,10 @@
     <string name="button_cancel">Annullera</string>
     <string name="share_mode_url">Dela som URL</string>
     <string name="share_mode_file">Dela som fil</string>
+    <string name="modlog_item_community_purged">har rensat samhället</string>
+    <string name="modlog_item_comment_purged">har rensat kommentar</string>
+    <string name="modlog_item_person_purged">har rensat person</string>
+    <string name="modlog_item_post_purged">har rensat inlägg</string>
+    <string name="modlog_item_hidden">har gömts</string>
+    <string name="modlog_item_unhidden">har avslöjats</string>
 </resources>

@@ -367,4 +367,10 @@
     <string name="button_cancel">Afbestille</string>
     <string name="share_mode_url">Del som URL</string>
     <string name="share_mode_file">Del som fil</string>
+    <string name="modlog_item_community_purged">har renset samfundet</string>
+    <string name="modlog_item_comment_purged">har renset kommentar</string>
+    <string name="modlog_item_person_purged">har renset person</string>
+    <string name="modlog_item_post_purged">har renset posten</string>
+    <string name="modlog_item_hidden">er blevet skjult</string>
+    <string name="modlog_item_unhidden">er blevet afsløret</string>
 </resources>

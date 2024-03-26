@@ -366,4 +366,10 @@
     <string name="button_cancel">Скасувати</string>
     <string name="share_mode_url">Поділитися як URL</string>
     <string name="share_mode_file">Поділитися як файл</string>
+    <string name="modlog_item_community_purged">очистив спільноту</string>
+    <string name="modlog_item_comment_purged">видалив коментар</string>
+    <string name="modlog_item_person_purged">очистив особу</string>
+    <string name="modlog_item_post_purged">очистив пост</string>
+    <string name="modlog_item_hidden">було приховано</string>
+    <string name="modlog_item_unhidden">було виявлено</string>
 </resources>

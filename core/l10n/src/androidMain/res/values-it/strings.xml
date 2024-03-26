@@ -367,4 +367,10 @@
     <string name="button_cancel">Annulla</string>
     <string name="share_mode_url">Condividi come URL</string>
     <string name="share_mode_file">Condividi come file</string>
+    <string name="modlog_item_community_purged">ha epurato la comunità</string>
+    <string name="modlog_item_comment_purged">ha epurato il commento</string>
+    <string name="modlog_item_person_purged">ha epurato la persona</string>
+    <string name="modlog_item_post_purged">ha epurato il post</string>
+    <string name="modlog_item_hidden">è stato nascosto</string>
+    <string name="modlog_item_unhidden">è stato rivelato</string>
 </resources>

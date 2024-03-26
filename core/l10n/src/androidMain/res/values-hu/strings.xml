@@ -367,4 +367,10 @@
     <string name="button_cancel">Megszünteti</string>
     <string name="share_mode_url">Megosztás URL-ként</string>
     <string name="share_mode_file">Megosztás fájlként</string>
+    <string name="modlog_item_community_purged">megtisztította a közösséget</string>
+    <string name="modlog_item_comment_purged">törölte a megjegyzést</string>
+    <string name="modlog_item_person_purged">megtisztított egy személyt</string>
+    <string name="modlog_item_post_purged">törölte a bejegyzést</string>
+    <string name="modlog_item_hidden">el lett rejtve</string>
+    <string name="modlog_item_unhidden">kiderült</string>
 </resources>

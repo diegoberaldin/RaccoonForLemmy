@@ -367,4 +367,10 @@
     <string name="button_cancel">Ματαίωση</string>
     <string name="share_mode_url">Κοινή χρήση ως URL</string>
     <string name="share_mode_file">Κοινή χρήση ως αρχείο</string>
+    <string name="modlog_item_community_purged">έχει εκκαθαρίσει την κοινότητα</string>
+    <string name="modlog_item_comment_purged">έχει καθαρίσει το σχόλιο</string>
+    <string name="modlog_item_person_purged">έχει εξαγνίσει άτομο</string>
+    <string name="modlog_item_post_purged">έχει εκκαθαρίσει τη θέση</string>
+    <string name="modlog_item_hidden">έχει κρυφτεί</string>
+    <string name="modlog_item_unhidden">έχει αποκαλυφθεί</string>
 </resources>

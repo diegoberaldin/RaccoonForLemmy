@@ -367,4 +367,10 @@
     <string name="button_cancel">Peruuttaa</string>
     <string name="share_mode_url">Jaa URL-osoitteena</string>
     <string name="share_mode_file">Jaa tiedostona</string>
+    <string name="modlog_item_community_purged">on puhdistanut yhteisön</string>
+    <string name="modlog_item_comment_purged">on poistanut kommentin</string>
+    <string name="modlog_item_person_purged">on puhdistanut henkilön</string>
+    <string name="modlog_item_post_purged">on poistanut viestin</string>
+    <string name="modlog_item_hidden">on piilotettu</string>
+    <string name="modlog_item_unhidden">on paljastettu</string>
 </resources>
