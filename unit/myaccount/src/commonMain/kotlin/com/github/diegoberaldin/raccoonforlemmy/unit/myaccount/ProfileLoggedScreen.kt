@@ -66,7 +66,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
-import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsType
@@ -409,7 +408,8 @@ object ProfileLoggedScreen : Tab {
                                 items = uiState.comments,
                                 key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { comment ->
-                                CommentCard(modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                                CommentCard(
+                                    modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
@@ -493,7 +493,8 @@ object ProfileLoggedScreen : Tab {
 
                                             else -> Unit
                                         }
-                                    })
+                                    },
+                                )
                                 HorizontalDivider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
                                     thickness = 0.25.dp

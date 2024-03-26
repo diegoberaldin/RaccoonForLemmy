@@ -1002,11 +1002,12 @@ class UserDetailScreen(
                                             }
                                         },
                                     )
-                                    HorizontalDivider(
-                                        modifier = Modifier.padding(vertical = Spacing.xxxs),
-                                        thickness = 0.25.dp
-                                    )
                                 },
+                            )
+
+                            HorizontalDivider(
+                                modifier = Modifier.padding(vertical = Spacing.xxxs),
+                                thickness = 0.25.dp
                             )
                         }
 
