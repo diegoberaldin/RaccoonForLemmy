@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AdminPurgePersonView(
     @SerialName("admin") val admin: Person? = null,
-    @SerialName("admin_purge_person") val adminPurgeCommunity: AdminPurgePerson,
+    @SerialName("admin_purge_person") val adminPurgePerson: AdminPurgePerson,
 )
