@@ -8,7 +8,6 @@ interface InboxMviModel :
 
     sealed interface Intent {
         data class ChangeSection(val value: InboxSection) : Intent
-        data class ChangeUnreadOnly(val unread: Boolean) : Intent
         data object ReadAll : Intent
     }
 

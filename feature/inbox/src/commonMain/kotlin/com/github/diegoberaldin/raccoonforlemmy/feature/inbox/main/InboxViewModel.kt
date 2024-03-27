@@ -26,8 +26,6 @@ class InboxViewModel(
         initialState = InboxMviModel.UiState(),
     ) {
 
-    private var firstLoad = true
-
     init {
         screenModelScope.launch {
             identityRepository.isLogged.onEach { logged ->
@@ -68,7 +66,6 @@ class InboxViewModel(
                 it.copy(section = intent.value)
             }
 
-            is InboxMviModel.Intent.ChangeUnreadOnly -> changeUnreadOnly(intent.unread)
             InboxMviModel.Intent.ReadAll -> markAllRead()
         }
     }
