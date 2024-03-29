@@ -69,6 +69,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsType
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.components.ProfileShortcutSection
@@ -131,7 +132,7 @@ object ProfileLoggedScreen : Tab {
                         }
 
                         ModeratorZoneAction.ModeratedContents -> {
-                            val screen = FilteredContentsScreen(type = FilteredContentsType.Moderated)
+                            val screen = FilteredContentsScreen(type = FilteredContentsType.Moderated.toInt())
                             navigationCoordinator.pushScreen(screen)
                         }
                     }
@@ -205,7 +206,7 @@ object ProfileLoggedScreen : Tab {
                                     navigationCoordinator.showBottomSheet(screen)
                                 },
                                 onOpenVotes = rememberCallback {
-                                    val screen = FilteredContentsScreen(type = FilteredContentsType.Votes)
+                                    val screen = FilteredContentsScreen(type = FilteredContentsType.Votes.toInt())
                                     navigationCoordinator.pushScreen(screen)
                                 },
                             )

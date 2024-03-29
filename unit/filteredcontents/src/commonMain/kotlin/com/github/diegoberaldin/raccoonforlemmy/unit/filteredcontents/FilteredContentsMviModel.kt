@@ -13,6 +13,17 @@ sealed interface FilteredContentsType {
     data object Moderated : FilteredContentsType
 }
 
+fun FilteredContentsType.toInt(): Int = when (this) {
+    FilteredContentsType.Moderated -> 0
+    FilteredContentsType.Votes -> 1
+}
+
+fun Int.toFilteredContentsType(): FilteredContentsType = when (this) {
+    1 -> FilteredContentsType.Votes
+    else -> FilteredContentsType.Moderated
+}
+
+
 sealed interface FilteredContentsSection {
     data object Posts : FilteredContentsSection
 

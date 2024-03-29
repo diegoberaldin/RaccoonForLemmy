@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class FilteredContentsViewModel(
-    private val contentsType: FilteredContentsType,
+    private val contentsType: Int,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val identityRepository: IdentityRepository,
@@ -52,7 +52,7 @@ class FilteredContentsViewModel(
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
-                        contentsType = contentsType,
+                        contentsType = contentsType.toFilteredContentsType(),
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
                         swipeActionsEnabled = settings.enableSwipeActions,
