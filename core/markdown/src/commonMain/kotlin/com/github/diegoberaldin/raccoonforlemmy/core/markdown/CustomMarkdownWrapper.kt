@@ -4,7 +4,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
@@ -21,6 +25,8 @@ import com.mikepenz.markdown.model.MarkdownColors
 import com.mikepenz.markdown.model.MarkdownPadding
 import com.mikepenz.markdown.model.MarkdownTypography
 import com.mikepenz.markdown.model.markdownPadding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.floor
 
 private val String.containsSpoiler: Boolean
@@ -61,10 +67,17 @@ fun CustomMarkdownWrapper(
             (base * maxLines).toDp()
         }
     }
+    val scope = rememberCoroutineScope()
+    var isOpeningUrl by remember { mutableStateOf(false) }
     val customUriHandler = remember {
         object : UriHandler {
             override fun openUri(uri: String) {
+                isOpeningUrl = true
                 onOpenUrl?.invoke(uri)
+                scope.launch {
+                    delay(250)
+                    isOpeningUrl = false
+                }
             }
         }
     }
