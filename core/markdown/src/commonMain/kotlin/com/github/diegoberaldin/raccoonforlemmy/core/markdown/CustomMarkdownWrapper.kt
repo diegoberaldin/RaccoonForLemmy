@@ -37,6 +37,7 @@ private val String.isImage: Boolean
 
 private const val MAX_LINES_SCALE_FACTOR = 0.97f
 private const val GLOBAL_SCALE_FACTOR = 0.99f
+private const val LINK_DELAY = 250L
 
 @Composable
 fun CustomMarkdownWrapper(
@@ -75,7 +76,7 @@ fun CustomMarkdownWrapper(
                 isOpeningUrl = true
                 onOpenUrl?.invoke(uri)
                 scope.launch {
-                    delay(250)
+                    delay(LINK_DELAY)
                     isOpeningUrl = false
                 }
             }
@@ -138,7 +139,9 @@ fun CustomMarkdownWrapper(
                 )
                 .onClick(
                     onClick = {
-                        onClick?.invoke()
+                        if (!isOpeningUrl) {
+                            onClick?.invoke()
+                        }
                     },
                     onLongClick = {
                         onLongClick?.invoke()

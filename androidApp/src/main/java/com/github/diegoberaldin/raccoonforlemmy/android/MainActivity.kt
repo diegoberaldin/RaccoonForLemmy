@@ -18,6 +18,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
+private const val DEEP_LINK_DELAY = 500L
+
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +80,7 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         intent?.data?.toString()?.also {
             runBlocking {
-                delay(500)
+                delay(DEEP_LINK_DELAY)
                 handleDeeplink(it)
             }
         }
