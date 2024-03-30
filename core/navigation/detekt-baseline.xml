@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>TooManyFunctions:DefaultNavigationCoordinator.kt$DefaultNavigationCoordinator : NavigationCoordinator</ID>
+    <ID>TooManyFunctions:NavigationCoordinator.kt$NavigationCoordinator</ID>
+  </CurrentIssues>
+</SmellBaseline>
