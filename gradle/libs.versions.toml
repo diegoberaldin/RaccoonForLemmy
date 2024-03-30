@@ -8,6 +8,7 @@ android_gradle = "8.2.2"
 coil = "2.6.0"
 compose = "1.6.1"
 compose_compiler = "1.5.10"
+detekt = "1.23.6"
 kamel = "0.9.4"
 koin = "3.5.3"
 kotlin = "1.9.23"
@@ -101,6 +102,7 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 android_application = { id = "com.android.application", version.ref = "android.gradle" }
 android_library = { id = "com.android.library", version.ref = "android.gradle" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin_multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
