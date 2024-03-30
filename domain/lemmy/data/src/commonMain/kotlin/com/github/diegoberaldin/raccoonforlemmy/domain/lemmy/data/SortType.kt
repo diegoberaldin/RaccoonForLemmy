@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.ElderlyWoman
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.LocalFireDepartment
@@ -9,7 +10,6 @@ import androidx.compose.material.icons.filled.MilitaryTech
 import androidx.compose.material.icons.filled.MonitorWeight
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material.icons.filled.Thunderstorm
-import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -78,7 +78,7 @@ fun SortType.toIcon(): ImageVector = when (this) {
     SortType.Active -> Icons.Default.RocketLaunch
     SortType.Hot -> Icons.Default.LocalFireDepartment
     SortType.MostComments -> Icons.Default.Forum
-    SortType.New -> Icons.Default.TrendingUp
+    SortType.New -> Icons.AutoMirrored.Default.TrendingUp
     SortType.NewComments -> Icons.Default.MarkUnreadChatAlt
     SortType.Old -> Icons.Default.ElderlyWoman
     SortType.Controversial -> Icons.Default.Thunderstorm

@@ -1,0 +1,153 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ConstructorParameterNaming:DraftEntity.kt$DraftEntity$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:DraftsQueries.kt$DraftsQueries.GetAllByQuery$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:FavoriteCommunityEntity.kt$FavoriteCommunityEntity$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:FavoritecommunitiesQueries.kt$FavoritecommunitiesQueries.GetAllQuery$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:FavoritecommunitiesQueries.kt$FavoritecommunitiesQueries.GetByQuery$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:MultiCommunityEntity.kt$MultiCommunityEntity$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:MulticommunitiesQueries.kt$MulticommunitiesQueries.GetAllQuery$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:MulticommunitiesQueries.kt$MulticommunitiesQueries.GetByQuery$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:SettingsEntity.kt$SettingsEntity$public val account_id: Long?</ID>
+    <ID>ConstructorParameterNaming:SettingsQueries.kt$SettingsQueries.GetByQuery$public val account_id: Long?</ID>
+    <ID>CyclomaticComplexMethod:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$private fun migrateInternal( driver: SqlDriver, oldVersion: Long, newVersion: Long, ): QueryResult.Value&lt;Unit&gt;</ID>
+    <ID>CyclomaticComplexMethod:DefaultSettingsRepository.kt$DefaultSettingsRepository$override suspend fun createSettings(settings: SettingsModel, accountId: Long)</ID>
+    <ID>CyclomaticComplexMethod:DefaultSettingsRepository.kt$DefaultSettingsRepository$override suspend fun updateSettings(settings: SettingsModel, accountId: Long?)</ID>
+    <ID>FunctionParameterNaming:DraftsQueries.kt$DraftsQueries$account_id: Long?</ID>
+    <ID>FunctionParameterNaming:FavoritecommunitiesQueries.kt$FavoritecommunitiesQueries$account_id: Long?</ID>
+    <ID>FunctionParameterNaming:MulticommunitiesQueries.kt$MulticommunitiesQueries$account_id: Long?</ID>
+    <ID>FunctionParameterNaming:SettingsQueries.kt$SettingsQueries$account_id: Long?</ID>
+    <ID>LongMethod:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$override fun create(driver: SqlDriver): QueryResult.Value&lt;Unit&gt;</ID>
+    <ID>LongMethod:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$private fun migrateInternal( driver: SqlDriver, oldVersion: Long, newVersion: Long, ): QueryResult.Value&lt;Unit&gt;</ID>
+    <ID>LongMethod:DefaultSettingsRepository.kt$DefaultSettingsRepository$override suspend fun createSettings(settings: SettingsModel, accountId: Long)</ID>
+    <ID>LongMethod:DefaultSettingsRepository.kt$DefaultSettingsRepository$override suspend fun getSettings(accountId: Long?): SettingsModel</ID>
+    <ID>LongMethod:DefaultSettingsRepository.kt$DefaultSettingsRepository$override suspend fun updateSettings(settings: SettingsModel, accountId: Long?)</ID>
+    <ID>LongMethod:DefaultSettingsRepository.kt$private fun GetBy.toModel()</ID>
+    <ID>LongMethod:SettingsQueries.kt$SettingsQueries$public fun create( theme: Long?, uiFontScale: Double, uiFontFamily: Long, titleFontScale: Double, contentFontScale: Double, commentFontScale: Double, ancillaryFontScale: Double, locale: String?, defaultListingType: Long, defaultPostSortType: Long, defaultCommentSortType: Long, defaultInboxType: Long, includeNsfw: Long, blurNsfw: Long, navigationTitlesVisible: Long, dynamicColors: Long, openUrlsInExternalBrowser: Long, enableSwipeActions: Long, enableDoubleTapAction: Long, customSeedColor: Long?, postLayout: Long, separateUpAndDownVotes: Long, autoLoadImages: Long, autoExpandComments: Long, fullHeightImages: Long, upvoteColor: Long?, downvoteColor: Long?, hideNavigationBarWhileScrolling: Long, zombieModeInterval: Long, zombieModeScrollAmount: Double, markAsReadWhileScrolling: Long, commentBarTheme: Long, replyColor: Long?, saveColor: Long?, searchPostTitleOnly: Long, contentFontFamily: Long, edgeToEdge: Long, postBodyMaxLines: Long?, infiniteScrollEnabled: Long, actionsOnSwipeToStartPosts: String?, actionsOnSwipeToEndPosts: String?, actionsOnSwipeToStartComments: String?, actionsOnSwipeToEndComments: String?, actionsOnSwipeToStartInbox: String?, actionsOnSwipeToEndInbox: String?, opaqueSystemBars: Long?, showScores: Long, preferUserNicknames: Long, commentBarThickness: Long, imageSourcePath: Long, defaultExploreType: Long, defaultLanguageId: Long?, account_id: Long?, )</ID>
+    <ID>LongMethod:SettingsQueries.kt$SettingsQueries$public fun getBy(account_id: Long?): Query&lt;GetBy&gt;</ID>
+    <ID>LongMethod:SettingsQueries.kt$SettingsQueries$public fun update( theme: Long?, uiFontScale: Double, uiFontFamily: Long, titleFontScale: Double, contentFontScale: Double, commentFontScale: Double, ancillaryFontScale: Double, locale: String?, defaultListingType: Long, defaultPostSortType: Long, defaultCommentSortType: Long, defaultInboxType: Long, includeNsfw: Long, blurNsfw: Long, navigationTitlesVisible: Long, dynamicColors: Long, openUrlsInExternalBrowser: Long, enableSwipeActions: Long, enableDoubleTapAction: Long, customSeedColor: Long?, postLayout: Long, separateUpAndDownVotes: Long, autoLoadImages: Long, autoExpandComments: Long, fullHeightImages: Long, upvoteColor: Long?, downvoteColor: Long?, hideNavigationBarWhileScrolling: Long, zombieModeInterval: Long, zombieModeScrollAmount: Double, markAsReadWhileScrolling: Long, commentBarTheme: Long, replyColor: Long?, saveColor: Long?, searchPostTitleOnly: Long, contentFontFamily: Long, edgeToEdge: Long, postBodyMaxLines: Long?, infiniteScrollEnabled: Long, actionsOnSwipeToStartPosts: String?, actionsOnSwipeToEndPosts: String?, actionsOnSwipeToStartComments: String?, actionsOnSwipeToEndComments: String?, actionsOnSwipeToStartInbox: String?, actionsOnSwipeToEndInbox: String?, opaqueSystemBars: Long?, showScores: Long, preferUserNicknames: Long, commentBarThickness: Long, imageSourcePath: Long, defaultExploreType: Long, defaultLanguageId: Long?, account_id: Long?, )</ID>
+    <ID>LongMethod:SettingsQueries.kt$SettingsQueries.GetByQuery$override fun &lt;R&gt; execute(mapper: (SqlCursor) -&gt; QueryResult&lt;R&gt;): QueryResult&lt;R&gt;</ID>
+    <ID>LongParameterList:DraftsQueries.kt$DraftsQueries$( body: String, title: String?, url: String?, communityId: Long?, languageId: Long?, nsfw: Long?, date: Long?, info: String?, id: Long, )</ID>
+    <ID>LongParameterList:DraftsQueries.kt$DraftsQueries$( type: Long, body: String, title: String?, url: String?, postId: Long?, parentId: Long?, communityId: Long?, languageId: Long?, nsfw: Long?, date: Long?, info: String?, account_id: Long?, )</ID>
+    <ID>LongParameterList:SettingsQueries.kt$SettingsQueries$( theme: Long?, uiFontScale: Double, uiFontFamily: Long, titleFontScale: Double, contentFontScale: Double, commentFontScale: Double, ancillaryFontScale: Double, locale: String?, defaultListingType: Long, defaultPostSortType: Long, defaultCommentSortType: Long, defaultInboxType: Long, includeNsfw: Long, blurNsfw: Long, navigationTitlesVisible: Long, dynamicColors: Long, openUrlsInExternalBrowser: Long, enableSwipeActions: Long, enableDoubleTapAction: Long, customSeedColor: Long?, postLayout: Long, separateUpAndDownVotes: Long, autoLoadImages: Long, autoExpandComments: Long, fullHeightImages: Long, upvoteColor: Long?, downvoteColor: Long?, hideNavigationBarWhileScrolling: Long, zombieModeInterval: Long, zombieModeScrollAmount: Double, markAsReadWhileScrolling: Long, commentBarTheme: Long, replyColor: Long?, saveColor: Long?, searchPostTitleOnly: Long, contentFontFamily: Long, edgeToEdge: Long, postBodyMaxLines: Long?, infiniteScrollEnabled: Long, actionsOnSwipeToStartPosts: String?, actionsOnSwipeToEndPosts: String?, actionsOnSwipeToStartComments: String?, actionsOnSwipeToEndComments: String?, actionsOnSwipeToStartInbox: String?, actionsOnSwipeToEndInbox: String?, opaqueSystemBars: Long?, showScores: Long, preferUserNicknames: Long, commentBarThickness: Long, imageSourcePath: Long, defaultExploreType: Long, defaultLanguageId: Long?, account_id: Long?, )</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$1_409_625_318</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$1_697_043_652</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$1_820_146_500</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$1_906_237_444</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$1_923_073_203</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$244_855_273</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$3</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$30_238_197</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$4</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries$5</ID>
+    <ID>MagicNumber:AccountsQueries.kt$AccountsQueries.GetByQuery$1_444_187_684</ID>
+    <ID>MagicNumber:ActionOnSwipe.kt$3</ID>
+    <ID>MagicNumber:ActionOnSwipe.kt$4</ID>
+    <ID>MagicNumber:ActionOnSwipe.kt$5</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$10</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$11</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$12</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$13</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$14</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$15</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$16</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$17</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$18</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$19</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$20</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$21</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$22</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$23</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$24</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$25</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$26</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$27</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$28</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$29</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$3</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$4</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$5</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$6</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$7</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$8</ID>
+    <ID>MagicNumber:AppDatabaseImpl.kt$AppDatabaseImpl.Schema$9</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$10</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$11</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$12</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$1_086_727_833</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$1_103_563_592</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$1_600_175_718</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$3</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$4</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$5</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$6</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$7</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$8</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries$9</ID>
+    <ID>MagicNumber:DraftsQueries.kt$DraftsQueries.GetByQuery$1_347_097_328</ID>
+    <ID>MagicNumber:FavoritecommunitiesQueries.kt$FavoritecommunitiesQueries$598_991_513</ID>
+    <ID>MagicNumber:FavoritecommunitiesQueries.kt$FavoritecommunitiesQueries$615_827_272</ID>
+    <ID>MagicNumber:MulticommunitiesQueries.kt$MulticommunitiesQueries$262_158_430</ID>
+    <ID>MagicNumber:MulticommunitiesQueries.kt$MulticommunitiesQueries$3</ID>
+    <ID>MagicNumber:MulticommunitiesQueries.kt$MulticommunitiesQueries$4</ID>
+    <ID>MagicNumber:MulticommunitiesQueries.kt$MulticommunitiesQueries$758_770_556</ID>
+    <ID>MagicNumber:MulticommunitiesQueries.kt$MulticommunitiesQueries$775_606_315</ID>
+    <ID>MagicNumber:MulticommunitiesQueries.kt$MulticommunitiesQueries.GetByIdQuery$621_809_807</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$10</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$11</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$12</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$13</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$14</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$15</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$16</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$17</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$18</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$19</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$1_031_548_086</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$20</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$21</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$22</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$23</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$24</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$25</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$26</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$27</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$28</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$29</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$3</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$30</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$31</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$32</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$33</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$34</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$35</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$36</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$37</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$38</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$39</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$4</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$40</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$41</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$42</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$43</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$44</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$45</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$46</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$47</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$48</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$49</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$5</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$50</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$51</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$518_100_201</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$52</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$53</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$6</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$7</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$8</ID>
+    <ID>MagicNumber:SettingsQueries.kt$SettingsQueries$9</ID>
+    <ID>TooManyFunctions:AccountsQueries.kt$AccountsQueries : TransacterImpl</ID>
+  </CurrentIssues>
+</SmellBaseline>

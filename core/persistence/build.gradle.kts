@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
@@ -81,5 +83,12 @@ sqldelight {
             packageName.set("com.github.diegoberaldin.raccoonforlemmy.core.persistence.entities")
             srcDirs.setFrom("src/commonMain/sqldelight")
         }
+    }
+}
+
+allprojects {
+    tasks.withType<Detekt> {
+        setSource(files(project.projectDir))
+        exclude("**/build/**")
     }
 }

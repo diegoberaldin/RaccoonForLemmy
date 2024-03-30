@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:Extensions.kt$@Composable fun String.toLanguageFlag(): AnnotatedString</ID>
+    <ID>CyclomaticComplexMethod:Extensions.kt$@Composable fun String.toLanguageName()</ID>
+    <ID>LongParameterList:DateFunctions.kt$( iso8601Timestamp: String, yearLabel: String, monthLabel: String, dayLabel: String, hourLabel: String, minuteLabel: String, secondLabel: String, )</ID>
+    <ID>MagicNumber:DateUtils.kt$10.0</ID>
+    <ID>MagicNumber:DateUtils.kt$1000.0</ID>
+    <ID>MagicNumber:DateUtils.kt$60</ID>
+    <ID>MagicNumber:Download.kt$4096</ID>
+    <ID>MagicNumber:Extensions.kt$10</ID>
+    <ID>MagicNumber:Extensions.kt$1_000</ID>
+    <ID>MagicNumber:Extensions.kt$1_000.0</ID>
+    <ID>MagicNumber:Extensions.kt$1_000_000</ID>
+    <ID>MagicNumber:Extensions.kt$1_000_000.0</ID>
+    <ID>MagicNumber:ShimmerEffect.kt$0.5f</ID>
+    <ID>ReturnCount:Extensions.kt$fun String?.ellipsize(length: Int = 100, ellipsis: String = "…"): String</ID>
+  </CurrentIssues>
+</SmellBaseline>

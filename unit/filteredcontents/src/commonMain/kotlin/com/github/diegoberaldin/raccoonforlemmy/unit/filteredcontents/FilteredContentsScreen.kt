@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -52,7 +50,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -127,9 +124,6 @@ class FilteredContentsScreen(
         val defaultReplyColor = MaterialTheme.colorScheme.secondary
         val defaultSaveColor = MaterialTheme.colorScheme.secondaryContainer
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
-        val bottomNavigationInset = with(LocalDensity.current) {
-            WindowInsets.navigationBars.getBottom(this).toDp()
-        }
         val scope = rememberCoroutineScope()
 
         LaunchedEffect(model) {

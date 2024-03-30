@@ -165,7 +165,11 @@ internal class DefaultSettingsRepository(
                     openUrlsInExternalBrowser = keyStore[KeyStoreKeys.OPEN_URLS_IN_EXTERNAL_BROWSER, true],
                     enableSwipeActions = keyStore[KeyStoreKeys.ENABLE_SWIPE_ACTIONS, true],
                     enableDoubleTapAction = keyStore[KeyStoreKeys.ENABLE_DOUBLE_TAP_ACTION, false],
-                    customSeedColor = if (!keyStore.containsKey(KeyStoreKeys.CUSTOM_SEED_COLOR)) null else keyStore[KeyStoreKeys.CUSTOM_SEED_COLOR, 0],
+                    customSeedColor = if (!keyStore.containsKey(KeyStoreKeys.CUSTOM_SEED_COLOR)) {
+                        null
+                    } else {
+                        keyStore[KeyStoreKeys.CUSTOM_SEED_COLOR, 0]
+                    },
                     postLayout = keyStore[KeyStoreKeys.POST_LAYOUT, 0],
                     voteFormat = keyStore[KeyStoreKeys.SEPARATE_UP_AND_DOWN_VOTES, 0L].toVoteFormat(),
                     autoLoadImages = keyStore[KeyStoreKeys.AUTO_LOAD_IMAGES, true],

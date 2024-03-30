@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 plugins {
@@ -80,5 +81,12 @@ ksp {
 tasks.withType<KotlinCompile<*>>().configureEach {
     if (name != "kspCommonMainKotlinMetadata") {
         dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+allprojects {
+    tasks.withType<Detekt> {
+        setSource(files(project.projectDir))
+        exclude("**/build/**")
     }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>TooManyFunctions:DefaultTemporaryKeyStore.kt$DefaultTemporaryKeyStore : TemporaryKeyStore</ID>
+    <ID>TooManyFunctions:TemporaryKeyStore.kt$TemporaryKeyStore</ID>
+  </CurrentIssues>
+</SmellBaseline>
