@@ -41,6 +41,8 @@ internal fun CustomMarkdownImage(
     )
 }
 
+private const val LOADING_ANIMATION_DURATION = 1000
+
 @Composable
 internal fun CustomMarkdownImage(
     url: String,
@@ -80,7 +82,7 @@ internal fun CustomMarkdownImage(
                     initialValue = 0f,
                     targetValue = 1f,
                     animationSpec = InfiniteRepeatableSpec(
-                        animation = tween(1000)
+                        animation = tween(LOADING_ANIMATION_DURATION)
                     ),
                 )
                 res

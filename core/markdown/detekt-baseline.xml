@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:CustomMarkdownImage.kt$@Composable internal fun CustomMarkdownImage( node: ASTNode, content: String, onOpenImage: ((String) -&gt; Unit)?, autoLoadImages: Boolean, )</ID>
+    <ID>FunctionNaming:CustomMarkdownImage.kt$@Composable internal fun CustomMarkdownImage( url: String, onOpenImage: ((String) -&gt; Unit)?, autoLoadImages: Boolean, )</ID>
+    <ID>FunctionNaming:CustomMarkdownSpoiler.kt$@Composable internal fun CustomMarkdownSpoiler( content: String, modifier: Modifier = Modifier, )</ID>
+    <ID>FunctionNaming:CustomMarkdownSpoiler.kt$@Composable private fun InnerSpoilerElement( title: String, content: String, modifier: Modifier = Modifier, )</ID>
+    <ID>FunctionNaming:CustomMarkdownWrapper.kt$@Composable fun CustomMarkdownWrapper( content: String, modifier: Modifier, colors: MarkdownColors = markdownColor(), typography: MarkdownTypography = markdownTypography(), padding: MarkdownPadding = markdownPadding(), autoLoadImages: Boolean, maxLines: Int? = null, onOpenUrl: ((String) -&gt; Unit)?, onOpenImage: ((String) -&gt; Unit)?, onClick: (() -&gt; Unit)?, onDoubleClick: (() -&gt; Unit)?, onLongClick: (() -&gt; Unit)?, )</ID>
+    <ID>LongMethod:CustomMarkdownWrapper.kt$@Composable fun CustomMarkdownWrapper( content: String, modifier: Modifier, colors: MarkdownColors = markdownColor(), typography: MarkdownTypography = markdownTypography(), padding: MarkdownPadding = markdownPadding(), autoLoadImages: Boolean, maxLines: Int? = null, onOpenUrl: ((String) -&gt; Unit)?, onOpenImage: ((String) -&gt; Unit)?, onClick: (() -&gt; Unit)?, onDoubleClick: (() -&gt; Unit)?, onLongClick: (() -&gt; Unit)?, )</ID>
+    <ID>LongParameterList:CustomMarkdownWrapper.kt$( content: String, modifier: Modifier, colors: MarkdownColors = markdownColor(), typography: MarkdownTypography = markdownTypography(), padding: MarkdownPadding = markdownPadding(), autoLoadImages: Boolean, maxLines: Int? = null, onOpenUrl: ((String) -&gt; Unit)?, onOpenImage: ((String) -&gt; Unit)?, onClick: (() -&gt; Unit)?, onDoubleClick: (() -&gt; Unit)?, onLongClick: (() -&gt; Unit)?, )</ID>
+    <ID>NestedBlockDepth:Utils.kt$private fun String.spoilerFixUp(): String</ID>
+    <ID>ReturnCount:Utils.kt$internal fun ASTNode.findChildOfTypeRecursive(type: IElementType): ASTNode?</ID>
+  </CurrentIssues>
+</SmellBaseline>
