@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:SwipeActionCard.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun SwipeActionCard( modifier: Modifier = Modifier, enabled: Boolean = true, content: @Composable () -&gt; Unit, onGestureBegin: (() -&gt; Unit)? = null, swipeToStartActions: List&lt;SwipeAction&gt; = emptyList(), swipeToEndActions: List&lt;SwipeAction&gt; = emptyList(), )</ID>
+    <ID>FunctionNaming:BottomSheetHandle.kt$@Composable fun BottomSheetHandle( modifier: Modifier = Modifier, )</ID>
+    <ID>FunctionNaming:CustomDropDown.kt$@Composable expect fun CustomDropDown( expanded: Boolean, onDismiss: () -&gt; Unit, modifier: Modifier = Modifier, offset: DpOffset = DpOffset.Zero, content: @Composable ColumnScope.() -&gt; Unit, )</ID>
+    <ID>FunctionNaming:CustomImage.kt$@Composable expect fun CustomImage( modifier: Modifier = Modifier, url: String, autoload: Boolean = true, loadButtonContent: @Composable (() -&gt; Unit)? = null, contentDescription: String? = null, quality: FilterQuality = FilterQuality.Medium, contentScale: ContentScale = ContentScale.Fit, alignment: Alignment = Alignment.Center, contentAlignment: Alignment = Alignment.Center, alpha: Float = DefaultAlpha, colorFilter: ColorFilter? = null, onLoading: @Composable (BoxScope.(Float?) -&gt; Unit)? = null, onFailure: @Composable (BoxScope.(Throwable) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:CustomWebView.kt$@Composable expect fun CustomWebView( url: String, modifier: Modifier = Modifier, navigator: WebViewNavigator = rememberWebViewNavigator(), scrollConnection: NestedScrollConnection? = null, )</ID>
+    <ID>FunctionNaming:CustomizedContent.kt$@Composable fun CustomizedContent( contentClass: ContentFontClass, content: @Composable () -&gt; Unit, )</ID>
+    <ID>FunctionNaming:FeedbackButton.kt$@Composable fun FeedbackButton( modifier: Modifier = Modifier, imageVector: ImageVector, tintColor: Color = MaterialTheme.colorScheme.background.copy(alpha = 0.75f), onClick: () -&gt; Unit, )</ID>
+    <ID>FunctionNaming:FloatingActionButtonMenu.kt$@Composable fun FloatingActionButtonMenu( modifier: Modifier = Modifier, items: List&lt;FloatingActionButtonMenuItem&gt; = emptyList(), )</ID>
+    <ID>FunctionNaming:MultiColorPreview.kt$@Composable fun MultiColorPreview( colors: List&lt;Color&gt;, modifier: Modifier = Modifier, )</ID>
+    <ID>FunctionNaming:PlaceholderImage.kt$@Composable fun PlaceholderImage( modifier: Modifier = Modifier, size: Dp, title: String, )</ID>
+    <ID>FunctionNaming:ProgressHud.kt$@Composable fun ProgressHud( overlayColor: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.05f), color: Color = MaterialTheme.colorScheme.primary, )</ID>
+    <ID>FunctionNaming:SectionSelector.kt$@Composable fun SectionSelector( modifier: Modifier = Modifier, draggable: Boolean = true, titles: List&lt;String&gt; = emptyList(), currentSection: Int, onSectionSelected: (Int) -&gt; Unit, )</ID>
+    <ID>FunctionNaming:SwipeActionCard.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun SwipeActionCard( modifier: Modifier = Modifier, enabled: Boolean = true, content: @Composable () -&gt; Unit, onGestureBegin: (() -&gt; Unit)? = null, swipeToStartActions: List&lt;SwipeAction&gt; = emptyList(), swipeToEndActions: List&lt;SwipeAction&gt; = emptyList(), )</ID>
+    <ID>FunctionNaming:VideoPlayer.kt$@Composable expect fun VideoPlayer( modifier: Modifier, url: String, onPlaybackStarted: (() -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:ZoomableImage.kt$@Composable fun ZoomableImage( modifier: Modifier = Modifier, url: String, autoLoadImages: Boolean = false, )</ID>
+    <ID>LongMethod:FloatingActionButtonMenu.kt$@Composable fun FloatingActionButtonMenu( modifier: Modifier = Modifier, items: List&lt;FloatingActionButtonMenuItem&gt; = emptyList(), )</ID>
+    <ID>LongMethod:SwipeActionCard.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun SwipeActionCard( modifier: Modifier = Modifier, enabled: Boolean = true, content: @Composable () -&gt; Unit, onGestureBegin: (() -&gt; Unit)? = null, swipeToStartActions: List&lt;SwipeAction&gt; = emptyList(), swipeToEndActions: List&lt;SwipeAction&gt; = emptyList(), )</ID>
+    <ID>LongMethod:ZoomableImage.kt$@Composable fun ZoomableImage( modifier: Modifier = Modifier, url: String, autoLoadImages: Boolean = false, )</ID>
+    <ID>LongParameterList:CustomImage.kt$( modifier: Modifier = Modifier, url: String, autoload: Boolean = true, loadButtonContent: @Composable (() -&gt; Unit)? = null, contentDescription: String? = null, quality: FilterQuality = FilterQuality.Medium, contentScale: ContentScale = ContentScale.Fit, alignment: Alignment = Alignment.Center, contentAlignment: Alignment = Alignment.Center, alpha: Float = DefaultAlpha, colorFilter: ColorFilter? = null, onLoading: @Composable (BoxScope.(Float?) -&gt; Unit)? = null, onFailure: @Composable (BoxScope.(Throwable) -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:SwipeActionCard.kt$( modifier: Modifier = Modifier, enabled: Boolean = true, content: @Composable () -&gt; Unit, onGestureBegin: (() -&gt; Unit)? = null, swipeToStartActions: List&lt;SwipeAction&gt; = emptyList(), swipeToEndActions: List&lt;SwipeAction&gt; = emptyList(), )</ID>
+    <ID>MagicNumber:FloatingActionButtonMenu.kt$45f</ID>
+    <ID>MagicNumber:MultiColorPreview.kt$360f</ID>
+    <ID>MagicNumber:MultiColorPreview.kt$90f</ID>
+    <ID>MagicNumber:ZoomableImage.kt$5f</ID>
+    <ID>MatchingDeclarationName:FloatingActionButtonMenu.kt$FloatingActionButtonMenuItem</ID>
+    <ID>NewLineAtEndOfFile:CustomWebViewNavigator.kt$com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomWebViewNavigator.kt</ID>
+    <ID>NewLineAtEndOfFile:MultiColorPreview.kt$com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.MultiColorPreview.kt</ID>
+  </CurrentIssues>
+</SmellBaseline>

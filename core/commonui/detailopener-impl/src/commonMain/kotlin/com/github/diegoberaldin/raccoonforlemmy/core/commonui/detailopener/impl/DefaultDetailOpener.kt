@@ -23,6 +23,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+private const val MAX_PAGE_NUMBER_IN_COMMUNITY_REC_SEARCH = 10
+
 class DefaultDetailOpener(
     private val navigationCoordinator: NavigationCoordinator,
     private val itemCache: LemmyItemCache,
@@ -177,8 +179,8 @@ class DefaultDetailOpener(
             val found = results.firstOrNull {
                 it.model.name == name && it.model.host == host
             }?.model
-            // iterates for no more than 10 pages before giving up
-            if (found != null || page >= 10) {
+            // iterates for no more than a number of pages before giving up
+            if (found != null || page >= MAX_PAGE_NUMBER_IN_COMMUNITY_REC_SEARCH) {
                 return found
             }
 

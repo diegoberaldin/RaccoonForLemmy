@@ -41,7 +41,8 @@ fun PostCardVideo(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(1.33f)
+            .aspectRatio(
+                1.33f)
             .onClick(),
         contentAlignment = Alignment.Center,
     ) {

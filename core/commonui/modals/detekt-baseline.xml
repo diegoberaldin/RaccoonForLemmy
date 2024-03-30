@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:BlockBottomSheet.kt$BlockBottomSheet$@Composable override fun Content()</ID>
+    <ID>FunctionNaming:EditFormattedlInfoDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun EditFormattedInfoDialog( title: String = "", value: String = "", onClose: ((String?) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:EditTextualInfoDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun EditTextualInfoDialog( title: String = "", value: String = "", onClose: ((String?) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:NumberPickerDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun NumberPickerDialog( title: String = "", initialValue: Int = 0, onClose: (() -&gt; Unit)? = null, onSubmit: ((Int) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:SelectLanguageDialog.kt$@Composable private fun LanguageItem( name: String, modifier: Modifier = Modifier, selected: Boolean = false, onSelected: (() -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:SelectLanguageDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun SelectLanguageDialog( currentLanguageId: Int? = null, languages: List&lt;LanguageModel&gt; = emptyList(), onSelect: ((Int?) -&gt; Unit)? = null, onDismiss: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:BarThemeBottomSheet.kt$BarThemeBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:BlockBottomSheet.kt$BlockBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:CommentBarThicknessBottomSheet.kt$CommentBarThicknessBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:CopyPostBottomSheet.kt$CopyPostBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:DurationBottomSheet.kt$DurationBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:EditFormattedlInfoDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun EditFormattedInfoDialog( title: String = "", value: String = "", onClose: ((String?) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:EditTextualInfoDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun EditTextualInfoDialog( title: String = "", value: String = "", onClose: ((String?) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:InboxTypeSheet.kt$InboxTypeSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:LanguageBottomSheet.kt$LanguageBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:LikedTypeSheet.kt$LikedTypeSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:ListingTypeBottomSheet.kt$ListingTypeBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:PostBodyMaxLinesBottomSheet.kt$PostBodyMaxLinesBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:PostLayoutBottomSheet.kt$PostLayoutBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:ReportListTypeSheet.kt$ReportListTypeSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:ResultTypeBottomSheet.kt$ResultTypeBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:ShareBottomSheet.kt$ShareBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:ShareImageBottomSheet.kt$ShareImageBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:SortBottomSheet.kt$SortBottomSheetMain$@Composable override fun Content()</ID>
+    <ID>LongMethod:SortBottomSheet.kt$SortBottomSheetTop$@Composable override fun Content()</ID>
+    <ID>LongMethod:ThemeBottomSheet.kt$ThemeBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:VoteFormatBottomSheet.kt$VoteFormatBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongParameterList:BlockBottomSheet.kt$BlockBottomSheet$( private val userName: String? = null, private val userId: Int? = null, private val communityName: String? = null, private val communityId: Int? = null, private val instanceName: String? = null, private val instanceId: Int? = null, private val userInstanceName: String? = null, private val userInstanceId: Int? = null, )</ID>
+    <ID>MagicNumber:CommentBarThicknessBottomSheet.kt$CommentBarThicknessBottomSheet$3</ID>
+    <ID>MagicNumber:PostBodyMaxLinesBottomSheet.kt$PostBodyMaxLinesBottomSheet$10</ID>
+    <ID>MagicNumber:PostBodyMaxLinesBottomSheet.kt$PostBodyMaxLinesBottomSheet$30</ID>
+    <ID>MagicNumber:PostBodyMaxLinesBottomSheet.kt$PostBodyMaxLinesBottomSheet$50</ID>
+    <ID>MagicNumber:SelectLanguageDialog.kt$0.6f</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -50,6 +50,8 @@ data class FloatingActionButtonMenuItem(
     val onSelected: (() -> Unit)? = null,
 )
 
+private const val ANIMATION_DURATION = 150
+
 @Composable
 fun FloatingActionButtonMenu(
     modifier: Modifier = Modifier,
@@ -65,18 +67,18 @@ fun FloatingActionButtonMenu(
     val enterTransition = remember {
         fadeIn(
             initialAlpha = 0.3f,
-            animationSpec = tween(150, easing = FastOutSlowInEasing)
+            animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing)
         )
     }
     val exitTransition = remember {
         fadeOut(
-            animationSpec = tween(150, easing = FastOutSlowInEasing)
+            animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing)
         )
     }
     val numberOfItems by animateIntAsState(
         targetValue = if (fabExpanded) items.size else 0,
         animationSpec = tween(
-            durationMillis = 150 * items.size,
+            durationMillis = ANIMATION_DURATION * items.size,
             easing = LinearEasing,
         )
     )

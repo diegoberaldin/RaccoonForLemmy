@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
+private const val LOADING_ANIMATION_DURATION = 1000
+
 @Composable
 fun ZoomableImage(
     modifier: Modifier = Modifier,
@@ -90,7 +92,7 @@ fun ZoomableImage(
                         initialValue = 0f,
                         targetValue = 1f,
                         animationSpec = InfiniteRepeatableSpec(
-                            animation = tween(1000)
+                            animation = tween(LOADING_ANIMATION_DURATION)
                         )
                     )
                     res
