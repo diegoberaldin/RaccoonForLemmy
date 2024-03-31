@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:App.kt$@OptIn(ExperimentalMaterialApi::class, FlowPreview::class) @Composable fun App(onLoadingFinished: () -&gt; Unit = {})</ID>
+    <ID>FunctionNaming:App.kt$@OptIn(ExperimentalMaterialApi::class, FlowPreview::class) @Composable fun App(onLoadingFinished: () -&gt; Unit = {})</ID>
+    <ID>FunctionNaming:TabNavigationItem.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true)</ID>
+    <ID>LongMethod:App.kt$@OptIn(ExperimentalMaterialApi::class, FlowPreview::class) @Composable fun App(onLoadingFinished: () -&gt; Unit = {})</ID>
+    <ID>LongMethod:MainScreen.kt$MainScreen$@Composable override fun Content()</ID>
+    <ID>LongMethod:TabNavigationItem.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true)</ID>
+    <ID>MagicNumber:App.kt$50</ID>
+    <ID>MagicNumber:App.kt$750</ID>
+    <ID>MagicNumber:MainScreen.kt$MainScreen$50</ID>
+    <ID>MagicNumber:MainScreen.kt$MainScreen$750</ID>
+  </CurrentIssues>
+</SmellBaseline>

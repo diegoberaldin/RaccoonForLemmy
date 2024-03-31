@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:ProfileMainScreen.kt$ProfileMainScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+  </CurrentIssues>
+</SmellBaseline>

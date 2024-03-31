@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:InboxScreen.kt$InboxScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:InboxScreen.kt$InboxScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+  </CurrentIssues>
+</SmellBaseline>

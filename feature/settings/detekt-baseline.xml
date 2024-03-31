@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:SettingsColorRow.kt$@Composable internal fun SettingsColorRow( title: String, value: Color, modifier: Modifier = Modifier, subtitle: String? = null, onTap: (() -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:SettingsMultiColorRow.kt$@Composable internal fun SettingsMultiColorRow( title: String, values: List&lt;Color&gt;, modifier: Modifier = Modifier, subtitle: String? = null, onTap: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:AdvancedSettingsScreen.kt$AdvancedSettingsScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:SettingsColorAndFontScreen.kt$SettingsColorAndFontScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:AdvancedSettingsViewModel.kt$AdvancedSettingsViewModel$( private val themeRepository: ThemeRepository, private val identityRepository: IdentityRepository, private val settingsRepository: SettingsRepository, private val accountRepository: AccountRepository, private val siteRepository: SiteRepository, private val notificationCenter: NotificationCenter, private val galleryHelper: GalleryHelper, )</ID>
+    <ID>LongParameterList:SettingsViewModel.kt$SettingsViewModel$( private val themeRepository: ThemeRepository, private val identityRepository: IdentityRepository, private val settingsRepository: SettingsRepository, private val accountRepository: AccountRepository, private val notificationCenter: NotificationCenter, private val crashReportConfiguration: CrashReportConfiguration, private val l10nManager: L10nManager, private val getSortTypesUseCase: GetSortTypesUseCase, )</ID>
+    <ID>MagicNumber:SettingsColorAndFontScreen.kt$SettingsColorAndFontScreen$50</ID>
+    <ID>MagicNumber:SettingsColorAndFontViewModel.kt$SettingsColorAndFontViewModel$3</ID>
+    <ID>MaxLineLength:SettingsColorAndFontMviModel.kt$SettingsColorAndFontMviModel$MviModel&lt;SettingsColorAndFontMviModel.Intent, SettingsColorAndFontMviModel.UiState, SettingsColorAndFontMviModel.Effect&gt;</ID>
+    <ID>MaxLineLength:SettingsColorAndFontViewModel.kt$SettingsColorAndFontViewModel$DefaultMviModel&lt;SettingsColorAndFontMviModel.Intent, SettingsColorAndFontMviModel.UiState, SettingsColorAndFontMviModel.Effect&gt;</ID>
+    <ID>TooManyFunctions:AdvancedSettingsViewModel.kt$AdvancedSettingsViewModel : AdvancedSettingsMviModelDefaultMviModel</ID>
+    <ID>TooManyFunctions:SettingsColorAndFontViewModel.kt$SettingsColorAndFontViewModel : SettingsColorAndFontMviModelDefaultMviModel</ID>
+    <ID>TooManyFunctions:SettingsViewModel.kt$SettingsViewModel : SettingsMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>
