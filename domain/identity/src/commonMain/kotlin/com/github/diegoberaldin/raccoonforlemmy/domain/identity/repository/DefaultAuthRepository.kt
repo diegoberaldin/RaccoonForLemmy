@@ -26,7 +26,7 @@ internal class DefaultAuthRepository(
                 val error = response.errorBody().toString()
                 throw Exception(error)
             }
-            response.body() ?: throw Exception("No reponse from login endpoint")
+            response.body() ?: throw Exception("No response from login endpoint")
         }
     }
 }

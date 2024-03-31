@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:Mappings.kt$internal fun ModlogItemType.toDto(): ModlogActionType</ID>
+    <ID>CyclomaticComplexMethod:Mappings.kt$internal fun SortType.toDto()</ID>
+    <ID>CyclomaticComplexMethod:Mappings.kt$internal fun com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType.toModel(): SortType?</ID>
+    <ID>LongParameterList:CommentRepository.kt$CommentRepository$( parentId: Int, auth: String? = null, instance: String? = null, limit: Int = DEFAULT_PAGE_SIZE, type: ListingType = ListingType.All, sort: SortType = SortType.New, maxDepth: Int = MAX_COMMENT_DEPTH, )</ID>
+    <ID>LongParameterList:CommentRepository.kt$CommentRepository$( postId: Int? = null, auth: String? = null, instance: String? = null, page: Int, limit: Int = DEFAULT_PAGE_SIZE, type: ListingType = ListingType.All, sort: SortType = SortType.New, maxDepth: Int = MAX_COMMENT_DEPTH, )</ID>
+    <ID>LongParameterList:CommunityRepository.kt$CommunityRepository$( auth: String?, userId: Int, communityId: Int, ban: Boolean, removeData: Boolean = false, reason: String? = null, expires: Long? = null, )</ID>
+    <ID>LongParameterList:CommunityRepository.kt$CommunityRepository$( query: String = "", auth: String? = null, page: Int, limit: Int = DEFAULT_PAGE_SIZE, communityId: Int? = null, instance: String? = null, listingType: ListingType = ListingType.All, sortType: SortType = SortType.Active, resultType: SearchResultType = SearchResultType.All, )</ID>
+    <ID>LongParameterList:PostRepository.kt$PostRepository$( auth: String? = null, page: Int, pageCursor: String? = null, limit: Int = DEFAULT_PAGE_SIZE, type: ListingType = ListingType.Local, sort: SortType = SortType.Active, communityId: Int? = null, communityName: String? = null, otherInstance: String? = null, )</ID>
+    <ID>LongParameterList:PostRepository.kt$PostRepository$( communityId: Int, title: String, body: String?, url: String? = null, nsfw: Boolean = false, languageId: Int? = null, auth: String, )</ID>
+    <ID>LongParameterList:PostRepository.kt$PostRepository$( postId: Int, title: String, body: String?, url: String? = null, nsfw: Boolean = false, languageId: Int? = null, auth: String, )</ID>
+    <ID>LongParameterList:UserRepository.kt$UserRepository$( auth: String? = null, page: Int, pageCursor: String? = null, limit: Int = PostRepository.DEFAULT_PAGE_SIZE, sort: SortType = SortType.New, liked: Boolean = true, )</ID>
+    <ID>LongParameterList:UserRepository.kt$UserRepository$( id: Int, auth: String? = null, page: Int, limit: Int = PostRepository.DEFAULT_PAGE_SIZE, sort: SortType = SortType.Active, username: String? = null, otherInstance: String? = null, )</ID>
+    <ID>MaxLineLength:DefaultLemmyItemCache.kt$DefaultLemmyItemCache$override suspend fun getCommunity(id: Int): CommunityModel?</ID>
+    <ID>TooGenericExceptionThrown:DefaultCommunityRepository.kt$DefaultCommunityRepository$throw Exception(error)</ID>
+    <ID>TooGenericExceptionThrown:DefaultSiteRepository.kt$DefaultSiteRepository$throw Exception(error)</ID>
+    <ID>TooManyFunctions:CommentRepository.kt$CommentRepository</ID>
+    <ID>TooManyFunctions:CommunityRepository.kt$CommunityRepository</ID>
+    <ID>TooManyFunctions:DefaultCommentRepository.kt$DefaultCommentRepository : CommentRepository</ID>
+    <ID>TooManyFunctions:DefaultCommunityRepository.kt$DefaultCommunityRepository : CommunityRepository</ID>
+    <ID>TooManyFunctions:DefaultPostRepository.kt$DefaultPostRepository : PostRepository</ID>
+    <ID>TooManyFunctions:DefaultUserRepository.kt$DefaultUserRepository : UserRepository</ID>
+    <ID>TooManyFunctions:Mappings.kt$com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.Mappings.kt</ID>
+    <ID>TooManyFunctions:PostRepository.kt$PostRepository</ID>
+    <ID>TooManyFunctions:UserRepository.kt$UserRepository</ID>
+    <ID>WildcardImport:DefaultPostRepository.kt$import io.ktor.client.request.forms.*</ID>
+  </CurrentIssues>
+</SmellBaseline>

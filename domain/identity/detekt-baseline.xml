@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongParameterList:DefaultLoginUseCase.kt$DefaultLoginUseCase$( private val authRepository: AuthRepository, private val apiConfigurationRepository: ApiConfigurationRepository, private val identityRepository: IdentityRepository, private val accountRepository: AccountRepository, private val settingsRepository: SettingsRepository, private val siteRepository: SiteRepository, private val communitySortRepository: CommunitySortRepository, )</ID>
+    <ID>MagicNumber:DefaultApiConfigurationRepository.kt$DefaultApiConfigurationRepository$1_000</ID>
+    <ID>MagicNumber:DefaultApiConfigurationRepository.kt$DefaultApiConfigurationRepository$5_000</ID>
+    <ID>ReturnCount:DefaultSwitchAccountUseCase.kt$DefaultSwitchAccountUseCase$override suspend fun invoke(account: AccountModel)</ID>
+    <ID>TooGenericExceptionThrown:DefaultAuthRepository.kt$DefaultAuthRepository$throw Exception("No response from login endpoint")</ID>
+    <ID>TooGenericExceptionThrown:DefaultAuthRepository.kt$DefaultAuthRepository$throw Exception(error)</ID>
+  </CurrentIssues>
+</SmellBaseline>

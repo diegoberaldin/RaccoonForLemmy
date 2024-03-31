@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:SortType.kt$@Composable fun SortType.toReadableName(): String</ID>
+    <ID>CyclomaticComplexMethod:SortType.kt$fun Int.toSortType()</ID>
+    <ID>CyclomaticComplexMethod:SortType.kt$fun SortType.toInt()</ID>
+    <ID>MagicNumber:SortType.kt$10</ID>
+    <ID>MagicNumber:SortType.kt$11</ID>
+    <ID>MagicNumber:SortType.kt$12</ID>
+    <ID>MagicNumber:SortType.kt$13</ID>
+    <ID>MagicNumber:SortType.kt$14</ID>
+    <ID>MagicNumber:SortType.kt$15</ID>
+    <ID>MagicNumber:SortType.kt$3</ID>
+    <ID>MagicNumber:SortType.kt$4</ID>
+    <ID>MagicNumber:SortType.kt$5</ID>
+    <ID>MagicNumber:SortType.kt$6</ID>
+    <ID>MagicNumber:SortType.kt$7</ID>
+    <ID>MagicNumber:SortType.kt$8</ID>
+    <ID>MagicNumber:SortType.kt$9</ID>
+  </CurrentIssues>
+</SmellBaseline>

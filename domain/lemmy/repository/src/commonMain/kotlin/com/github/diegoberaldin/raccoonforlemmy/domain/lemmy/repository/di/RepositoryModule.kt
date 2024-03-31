@@ -22,6 +22,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepo
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+private const val CACHE_SIZE = 5
+
 val repositoryModule = module {
     single<GetSortTypesUseCase> {
         DefaultGetSortTypesUseCase(
@@ -70,10 +72,10 @@ val repositoryModule = module {
     }
     single<LemmyItemCache> {
         DefaultLemmyItemCache(
-            postCache = LruCache.factory(5),
-            commentCache = LruCache.factory(5),
-            communityCache = LruCache.factory(5),
-            userCache = LruCache.factory(5),
+            postCache = LruCache.factory(CACHE_SIZE),
+            commentCache = LruCache.factory(CACHE_SIZE),
+            communityCache = LruCache.factory(CACHE_SIZE),
+            userCache = LruCache.factory(CACHE_SIZE),
         )
     }
 }

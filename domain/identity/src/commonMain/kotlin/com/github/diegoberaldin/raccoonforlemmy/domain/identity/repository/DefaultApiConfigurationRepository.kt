@@ -30,7 +30,7 @@ internal class DefaultApiConfigurationRepository(
         while (isActive) {
             val value = serviceProvider.currentInstance
             trySend(value)
-            delay(1000)
+            delay(1_000)
         }
     }.distinctUntilChanged().stateIn(
         scope = scope,
