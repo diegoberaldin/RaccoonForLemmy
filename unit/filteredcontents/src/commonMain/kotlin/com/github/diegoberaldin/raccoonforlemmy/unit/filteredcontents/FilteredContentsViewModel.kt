@@ -149,10 +149,11 @@ class FilteredContentsViewModel(
                 }
             }
 
-            is FilteredContentsMviModel.Intent.ModDistinguishComment -> uiState.value.comments.firstOrNull { it.id == intent.commentId }
-                ?.also { comment ->
-                    distinguish(comment)
-                }
+            is FilteredContentsMviModel.Intent.ModDistinguishComment -> uiState.value.comments.firstOrNull {
+                it.id == intent.commentId
+            }?.also { comment ->
+                distinguish(comment)
+            }
         }
     }
 

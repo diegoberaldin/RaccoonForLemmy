@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:ManageSubscriptionsScreen.kt$ManageSubscriptionsScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:ManageSubscriptionsScreen.kt$ManageSubscriptionsScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:ManageSubscriptionsViewModel.kt$ManageSubscriptionsViewModel$( private val identityRepository: IdentityRepository, private val communityRepository: CommunityRepository, private val accountRepository: AccountRepository, private val multiCommunityRepository: MultiCommunityRepository, private val settingsRepository: SettingsRepository, private val favoriteCommunityRepository: FavoriteCommunityRepository, private val hapticFeedback: HapticFeedback, private val notificationCenter: NotificationCenter, )</ID>
+    <ID>MagicNumber:ManageSubscriptionsScreen.kt$ManageSubscriptionsScreen$5</ID>
+    <ID>MagicNumber:ManageSubscriptionsViewModel.kt$ManageSubscriptionsViewModel$1000</ID>
+    <ID>MaxLineLength:ManageSubscriptionsMviModel.kt$ManageSubscriptionsMviModel$MviModel&lt;ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect&gt;</ID>
+    <ID>MaxLineLength:ManageSubscriptionsViewModel.kt$ManageSubscriptionsViewModel$DefaultMviModel&lt;ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect&gt;</ID>
+  </CurrentIssues>
+</SmellBaseline>

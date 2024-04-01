@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:DraftsScreen.kt$DraftsScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>FunctionNaming:DraftCard.kt$@Composable fun DraftCard( draft: DraftModel, postLayout: PostLayout, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOpen: () -&gt; Unit, onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:DraftCard.kt$@Composable private fun DraftFooter( date: String? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:DraftCardPlaceHolder.kt$@Composable fun DraftCardPlaceHolder( postLayout: PostLayout, )</ID>
+    <ID>LongMethod:DraftCard.kt$@Composable fun DraftCard( draft: DraftModel, postLayout: PostLayout, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOpen: () -&gt; Unit, onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:DraftCard.kt$@Composable private fun DraftFooter( date: String? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:DraftsScreen.kt$DraftsScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:DraftsViewModel.kt$DraftsViewModel$private fun refresh(initial: Boolean = false)</ID>
+    <ID>LongParameterList:DraftCard.kt$( draft: DraftModel, postLayout: PostLayout, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOpen: () -&gt; Unit, onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:DraftsScreen.kt$DraftsScreen$5</ID>
+  </CurrentIssues>
+</SmellBaseline>

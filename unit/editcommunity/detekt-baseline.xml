@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:EditCommunityScreen.kt$EditCommunityScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:EditCommunityScreen.kt$EditCommunityScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>MagicNumber:EditCommunityScreen.kt$EditCommunityScreen$1000</ID>
+    <ID>MagicNumber:EditCommunityScreen.kt$EditCommunityScreen$3.5f</ID>
+    <ID>SwallowedException:EditCommunityViewModel.kt$EditCommunityViewModel$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:EditCommunityViewModel.kt$EditCommunityViewModel$e: Exception</ID>
+  </CurrentIssues>
+</SmellBaseline>

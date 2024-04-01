@@ -4,8 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
 
 
-class AboutDialogViewModel(
-) : AboutDialogMviModel,
+class AboutDialogViewModel : AboutDialogMviModel,
     DefaultMviModel<AboutDialogMviModel.Intent, AboutDialogMviModel.UiState, AboutDialogMviModel.Effect>(
         initialState = AboutDialogMviModel.UiState(),
     ) {

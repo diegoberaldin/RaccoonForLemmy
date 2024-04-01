@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:FontFamilyBottomSheet.kt$FontFamilyBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:FontScaleBottomSheet.kt$FontScaleBottomSheet$@Composable override fun Content()</ID>
+  </CurrentIssues>
+</SmellBaseline>

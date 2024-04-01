@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:VoteThemeBottomSheet.kt$VoteThemeBottomSheet$@Composable override fun Content()</ID>
+    <ID>FunctionNaming:ColorPickerDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun ColorPickerDialog( initialValue: Color = Color.Black, onClose: (() -&gt; Unit)? = null, onSubmit: ((Color) -&gt; Unit)? = null, onReset: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:ColorBottomSheet.kt$ColorBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:ColorPickerDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun ColorPickerDialog( initialValue: Color = Color.Black, onClose: (() -&gt; Unit)? = null, onSubmit: ((Color) -&gt; Unit)? = null, onReset: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:CommentBarThemeBottomSheet.kt$CommentBarThemeBottomSheet$@Composable override fun Content()</ID>
+    <ID>LongMethod:VoteThemeBottomSheet.kt$VoteThemeBottomSheet$@Composable override fun Content()</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0x94786818</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFF001F7D</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFF00B300</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFF303B47</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFF36B3B3</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFF884DFF</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFFFC0FC0</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFFFF0000</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFFFF66600</ID>
+    <ID>MagicNumber:ColorBottomSheet.kt$ColorBottomSheet$0xFFd7d7d7</ID>
+    <ID>MagicNumber:ColorPickerDialog.kt$255</ID>
+    <ID>MagicNumber:VoteThemeBottomSheet.kt$VoteThemeBottomSheet$3</ID>
+  </CurrentIssues>
+</SmellBaseline>

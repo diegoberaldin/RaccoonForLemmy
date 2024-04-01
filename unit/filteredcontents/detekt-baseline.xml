@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:FilteredContentsScreen.kt$FilteredContentsScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>CyclomaticComplexMethod:FilteredContentsViewModel.kt$FilteredContentsViewModel$override fun reduce(intent: FilteredContentsMviModel.Intent)</ID>
+    <ID>CyclomaticComplexMethod:FilteredContentsViewModel.kt$FilteredContentsViewModel$private suspend fun loadNextPageModded()</ID>
+    <ID>CyclomaticComplexMethod:FilteredContentsViewModel.kt$FilteredContentsViewModel$private suspend fun loadNextPageVotes()</ID>
+    <ID>FunctionNaming:ModdedCommentCard.kt$@Composable fun ModdedCommentCard( comment: CommentModel, postLayout: PostLayout, modifier: Modifier = Modifier, voteFormat: VoteFormat = VoteFormat.Aggregated, autoLoadImages: Boolean = true, preferNicknames: Boolean = true, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, onOpenUser: ((UserModel, String) -&gt; Unit)? = null, onOpen: (() -&gt; Unit)? = null, onUpVote: (() -&gt; Unit)? = null, onDownVote: (() -&gt; Unit)? = null, onSave: (() -&gt; Unit)? = null, onReply: (() -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:ModdedCommentCard.kt$@Composable private fun ModdedCommentFooter( modifier: Modifier = Modifier, communityName: String? = null, postTitle: String? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:ModdedCommentPlaceholder.kt$@Composable fun ModdedCommentPlaceholder( postLayout: PostLayout, )</ID>
+    <ID>LargeClass:FilteredContentsScreen.kt$FilteredContentsScreen : Screen</ID>
+    <ID>LongMethod:FilteredContentsScreen.kt$FilteredContentsScreen$@Composable fun List&lt;ActionOnSwipe&gt;.toSwipeActions(): List&lt;SwipeAction&gt;</ID>
+    <ID>LongMethod:FilteredContentsScreen.kt$FilteredContentsScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:FilteredContentsViewModel.kt$FilteredContentsViewModel$override fun reduce(intent: FilteredContentsMviModel.Intent)</ID>
+    <ID>LongMethod:FilteredContentsViewModel.kt$FilteredContentsViewModel$private suspend fun loadNextPageModded()</ID>
+    <ID>LongMethod:FilteredContentsViewModel.kt$FilteredContentsViewModel$private suspend fun loadNextPageVotes()</ID>
+    <ID>LongMethod:ModdedCommentCard.kt$@Composable private fun ModdedCommentFooter( modifier: Modifier = Modifier, communityName: String? = null, postTitle: String? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:FilteredContentsViewModel.kt$FilteredContentsViewModel$( private val contentsType: Int, private val themeRepository: ThemeRepository, private val settingsRepository: SettingsRepository, private val identityRepository: IdentityRepository, private val postRepository: PostRepository, private val commentRepository: CommentRepository, private val userRepository: UserRepository, private val imagePreloadManager: ImagePreloadManager, private val hapticFeedback: HapticFeedback, private val notificationCenter: NotificationCenter, )</ID>
+    <ID>LongParameterList:ModdedCommentCard.kt$( comment: CommentModel, postLayout: PostLayout, modifier: Modifier = Modifier, voteFormat: VoteFormat = VoteFormat.Aggregated, autoLoadImages: Boolean = true, preferNicknames: Boolean = true, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, onOpenUser: ((UserModel, String) -&gt; Unit)? = null, onOpen: (() -&gt; Unit)? = null, onUpVote: (() -&gt; Unit)? = null, onDownVote: (() -&gt; Unit)? = null, onSave: (() -&gt; Unit)? = null, onReply: (() -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:FilteredContentsScreen.kt$FilteredContentsScreen$5</ID>
+    <ID>MaxLineLength:FilteredContentsScreen.kt$FilteredContentsScreen$FilteredContentsMviModel.Intent.ModDistinguishComment(comment.id)</ID>
+    <ID>MaxLineLength:FilteredContentsScreen.kt$FilteredContentsScreen$FilteredContentsType.Moderated -&gt; LocalXmlStrings.current.moderatorZoneActionContents</ID>
+    <ID>TooGenericExceptionCaught:FilteredContentsViewModel.kt$FilteredContentsViewModel$e: Throwable</ID>
+    <ID>TooManyFunctions:FilteredContentsViewModel.kt$FilteredContentsViewModel : FilteredContentsMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>

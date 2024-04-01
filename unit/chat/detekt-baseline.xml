@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexCondition:InboxChatScreen.kt$InboxChatScreen$!uiState.initial &amp;&amp; !uiState.loading &amp;&amp; !uiState.refreshing &amp;&amp; uiState.canFetchMore</ID>
+    <ID>CyclomaticComplexMethod:InboxChatScreen.kt$InboxChatScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>FunctionNaming:MessageCard.kt$@Composable internal fun MessageCard( isMyMessage: Boolean = false, content: String = "", date: String = "", onOpenCommunity: ((CommunityModel, String) -&gt; Unit)? = null, onOpenUser: ((UserModel, String) -&gt; Unit)? = null, onOpenPost: ((PostModel, String) -&gt; Unit)? = null, onOpenWeb: ((String) -&gt; Unit)? = null, onOpenImage: ((String) -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:MessageCardPlaceholder.kt$@Composable internal fun MessageCardPlaceholder()</ID>
+    <ID>LongMethod:InboxChatScreen.kt$InboxChatScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:MessageCard.kt$@Composable internal fun MessageCard( isMyMessage: Boolean = false, content: String = "", date: String = "", onOpenCommunity: ((CommunityModel, String) -&gt; Unit)? = null, onOpenUser: ((UserModel, String) -&gt; Unit)? = null, onOpenPost: ((PostModel, String) -&gt; Unit)? = null, onOpenWeb: ((String) -&gt; Unit)? = null, onOpenImage: ((String) -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:InboxChatViewModel.kt$InboxChatViewModel$( private val otherUserId: Int, private val identityRepository: IdentityRepository, private val siteRepository: SiteRepository, private val messageRepository: PrivateMessageRepository, private val userRepository: UserRepository, private val settingsRepository: SettingsRepository, private val postRepository: PostRepository, private val notificationCenter: NotificationCenter, )</ID>
+    <ID>LongParameterList:MessageCard.kt$( isMyMessage: Boolean = false, content: String = "", date: String = "", onOpenCommunity: ((CommunityModel, String) -&gt; Unit)? = null, onOpenUser: ((UserModel, String) -&gt; Unit)? = null, onOpenPost: ((PostModel, String) -&gt; Unit)? = null, onOpenWeb: ((String) -&gt; Unit)? = null, onOpenImage: ((String) -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:InboxChatScreen.kt$InboxChatScreen$10</ID>
+  </CurrentIssues>
+</SmellBaseline>

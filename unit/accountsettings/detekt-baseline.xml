@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:AccountSettingsScreen.kt$AccountSettingsScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:AccountSettingsScreen.kt$AccountSettingsScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:AccountSettingsViewModel.kt$AccountSettingsViewModel$override fun reduce(intent: AccountSettingsMviModel.Intent)</ID>
+    <ID>MagicNumber:AccountSettingsScreen.kt$AccountSettingsScreen$1000</ID>
+    <ID>MagicNumber:AccountSettingsScreen.kt$AccountSettingsScreen$3.5f</ID>
+    <ID>SwallowedException:AccountSettingsViewModel.kt$AccountSettingsViewModel$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:AccountSettingsViewModel.kt$AccountSettingsViewModel$e: Exception</ID>
+  </CurrentIssues>
+</SmellBaseline>

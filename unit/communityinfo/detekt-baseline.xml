@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:ModeratorCell.kt$@Composable internal fun ModeratorCell( user: UserModel, autoLoadImages: Boolean = true, onOpenUser: ((UserModel) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:CommunityInfoScreen.kt$CommunityInfoScreen$@Composable override fun Content()</ID>
+    <ID>LongMethod:ModeratorCell.kt$@Composable internal fun ModeratorCell( user: UserModel, autoLoadImages: Boolean = true, onOpenUser: ((UserModel) -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:CommunityInfoScreen.kt$CommunityInfoScreen$0.9f</ID>
+    <ID>MagicNumber:CommunityInfoScreen.kt$CommunityInfoScreen$100</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:AccountItem.kt$@Composable internal fun AccountItem( modifier: Modifier = Modifier, account: AccountModel, autoLoadImages: Boolean = true, onClick: (() -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:AccountItem.kt$@Composable internal fun AccountItem( modifier: Modifier = Modifier, account: AccountModel, autoLoadImages: Boolean = true, onClick: (() -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:ManageAccountsScreen.kt$ManageAccountsScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:AccountItem.kt$( modifier: Modifier = Modifier, account: AccountModel, autoLoadImages: Boolean = true, onClick: (() -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:ManageAccountsScreen.kt$ManageAccountsScreen$0.5f</ID>
+  </CurrentIssues>
+</SmellBaseline>

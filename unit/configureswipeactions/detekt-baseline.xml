@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:ConfigureSwipeActionsScreen.kt$ConfigureSwipeActionsScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>FunctionNaming:ConfigureActionItem.kt$@Composable internal fun ConfigureActionItem( action: ActionOnSwipe, icon: ImageVector, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:ConfigureAddAction.kt$@Composable internal fun ConfigureAddAction( onAdd: () -&gt; Unit, )</ID>
+    <ID>LongMethod:ConfigureActionItem.kt$@Composable internal fun ConfigureActionItem( action: ActionOnSwipe, icon: ImageVector, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:ConfigureSwipeActionsScreen.kt$ConfigureSwipeActionsScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:SelectActionOnSwipeBottomSheet.kt$SelectActionOnSwipeBottomSheet$@Composable override fun Content()</ID>
+    <ID>MaxLineLength:ConfigureSwipeActionsMviModel.kt$ConfigureSwipeActionsMviModel$MviModel&lt;ConfigureSwipeActionsMviModel.Intent, ConfigureSwipeActionsMviModel.UiState, ConfigureSwipeActionsMviModel.Effect&gt;</ID>
+    <ID>MaxLineLength:ConfigureSwipeActionsScreen.kt$ConfigureSwipeActionsScreen$if</ID>
+    <ID>MaxLineLength:ConfigureSwipeActionsViewModel.kt$ConfigureSwipeActionsViewModel$DefaultMviModel&lt;ConfigureSwipeActionsMviModel.Intent, ConfigureSwipeActionsMviModel.UiState, ConfigureSwipeActionsMviModel.Effect&gt;</ID>
+    <ID>TooManyFunctions:ConfigureSwipeActionsViewModel.kt$ConfigureSwipeActionsViewModel : ConfigureSwipeActionsMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>

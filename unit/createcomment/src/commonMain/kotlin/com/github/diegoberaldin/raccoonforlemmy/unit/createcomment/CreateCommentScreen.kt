@@ -233,8 +233,8 @@ class CreateCommentScreen(
                             CreatePostSection.Preview -> 1
                             else -> 0
                         },
-                        onSectionSelected = rememberCallbackArgs { it ->
-                            val section = when (it) {
+                        onSectionSelected = rememberCallbackArgs { id ->
+                            val section = when (id) {
                                 1 -> CreatePostSection.Preview
                                 else -> CreatePostSection.Edit
                             }

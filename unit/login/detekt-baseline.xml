@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:LoginBottomSheet.kt$LoginBottomSheet$@OptIn(ExperimentalComposeUiApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:LoginViewModel.kt$LoginViewModel$private fun submit()</ID>
+    <ID>LongParameterList:LoginViewModel.kt$LoginViewModel$( private val login: LoginUseCase, apiConfigurationRepository: ApiConfigurationRepository, private val identityRepository: IdentityRepository, private val accountRepository: AccountRepository, private val siteRepository: SiteRepository, private val communityRepository: CommunityRepository, private val notificationCenter: NotificationCenter, )</ID>
+  </CurrentIssues>
+</SmellBaseline>

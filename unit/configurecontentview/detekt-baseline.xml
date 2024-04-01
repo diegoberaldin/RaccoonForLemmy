@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:ContentPreview.kt$@Composable internal fun ContentPreview( modifier: Modifier = Modifier, postLayout: PostLayout, preferNicknames: Boolean, showScores: Boolean, voteFormat: VoteFormat, fullHeightImage: Boolean, )</ID>
+    <ID>LongMethod:ConfigureContentViewScreen.kt$ConfigureContentViewScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:ContentPreview.kt$( modifier: Modifier = Modifier, postLayout: PostLayout, preferNicknames: Boolean, showScores: Boolean, voteFormat: VoteFormat, fullHeightImage: Boolean, )</ID>
+    <ID>MaxLineLength:ConfigureContentViewMviModel.kt$ConfigureContentViewMviModel$MviModel&lt;ConfigureContentViewMviModel.Intent, ConfigureContentViewMviModel.State, ConfigureContentViewMviModel.Effect&gt;</ID>
+    <ID>MaxLineLength:ConfigureContentViewViewModel.kt$ConfigureContentViewViewModel$DefaultMviModel&lt;ConfigureContentViewMviModel.Intent, ConfigureContentViewMviModel.State, ConfigureContentViewMviModel.Effect&gt;</ID>
+    <ID>MaxLineLength:ContentPreview.kt$ContentPreviewData$thumbnailUrl = "https://feddit.it/pictrs/image/4c6be082-0bf1-4095-b1cd-5fba8b602832.webp?format=webp&amp;thumbnail=256"</ID>
+    <ID>NewLineAtEndOfFile:ConfigureContentViewViewModel.kt$com.github.diegoberaldin.raccoonforlemmy.unit.configurecontentview.ConfigureContentViewViewModel.kt</ID>
+  </CurrentIssues>
+</SmellBaseline>

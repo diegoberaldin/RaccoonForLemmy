@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:DrawerCommunityItem.kt$@Composable internal fun DrawerCommunityItem( title: String, subtitle: String? = null, modifier: Modifier = Modifier, url: String? = null, favorite: Boolean = false, autoLoadImages: Boolean = true, onSelected: (() -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:DrawerHeader.kt$@Composable internal fun DrawerHeader( modifier: Modifier = Modifier, user: UserModel? = null, instance: String? = null, autoLoadImages: Boolean = true, onOpenChangeInstance: (() -&gt; Unit)? = null, onOpenSwitchAccount: (() -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:DrawerShortcut.kt$@Composable internal fun DrawerShortcut( title: String, icon: ImageVector, modifier: Modifier = Modifier, onSelected: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:DrawerHeader.kt$@Composable internal fun DrawerHeader( modifier: Modifier = Modifier, user: UserModel? = null, instance: String? = null, autoLoadImages: Boolean = true, onOpenChangeInstance: (() -&gt; Unit)? = null, onOpenSwitchAccount: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:ModalDrawerContent.kt$ModalDrawerContent$@OptIn(ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:DrawerCommunityItem.kt$( title: String, subtitle: String? = null, modifier: Modifier = Modifier, url: String? = null, favorite: Boolean = false, autoLoadImages: Boolean = true, onSelected: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:DrawerHeader.kt$( modifier: Modifier = Modifier, user: UserModel? = null, instance: String? = null, autoLoadImages: Boolean = true, onOpenChangeInstance: (() -&gt; Unit)? = null, onOpenSwitchAccount: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:ModalDrawerViewModel.kt$ModalDrawerViewModel$( private val identityRepository: IdentityRepository, private val communityRepository: CommunityRepository, private val accountRepository: AccountRepository, private val multiCommunityRepository: MultiCommunityRepository, private val siteRepository: SiteRepository, private val apiConfigurationRepository: ApiConfigurationRepository, private val settingsRepository: SettingsRepository, private val favoriteCommunityRepository: FavoriteCommunityRepository, private val notificationCenter: NotificationCenter, )</ID>
+    <ID>MagicNumber:ModalDrawerContent.kt$ModalDrawerContent$0.95f</ID>
+    <ID>MagicNumber:ModalDrawerContent.kt$ModalDrawerContent$50</ID>
+    <ID>MagicNumber:ModalDrawerViewModel.kt$ModalDrawerViewModel$1000</ID>
+    <ID>MagicNumber:ModalDrawerViewModel.kt$ModalDrawerViewModel$2000</ID>
+    <ID>MagicNumber:ModalDrawerViewModel.kt$ModalDrawerViewModel$250</ID>
+    <ID>MagicNumber:ModalDrawerViewModel.kt$ModalDrawerViewModel$500</ID>
+  </CurrentIssues>
+</SmellBaseline>

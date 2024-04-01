@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:BanUserScreen.kt$BanUserScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:BanUserViewModel.kt$BanUserViewModel$( private val userId: Int, private val communityId: Int, private val newValue: Boolean, private val postId: Int?, private val commentId: Int?, private val identityRepository: IdentityRepository, private val communityRepository: CommunityRepository, private val notificationCenter: NotificationCenter, )</ID>
+    <ID>TooGenericExceptionCaught:BanUserViewModel.kt$BanUserViewModel$e: Throwable</ID>
+  </CurrentIssues>
+</SmellBaseline>

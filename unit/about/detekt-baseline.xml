@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:AboutDialog.kt$AboutDialog$@Composable fun AboutItem( painter: Painter? = null, vector: ImageVector? = null, text: String, textDecoration: TextDecoration = TextDecoration.None, value: String = "", onClick: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:AboutDialog.kt$AboutDialog$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:AboutDialog.kt$AboutDialog$( painter: Painter? = null, vector: ImageVector? = null, text: String, textDecoration: TextDecoration = TextDecoration.None, value: String = "", onClick: (() -&gt; Unit)? = null, )</ID>
+    <ID>MaxLineLength:AboutConstants.kt$AboutConstants$const val GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=com.github.diegoberaldin.raccoonforlemmy.android"</ID>
+  </CurrentIssues>
+</SmellBaseline>

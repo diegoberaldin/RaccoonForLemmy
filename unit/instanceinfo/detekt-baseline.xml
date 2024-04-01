@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:InstanceInfoScreen.kt$InstanceInfoScreen$@OptIn( ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class, ) @Composable override fun Content()</ID>
+    <ID>MagicNumber:InstanceInfoScreen.kt$InstanceInfoScreen$5</ID>
+  </CurrentIssues>
+</SmellBaseline>

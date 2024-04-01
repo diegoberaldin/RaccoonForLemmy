@@ -448,8 +448,8 @@ class CreatePostScreen(
                     Spacer(modifier = Modifier.weight(1f))
                     Switch(
                         checked = uiState.nsfw,
-                        onCheckedChange = rememberCallbackArgs(model) { it ->
-                            model.reduce(CreatePostMviModel.Intent.ChangeNsfw(it))
+                        onCheckedChange = rememberCallbackArgs(model) { value ->
+                            model.reduce(CreatePostMviModel.Intent.ChangeNsfw(value))
                         },
                     )
                 }
@@ -466,8 +466,8 @@ class CreatePostScreen(
                             CreatePostSection.Preview -> 1
                             else -> 0
                         },
-                        onSectionSelected = rememberCallbackArgs(model) { it ->
-                            val section = when (it) {
+                        onSectionSelected = rememberCallbackArgs(model) { id ->
+                            val section = when (id) {
                                 1 -> CreatePostSection.Preview
                                 else -> CreatePostSection.Edit
                             }

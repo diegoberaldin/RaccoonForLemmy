@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:ManageBanScreen.kt$ManageBanScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>FunctionNaming:InstanceItem.kt$@Composable fun InstanceItem( instance: InstanceModel, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:InstanceItem.kt$@Composable fun InstanceItem( instance: InstanceModel, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:ManageBanScreen.kt$ManageBanScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>MagicNumber:ManageBanScreen.kt$ManageBanScreen$5</ID>
+    <ID>NewLineAtEndOfFile:ManageBanViewModel.kt$com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanViewModel.kt</ID>
+  </CurrentIssues>
+</SmellBaseline>

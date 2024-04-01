@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:ExploreScreen.kt$ExploreScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>CyclomaticComplexMethod:ExploreViewModel.kt$ExploreViewModel$override fun reduce(intent: ExploreMviModel.Intent)</ID>
+    <ID>CyclomaticComplexMethod:ExploreViewModel.kt$ExploreViewModel$private suspend fun loadNextPage()</ID>
+    <ID>FunctionNaming:ExploreTopBar.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun ExploreTopBar( scrollBehavior: TopAppBarScrollBehavior? = null, listingType: ListingType, sortType: SortType, resultType: SearchResultType, otherInstance: String = "", onSelectListingType: (() -&gt; Unit)? = null, onSelectSortType: (() -&gt; Unit)? = null, onSelectResultTypeType: (() -&gt; Unit)? = null, onHamburgerTapped: (() -&gt; Unit)? = null, onBack: (() -&gt; Unit)? = null, )</ID>
+    <ID>LargeClass:ExploreScreen.kt$ExploreScreen : Screen</ID>
+    <ID>LargeClass:ExploreViewModel.kt$ExploreViewModel : ExploreMviModelDefaultMviModel</ID>
+    <ID>LongMethod:ExploreScreen.kt$ExploreScreen$@Composable fun List&lt;ActionOnSwipe&gt;.toSwipeActions(): List&lt;SwipeAction&gt;</ID>
+    <ID>LongMethod:ExploreScreen.kt$ExploreScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:ExploreTopBar.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun ExploreTopBar( scrollBehavior: TopAppBarScrollBehavior? = null, listingType: ListingType, sortType: SortType, resultType: SearchResultType, otherInstance: String = "", onSelectListingType: (() -&gt; Unit)? = null, onSelectSortType: (() -&gt; Unit)? = null, onSelectResultTypeType: (() -&gt; Unit)? = null, onHamburgerTapped: (() -&gt; Unit)? = null, onBack: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:ExploreViewModel.kt$ExploreViewModel$override fun reduce(intent: ExploreMviModel.Intent)</ID>
+    <ID>LongMethod:ExploreViewModel.kt$ExploreViewModel$private suspend fun loadNextPage()</ID>
+    <ID>LongParameterList:ExploreTopBar.kt$( scrollBehavior: TopAppBarScrollBehavior? = null, listingType: ListingType, sortType: SortType, resultType: SearchResultType, otherInstance: String = "", onSelectListingType: (() -&gt; Unit)? = null, onSelectSortType: (() -&gt; Unit)? = null, onSelectResultTypeType: (() -&gt; Unit)? = null, onHamburgerTapped: (() -&gt; Unit)? = null, onBack: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:ExploreViewModel.kt$ExploreViewModel$( private val otherInstance: String, private val apiConfigRepository: ApiConfigurationRepository, private val identityRepository: IdentityRepository, private val communityRepository: CommunityRepository, private val userRepository: UserRepository, private val postRepository: PostRepository, private val commentRepository: CommentRepository, private val themeRepository: ThemeRepository, private val settingsRepository: SettingsRepository, private val notificationCenter: NotificationCenter, private val hapticFeedback: HapticFeedback, private val getSortTypesUseCase: GetSortTypesUseCase, )</ID>
+    <ID>MagicNumber:ExploreScreen.kt$ExploreScreen$5</ID>
+    <ID>MagicNumber:ExploreViewModel.kt$ExploreViewModel$1000</ID>
+    <ID>MaxLineLength:ExploreScreen.kt$ExploreScreen$imageVector = if (uiState.searchText.isEmpty()) Icons.Default.Search else Icons.Default.Clear</ID>
+    <ID>MaxLineLength:ExploreScreen.kt$ExploreScreen$onDoubleClick</ID>
+    <ID>MaxLineLength:ExploreViewModel.kt$ExploreViewModel$if</ID>
+    <ID>NewLineAtEndOfFile:ExploreModule.kt$com.github.diegoberaldin.raccoonforlemmy.unit.explore.di.ExploreModule.kt</ID>
+    <ID>NewLineAtEndOfFile:ExploreViewModel.kt$com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreViewModel.kt</ID>
+    <ID>TooGenericExceptionCaught:ExploreViewModel.kt$ExploreViewModel$e: Throwable</ID>
+    <ID>TooManyFunctions:ExploreViewModel.kt$ExploreViewModel : ExploreMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>
