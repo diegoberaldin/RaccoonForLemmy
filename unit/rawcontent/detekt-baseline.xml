@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:RawContentDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun RawContentDialog( publishDate: String? = null, updateDate: String? = null, title: String? = null, url: String? = null, text: String? = null, isLogged: Boolean = true, onDismiss: (() -&gt; Unit)? = null, onQuote: ((String?) -&gt; Unit)? = null, upVotes: Int? = null, downVotes: Int? = null, )</ID>
+    <ID>LongMethod:RawContentDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun RawContentDialog( publishDate: String? = null, updateDate: String? = null, title: String? = null, url: String? = null, text: String? = null, isLogged: Boolean = true, onDismiss: (() -&gt; Unit)? = null, onQuote: ((String?) -&gt; Unit)? = null, upVotes: Int? = null, downVotes: Int? = null, )</ID>
+    <ID>LongParameterList:RawContentDialog.kt$( publishDate: String? = null, updateDate: String? = null, title: String? = null, url: String? = null, text: String? = null, isLogged: Boolean = true, onDismiss: (() -&gt; Unit)? = null, onQuote: ((String?) -&gt; Unit)? = null, upVotes: Int? = null, downVotes: Int? = null, )</ID>
+    <ID>MagicNumber:RawContentDialog.kt$100</ID>
+  </CurrentIssues>
+</SmellBaseline>

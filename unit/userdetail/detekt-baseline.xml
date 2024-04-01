@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexCondition:UserDetailScreen.kt$UserDetailScreen$!uiState.initial &amp;&amp; !uiState.loading &amp;&amp; !uiState.refreshing &amp;&amp; uiState.canFetchMore</ID>
+    <ID>CyclomaticComplexMethod:UserDetailScreen.kt$UserDetailScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>CyclomaticComplexMethod:UserDetailViewModel.kt$UserDetailViewModel$override fun reduce(intent: UserDetailMviModel.Intent)</ID>
+    <ID>CyclomaticComplexMethod:UserDetailViewModel.kt$UserDetailViewModel$private suspend fun loadNextPage()</ID>
+    <ID>LargeClass:UserDetailScreen.kt$UserDetailScreen : Screen</ID>
+    <ID>LongMethod:UserDetailScreen.kt$UserDetailScreen$@Composable fun List&lt;ActionOnSwipe&gt;.toSwipeActions(): List&lt;SwipeAction&gt;</ID>
+    <ID>LongMethod:UserDetailScreen.kt$UserDetailScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:UserDetailViewModel.kt$UserDetailViewModel$override fun reduce(intent: UserDetailMviModel.Intent)</ID>
+    <ID>LongMethod:UserDetailViewModel.kt$UserDetailViewModel$private suspend fun loadNextPage()</ID>
+    <ID>LongParameterList:UserDetailViewModel.kt$UserDetailViewModel$( private val userId: Int, private val otherInstance: String = "", private val identityRepository: IdentityRepository, private val apiConfigurationRepository: ApiConfigurationRepository, private val userRepository: UserRepository, private val postRepository: PostRepository, private val commentRepository: CommentRepository, private val siteRepository: SiteRepository, private val themeRepository: ThemeRepository, private val shareHelper: ShareHelper, private val hapticFeedback: HapticFeedback, private val settingsRepository: SettingsRepository, private val notificationCenter: NotificationCenter, private val imagePreloadManager: ImagePreloadManager, private val getSortTypesUseCase: GetSortTypesUseCase, private val itemCache: LemmyItemCache, )</ID>
+    <ID>MagicNumber:UserDetailScreen.kt$UserDetailScreen$5</ID>
+    <ID>MaxLineLength:UserDetailScreen.kt$UserDetailScreen$navigationCoordinator.showBottomSheet(UserInfoScreen(uiState.user.id))</ID>
+    <ID>MaxLineLength:UserDetailScreen.kt$UserDetailScreen$this += "https://${uiState.instance}/u/${uiState.user.readableHandle}"</ID>
+    <ID>TooGenericExceptionCaught:UserDetailViewModel.kt$UserDetailViewModel$e: Throwable</ID>
+    <ID>TooManyFunctions:UserDetailViewModel.kt$UserDetailViewModel : UserDetailMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:PostListScreen.kt$PostListScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>CyclomaticComplexMethod:PostListViewModel.kt$PostListViewModel$override fun reduce(intent: PostListMviModel.Intent)</ID>
+    <ID>CyclomaticComplexMethod:PostListViewModel.kt$PostListViewModel$private suspend fun loadNextPage()</ID>
+    <ID>FunctionNaming:PostsTopBar.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun PostsTopBar( scrollBehavior: TopAppBarScrollBehavior? = null, topAppBarState: TopAppBarState, currentInstance: String, listingType: ListingType?, sortType: SortType?, edgeToEdge: Boolean = true, onSelectListingType: (() -&gt; Unit)? = null, onSelectInstance: (() -&gt; Unit)? = null, onSelectSortType: (() -&gt; Unit)? = null, onHamburgerTapped: (() -&gt; Unit)? = null, )</ID>
+    <ID>LargeClass:PostListScreen.kt$PostListScreen : Screen</ID>
+    <ID>LongMethod:PostListScreen.kt$PostListScreen$@Composable fun List&lt;ActionOnSwipe&gt;.toSwipeActions(): List&lt;SwipeAction&gt;</ID>
+    <ID>LongMethod:PostListScreen.kt$PostListScreen$@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:PostListViewModel.kt$PostListViewModel$override fun reduce(intent: PostListMviModel.Intent)</ID>
+    <ID>LongMethod:PostListViewModel.kt$PostListViewModel$private suspend fun loadNextPage()</ID>
+    <ID>LongMethod:PostsTopBar.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun PostsTopBar( scrollBehavior: TopAppBarScrollBehavior? = null, topAppBarState: TopAppBarState, currentInstance: String, listingType: ListingType?, sortType: SortType?, edgeToEdge: Boolean = true, onSelectListingType: (() -&gt; Unit)? = null, onSelectInstance: (() -&gt; Unit)? = null, onSelectSortType: (() -&gt; Unit)? = null, onHamburgerTapped: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:PostListViewModel.kt$PostListViewModel$( private val postRepository: PostRepository, private val apiConfigurationRepository: ApiConfigurationRepository, private val identityRepository: IdentityRepository, private val siteRepository: SiteRepository, private val themeRepository: ThemeRepository, private val shareHelper: ShareHelper, private val settingsRepository: SettingsRepository, private val userRepository: UserRepository, private val communityRepository: CommunityRepository, private val notificationCenter: NotificationCenter, private val hapticFeedback: HapticFeedback, private val zombieModeHelper: ZombieModeHelper, private val imagePreloadManager: ImagePreloadManager, private val getSortTypesUseCase: GetSortTypesUseCase, )</ID>
+    <ID>LongParameterList:PostsTopBar.kt$( scrollBehavior: TopAppBarScrollBehavior? = null, topAppBarState: TopAppBarState, currentInstance: String, listingType: ListingType?, sortType: SortType?, edgeToEdge: Boolean = true, onSelectListingType: (() -&gt; Unit)? = null, onSelectInstance: (() -&gt; Unit)? = null, onSelectSortType: (() -&gt; Unit)? = null, onHamburgerTapped: (() -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:PostListScreen.kt$PostListScreen$350</ID>
+    <ID>MagicNumber:PostListScreen.kt$PostListScreen$5</ID>
+    <ID>MagicNumber:PostListViewModel.kt$PostListViewModel$100</ID>
+    <ID>TooGenericExceptionCaught:PostListViewModel.kt$PostListViewModel$e: Throwable</ID>
+    <ID>TooManyFunctions:PostListViewModel.kt$PostListViewModel : PostListMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>

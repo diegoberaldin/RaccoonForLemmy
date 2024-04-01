@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:ZoomableImageScreen.kt$ZoomableImageScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>TooGenericExceptionCaught:ZoomableImageViewModel.kt$ZoomableImageViewModel$e: Throwable</ID>
+  </CurrentIssues>
+</SmellBaseline>

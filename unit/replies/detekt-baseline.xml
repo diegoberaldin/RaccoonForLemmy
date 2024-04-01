@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:InboxRepliesScreen.kt$InboxRepliesScreen$@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:InboxRepliesScreen.kt$InboxRepliesScreen$@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:InboxRepliesViewModel.kt$InboxRepliesViewModel$( private val identityRepository: IdentityRepository, private val userRepository: UserRepository, private val siteRepository: SiteRepository, private val commentRepository: CommentRepository, private val themeRepository: ThemeRepository, private val hapticFeedback: HapticFeedback, private val coordinator: InboxCoordinator, private val notificationCenter: NotificationCenter, private val settingsRepository: SettingsRepository, )</ID>
+    <ID>MagicNumber:InboxRepliesScreen.kt$InboxRepliesScreen$3</ID>
+    <ID>SwallowedException:InboxRepliesViewModel.kt$InboxRepliesViewModel$e: Throwable</ID>
+    <ID>TooGenericExceptionCaught:InboxRepliesViewModel.kt$InboxRepliesViewModel$e: Throwable</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:SelectCommunityDialog.kt$SelectCommunityDialog$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>MagicNumber:SelectCommunityDialog.kt$SelectCommunityDialog$5</ID>
+    <ID>MagicNumber:SelectCommunityViewModel.kt$SelectCommunityViewModel$1000</ID>
+  </CurrentIssues>
+</SmellBaseline>

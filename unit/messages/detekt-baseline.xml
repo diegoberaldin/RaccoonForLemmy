@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexCondition:InboxMessagesScreen.kt$InboxMessagesScreen$!uiState.initial &amp;&amp; !uiState.loading &amp;&amp; !uiState.refreshing &amp;&amp; uiState.canFetchMore</ID>
+    <ID>CyclomaticComplexMethod:InboxMessagesScreen.kt$InboxMessagesScreen$@OptIn(ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>FunctionNaming:ChatCard.kt$@Composable internal fun ChatCard( user: UserModel?, autoLoadImages: Boolean = true, preferNicknames: Boolean = true, lastMessage: String, lastMessageDate: String? = null, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOpenUser: ((UserModel) -&gt; Unit)? = null, onOpen: (() -&gt; Unit)? = null, onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:ChatCardPlaceholder.kt$@Composable internal fun ChatCardPlaceholder()</ID>
+    <ID>LongMethod:ChatCard.kt$@Composable internal fun ChatCard( user: UserModel?, autoLoadImages: Boolean = true, preferNicknames: Boolean = true, lastMessage: String, lastMessageDate: String? = null, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOpenUser: ((UserModel) -&gt; Unit)? = null, onOpen: (() -&gt; Unit)? = null, onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:InboxMessagesScreen.kt$InboxMessagesScreen$@OptIn(ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:ChatCard.kt$( user: UserModel?, autoLoadImages: Boolean = true, preferNicknames: Boolean = true, lastMessage: String, lastMessageDate: String? = null, modifier: Modifier = Modifier, options: List&lt;Option&gt; = emptyList(), onOpenUser: ((UserModel) -&gt; Unit)? = null, onOpen: (() -&gt; Unit)? = null, onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:InboxMessagesScreen.kt$InboxMessagesScreen$3</ID>
+  </CurrentIssues>
+</SmellBaseline>

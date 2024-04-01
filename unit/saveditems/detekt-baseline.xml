@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:SavedItemsScreen.kt$SavedItemsScreen$@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>CyclomaticComplexMethod:SavedItemsViewModel.kt$SavedItemsViewModel$override fun reduce(intent: SavedItemsMviModel.Intent)</ID>
+    <ID>LongMethod:SavedItemsScreen.kt$SavedItemsScreen$@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:SavedItemsViewModel.kt$SavedItemsViewModel$private fun loadNextPage()</ID>
+    <ID>LongParameterList:SavedItemsViewModel.kt$SavedItemsViewModel$( private val identityRepository: IdentityRepository, private val apiConfigurationRepository: ApiConfigurationRepository, private val siteRepository: SiteRepository, private val userRepository: UserRepository, private val postRepository: PostRepository, private val commentRepository: CommentRepository, private val themeRepository: ThemeRepository, private val settingsRepository: SettingsRepository, private val shareHelper: ShareHelper, private val notificationCenter: NotificationCenter, private val hapticFeedback: HapticFeedback, private val getSortTypesUseCase: GetSortTypesUseCase, )</ID>
+    <ID>TooGenericExceptionCaught:SavedItemsViewModel.kt$SavedItemsViewModel$e: Throwable</ID>
+    <ID>TooManyFunctions:SavedItemsViewModel.kt$SavedItemsViewModel : SavedItemsMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>

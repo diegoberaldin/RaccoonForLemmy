@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:InboxMentionsScreen.kt$InboxMentionsScreen$@OptIn(ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:InboxMentionsScreen.kt$InboxMentionsScreen$@Composable fun List&lt;ActionOnSwipe&gt;.toSwipeActions(): List&lt;SwipeAction&gt;</ID>
+    <ID>LongMethod:InboxMentionsScreen.kt$InboxMentionsScreen$@OptIn(ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongParameterList:InboxMentionsViewModel.kt$InboxMentionsViewModel$( private val identityRepository: IdentityRepository, private val userRepository: UserRepository, private val commentRepository: CommentRepository, private val themeRepository: ThemeRepository, private val settingsRepository: SettingsRepository, private val hapticFeedback: HapticFeedback, private val coordinator: InboxCoordinator, private val notificationCenter: NotificationCenter, )</ID>
+    <ID>MagicNumber:InboxMentionsScreen.kt$InboxMentionsScreen$3</ID>
+    <ID>SwallowedException:InboxMentionsViewModel.kt$InboxMentionsViewModel$e: Throwable</ID>
+    <ID>TooGenericExceptionCaught:InboxMentionsViewModel.kt$InboxMentionsViewModel$e: Throwable</ID>
+  </CurrentIssues>
+</SmellBaseline>

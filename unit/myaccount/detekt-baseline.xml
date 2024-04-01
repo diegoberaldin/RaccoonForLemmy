@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:ProfileLoggedScreen.kt$ProfileLoggedScreen$@OptIn(ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>CyclomaticComplexMethod:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$override fun reduce(intent: ProfileLoggedMviModel.Intent)</ID>
+    <ID>CyclomaticComplexMethod:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$private suspend fun loadNextPage()</ID>
+    <ID>FunctionNaming:ProfileShortcutSection.kt$@Composable internal fun ProfileShortcutSection( modifier: Modifier = Modifier, isMod: Boolean = false, onOpenSubscriptions: (() -&gt; Unit)? = null, onOpenSaved: (() -&gt; Unit)? = null, onOpenDrafts: (() -&gt; Unit)? = null, onOpenVotes: (() -&gt; Unit)? = null, onOpenModeratorZone: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:ProfileLoggedScreen.kt$ProfileLoggedScreen$@OptIn(ExperimentalMaterialApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$override fun reduce(intent: ProfileLoggedMviModel.Intent)</ID>
+    <ID>LongMethod:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$private suspend fun loadNextPage()</ID>
+    <ID>LongParameterList:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$( private val identityRepository: IdentityRepository, private val apiConfigurationRepository: ApiConfigurationRepository, private val postRepository: PostRepository, private val commentRepository: CommentRepository, private val userRepository: UserRepository, private val themeRepository: ThemeRepository, private val settingsRepository: SettingsRepository, private val shareHelper: ShareHelper, private val notificationCenter: NotificationCenter, private val hapticFeedback: HapticFeedback, )</ID>
+    <ID>LongParameterList:ProfileShortcutSection.kt$( modifier: Modifier = Modifier, isMod: Boolean = false, onOpenSubscriptions: (() -&gt; Unit)? = null, onOpenSaved: (() -&gt; Unit)? = null, onOpenDrafts: (() -&gt; Unit)? = null, onOpenVotes: (() -&gt; Unit)? = null, onOpenModeratorZone: (() -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:ProfileLoggedScreen.kt$ProfileLoggedScreen$5</ID>
+    <ID>MagicNumber:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$2000</ID>
+    <ID>MagicNumber:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$250</ID>
+    <ID>MagicNumber:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$500</ID>
+    <ID>TooGenericExceptionCaught:ProfileLoggedViewModel.kt$ProfileLoggedViewModel$e: Throwable</ID>
+    <ID>TooManyFunctions:ProfileLoggedViewModel.kt$ProfileLoggedViewModel : ProfileLoggedMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>

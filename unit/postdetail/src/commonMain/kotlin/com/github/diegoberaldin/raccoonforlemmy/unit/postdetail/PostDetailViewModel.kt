@@ -330,10 +330,11 @@ class PostDetailViewModel(
 
             PostDetailMviModel.Intent.ModFeaturePost -> feature(uiState.value.post)
             PostDetailMviModel.Intent.ModLockPost -> lock(uiState.value.post)
-            is PostDetailMviModel.Intent.ModDistinguishComment -> uiState.value.comments.firstOrNull { it.id == intent.commentId }
-                ?.also { comment ->
-                    distinguish(comment)
-                }
+            is PostDetailMviModel.Intent.ModDistinguishComment -> uiState.value.comments.firstOrNull {
+                it.id == intent.commentId
+            }?.also { comment ->
+                distinguish(comment)
+            }
 
             is PostDetailMviModel.Intent.ModToggleModUser -> toggleModeratorStatus(intent.id)
             is PostDetailMviModel.Intent.Copy -> screenModelScope.launch {

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>FunctionNaming:ChangeInstanceDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun ChangeInstanceDialog( instanceName: String = "", loading: Boolean = false, instanceNameError: ValidationError? = null, onChangeInstanceName: ((String) -&gt; Unit)? = null, onClose: (() -&gt; Unit)? = null, onSubmit: (() -&gt; Unit)? = null, )</ID>
+    <ID>FunctionNaming:SelectInstanceItem.kt$@Composable internal fun SelectInstanceItem( modifier: Modifier = Modifier, instance: String, isActive: Boolean = false, onClick: (() -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:ChangeInstanceDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun ChangeInstanceDialog( instanceName: String = "", loading: Boolean = false, instanceNameError: ValidationError? = null, onChangeInstanceName: ((String) -&gt; Unit)? = null, onClose: (() -&gt; Unit)? = null, onSubmit: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:SelectInstanceBottomSheet.kt$SelectInstanceBottomSheet$@OptIn(ExperimentalFoundationApi::class) @Composable override fun Content()</ID>
+    <ID>LongMethod:SelectInstanceItem.kt$@Composable internal fun SelectInstanceItem( modifier: Modifier = Modifier, instance: String, isActive: Boolean = false, onClick: (() -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:ChangeInstanceDialog.kt$( instanceName: String = "", loading: Boolean = false, instanceNameError: ValidationError? = null, onChangeInstanceName: ((String) -&gt; Unit)? = null, onClose: (() -&gt; Unit)? = null, onSubmit: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongParameterList:SelectInstanceItem.kt$( modifier: Modifier = Modifier, instance: String, isActive: Boolean = false, onClick: (() -&gt; Unit)? = null, options: List&lt;Option&gt; = emptyList(), onOptionSelected: ((OptionId) -&gt; Unit)? = null, )</ID>
+    <ID>MagicNumber:SelectInstanceBottomSheet.kt$SelectInstanceBottomSheet$0.6f</ID>
+    <ID>MagicNumber:SelectInstanceViewModel.kt$SelectInstanceViewModel$500</ID>
+  </CurrentIssues>
+</SmellBaseline>

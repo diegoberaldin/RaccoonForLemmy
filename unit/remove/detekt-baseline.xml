@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:RemoveScreen.kt$RemoveScreen$@OptIn(ExperimentalMaterial3Api::class) @Composable override fun Content()</ID>
+    <ID>TooGenericExceptionCaught:RemoveViewModel.kt$RemoveViewModel$e: Throwable</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -101,7 +101,11 @@ class SelectCommunityDialog : Screen {
                                     }
                                 },
                             ),
-                            imageVector = if (uiState.searchText.isEmpty()) Icons.Default.Search else Icons.Default.Clear,
+                            imageVector = if (uiState.searchText.isEmpty()) {
+                                Icons.Default.Search
+                            } else {
+                                Icons.Default.Clear
+                            },
                             contentDescription = null,
                         )
                     },

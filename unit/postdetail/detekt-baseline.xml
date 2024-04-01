@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:PostDetailScreen.kt$PostDetailScreen$@OptIn( ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class, ExperimentalLayoutApi::class, ) @Composable override fun Content()</ID>
+    <ID>CyclomaticComplexMethod:PostDetailViewModel.kt$PostDetailViewModel$override fun reduce(intent: PostDetailMviModel.Intent)</ID>
+    <ID>LargeClass:PostDetailScreen.kt$PostDetailScreen : Screen</ID>
+    <ID>LargeClass:PostDetailViewModel.kt$PostDetailViewModel : PostDetailMviModelDefaultMviModel</ID>
+    <ID>LongMethod:PostDetailScreen.kt$PostDetailScreen$@Composable fun List&lt;ActionOnSwipe&gt;.toSwipeActions(): List&lt;SwipeAction&gt;</ID>
+    <ID>LongMethod:PostDetailScreen.kt$PostDetailScreen$@OptIn( ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class, ExperimentalLayoutApi::class, ) @Composable override fun Content()</ID>
+    <ID>LongMethod:PostDetailViewModel.kt$PostDetailViewModel$override fun reduce(intent: PostDetailMviModel.Intent)</ID>
+    <ID>LongMethod:PostDetailViewModel.kt$PostDetailViewModel$private suspend fun loadNextPage()</ID>
+    <ID>LongParameterList:PostDetailViewModel.kt$PostDetailViewModel$( private val postId: Int, private val otherInstance: String, private val highlightCommentId: Int?, private val isModerator: Boolean, private val identityRepository: IdentityRepository, private val apiConfigurationRepository: ApiConfigurationRepository, private val siteRepository: SiteRepository, private val postRepository: PostRepository, private val commentRepository: CommentRepository, private val communityRepository: CommunityRepository, private val themeRepository: ThemeRepository, private val settingsRepository: SettingsRepository, private val shareHelper: ShareHelper, private val notificationCenter: NotificationCenter, private val hapticFeedback: HapticFeedback, private val getSortTypesUseCase: GetSortTypesUseCase, private val itemCache: LemmyItemCache, )</ID>
+    <ID>MagicNumber:PostDetailScreen.kt$PostDetailScreen$250</ID>
+    <ID>MagicNumber:PostDetailScreen.kt$PostDetailScreen$5</ID>
+    <ID>MagicNumber:PostDetailViewModel.kt$PostDetailViewModel$1_000</ID>
+    <ID>MaxLineLength:PostDetailScreen.kt$PostDetailScreen$LocalXmlStrings.current.modActionUnmarkAsDistinguished</ID>
+    <ID>MaxLineLength:PostDetailScreen.kt$PostDetailScreen$model.reduce(PostDetailMviModel.Intent.ChangeSearching(!uiState.searching))</ID>
+    <ID>MaxLineLength:PostDetailScreen.kt$PostDetailScreen$source = uiState.post.community?.readableHandle.orEmpty()</ID>
+    <ID>TooGenericExceptionCaught:PostDetailViewModel.kt$PostDetailViewModel$e: Throwable</ID>
+    <ID>TooManyFunctions:PostDetailViewModel.kt$PostDetailViewModel : PostDetailMviModelDefaultMviModel</ID>
+  </CurrentIssues>
+</SmellBaseline>
