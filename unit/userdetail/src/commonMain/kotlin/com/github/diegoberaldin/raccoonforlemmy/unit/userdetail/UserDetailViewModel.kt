@@ -229,9 +229,7 @@ class UserDetailViewModel(
 
     private fun changeSection(section: UserDetailSection) {
         updateState {
-            it.copy(
-                section = section,
-            )
+            it.copy(section = section)
         }
     }
 
@@ -254,6 +252,7 @@ class UserDetailViewModel(
                 canFetchMore = true,
                 refreshing = true,
                 initial = initial,
+                loading = false,
             )
         }
         val auth = identityRepository.authToken.value

@@ -73,7 +73,13 @@ class InstanceInfoViewModel(
 
     private fun refresh() {
         currentPage = 1
-        updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState {
+            it.copy(
+                canFetchMore = true,
+                refreshing = true,
+                loading = false,
+            )
+        }
         loadNextPage()
     }
 

@@ -70,7 +70,7 @@ class ManageBanViewModel(
                 bannedUsers = bans?.users.orEmpty(),
                 bannedCommunities = bans?.communities.orEmpty(),
                 bannedInstances = bans?.instances.orEmpty(),
-                initial = false
+                initial = false,
             )
         }
     }

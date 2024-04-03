@@ -166,6 +166,7 @@ class FilteredContentsViewModel(
                 canFetchMore = true,
                 refreshing = true,
                 initial = initial,
+                loading = false,
             )
         }
         screenModelScope.launch {

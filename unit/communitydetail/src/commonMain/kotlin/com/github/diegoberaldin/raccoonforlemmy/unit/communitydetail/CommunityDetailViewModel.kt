@@ -320,6 +320,7 @@ class CommunityDetailViewModel(
                 it.copy(
                     community = refreshedCommunity,
                     moderators = moderators,
+                    loading = false,
                 )
             }
         }

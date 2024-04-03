@@ -105,6 +105,7 @@ class ReportListViewModel(
                 canFetchMore = true,
                 refreshing = true,
                 initial = initial,
+                loading = false,
             )
         }
         screenModelScope.launch {

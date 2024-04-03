@@ -156,6 +156,7 @@ class SavedItemsViewModel(
             it.copy(
                 canFetchMore = true,
                 refreshing = true,
+                loading = false,
             )
         }
         loadNextPage()

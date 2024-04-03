@@ -109,7 +109,8 @@ class InboxMentionsViewModel(
             it.copy(
                 initial = initial,
                 canFetchMore = true,
-                refreshing = true
+                refreshing = true,
+                loading = false,
             )
         }
         loadNextPage()

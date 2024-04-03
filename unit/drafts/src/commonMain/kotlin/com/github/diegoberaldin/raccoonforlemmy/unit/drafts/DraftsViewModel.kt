@@ -58,6 +58,7 @@ class DraftsViewModel(
             it.copy(
                 refreshing = true,
                 initial = initial,
+                loading = false,
             )
         }
         screenModelScope.launch {

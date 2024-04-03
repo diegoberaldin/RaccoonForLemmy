@@ -167,7 +167,14 @@ class MultiCommunityViewModel(
     private fun refresh(initial: Boolean = false) {
         hideReadPosts = false
         paginator.reset()
-        updateState { it.copy(canFetchMore = true, refreshing = true, initial = initial) }
+        updateState {
+            it.copy(
+                canFetchMore = true,
+                refreshing = true,
+                initial = initial,
+                loading = false,
+            )
+        }
         loadNextPage()
     }
 
@@ -191,7 +198,7 @@ class MultiCommunityViewModel(
                 currentIds = if (refreshing) emptyList() else currentState.posts.map { it.id }
             )
             val canFetchMore = paginator.canFetchMore
-            val itemsToAdd = itemList.let{
+            val itemsToAdd = itemList.let {
                 if (includeNsfw) {
                     it
                 } else {

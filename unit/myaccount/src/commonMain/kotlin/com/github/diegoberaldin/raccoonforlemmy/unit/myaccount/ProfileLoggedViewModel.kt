@@ -216,6 +216,7 @@ class ProfileLoggedViewModel(
                 canFetchMore = true,
                 refreshing = true,
                 initial = initial,
+                loading = false,
             )
         }
         loadNextPage()

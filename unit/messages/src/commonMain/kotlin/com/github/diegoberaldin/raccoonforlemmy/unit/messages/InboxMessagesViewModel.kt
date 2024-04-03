@@ -87,7 +87,8 @@ class InboxMessagesViewModel(
             it.copy(
                 initial = initial,
                 canFetchMore = true,
-                refreshing = true
+                refreshing = true,
+                loading = false,
             )
         }
         loadNextPage()

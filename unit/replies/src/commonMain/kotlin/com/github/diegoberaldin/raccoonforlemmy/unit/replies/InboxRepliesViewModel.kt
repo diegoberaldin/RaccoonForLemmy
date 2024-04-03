@@ -113,7 +113,8 @@ class InboxRepliesViewModel(
             it.copy(
                 initial = initial,
                 canFetchMore = true,
-                refreshing = true
+                refreshing = true,
+                loading = false,
             )
         }
         val auth = identityRepository.authToken.value
