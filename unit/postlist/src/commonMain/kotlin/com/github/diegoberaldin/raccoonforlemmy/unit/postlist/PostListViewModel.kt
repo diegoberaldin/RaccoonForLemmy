@@ -114,7 +114,7 @@ class PostListViewModel(
                 handleLogout()
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.InstanceSelected::class).onEach {
-                refresh()
+                refresh(initial = true)
                 delay(100)
                 emitEffect(PostListMviModel.Effect.BackToTop)
             }.launchIn(this)
@@ -162,7 +162,7 @@ class PostListViewModel(
             )
         }
         screenModelScope.launch {
-            refresh()
+            refresh(initial = true)
             emitEffect(PostListMviModel.Effect.BackToTop)
         }
     }
@@ -249,11 +249,18 @@ class PostListViewModel(
         }
     }
 
-    private suspend fun refresh() {
+    private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
         pageCursor = null
         hideReadPosts = false
-        updateState { it.copy(canFetchMore = true, refreshing = true) }
+        updateState {
+            it.copy(
+                initial = initial,
+                canFetchMore = true,
+                refreshing = true,
+                loading = false,
+            )
+        }
         loadNextPage()
         if (identityRepository.isLogged.value == null) {
             identityRepository.refreshLoggedState()
@@ -328,9 +335,10 @@ class PostListViewModel(
             }
             it.copy(
                 posts = newPosts,
-                loading = false,
+                loading = if (it.initial) itemsToAdd.isEmpty() else false,
                 canFetchMore = itemList?.isEmpty() != true,
                 refreshing = false,
+                initial = if (it.initial) itemsToAdd.isEmpty() else false,
             )
         }
     }

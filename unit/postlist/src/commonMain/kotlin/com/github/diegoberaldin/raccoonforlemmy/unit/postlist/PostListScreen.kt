@@ -328,7 +328,7 @@ class PostListScreen : Screen {
                         state = lazyListState,
                         userScrollEnabled = !uiState.zombieModeActive,
                     ) {
-                        if (uiState.posts.isEmpty() && uiState.loading) {
+                        if (uiState.posts.isEmpty() && uiState.initial && uiState.loading) {
                             items(5) {
                                 PostCardPlaceholder(
                                     postLayout = uiState.postLayout,
@@ -669,7 +669,7 @@ class PostListScreen : Screen {
                             }
                         }
                         item {
-                            if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
+                            if (!uiState.initial && !uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
                                 if (settings.infiniteScrollEnabled) {
                                     model.reduce(PostListMviModel.Intent.LoadNextPage)
                                 } else {
@@ -704,7 +704,7 @@ class PostListScreen : Screen {
                                 }
                             }
                         }
-                        if (uiState.posts.isEmpty() && !uiState.loading) {
+                        if (uiState.posts.isEmpty() && !uiState.initial && !uiState.loading) {
                             item {
                                 Text(
                                     modifier = Modifier.fillMaxWidth()
