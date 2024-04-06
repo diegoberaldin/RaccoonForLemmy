@@ -2,7 +2,7 @@
 
 androidx_activity = "1.8.2"
 androidx_crypto = "1.0.0"
-androidx_media3 = "1.2.0"
+androidx_media3 = "1.3.0"
 androidx_splashscreen = "1.0.1"
 android_gradle = "8.2.2"
 coil = "2.6.0"
@@ -10,7 +10,7 @@ compose = "1.6.1"
 compose_compiler = "1.5.10"
 detekt = "1.23.6"
 kamel = "0.9.4"
-koin = "3.5.3"
+koin = "3.5.4"
 kotlin = "1.9.23"
 kotlincrypto = "0.3.0"
 kotlinx_coroutines = "1.8.0"
@@ -19,13 +19,12 @@ ksp = "1.9.23-1.0.19"
 ktor = "2.3.8"
 ktorfit_gradle = "1.12.0"
 ktorfit_lib = "1.12.0"
-lyricist = "1.6.2-1.8.20"
-markdown = "0.6.1"
+lyricist = "1.7.0"
 materialKolor = "1.4.4"
 mockk = "1.13.9"
-multiplatform_markdown_renderer = "0.13.0"
+multiplatform_markdown_renderer = "0.14.0"
 multiplatform_settings = "1.1.1"
-reorderable = "1.3.3"
+reorderable = "1.4.0"
 sqlcipher = "4.5.5"
 sqldelight = "2.0.1"
 turbine = "1.0.0"
@@ -46,7 +45,6 @@ coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil_compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil_gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 
-markdown = { module = "org.jetbrains:markdown", version.ref = "markdown" }
 multiplatform_markdown_renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform.markdown.renderer" }
 multiplatform_markdown_renderer_m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "multiplatform.markdown.renderer" }
 
