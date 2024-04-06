@@ -193,7 +193,7 @@ internal class DefaultSettingsRepository(
                     commentBarThickness = keyStore[KeyStoreKeys.COMMENT_BAR_THICKNESS, 1],
                     imageSourcePath = keyStore[KeyStoreKeys.IMAGE_SOURCE_PATH, false],
                     defaultLanguageId = if (keyStore.containsKey(KeyStoreKeys.DEFAULT_LANGUAGE_ID)) {
-                        keyStore[KeyStoreKeys.DEFAULT_LANGUAGE_ID, 0]
+                        keyStore[KeyStoreKeys.DEFAULT_LANGUAGE_ID, 0L]
                     } else null,
                 )
             } else {
@@ -439,5 +439,5 @@ private fun GetBy.toModel() = SettingsModel(
     commentBarThickness = commentBarThickness.toInt(),
     imageSourcePath = imageSourcePath == 1L,
     defaultExploreType = defaultExploreType.toInt(),
-    defaultLanguageId = defaultLanguageId?.toInt(),
+    defaultLanguageId = defaultLanguageId,
 )

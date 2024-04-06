@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ModHideCommunity(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: ModlogItemId,
     @SerialName("hidden") val hidden: Boolean,
     @SerialName("reason") val reason: String? = null,
     @SerialName("when_") val date: String? = null,

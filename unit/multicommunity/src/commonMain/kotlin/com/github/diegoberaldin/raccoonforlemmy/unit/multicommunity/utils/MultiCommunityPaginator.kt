@@ -6,12 +6,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 interface MultiCommunityPaginator {
     val canFetchMore: Boolean
 
-    fun setCommunities(ids: List<Int>)
+    fun setCommunities(ids: List<Long>)
     fun reset()
 
     suspend fun loadNextPage(
         auth: String? = null,
         sort: SortType,
-        currentIds: List<Int> = emptyList(),
+        currentIds: List<Long> = emptyList(),
     ): List<PostModel>
 }

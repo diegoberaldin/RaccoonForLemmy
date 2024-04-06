@@ -29,7 +29,7 @@ internal class DefaultCommentRepository(
 ) : CommentRepository {
 
     override suspend fun getAll(
-        postId: Int?,
+        postId: Long?,
         auth: String?,
         instance: String?,
         page: Int,
@@ -66,7 +66,7 @@ internal class DefaultCommentRepository(
         }.getOrNull()
     }
 
-    override suspend fun getBy(id: Int, auth: String?, instance: String?): CommentModel? =
+    override suspend fun getBy(id: Long, auth: String?, instance: String?): CommentModel? =
         withContext(Dispatchers.IO) {
             runCatching {
                 if (instance.isNullOrEmpty()) {
@@ -83,7 +83,7 @@ internal class DefaultCommentRepository(
         }
 
     override suspend fun getChildren(
-        parentId: Int,
+        parentId: Long,
         auth: String?,
         instance: String?,
         limit: Int,
@@ -228,10 +228,10 @@ internal class DefaultCommentRepository(
     }
 
     override suspend fun create(
-        postId: Int,
-        parentId: Int?,
+        postId: Long,
+        parentId: Long?,
         text: String,
-        languageId: Int?,
+        languageId: Long?,
         auth: String,
     ) = withContext(Dispatchers.IO) {
         runCatching {
@@ -248,9 +248,9 @@ internal class DefaultCommentRepository(
     }
 
     override suspend fun edit(
-        commentId: Int,
+        commentId: Long,
         text: String,
-        languageId: Int?,
+        languageId: Long?,
         auth: String,
     ) = withContext(Dispatchers.IO) {
         runCatching {
@@ -266,7 +266,7 @@ internal class DefaultCommentRepository(
     }
 
     override suspend fun delete(
-        commentId: Int,
+        commentId: Long,
         auth: String,
     ) = withContext(Dispatchers.IO) {
         runCatching {
@@ -279,7 +279,7 @@ internal class DefaultCommentRepository(
         }.getOrDefault(Unit)
     }
 
-    override suspend fun report(commentId: Int, reason: String, auth: String) =
+    override suspend fun report(commentId: Long, reason: String, auth: String) =
         withContext(Dispatchers.IO) {
             runCatching {
                 val data = CreateCommentReportForm(
@@ -296,7 +296,7 @@ internal class DefaultCommentRepository(
         }
 
     override suspend fun remove(
-        commentId: Int,
+        commentId: Long,
         auth: String,
         removed: Boolean,
         reason: String,
@@ -317,7 +317,7 @@ internal class DefaultCommentRepository(
     }
 
     override suspend fun distinguish(
-        commentId: Int,
+        commentId: Long,
         auth: String,
         distinguished: Boolean,
     ): CommentModel? = withContext(Dispatchers.IO) {
@@ -337,7 +337,7 @@ internal class DefaultCommentRepository(
 
     override suspend fun getReports(
         auth: String,
-        communityId: Int?,
+        communityId: Long?,
         page: Int,
         limit: Int,
         unresolvedOnly: Boolean,
@@ -358,7 +358,7 @@ internal class DefaultCommentRepository(
     }
 
     override suspend fun resolveReport(
-        reportId: Int,
+        reportId: Long,
         auth: String,
         resolved: Boolean,
     ): CommentReportModel? = withContext(Dispatchers.IO) {

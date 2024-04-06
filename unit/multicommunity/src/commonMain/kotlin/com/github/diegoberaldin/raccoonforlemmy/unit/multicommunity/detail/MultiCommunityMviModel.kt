@@ -16,18 +16,18 @@ interface MultiCommunityMviModel :
         data object Refresh : Intent
         data object LoadNextPage : Intent
         data object HapticIndication : Intent
-        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class MarkAsRead(val id: Int) : Intent
-        data class Hide(val id: Int) : Intent
+        data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class MarkAsRead(val id: Long) : Intent
+        data class Hide(val id: Long) : Intent
         data object ClearRead : Intent
         data class Share(val url: String) : Intent
         data class Copy(val value: String) : Intent
     }
 
     data class UiState(
-        val currentUserId: Int? = null,
+        val currentUserId: Long? = null,
         val initial: Boolean = true,
         val refreshing: Boolean = false,
         val loading: Boolean = false,

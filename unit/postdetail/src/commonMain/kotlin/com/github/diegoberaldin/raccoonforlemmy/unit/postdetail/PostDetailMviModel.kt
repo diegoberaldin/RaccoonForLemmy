@@ -20,21 +20,21 @@ interface PostDetailMviModel :
         data object Refresh : Intent
         data object RefreshPost : Intent
         data object LoadNextPage : Intent
-        data class FetchMoreComments(val parentId: Int) : Intent
+        data class FetchMoreComments(val parentId: Long) : Intent
         data class UpVotePost(val feedback: Boolean = false) : Intent
         data class DownVotePost(val feedback: Boolean = false) : Intent
         data class SavePost(val post: PostModel, val feedback: Boolean = false) : Intent
-        data class UpVoteComment(val commentId: Int, val feedback: Boolean = false) : Intent
-        data class DownVoteComment(val commentId: Int, val feedback: Boolean = false) : Intent
-        data class SaveComment(val commentId: Int, val feedback: Boolean = false) : Intent
-        data class ToggleExpandComment(val commentId: Int) : Intent
-        data class DeleteComment(val commentId: Int) : Intent
+        data class UpVoteComment(val commentId: Long, val feedback: Boolean = false) : Intent
+        data class DownVoteComment(val commentId: Long, val feedback: Boolean = false) : Intent
+        data class SaveComment(val commentId: Long, val feedback: Boolean = false) : Intent
+        data class ToggleExpandComment(val commentId: Long) : Intent
+        data class DeleteComment(val commentId: Long) : Intent
         data object DeletePost : Intent
         data object HapticIndication : Intent
         data object ModFeaturePost : Intent
         data object ModLockPost : Intent
-        data class ModDistinguishComment(val commentId: Int) : Intent
-        data class ModToggleModUser(val id: Int) : Intent
+        data class ModDistinguishComment(val commentId: Long) : Intent
+        data class ModToggleModUser(val id: Long) : Intent
         data class Share(val url: String) : Intent
         data class Copy(val value: String) : Intent
         data class SetSearch(val value: String) : Intent
@@ -52,7 +52,7 @@ interface PostDetailMviModel :
         val canFetchMore: Boolean = true,
         val sortType: SortType = SortType.New,
         val comments: List<CommentModel> = emptyList(),
-        val currentUserId: Int? = null,
+        val currentUserId: Long? = null,
         val swipeActionsEnabled: Boolean = true,
         val doubleTapActionEnabled: Boolean = true,
         val postLayout: PostLayout = PostLayout.Card,

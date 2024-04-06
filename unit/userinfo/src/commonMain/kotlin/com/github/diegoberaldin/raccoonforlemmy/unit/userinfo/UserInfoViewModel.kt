@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class UserInfoViewModel(
-    private val userId: Int,
+    private val userId: Long,
     private val userRepository: UserRepository,
     private val settingsRepository: SettingsRepository,
     private val itemCache: LemmyItemCache,

@@ -293,7 +293,7 @@ class AdvancedSettingsViewModel(
         }
     }
 
-    private fun changeDefaultLanguageId(value: Int?) {
+    private fun changeDefaultLanguageId(value: Long?) {
         updateState { it.copy(defaultLanguageId = value) }
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(

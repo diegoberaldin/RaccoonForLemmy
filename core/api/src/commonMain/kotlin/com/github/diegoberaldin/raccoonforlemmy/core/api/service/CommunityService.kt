@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityFor
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
@@ -27,7 +28,7 @@ interface CommunityService {
     suspend fun get(
         @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
-        @Query("id") id: Int? = null,
+        @Query("id") id: CommunityId? = null,
         @Query("name") name: String? = null,
     ): Response<GetCommunityResponse>
 

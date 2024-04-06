@@ -99,7 +99,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class MultiCommunityScreen(
-    private val communityId: Int,
+    private val communityId: Long,
 ) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)

@@ -20,7 +20,7 @@ interface InboxMessagesMviModel :
         val loading: Boolean = false,
         val canFetchMore: Boolean = true,
         val unreadOnly: Boolean = true,
-        val currentUserId: Int = 0,
+        val currentUserId: Long = 0,
         val chats: List<PrivateMessageModel> = emptyList(),
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,

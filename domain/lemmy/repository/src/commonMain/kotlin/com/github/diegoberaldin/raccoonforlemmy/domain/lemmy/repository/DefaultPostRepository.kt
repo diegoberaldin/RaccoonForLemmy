@@ -39,7 +39,7 @@ internal class DefaultPostRepository(
         limit: Int,
         type: ListingType,
         sort: SortType,
-        communityId: Int?,
+        communityId: Long?,
         communityName: String?,
         otherInstance: String?,
     ): Pair<List<PostModel>, String?>? = withContext(Dispatchers.IO) {
@@ -73,7 +73,7 @@ internal class DefaultPostRepository(
     }
 
     override suspend fun get(
-        id: Int,
+        id: Long,
         auth: String?,
         instance: String?,
     ): PostModel? = withContext(Dispatchers.IO) {
@@ -176,12 +176,12 @@ internal class DefaultPostRepository(
     }
 
     override suspend fun create(
-        communityId: Int,
+        communityId: Long,
         title: String,
         body: String?,
         url: String?,
         nsfw: Boolean,
-        languageId: Int?,
+        languageId: Long?,
         auth: String,
     ): Unit = withContext(Dispatchers.IO) {
         runCatching {
@@ -202,12 +202,12 @@ internal class DefaultPostRepository(
     }
 
     override suspend fun edit(
-        postId: Int,
+        postId: Long,
         title: String,
         body: String?,
         url: String?,
         nsfw: Boolean,
-        languageId: Int?,
+        languageId: Long?,
         auth: String,
     ): Unit = withContext(Dispatchers.IO) {
         runCatching {
@@ -227,7 +227,7 @@ internal class DefaultPostRepository(
         }.getOrDefault(Unit)
     }
 
-    override suspend fun setRead(read: Boolean, postId: Int, auth: String?) = withContext(Dispatchers.IO) {
+    override suspend fun setRead(read: Boolean, postId: Long, auth: String?) = withContext(Dispatchers.IO) {
         runCatching {
             val data = MarkPostAsReadForm(
                 postId = postId,
@@ -241,7 +241,7 @@ internal class DefaultPostRepository(
         }
     }
 
-    override suspend fun delete(id: Int, auth: String): Unit = withContext(Dispatchers.IO) {
+    override suspend fun delete(id: Long, auth: String): Unit = withContext(Dispatchers.IO) {
         runCatching {
             val data = DeletePostForm(
                 postId = id,
@@ -281,7 +281,7 @@ internal class DefaultPostRepository(
         }.getOrNull()
     }
 
-    override suspend fun report(postId: Int, reason: String, auth: String): Unit = withContext(Dispatchers.IO) {
+    override suspend fun report(postId: Long, reason: String, auth: String): Unit = withContext(Dispatchers.IO) {
         runCatching {
             val data = CreatePostReportForm(
                 postId = postId,
@@ -296,7 +296,7 @@ internal class DefaultPostRepository(
     }
 
     override suspend fun featureInCommunity(
-        postId: Int,
+        postId: Long,
         auth: String,
         featured: Boolean,
     ): PostModel? = withContext(Dispatchers.IO) {
@@ -316,7 +316,7 @@ internal class DefaultPostRepository(
     }
 
     override suspend fun lock(
-        postId: Int,
+        postId: Long,
         auth: String,
         locked: Boolean,
     ): PostModel? = withContext(Dispatchers.IO) {
@@ -335,7 +335,7 @@ internal class DefaultPostRepository(
     }
 
     override suspend fun remove(
-        postId: Int,
+        postId: Long,
         auth: String,
         reason: String,
         removed: Boolean,
@@ -355,7 +355,7 @@ internal class DefaultPostRepository(
 
     override suspend fun getReports(
         auth: String,
-        communityId: Int?,
+        communityId: Long?,
         page: Int,
         limit: Int,
         unresolvedOnly: Boolean,
@@ -376,7 +376,7 @@ internal class DefaultPostRepository(
     }
 
     override suspend fun resolveReport(
-        reportId: Int,
+        reportId: Long,
         auth: String,
         resolved: Boolean,
     ): PostReportModel? = withContext(Dispatchers.IO) {

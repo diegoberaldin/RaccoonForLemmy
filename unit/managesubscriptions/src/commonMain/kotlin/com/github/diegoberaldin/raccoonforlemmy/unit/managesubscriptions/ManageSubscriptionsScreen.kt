@@ -111,7 +111,7 @@ class ManageSubscriptionsScreen : Screen {
                 }
             }
         }
-        var multiCommunityIdToDelete by remember { mutableStateOf<Int?>(null) }
+        var multiCommunityIdToDelete by remember { mutableStateOf<Long?>(null) }
 
         LaunchedEffect(model) {
             model.effects.onEach { event ->
@@ -281,7 +281,7 @@ class ManageSubscriptionsScreen : Screen {
                                 modifier = Modifier.fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.background).onClick(
                                         onClick = rememberCallback {
-                                            community.id?.toInt()?.also {
+                                            community.id?.also {
                                                 navigatorCoordinator.pushScreen(
                                                     MultiCommunityScreen(it),
                                                 )
@@ -304,13 +304,13 @@ class ManageSubscriptionsScreen : Screen {
                                     when (optionId) {
                                         OptionId.Edit -> {
                                             navigatorCoordinator.pushScreen(
-                                                MultiCommunityEditorScreen(community.id?.toInt()),
+                                                MultiCommunityEditorScreen(community.id),
                                             )
                                         }
 
                                         OptionId.Delete -> {
                                             community.id?.also {
-                                                multiCommunityIdToDelete = it.toInt()
+                                                multiCommunityIdToDelete = it
                                             }
                                         }
 

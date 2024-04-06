@@ -15,14 +15,14 @@ interface UserRepository {
     ): UserModel?
 
     suspend fun get(
-        id: Int,
+        id: Long,
         auth: String? = null,
         username: String? = null,
         otherInstance: String? = null,
     ): UserModel?
 
     suspend fun getPosts(
-        id: Int,
+        id: Long,
         auth: String? = null,
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
@@ -32,7 +32,7 @@ interface UserRepository {
     ): List<PostModel>?
 
     suspend fun getSavedPosts(
-        id: Int,
+        id: Long,
         auth: String? = null,
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
@@ -40,7 +40,7 @@ interface UserRepository {
     ): List<PostModel>?
 
     suspend fun getComments(
-        id: Int,
+        id: Long,
         auth: String? = null,
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
@@ -50,7 +50,7 @@ interface UserRepository {
     ): List<CommentModel>?
 
     suspend fun getSavedComments(
-        id: Int,
+        id: Long,
         auth: String? = null,
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
@@ -79,21 +79,21 @@ interface UserRepository {
 
     suspend fun setMentionRead(
         read: Boolean,
-        mentionId: Int,
+        mentionId: Long,
         auth: String? = null,
     )
 
     suspend fun setReplyRead(
         read: Boolean,
-        replyId: Int,
+        replyId: Long,
         auth: String? = null,
     )
 
-    suspend fun block(id: Int, blocked: Boolean, auth: String? = null): Result<Unit>
+    suspend fun block(id: Long, blocked: Boolean, auth: String? = null): Result<Unit>
 
     suspend fun getModeratedCommunities(
         auth: String? = null,
-        id: Int?,
+        id: Long?,
     ): List<CommunityModel>
 
     suspend fun getLikedPosts(

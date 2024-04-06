@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class InboxChatViewModel(
-    private val otherUserId: Int,
+    private val otherUserId: Long,
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val messageRepository: PrivateMessageRepository,
@@ -161,7 +161,7 @@ class InboxChatViewModel(
         }
     }
 
-    private fun markAsRead(read: Boolean, messageId: Int) {
+    private fun markAsRead(read: Boolean, messageId: Long) {
         val auth = identityRepository.authToken.value
         screenModelScope.launch {
             val newMessage = messageRepository.markAsRead(

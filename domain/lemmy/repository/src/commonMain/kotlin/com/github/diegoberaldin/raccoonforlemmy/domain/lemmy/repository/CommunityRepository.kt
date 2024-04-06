@@ -18,7 +18,7 @@ interface CommunityRepository {
         auth: String? = null,
         page: Int,
         limit: Int = DEFAULT_PAGE_SIZE,
-        communityId: Int? = null,
+        communityId: Long? = null,
         instance: String? = null,
         listingType: ListingType = ListingType.All,
         sortType: SortType = SortType.Active,
@@ -43,36 +43,36 @@ interface CommunityRepository {
 
     suspend fun get(
         auth: String? = null,
-        id: Int? = null,
+        id: Long? = null,
         name: String? = null,
         instance: String? = null,
     ): CommunityModel?
 
     suspend fun getModerators(
         auth: String? = null,
-        id: Int? = null,
+        id: Long? = null,
     ): List<UserModel>
 
     suspend fun subscribe(
         auth: String? = null,
-        id: Int,
+        id: Long,
     ): CommunityModel?
 
     suspend fun unsubscribe(
         auth: String? = null,
-        id: Int,
+        id: Long,
     ): CommunityModel?
 
     suspend fun block(
-        id: Int,
+        id: Long,
         blocked: Boolean,
         auth: String?,
     ): Result<Unit>
 
     suspend fun banUser(
         auth: String?,
-        userId: Int,
-        communityId: Int,
+        userId: Long,
+        communityId: Long,
         ban: Boolean,
         removeData: Boolean = false,
         reason: String? = null,
@@ -81,8 +81,8 @@ interface CommunityRepository {
 
     suspend fun addModerator(
         auth: String? = null,
-        communityId: Int,
-        userId: Int,
+        communityId: Long,
+        userId: Long,
         added: Boolean,
     ): List<UserModel>
 

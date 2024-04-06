@@ -10,8 +10,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepo
 import kotlinx.coroutines.launch
 
 class RemoveViewModel(
-    private val postId: Int?,
-    private val commentId: Int?,
+    private val postId: Long?,
+    private val commentId: Long?,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,

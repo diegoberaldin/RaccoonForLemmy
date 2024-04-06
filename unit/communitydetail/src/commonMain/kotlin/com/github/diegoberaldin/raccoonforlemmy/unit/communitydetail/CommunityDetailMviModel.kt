@@ -19,23 +19,23 @@ interface CommunityDetailMviModel :
     sealed interface Intent {
         data object Refresh : Intent
         data object LoadNextPage : Intent
-        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
         data object HapticIndication : Intent
         data object Subscribe : Intent
         data object Unsubscribe : Intent
-        data class DeletePost(val id: Int) : Intent
-        data class MarkAsRead(val id: Int) : Intent
-        data class Hide(val id: Int) : Intent
+        data class DeletePost(val id: Long) : Intent
+        data class MarkAsRead(val id: Long) : Intent
+        data class Hide(val id: Long) : Intent
         data object Block : Intent
         data object BlockInstance : Intent
         data object ClearRead : Intent
         data class StartZombieMode(val index: Int) : Intent
         data object PauseZombieMode : Intent
-        data class ModFeaturePost(val id: Int) : Intent
-        data class ModLockPost(val id: Int) : Intent
-        data class ModToggleModUser(val id: Int) : Intent
+        data class ModFeaturePost(val id: Long) : Intent
+        data class ModLockPost(val id: Long) : Intent
+        data class ModToggleModUser(val id: Long) : Intent
         data object ToggleFavorite : Intent
         data class Share(val url: String) : Intent
         data class SetSearch(val value: String) : Intent
@@ -54,7 +54,7 @@ interface CommunityDetailMviModel :
         val sortType: SortType = SortType.Active,
         val posts: List<PostModel> = emptyList(),
         val blurNsfw: Boolean = true,
-        val currentUserId: Int? = null,
+        val currentUserId: Long? = null,
         val swipeActionsEnabled: Boolean = true,
         val doubleTapActionEnabled: Boolean = false,
         val postLayout: PostLayout = PostLayout.Card,

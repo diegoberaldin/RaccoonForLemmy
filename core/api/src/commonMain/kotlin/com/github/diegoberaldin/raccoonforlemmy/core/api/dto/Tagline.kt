@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Tagline(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("local_site_id") val localSiteId: LocalSiteId,
     @SerialName("content") val content: String,
     @SerialName("published") val published: String,

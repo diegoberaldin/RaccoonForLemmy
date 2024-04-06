@@ -1,8 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
 data class UserModel(
-    val id: Int = 0,
-    val instanceId: Int = 0,
+    val id: Long = 0,
+    val instanceId: Long = 0,
     val name: String = "",
     val displayName: String = "",
     val avatar: String? = null,
@@ -18,7 +18,7 @@ data class UserModel(
     val moderator: Boolean = false,
 )
 
-fun List<UserModel>.containsId(value: Int?): Boolean = any { it.id == value }
+fun List<UserModel>.containsId(value: Long?): Boolean = any { it.id == value }
 
 fun UserModel.readableName(preferNickname: Boolean): String {
     return if (preferNickname) {

@@ -124,7 +124,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class UserDetailScreen(
-    private val userId: Int,
+    private val userId: Long,
     private val otherInstance: String = "",
 ) : Screen {
 

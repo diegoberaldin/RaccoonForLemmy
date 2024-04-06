@@ -71,7 +71,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.Repor
 import org.koin.core.parameter.parametersOf
 
 class ReportListScreen(
-    private val communityId: Int? = null,
+    private val communityId: Long? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable

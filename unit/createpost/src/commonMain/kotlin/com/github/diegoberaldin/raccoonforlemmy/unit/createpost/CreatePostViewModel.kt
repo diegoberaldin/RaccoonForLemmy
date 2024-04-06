@@ -25,8 +25,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class CreatePostViewModel(
-    private val editedPostId: Int?,
-    private val crossPostId: Int?,
+    private val editedPostId: Long?,
+    private val crossPostId: Long?,
     private val draftId: Long?,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,

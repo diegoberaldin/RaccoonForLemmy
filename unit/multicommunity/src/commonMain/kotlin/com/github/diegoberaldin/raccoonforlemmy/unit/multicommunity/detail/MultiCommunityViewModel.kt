@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MultiCommunityViewModel(
-    private val communityId: Int,
+    private val communityId: Long,
     private val postRepository: PostRepository,
     private val identityRepository: IdentityRepository,
     private val multiCommunityRepository: MultiCommunityRepository,
@@ -52,7 +52,7 @@ class MultiCommunityViewModel(
         screenModelScope.launch {
             if ((uiState.value.community.id ?: 0) == 0L) {
                 val community =
-                    multiCommunityRepository.getById(communityId.toLong()) ?: MultiCommunityModel()
+                    multiCommunityRepository.getById(communityId) ?: MultiCommunityModel()
                 updateState { it.copy(community = community) }
             }
             themeRepository.postLayout.onEach { layout ->

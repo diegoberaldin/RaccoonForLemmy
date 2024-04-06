@@ -29,9 +29,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectLanguageDialog(
-    currentLanguageId: Int? = null,
+    currentLanguageId: Long? = null,
     languages: List<LanguageModel> = emptyList(),
-    onSelect: ((Int?) -> Unit)? = null,
+    onSelect: ((Long?) -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
 ) {
     BasicAlertDialog(
@@ -55,7 +55,7 @@ fun SelectLanguageDialog(
                 items(items = languages, key = { it.id }) { lang ->
                     LanguageItem(
                         name = lang.name,
-                        selected = (currentLanguageId ?: 0) == lang.id,
+                        selected = (currentLanguageId ?: 0L) == lang.id,
                         onSelected = rememberCallback {
                             onSelect?.invoke(lang.id)
                         },

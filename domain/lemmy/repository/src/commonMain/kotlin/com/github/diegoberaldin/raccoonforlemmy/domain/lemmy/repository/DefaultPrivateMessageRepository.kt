@@ -18,7 +18,7 @@ internal class DefaultPrivateMessageRepository(
 
     override suspend fun getAll(
         auth: String?,
-        creatorId: Int?,
+        creatorId: Long?,
         page: Int,
         limit: Int,
         unreadOnly: Boolean,
@@ -40,7 +40,7 @@ internal class DefaultPrivateMessageRepository(
     override suspend fun create(
         message: String,
         auth: String?,
-        recipientId: Int,
+        recipientId: Long,
     ): PrivateMessageModel? = withContext(Dispatchers.IO) {
         runCatching {
             val data = CreatePrivateMessageForm(
@@ -57,7 +57,7 @@ internal class DefaultPrivateMessageRepository(
     }
 
     override suspend fun edit(
-        messageId: Int,
+        messageId: Long,
         message: String,
         auth: String?,
     ): PrivateMessageModel? = runCatching {
@@ -74,7 +74,7 @@ internal class DefaultPrivateMessageRepository(
     }.getOrNull()
 
     override suspend fun markAsRead(
-        messageId: Int,
+        messageId: Long,
         auth: String?,
         read: Boolean,
     ): PrivateMessageModel? = withContext(Dispatchers.IO) {
@@ -92,7 +92,7 @@ internal class DefaultPrivateMessageRepository(
         }.getOrNull()
     }
 
-    override suspend fun delete(messageId: Int, auth: String?): Unit = withContext(Dispatchers.IO) {
+    override suspend fun delete(messageId: Long, auth: String?): Unit = withContext(Dispatchers.IO) {
         runCatching {
             val data = DeletePrivateMessageForm(
                 auth = auth.orEmpty(),

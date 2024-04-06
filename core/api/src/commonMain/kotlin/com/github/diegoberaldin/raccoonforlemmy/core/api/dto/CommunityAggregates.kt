@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CommunityAggregates(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("community_id") val communityId: CommunityId,
     @SerialName("subscribers") val subscribers: Int,
     @SerialName("posts") val posts: Int,

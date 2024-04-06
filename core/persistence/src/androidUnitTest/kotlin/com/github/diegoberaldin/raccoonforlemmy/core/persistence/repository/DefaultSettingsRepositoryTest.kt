@@ -265,7 +265,7 @@ class DefaultSettingsRepositoryTest {
         commentBarThickness: Long = 1,
         imageSourcePath: Boolean = false,
         separateUpAndDownVotes: Boolean = false,
-        defaultLanguageId: Int? = null,
+        defaultLanguageId: Long? = null,
     ) = GetBy(
         id = id,
         theme = theme,

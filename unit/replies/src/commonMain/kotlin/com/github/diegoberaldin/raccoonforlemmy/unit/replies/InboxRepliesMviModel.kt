@@ -16,10 +16,10 @@ interface InboxRepliesMviModel :
     sealed interface Intent {
         data object Refresh : Intent
         data object LoadNextPage : Intent
-        data class MarkAsRead(val read: Boolean, val id: Int) : Intent
+        data class MarkAsRead(val read: Boolean, val id: Long) : Intent
         data object HapticIndication : Intent
-        data class UpVoteComment(val id: Int) : Intent
-        data class DownVoteComment(val id: Int) : Intent
+        data class UpVoteComment(val id: Long) : Intent
+        data class DownVoteComment(val id: Long) : Intent
     }
 
     data class UiState(

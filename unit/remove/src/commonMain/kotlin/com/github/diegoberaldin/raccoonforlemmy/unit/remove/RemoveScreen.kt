@@ -55,8 +55,8 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class RemoveScreen(
-    private val postId: Int? = null,
-    private val commentId: Int? = null,
+    private val postId: Long? = null,
+    private val commentId: Long? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable

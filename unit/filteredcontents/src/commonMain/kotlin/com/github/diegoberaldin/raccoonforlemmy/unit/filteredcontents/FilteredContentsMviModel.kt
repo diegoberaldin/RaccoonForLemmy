@@ -37,18 +37,16 @@ interface FilteredContentsMviModel :
         data class ChangeSection(val value: FilteredContentsSection) : Intent
         data object Refresh : Intent
         data object LoadNextPage : Intent
-        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
-
-        data class UpVoteComment(val commentId: Int, val feedback: Boolean = false) : Intent
-        data class DownVoteComment(val commentId: Int, val feedback: Boolean = false) : Intent
-        data class SaveComment(val commentId: Int, val feedback: Boolean = false) : Intent
+        data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class UpVoteComment(val commentId: Long, val feedback: Boolean = false) : Intent
+        data class DownVoteComment(val commentId: Long, val feedback: Boolean = false) : Intent
+        data class SaveComment(val commentId: Long, val feedback: Boolean = false) : Intent
         data object HapticIndication : Intent
-        data class ModFeaturePost(val id: Int) : Intent
-        data class ModLockPost(val id: Int) : Intent
-
-        data class ModDistinguishComment(val commentId: Int) : Intent
+        data class ModFeaturePost(val id: Long) : Intent
+        data class ModLockPost(val id: Long) : Intent
+        data class ModDistinguishComment(val commentId: Long) : Intent
     }
 
     data class State(

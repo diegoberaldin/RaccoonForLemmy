@@ -68,7 +68,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class ModlogScreen(
-    private val communityId: Int? = null,
+    private val communityId: Long? = null,
 ) : Screen {
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)

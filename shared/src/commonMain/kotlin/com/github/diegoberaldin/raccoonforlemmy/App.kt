@@ -211,7 +211,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 }
 
                 is DrawerEvent.OpenMultiCommunity -> {
-                    evt.community.id?.toInt()?.also {
+                    evt.community.id?.also {
                         navigationCoordinator.pushScreen(MultiCommunityScreen(it))
                     }
                 }

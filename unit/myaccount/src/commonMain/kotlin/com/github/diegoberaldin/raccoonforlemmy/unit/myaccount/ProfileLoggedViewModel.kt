@@ -493,11 +493,11 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun handlePostDelete(id: Int) {
+    private fun handlePostDelete(id: Long) {
         updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
     }
 
-    private fun deletePost(id: Int) {
+    private fun deletePost(id: Long) {
         screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = id, auth = auth)
@@ -505,7 +505,7 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun deleteComment(id: Int) {
+    private fun deleteComment(id: Long) {
         screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)

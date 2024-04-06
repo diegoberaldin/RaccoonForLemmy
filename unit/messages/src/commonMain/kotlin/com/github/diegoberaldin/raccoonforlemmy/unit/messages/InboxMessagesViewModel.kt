@@ -96,7 +96,7 @@ class InboxMessagesViewModel(
     }
 
     private fun changeUnreadOnly(value: Boolean) {
-        if (uiState.value.currentUserId == 0) {
+        if (uiState.value.currentUserId == 0L) {
             return
         }
         updateState { it.copy(unreadOnly = value) }

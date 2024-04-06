@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
 data class PersonMentionModel(
-    val id: Int = 0,
+    val id: Long = 0,
     val post: PostModel,
     val creator: UserModel,
     val comment: CommentModel,

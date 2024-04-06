@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AdminPurgePerson(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: ModlogItemId,
     @SerialName("reason") val reason: String? = null,
     @SerialName("when_") val date: String? = null,
 )

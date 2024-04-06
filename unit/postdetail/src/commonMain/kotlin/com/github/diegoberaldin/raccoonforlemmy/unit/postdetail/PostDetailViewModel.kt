@@ -34,9 +34,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class PostDetailViewModel(
-    private val postId: Int,
+    private val postId: Long,
     private val otherInstance: String,
-    private val highlightCommentId: Int?,
+    private val highlightCommentId: Long?,
     private val isModerator: Boolean,
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
@@ -69,7 +69,7 @@ class PostDetailViewModel(
             )
         }
         screenModelScope.launch {
-            if (uiState.value.post.id == 0) {
+            if (uiState.value.post.id == 0L) {
                 val post = itemCache.getPost(postId) ?: PostModel()
                 updateState {
                     it.copy(
@@ -470,7 +470,7 @@ class PostDetailViewModel(
         }
     }
 
-    private fun loadMoreComments(parentId: Int, loadUntilHighlight: Boolean = false) {
+    private fun loadMoreComments(parentId: Long, loadUntilHighlight: Boolean = false) {
         screenModelScope.launch {
             val currentState = uiState.value
             val auth = identityRepository.authToken.value
@@ -682,7 +682,7 @@ class PostDetailViewModel(
         }
     }
 
-    private fun deleteComment(id: Int) {
+    private fun deleteComment(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
@@ -691,7 +691,7 @@ class PostDetailViewModel(
         }
     }
 
-    private fun handleCommentDelete(id: Int) {
+    private fun handleCommentDelete(id: Long) {
         updateState { it.copy(comments = it.comments.filter { comment -> comment.id != id }) }
     }
 
@@ -780,7 +780,7 @@ class PostDetailViewModel(
         }
     }
 
-    private fun toggleModeratorStatus(userId: Int) {
+    private fun toggleModeratorStatus(userId: Long) {
         screenModelScope.launch {
             val isModerator = uiState.value.moderators.containsId(userId)
             val auth = identityRepository.authToken.value.orEmpty()

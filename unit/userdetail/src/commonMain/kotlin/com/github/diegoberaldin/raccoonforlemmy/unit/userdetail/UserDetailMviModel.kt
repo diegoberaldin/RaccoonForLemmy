@@ -21,12 +21,12 @@ interface UserDetailMviModel :
         data object Refresh : Intent
         data object LoadNextPage : Intent
         data class ChangeSection(val section: UserDetailSection) : Intent
-        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class UpVoteComment(val id: Int, val feedback: Boolean = false) : Intent
-        data class DownVoteComment(val id: Int, val feedback: Boolean = false) : Intent
-        data class SaveComment(val id: Int, val feedback: Boolean = false) : Intent
+        data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class UpVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+        data class SaveComment(val id: Long, val feedback: Boolean = false) : Intent
         data object HapticIndication : Intent
         data class Share(val url: String) : Intent
         data object Block : Intent
@@ -37,7 +37,7 @@ interface UserDetailMviModel :
     data class UiState(
         val isLogged: Boolean = false,
         val instance: String = "",
-        val currentUserId: Int? = null,
+        val currentUserId: Long? = null,
         val section: UserDetailSection = UserDetailSection.Posts,
         val sortType: SortType = SortType.Active,
         val refreshing: Boolean = false,

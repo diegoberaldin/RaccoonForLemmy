@@ -36,7 +36,7 @@ internal class DefaultUserRepository(
     }
 
     override suspend fun get(
-        id: Int,
+        id: Long,
         auth: String?,
         username: String?,
         otherInstance: String?,
@@ -60,7 +60,7 @@ internal class DefaultUserRepository(
     }
 
     override suspend fun getPosts(
-        id: Int,
+        id: Long,
         auth: String?,
         page: Int,
         limit: Int,
@@ -93,7 +93,7 @@ internal class DefaultUserRepository(
     }
 
     override suspend fun getSavedPosts(
-        id: Int,
+        id: Long,
         auth: String?,
         page: Int,
         limit: Int,
@@ -115,7 +115,7 @@ internal class DefaultUserRepository(
     }
 
     override suspend fun getComments(
-        id: Int,
+        id: Long,
         auth: String?,
         page: Int,
         limit: Int,
@@ -148,7 +148,7 @@ internal class DefaultUserRepository(
     }
 
     override suspend fun getSavedComments(
-        id: Int,
+        id: Long,
         auth: String?,
         page: Int,
         limit: Int,
@@ -223,7 +223,7 @@ internal class DefaultUserRepository(
         }
     }
 
-    override suspend fun setMentionRead(read: Boolean, mentionId: Int, auth: String?): Unit =
+    override suspend fun setMentionRead(read: Boolean, mentionId: Long, auth: String?): Unit =
         withContext(Dispatchers.IO) {
             runCatching {
                 val data = MarkPersonMentionAsReadForm(
@@ -238,7 +238,7 @@ internal class DefaultUserRepository(
             }.getOrElse { }
         }
 
-    override suspend fun setReplyRead(read: Boolean, replyId: Int, auth: String?): Unit = withContext(Dispatchers.IO) {
+    override suspend fun setReplyRead(read: Boolean, replyId: Long, auth: String?): Unit = withContext(Dispatchers.IO) {
         runCatching {
             val data = MarkCommentAsReadForm(
                 replyId = replyId,
@@ -252,7 +252,7 @@ internal class DefaultUserRepository(
         }.getOrElse { }
     }
 
-    override suspend fun block(id: Int, blocked: Boolean, auth: String?): Result<Unit> = withContext(Dispatchers.IO) {
+    override suspend fun block(id: Long, blocked: Boolean, auth: String?): Result<Unit> = withContext(Dispatchers.IO) {
         runCatching {
             val data = BlockPersonForm(
                 personId = id,
@@ -269,7 +269,7 @@ internal class DefaultUserRepository(
 
     override suspend fun getModeratedCommunities(
         auth: String?,
-        id: Int?,
+        id: Long?,
     ): List<CommunityModel> = withContext(Dispatchers.IO) {
         runCatching {
             val response = services.user.getDetails(

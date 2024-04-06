@@ -21,7 +21,7 @@ interface DetailOpener {
     fun openPostDetail(
         post: PostModel,
         otherInstance: String = "",
-        highlightCommentId: Int? = null,
+        highlightCommentId: Long? = null,
         isMod: Boolean = false,
     )
 
@@ -37,7 +37,7 @@ interface DetailOpener {
         draftId: Long? = null,
         editedPost: PostModel? = null,
         crossPost: PostModel? = null,
-        communityId: Int? = null,
+        communityId: Long? = null,
         initialText: String? = null,
         initialTitle: String? = null,
         initialUrl: String? = null,

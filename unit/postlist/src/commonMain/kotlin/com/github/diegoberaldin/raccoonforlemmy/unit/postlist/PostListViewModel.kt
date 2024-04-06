@@ -481,7 +481,7 @@ class PostListViewModel(
         onFirstLoad()
     }
 
-    private fun handlePostDelete(id: Int) {
+    private fun handlePostDelete(id: Long) {
         screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = id, auth = auth)
@@ -507,21 +507,21 @@ class PostListViewModel(
         markAsRead(post)
     }
 
-    private fun blockUser(userId: Int) {
+    private fun blockUser(userId: Long) {
         screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             userRepository.block(userId, true, auth)
         }
     }
 
-    private fun blockCommunity(communityId: Int) {
+    private fun blockCommunity(communityId: Long) {
         screenModelScope.launch(Dispatchers.IO) {
             val auth = identityRepository.authToken.value
             communityRepository.block(communityId, true, auth)
         }
     }
 
-    private fun blockInstance(instanceId: Int) {
+    private fun blockInstance(instanceId: Long) {
         screenModelScope.launch(Dispatchers.IO) {
             try {
                 val auth = identityRepository.authToken.value

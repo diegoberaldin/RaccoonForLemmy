@@ -80,7 +80,7 @@ class ManageSubscriptionsViewModel(
 
             is ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity -> {
                 uiState.value.multiCommunities.firstOrNull() {
-                    (it.id ?: 0).toInt() == intent.id
+                    (it.id ?: 0L) == intent.id
                 }?.also { community ->
                     deleteMultiCommunity(community)
                 }

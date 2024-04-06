@@ -12,7 +12,7 @@ class DefaultMultiCommunityPaginator(
     override val canFetchMore: Boolean
         get() = paginators.any { it.canFetchMore }
 
-    override fun setCommunities(ids: List<Int>) {
+    override fun setCommunities(ids: List<Long>) {
         paginators = ids.map {
             CommunityPaginator(
                 communityId = it,
@@ -28,7 +28,7 @@ class DefaultMultiCommunityPaginator(
     override suspend fun loadNextPage(
         auth: String?,
         sort: SortType,
-        currentIds: List<Int>,
+        currentIds: List<Long>,
     ): List<PostModel> = buildList {
         for (paginator in paginators) {
             if (paginator.canFetchMore) {

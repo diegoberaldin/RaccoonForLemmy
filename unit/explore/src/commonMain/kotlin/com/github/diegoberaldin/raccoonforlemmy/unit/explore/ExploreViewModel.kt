@@ -714,7 +714,7 @@ class ExploreViewModel(
         }
     }
 
-    private fun toggleSubscription(communityId: Int) {
+    private fun toggleSubscription(communityId: Long) {
         val community = uiState.value.results.firstOrNull {
             (it as? SearchResult.Community)?.model?.id == communityId
         }.let { (it as? SearchResult.Community)?.model } ?: return

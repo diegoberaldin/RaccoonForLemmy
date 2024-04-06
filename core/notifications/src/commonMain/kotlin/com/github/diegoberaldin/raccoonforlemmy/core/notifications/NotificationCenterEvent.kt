@@ -58,14 +58,14 @@ sealed interface NotificationCenterEvent {
     data class PostRemoved(val model: PostModel) : NotificationCenterEvent
     data class CommentRemoved(val model: CommentModel) : NotificationCenterEvent
     data class ChangeReportListType(val unresolvedOnly: Boolean) : NotificationCenterEvent
-    data class UserBannedPost(val postId: Int, val user: UserModel) : NotificationCenterEvent
-    data class UserBannedComment(val commentId: Int, val user: UserModel) : NotificationCenterEvent
+    data class UserBannedPost(val postId: Long, val user: UserModel) : NotificationCenterEvent
+    data class UserBannedComment(val commentId: Long, val user: UserModel) : NotificationCenterEvent
     data class ChangeCommentBarTheme(val value: CommentBarTheme) : NotificationCenterEvent
     data class ChangeCommentBarThickness(val value: Int) : NotificationCenterEvent
     data class BlockActionSelected(
-        val userId: Int? = null,
-        val communityId: Int? = null,
-        val instanceId: Int? = null,
+        val userId: Long? = null,
+        val communityId: Long? = null,
+        val instanceId: Long? = null,
     ) : NotificationCenterEvent
 
     data class Share(val url: String) : NotificationCenterEvent

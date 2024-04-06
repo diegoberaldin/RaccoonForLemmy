@@ -262,7 +262,7 @@ class SavedItemsViewModel(
         }
     }
 
-    private fun handlePostDelete(id: Int) {
+    private fun handlePostDelete(id: Long) {
         updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
     }
 

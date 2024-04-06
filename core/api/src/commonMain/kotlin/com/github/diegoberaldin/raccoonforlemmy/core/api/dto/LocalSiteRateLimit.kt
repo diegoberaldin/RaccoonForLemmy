@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LocalSiteRateLimit(
-    @SerialName("id") val id: Int? = null,
+    @SerialName("id") val id: Long? = null,
     @SerialName("local_site_id") val localSiteId: LocalSiteId,
     @SerialName("message") val message: Int,
     @SerialName("message_per_second") val messagePerSecond: Int,

@@ -76,7 +76,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class EditCommunityScreen(
-    private val communityId: Int
+    private val communityId: Long
 ) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)

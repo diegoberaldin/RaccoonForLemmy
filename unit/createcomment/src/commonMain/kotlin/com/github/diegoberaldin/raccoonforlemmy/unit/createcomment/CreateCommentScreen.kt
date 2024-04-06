@@ -82,9 +82,9 @@ import org.koin.core.parameter.parametersOf
 
 class CreateCommentScreen(
     private val draftId: Long? = null,
-    private val originalPostId: Int? = null,
-    private val originalCommentId: Int? = null,
-    private val editedCommentId: Int? = null,
+    private val originalPostId: Long? = null,
+    private val originalCommentId: Long? = null,
+    private val editedCommentId: Long? = null,
     private val initialText: String? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)

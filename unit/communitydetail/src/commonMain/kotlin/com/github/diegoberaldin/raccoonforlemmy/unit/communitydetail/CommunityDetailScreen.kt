@@ -146,7 +146,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class CommunityDetailScreen(
-    private val communityId: Int,
+    private val communityId: Long,
     private val otherInstance: String = "",
 ) : Screen {
 
@@ -198,7 +198,7 @@ class CommunityDetailScreen(
                 }
             }
         }
-        var itemIdToDelete by remember { mutableStateOf<Int?>(null) }
+        var itemIdToDelete by remember { mutableStateOf<Long?>(null) }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()

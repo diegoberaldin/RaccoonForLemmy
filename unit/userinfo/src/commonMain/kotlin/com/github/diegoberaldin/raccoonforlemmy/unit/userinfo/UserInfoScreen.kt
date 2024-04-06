@@ -56,7 +56,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class UserInfoScreen(
-    private val userId: Int,
+    private val userId: Long,
 ) : Screen {
 
     @Composable

@@ -138,7 +138,7 @@ class PostListScreen : Screen {
             WindowInsets.navigationBars.getBottom(this).toDp()
         }
         val clipboardManager = LocalClipboardManager.current
-        var itemIdToDelete by remember { mutableStateOf<Int?>(null) }
+        var itemIdToDelete by remember { mutableStateOf<Long?>(null) }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->

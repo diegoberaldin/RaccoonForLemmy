@@ -6,7 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 
 internal class CommunityPaginator(
-    private val communityId: Int,
+    private val communityId: Long,
     private val postRepository: PostRepository,
 ) {
     private var currentPage: Int = 1
@@ -23,7 +23,7 @@ internal class CommunityPaginator(
     suspend fun loadNextPage(
         auth: String?,
         sort: SortType,
-        currentIds: List<Int>,
+        currentIds: List<Long>,
     ): List<PostModel> {
         val (result, nextPage) = postRepository.getAll(
             auth = auth,

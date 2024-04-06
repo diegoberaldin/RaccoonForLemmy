@@ -11,7 +11,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class EditCommunityViewModel(
-    private val communityId: Int,
+    private val communityId: Long,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val postRepository: PostRepository,

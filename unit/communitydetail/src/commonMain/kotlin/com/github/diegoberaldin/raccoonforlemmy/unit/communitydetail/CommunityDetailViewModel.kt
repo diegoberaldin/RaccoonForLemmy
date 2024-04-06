@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class CommunityDetailViewModel(
-    private val communityId: Int,
+    private val communityId: Long,
     private val otherInstance: String,
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
@@ -74,7 +74,7 @@ class CommunityDetailViewModel(
 
     init {
         screenModelScope.launch {
-            if (uiState.value.community.id == 0) {
+            if (uiState.value.community.id == 0L) {
                 val community = itemCache.getCommunity(communityId) ?: CommunityModel()
                 updateState {
                     it.copy(
@@ -594,7 +594,7 @@ class CommunityDetailViewModel(
         }
     }
 
-    private fun handlePostDelete(id: Int) {
+    private fun handlePostDelete(id: Long) {
         updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
     }
 
@@ -678,7 +678,7 @@ class CommunityDetailViewModel(
         }
     }
 
-    private fun toggleModeratorStatus(userId: Int) {
+    private fun toggleModeratorStatus(userId: Long) {
         screenModelScope.launch(Dispatchers.IO) {
             val isModerator = uiState.value.moderators.containsId(userId)
             val auth = identityRepository.authToken.value.orEmpty()

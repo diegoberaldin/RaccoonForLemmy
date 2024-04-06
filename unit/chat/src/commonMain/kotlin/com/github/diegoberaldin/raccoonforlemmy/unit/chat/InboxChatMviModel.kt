@@ -27,8 +27,8 @@ interface InboxChatMviModel :
             }
         }
 
-        data class EditMessage(val value: Int) : Intent
-        data class DeleteMessage(val value: Int) : Intent
+        data class EditMessage(val value: Long) : Intent
+        data class DeleteMessage(val value: Long) : Intent
         data class SubmitNewMessage(val value: String) : Intent
     }
 
@@ -37,13 +37,13 @@ interface InboxChatMviModel :
         val refreshing: Boolean = false,
         val loading: Boolean = false,
         val canFetchMore: Boolean = true,
-        val currentUserId: Int? = null,
+        val currentUserId: Long? = null,
         val otherUserName: String = "",
         val otherUserAvatar: String? = null,
         val messages: List<PrivateMessageModel> = emptyList(),
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
-        val editedMessageId: Int? = null,
+        val editedMessageId: Long? = null,
     )
 
     sealed interface Effect {

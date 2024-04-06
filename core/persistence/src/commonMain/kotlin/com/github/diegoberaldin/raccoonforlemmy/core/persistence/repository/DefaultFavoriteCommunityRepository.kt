@@ -20,7 +20,7 @@ internal class DefaultFavoriteCommunityRepository(
 
     override suspend fun getBy(
         accountId: Long?,
-        communityId: Int,
+        communityId: Long,
     ): FavoriteCommunityModel? = withContext(Dispatchers.IO) {
         db.favoritecommunitiesQueries.getBy(
             communityId = communityId.toLong(),
@@ -56,5 +56,5 @@ internal class DefaultFavoriteCommunityRepository(
 
 private fun FavoriteCommunityEntity.toModel() = FavoriteCommunityModel(
     id = id,
-    communityId = communityId.toInt(),
+    communityId = communityId,
 )

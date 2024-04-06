@@ -75,7 +75,7 @@ class ManageBanViewModel(
         }
     }
 
-    private fun unbanUser(id: Int) {
+    private fun unbanUser(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
@@ -91,7 +91,7 @@ class ManageBanViewModel(
         }
     }
 
-    private fun unbanCommunity(id: Int) {
+    private fun unbanCommunity(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {
@@ -107,7 +107,7 @@ class ManageBanViewModel(
         }
     }
 
-    private fun unbanInstance(id: Int) {
+    private fun unbanInstance(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             runCatching {

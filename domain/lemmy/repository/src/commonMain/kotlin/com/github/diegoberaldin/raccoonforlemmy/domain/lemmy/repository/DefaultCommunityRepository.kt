@@ -29,7 +29,7 @@ internal class DefaultCommunityRepository(
         auth: String?,
         page: Int,
         limit: Int,
-        communityId: Int?,
+        communityId: Long?,
         instance: String?,
         listingType: ListingType,
         sortType: SortType,
@@ -124,7 +124,7 @@ internal class DefaultCommunityRepository(
 
     override suspend fun get(
         auth: String?,
-        id: Int?,
+        id: Long?,
         name: String?,
         instance: String?,
     ): CommunityModel? = withContext(Dispatchers.IO) {
@@ -146,7 +146,7 @@ internal class DefaultCommunityRepository(
 
     override suspend fun getModerators(
         auth: String?,
-        id: Int?,
+        id: Long?,
     ): List<UserModel> = withContext(Dispatchers.IO) {
         runCatching {
             val response = services.community.get(
@@ -162,7 +162,7 @@ internal class DefaultCommunityRepository(
 
     override suspend fun subscribe(
         auth: String?,
-        id: Int,
+        id: Long,
     ): CommunityModel? = withContext(Dispatchers.IO) {
         runCatching {
             val data = FollowCommunityForm(
@@ -180,7 +180,7 @@ internal class DefaultCommunityRepository(
 
     override suspend fun unsubscribe(
         auth: String?,
-        id: Int,
+        id: Long,
     ): CommunityModel? = withContext(Dispatchers.IO) {
         runCatching {
             val data = FollowCommunityForm(
@@ -197,7 +197,7 @@ internal class DefaultCommunityRepository(
     }
 
     override suspend fun block(
-        id: Int,
+        id: Long,
         blocked: Boolean,
         auth: String?,
     ): Result<Unit> = withContext(Dispatchers.IO) {
@@ -217,8 +217,8 @@ internal class DefaultCommunityRepository(
 
     override suspend fun banUser(
         auth: String?,
-        userId: Int,
-        communityId: Int,
+        userId: Long,
+        communityId: Long,
         ban: Boolean,
         removeData: Boolean,
         reason: String?,
@@ -244,8 +244,8 @@ internal class DefaultCommunityRepository(
 
     override suspend fun addModerator(
         auth: String?,
-        communityId: Int,
-        userId: Int,
+        communityId: Long,
+        userId: Long,
         added: Boolean,
     ): List<UserModel> = withContext(Dispatchers.IO) {
         runCatching {

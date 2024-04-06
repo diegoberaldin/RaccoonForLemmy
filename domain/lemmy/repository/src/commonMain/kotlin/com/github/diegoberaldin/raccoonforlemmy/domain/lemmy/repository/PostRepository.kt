@@ -20,13 +20,13 @@ interface PostRepository {
         limit: Int = DEFAULT_PAGE_SIZE,
         type: ListingType = ListingType.Local,
         sort: SortType = SortType.Active,
-        communityId: Int? = null,
+        communityId: Long? = null,
         communityName: String? = null,
         otherInstance: String? = null,
     ): Pair<List<PostModel>, String?>?
 
     suspend fun get(
-        id: Int,
+        id: Long,
         auth: String? = null,
         instance: String? = null,
     ): PostModel?
@@ -52,51 +52,51 @@ interface PostRepository {
     suspend fun save(post: PostModel, auth: String, saved: Boolean): Result<Response<PostResponse>>
 
     suspend fun create(
-        communityId: Int,
+        communityId: Long,
         title: String,
         body: String?,
         url: String? = null,
         nsfw: Boolean = false,
-        languageId: Int? = null,
+        languageId: Long? = null,
         auth: String,
     )
 
     suspend fun edit(
-        postId: Int,
+        postId: Long,
         title: String,
         body: String?,
         url: String? = null,
         nsfw: Boolean = false,
-        languageId: Int? = null,
+        languageId: Long? = null,
         auth: String,
     )
 
     suspend fun setRead(
         read: Boolean,
-        postId: Int,
+        postId: Long,
         auth: String? = null
     ): Result<Response<PostResponse>>
 
-    suspend fun delete(id: Int, auth: String)
+    suspend fun delete(id: Long, auth: String)
 
     suspend fun uploadImage(auth: String, bytes: ByteArray): String?
 
-    suspend fun report(postId: Int, reason: String, auth: String)
+    suspend fun report(postId: Long, reason: String, auth: String)
 
     suspend fun featureInCommunity(
-        postId: Int,
+        postId: Long,
         auth: String,
         featured: Boolean,
     ): PostModel?
 
     suspend fun lock(
-        postId: Int,
+        postId: Long,
         auth: String,
         locked: Boolean,
     ): PostModel?
 
     suspend fun remove(
-        postId: Int,
+        postId: Long,
         auth: String,
         reason: String,
         removed: Boolean,
@@ -104,14 +104,14 @@ interface PostRepository {
 
     suspend fun getReports(
         auth: String,
-        communityId: Int? = null,
+        communityId: Long? = null,
         page: Int,
         limit: Int = DEFAULT_PAGE_SIZE,
         unresolvedOnly: Boolean = true,
     ): List<PostReportModel>?
 
     suspend fun resolveReport(
-        reportId: Int,
+        reportId: Long,
         auth: String,
         resolved: Boolean,
     ): PostReportModel?

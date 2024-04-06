@@ -34,7 +34,7 @@ interface CreateCommentMviModel :
             }
         }
 
-        data class ChangeLanguage(val value: Int?) : Intent
+        data class ChangeLanguage(val value: Long?) : Intent
 
         data class ChangeTextValue(val value: TextFieldValue) : Intent
 
@@ -58,7 +58,7 @@ interface CreateCommentMviModel :
         val showScores: Boolean = true,
         val currentInstance: String = "",
         val currentUser: String = "",
-        val currentLanguageId: Int? = null,
+        val currentLanguageId: Long? = null,
         val availableLanguages: List<LanguageModel> = emptyList(),
     )
 

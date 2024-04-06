@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ModRemoveComment(
-    @SerialName("id") val id: Int,
+    @SerialName("id") val id: ModlogItemId,
     @SerialName("reason") val reason: String? = null,
     @SerialName("removed") val removed: Boolean,
     @SerialName("when_") val date: String? = null,

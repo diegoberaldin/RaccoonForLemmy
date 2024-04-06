@@ -1,25 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostLikeForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostReportForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeletePostForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPostForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FeaturePostForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostResponse
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostsResponse
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetSiteMetadataResponse
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListPostReportsResponse
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LockPostForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPostAsReadForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PictrsImages
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostReportResponse
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostResponse
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemovePostForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolvePostReportForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.*
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
@@ -42,7 +23,7 @@ interface PostService {
         @Query("page") page: Int? = null,
         @Query("page_cursor") pageCursor: String? = null,
         @Query("type_") type: ListingType? = null,
-        @Query("community_id") communityId: Int? = null,
+        @Query("community_id") communityId: CommunityId? = null,
         @Query("community_name") communityName: String? = null,
         @Query("saved_only") savedOnly: Boolean? = null,
         @Query("liked_only") likedOnly: Boolean? = null,
@@ -53,8 +34,8 @@ interface PostService {
     suspend fun get(
         @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
-        @Query("id") id: Int? = null,
-        @Query("comment_id") commentId: Int? = null,
+        @Query("id") id: PostId? = null,
+        @Query("comment_id") commentId: CommentId? = null,
     ): Response<GetPostResponse>
 
     @GET("post/site_metadata")
@@ -150,7 +131,7 @@ interface PostService {
         @Query("limit") limit: Int? = null,
         @Query("page") page: Int? = null,
         @Query("unresolved_only") unresolvedOnly: Boolean? = null,
-        @Query("community_id") communityId: Int? = null,
+        @Query("community_id") communityId: CommunityId? = null,
     ): Response<ListPostReportsResponse>
 
     @PUT("post/report/resolve")

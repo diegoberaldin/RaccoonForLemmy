@@ -61,5 +61,5 @@ private fun MultiCommunityEntity.toModel() = MultiCommunityModel(
         .split(",")
         .map { it.trim() }
         .filter { it.isNotEmpty() }
-        .map { it.toInt() }
+        .map { it.toLong() }
 )

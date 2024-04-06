@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class ModlogViewModel(
-    private val communityId: Int?,
+    private val communityId: Long?,
     private val themeRepository: ThemeRepository,
     private val identityRepository: IdentityRepository,
     private val modlogRepository: ModlogRepository,

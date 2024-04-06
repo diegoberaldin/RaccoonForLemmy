@@ -19,15 +19,15 @@ interface PostListMviModel :
         data object Refresh : Intent
         data object LoadNextPage : Intent
         data class ChangeListing(val value: ListingType) : Intent
-        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
+        data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
         data class HandlePostUpdate(val post: PostModel) : Intent
         data object HapticIndication : Intent
-        data class DeletePost(val id: Int) : Intent
+        data class DeletePost(val id: Long) : Intent
         data class Share(val url: String) : Intent
-        data class MarkAsRead(val id: Int) : Intent
-        data class Hide(val id: Int) : Intent
+        data class MarkAsRead(val id: Long) : Intent
+        data class Hide(val id: Long) : Intent
         data object ClearRead : Intent
         data class StartZombieMode(val index: Int) : Intent
         data object PauseZombieMode : Intent
@@ -45,7 +45,7 @@ interface PostListMviModel :
         val sortType: SortType? = null,
         val posts: List<PostModel> = emptyList(),
         val blurNsfw: Boolean = true,
-        val currentUserId: Int? = null,
+        val currentUserId: Long? = null,
         val swipeActionsEnabled: Boolean = true,
         val doubleTapActionEnabled: Boolean = false,
         val postLayout: PostLayout = PostLayout.Card,

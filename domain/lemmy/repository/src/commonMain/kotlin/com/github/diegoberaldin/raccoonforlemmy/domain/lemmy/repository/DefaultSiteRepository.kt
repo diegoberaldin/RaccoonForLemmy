@@ -49,7 +49,7 @@ internal class DefaultSiteRepository(
         }.getOrNull()
     }
 
-    override suspend fun block(id: Int, blocked: Boolean, auth: String?): Result<Unit> = withContext(Dispatchers.IO) {
+    override suspend fun block(id: Long, blocked: Boolean, auth: String?): Result<Unit> = withContext(Dispatchers.IO) {
         runCatching {
             val data = BlockSiteForm(
                 instanceId = id,

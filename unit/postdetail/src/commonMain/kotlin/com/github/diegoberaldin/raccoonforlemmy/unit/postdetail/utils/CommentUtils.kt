@@ -15,9 +15,9 @@ internal fun List<CommentModel>.populateLoadMoreComments() = mapIndexed { idx, c
  * https://github.com/dessalines/jerboa/blob/21e2222a4fb2098000bef7254dd5c566a1f6a395/app/src/main/java/com/jerboa/Utils.kt
  */
 
-internal fun List<CommentModel>.sortToNestedOrder(ancestorId: Int? = null): List<CommentModel> {
+internal fun List<CommentModel>.sortToNestedOrder(ancestorId: Long? = null): List<CommentModel> {
     // populate a memo for quick access
-    val memo = mutableMapOf<Int, CommentNode>()
+    val memo = mutableMapOf<Long, CommentNode>()
     for (comment in this) {
         val node = CommentNode.Actual(comment = comment)
         memo[comment.id] = node
@@ -61,14 +61,14 @@ internal fun List<CommentModel>.sortToNestedOrder(ancestorId: Int? = null): List
 }
 
 data class PlaceholderComment(
-    val id: Int,
+    val id: Long,
     val path: String,
 )
 
 private sealed interface CommentNode {
     val children: MutableList<CommentNode>
     var parent: CommentNode?
-    val id: Int
+    val id: Long
 
     data class Actual(
         val comment: CommentModel,
@@ -88,10 +88,10 @@ private sealed interface CommentNode {
 }
 
 private fun connectNodesAndGeneratePlaceholders(
-    memo: MutableMap<Int, CommentNode>,
+    memo: MutableMap<Long, CommentNode>,
     currentPath: String,
     currentNode: CommentNode,
-    rootCommentId: Int?,
+    rootCommentId: Long?,
 ) {
     if (currentNode is CommentNode.Actual) {
         // replaces the placeholder with an actual node
@@ -106,7 +106,7 @@ private fun connectNodesAndGeneratePlaceholders(
 
     val splitPath = currentPath.split(".")
     val parentId = if (splitPath.size > 1) {
-        splitPath[splitPath.size - 2].toInt()
+        splitPath[splitPath.size - 2].toLongOrNull()
     } else {
         null
     }
@@ -139,8 +139,8 @@ private fun connectNodesAndGeneratePlaceholders(
 }
 
 private fun joinForestUnderSingleRoot(
-    ancestorId: Int?,
-    memo: Map<Int, CommentNode>,
+    ancestorId: Long?,
+    memo: Map<Long, CommentNode>,
 ): CommentNode {
     return CommentNode.Placeholder(
         missingComment = PlaceholderComment(
@@ -155,7 +155,7 @@ private fun joinForestUnderSingleRoot(
 }
 
 private fun linearize(node: CommentNode, list: MutableList<CommentNode>) {
-    if (node.id != 0) {
+    if (node.id != 0L) {
         list.add(node)
     }
     for (c in node.children) {

@@ -80,7 +80,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class InboxChatScreen(
-    private val otherUserId: Int,
+    private val otherUserId: Long,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -101,7 +101,7 @@ class InboxChatScreen(
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val lazyListState = rememberLazyListState()
         val detailOpener = remember { getDetailOpener() }
-        var itemIdToDelete by remember { mutableStateOf<Int?>(null) }
+        var itemIdToDelete by remember { mutableStateOf<Long?>(null) }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->

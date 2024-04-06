@@ -16,7 +16,7 @@ interface CommentRepository {
     }
 
     suspend fun getAll(
-        postId: Int? = null,
+        postId: Long? = null,
         auth: String? = null,
         instance: String? = null,
         page: Int,
@@ -26,10 +26,10 @@ interface CommentRepository {
         maxDepth: Int = MAX_COMMENT_DEPTH,
     ): List<CommentModel>?
 
-    suspend fun getBy(id: Int, auth: String?, instance: String? = null): CommentModel?
+    suspend fun getBy(id: Long, auth: String?, instance: String? = null): CommentModel?
 
     suspend fun getChildren(
-        parentId: Int,
+        parentId: Long,
         auth: String? = null,
         instance: String? = null,
         limit: Int = DEFAULT_PAGE_SIZE,
@@ -65,50 +65,54 @@ interface CommentRepository {
     ): Result<Response<CommentResponse>>
 
     suspend fun create(
-        postId: Int,
-        parentId: Int?,
+        postId: Long,
+        parentId: Long?,
         text: String,
-        languageId: Int? = null,
+        languageId: Long? = null,
         auth: String,
     )
 
     suspend fun edit(
-        commentId: Int,
+        commentId: Long,
         text: String,
-        languageId: Int? = null,
+        languageId: Long? = null,
         auth: String,
     )
 
     suspend fun delete(
-        commentId: Int,
+        commentId: Long,
         auth: String,
     )
 
-    suspend fun report(commentId: Int, reason: String, auth: String)
+    suspend fun report(
+        commentId: Long,
+        reason: String,
+        auth: String,
+    )
 
     suspend fun remove(
-        commentId: Int,
+        commentId: Long,
         auth: String,
         removed: Boolean,
         reason: String,
     ): CommentModel?
 
     suspend fun distinguish(
-        commentId: Int,
+        commentId: Long,
         auth: String,
         distinguished: Boolean,
     ): CommentModel?
 
     suspend fun getReports(
         auth: String,
-        communityId: Int? = null,
+        communityId: Long? = null,
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
         unresolvedOnly: Boolean = true,
     ): List<CommentReportModel>?
 
     suspend fun resolveReport(
-        reportId: Int,
+        reportId: Long,
         auth: String,
         resolved: Boolean,
     ): CommentReportModel?

@@ -141,9 +141,9 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class PostDetailScreen(
-    private val postId: Int,
+    private val postId: Long,
     private val otherInstance: String = "",
-    private val highlightCommentId: Int? = null,
+    private val highlightCommentId: Long? = null,
     private val isMod: Boolean = false,
 ) : Screen {
     override val key: ScreenKey
@@ -202,7 +202,7 @@ class PostDetailScreen(
             }
         }
         var postToDelete by remember { mutableStateOf<Unit?>(null) }
-        var commentIdToDelete by remember { mutableStateOf<Int?>(null) }
+        var commentIdToDelete by remember { mutableStateOf<Long?>(null) }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()

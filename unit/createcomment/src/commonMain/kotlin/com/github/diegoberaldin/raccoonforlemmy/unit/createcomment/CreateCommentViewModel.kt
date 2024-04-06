@@ -22,9 +22,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class CreateCommentViewModel(
-    private val postId: Int?,
-    private val parentId: Int?,
-    private val editedCommentId: Int?,
+    private val postId: Long?,
+    private val parentId: Long?,
+    private val editedCommentId: Long?,
     private val draftId: Long?,
     private val identityRepository: IdentityRepository,
     private val commentRepository: CommentRepository,

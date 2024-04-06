@@ -54,7 +54,7 @@ interface CreatePostMviModel :
 
         data class ChangeSection(val value: CreatePostSection) : Intent
 
-        data class ChangeLanguage(val value: Int?) : Intent
+        data class ChangeLanguage(val value: Long?) : Intent
         data class ChangeBodyValue(val value: TextFieldValue) : Intent
         data object Send : Intent
         data object SaveDraft : Intent
@@ -64,7 +64,7 @@ interface CreatePostMviModel :
         val editedPost: PostModel? = null,
         val crossPost: PostModel? = null,
         val communityInfo: String = "",
-        val communityId: Int? = null,
+        val communityId: Long? = null,
         val communityError: ValidationError? = null,
         val title: String = "",
         val titleError: ValidationError? = null,
@@ -83,7 +83,7 @@ interface CreatePostMviModel :
         val showScores: Boolean = true,
         val currentInstance: String = "",
         val currentUser: String = "",
-        val currentLanguageId: Int? = null,
+        val currentLanguageId: Long? = null,
         val availableLanguages: List<LanguageModel> = emptyList(),
     )
 

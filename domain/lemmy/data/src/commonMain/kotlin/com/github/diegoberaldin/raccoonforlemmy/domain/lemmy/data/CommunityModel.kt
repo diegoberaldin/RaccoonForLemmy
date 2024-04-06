@@ -3,8 +3,8 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 import kotlin.jvm.Transient
 
 data class CommunityModel(
-    val id: Int = 0,
-    val instanceId: Int = 0,
+    val id: Long = 0,
+    val instanceId: Long = 0,
     val name: String = "",
     val description: String = "",
     val title: String = "",

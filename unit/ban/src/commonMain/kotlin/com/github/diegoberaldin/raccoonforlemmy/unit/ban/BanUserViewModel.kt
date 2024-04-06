@@ -9,11 +9,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.Communit
 import kotlinx.coroutines.launch
 
 class BanUserViewModel(
-    private val userId: Int,
-    private val communityId: Int,
+    private val userId: Long,
+    private val communityId: Long,
     private val newValue: Boolean,
-    private val postId: Int?,
-    private val commentId: Int?,
+    private val postId: Long?,
+    private val commentId: Long?,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val notificationCenter: NotificationCenter,

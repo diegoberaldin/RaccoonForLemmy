@@ -11,7 +11,7 @@ interface SiteRepository {
 
     suspend fun getSiteVersion(auth: String? = null, otherInstance: String? = null): String?
 
-    suspend fun block(id: Int, blocked: Boolean, auth: String? = null): Result<Unit>
+    suspend fun block(id: Long, blocked: Boolean, auth: String? = null): Result<Unit>
 
     suspend fun getMetadata(url: String): MetadataModel?
 

@@ -100,8 +100,8 @@ object ProfileLoggedScreen : Tab {
         val detailOpener = remember { getDetailOpener() }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
-        var postIdToDelete by remember { mutableStateOf<Int?>(null) }
-        var commentIdToDelete by remember { mutableStateOf<Int?>(null) }
+        var postIdToDelete by remember { mutableStateOf<Long?>(null) }
+        var commentIdToDelete by remember { mutableStateOf<Long?>(null) }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->

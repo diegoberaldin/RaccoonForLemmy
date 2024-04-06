@@ -19,13 +19,13 @@ interface ExploreMviModel :
         data object LoadNextPage : Intent
         data class SetSearch(val value: String) : Intent
         data object HapticIndication : Intent
-        data class UpVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class DownVotePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class SavePost(val id: Int, val feedback: Boolean = false) : Intent
-        data class UpVoteComment(val id: Int, val feedback: Boolean = false) : Intent
-        data class DownVoteComment(val id: Int, val feedback: Boolean = false) : Intent
-        data class SaveComment(val id: Int, val feedback: Boolean = false) : Intent
-        data class ToggleSubscription(val communityId: Int) : Intent
+        data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class UpVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+        data class SaveComment(val id: Long, val feedback: Boolean = false) : Intent
+        data class ToggleSubscription(val communityId: Long) : Intent
     }
 
     data class UiState(

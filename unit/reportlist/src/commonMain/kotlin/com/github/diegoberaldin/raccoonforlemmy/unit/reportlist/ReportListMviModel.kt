@@ -21,8 +21,8 @@ interface ReportListMviModel :
         data class ChangeUnresolvedOnly(val value: Boolean) : Intent
         data object LoadNextPage : Intent
         data object Refresh : Intent
-        data class ResolvePost(val id: Int) : Intent
-        data class ResolveComment(val id: Int) : Intent
+        data class ResolvePost(val id: Long) : Intent
+        data class ResolveComment(val id: Long) : Intent
     }
 
     data class UiState(

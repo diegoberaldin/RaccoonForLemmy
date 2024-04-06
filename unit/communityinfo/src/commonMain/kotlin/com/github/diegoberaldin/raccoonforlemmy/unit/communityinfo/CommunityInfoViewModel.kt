@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class CommunityInfoViewModel(
-    private val communityId: Int,
+    private val communityId: Long,
     private val communityRepository: CommunityRepository,
     private val settingsRepository: SettingsRepository,
     private val itemCache: LemmyItemCache,
@@ -22,7 +22,7 @@ class CommunityInfoViewModel(
 
     init {
         screenModelScope.launch {
-            if (uiState.value.community.id == 0) {
+            if (uiState.value.community.id == 0L) {
                 val community = itemCache.getCommunity(communityId) ?: CommunityModel()
                 updateState { it.copy(community = community) }
             }

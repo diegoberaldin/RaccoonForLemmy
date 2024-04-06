@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class MultiCommunityEditorViewModel(
-    private val communityId: Int?,
+    private val communityId: Long?,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val multiCommunityRepository: MultiCommunityRepository,
@@ -120,7 +120,7 @@ class MultiCommunityEditorViewModel(
         updateState { it.copy(icon = image) }
     }
 
-    private fun toggleCommunity(communityId: Int) {
+    private fun toggleCommunity(communityId: Long) {
         val newCommunities = communities.map { item ->
             if (item.first.id == communityId) {
                 item.first to !item.second

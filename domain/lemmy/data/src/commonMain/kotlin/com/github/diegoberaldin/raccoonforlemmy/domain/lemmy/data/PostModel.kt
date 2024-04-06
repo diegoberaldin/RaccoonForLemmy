@@ -4,7 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAVideo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 
 data class PostModel(
-    val id: Int = 0,
+    val id: Long = 0,
     val originalUrl: String? = null,
     val title: String = "",
     val text: String = "",
@@ -29,7 +29,7 @@ data class PostModel(
     val removed: Boolean = false,
     val deleted: Boolean = false,
     val locked: Boolean = false,
-    val languageId: Int = 0,
+    val languageId: Long = 0,
 )
 
 val PostModel.imageUrl: String

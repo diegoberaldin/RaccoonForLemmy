@@ -34,7 +34,7 @@ class InboxRepliesViewModel(
     ) {
 
     private var currentPage: Int = 1
-    private var currentUserId: Int? = null
+    private var currentUserId: Long? = null
 
     init {
         screenModelScope.launch {

@@ -5,7 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.FavoriteCo
 interface FavoriteCommunityRepository {
     suspend fun getAll(accountId: Long?): List<FavoriteCommunityModel>
 
-    suspend fun getBy(accountId: Long?, communityId: Int): FavoriteCommunityModel?
+    suspend fun getBy(accountId: Long?, communityId: Long): FavoriteCommunityModel?
 
     suspend fun create(model: FavoriteCommunityModel, accountId: Long): Long
 

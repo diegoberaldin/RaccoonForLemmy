@@ -30,13 +30,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 
 class BlockBottomSheet(
     private val userName: String? = null,
-    private val userId: Int? = null,
+    private val userId: Long? = null,
     private val communityName: String? = null,
-    private val communityId: Int? = null,
+    private val communityId: Long? = null,
     private val instanceName: String? = null,
-    private val instanceId: Int? = null,
+    private val instanceId: Long? = null,
     private val userInstanceName: String? = null,
-    private val userInstanceId: Int? = null,
+    private val userInstanceId: Long? = null,
 ) : Screen {
 
     @Composable
@@ -73,7 +73,7 @@ class BlockBottomSheet(
                     modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
-                    val values: List<Triple<BlockActionType, Int, String>> = buildList {
+                    val values: List<Triple<BlockActionType, Long, String>> = buildList {
                         if (userName != null && userId != null) {
                             this += Triple(
                                 BlockActionType.User,

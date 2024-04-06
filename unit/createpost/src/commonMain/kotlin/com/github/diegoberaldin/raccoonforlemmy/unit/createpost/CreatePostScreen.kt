@@ -87,9 +87,9 @@ import org.koin.core.parameter.parametersOf
 
 class CreatePostScreen(
     private val draftId: Long? = null,
-    private val communityId: Int? = null,
-    private val editedPostId: Int? = null,
-    private val crossPostId: Int? = null,
+    private val communityId: Long? = null,
+    private val editedPostId: Long? = null,
+    private val crossPostId: Long? = null,
     private val initialText: String? = null,
     private val initialTitle: String? = null,
     private val initialUrl: String? = null,

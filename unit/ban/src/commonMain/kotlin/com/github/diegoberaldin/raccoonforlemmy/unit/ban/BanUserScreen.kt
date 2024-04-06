@@ -58,11 +58,11 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class BanUserScreen(
-    private val userId: Int,
-    private val communityId: Int,
+    private val userId: Long,
+    private val communityId: Long,
     private val newValue: Boolean,
-    private val postId: Int? = null,
-    private val commentId: Int? = null,
+    private val postId: Long? = null,
+    private val commentId: Long? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable

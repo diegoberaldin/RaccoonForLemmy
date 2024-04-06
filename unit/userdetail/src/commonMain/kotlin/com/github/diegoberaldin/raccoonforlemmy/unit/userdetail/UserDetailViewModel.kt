@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class UserDetailViewModel(
-    private val userId: Int,
+    private val userId: Long,
     private val otherInstance: String = "",
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
@@ -66,7 +66,7 @@ class UserDetailViewModel(
             )
         }
         screenModelScope.launch {
-            if (uiState.value.user.id == 0) {
+            if (uiState.value.user.id == 0L) {
                 val user = itemCache.getUser(userId) ?: UserModel()
                 updateState {
                     it.copy(user = user)

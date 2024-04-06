@@ -22,7 +22,7 @@ interface AdvancedSettingsMviModel :
         data class ChangeEdgeToEdge(val value: Boolean) : Intent
         data class ChangeInfiniteScrollDisabled(val value: Boolean) : Intent
         data class ChangeImageSourcePath(val value: Boolean) : Intent
-        data class ChangeDefaultLanguage(val value: Int?) : Intent
+        data class ChangeDefaultLanguage(val value: Long?) : Intent
     }
 
     data class UiState(
@@ -43,7 +43,7 @@ interface AdvancedSettingsMviModel :
         val opaqueSystemBars: Boolean = false,
         val imageSourceSupported: Boolean = true,
         val imageSourcePath: Boolean = false,
-        val defaultLanguageId: Int? = null,
+        val defaultLanguageId: Long? = null,
         val availableLanguages: List<LanguageModel> = emptyList(),
     )
 

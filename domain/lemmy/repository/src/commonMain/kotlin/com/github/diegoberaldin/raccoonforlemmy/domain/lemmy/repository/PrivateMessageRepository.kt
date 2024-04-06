@@ -10,7 +10,7 @@ interface PrivateMessageRepository {
 
     suspend fun getAll(
         auth: String? = null,
-        creatorId: Int? = null,
+        creatorId: Long? = null,
         page: Int,
         limit: Int = DEFAULT_PAGE_SIZE,
         unreadOnly: Boolean = true,
@@ -19,23 +19,23 @@ interface PrivateMessageRepository {
     suspend fun create(
         message: String,
         auth: String? = null,
-        recipientId: Int,
+        recipientId: Long,
     ): PrivateMessageModel?
 
     suspend fun edit(
-        messageId: Int,
+        messageId: Long,
         message: String,
         auth: String? = null,
     ): PrivateMessageModel?
 
     suspend fun markAsRead(
-        messageId: Int,
+        messageId: Long,
         auth: String? = null,
         read: Boolean = true,
     ): PrivateMessageModel?
 
     suspend fun delete(
-        messageId: Int,
+        messageId: Long,
         auth: String? = null,
     )
 }

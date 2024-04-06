@@ -81,7 +81,7 @@ class DefaultDetailOpener(
     override fun openPostDetail(
         post: PostModel,
         otherInstance: String,
-        highlightCommentId: Int?,
+        highlightCommentId: Long?,
         isMod: Boolean,
     ) {
         scope.launch {
@@ -133,7 +133,7 @@ class DefaultDetailOpener(
         draftId: Long?,
         editedPost: PostModel?,
         crossPost: PostModel?,
-        communityId: Int?,
+        communityId: Long?,
         initialText: String?,
         initialTitle: String?,
         initialUrl: String?,

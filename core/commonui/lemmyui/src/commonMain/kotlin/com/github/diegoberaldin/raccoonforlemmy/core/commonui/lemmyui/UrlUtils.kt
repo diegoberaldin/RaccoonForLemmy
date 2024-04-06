@@ -166,8 +166,7 @@ private fun extractPost(url: String): PostModel? {
     val regex = Regex("/post/(?<postId>.*$)")
     val match = regex.find(url)
     val id = match
-        ?.let { it.groups["postId"]?.value.orEmpty() }
-        ?.let { runCatching { it.toInt() }.getOrNull() }
+        ?.let { it.groups["postId"]?.value.orEmpty() }?.toLongOrNull()
     return if (id != null) {
         PostModel(id = id)
     } else {

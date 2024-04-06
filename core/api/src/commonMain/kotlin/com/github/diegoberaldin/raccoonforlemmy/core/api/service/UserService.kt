@@ -3,11 +3,13 @@ package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockPersonForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockPersonResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentSortType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPersonDetailsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPersonMentionsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetRepliesResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkAllAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPersonMentionAsReadForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsResponse
@@ -26,8 +28,8 @@ interface UserService {
     suspend fun getDetails(
         @Header("Authorization") authHeader: String? = null,
         @Query("auth") auth: String? = null,
-        @Query("community_id") communityId: Int? = null,
-        @Query("person_id") personId: Int? = null,
+        @Query("community_id") communityId: CommunityId? = null,
+        @Query("person_id") personId: PersonId? = null,
         @Query("page") page: Int? = null,
         @Query("limit") limit: Int? = null,
         @Query("sort") sort: CommentSortType = CommentSortType.New,

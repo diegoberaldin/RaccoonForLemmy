@@ -3,8 +3,8 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 import kotlin.jvm.Transient
 
 data class CommentModel(
-    val id: Int = 0,
-    val postId: Int = 0,
+    val id: Long = 0,
+    val postId: Long = 0,
     val postTitle: String? = null,
     val text: String,
     val community: CommunityModel? = null,
@@ -27,7 +27,7 @@ data class CommentModel(
     val visible: Boolean = true,
     @Transient
     val loadMoreButtonVisible: Boolean = false,
-    val languageId: Int = 0,
+    val languageId: Long = 0,
 ) {
     val depth: Int get() = (path.split(".").size - 2).coerceAtLeast(0)
 }

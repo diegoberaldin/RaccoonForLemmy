@@ -43,7 +43,7 @@ fun TextFormattingBar(
     onTextFieldValueChanged: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     onSelectImage: (() -> Unit)? = null,
-    currentLanguageId: Int? = null,
+    currentLanguageId: Long? = null,
     availableLanguages: List<LanguageModel> = emptyList(),
     onSelectLanguage: (() -> Unit)? = null,
     lastActionIcon: ImageVector? = null,
