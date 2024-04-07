@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -90,7 +90,7 @@ fun DraftCard(
                     ) {
                         val imageVector = when (draft.type) {
                             DraftType.Comment -> Icons.AutoMirrored.Filled.Reply
-                            DraftType.Post -> Icons.Default.Padding
+                            DraftType.Post -> Icons.AutoMirrored.Filled.Article
                         }
                         Icon(
                             imageVector = imageVector,

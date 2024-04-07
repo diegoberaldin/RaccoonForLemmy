@@ -19,8 +19,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.AlertDialog
@@ -296,7 +296,7 @@ class AccountSettingsScreen : Screen {
                     )
 
                     SettingsHeader(
-                        icon = Icons.Default.Dashboard,
+                        icon = Icons.AutoMirrored.Filled.Article,
                         title = LocalXmlStrings.current.settingsWebHeaderContents,
                     )
 

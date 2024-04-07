@@ -1,11 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.filled.AllInclusive
 import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Groups
-import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -25,7 +25,7 @@ fun SearchResultType.toIcon(): ImageVector = when (this) {
     SearchResultType.All -> Icons.Default.AllInclusive
     SearchResultType.Comments -> Icons.AutoMirrored.Default.Message
     SearchResultType.Communities -> Icons.Default.Groups
-    SearchResultType.Posts -> Icons.Default.Padding
+    SearchResultType.Posts -> Icons.AutoMirrored.Filled.Article
     SearchResultType.Users -> Icons.Default.Person
     SearchResultType.Urls -> Icons.Default.AlternateEmail
 }

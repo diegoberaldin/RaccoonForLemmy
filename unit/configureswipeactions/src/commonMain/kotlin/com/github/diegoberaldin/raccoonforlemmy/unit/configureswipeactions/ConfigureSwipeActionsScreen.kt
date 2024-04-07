@@ -15,10 +15,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.Message
-import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowRight
 import androidx.compose.material.icons.filled.Mail
@@ -116,7 +116,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     item {
                         SettingsHeader(
                             title = LocalXmlStrings.current.exploreResultTypePosts,
-                            icon = Icons.Default.Dashboard,
+                            icon = Icons.AutoMirrored.Filled.Article,
                             rightButton = @Composable {
                                 TextButton(
                                     contentPadding = PaddingValues(

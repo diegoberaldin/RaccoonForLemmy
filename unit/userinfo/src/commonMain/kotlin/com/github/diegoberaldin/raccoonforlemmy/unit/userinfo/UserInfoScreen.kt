@@ -13,10 +13,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Cake
-import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -124,7 +124,7 @@ class UserInfoScreen(
                             uiState.user.score?.also { score ->
                                 DetailInfoItem(
                                     modifier = Modifier.fillMaxWidth(),
-                                    icon = Icons.Default.Padding,
+                                    icon = Icons.AutoMirrored.Filled.Article,
                                     title = LocalXmlStrings.current.communityInfoPosts,
                                     value = score.postScore.getPrettyNumber(
                                         thousandLabel = LocalXmlStrings.current.profileThousandShort,

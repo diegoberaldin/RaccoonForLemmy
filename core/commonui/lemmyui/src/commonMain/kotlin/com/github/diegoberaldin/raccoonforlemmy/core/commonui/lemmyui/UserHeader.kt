@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.Cake
-import androidx.compose.material.icons.filled.Padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -140,7 +140,7 @@ fun UserHeader(
                     if (postScore != null) {
                         Icon(
                             modifier = Modifier.size(iconSize),
-                            imageVector = Icons.Default.Padding,
+                            imageVector = Icons.AutoMirrored.Filled.Article,
                             contentDescription = null
                         )
                         Text(
