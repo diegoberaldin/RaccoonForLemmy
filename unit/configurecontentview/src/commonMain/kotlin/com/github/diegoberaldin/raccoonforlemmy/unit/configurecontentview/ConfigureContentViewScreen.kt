@@ -195,15 +195,17 @@ class ConfigureContentViewScreen : Screen {
                     )
 
                     // full height images
-                    SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsFullHeightImages,
-                        value = uiState.fullHeightImages,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                ConfigureContentViewMviModel.Intent.ChangeFullHeightImages(value)
-                            )
-                        },
-                    )
+                    if (uiState.postLayout != PostLayout.Compact) {
+                        SettingsSwitchRow(
+                            title = LocalXmlStrings.current.settingsFullHeightImages,
+                            value = uiState.fullHeightImages,
+                            onValueChanged = rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    ConfigureContentViewMviModel.Intent.ChangeFullHeightImages(value)
+                                )
+                            },
+                        )
+                    }
 
                     // vote format
                     SettingsRow(
