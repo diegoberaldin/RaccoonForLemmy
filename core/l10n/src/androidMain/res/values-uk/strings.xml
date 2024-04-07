@@ -372,4 +372,5 @@
     <string name="modlog_item_post_purged">очистив пост</string>
     <string name="modlog_item_hidden">було приховано</string>
     <string name="modlog_item_unhidden">було виявлено</string>
+    <string name="settings_about_licences">Ліцензії</string>
 </resources>

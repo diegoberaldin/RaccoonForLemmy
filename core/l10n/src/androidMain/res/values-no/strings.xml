@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">har renset innlegget</string>
     <string name="modlog_item_hidden">har blitt skjult</string>
     <string name="modlog_item_unhidden">har blitt avslørt</string>
+    <string name="settings_about_licences">Lisenser</string>
 </resources>

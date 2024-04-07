@@ -372,4 +372,5 @@
     <string name="modlog_item_post_purged">удалил сообщение</string>
     <string name="modlog_item_hidden">был скрыт</string>
     <string name="modlog_item_unhidden">было обнаружено</string>
+    <string name="settings_about_licences">Лицензии</string>
 </resources>

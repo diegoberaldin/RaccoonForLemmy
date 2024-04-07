@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">törölte a bejegyzést</string>
     <string name="modlog_item_hidden">el lett rejtve</string>
     <string name="modlog_item_unhidden">kiderült</string>
+    <string name="settings_about_licences">Licencek</string>
 </resources>

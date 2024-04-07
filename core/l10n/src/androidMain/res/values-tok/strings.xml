@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">li weka e lipu</string>
     <string name="modlog_item_hidden">li ken ala lukin</string>
     <string name="modlog_item_unhidden">li ken lukin</string>
+    <string name="settings_about_licences">sitelen lawa</string>
 </resources>

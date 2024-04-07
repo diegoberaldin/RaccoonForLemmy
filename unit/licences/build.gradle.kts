@@ -22,7 +22,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "about"
+            baseName = "licences"
         }
     }
 
@@ -42,21 +42,12 @@ kotlin {
                 implementation(projects.core.appearance)
                 implementation(projects.core.architecture)
                 implementation(projects.core.commonui.components)
-                implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.lemmyui)
                 implementation(projects.core.l10n)
                 implementation(projects.core.navigation)
-                implementation(projects.core.notifications)
                 implementation(projects.core.persistence)
-                implementation(projects.core.preferences)
-                implementation(projects.core.resources)
                 implementation(projects.core.utils)
 
-                implementation(projects.domain.identity)
-                implementation(projects.domain.lemmy.data)
-                implementation(projects.domain.lemmy.repository)
-
-                implementation(projects.unit.licences)
                 implementation(projects.unit.web)
             }
         }
@@ -69,7 +60,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.about"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.licences"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

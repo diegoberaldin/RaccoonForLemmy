@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">on poistanut viestin</string>
     <string name="modlog_item_hidden">on piilotettu</string>
     <string name="modlog_item_unhidden">on paljastettu</string>
+    <string name="settings_about_licences">Lisenssit</string>
 </resources>

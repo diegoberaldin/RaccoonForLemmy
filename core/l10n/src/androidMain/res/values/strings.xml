@@ -381,4 +381,5 @@
     <string name="modlog_item_post_purged">purged post</string>
     <string name="modlog_item_hidden">was hidden</string>
     <string name="modlog_item_unhidden">was unhidden</string>
+    <string name="settings_about_licences">Licenses</string>
 </resources>

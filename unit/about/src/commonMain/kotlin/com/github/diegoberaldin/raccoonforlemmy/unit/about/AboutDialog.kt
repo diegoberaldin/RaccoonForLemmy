@@ -1,18 +1,16 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.about
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material3.BasicAlertDialog
@@ -26,9 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -43,9 +38,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.about.components.AboutItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.licences.LicencesScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 
 class AboutDialog : Screen {
@@ -188,6 +184,17 @@ class AboutDialog : Screen {
                             },
                         )
                     }
+
+                    item {
+                        AboutItem(
+                            text = LocalXmlStrings.current.settingsAboutLicences,
+                            vector = Icons.Default.Gavel,
+                            textDecoration = TextDecoration.Underline,
+                            onClick = rememberCallback {
+                                navigationCoordinator.pushScreen(LicencesScreen())
+                            },
+                        )
+                    }
                 }
                 Button(
                     onClick = {
@@ -199,56 +206,5 @@ class AboutDialog : Screen {
             }
         }
     }
-
-    @Composable
-    fun AboutItem(
-        painter: Painter? = null,
-        vector: ImageVector? = null,
-        text: String,
-        textDecoration: TextDecoration = TextDecoration.None,
-        value: String = "",
-        onClick: (() -> Unit)? = null,
-    ) {
-        Row(
-            modifier = Modifier.padding(
-                horizontal = Spacing.xs,
-                vertical = Spacing.s,
-            ).onClick(
-                onClick = rememberCallback {
-                    onClick?.invoke()
-                },
-            ),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.s),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            val imageModifier = Modifier.size(22.dp)
-            if (painter != null) {
-                Image(
-                    modifier = imageModifier,
-                    painter = painter,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                )
-            } else if (vector != null) {
-                Image(
-                    modifier = imageModifier,
-                    imageVector = vector,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                )
-            }
-            Text(
-                text = text,
-                style = MaterialTheme.typography.bodyLarge,
-                textDecoration = textDecoration,
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            if (value.isNotEmpty()) {
-                Text(
-                    text = value,
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-            }
-        }
-    }
 }
+

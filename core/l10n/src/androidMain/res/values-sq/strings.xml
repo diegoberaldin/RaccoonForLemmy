@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">ka pastruar postin</string>
     <string name="modlog_item_hidden">është fshehur</string>
     <string name="modlog_item_unhidden">është zbuluar</string>
+    <string name="settings_about_licences">Licencat</string>
 </resources>

@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">išvalė postą</string>
     <string name="modlog_item_hidden">buvo paslėptas</string>
     <string name="modlog_item_unhidden">buvo atskleista</string>
+    <string name="settings_about_licences">Licencijos</string>
 </resources>

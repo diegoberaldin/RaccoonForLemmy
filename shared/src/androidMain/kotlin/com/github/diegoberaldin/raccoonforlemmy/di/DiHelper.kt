@@ -38,6 +38,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity.di.editCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.di.filteredContentsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInfoModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.licences.di.licenceModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.di.manageBanModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.di.manageSubscriptionsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.di.modlogModule
@@ -105,5 +106,6 @@ val sharedHelperModule = module {
         draftsModule,
         filteredContentsModule,
         editCommunityModule,
+        licenceModule,
     )
 }

@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">tar éis post a ghlanadh</string>
     <string name="modlog_item_hidden">curtha i bhfolach</string>
     <string name="modlog_item_unhidden">curtha le fios</string>
+    <string name="settings_about_licences">Ceadúnais</string>
 </resources>

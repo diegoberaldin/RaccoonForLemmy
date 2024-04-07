@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">a epurat postul</string>
     <string name="modlog_item_hidden">a fost ascuns</string>
     <string name="modlog_item_unhidden">a fost dezvăluit</string>
+    <string name="settings_about_licences">Licențe</string>
 </resources>

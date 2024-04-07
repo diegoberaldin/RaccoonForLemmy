@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">purigis postenon</string>
     <string name="modlog_item_hidden">estis kaŝita</string>
     <string name="modlog_item_unhidden">estis rivelita</string>
+    <string name="settings_about_licences">Licencoj</string>
 </resources>

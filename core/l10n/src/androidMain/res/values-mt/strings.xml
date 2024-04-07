@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">tnaddaf il-post</string>
     <string name="modlog_item_hidden">ġiet moħbija</string>
     <string name="modlog_item_unhidden">ġie żvelat</string>
+    <string name="settings_about_licences">Liċenzji</string>
 </resources>

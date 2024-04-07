@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">gönderiyi temizledi</string>
     <string name="modlog_item_hidden">gizlendi</string>
     <string name="modlog_item_unhidden">ortaya çıktı</string>
+    <string name="settings_about_licences">Lisanslar</string>
 </resources>

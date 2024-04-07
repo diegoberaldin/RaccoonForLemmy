@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">وقد تطهير آخر</string>
     <string name="modlog_item_hidden">تم إخفاؤه</string>
     <string name="modlog_item_unhidden">تم الكشف عنها</string>
+    <string name="settings_about_licences">التراخيص</string>
 </resources>

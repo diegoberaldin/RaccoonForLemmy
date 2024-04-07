@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">je izbrisao post</string>
     <string name="modlog_item_hidden">je skriveno</string>
     <string name="modlog_item_unhidden">je otkriveno</string>
+    <string name="settings_about_licences">Licence</string>
 </resources>

@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">ha epurato il post</string>
     <string name="modlog_item_hidden">è stato nascosto</string>
     <string name="modlog_item_unhidden">è stato rivelato</string>
+    <string name="settings_about_licences">Licenze</string>
 </resources>

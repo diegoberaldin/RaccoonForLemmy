@@ -373,4 +373,5 @@
     <string name="modlog_item_post_purged">vyčistil príspevok</string>
     <string name="modlog_item_hidden">bol skrytý</string>
     <string name="modlog_item_unhidden">bolo odhalené</string>
+    <string name="settings_about_licences">Licencie</string>
 </resources>
