@@ -33,9 +33,7 @@ data class PostModel(
 )
 
 val PostModel.imageUrl: String
-    get() = url?.takeIf { it.looksLikeAnImage }?.takeIf { it.isNotEmpty() } ?: run {
-        thumbnailUrl
-    }.orEmpty()
+    get() = (thumbnailUrl?.takeIf { it.isNotEmpty() } ?: url?.takeIf { it.looksLikeAnImage }).orEmpty()
 
 val PostModel.videoUrl: String
     get() = url?.takeIf { it.looksLikeAVideo }?.takeIf { it.isNotEmpty() }.orEmpty()

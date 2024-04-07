@@ -22,8 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
@@ -47,7 +49,7 @@ fun ZoomableImage(
     ) {
         val transformableState =
             rememberTransformableState { zoomChange, panChange, _ ->
-                scale = (scale * zoomChange).coerceIn(1f, 5f)
+                scale = (scale * zoomChange).coerceIn(1f, 16f)
 
                 val extraWidth = (scale - 1) * constraints.maxWidth
                 val extraHeight = (scale - 1) * constraints.maxHeight
@@ -74,6 +76,8 @@ fun ZoomableImage(
                 )
                 .transformable(transformableState),
             url = url,
+            contentScale = ContentScale.FillWidth,
+            quality = FilterQuality.High,
             autoload = autoLoadImages,
             onFailure = {
                 Text(
