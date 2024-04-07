@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -140,6 +141,7 @@ fun PostCard(
                 blurNsfw = blurNsfw,
                 voteFormat = voteFormat,
                 autoLoadImages = autoLoadImages,
+                fullHeightImage = fullHeightImage,
                 preferNicknames = preferNicknames,
                 showScores = showScores,
                 actionButtonsActive = actionButtonsActive,
@@ -167,6 +169,7 @@ private fun CompactPost(
     post: PostModel,
     isFromModerator: Boolean = false,
     autoLoadImages: Boolean = true,
+    fullHeightImage: Boolean = true,
     preferNicknames: Boolean = true,
     showScores: Boolean = true,
     hideAuthor: Boolean,
@@ -257,6 +260,13 @@ private fun CompactPost(
                 PostCardImage(
                     modifier = Modifier
                         .weight(0.25f)
+                        .then(
+                            if (fullHeightImage) {
+                                Modifier
+                            } else {
+                                Modifier.aspectRatio(1f)
+                            }
+                        )
                         .clip(RoundedCornerShape(CornerSize.s)),
                     minHeight = Dp.Unspecified,
                     maxHeight = Dp.Unspecified,
