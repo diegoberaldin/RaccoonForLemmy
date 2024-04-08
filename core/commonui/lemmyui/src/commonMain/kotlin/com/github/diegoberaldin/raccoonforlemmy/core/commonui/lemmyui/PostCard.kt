@@ -250,7 +250,9 @@ private fun CompactPost(
 
             if (post.videoUrl.isNotEmpty()) {
                 PostCardVideo(
-                    modifier = Modifier.padding(vertical = Spacing.xxs),
+                    modifier = Modifier
+                        .weight(0.25f)
+                        .padding(vertical = Spacing.xxs),
                     url = post.videoUrl,
                     blurred = blurNsfw && post.nsfw,
                     autoLoadImages = autoLoadImages,
