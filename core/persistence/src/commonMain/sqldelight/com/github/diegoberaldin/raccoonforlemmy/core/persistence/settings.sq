@@ -53,6 +53,7 @@ CREATE TABLE SettingsEntity (
     imageSourcePath INTEGER NOT NULL DEFAULT 0,
     defaultExploreType INTEGER NOT NULL DEFAULT 2,
     defaultLanguageId INTEGER DEFAULT NULL,
+    inboxBackgroundCheckPeriod INTEGER DEFAULT NULL,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
 );
@@ -111,8 +112,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     imageSourcePath,
     defaultExploreType,
     defaultLanguageId,
+    inboxBackgroundCheckPeriod,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -221,7 +224,8 @@ SET theme = ?,
     commentBarThickness = ?,
     imageSourcePath = ?,
     defaultExploreType = ?,
-    defaultLanguageId = ?
+    defaultLanguageId = ?,
+    inboxBackgroundCheckPeriod = ?
 WHERE account_id = ?;
 
 getBy:
@@ -278,6 +282,7 @@ SELECT
     commentBarThickness,
     imageSourcePath,
     defaultExploreType,
-    defaultLanguageId
+    defaultLanguageId,
+    inboxBackgroundCheckPeriod
 FROM SettingsEntity
 WHERE account_id = ?;

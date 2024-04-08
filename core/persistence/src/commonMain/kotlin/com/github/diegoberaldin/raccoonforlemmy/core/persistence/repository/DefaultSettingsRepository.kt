@@ -15,6 +15,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 
 private object KeyStoreKeys {
     const val UI_THEME = "uiTheme"
@@ -131,7 +132,8 @@ internal class DefaultSettingsRepository(
                 commentBarThickness = settings.commentBarThickness.toLong(),
                 imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
                 defaultExploreType = settings.defaultExploreType.toLong(),
-                defaultLanguageId = settings.defaultLanguageId?.toLong(),
+                defaultLanguageId = settings.defaultLanguageId,
+                inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod?.inWholeMinutes,
             )
         }
 
@@ -362,7 +364,8 @@ internal class DefaultSettingsRepository(
                     commentBarThickness = settings.commentBarThickness.toLong(),
                     imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
                     defaultExploreType = settings.defaultExploreType.toLong(),
-                    defaultLanguageId = settings.defaultLanguageId?.toLong(),
+                    defaultLanguageId = settings.defaultLanguageId,
+                    inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod?.inWholeMinutes,
                 )
             }
         }
@@ -440,4 +443,5 @@ private fun GetBy.toModel() = SettingsModel(
     imageSourcePath = imageSourcePath == 1L,
     defaultExploreType = defaultExploreType.toInt(),
     defaultLanguageId = defaultLanguageId,
+    inboxBackgroundCheckPeriod = inboxBackgroundCheckPeriod?.minutes,
 )

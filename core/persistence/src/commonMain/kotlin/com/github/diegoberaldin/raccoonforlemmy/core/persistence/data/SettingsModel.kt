@@ -56,4 +56,5 @@ data class SettingsModel(
     val commentBarThickness: Int = 1,
     val imageSourcePath: Boolean = false,
     val defaultLanguageId: Long? = null,
+    val inboxBackgroundCheckPeriod: Duration? = null,
 )

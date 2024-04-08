@@ -1,0 +1,2 @@
+ALTER TABLE SettingsEntity
+ADD COLUMN  inboxBackgroundCheckPeriod INTEGER DEFAULT NULL;
