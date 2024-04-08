@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inbox_notification_title">Olästa objekt</string>
+    <string name="inbox_notification_content">Det finns %1$d olästa objekt</string>
+</resources>

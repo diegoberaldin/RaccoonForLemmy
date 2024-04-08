@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inbox_notification_title">Unread items</string>
+    <string name="inbox_notification_content">There are %1$d unread items</string>
+</resources>

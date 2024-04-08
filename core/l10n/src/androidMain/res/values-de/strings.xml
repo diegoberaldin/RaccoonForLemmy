@@ -374,4 +374,6 @@
     <string name="modlog_item_hidden">wurde ausgeblendet</string>
     <string name="modlog_item_unhidden">wurde enthüllt</string>
     <string name="settings_about_licences">Lizenzen</string>
+    <string name="settings_inbox_background_check_period">Suchen Sie im Hintergrund nach ungelesenen Elementen</string>
+    <string name="never">Niemals</string>
 </resources>

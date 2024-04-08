@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inbox_notification_title">Éléments non lus</string>
+    <string name="inbox_notification_content">Il y a %1$d éléments non lus</string>
+</resources>

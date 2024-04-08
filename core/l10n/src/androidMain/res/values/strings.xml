@@ -382,4 +382,6 @@
     <string name="modlog_item_hidden">was hidden</string>
     <string name="modlog_item_unhidden">was unhidden</string>
     <string name="settings_about_licences">Licenses</string>
+    <string name="settings_inbox_background_check_period">Check for unread items in background</string>
+    <string name="never">Never</string>
 </resources>

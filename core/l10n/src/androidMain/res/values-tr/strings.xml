@@ -374,4 +374,6 @@
     <string name="modlog_item_hidden">gizlendi</string>
     <string name="modlog_item_unhidden">ortaya çıktı</string>
     <string name="settings_about_licences">Lisanslar</string>
+    <string name="settings_inbox_background_check_period">Arka planda okunmamış öğeleri kontrol edin</string>
+    <string name="never">Asla</string>
 </resources>

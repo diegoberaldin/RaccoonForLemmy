@@ -373,4 +373,6 @@
     <string name="modlog_item_hidden">було приховано</string>
     <string name="modlog_item_unhidden">було виявлено</string>
     <string name="settings_about_licences">Ліцензії</string>
+    <string name="settings_inbox_background_check_period">Перевірте наявність непрочитаних елементів у фоновому режимі</string>
+    <string name="never">Ніколи</string>
 </resources>

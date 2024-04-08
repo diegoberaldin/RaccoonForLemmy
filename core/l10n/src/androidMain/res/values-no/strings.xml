@@ -374,4 +374,6 @@
     <string name="modlog_item_hidden">har blitt skjult</string>
     <string name="modlog_item_unhidden">har blitt avslørt</string>
     <string name="settings_about_licences">Lisenser</string>
+    <string name="settings_inbox_background_check_period">Se etter uleste elementer i bakgrunnen</string>
+    <string name="never">Aldri</string>
 </resources>
