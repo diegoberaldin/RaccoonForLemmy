@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.usecase.GetUnreadIt
 import org.koin.dsl.module
 
 val domainInboxModule = module {
+    includes(inboxNativeModule)
     single<InboxCoordinator> {
         DefaultInboxCoordinator(
             identityRepository = get(),

@@ -11,6 +11,8 @@ internal val internalSharedModule = module {
         MainViewModel(
             inboxCoordinator = get(),
             identityRepository = get(),
+            settingRepository = get(),
+            notificationChecker = get(),
         )
     }
     single<DetailOpener> {
