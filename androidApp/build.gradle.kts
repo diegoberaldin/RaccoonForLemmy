@@ -83,4 +83,5 @@ dependencies {
     implementation(projects.shared)
     implementation(projects.core.utils)
     implementation(projects.core.navigation)
+    implementation(projects.core.resources)
 }

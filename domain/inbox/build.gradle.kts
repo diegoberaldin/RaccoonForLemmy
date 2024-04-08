@@ -34,9 +34,17 @@ kotlin {
 
                 implementation(libs.koin.core)
 
+                implementation(projects.core.resources)
+
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.core)
+                implementation(libs.androidx.work.runtime)
             }
         }
         val androidUnitTest by getting {
