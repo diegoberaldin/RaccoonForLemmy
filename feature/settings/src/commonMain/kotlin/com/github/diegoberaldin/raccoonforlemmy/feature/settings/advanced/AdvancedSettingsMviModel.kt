@@ -45,6 +45,7 @@ interface AdvancedSettingsMviModel :
         val imageSourcePath: Boolean = false,
         val defaultLanguageId: Long? = null,
         val availableLanguages: List<LanguageModel> = emptyList(),
+        val inboxBackgroundCheckPeriod: Duration? = null,
     )
 
     sealed interface Effect

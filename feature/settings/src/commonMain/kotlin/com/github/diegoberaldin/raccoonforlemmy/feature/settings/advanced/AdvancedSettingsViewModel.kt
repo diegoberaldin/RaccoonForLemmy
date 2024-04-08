@@ -47,27 +47,26 @@ class AdvancedSettingsViewModel(
                 updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class).onEach { evt ->
+                changeZombieModeInterval(evt.value)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class).onEach { evt ->
+                if (evt.screenKey == "advancedSettings") {
+                    changeExploreType(evt.value)
+                }
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class).onEach { evt ->
+                changeZombieModeScrollAmount(evt.value)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class).onEach { evt ->
+                changeDefaultInboxUnreadOnly(evt.unreadOnly)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class).onEach { evt ->
+                changeSystemBarTheme(evt.value)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxBackgroundCheckPeriod::class)
                 .onEach { evt ->
-                    changeZombieModeInterval(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
-                .onEach { evt ->
-                    if (evt.screenKey == "advancedSettings") {
-                        changeExploreType(evt.value)
-                    }
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
-                .onEach { evt ->
-                    changeZombieModeScrollAmount(evt.value)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
-                .onEach { evt ->
-                    changeDefaultInboxUnreadOnly(evt.unreadOnly)
-                }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class)
-                .onEach { evt ->
-                    changeSystemBarTheme(evt.value)
+                    changeInboxBackgroundCheckPeriod(evt.value)
                 }.launchIn(this)
 
             updateAvailableLanguages()
@@ -298,6 +297,16 @@ class AdvancedSettingsViewModel(
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 defaultLanguageId = value,
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeInboxBackgroundCheckPeriod(value: Duration) {
+        updateState { it.copy(inboxBackgroundCheckPeriod = value) }
+        screenModelScope.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                inboxBackgroundCheckPeriod = value
             )
             saveSettings(settings)
         }

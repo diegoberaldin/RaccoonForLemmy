@@ -29,6 +29,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDur
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
+enum class DurationBottomSheetType {
+    ZOMBIE_MODE_INTERVAL,
+    INBOX_CHECK_PERIOD,
+}
+
 class DurationBottomSheet(
     private val values: List<Duration> = listOf(
         1.seconds,
@@ -37,6 +42,7 @@ class DurationBottomSheet(
         5.seconds,
         10.seconds,
     ),
+    private val type: DurationBottomSheetType = DurationBottomSheetType.ZOMBIE_MODE_INTERVAL,
 ) : Screen {
 
     @Composable
@@ -65,7 +71,10 @@ class DurationBottomSheet(
                         top = Spacing.s,
                         end = Spacing.s,
                     ),
-                    text = LocalXmlStrings.current.settingsZombieModeInterval,
+                    text = when (type) {
+                        DurationBottomSheetType.ZOMBIE_MODE_INTERVAL -> LocalXmlStrings.current.settingsZombieModeInterval
+                        DurationBottomSheetType.INBOX_CHECK_PERIOD -> LocalXmlStrings.current.settingsInboxBackgroundCheckPeriod
+                    },
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -85,9 +94,14 @@ class DurationBottomSheet(
                             .fillMaxWidth()
                             .onClick(
                                 onClick = rememberCallback {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangeZombieInterval(value)
-                                    )
+                                    val event = when (type) {
+                                        DurationBottomSheetType.ZOMBIE_MODE_INTERVAL ->
+                                            NotificationCenterEvent.ChangeZombieInterval(value)
+
+                                        DurationBottomSheetType.INBOX_CHECK_PERIOD ->
+                                            NotificationCenterEvent.ChangeInboxBackgroundCheckPeriod(value)
+                                    }
+                                    notificationCenter.send(event)
                                     navigationCoordinator.hideBottomSheet()
                                 },
                             ),

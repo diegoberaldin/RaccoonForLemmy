@@ -43,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheetType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
@@ -56,6 +57,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDur
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
 class AdvancedSettingsScreen : Screen {
 
@@ -260,7 +263,9 @@ class AdvancedSettingsScreen : Screen {
                             hoursLabel = LocalXmlStrings.current.homeSortTypeTop6Hours,
                         ),
                         onTap = rememberCallback {
-                            val sheet = DurationBottomSheet()
+                            val sheet = DurationBottomSheet(
+                                type = DurationBottomSheetType.ZOMBIE_MODE_INTERVAL,
+                            )
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
@@ -323,10 +328,35 @@ class AdvancedSettingsScreen : Screen {
                             value = uiState.enableDoubleTapAction,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    AdvancedSettingsMviModel.Intent.ChangeEnableDoubleTapAction(
-                                        value
-                                    )
+                                    AdvancedSettingsMviModel.Intent.ChangeEnableDoubleTapAction(value)
                                 )
+                            },
+                        )
+
+                        // check inbox unread items
+                        SettingsRow(
+                            title = buildString {
+                                append(LocalXmlStrings.current.settingsInboxBackgroundCheckPeriod)
+                            },
+                            value = uiState.inboxBackgroundCheckPeriod.let { value ->
+                                value?.getPrettyDuration(
+                                    secondsLabel = LocalXmlStrings.current.postSecondShort,
+                                    minutesLabel = LocalXmlStrings.current.postMinuteShort,
+                                    hoursLabel = LocalXmlStrings.current.postHourShort,
+                                ) ?: LocalXmlStrings.current.never
+                            },
+                            onTap = {
+                                val sheet = DurationBottomSheet(
+                                    values = listOf(
+                                        15.minutes,
+                                        30.minutes,
+                                        1.hours,
+                                        2.hours,
+                                        5.hours,
+                                    ),
+                                    type = DurationBottomSheetType.INBOX_CHECK_PERIOD,
+                                )
+                                navigationCoordinator.showBottomSheet(sheet)
                             },
                         )
                     }

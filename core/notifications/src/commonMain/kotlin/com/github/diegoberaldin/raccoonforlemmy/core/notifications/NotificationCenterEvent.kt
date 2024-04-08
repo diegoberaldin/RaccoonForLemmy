@@ -40,6 +40,7 @@ sealed interface NotificationCenterEvent {
     data class ChangeFontFamily(val value: UiFontFamily) : NotificationCenterEvent
     data class ChangeContentFontFamily(val value: UiFontFamily) : NotificationCenterEvent
     data class ChangeZombieInterval(val value: Duration) : NotificationCenterEvent
+    data class ChangeInboxBackgroundCheckPeriod(val value: Duration) : NotificationCenterEvent
     data class ChangeLanguage(val value: String) : NotificationCenterEvent
     data class ChangePostLayout(val value: PostLayout) : NotificationCenterEvent
     data class ChangeVoteFormat(val value: VoteFormat) : NotificationCenterEvent
