@@ -45,9 +45,10 @@ fun SettingsRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
     ) {
+        val imageModifier = Modifier.size(IconSize.m)
         if (icon != null) {
             Icon(
-                modifier = Modifier.size(IconSize.m),
+                modifier = imageModifier,
                 imageVector = icon,
                 contentDescription = null,
                 tint = fullColor,

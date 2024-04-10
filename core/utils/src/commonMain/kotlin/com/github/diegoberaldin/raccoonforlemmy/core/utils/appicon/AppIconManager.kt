@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon
 
 import androidx.compose.runtime.Composable
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface AppIconVariant {
     data object Default : AppIconVariant
@@ -14,9 +15,8 @@ interface AppIconManager {
 
 @Composable
 fun AppIconVariant.toReadableName(): String = when (this) {
-    // TODO: l10n
-    AppIconVariant.Alt1 -> "Monochrome"
-    AppIconVariant.Default -> "Default"
+    AppIconVariant.Alt1 -> LocalXmlStrings.current.appIconAlt1
+    AppIconVariant.Default -> LocalXmlStrings.current.appIconDefault
 }
 
 fun AppIconVariant.toInt(): Int = when (this) {

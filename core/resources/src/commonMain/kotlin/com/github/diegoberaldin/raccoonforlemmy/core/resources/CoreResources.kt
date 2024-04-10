@@ -16,6 +16,14 @@ object CoreResources {
         @Composable
         get() = drawable("ic_lemmy")
 
+    val appIconDefault: Painter
+        @Composable
+        get() = drawable("ic_default")
+
+    val appIconAlt1: Painter
+        @Composable
+        get() = drawable("ic_alt_1")
+
     val notoSans: FontFamily
         @Composable
         get() = FontFamily(

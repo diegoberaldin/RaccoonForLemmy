@@ -41,6 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.AppIconBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.BarThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheetType
@@ -164,9 +165,7 @@ class AdvancedSettingsScreen : Screen {
                         value = uiState.hideNavigationBarWhileScrolling,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(
-                                    value
-                                )
+                                AdvancedSettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(value)
                             )
                         },
                     )
@@ -246,9 +245,7 @@ class AdvancedSettingsScreen : Screen {
                             value = uiState.markAsReadWhileScrolling,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    AdvancedSettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling(
-                                        value
-                                    )
+                                    AdvancedSettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling(value)
                                 )
                             },
                         )
@@ -328,11 +325,26 @@ class AdvancedSettingsScreen : Screen {
                             value = uiState.enableDoubleTapAction,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    AdvancedSettingsMviModel.Intent.ChangeEnableDoubleTapAction(value)
+                                    AdvancedSettingsMviModel.Intent.ChangeEnableDoubleTapAction(
+                                        value
+                                    )
                                 )
                             },
                         )
 
+                    }
+                    // search posts only in title
+                    SettingsSwitchRow(
+                        title = LocalXmlStrings.current.settingsSearchPostsTitleOnly,
+                        value = uiState.searchPostTitleOnly,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                AdvancedSettingsMviModel.Intent.ChangeSearchPostTitleOnly(value)
+                            )
+                        },
+                    )
+
+                    if (uiState.isLogged) {
                         // check inbox unread items
                         SettingsRow(
                             title = buildString {
@@ -361,16 +373,20 @@ class AdvancedSettingsScreen : Screen {
                         )
                     }
 
-                    // search posts only in title
-                    SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsSearchPostsTitleOnly,
-                        value = uiState.searchPostTitleOnly,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeSearchPostTitleOnly(value)
-                            )
-                        },
-                    )
+                    // custom app icon
+                    if (uiState.appIconChangeSupported) {
+                        SettingsRow(
+                            title = buildString {
+                                append(LocalXmlStrings.current.settingsAppIcon)
+                                append(" ")
+                                append(LocalXmlStrings.current.requiresRestart)
+                            },
+                            onTap = rememberCallback {
+                                val sheet = AppIconBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
+                        )
+                    }
                 }
             }
         }

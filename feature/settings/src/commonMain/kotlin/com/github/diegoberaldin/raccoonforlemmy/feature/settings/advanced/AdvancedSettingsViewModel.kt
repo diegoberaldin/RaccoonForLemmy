@@ -9,6 +9,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.AppIconManager
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.AppIconVariant
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.toAppIconVariant
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.GalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxDefaultType
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
@@ -32,6 +35,7 @@ class AdvancedSettingsViewModel(
     private val siteRepository: SiteRepository,
     private val notificationCenter: NotificationCenter,
     private val galleryHelper: GalleryHelper,
+    private val appIconManager: AppIconManager,
 ) : AdvancedSettingsMviModel,
     DefaultMviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect>(
         initialState = AdvancedSettingsMviModel.UiState(),
@@ -47,26 +51,35 @@ class AdvancedSettingsViewModel(
                 updateState { it.copy(isLogged = logged ?: false) }
             }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class).onEach { evt ->
-                changeZombieModeInterval(evt.value)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class).onEach { evt ->
-                if (evt.screenKey == "advancedSettings") {
-                    changeExploreType(evt.value)
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class).onEach { evt ->
-                changeZombieModeScrollAmount(evt.value)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class).onEach { evt ->
-                changeDefaultInboxUnreadOnly(evt.unreadOnly)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class).onEach { evt ->
-                changeSystemBarTheme(evt.value)
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class)
+                .onEach { evt ->
+                    changeZombieModeInterval(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    if (evt.screenKey == "advancedSettings") {
+                        changeExploreType(evt.value)
+                    }
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
+                .onEach { evt ->
+                    changeZombieModeScrollAmount(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
+                .onEach { evt ->
+                    changeDefaultInboxUnreadOnly(evt.unreadOnly)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class)
+                .onEach { evt ->
+                    changeSystemBarTheme(evt.value)
+                }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxBackgroundCheckPeriod::class)
                 .onEach { evt ->
                     changeInboxBackgroundCheckPeriod(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.AppIconVariantSelected::class)
+                .onEach { evt ->
+                    changeAppIconVariant(evt.value.toAppIconVariant())
                 }.launchIn(this)
 
             updateAvailableLanguages()
@@ -91,6 +104,7 @@ class AdvancedSettingsViewModel(
                 imageSourceSupported = galleryHelper.supportsCustomPath,
                 imageSourcePath = settings.imageSourcePath,
                 defaultLanguageId = settings.defaultLanguageId,
+                appIconChangeSupported = appIconManager.supportsMultipleIcons,
             )
         }
     }
@@ -124,7 +138,9 @@ class AdvancedSettingsViewModel(
                 changeInfiniteScrollDisabled(intent.value)
 
             is AdvancedSettingsMviModel.Intent.ChangeImageSourcePath -> changeImageSourcePath(intent.value)
-            is AdvancedSettingsMviModel.Intent.ChangeDefaultLanguage -> changeDefaultLanguageId(intent.value)
+            is AdvancedSettingsMviModel.Intent.ChangeDefaultLanguage -> changeDefaultLanguageId(
+                intent.value
+            )
         }
     }
 
@@ -316,5 +332,9 @@ class AdvancedSettingsViewModel(
         val accountId = accountRepository.getActive()?.id
         settingsRepository.updateSettings(settings, accountId)
         settingsRepository.changeCurrentSettings(settings)
+    }
+
+    private fun changeAppIconVariant(value: AppIconVariant) {
+        appIconManager.changeIcon(value)
     }
 }

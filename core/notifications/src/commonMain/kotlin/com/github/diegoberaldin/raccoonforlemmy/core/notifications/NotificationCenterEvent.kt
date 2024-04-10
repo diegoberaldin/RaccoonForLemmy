@@ -22,7 +22,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import kotlin.time.Duration
 
 sealed interface NotificationCenterEvent {
-    data class ChangeSortType(val value: SortType, val defaultForCommunity: Boolean, val screenKey: String?) :
+    data class ChangeSortType(
+        val value: SortType,
+        val defaultForCommunity: Boolean,
+        val screenKey: String?
+    ) :
         NotificationCenterEvent
 
     data class ChangeCommentSortType(val value: SortType, val screenKey: String?) :
@@ -98,4 +102,6 @@ sealed interface NotificationCenterEvent {
         data class ModeUrl(val url: String) : ShareImageModeSelected
         data class ModeFile(val url: String, val source: String) : ShareImageModeSelected
     }
+
+    data class AppIconVariantSelected(val value: Int) : NotificationCenterEvent
 }
