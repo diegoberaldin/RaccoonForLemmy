@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Licenser</string>
     <string name="settings_inbox_background_check_period">Kontrollera om det finns olästa objekt i bakgrunden</string>
     <string name="never">Aldrig</string>
+    <string name="settings_app_icon">Applikationsikon</string>
+    <string name="requires_restart">(omstart krävs)</string>
+    <string name="app_icon_default">Standard</string>
+    <string name="app_icon_alt_1">Enfärgad</string>
 </resources>

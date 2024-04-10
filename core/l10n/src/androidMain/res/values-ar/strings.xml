@@ -376,4 +376,8 @@
     <string name="settings_about_licences">التراخيص</string>
     <string name="settings_inbox_background_check_period">التحقق من وجود عناصر غير مقروءة في الخلفية</string>
     <string name="never">أبداً</string>
+    <string name="settings_app_icon">يقونة التطبيق</string>
+    <string name="requires_restart">(إعادة التشغيل مطلوبة)</string>
+    <string name="app_icon_default">تقصير</string>
+    <string name="app_icon_alt_1">أحادية اللون</string>
 </resources>

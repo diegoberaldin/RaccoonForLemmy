@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Lizenzen</string>
     <string name="settings_inbox_background_check_period">Suchen Sie im Hintergrund nach ungelesenen Elementen</string>
     <string name="never">Niemals</string>
+    <string name="settings_app_icon">Anwendungssymbol</string>
+    <string name="requires_restart">(Neustart erforderlich)</string>
+    <string name="app_icon_default">Standard</string>
+    <string name="app_icon_alt_1">Monochromatisch</string>
 </resources>

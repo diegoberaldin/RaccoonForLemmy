@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Lisenssit</string>
     <string name="settings_inbox_background_check_period">Tarkista, onko taustalla lukemattomia kohteita</string>
     <string name="never">Ei koskaan</string>
+    <string name="settings_app_icon">Sovelluskuvake</string>
+    <string name="requires_restart">(uudelleenkäynnistys vaaditaan)</string>
+    <string name="app_icon_default">Oletus</string>
+    <string name="app_icon_alt_1">Yksivärinen</string>
 </resources>

@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Licencek</string>
     <string name="settings_inbox_background_check_period">Ellenőrizze, hogy vannak-e olvasatlan elemek a háttérben</string>
     <string name="never">Soha</string>
+    <string name="settings_app_icon">Alkalmazás ikonra</string>
+    <string name="requires_restart">(újraindítás szükséges)</string>
+    <string name="app_icon_default">Alapértelmezett</string>
+    <string name="app_icon_alt_1">Egyszínű</string>
 </resources>

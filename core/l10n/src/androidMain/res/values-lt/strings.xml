@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Licencijos</string>
     <string name="settings_inbox_background_check_period">Patikrinkite, ar fone nėra neskaitytų elementų</string>
     <string name="never">Niekada</string>
+    <string name="settings_app_icon">Programos piktograma</string>
+    <string name="requires_restart">(reikia paleisti iš naujo)</string>
+    <string name="app_icon_default">Numatytas</string>
+    <string name="app_icon_alt_1">Vienspalvis</string>
 </resources>

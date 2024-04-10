@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Licence</string>
     <string name="settings_inbox_background_check_period">Zkontrolujte, zda na pozadí nejsou nepřečtené položky</string>
     <string name="never">Nikdy</string>
+    <string name="settings_app_icon">Ikona aplikace</string>
+    <string name="requires_restart">(vyžadován restart)</string>
+    <string name="app_icon_default">Výchozí</string>
+    <string name="app_icon_alt_1">Jednobarevné</string>
 </resources>

@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Лицензи</string>
     <string name="settings_inbox_background_check_period">Проверете за непрочетени елементи на заден план</string>
     <string name="never">Никога</string>
+    <string name="settings_app_icon">Икона на приложението</string>
+    <string name="requires_restart">(изисква се рестартиране)</string>
+    <string name="app_icon_default">По подразбиране</string>
+    <string name="app_icon_alt_1">Едноцветен</string>
 </resources>

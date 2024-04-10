@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Licence</string>
     <string name="settings_inbox_background_check_period">Provjerite nepročitane stavke u pozadini</string>
     <string name="never">Nikada</string>
+    <string name="settings_app_icon">Ikona aplikacije</string>
+    <string name="requires_restart">(potrebno ponovno pokretanje)</string>
+    <string name="app_icon_default">Zadano</string>
+    <string name="app_icon_alt_1">Monokromatski</string>
 </resources>

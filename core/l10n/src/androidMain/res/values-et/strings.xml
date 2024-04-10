@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Litsentsid</string>
     <string name="settings_inbox_background_check_period">Kontrollige, kas taustal pole lugemata üksusi</string>
     <string name="never">Mitte kunagi</string>
+    <string name="settings_app_icon">Rakenduse ikoon</string>
+    <string name="requires_restart">(vaja on taaskäivitada)</string>
+    <string name="app_icon_default">Vaikimisi</string>
+    <string name="app_icon_alt_1">Ühevärviline</string>
 </resources>

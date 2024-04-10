@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Licence</string>
     <string name="settings_inbox_background_check_period">Preverite neprebrane elemente v ozadju</string>
     <string name="never">Nikoli</string>
+    <string name="settings_app_icon">Ikona aplikacije</string>
+    <string name="requires_restart">(potreben je ponovni zagon)</string>
+    <string name="app_icon_default">Privzeto</string>
+    <string name="app_icon_alt_1">Enobarvno</string>
 </resources>

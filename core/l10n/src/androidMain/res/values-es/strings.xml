@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Licencias</string>
     <string name="settings_inbox_background_check_period">Verificar elementos no leídos en segundo plano</string>
     <string name="never">Nunca</string>
+    <string name="settings_app_icon">Icono de aplicación</string>
+    <string name="requires_restart">(reinicio requerido)</string>
+    <string name="app_icon_default">Por defecto</string>
+    <string name="app_icon_alt_1">Monocromo</string>
 </resources>

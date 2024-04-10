@@ -376,4 +376,8 @@
     <string name="settings_about_licences">sitelen lawa</string>
     <string name="settings_inbox_background_check_period">lukin ala la, o lanpan e ijo pi wile lukin</string>
     <string name="never">ala</string>
+    <string name="settings_app_icon">sitelen lili</string>
+    <string name="requires_restart">(o open e ilo nanpa)</string>
+    <string name="app_icon_default">pona</string>
+    <string name="app_icon_alt_1">kule wan</string>
 </resources>

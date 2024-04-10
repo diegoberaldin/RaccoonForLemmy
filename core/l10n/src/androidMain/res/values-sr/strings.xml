@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Лиценце</string>
     <string name="settings_inbox_background_check_period">Проверите да ли постоје непрочитане ставке у позадини</string>
     <string name="never">Никада</string>
+    <string name="settings_app_icon">Икона апликације</string>
+    <string name="requires_restart">(потребно је поновно покретање)</string>
+    <string name="app_icon_default">Уобичајено</string>
+    <string name="app_icon_alt_1">Моноцхроматиц</string>
 </resources>

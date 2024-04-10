@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Άδειες</string>
     <string name="settings_inbox_background_check_period">Ελέγξτε για μη αναγνωσμένα στοιχεία στο παρασκήνιο</string>
     <string name="never">Ποτέ</string>
+    <string name="settings_app_icon">Εικονίδιο εφαρμογής</string>
+    <string name="requires_restart">(απαιτείται επανεκκίνηση)</string>
+    <string name="app_icon_default">Προκαθορισμένο</string>
+    <string name="app_icon_alt_1">Μονόχρωμος</string>
 </resources>

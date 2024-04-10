@@ -375,4 +375,8 @@
     <string name="settings_about_licences">Лицензии</string>
     <string name="settings_inbox_background_check_period">Проверка непрочитанных элементов в фоновом режиме</string>
     <string name="never">Никогда</string>
+    <string name="settings_app_icon">Значок приложения</string>
+    <string name="requires_restart">(требуется перезагрузка)</string>
+    <string name="app_icon_default">По умолчанию</string>
+    <string name="app_icon_alt_1">Монохроматический</string>
 </resources>

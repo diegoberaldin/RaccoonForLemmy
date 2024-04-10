@@ -376,4 +376,8 @@
     <string name="settings_about_licences">Licenties</string>
     <string name="settings_inbox_background_check_period">Controleer op ongelezen items op de achtergrond</string>
     <string name="never">Nooit</string>
+    <string name="settings_app_icon">Toepassingspictogram</string>
+    <string name="requires_restart">(opnieuw opstarten vereist)</string>
+    <string name="app_icon_default">Standaard</string>
+    <string name="app_icon_alt_1">Monochromatisch</string>
 </resources>
