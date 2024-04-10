@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.coreNotifi
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.corePersistenceModule
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.corePreferencesModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.crashReportModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.appIconModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.networkModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
@@ -107,5 +108,6 @@ val sharedHelperModule = module {
         filteredContentsModule,
         editCommunityModule,
         licenceModule,
+        appIconModule,
     )
 }

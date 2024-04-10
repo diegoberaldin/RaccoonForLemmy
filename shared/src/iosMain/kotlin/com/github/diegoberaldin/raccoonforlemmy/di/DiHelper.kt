@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.corePersiste
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.corePreferencesModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.crashReportModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.appIconModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.networkModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
@@ -110,6 +111,7 @@ fun initKoin() {
             filteredContentsModule,
             editCommunityModule,
             licenceModule,
+            appIconModule,
         )
     }
 
