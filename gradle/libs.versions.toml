@@ -28,7 +28,7 @@ multiplatform_markdown_renderer = "0.14.0"
 multiplatform_settings = "1.1.1"
 reorderable = "1.4.0"
 sqlcipher = "4.5.5"
-sqldelight = "2.0.1"
+sqldelight = "2.0.2"
 turbine = "1.0.0"
 voyager = "1.0.0"
 
