@@ -118,7 +118,7 @@
     <string name="multi_community_editor_name">Nome</string>
     <string name="multi_community_editor_title">Editor Multi-comunità</string>
     <string name="navigation_drawer_anonymous">Anonimo</string>
-    <string name="navigation_drawer_title_bookmarks">Salvati</string>
+    <string name="navigation_drawer_title_bookmarks">Segnalibri</string>
     <string name="navigation_drawer_title_subscriptions">Gestione iscrizioni</string>
     <string name="navigation_home">Post</string>
     <string name="navigation_inbox">Inbox</string>

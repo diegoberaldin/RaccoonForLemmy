@@ -20,6 +20,12 @@ class ProfileMainViewModel(
         screenModelScope.launch {
             identityRepository.isLogged.onEach { logged ->
                 updateState { it.copy(logged = logged) }
+                if (logged == true) {
+                    val userFromCache = identityRepository.cachedUser
+                    updateState {
+                        it.copy(user = userFromCache)
+                    }
+                }
             }.launchIn(this)
         }
     }

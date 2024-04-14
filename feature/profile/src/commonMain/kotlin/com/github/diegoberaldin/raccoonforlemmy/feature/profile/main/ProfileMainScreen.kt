@@ -1,13 +1,22 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.profile.main
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.automirrored.filled.Message
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Drafts
 import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Subscriptions
+import androidx.compose.material.icons.filled.ThumbsUpDown
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -28,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
@@ -36,15 +46,31 @@ import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ModeratorZoneAction
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toModeratorZoneAction
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ModeratorZoneBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.notlogged.ProfileNotLoggedScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsType
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.ManageAccountsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageSubscriptionsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.ProfileLoggedScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.ReportListScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.SavedItemsScreen
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -70,6 +96,33 @@ internal object ProfileMainScreen : Tab {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val scope = rememberCoroutineScope()
+        val notificationCenter = remember { getNotificationCenter() }
+        val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
+        val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
+        val bottomNavigationInset = with(LocalDensity.current) {
+            WindowInsets.navigationBars.getBottom(this).toDp()
+        }
+
+        LaunchedEffect(notificationCenter) {
+            notificationCenter.subscribe(NotificationCenterEvent.ModeratorZoneActionSelected::class)
+                .onEach {
+                    val action = it.value.toModeratorZoneAction()
+                    when (action) {
+                        ModeratorZoneAction.GlobalModLog -> {
+                            navigationCoordinator.pushScreen(ModlogScreen())
+                        }
+
+                        ModeratorZoneAction.GlobalReports -> {
+                            navigationCoordinator.pushScreen(ReportListScreen())
+                        }
+
+                        ModeratorZoneAction.ModeratedContents -> {
+                            val screen = FilteredContentsScreen(type = FilteredContentsType.Moderated.toInt())
+                            navigationCoordinator.pushScreen(screen)
+                        }
+                    }
+                }.launchIn(this)
+        }
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
@@ -115,19 +168,6 @@ internal object ProfileMainScreen : Tab {
                                     .padding(horizontal = Spacing.xs)
                                     .onClick(
                                         onClick = rememberCallback {
-                                            navigationCoordinator.showBottomSheet(ManageAccountsScreen())
-                                        },
-                                    ),
-                                imageVector = Icons.Default.ManageAccounts,
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                            )
-
-                            Image(
-                                modifier = Modifier
-                                    .padding(horizontal = Spacing.xs)
-                                    .onClick(
-                                        onClick = rememberCallback {
                                             model.reduce(ProfileMainMviModel.Intent.Logout)
                                         },
                                     ),
@@ -139,10 +179,76 @@ internal object ProfileMainScreen : Tab {
                     },
                 )
             },
+            floatingActionButton = {
+                AnimatedVisibility(
+                    visible = isFabVisible && uiState.logged == true,
+                    enter = slideInVertically(
+                        initialOffsetY = { it * 2 },
+                    ),
+                    exit = slideOutVertically(
+                        targetOffsetY = { it * 2 },
+                    ),
+                ) {
+                    FloatingActionButtonMenu(
+                        modifier = Modifier.padding(
+                            bottom = Spacing.xl + bottomNavigationInset,
+                        ),
+                        items = buildList {
+                            this += FloatingActionButtonMenuItem(
+                                icon = Icons.Default.ManageAccounts,
+                                text = LocalXmlStrings.current.manageAccountsTitle,
+                                onSelected = rememberCallback {
+                                    navigationCoordinator.showBottomSheet(ManageAccountsScreen())
+                                },
+                            )
+                            this += FloatingActionButtonMenuItem(
+                                icon = Icons.Default.Subscriptions,
+                                text = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
+                                onSelected = rememberCallback {
+                                    navigationCoordinator.pushScreen(ManageSubscriptionsScreen())
+                                },
+                            )
+                            this += FloatingActionButtonMenuItem(
+                                icon = Icons.Default.Bookmark,
+                                text = LocalXmlStrings.current.navigationDrawerTitleBookmarks,
+                                onSelected = rememberCallback {
+                                    navigationCoordinator.pushScreen(SavedItemsScreen())
+                                },
+                            )
+                            this += FloatingActionButtonMenuItem(
+                                icon = Icons.Default.Drafts,
+                                text = LocalXmlStrings.current.navigationDrawerTitleDrafts,
+                                onSelected = rememberCallback {
+                                    navigationCoordinator.pushScreen(DraftsScreen())
+                                },
+                            )
+                            this += FloatingActionButtonMenuItem(
+                                icon = Icons.Default.ThumbsUpDown,
+                                text = LocalXmlStrings.current.profileUpvotesDownvotes,
+                                onSelected = rememberCallback {
+                                    val screen = FilteredContentsScreen(type = FilteredContentsType.Votes.toInt())
+                                    navigationCoordinator.pushScreen(screen)
+                                },
+                            )
+                            if (uiState.user?.moderator == true) {
+                                this += FloatingActionButtonMenuItem(
+                                    icon = Icons.AutoMirrored.Default.Message,
+                                    text = LocalXmlStrings.current.moderatorZoneTitle,
+                                    onSelected = rememberCallback {
+                                        val screen = ModeratorZoneBottomSheet()
+                                        navigationCoordinator.showBottomSheet(screen)
+                                    },
+                                )
+                            }
+                        }
+                    )
+                }
+            },
         ) { paddingValues ->
             Box(
                 modifier = Modifier
                     .padding(paddingValues)
+                    .nestedScroll(fabNestedScrollConnection)
                     .then(
                         if (settings.hideNavigationBarWhileScrolling) {
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
