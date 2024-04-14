@@ -174,6 +174,19 @@ class AdvancedSettingsScreen : Screen {
                         title = LocalXmlStrings.current.settingsTitleReading,
                         icon = Icons.Default.Book,
                     )
+                    if (uiState.isLogged) {
+                        // visually differentiate read posts
+                        SettingsSwitchRow(
+                            title = LocalXmlStrings.current.settingsFadeReadPosts,
+                            value = uiState.fadeReadPosts,
+                            onValueChanged = rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    AdvancedSettingsMviModel.Intent.ChangeFadeReadPosts(value)
+                                )
+                            },
+                        )
+                    }
+
                     // default explore type
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsDefaultExploreType,

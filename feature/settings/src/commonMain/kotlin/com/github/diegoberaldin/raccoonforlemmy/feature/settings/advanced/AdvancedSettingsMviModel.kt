@@ -23,6 +23,7 @@ interface AdvancedSettingsMviModel :
         data class ChangeInfiniteScrollDisabled(val value: Boolean) : Intent
         data class ChangeImageSourcePath(val value: Boolean) : Intent
         data class ChangeDefaultLanguage(val value: Long?) : Intent
+        data class ChangeFadeReadPosts(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -47,6 +48,7 @@ interface AdvancedSettingsMviModel :
         val availableLanguages: List<LanguageModel> = emptyList(),
         val inboxBackgroundCheckPeriod: Duration? = null,
         val appIconChangeSupported: Boolean = false,
+        val fadeReadPosts: Boolean = false,
     )
 
     sealed interface Effect
