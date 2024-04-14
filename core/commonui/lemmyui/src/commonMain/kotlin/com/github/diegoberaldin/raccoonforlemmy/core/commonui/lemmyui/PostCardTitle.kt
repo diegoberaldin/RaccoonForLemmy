@@ -25,9 +25,10 @@ import com.mikepenz.markdown.m3.markdownTypography
 @Composable
 fun PostCardTitle(
     text: String,
+    modifier: Modifier = Modifier,
     bolder: Boolean = false,
     autoLoadImages: Boolean = true,
-    modifier: Modifier = Modifier,
+    markRead: Boolean = false,
     onClick: (() -> Unit)? = null,
     onOpenImage: ((String) -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
@@ -53,6 +54,7 @@ fun PostCardTitle(
     } else {
         FontWeight.Normal
     }
+    val additionalAlphaFactor = if (markRead) 0.8f else 1f
 
     CustomMarkdownWrapper(
         modifier = modifier,
@@ -74,8 +76,8 @@ fun PostCardTitle(
             code = typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
         ),
         colors = markdownColor(
-            text = MaterialTheme.colorScheme.onBackground,
-            codeText = MaterialTheme.colorScheme.onBackground,
+            text = MaterialTheme.colorScheme.onBackground.copy(alpha = additionalAlphaFactor),
+            codeText = MaterialTheme.colorScheme.onBackground.copy(alpha = additionalAlphaFactor),
             codeBackground = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
             dividerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
         ),

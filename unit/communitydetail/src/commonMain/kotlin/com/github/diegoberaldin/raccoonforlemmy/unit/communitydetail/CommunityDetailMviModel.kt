@@ -70,6 +70,7 @@ interface CommunityDetailMviModel :
         val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = emptyList(),
         val searching: Boolean = false,
         val searchText: String = "",
+        val fadeReadPosts: Boolean = false,
     )
 
     sealed interface Effect {

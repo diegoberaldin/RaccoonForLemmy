@@ -61,18 +61,20 @@ fun CommunityAndCreatorInfo(
     locked: Boolean = false,
     isFromModerator: Boolean = false,
     isOp: Boolean = false,
+    markRead: Boolean = false,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
     onToggleExpanded: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
 ) {
+    val additionalAlphaFactor = if (markRead) 0.8f else 1f
     val communityName = community?.readableName(preferNicknames).orEmpty()
     val communityIcon = community?.icon.orEmpty()
     val creatorName = creator?.readableName(preferNicknames).orEmpty()
     val creatorAvatar = creator?.avatar.orEmpty()
-    val fullColor = MaterialTheme.colorScheme.onBackground
-    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
+    val fullColor = MaterialTheme.colorScheme.onBackground.copy(alpha = additionalAlphaFactor)
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f * additionalAlphaFactor)
 
     Row(
         modifier = modifier,

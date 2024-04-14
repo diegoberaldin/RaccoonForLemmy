@@ -823,6 +823,7 @@ class CommunityDetailScreen(
                                                 uiState.community.nsfw -> false
                                                 else -> uiState.blurNsfw
                                             },
+                                            fadeRead = uiState.fadeReadPosts,
                                             onClick = rememberCallback(model) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.MarkAsRead(

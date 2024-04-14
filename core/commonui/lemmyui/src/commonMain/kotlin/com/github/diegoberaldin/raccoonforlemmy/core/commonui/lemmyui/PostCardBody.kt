@@ -27,6 +27,7 @@ fun PostCardBody(
     text: String,
     maxLines: Int? = null,
     autoLoadImages: Boolean = true,
+    markRead: Boolean = false,
     onClick: (() -> Unit)? = null,
     onOpenImage: ((String) -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
@@ -42,6 +43,7 @@ fun PostCardBody(
     val themeRepository = remember { getThemeRepository() }
     val fontFamily by themeRepository.contentFontFamily.collectAsState()
     val typography = fontFamily.toTypography()
+    val additionalAlphaFactor = if (markRead) 0.8f else 1f
 
     if (text.isNotEmpty()) {
         CustomMarkdownWrapper(
@@ -65,9 +67,9 @@ fun PostCardBody(
                 code = typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
             ),
             colors = markdownColor(
-                text = MaterialTheme.colorScheme.onBackground,
-                linkText = MaterialTheme.colorScheme.primary,
-                codeText = MaterialTheme.colorScheme.onBackground,
+                text = MaterialTheme.colorScheme.onBackground.copy(alpha = additionalAlphaFactor),
+                linkText = MaterialTheme.colorScheme.primary.copy(alpha = additionalAlphaFactor),
+                codeText = MaterialTheme.colorScheme.onBackground.copy(alpha = additionalAlphaFactor),
                 codeBackground = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
                 dividerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
             ),

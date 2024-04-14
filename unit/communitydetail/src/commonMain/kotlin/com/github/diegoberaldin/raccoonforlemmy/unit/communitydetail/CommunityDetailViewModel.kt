@@ -106,6 +106,7 @@ class CommunityDetailViewModel(
                         actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
                         showScores = settings.showScores,
+                        fadeReadPosts = settings.fadeReadPosts,
                     )
                 }
             }.launchIn(this)

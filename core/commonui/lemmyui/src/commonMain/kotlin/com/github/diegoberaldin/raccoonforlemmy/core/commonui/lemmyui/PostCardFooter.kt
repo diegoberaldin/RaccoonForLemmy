@@ -64,6 +64,7 @@ fun PostCardFooter(
     upVoted: Boolean = false,
     downVoted: Boolean = false,
     actionButtonsActive: Boolean = true,
+    markRead: Boolean = false,
     optionsMenuOpen: MutableState<Boolean> = remember { mutableStateOf(false) },
     options: List<Option> = emptyList(),
     onUpVote: (() -> Unit)? = null,
@@ -77,8 +78,9 @@ fun PostCardFooter(
     val upVoteColor by themeRepository.upVoteColor.collectAsState()
     val downVoteColor by themeRepository.downVoteColor.collectAsState()
     val defaultUpvoteColor = MaterialTheme.colorScheme.primary
+    val additionalAlphaFactor = if (markRead) 0.8f else 1f
     val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
-    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
+    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f * additionalAlphaFactor)
 
     Box(modifier = modifier) {
         Row(
