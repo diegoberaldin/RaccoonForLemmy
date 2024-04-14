@@ -48,6 +48,7 @@ interface MultiCommunityMviModel :
         val availableSortTypes: List<SortType> = emptyList(),
         val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = emptyList(),
+        val fadeReadPosts: Boolean = false,
     )
 
     sealed interface Effect {
