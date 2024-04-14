@@ -60,6 +60,7 @@ private object KeyStoreKeys {
     const val COMMENT_BAR_THICKNESS = "commentBarThickness"
     const val IMAGE_SOURCE_PATH = "imageSourcePath"
     const val DEFAULT_LANGUAGE_ID = "defaultLanguageId"
+    const val FADE_READ_POSTS = "fadeReadPosts"
 }
 
 internal class DefaultSettingsRepository(
@@ -134,6 +135,7 @@ internal class DefaultSettingsRepository(
                 defaultExploreType = settings.defaultExploreType.toLong(),
                 defaultLanguageId = settings.defaultLanguageId,
                 inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod?.inWholeMinutes,
+                fadeReadPosts = if (settings.fadeReadPosts) 1L else 0L,
             )
         }
 
@@ -197,6 +199,7 @@ internal class DefaultSettingsRepository(
                     defaultLanguageId = if (keyStore.containsKey(KeyStoreKeys.DEFAULT_LANGUAGE_ID)) {
                         keyStore[KeyStoreKeys.DEFAULT_LANGUAGE_ID, 0L]
                     } else null,
+                    fadeReadPosts = keyStore[KeyStoreKeys.FADE_READ_POSTS, false],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -304,6 +307,7 @@ internal class DefaultSettingsRepository(
                 } else {
                     keyStore.remove(KeyStoreKeys.DEFAULT_LANGUAGE_ID)
                 }
+                keyStore.save(KeyStoreKeys.FADE_READ_POSTS, settings.fadeReadPosts)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -366,6 +370,7 @@ internal class DefaultSettingsRepository(
                     defaultExploreType = settings.defaultExploreType.toLong(),
                     defaultLanguageId = settings.defaultLanguageId,
                     inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod?.inWholeMinutes,
+                    fadeReadPosts = if (settings.fadeReadPosts) 1L else 0L,
                 )
             }
         }
@@ -444,4 +449,5 @@ private fun GetBy.toModel() = SettingsModel(
     defaultExploreType = defaultExploreType.toInt(),
     defaultLanguageId = defaultLanguageId,
     inboxBackgroundCheckPeriod = inboxBackgroundCheckPeriod?.minutes,
+    fadeReadPosts = fadeReadPosts == 1L,
 )

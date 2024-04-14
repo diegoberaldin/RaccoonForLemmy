@@ -57,4 +57,5 @@ data class SettingsModel(
     val imageSourcePath: Boolean = false,
     val defaultLanguageId: Long? = null,
     val inboxBackgroundCheckPeriod: Duration? = null,
+    val fadeReadPosts: Boolean = false,
 )
