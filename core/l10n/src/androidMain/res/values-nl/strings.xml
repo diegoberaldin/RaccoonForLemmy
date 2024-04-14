@@ -380,4 +380,5 @@
     <string name="requires_restart">(opnieuw opstarten vereist)</string>
     <string name="app_icon_default">Standaard</string>
     <string name="app_icon_alt_1">Monochromatisch</string>
+    <string name="settings_fade_read_posts">Leesberichten vervagen</string>
 </resources>

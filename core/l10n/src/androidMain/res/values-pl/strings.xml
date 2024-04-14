@@ -380,4 +380,5 @@
     <string name="requires_restart">(wymagane jest ponowne uruchomienie)</string>
     <string name="app_icon_default">Domyślny</string>
     <string name="app_icon_alt_1">Monochromatyczny</string>
+    <string name="settings_fade_read_posts">Przyciemnij przeczytane posty</string>
 </resources>

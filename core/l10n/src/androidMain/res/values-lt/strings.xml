@@ -380,4 +380,5 @@
     <string name="requires_restart">(reikia paleisti iš naujo)</string>
     <string name="app_icon_default">Numatytas</string>
     <string name="app_icon_alt_1">Vienspalvis</string>
+    <string name="settings_fade_read_posts">Išblukinti skaitytus įrašus</string>
 </resources>

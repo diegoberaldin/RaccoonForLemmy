@@ -380,4 +380,5 @@
     <string name="requires_restart">(potreben je ponovni zagon)</string>
     <string name="app_icon_default">Privzeto</string>
     <string name="app_icon_alt_1">Enobarvno</string>
+    <string name="settings_fade_read_posts">Zbledi prebrane objave</string>
 </resources>

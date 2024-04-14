@@ -380,4 +380,5 @@
     <string name="requires_restart">(atosú ag teastáil)</string>
     <string name="app_icon_default">Réamhshocrú</string>
     <string name="app_icon_alt_1">Monacrómatach</string>
+    <string name="settings_fade_read_posts">Céimnithe léamh postálacha</string>
 </resources>

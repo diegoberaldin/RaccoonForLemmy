@@ -380,4 +380,5 @@
     <string name="requires_restart">(uudelleenkäynnistys vaaditaan)</string>
     <string name="app_icon_default">Oletus</string>
     <string name="app_icon_alt_1">Yksivärinen</string>
+    <string name="settings_fade_read_posts">Häivyttää luetut viestit</string>
 </resources>

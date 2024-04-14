@@ -380,4 +380,5 @@
     <string name="requires_restart">(o open e ilo nanpa)</string>
     <string name="app_icon_default">pona</string>
     <string name="app_icon_alt_1">kule wan</string>
+    <string name="settings_fade_read_posts">lukin la, o ante e kule lipu</string>
 </resources>

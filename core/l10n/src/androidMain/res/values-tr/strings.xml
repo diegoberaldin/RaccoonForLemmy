@@ -380,4 +380,5 @@
     <string name="requires_restart">(Yeniden başlatmak gerekir)</string>
     <string name="app_icon_default">Varsayılan</string>
     <string name="app_icon_alt_1">Tek renkli</string>
+    <string name="settings_fade_read_posts">Okunan gönderileri soldur</string>
 </resources>

@@ -380,4 +380,5 @@
     <string name="requires_restart">(nepieciešams restartēt)</string>
     <string name="app_icon_default">Noklusējums</string>
     <string name="app_icon_alt_1">Vienkrāsains</string>
+    <string name="settings_fade_read_posts">Izbalināt lasītās ziņas</string>
 </resources>

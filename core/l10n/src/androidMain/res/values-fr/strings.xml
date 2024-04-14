@@ -380,4 +380,5 @@
     <string name="requires_restart">(redémarrage requis)</string>
     <string name="app_icon_default">Défaut</string>
     <string name="app_icon_alt_1">Monochromatique</string>
+    <string name="settings_fade_read_posts">Fondu les publications lues</string>
 </resources>

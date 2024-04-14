@@ -380,4 +380,5 @@
     <string name="requires_restart">(omstart kreves)</string>
     <string name="app_icon_default">Misligholde</string>
     <string name="app_icon_alt_1">monokromatisk</string>
+    <string name="settings_fade_read_posts">Fade lese innlegg</string>
 </resources>

@@ -380,4 +380,5 @@
     <string name="requires_restart">(kërkohet rinisja)</string>
     <string name="app_icon_default">E paracaktuar</string>
     <string name="app_icon_alt_1">monokromatike</string>
+    <string name="settings_fade_read_posts">Zbeh postimet e lexuara</string>
 </resources>

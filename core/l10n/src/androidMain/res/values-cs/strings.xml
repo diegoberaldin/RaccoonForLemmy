@@ -380,4 +380,5 @@
     <string name="requires_restart">(vyžadován restart)</string>
     <string name="app_icon_default">Výchozí</string>
     <string name="app_icon_alt_1">Jednobarevné</string>
+    <string name="settings_fade_read_posts">Fade přečtené příspěvky</string>
 </resources>

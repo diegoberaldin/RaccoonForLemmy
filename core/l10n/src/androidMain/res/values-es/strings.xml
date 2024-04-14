@@ -380,4 +380,5 @@
     <string name="requires_restart">(reinicio requerido)</string>
     <string name="app_icon_default">Por defecto</string>
     <string name="app_icon_alt_1">Monocromo</string>
+    <string name="settings_fade_read_posts">Desvanecer publicaciones leídas</string>
 </resources>

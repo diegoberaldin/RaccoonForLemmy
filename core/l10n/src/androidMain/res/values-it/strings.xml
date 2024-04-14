@@ -380,4 +380,5 @@
     <string name="requires_restart">(riavvio richiesto)</string>
     <string name="app_icon_default">Predefinito</string>
     <string name="app_icon_alt_1">Monocromatico</string>
+    <string name="settings_fade_read_posts">Dissolvenza post letti</string>
 </resources>

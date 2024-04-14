@@ -380,4 +380,5 @@
     <string name="requires_restart">(ristart meħtieġ)</string>
     <string name="app_icon_default">Default</string>
     <string name="app_icon_alt_1">Monokromatiku</string>
+    <string name="settings_fade_read_posts">Fade aqra postijiet</string>
 </resources>

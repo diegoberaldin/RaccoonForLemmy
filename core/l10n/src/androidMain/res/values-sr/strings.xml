@@ -380,4 +380,5 @@
     <string name="requires_restart">(потребно је поновно покретање)</string>
     <string name="app_icon_default">Уобичајено</string>
     <string name="app_icon_alt_1">Моноцхроматиц</string>
+    <string name="settings_fade_read_posts">Избледи прочитане постове</string>
 </resources>

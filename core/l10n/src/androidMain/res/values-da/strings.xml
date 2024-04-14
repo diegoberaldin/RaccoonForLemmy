@@ -380,4 +380,5 @@
     <string name="requires_restart">(genstart påkrævet)</string>
     <string name="app_icon_default">Standard</string>
     <string name="app_icon_alt_1">Monokromatisk</string>
+    <string name="settings_fade_read_posts">Fade læse indlæg</string>
 </resources>

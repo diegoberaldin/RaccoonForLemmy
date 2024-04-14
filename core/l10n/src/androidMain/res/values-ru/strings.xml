@@ -379,4 +379,5 @@
     <string name="requires_restart">(требуется перезагрузка)</string>
     <string name="app_icon_default">По умолчанию</string>
     <string name="app_icon_alt_1">Монохроматический</string>
+    <string name="settings_fade_read_posts">Блеклые прочитанные посты</string>
 </resources>

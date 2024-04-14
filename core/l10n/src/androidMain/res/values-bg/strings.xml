@@ -380,4 +380,5 @@
     <string name="requires_restart">(изисква се рестартиране)</string>
     <string name="app_icon_default">По подразбиране</string>
     <string name="app_icon_alt_1">Едноцветен</string>
+    <string name="settings_fade_read_posts">Избледняват четени публикации</string>
 </resources>

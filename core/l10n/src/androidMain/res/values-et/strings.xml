@@ -380,4 +380,5 @@
     <string name="requires_restart">(vaja on taaskäivitada)</string>
     <string name="app_icon_default">Vaikimisi</string>
     <string name="app_icon_alt_1">Ühevärviline</string>
+    <string name="settings_fade_read_posts">Loetud postituste tuhmumine</string>
 </resources>

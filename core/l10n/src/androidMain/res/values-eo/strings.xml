@@ -380,4 +380,5 @@
     <string name="requires_restart">(rekomenco necesas)</string>
     <string name="app_icon_default">Defaŭlte</string>
     <string name="app_icon_alt_1">Monokromata</string>
+    <string name="settings_fade_read_posts">Fadi legitajn afiŝojn</string>
 </resources>
