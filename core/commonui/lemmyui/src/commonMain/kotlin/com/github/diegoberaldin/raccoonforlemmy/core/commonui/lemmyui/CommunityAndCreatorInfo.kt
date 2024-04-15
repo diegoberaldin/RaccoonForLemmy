@@ -12,10 +12,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.HotelClass
 import androidx.compose.material.icons.filled.LocalPolice
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Stars
+import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -56,7 +56,7 @@ fun CommunityAndCreatorInfo(
     community: CommunityModel? = null,
     creator: UserModel? = null,
     distinguished: Boolean = false,
-    featured: Boolean = false,
+    featuredCommunity: Boolean = false,
     featuredLocal: Boolean = false,
     locked: Boolean = false,
     isFromModerator: Boolean = false,
@@ -212,19 +212,20 @@ fun CommunityAndCreatorInfo(
                 imageVector = Icons.Default.WorkspacePremium,
                 contentDescription = null,
             )
-        } else if (featured) {
-            Icon(
-                modifier = buttonModifier,
-                imageVector = Icons.Filled.Star,
-                contentDescription = null,
-            )
         } else if (featuredLocal) {
             Icon(
                 modifier = buttonModifier,
-                imageVector = Icons.Filled.HotelClass,
+                imageVector = Icons.Default.Verified,
+                contentDescription = null,
+            )
+        } else if (featuredCommunity) {
+            Icon(
+                modifier = buttonModifier,
+                imageVector = Icons.Default.Stars,
                 contentDescription = null,
             )
         }
+
         if (locked) {
             Icon(
                 modifier = buttonModifier,

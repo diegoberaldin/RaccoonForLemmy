@@ -217,7 +217,7 @@ private fun CompactPost(
         CommunityAndCreatorInfo(
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
-            featured = post.featuredCommunity,
+            featuredCommunity = post.featuredCommunity,
             featuredLocal = post.featuredLocal,
             locked = post.locked,
             markRead = markRead,
@@ -384,7 +384,7 @@ private fun ExtendedPost(
             modifier = Modifier.padding(horizontal = Spacing.xxs),
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
-            featured = post.featuredCommunity,
+            featuredCommunity = post.featuredCommunity,
             featuredLocal = post.featuredLocal,
             locked = post.locked,
             markRead = markRead,
