@@ -373,6 +373,8 @@ class FilteredContentsScreen(
                                             voteFormat = uiState.voteFormat,
                                             autoLoadImages = uiState.autoLoadImages,
                                             preferNicknames = uiState.preferNicknames,
+                                            fadeRead = uiState.fadeReadPosts,
+                                            showUnreadComments = uiState.showUnreadComments,
                                             onClick = rememberCallback(model) {
                                                 detailOpener.openPostDetail(post)
                                             },

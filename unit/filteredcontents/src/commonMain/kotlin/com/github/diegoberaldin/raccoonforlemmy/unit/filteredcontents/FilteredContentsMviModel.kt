@@ -65,6 +65,8 @@ interface FilteredContentsMviModel :
         val section: FilteredContentsSection = FilteredContentsSection.Posts,
         val posts: List<PostModel> = emptyList(),
         val comments: List<CommentModel> = emptyList(),
+        val fadeReadPosts: Boolean = false,
+        val showUnreadComments: Boolean = false,
         val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToStartComments: List<ActionOnSwipe> = emptyList(),

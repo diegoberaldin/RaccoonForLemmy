@@ -58,6 +58,8 @@ class FilteredContentsViewModel(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         voteFormat = settings.voteFormat,
                         fullHeightImages = settings.fullHeightImages,
+                        fadeReadPosts = settings.fadeReadPosts,
+                        showUnreadComments = settings.showUnreadComments,
                         actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
                         actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
