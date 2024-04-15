@@ -381,4 +381,5 @@
     <string name="app_icon_default">تقصير</string>
     <string name="app_icon_alt_1">أحادية اللون</string>
     <string name="settings_fade_read_posts">تتلاشى قراءة المشاركات</string>
+    <string name="settings_show_unread_comments">إظهار عدد التعليقات غير المقروءة</string>
 </resources>

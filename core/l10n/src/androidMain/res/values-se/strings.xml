@@ -381,4 +381,5 @@
     <string name="app_icon_default">Standard</string>
     <string name="app_icon_alt_1">Enfärgad</string>
     <string name="settings_fade_read_posts">Fade läs inlägg</string>
+    <string name="settings_show_unread_comments">Visa antal olästa kommentarer</string>
 </resources>

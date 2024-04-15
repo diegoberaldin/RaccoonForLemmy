@@ -381,4 +381,5 @@
     <string name="app_icon_default">Numatytas</string>
     <string name="app_icon_alt_1">Vienspalvis</string>
     <string name="settings_fade_read_posts">Išblukinti skaitytus įrašus</string>
+    <string name="settings_show_unread_comments">Rodyti neskaitytų komentarų skaičių</string>
 </resources>

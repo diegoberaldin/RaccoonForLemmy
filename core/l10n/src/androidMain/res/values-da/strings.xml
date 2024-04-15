@@ -381,4 +381,5 @@
     <string name="app_icon_default">Standard</string>
     <string name="app_icon_alt_1">Monokromatisk</string>
     <string name="settings_fade_read_posts">Fade læse indlæg</string>
+    <string name="settings_show_unread_comments">Vis antal ulæste kommentarer</string>
 </resources>

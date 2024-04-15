@@ -381,4 +381,5 @@
     <string name="app_icon_default">Predefinito</string>
     <string name="app_icon_alt_1">Monocromatico</string>
     <string name="settings_fade_read_posts">Dissolvenza post letti</string>
+    <string name="settings_show_unread_comments">Mostra il numero di commenti non letti</string>
 </resources>

@@ -389,4 +389,5 @@
     <string name="app_icon_default">Default</string>
     <string name="app_icon_alt_1">Monochromatic</string>
     <string name="settings_fade_read_posts">Fade read posts</string>
+    <string name="settings_show_unread_comments">Show number of unread comments</string>
 </resources>

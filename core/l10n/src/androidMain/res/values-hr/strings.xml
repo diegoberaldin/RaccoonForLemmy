@@ -381,4 +381,5 @@
     <string name="app_icon_default">Zadano</string>
     <string name="app_icon_alt_1">Monokromatski</string>
     <string name="settings_fade_read_posts">Izblijedjeti pročitani postovi</string>
+    <string name="settings_show_unread_comments">Prikaži broj nepročitanih komentara</string>
 </resources>

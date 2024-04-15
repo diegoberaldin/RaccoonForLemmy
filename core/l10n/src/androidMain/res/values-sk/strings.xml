@@ -381,4 +381,5 @@
     <string name="app_icon_default">Predvolené</string>
     <string name="app_icon_alt_1">Jednofarebné</string>
     <string name="settings_fade_read_posts">Fade prečítané príspevky</string>
+    <string name="settings_show_unread_comments">Zobraziť počet neprečítaných komentárov</string>
 </resources>

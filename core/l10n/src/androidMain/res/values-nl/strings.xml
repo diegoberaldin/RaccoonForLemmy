@@ -381,4 +381,5 @@
     <string name="app_icon_default">Standaard</string>
     <string name="app_icon_alt_1">Monochromatisch</string>
     <string name="settings_fade_read_posts">Leesberichten vervagen</string>
+    <string name="settings_show_unread_comments">Toon het aantal ongelezen reacties</string>
 </resources>

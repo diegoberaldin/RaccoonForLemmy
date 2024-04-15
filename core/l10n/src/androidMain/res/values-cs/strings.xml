@@ -381,4 +381,5 @@
     <string name="app_icon_default">Výchozí</string>
     <string name="app_icon_alt_1">Jednobarevné</string>
     <string name="settings_fade_read_posts">Fade přečtené příspěvky</string>
+    <string name="settings_show_unread_comments">Zobrazit počet nepřečtených komentářů</string>
 </resources>

@@ -381,4 +381,5 @@
     <string name="app_icon_default">Défaut</string>
     <string name="app_icon_alt_1">Monochromatique</string>
     <string name="settings_fade_read_posts">Fondu les publications lues</string>
+    <string name="settings_show_unread_comments">Afficher le nombre de commentaires non lus</string>
 </resources>

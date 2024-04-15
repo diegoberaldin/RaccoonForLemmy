@@ -381,4 +381,5 @@
     <string name="app_icon_default">Padrão</string>
     <string name="app_icon_alt_1">Monocromático</string>
     <string name="settings_fade_read_posts">Desbotar as postagens lidas</string>
+    <string name="settings_show_unread_comments">Mostrar número de comentários não lidos</string>
 </resources>

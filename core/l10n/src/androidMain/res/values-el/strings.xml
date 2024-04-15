@@ -381,4 +381,5 @@
     <string name="app_icon_default">Προκαθορισμένο</string>
     <string name="app_icon_alt_1">Μονόχρωμος</string>
     <string name="settings_fade_read_posts">Εξασθένιση αναγνωσμένων αναρτήσεων</string>
+    <string name="settings_show_unread_comments">Εμφάνιση αριθμού μη αναγνωσμένων σχολίων</string>
 </resources>

@@ -381,4 +381,5 @@
     <string name="app_icon_default">По подразбиране</string>
     <string name="app_icon_alt_1">Едноцветен</string>
     <string name="settings_fade_read_posts">Избледняват четени публикации</string>
+    <string name="settings_show_unread_comments">Показване на броя непрочетени коментари</string>
 </resources>

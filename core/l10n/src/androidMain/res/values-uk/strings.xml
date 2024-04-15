@@ -380,4 +380,5 @@
     <string name="app_icon_default">За замовчуванням</string>
     <string name="app_icon_alt_1">Однотонні</string>
     <string name="settings_fade_read_posts">Зникають прочитані пости</string>
+    <string name="settings_show_unread_comments">Показати кількість непрочитаних коментарів</string>
 </resources>
