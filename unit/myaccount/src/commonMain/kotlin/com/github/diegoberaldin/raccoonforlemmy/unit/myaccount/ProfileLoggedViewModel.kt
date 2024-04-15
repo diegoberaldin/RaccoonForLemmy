@@ -78,6 +78,7 @@ class ProfileLoggedViewModel(
                         preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
                         showScores = settings.showScores,
+                        showUnreadComments = settings.showUnreadComments,
                     )
                 }
             }.launchIn(this)

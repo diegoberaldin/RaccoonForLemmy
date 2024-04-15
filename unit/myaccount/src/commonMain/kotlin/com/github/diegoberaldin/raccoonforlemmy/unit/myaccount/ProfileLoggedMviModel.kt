@@ -44,6 +44,7 @@ interface ProfileLoggedMviModel :
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
         val showScores: Boolean = true,
+        val showUnreadComments: Boolean = false,
     )
 
     sealed interface Effect

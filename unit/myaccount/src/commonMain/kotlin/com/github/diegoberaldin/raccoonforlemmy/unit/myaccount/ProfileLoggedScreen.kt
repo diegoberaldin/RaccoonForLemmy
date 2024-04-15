@@ -207,6 +207,7 @@ object ProfileLoggedScreen : Tab {
                                     autoLoadImages = uiState.autoLoadImages,
                                     preferNicknames = uiState.preferNicknames,
                                     showScores = uiState.showScores,
+                                    showUnreadComments = uiState.showUnreadComments,
                                     hideAuthor = true,
                                     blurNsfw = false,
                                     onClick = rememberCallback {
