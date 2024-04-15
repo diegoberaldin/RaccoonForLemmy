@@ -124,9 +124,6 @@ class PostDetailViewModel(
             notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
                 emitEffect(PostDetailMviModel.Effect.TriggerCopy(it.value))
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.UserBannedComment::class)
                 .onEach { evt ->
                     val commentId = evt.commentId
@@ -174,6 +171,10 @@ class PostDetailViewModel(
                 updateState {
                     it.copy(post = updatedPost)
                 }
+                // reset unread comments
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(updatedPost.copy(unreadComments = 0)),
+                )
             }
 
             if (highlightCommentId != null) {
