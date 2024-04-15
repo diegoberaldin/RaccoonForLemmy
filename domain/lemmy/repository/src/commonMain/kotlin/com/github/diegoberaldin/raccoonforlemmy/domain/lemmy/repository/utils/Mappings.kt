@@ -181,6 +181,7 @@ internal fun PostView.toModel() = post.toModel().copy(
     upvotes = counts.upvotes,
     downvotes = counts.downvotes,
     comments = counts.comments,
+    unreadComments = unreadComments,
     community = community.toModel(),
     creator = creator.toModel(),
     saved = saved,

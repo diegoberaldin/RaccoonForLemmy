@@ -15,5 +15,5 @@ data class PostView(
     @SerialName("read") val read: Boolean,
     @SerialName("creator_blocked") val creatorBlocked: Boolean,
     @SerialName("my_vote") val myVote: Int? = null,
-    @SerialName("unread_comments") val unreadComments: Int,
+    @SerialName("unread_comments") val unreadComments: Int? = null,
 )

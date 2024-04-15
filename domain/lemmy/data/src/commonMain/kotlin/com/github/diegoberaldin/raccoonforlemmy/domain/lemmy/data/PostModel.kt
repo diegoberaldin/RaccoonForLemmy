@@ -12,6 +12,7 @@ data class PostModel(
     val upvotes: Int = 0,
     val downvotes: Int = 0,
     val comments: Int = 0,
+    val unreadComments: Int? = null,
     val thumbnailUrl: String? = null,
     val url: String? = null,
     val embedVideoUrl: String? = null,
