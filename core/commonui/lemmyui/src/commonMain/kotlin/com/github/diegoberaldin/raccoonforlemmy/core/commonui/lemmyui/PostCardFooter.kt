@@ -117,6 +117,7 @@ fun PostCardFooter(
             if (unreadComments != null) {
                 Text(
                     modifier = Modifier
+                        .padding(start = Spacing.xxs)
                         .background(
                             color = MaterialTheme.colorScheme.secondary,
                             shape = RoundedCornerShape(CornerSize.s)

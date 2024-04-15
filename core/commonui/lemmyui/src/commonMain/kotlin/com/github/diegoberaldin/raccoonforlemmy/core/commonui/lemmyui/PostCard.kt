@@ -304,7 +304,9 @@ private fun CompactPost(
             voteFormat = voteFormat,
             score = post.score,
             showScores = showScores,
-            unreadComments = post.unreadComments.takeIf { it != null && it > 0 && showUnreadComments },
+            unreadComments = post.unreadComments.takeIf {
+                it != null && it > 0 && showUnreadComments && it != post.comments
+            },
             upVotes = post.upvotes,
             downVotes = post.downvotes,
             upVoted = post.myVote > 0,
@@ -526,7 +528,9 @@ private fun ExtendedPost(
             voteFormat = voteFormat,
             score = post.score,
             showScores = showScores,
-            unreadComments = post.unreadComments.takeIf { it != null && it > 0 && showUnreadComments },
+            unreadComments = post.unreadComments.takeIf {
+                it != null && it > 0 && showUnreadComments && it != post.comments
+            },
             upVotes = post.upvotes,
             downVotes = post.downvotes,
             upVoted = post.myVote > 0,
