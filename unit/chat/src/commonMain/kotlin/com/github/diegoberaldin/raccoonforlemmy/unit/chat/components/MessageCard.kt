@@ -151,17 +151,17 @@ internal fun MessageCard(
                             Spacer(modifier = Modifier.weight(1f))
 
                             if (date.isNotEmpty()) {
-                                val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     Icon(
-                                        modifier = buttonModifier,
+                                        modifier = Modifier.size(IconSize.s),
                                         imageVector = Icons.Default.Schedule,
                                         contentDescription = null,
                                         tint = ancillaryColor,
                                     )
                                     Text(
+                                        modifier = Modifier.padding(start = Spacing.xxs),
                                         text = date.prettifyDate(),
                                         style = MaterialTheme.typography.labelMedium,
                                         color = ancillaryColor,

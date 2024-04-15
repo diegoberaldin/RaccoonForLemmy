@@ -194,13 +194,13 @@ fun RawContentDialog(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Icon(
-                                    modifier = Modifier.size(IconSize.m).padding(end = 3.5.dp),
+                                    modifier = Modifier.size(IconSize.s),
                                     imageVector = Icons.Default.Schedule,
                                     contentDescription = null,
                                     tint = fullColor,
                                 )
                                 Text(
-                                    modifier = Modifier.weight(1f),
+                                    modifier = Modifier.weight(1f).padding(start = Spacing.xxs),
                                     text = it,
                                     style = MaterialTheme.typography.bodyMedium.copy(
                                         fontFamily = FontFamily.Monospace,

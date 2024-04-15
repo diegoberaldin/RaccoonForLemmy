@@ -185,12 +185,13 @@ fun InboxReplySubtitle(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
-                        modifier = buttonModifier,
+                        modifier = Modifier.size(IconSize.s),
                         imageVector = Icons.Default.Schedule,
                         contentDescription = null,
                         tint = ancillaryColor,
                     )
                     Text(
+                        modifier = Modifier.padding(start = Spacing.xxs),
                         text = date?.prettifyDate() ?: "",
                         style = MaterialTheme.typography.labelLarge,
                         color = ancillaryColor,

@@ -144,7 +144,6 @@ private fun DraftFooter(
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
@@ -158,12 +157,13 @@ private fun DraftFooter(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
-                    modifier = buttonModifier,
+                    modifier = Modifier.size(IconSize.s),
                     imageVector = Icons.Default.Schedule,
                     contentDescription = null,
                     tint = ancillaryColor,
                 )
                 Text(
+                    modifier = Modifier.padding(start = Spacing.xxs),
                     text = date?.prettifyDate() ?: "",
                     style = MaterialTheme.typography.labelLarge,
                     color = ancillaryColor,
