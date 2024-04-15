@@ -110,7 +110,7 @@ fun InboxReplySubtitle(
                                 },
                             ),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
                         if (creatorAvatar.isNotEmpty() && autoLoadImages) {
                             CustomImage(
@@ -193,7 +193,7 @@ fun InboxReplySubtitle(
                     Text(
                         modifier = Modifier.padding(start = Spacing.xxs),
                         text = date?.prettifyDate() ?: "",
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = ancillaryColor,
                     )
                 }
@@ -239,7 +239,7 @@ fun InboxReplySubtitle(
                             upVoted = upVoted,
                             downVoted = downVoted,
                         ),
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = ancillaryColor,
                     )
                 }
