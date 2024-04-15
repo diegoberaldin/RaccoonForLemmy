@@ -29,7 +29,7 @@ multiplatform_settings = "1.1.1"
 reorderable = "1.4.0"
 sqlcipher = "4.5.5"
 sqldelight = "2.0.2"
-turbine = "1.0.0"
+turbine = "1.1.0"
 voyager = "1.0.0"
 
 android_targetSdk = "34"
