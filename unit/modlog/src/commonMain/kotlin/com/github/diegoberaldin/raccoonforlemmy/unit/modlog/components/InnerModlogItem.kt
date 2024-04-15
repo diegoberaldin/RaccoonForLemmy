@@ -89,7 +89,7 @@ internal fun InnerModlogItem(
         ),
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
             ModlogHeader(
                 creator = moderator,
@@ -120,6 +120,7 @@ internal fun InnerModlogItem(
                 }
             }
             ModlogFooter(
+                modifier = Modifier.padding(vertical = Spacing.xs),
                 date = date,
                 onOpen = onOpen,
                 options = options,
@@ -179,6 +180,7 @@ private fun ModlogHeader(
 
 @Composable
 private fun ModlogFooter(
+    modifier: Modifier = Modifier,
     date: String? = null,
     options: List<Option> = emptyList(),
     onOpen: (() -> Unit)? = null,
@@ -189,7 +191,9 @@ private fun ModlogFooter(
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
-    Box {
+    Box(
+        modifier = modifier,
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -206,7 +210,7 @@ private fun ModlogFooter(
                 Text(
                     modifier = Modifier.padding(start = Spacing.xxs),
                     text = date?.prettifyDate() ?: "",
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelMedium,
                     color = ancillaryColor
                 )
             }

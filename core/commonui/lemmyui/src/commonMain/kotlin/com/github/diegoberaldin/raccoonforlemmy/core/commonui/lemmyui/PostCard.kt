@@ -280,6 +280,7 @@ private fun CompactPost(
                                 Modifier.aspectRatio(1f)
                             }
                         )
+                        .padding(vertical = Spacing.xs)
                         .clip(RoundedCornerShape(CornerSize.s)),
                     minHeight = Dp.Unspecified,
                     maxHeight = Dp.Unspecified,
@@ -437,7 +438,7 @@ private fun ExtendedPost(
         } else {
             PostCardImage(
                 modifier = Modifier
-                    .padding(vertical = Spacing.xxs)
+                    .padding(vertical = Spacing.xs)
                     .then(
                         if (roundedCornerImage) {
                             Modifier.clip(RoundedCornerShape(CornerSize.xl))
@@ -503,7 +504,7 @@ private fun ExtendedPost(
             val url = post.url.orEmpty()
             PostLinkBanner(
                 modifier = Modifier
-                    .padding(vertical = Spacing.xs)
+                    .padding(top = Spacing.s, bottom = Spacing.xxs)
                     .onClick(
                         onClick = rememberCallback {
                             navigationCoordinator.handleUrl(

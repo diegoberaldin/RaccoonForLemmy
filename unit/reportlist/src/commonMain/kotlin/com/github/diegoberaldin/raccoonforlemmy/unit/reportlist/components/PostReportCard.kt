@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -54,7 +55,9 @@ internal fun PostReportCard(
         onOptionSelected = onOptionSelected,
         onOpen = onOpen,
         originalContent = {
-            Column {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
+            ) {
                 report.originalTitle?.also { title ->
                     PostCardTitle(
                         modifier = Modifier.padding(
@@ -79,7 +82,7 @@ internal fun PostReportCard(
                 report.imageUrl.takeIf { it.isNotEmpty() }?.also { imageUrl ->
                     PostCardImage(
                         modifier = Modifier
-                            .padding(vertical = Spacing.xxs)
+                            .padding(vertical = Spacing.xs)
                             .clip(RoundedCornerShape(CornerSize.xl)),
                         imageUrl = imageUrl,
                         autoLoadImages = autoLoadImages,
@@ -111,7 +114,7 @@ internal fun PostReportCard(
                     val uriHandler = LocalUriHandler.current
                     PostLinkBanner(
                         modifier = Modifier
-                            .padding(vertical = Spacing.xs)
+                            .padding(top = Spacing.s, bottom = Spacing.xxs)
                             .onClick(
                                 onClick = rememberCallback {
                                     navigationCoordinator.handleUrl(

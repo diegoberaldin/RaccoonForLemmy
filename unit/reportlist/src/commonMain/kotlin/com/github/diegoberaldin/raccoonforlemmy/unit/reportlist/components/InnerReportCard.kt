@@ -122,6 +122,7 @@ internal fun InnerReportCard(
                 }
             }
             ReportFooter(
+                modifier = Modifier.padding(vertical = Spacing.xs),
                 date = date,
                 onOpenResolve = onOpen,
                 options = options,
@@ -180,6 +181,7 @@ private fun ReportHeader(
 
 @Composable
 private fun ReportFooter(
+    modifier: Modifier = Modifier,
     date: String? = null,
     options: List<Option> = emptyList(),
     onOpenResolve: (() -> Unit)? = null,
@@ -190,7 +192,9 @@ private fun ReportFooter(
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
 
-    Box {
+    Box(
+        modifier = modifier,
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),

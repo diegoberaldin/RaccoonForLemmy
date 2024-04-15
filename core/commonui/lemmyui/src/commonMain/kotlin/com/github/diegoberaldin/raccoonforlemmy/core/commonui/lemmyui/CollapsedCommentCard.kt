@@ -91,7 +91,7 @@ fun CollapsedCommentCard(
                     onOpenCreator = onOpenCreator,
                 )
                 PostCardFooter(
-                    modifier = Modifier.padding(top = Spacing.xs),
+                    modifier = Modifier.padding(vertical = Spacing.xs),
                     score = comment.score,
                     showScores = showScores,
                     voteFormat = voteFormat,

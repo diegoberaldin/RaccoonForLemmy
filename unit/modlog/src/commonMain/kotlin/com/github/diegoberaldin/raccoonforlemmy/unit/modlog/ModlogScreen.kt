@@ -156,7 +156,7 @@ class ModlogScreen(
                 ) {
                     LazyColumn(
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.lHalf)
+                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
                     ) {
                         if (uiState.items.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {

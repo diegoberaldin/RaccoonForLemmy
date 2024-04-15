@@ -151,7 +151,7 @@ class DraftsScreen : Screen {
                 ) {
                     LazyColumn(
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.lHalf)
+                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
                     ) {
                         if (uiState.section == DraftsSection.Posts) {
                             if (uiState.postDrafts.isEmpty() && uiState.loading && uiState.initial) {

@@ -255,7 +255,7 @@ class FilteredContentsScreen(
                 ) {
                     LazyColumn(
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.lHalf)
+                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
                     ) {
                         if (uiState.section == FilteredContentsSection.Posts) {
                             if (uiState.posts.isEmpty() && uiState.loading && uiState.initial) {
