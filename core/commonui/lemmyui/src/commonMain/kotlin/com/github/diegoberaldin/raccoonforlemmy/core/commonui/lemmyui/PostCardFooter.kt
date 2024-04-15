@@ -1,12 +1,14 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.ArrowCircleDown
@@ -40,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.formatToReadableValue
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
@@ -58,6 +61,7 @@ fun PostCardFooter(
     updateDate: String? = null,
     score: Int = 0,
     showScores: Boolean = true,
+    unreadComments: Int? = null,
     upVotes: Int = 0,
     downVotes: Int = 0,
     saved: Boolean = false,
@@ -87,7 +91,7 @@ fun PostCardFooter(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
-            val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
+            val buttonModifier = Modifier.size(IconSize.m).padding(2.5.dp)
             if (comments != null) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -104,12 +108,24 @@ fun PostCardFooter(
                         colorFilter = ColorFilter.tint(color = ancillaryColor),
                     )
                     Text(
-                        modifier = Modifier.padding(end = Spacing.s),
                         text = "$comments",
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = ancillaryColor,
                     )
                 }
+            }
+            if (unreadComments != null) {
+                Text(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.secondary,
+                            shape = RoundedCornerShape(CornerSize.s)
+                        )
+                        .padding(horizontal = Spacing.xxs),
+                    text = "+$unreadComments",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSecondary,
+                )
             }
             listOf(
                 updateDate.orEmpty(),
@@ -118,17 +134,19 @@ fun PostCardFooter(
                 it.isNotBlank()
             }?.also { publishDate ->
                 Row(
+                    modifier = Modifier.padding(start = Spacing.xs),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
-                        modifier = buttonModifier,
+                        modifier = Modifier.size(IconSize.s),
                         imageVector = Icons.Default.Schedule,
                         contentDescription = null,
                         tint = ancillaryColor,
                     )
                     Text(
+                        modifier = Modifier.padding(start = Spacing.xxs),
                         text = publishDate.prettifyDate(),
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = ancillaryColor,
                     )
                 }
@@ -205,7 +223,7 @@ fun PostCardFooter(
                         upVoted = upVoted,
                         downVoted = downVoted,
                     ),
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelMedium,
                     color = ancillaryColor,
                 )
             }
