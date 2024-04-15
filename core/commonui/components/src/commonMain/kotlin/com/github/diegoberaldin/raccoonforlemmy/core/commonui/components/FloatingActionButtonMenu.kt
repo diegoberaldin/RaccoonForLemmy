@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -166,7 +166,7 @@ fun FloatingActionButtonMenu(
             content = {
                 Icon(
                     modifier = Modifier.rotate(fabRotation),
-                    imageVector = Icons.Default.Add,
+                    imageVector = Icons.Default.MyLocation,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
