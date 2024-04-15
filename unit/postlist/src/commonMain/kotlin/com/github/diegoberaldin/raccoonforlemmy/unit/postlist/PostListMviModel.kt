@@ -59,6 +59,7 @@ interface PostListMviModel :
         val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = emptyList(),
         val fadeReadPosts: Boolean = false,
+        val showUnreadComments: Boolean = false,
     )
 
     sealed interface Effect {

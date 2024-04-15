@@ -49,6 +49,7 @@ interface AdvancedSettingsMviModel :
         val inboxBackgroundCheckPeriod: Duration? = null,
         val appIconChangeSupported: Boolean = false,
         val fadeReadPosts: Boolean = false,
+        val showUnreadComments: Boolean = false,
     )
 
     sealed interface Effect

@@ -72,6 +72,7 @@ class MultiCommunityViewModel(
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
                         showScores = settings.showScores,
                         fadeReadPosts = settings.fadeReadPosts,
+                        showUnreadComments = settings.showUnreadComments,
                     )
                 }
             }.launchIn(this)

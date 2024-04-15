@@ -824,6 +824,7 @@ class CommunityDetailScreen(
                                                 else -> uiState.blurNsfw
                                             },
                                             fadeRead = uiState.fadeReadPosts,
+                                            showUnreadComments = uiState.showUnreadComments,
                                             onClick = rememberCallback(model) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.MarkAsRead(

@@ -71,6 +71,7 @@ interface CommunityDetailMviModel :
         val searching: Boolean = false,
         val searchText: String = "",
         val fadeReadPosts: Boolean = false,
+        val showUnreadComments: Boolean = false,
     )
 
     sealed interface Effect {

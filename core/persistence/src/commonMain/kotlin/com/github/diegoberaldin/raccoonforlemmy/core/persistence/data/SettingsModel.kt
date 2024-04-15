@@ -58,4 +58,5 @@ data class SettingsModel(
     val defaultLanguageId: Long? = null,
     val inboxBackgroundCheckPeriod: Duration? = null,
     val fadeReadPosts: Boolean = false,
+    val showUnreadComments: Boolean = false,
 )

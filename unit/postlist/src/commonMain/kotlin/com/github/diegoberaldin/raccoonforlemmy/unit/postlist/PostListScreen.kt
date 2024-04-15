@@ -452,6 +452,7 @@ class PostListScreen : Screen {
                                         actionButtonsActive = uiState.isLogged,
                                         blurNsfw = uiState.blurNsfw,
                                         fadeRead = uiState.fadeReadPosts,
+                                        showUnreadComments = uiState.showUnreadComments,
                                         onClick = rememberCallback(model) {
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
                                             detailOpener.openPostDetail(post)

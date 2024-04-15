@@ -397,6 +397,7 @@ class MultiCommunityScreen(
                                     showScores = uiState.showScores,
                                     blurNsfw = uiState.blurNsfw,
                                     fadeRead = uiState.fadeReadPosts,
+                                    showUnreadComments = uiState.showUnreadComments,
                                     onClick = rememberCallback {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
                                         detailOpener.openPostDetail(post)

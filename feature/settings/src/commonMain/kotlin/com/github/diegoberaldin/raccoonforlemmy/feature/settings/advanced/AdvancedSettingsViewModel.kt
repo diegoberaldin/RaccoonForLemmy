@@ -106,6 +106,7 @@ class AdvancedSettingsViewModel(
                 defaultLanguageId = settings.defaultLanguageId,
                 appIconChangeSupported = appIconManager.supportsMultipleIcons,
                 fadeReadPosts = settings.fadeReadPosts,
+                showUnreadComments = settings.showUnreadComments,
             )
         }
     }
