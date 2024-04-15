@@ -1,2 +1,5 @@
 ALTER TABLE SettingsEntity
 ADD COLUMN  fadeReadPosts INTEGER NOT NULL DEFAULT 0;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN  showUnreadComments INTEGER NOT NULL DEFAULT 0;

@@ -136,6 +136,7 @@ internal class DefaultSettingsRepository(
                 defaultLanguageId = settings.defaultLanguageId,
                 inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod?.inWholeMinutes,
                 fadeReadPosts = if (settings.fadeReadPosts) 1L else 0L,
+                showUnreadComments = if (settings.showUnreadComments) 1L else 0L,
             )
         }
 
@@ -371,6 +372,7 @@ internal class DefaultSettingsRepository(
                     defaultLanguageId = settings.defaultLanguageId,
                     inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod?.inWholeMinutes,
                     fadeReadPosts = if (settings.fadeReadPosts) 1L else 0L,
+                    showUnreadComments = if (settings.showUnreadComments) 1L else 0L,
                 )
             }
         }
@@ -450,4 +452,5 @@ private fun GetBy.toModel() = SettingsModel(
     defaultLanguageId = defaultLanguageId,
     inboxBackgroundCheckPeriod = inboxBackgroundCheckPeriod?.minutes,
     fadeReadPosts = fadeReadPosts == 1L,
+    showUnreadComments = showUnreadComments == 1L,
 )
