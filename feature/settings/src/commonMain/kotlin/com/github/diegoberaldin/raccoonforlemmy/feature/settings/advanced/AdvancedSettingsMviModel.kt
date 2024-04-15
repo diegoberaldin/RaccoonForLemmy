@@ -24,6 +24,7 @@ interface AdvancedSettingsMviModel :
         data class ChangeImageSourcePath(val value: Boolean) : Intent
         data class ChangeDefaultLanguage(val value: Long?) : Intent
         data class ChangeFadeReadPosts(val value: Boolean) : Intent
+        data class ChangeShowUnreadComments(val value: Boolean) : Intent
     }
 
     data class UiState(

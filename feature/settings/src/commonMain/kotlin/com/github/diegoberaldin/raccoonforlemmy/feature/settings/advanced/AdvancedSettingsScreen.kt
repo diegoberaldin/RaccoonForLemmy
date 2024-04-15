@@ -185,6 +185,17 @@ class AdvancedSettingsScreen : Screen {
                                 )
                             },
                         )
+
+                        // show unread comment number
+                        SettingsSwitchRow(
+                            title = LocalXmlStrings.current.settingsShowUnreadComments,
+                            value = uiState.showUnreadComments,
+                            onValueChanged = rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    AdvancedSettingsMviModel.Intent.ChangeShowUnreadComments(value)
+                                )
+                            },
+                        )
                     }
 
                     // default explore type
