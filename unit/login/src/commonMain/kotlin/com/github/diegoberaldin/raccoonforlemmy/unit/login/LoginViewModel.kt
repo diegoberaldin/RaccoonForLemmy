@@ -50,7 +50,7 @@ class LoginViewModel(
     }
 
     private fun setUsername(value: String) {
-        updateState { it.copy(username = value) }
+        updateState { it.copy(username = value.trim()) }
     }
 
     private fun setPassword(value: String) {
