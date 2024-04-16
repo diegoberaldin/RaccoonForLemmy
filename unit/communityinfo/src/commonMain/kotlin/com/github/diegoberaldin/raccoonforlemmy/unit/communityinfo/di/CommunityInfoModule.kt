@@ -8,6 +8,8 @@ val communityInfoModule = module {
     factory<CommunityInfoMviModel> { params ->
         CommunityInfoViewModel(
             communityId = params[0],
+            communityName = params[1],
+            otherInstance = params[2],
             communityRepository = get(),
             settingsRepository = get(),
             itemCache = get(),

@@ -454,7 +454,11 @@ class CommunityDetailScreen(
 
                                                 OptionId.Info -> {
                                                     navigationCoordinator.showBottomSheet(
-                                                        CommunityInfoScreen(uiState.community.id),
+                                                        CommunityInfoScreen(
+                                                            communityId = uiState.community.id,
+                                                            communityName = uiState.community.name,
+                                                            otherInstance = otherInstanceName,
+                                                        ),
                                                     )
                                                 }
 
@@ -508,17 +512,23 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.Search -> {
-                                                    model.reduce(CommunityDetailMviModel.Intent.ChangeSearching(!uiState.searching))
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.ChangeSearching(
+                                                            !uiState.searching
+                                                        )
+                                                    )
                                                 }
 
                                                 OptionId.ExploreInstance -> {
-                                                    val screen = ExploreScreen(otherInstance = uiState.community.host)
+                                                    val screen =
+                                                        ExploreScreen(otherInstance = uiState.community.host)
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
                                                 OptionId.Edit -> {
                                                     scope.launch { }
-                                                    val screen = EditCommunityScreen(uiState.community.id)
+                                                    val screen =
+                                                        EditCommunityScreen(uiState.community.id)
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
@@ -644,7 +654,11 @@ class CommunityDetailScreen(
                                     modifier = Modifier.onClick(
                                         onClick = rememberCallback {
                                             if (uiState.searchText.isNotEmpty()) {
-                                                model.reduce(CommunityDetailMviModel.Intent.SetSearch(""))
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.SetSearch(
+                                                        ""
+                                                    )
+                                                )
                                             }
                                         },
                                     ),
@@ -733,7 +747,9 @@ class CommunityDetailScreen(
                                                 backgroundColor = upVoteColor ?: defaultUpvoteColor,
                                                 onTriggered = rememberCallback {
                                                     model.reduce(
-                                                        CommunityDetailMviModel.Intent.UpVotePost(post.id),
+                                                        CommunityDetailMviModel.Intent.UpVotePost(
+                                                            post.id
+                                                        ),
                                                     )
                                                 },
                                             )
@@ -746,10 +762,13 @@ class CommunityDetailScreen(
                                                         tint = Color.White,
                                                     )
                                                 },
-                                                backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                                backgroundColor = downVoteColor
+                                                    ?: defaultDownVoteColor,
                                                 onTriggered = rememberCallback {
                                                     model.reduce(
-                                                        CommunityDetailMviModel.Intent.DownVotePost(post.id),
+                                                        CommunityDetailMviModel.Intent.DownVotePost(
+                                                            post.id
+                                                        ),
                                                     )
                                                 },
                                             )
@@ -1038,8 +1057,11 @@ class CommunityDetailScreen(
                                                                 )
                                                             )
                                                         } else {
-                                                            val screen = ShareBottomSheet(urls = urls)
-                                                            navigationCoordinator.showBottomSheet(screen)
+                                                            val screen =
+                                                                ShareBottomSheet(urls = urls)
+                                                            navigationCoordinator.showBottomSheet(
+                                                                screen
+                                                            )
                                                         }
                                                     }
 
@@ -1050,7 +1072,9 @@ class CommunityDetailScreen(
                                                     )
 
                                                     OptionId.LockPost -> model.reduce(
-                                                        CommunityDetailMviModel.Intent.ModLockPost(post.id)
+                                                        CommunityDetailMviModel.Intent.ModLockPost(
+                                                            post.id
+                                                        )
                                                     )
 
                                                     OptionId.Remove -> {
@@ -1087,11 +1111,18 @@ class CommunityDetailScreen(
                                                         ).distinct()
                                                         if (texts.size == 1) {
                                                             model.reduce(
-                                                                CommunityDetailMviModel.Intent.Copy(texts.first())
+                                                                CommunityDetailMviModel.Intent.Copy(
+                                                                    texts.first()
+                                                                )
                                                             )
                                                         } else {
-                                                            val screen = CopyPostBottomSheet(post.title, post.text)
-                                                            navigationCoordinator.showBottomSheet(screen)
+                                                            val screen = CopyPostBottomSheet(
+                                                                post.title,
+                                                                post.text
+                                                            )
+                                                            navigationCoordinator.showBottomSheet(
+                                                                screen
+                                                            )
                                                         }
                                                     }
 
@@ -1112,7 +1143,8 @@ class CommunityDetailScreen(
                                         model.reduce(CommunityDetailMviModel.Intent.LoadNextPage)
                                     } else {
                                         Row(
-                                            modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
+                                            modifier = Modifier.fillMaxWidth()
+                                                .padding(top = Spacing.s),
                                             horizontalArrangement = Arrangement.Center,
                                             verticalAlignment = Alignment.CenterVertically,
                                         ) {

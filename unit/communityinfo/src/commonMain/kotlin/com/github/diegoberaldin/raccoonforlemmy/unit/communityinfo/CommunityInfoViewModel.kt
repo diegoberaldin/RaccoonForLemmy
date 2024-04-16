@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 
 class CommunityInfoViewModel(
     private val communityId: Long,
+    private val communityName: String,
+    private val otherInstance: String,
     private val communityRepository: CommunityRepository,
     private val settingsRepository: SettingsRepository,
     private val itemCache: LemmyItemCache,
@@ -31,7 +33,11 @@ class CommunityInfoViewModel(
             }.launchIn(this)
 
             if (uiState.value.moderators.isEmpty()) {
-                val community = communityRepository.get(id = communityId)
+                val community = communityRepository.get(
+                    id = communityId,
+                    name = communityName,
+                    instance = otherInstance,
+                )
                 if (community != null) {
                     updateState { it.copy(community = community) }
                 }

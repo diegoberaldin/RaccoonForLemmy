@@ -56,13 +56,15 @@ import org.koin.core.parameter.parametersOf
 
 class CommunityInfoScreen(
     private val communityId: Long,
+    private val communityName: String = "",
+    private val otherInstance: String = "",
 ) : Screen {
 
     @Composable
     override fun Content() {
         val model = getScreenModel<CommunityInfoMviModel>(
             tag = communityId.toString(),
-            parameters = { parametersOf(communityId) },
+            parameters = { parametersOf(communityId, communityName, otherInstance) },
         )
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
