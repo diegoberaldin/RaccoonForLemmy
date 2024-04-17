@@ -17,7 +17,7 @@ the [User manual](user_manual/main).
 
 # Overview
 
-Raccoon for Lemmy is a mobile client for Lemmy, a federated aggregation and discussion platform. The
+Raccoon is a mobile client for Lemmy, a federated aggregation and discussion platform. The
 app is implemented as a Kotlin Multiplatform (KMP) project, mainly focusing on the Android platform.
 
 The project was started as an exercise to play around with Kotlin Multiplatform and Compose

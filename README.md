@@ -24,7 +24,7 @@ A Kotlin Multiplatform client for Lemmy (mainly Android).
   </div>
 </div>
 
-Raccoon for Lemmy is a client for the federated aggregation and discussion platform Lemmy.
+Raccoon is a client for the federated aggregation and discussion platform Lemmy.
 
 The project started as an exercise to play around with Kotlin Multiplatform (KMP) and Compose
 multiplatform and gradually grew as a fully functional client with many features.
@@ -90,8 +90,8 @@ for some technical notes.
 - save posts and comments you are creating as drafts to edit them later;
 
 Most clients for Lemmy currently offer the first points (with various degrees of completion), so
-there is nothing special about Raccoon for Lemmy, whereas the last ones are less common and are
-directed to more demanding users.
+there is nothing special about Raccoon, whereas the last ones are less common and are directed to
+more demanding users.
 
 Concerning customization, the ability to change some aspects like font face or size and app colors, vote format, bar
 transparency and so on was of paramount importance from the very beginning. Similarly, users should be able to use the

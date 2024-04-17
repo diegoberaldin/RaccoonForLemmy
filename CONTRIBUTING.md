@@ -36,8 +36,8 @@ will be added and new answers will be provided as long as questions are submitte
 
 ### 1.1 Purpose
 
-Raccoon for Lemmy was designed with three goals in mind: on the one side experiment and put to some
-stress test with a real world project Kotlin Multiplatform (KMP) and Compose multiplatform, in order
+Raccoon was designed with three goals in mind: on the one side experiment and put to some stress 
+test with a real world project Kotlin Multiplatform (KMP) and Compose multiplatform, in order
 to explore what could be achieved with multiplatform libraries and share as much code as possible
 in the `commonMain` source directory. The Android ecosystem of Lemmy apps has many cross-platform
 alternatives implemented with Flutter or React, a couple of native options written in Java and just
