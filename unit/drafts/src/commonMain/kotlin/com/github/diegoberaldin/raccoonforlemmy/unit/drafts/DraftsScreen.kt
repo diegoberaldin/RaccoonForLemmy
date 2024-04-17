@@ -298,7 +298,7 @@ class DraftsScreen : Screen {
                             }
                         }
                         item {
-                            Spacer(modifier = Modifier.height(Spacing.xxl))
+                            Spacer(modifier = Modifier.height(Spacing.xxxl))
                         }
                     }
                     PullRefreshIndicator(
