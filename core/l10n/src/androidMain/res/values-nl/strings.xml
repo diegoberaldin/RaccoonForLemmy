@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Onopgelost</string>
     <string name="report_action_resolve">Oplossen</string>
     <string name="report_action_unresolve">Onopgelost</string>
-    <string name="sidebar_not_logged_message">Welkom bij Raccoon for Lemmy!\n\nIn de anonieme modus, gebruik de vervolgkeuzeknop (▼) hierboven om de instantie te wijzigen.\n\nU kunt inloggen op uw instantie op wanneer je maar wilt vanuit het profielscherm.\n\nGeniet van Lemmy!</string>
+    <string name="sidebar_not_logged_message">Welkom bij Raccoon!\n\nIn de anonieme modus, gebruik de vervolgkeuzeknop (▼) hierboven om de instantie te wijzigen.\n\nU kunt inloggen op uw instantie op wanneer je maar wilt vanuit het profielscherm.\n\nGeniet van Lemmy!</string>
     <string name="settings_default_inbox_type">Standaardtype inbox</string>
     <string name="mod_action_add_mod">Moderator toevoegen</string>
     <string name="mod_action_remove_mod">Moderator verwijderen</string>

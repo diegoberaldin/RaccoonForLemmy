@@ -236,7 +236,7 @@
     <string name="report_list_type_unresolved">Unresolved</string>
     <string name="report_action_resolve">Resolve</string>
     <string name="report_action_unresolve">Unresolve</string>
-    <string name="sidebar_not_logged_message">Welcome to Raccoon for Lemmy!\n\nIn anonymous mode, use the drop down
+    <string name="sidebar_not_logged_message">Welcome to Raccoon!\n\nIn anonymous mode, use the drop down
         button (▼) above to change instance.\n\nYou can log in to your instance at any time from the Profile
         screen.\n\nEnjoy Lemmy!
     </string>

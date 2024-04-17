@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">wile weka</string>
     <string name="report_action_resolve">o weka</string>
     <string name="report_action_unresolve">o weka ala</string>
-    <string name="sidebar_not_logged_message">o kama pona lon ilo Rakun tawa ma Lemi!\n\nsina tawa insa ala la, o kepeken e ilo (▼) tawa ante e ilo nanpa.\n\nwile la, tenpo ale la, sina ken insa e ilo nanpa sina lon lipo \&quot;sona jan\&quot;.\n\no musi lon ma Lemi!</string>
+    <string name="sidebar_not_logged_message">o kama pona lon ilo Rakun!\n\nsina tawa insa ala la, o kepeken e ilo (▼) tawa ante e ilo nanpa.\n\nwile la, tenpo ale la, sina ken insa e ilo nanpa sina lon lipo \&quot;sona jan\&quot;.\n\no musi lon ma Lemi!</string>
     <string name="settings_default_inbox_type">nasin pi poki toki</string>
     <string name="mod_action_add_mod">o sin e jan lawa</string>
     <string name="mod_action_remove_mod">o sin ala e jan lawa</string>

@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Olöst</string>
     <string name="report_action_resolve">Lös</string>
     <string name="report_action_unresolve">Avlös</string>
-    <string name="sidebar_not_logged_message">Välkommen till Raccoon for Lemmy!\n\nI anonymt läge, använd rullgardinsknappen (▼) ovan för att ändra instans.\n\nDu kan logga in på din förekomst på när som helst från profilskärmen.\n\nNjut av Lemmy!</string>
+    <string name="sidebar_not_logged_message">Välkommen till Raccoon!\n\nI anonymt läge, använd rullgardinsknappen (▼) ovan för att ändra instans.\n\nDu kan logga in på din förekomst på när som helst från profilskärmen.\n\nNjut av Lemmy!</string>
     <string name="settings_default_inbox_type">Standardtyp av inkorg</string>
     <string name="mod_action_add_mod">Lägg till moderator</string>
     <string name="mod_action_remove_mod">Ta bort moderator</string>

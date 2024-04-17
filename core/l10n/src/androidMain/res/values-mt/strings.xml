@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Mhux solvut</string>
     <string name="report_action_resolve">Issolvi</string>
     <string name="report_action_unresolve">Neħħi s-soluzzjoni</string>
-    <string name="sidebar_not_logged_message">Merħba f\' Raccoon for Lemmy!\n\nBil-modalità anonima, uża l-buttuna drop-down (▼) t\' hawn fuq biex tibdel il-mument.\n\nTista\' tidħol fl-intenzjoni tiegħek fuq fi kwalunkwe ħin\n\n mill-iskrintal-Profil.\n\nEnjoy Lemmy!</string>
+    <string name="sidebar_not_logged_message">Merħba f\' Raccoon!\n\nBil-modalità anonima, uża l-buttuna drop-down (▼) t\' hawn fuq biex tibdel il-mument.\n\nTista\' tidħol fl-intenzjoni tiegħek fuq fi kwalunkwe ħin\n\n mill-iskrintal-Profil.\n\nEnjoy Lemmy!</string>
     <string name="settings_default_inbox_type">Tip default ta \'inbox</string>
     <string name="mod_action_add_mod">Żid moderatur</string>
     <string name="mod_action_remove_mod">Neħħi moderatur</string>

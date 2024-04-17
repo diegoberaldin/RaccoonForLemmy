@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Ratkaisematon</string>
     <string name="report_action_resolve">Ratkaise</string>
     <string name="report_action_unresolve">Ei ratkaise</string>
-    <string name="sidebar_not_logged_message">Tervetuloa Raccoon for Lemmylle!\n\nNimetttömässä tilassa, käytä yllä olevaa pudotusvalikkopainiketta (▼) vaihtaaksesi ilmentymää.\n\nVoit kirjautua sisään tapahtumaasi osoitteessa milloin tahansa profiilinäytöstä.\n\nNauti Lemmystä!</string>
+    <string name="sidebar_not_logged_message">Tervetuloa Raccoonlle!\n\nNimetttömässä tilassa, käytä yllä olevaa pudotusvalikkopainiketta (▼) vaihtaaksesi ilmentymää.\n\nVoit kirjautua sisään tapahtumaasi osoitteessa milloin tahansa profiilinäytöstä.\n\nNauti Lemmystä!</string>
     <string name="settings_default_inbox_type">Oletuspostilaatikon tyyppi</string>
     <string name="mod_action_add_mod">Lisää moderaattori</string>
     <string name="mod_action_remove_mod">Poista moderaattori</string>

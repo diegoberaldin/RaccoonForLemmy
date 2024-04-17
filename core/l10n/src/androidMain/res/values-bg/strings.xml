@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Неразрешено</string>
     <string name="report_action_resolve">Разрешаване</string>
     <string name="report_action_unresolve">Отмяна на разрешаването</string>
-    <string name="sidebar_not_logged_message">Добре дошли в Raccoon for Lemmy!\n\nВ анонимен режим, използвайте падащия бутон (▼) по-горе, за да промените инстанцията.\n\nМожете да влезете във вашата инстанция на по всяко време от екрана на профила.\n\nНасладете се на Леми!</string>
+    <string name="sidebar_not_logged_message">Добре дошли в Raccoon!\n\nВ анонимен режим, използвайте падащия бутон (▼) по-горе, за да промените инстанцията.\n\nМожете да влезете във вашата инстанция на по всяко време от екрана на профила.\n\nНасладете се на Леми!</string>
     <string name="settings_default_inbox_type">Тип входяща кутия по подразбиране</string>
     <string name="mod_action_add_mod">Добавете модератор</string>
     <string name="mod_action_remove_mod">Премахване на модератора</string>

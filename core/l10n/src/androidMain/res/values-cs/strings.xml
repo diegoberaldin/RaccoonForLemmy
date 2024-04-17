@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Nevyřešeno</string>
     <string name="report_action_resolve">Vyřešit</string>
     <string name="report_action_unresolve">Nevyřešit</string>
-    <string name="sidebar_not_logged_message">Vítejte v Raccoon for Lemmy!\n\nV anonymním režimu použijte rozbalovací tlačítko (▼) výše pro změnu instance.\n\nDo své intance se můžete přihlásit na kdykoli z obrazovky profilu.\n\nUžijte si Lemmyho! </string>
+    <string name="sidebar_not_logged_message">Vítejte v Raccoon!\n\nV anonymním režimu použijte rozbalovací tlačítko (▼) výše pro změnu instance.\n\nDo své intance se můžete přihlásit na kdykoli z obrazovky profilu.\n\nUžijte si Lemmyho! </string>
     <string name="settings_default_inbox_type">Výchozí typ doručené pošty</string>
     <string name="mod_action_add_mod">Přidat moderátora</string>
     <string name="mod_action_remove_mod">Odstranit moderátora</string>

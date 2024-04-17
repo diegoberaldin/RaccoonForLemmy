@@ -230,7 +230,7 @@
     <string name="report_list_type_unresolved">Невирішено</string>
     <string name="report_action_resolve">Вирішено</string>
     <string name="report_action_unresolve">Невирішено</string>
-    <string name="sidebar_not_logged_message">Ласкаво просимо до Raccoon for Lemmy!\n\nУ анонімному режимі скористайтеся випадаючою кнопкою (▼) вище, щоб змінити екземпляр\n\n.Ви можете увійти в систему за адресою будь-коли на екрані профілю.\n\nНасолоджуйтесь Lemmy!</string>
+    <string name="sidebar_not_logged_message">Ласкаво просимо до Raccoon!\n\nУ анонімному режимі скористайтеся випадаючою кнопкою (▼) вище, щоб змінити екземпляр\n\n.Ви можете увійти в систему за адресою будь-коли на екрані профілю.\n\nНасолоджуйтесь Lemmy!</string>
     <string name="settings_default_inbox_type">Тип папки «Вхідні» за замовчуванням</string>
     <string name="mod_action_add_mod">Додати модератора</string>
     <string name="mod_action_remove_mod">Видалити модератора</string>

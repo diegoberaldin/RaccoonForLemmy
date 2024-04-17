@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Neatrisināts</string>
     <string name="report_action_resolve">Atrisināt</string>
     <string name="report_action_unresolve">Neatrisināts</string>
-    <string name="sidebar_not_logged_message">Laipni lūdzam Raccoon for Lemmy!\n\nAnonīmā režīmā, izmantojiet augstāk esošo nolaižamās izvēlnes pogu (▼), lai mainītu gadījumu.\n\nJūs varat pieteikties savā pieteikumā vietnē jebkurā laikā no profila ekrāna.\n\nIzbaudiet Lemiju!</string>
+    <string name="sidebar_not_logged_message">Laipni lūdzam Raccoon!\n\nAnonīmā režīmā, izmantojiet augstāk esošo nolaižamās izvēlnes pogu (▼), lai mainītu gadījumu.\n\nJūs varat pieteikties savā pieteikumā vietnē jebkurā laikā no profila ekrāna.\n\nIzbaudiet Lemiju!</string>
     <string name="settings_default_inbox_type">Noklusējuma iesūtnes veids</string>
     <string name="mod_action_add_mod">Pievienot moderatoru</string>
     <string name="mod_action_remove_mod">Noņemt moderatoru</string>

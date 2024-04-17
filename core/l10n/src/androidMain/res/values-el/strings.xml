@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Μη επιλύθηκε</string>
     <string name="report_action_resolve">Επίλυση</string>
     <string name="report_action_unresolve">Κατάργηση επίλυσης</string>
-    <string name="sidebar_not_logged_message">Καλώς ήρθατε στο Raccoon for Lemmy!\n\nΣε ανώνυμη λειτουργία, χρησιμοποιήστε το αναπτυσσόμενο κουμπί (▼) παραπάνω για να αλλάξετε την εμφάνιση.\n\nΜπορείτε να συνδεθείτε στην παρουσία σας στο οποιαδήποτε στιγμή από την οθόνη Προφίλ.\n\nΑπολαύστε το Lemmy!</string>
+    <string name="sidebar_not_logged_message">Καλώς ήρθατε στο Raccoon!\n\nΣε ανώνυμη λειτουργία, χρησιμοποιήστε το αναπτυσσόμενο κουμπί (▼) παραπάνω για να αλλάξετε την εμφάνιση.\n\nΜπορείτε να συνδεθείτε στην παρουσία σας στο οποιαδήποτε στιγμή από την οθόνη Προφίλ.\n\nΑπολαύστε το Lemmy!</string>
     <string name="settings_default_inbox_type">Προεπιλεγμένος τύπος εισερχομένων</string>
     <string name="mod_action_add_mod">Προσθήκη συντονιστή</string>
     <string name="mod_action_remove_mod">Κατάργηση συντονιστή</string>

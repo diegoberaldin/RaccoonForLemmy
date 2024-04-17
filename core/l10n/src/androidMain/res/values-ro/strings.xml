@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Nerezolvate</string>
     <string name="report_action_resolve">Marchează ca rezolvat</string>
     <string name="report_action_unresolve">Anulează marcare ca rezolvat</string>
-    <string name="sidebar_not_logged_message">Bine ați venit la Raccoon for Lemmy!\n\nÎn modul anonim, folosiți butonul drop-down (▼) de mai sus pentru a schimba instanța.\n\nPuteți să vă conectați la instanțele Dvs. oricând din ecranul Profil.\n\nBucurați-vă de Lemmy!</string>
+    <string name="sidebar_not_logged_message">Bine ați venit la Raccoon!\n\nÎn modul anonim, folosiți butonul drop-down (▼) de mai sus pentru a schimba instanța.\n\nPuteți să vă conectați la instanțele Dvs. oricând din ecranul Profil.\n\nBucurați-vă de Lemmy!</string>
     <string name="settings_default_inbox_type">Tipul implicit de inbox</string>
     <string name="mod_action_add_mod">Adaugă moderator</string>
     <string name="mod_action_remove_mod">Elimină moderator</string>

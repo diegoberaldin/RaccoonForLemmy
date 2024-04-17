@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Gan réiteach</string>
     <string name="report_action_resolve">Réitigh</string>
     <string name="report_action_unresolve">Díréitigh</string>
-    <string name="sidebar_not_logged_message">Fáilte go Raccoon for Lemmy!\n\nMód gan ainm, úsáid an cnaipe anuas (▼) thuas chun cás a athrú.\n\nIs féidir leat logáil isteach ag am ar bith ón scáileán Próifíl.\n\nBain sult as Lemmy!</string>
+    <string name="sidebar_not_logged_message">Fáilte go Raccoon!\n\nMód gan ainm, úsáid an cnaipe anuas (▼) thuas chun cás a athrú.\n\nIs féidir leat logáil isteach ag am ar bith ón scáileán Próifíl.\n\nBain sult as Lemmy!</string>
     <string name="settings_default_inbox_type">Cineál an bhosca isteach réamhshocraithe</string>
     <string name="mod_action_add_mod">Modhnóir a chur leis</string>
     <string name="mod_action_remove_mod">Bain modhnóir</string>

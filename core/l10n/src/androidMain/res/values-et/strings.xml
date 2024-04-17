@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Lahendamata</string>
     <string name="report_action_resolve">Lahenda</string>
     <string name="report_action_unresolve">Tühista lahendamine</string>
-    <string name="sidebar_not_logged_message">Tere tulemast rakendusse Raccoon for Lemmy!\n\nAnonüümses režiimis kasutage eksemplari muutmiseks ülalolevat rippmenüü nuppu (▼).\n\nSaate oma instantsi sisse logida aadressil igal ajal profiiliekraanilt.\n\nNaudi Lemmyt!</string>
+    <string name="sidebar_not_logged_message">Tere tulemast rakendusse Raccoon!\n\nAnonüümses režiimis kasutage eksemplari muutmiseks ülalolevat rippmenüü nuppu (▼).\n\nSaate oma instantsi sisse logida aadressil igal ajal profiiliekraanilt.\n\nNaudi Lemmyt!</string>
     <string name="settings_default_inbox_type">Vaikepostkasti tüüp</string>
     <string name="mod_action_add_mod">Lisa moderaator</string>
     <string name="mod_action_remove_mod">Eemalda moderaator</string>

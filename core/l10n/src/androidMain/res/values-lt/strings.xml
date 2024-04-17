@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Neišspręsta</string>
     <string name="report_action_resolve">Išspręsti</string>
     <string name="report_action_unresolve">Neišspręsti</string>
-    <string name="sidebar_not_logged_message">Sveiki atvykę į Raccoon for Lemmy!\n\nAnoniminiu režimu, naudokite aukščiau esantį išskleidžiamąjį mygtuką (▼), kad pakeistumėte egzempliorių.\n\nPrisijungti galite adresu bet kuriuo metu iš profilio ekrano.\n\nMėgaukitės Lemmy!</string>
+    <string name="sidebar_not_logged_message">Sveiki atvykę į Raccoon!\n\nAnoniminiu režimu, naudokite aukščiau esantį išskleidžiamąjį mygtuką (▼), kad pakeistumėte egzempliorių.\n\nPrisijungti galite adresu bet kuriuo metu iš profilio ekrano.\n\nMėgaukitės Lemmy!</string>
     <string name="settings_default_inbox_type">Numatytasis gautųjų tipas</string>
     <string name="mod_action_add_mod">Pridėti moderatorių</string>
     <string name="mod_action_remove_mod">Pašalinti moderatorių</string>

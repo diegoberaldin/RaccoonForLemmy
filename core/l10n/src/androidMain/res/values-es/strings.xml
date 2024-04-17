@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Sin resolver</string>
     <string name="report_action_resolve">Resueltos</string>
     <string name="report_action_unresolve">Pendientes</string>
-    <string name="sidebar_not_logged_message">¡Bienvenido a Raccoon for Lemmy!\n\nEn modo anónimo, usa el botón desplegable (▼) de arriba para cambiar de instancia.\n\nPuedes iniciar sesión en tu instancia en cualquier momento desde la pestaña \'Perfil\'.\n\n¡Disfruta de Lemmy!</string>
+    <string name="sidebar_not_logged_message">¡Bienvenido a Raccoon!\n\nEn modo anónimo, usa el botón desplegable (▼) de arriba para cambiar de instancia.\n\nPuedes iniciar sesión en tu instancia en cualquier momento desde la pestaña \'Perfil\'.\n\n¡Disfruta de Lemmy!</string>
     <string name="settings_default_inbox_type">Mostrar por defecto</string>
     <string name="mod_action_add_mod">Añadir moderador</string>
     <string name="mod_action_remove_mod">Eliminar moderador</string>

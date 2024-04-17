@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Ungelöst</string>
     <string name="report_action_resolve">Auflösen</string>
     <string name="report_action_unresolve">Auflösung</string>
-    <string name="sidebar_not_logged_message">Willkommen bei Raccoon for Lemmy!\n\nIm anonymen Modus, Verwenden Sie die Dropdown-Schaltfläche (▼) oben, um die Instanz zu ändern.\n\nSie können sich unter bei Ihrer Instanz anmelden jederzeit über den Profilbildschirm.\n\nViel Spaß mit Lemmy!</string>
+    <string name="sidebar_not_logged_message">Willkommen bei Raccoon!\n\nIm anonymen Modus, Verwenden Sie die Dropdown-Schaltfläche (▼) oben, um die Instanz zu ändern.\n\nSie können sich unter bei Ihrer Instanz anmelden jederzeit über den Profilbildschirm.\n\nViel Spaß mit Lemmy!</string>
     <string name="settings_default_inbox_type">Standard-Posteingangstyp</string>
     <string name="mod_action_add_mod">Moderator hinzufügen</string>
     <string name="mod_action_remove_mod">Moderator entfernen</string>

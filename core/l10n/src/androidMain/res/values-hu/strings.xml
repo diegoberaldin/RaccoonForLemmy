@@ -231,7 +231,7 @@
     <string name="report_list_type_unresolved">Feloldatlan</string>
     <string name="report_action_resolve">Megoldás</string>
     <string name="report_action_unresolve">Feloldás megszüntetése</string>
-    <string name="sidebar_not_logged_message">Üdvözöljük a Raccoon for Lemmy oldalán!\n\nNévtelen módban, használja a fenti legördülő gombot (▼) a példány megváltoztatásához.\n\nA következő címen jelentkezhet be a példányába bármikor a Profil képernyőről.\n\nÉlvezze Lemmyt!</string>
+    <string name="sidebar_not_logged_message">Üdvözöljük a Raccoon oldalán!\n\nNévtelen módban, használja a fenti legördülő gombot (▼) a példány megváltoztatásához.\n\nA következő címen jelentkezhet be a példányába bármikor a Profil képernyőről.\n\nÉlvezze Lemmyt!</string>
     <string name="settings_default_inbox_type">Alapértelmezett beérkező levelek típusa</string>
     <string name="mod_action_add_mod">Moderátor hozzáadása</string>
     <string name="mod_action_remove_mod">Moderátor eltávolítása</string>
