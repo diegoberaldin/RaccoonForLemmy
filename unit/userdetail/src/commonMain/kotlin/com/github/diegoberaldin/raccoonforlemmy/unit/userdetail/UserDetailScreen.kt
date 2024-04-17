@@ -142,7 +142,8 @@ class UserDetailScreen(
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = LocalXmlStrings.current.messageGenericError
         val successMessage = LocalXmlStrings.current.messageOperationSuccessful
-        val isOnOtherInstance = otherInstance.isNotEmpty()
+        val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
+        val otherInstanceName = remember { otherInstance }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val notificationCenter = remember { getNotificationCenter() }
@@ -317,7 +318,13 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.Info -> {
-                                                    navigationCoordinator.showBottomSheet(UserInfoScreen(uiState.user.id))
+                                                    navigationCoordinator.showBottomSheet(
+                                                        UserInfoScreen(
+                                                            userId = uiState.user.id,
+                                                            username = uiState.user.name,
+                                                            otherInstance = otherInstanceName,
+                                                        )
+                                                    )
                                                 }
 
                                                 OptionId.Share -> {
@@ -338,7 +345,8 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.ExploreInstance -> {
-                                                    val screen = ExploreScreen(otherInstance = uiState.user.host)
+                                                    val screen =
+                                                        ExploreScreen(otherInstance = uiState.user.host)
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
@@ -741,7 +749,10 @@ class UserDetailScreen(
                                                             UserDetailMviModel.Intent.Copy(texts.first())
                                                         )
                                                     } else {
-                                                        val screen = CopyPostBottomSheet(post.title, post.text)
+                                                        val screen = CopyPostBottomSheet(
+                                                            post.title,
+                                                            post.text
+                                                        )
                                                         navigationCoordinator.showBottomSheet(screen)
                                                     }
                                                 }
@@ -817,7 +828,9 @@ class UserDetailScreen(
                                                 ?: defaultDownVoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.DownVoteComment(comment.id),
+                                                    UserDetailMviModel.Intent.DownVoteComment(
+                                                        comment.id
+                                                    ),
                                                 )
                                             },
                                         )
@@ -939,7 +952,9 @@ class UserDetailScreen(
                                         } else {
                                             rememberCallback(model) {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.DownVoteComment(comment.id),
+                                                    UserDetailMviModel.Intent.DownVoteComment(
+                                                        comment.id
+                                                    ),
                                                 )
                                             }
                                         },

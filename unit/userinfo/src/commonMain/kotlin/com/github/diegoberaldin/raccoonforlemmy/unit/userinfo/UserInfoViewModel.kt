@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 
 class UserInfoViewModel(
     private val userId: Long,
+    private val username: String,
+    private val otherInstance: String,
     private val userRepository: UserRepository,
     private val settingsRepository: SettingsRepository,
     private val itemCache: LemmyItemCache,
@@ -32,7 +34,11 @@ class UserInfoViewModel(
 
 
             if (uiState.value.moderatedCommunities.isEmpty()) {
-                val updatedUser = userRepository.get(user.id)
+                val updatedUser = userRepository.get(
+                    id = user.id,
+                    username = username,
+                    otherInstance = otherInstance,
+                )
                 if (updatedUser != null) {
                     updateState {
                         it.copy(user = updatedUser)

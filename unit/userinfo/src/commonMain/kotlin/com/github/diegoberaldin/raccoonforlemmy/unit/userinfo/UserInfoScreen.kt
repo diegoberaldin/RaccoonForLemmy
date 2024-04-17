@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -43,6 +42,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.DetailInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
@@ -57,11 +57,16 @@ import org.koin.core.parameter.parametersOf
 
 class UserInfoScreen(
     private val userId: Long,
+    private val username: String,
+    private val otherInstance: String,
 ) : Screen {
 
     @Composable
     override fun Content() {
-        val model = getScreenModel<UserInfoMviModel> { parametersOf(userId) }
+        val model = getScreenModel<UserInfoMviModel>(
+            tag = userId.toString(),
+            parameters = { parametersOf(userId, username, otherInstance) },
+        )
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scope = rememberCoroutineScope()
