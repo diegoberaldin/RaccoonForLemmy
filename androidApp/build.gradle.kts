@@ -32,11 +32,11 @@ android {
     }
     buildTypes {
         getByName("debug") {
-            resValue("string", "app_name", "Kijetesantakalu for Lemmy")
+            resValue("string", "app_name", "Kijetesantakalu")
             applicationIdSuffix = ".dev"
         }
         getByName("release") {
-            resValue("string", "app_name", "Raccoon for Lemmy")
+            resValue("string", "app_name", "Raccoon")
             isMinifyEnabled = true
             setProguardFiles(
                 listOf(
