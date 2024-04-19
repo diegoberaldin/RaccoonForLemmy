@@ -306,7 +306,7 @@ internal object ProfileMainScreen : Tab {
                             logoutConfirmDialogOpen = false
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalXmlStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -316,7 +316,7 @@ internal object ProfileMainScreen : Tab {
                             model.reduce(ProfileMainMviModel.Intent.Logout)
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
                     }
                 },
             )
