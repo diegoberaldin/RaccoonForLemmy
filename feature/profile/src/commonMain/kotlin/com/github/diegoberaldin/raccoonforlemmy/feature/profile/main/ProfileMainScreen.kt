@@ -17,6 +17,8 @@ import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Subscriptions
 import androidx.compose.material.icons.filled.ThumbsUpDown
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -102,6 +104,7 @@ internal object ProfileMainScreen : Tab {
         val bottomNavigationInset = with(LocalDensity.current) {
             WindowInsets.navigationBars.getBottom(this).toDp()
         }
+        var logoutConfirmDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe(NotificationCenterEvent.ModeratorZoneActionSelected::class)
@@ -168,7 +171,7 @@ internal object ProfileMainScreen : Tab {
                                     .padding(horizontal = Spacing.xs)
                                     .onClick(
                                         onClick = rememberCallback {
-                                            model.reduce(ProfileMainMviModel.Intent.Logout)
+                                            logoutConfirmDialogOpen = true
                                         },
                                     ),
                                 imageVector = Icons.AutoMirrored.Filled.Logout,
@@ -284,6 +287,39 @@ internal object ProfileMainScreen : Tab {
                     }
                 }
             }
+        }
+
+        if (logoutConfirmDialogOpen) {
+            AlertDialog(
+                onDismissRequest = {
+                    logoutConfirmDialogOpen = false
+                },
+                title = {
+                    Text(text = LocalXmlStrings.current.actionLogout)
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            logoutConfirmDialogOpen = false
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            logoutConfirmDialogOpen = false
+                            model.reduce(ProfileMainMviModel.Intent.Logout)
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+            )
         }
     }
 }
