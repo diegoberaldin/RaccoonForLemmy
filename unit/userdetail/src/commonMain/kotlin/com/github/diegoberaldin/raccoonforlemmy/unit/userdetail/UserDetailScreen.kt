@@ -486,6 +486,7 @@ class UserDetailScreen(
                         if (uiState.posts.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
                                 PostCardPlaceholder(
+                                    modifier = Modifier.padding(horizontal = Spacing.s),
                                     postLayout = uiState.postLayout,
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
@@ -592,6 +593,7 @@ class UserDetailScreen(
                                 },
                                 content = {
                                     PostCard(
+                                        modifier = Modifier.padding(horizontal = Spacing.s),
                                         post = post,
                                         hideAuthor = true,
                                         postLayout = uiState.postLayout,
@@ -784,7 +786,9 @@ class UserDetailScreen(
                     } else {
                         if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
-                                CommentCardPlaceholder()
+                                CommentCardPlaceholder(
+                                    modifier = Modifier.padding(horizontal = Spacing.s),
+                                )
                                 HorizontalDivider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
                                     thickness = 0.25.dp
@@ -893,7 +897,9 @@ class UserDetailScreen(
                                 },
                                 content = {
                                     CommentCard(
-                                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                                        modifier = Modifier
+                                            .padding(horizontal = Spacing.s)
+                                            .background(MaterialTheme.colorScheme.background),
                                         comment = comment,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,

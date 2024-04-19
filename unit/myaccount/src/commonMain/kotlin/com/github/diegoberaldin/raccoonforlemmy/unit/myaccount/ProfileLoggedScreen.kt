@@ -185,6 +185,7 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.posts.isEmpty() && uiState.loading && !uiState.initial) {
                                 items(5) {
                                     PostCardPlaceholder(
+                                        modifier = Modifier.padding(horizontal = Spacing.xs),
                                         postLayout = uiState.postLayout,
                                     )
                                     if (uiState.postLayout != PostLayout.Card) {
@@ -199,6 +200,7 @@ object ProfileLoggedScreen : Tab {
                                 key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { post ->
                                 PostCard(
+                                    modifier = Modifier.padding(horizontal = Spacing.xs),
                                     post = post,
                                     postLayout = uiState.postLayout,
                                     limitBodyHeight = true,
@@ -342,7 +344,10 @@ object ProfileLoggedScreen : Tab {
                         } else {
                             if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                                 items(5) {
-                                    CommentCardPlaceholder(hideAuthor = true)
+                                    CommentCardPlaceholder(
+                                        modifier = Modifier.padding(horizontal = Spacing.xs),
+                                        hideAuthor = true,
+                                    )
                                     HorizontalDivider(
                                         modifier = Modifier.padding(vertical = Spacing.xxxs),
                                         thickness = 0.25.dp
@@ -354,7 +359,9 @@ object ProfileLoggedScreen : Tab {
                                 key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { comment ->
                                 CommentCard(
-                                    modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                                    modifier = Modifier
+                                        .background(MaterialTheme.colorScheme.background)
+                                        .padding(horizontal = Spacing.xs),
                                     comment = comment,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,

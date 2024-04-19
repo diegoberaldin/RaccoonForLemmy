@@ -113,7 +113,9 @@ class InboxRepliesScreen : Tab {
             modifier = Modifier.pullRefresh(pullRefreshState),
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = Spacing.xs),
                 state = lazyListState,
             ) {
                 if (uiState.replies.isEmpty() && uiState.initial) {

@@ -24,10 +24,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 
 @Composable
 fun CommentCardPlaceholder(
+    modifier: Modifier = Modifier,
     hideAuthor: Boolean = false,
 ) {
     Column(
-        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+        modifier = modifier.background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
         if (!hideAuthor) {

@@ -150,6 +150,7 @@ class DraftsScreen : Screen {
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
+                        modifier = Modifier.padding(horizontal = Spacing.xs),
                         state = lazyListState,
                         verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
                     ) {

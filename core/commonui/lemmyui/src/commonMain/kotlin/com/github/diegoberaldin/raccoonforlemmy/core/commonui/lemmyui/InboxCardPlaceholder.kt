@@ -31,7 +31,6 @@ fun InboxCardPlaceholder(
                 Modifier
                     .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
                     .clip(RoundedCornerShape(CornerSize.l))
-                    .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                     )

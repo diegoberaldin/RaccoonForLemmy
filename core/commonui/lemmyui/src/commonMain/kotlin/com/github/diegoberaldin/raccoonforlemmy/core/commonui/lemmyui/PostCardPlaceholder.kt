@@ -28,12 +28,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 
 @Composable
 fun PostCardPlaceholder(
+    modifier: Modifier = Modifier,
     postLayout: PostLayout = PostLayout.Card,
 ) {
     when (postLayout) {
         PostLayout.Compact -> {
             Column(
-                modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                modifier = modifier.background(MaterialTheme.colorScheme.background),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 Row(
@@ -97,7 +98,6 @@ fun PostCardPlaceholder(
                 modifier = Modifier
                     .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
                     .clip(RoundedCornerShape(CornerSize.l))
-                    .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                     )

@@ -325,6 +325,7 @@ class PostListScreen : Screen {
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
+                        modifier = Modifier.padding(horizontal = Spacing.xs),
                         state = lazyListState,
                         userScrollEnabled = !uiState.zombieModeActive,
                     ) {

@@ -713,6 +713,7 @@ class CommunityDetailScreen(
                             if (uiState.posts.isEmpty() && uiState.loading) {
                                 items(5) {
                                     PostCardPlaceholder(
+                                        modifier = Modifier.padding(horizontal = Spacing.xs),
                                         postLayout = uiState.postLayout,
                                     )
                                     if (uiState.postLayout != PostLayout.Card) {
@@ -828,6 +829,7 @@ class CommunityDetailScreen(
                                     },
                                     content = {
                                         PostCard(
+                                            modifier = Modifier.padding(horizontal = Spacing.xs),
                                             post = post,
                                             isFromModerator = uiState.moderators.containsId(post.creator?.id),
                                             postLayout = uiState.postLayout,

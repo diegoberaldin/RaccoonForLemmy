@@ -254,13 +254,16 @@ class FilteredContentsScreen(
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
+                        modifier = Modifier.padding(horizontal = Spacing.xs),
                         state = lazyListState,
                         verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
                     ) {
                         if (uiState.section == FilteredContentsSection.Posts) {
                             if (uiState.posts.isEmpty() && uiState.loading && uiState.initial) {
                                 items(5) {
-                                    PostCardPlaceholder(uiState.postLayout)
+                                    PostCardPlaceholder(
+                                        postLayout = uiState.postLayout
+                                    )
                                     if (uiState.postLayout != PostLayout.Card) {
                                         HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
                                     } else {

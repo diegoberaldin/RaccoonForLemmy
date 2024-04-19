@@ -89,7 +89,6 @@ fun PostCard(
                         elevation = 5.dp,
                         shape = RoundedCornerShape(CornerSize.l)
                     )
-                    .padding(horizontal = Spacing.xs)
                     .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
