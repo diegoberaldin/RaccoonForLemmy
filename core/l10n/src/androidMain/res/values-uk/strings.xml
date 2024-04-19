@@ -381,4 +381,5 @@
     <string name="app_icon_alt_1">Однотонні</string>
     <string name="settings_fade_read_posts">Зникають прочитані пости</string>
     <string name="settings_show_unread_comments">Показати кількість непрочитаних коментарів</string>
+    <string name="action_logout">Вийти</string>
 </resources>

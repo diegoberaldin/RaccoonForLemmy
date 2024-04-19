@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">monokromatike</string>
     <string name="settings_fade_read_posts">Zbeh postimet e lexuara</string>
     <string name="settings_show_unread_comments">Shfaq numrin e komenteve të palexuara</string>
+    <string name="action_logout">Shkyç</string>
 </resources>

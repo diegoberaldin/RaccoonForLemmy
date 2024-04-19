@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Vienkrāsains</string>
     <string name="settings_fade_read_posts">Izbalināt lasītās ziņas</string>
     <string name="settings_show_unread_comments">Rādīt nelasīto komentāru skaitu</string>
+    <string name="action_logout">Izlogoties</string>
 </resources>

@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Yksivärinen</string>
     <string name="settings_fade_read_posts">Häivyttää luetut viestit</string>
     <string name="settings_show_unread_comments">Näytä lukemattomien kommenttien määrä</string>
+    <string name="action_logout">Kirjautua ulos</string>
 </resources>

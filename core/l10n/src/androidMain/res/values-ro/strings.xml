@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Monocromatic</string>
     <string name="settings_fade_read_posts">Estompează postările citite</string>
     <string name="settings_show_unread_comments">Afișează numărul de comentarii necitite</string>
+    <string name="action_logout">Deconectare</string>
 </resources>

@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Monochromatyczny</string>
     <string name="settings_fade_read_posts">Przyciemnij przeczytane posty</string>
     <string name="settings_show_unread_comments">Pokaż liczbę nieprzeczytanych komentarzy</string>
+    <string name="action_logout">Wyloguj</string>
 </resources>

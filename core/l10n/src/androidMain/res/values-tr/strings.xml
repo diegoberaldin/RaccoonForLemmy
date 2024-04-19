@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Tek renkli</string>
     <string name="settings_fade_read_posts">Okunan gönderileri soldur</string>
     <string name="settings_show_unread_comments">Okunmamış yorumların sayısını göster</string>
+    <string name="action_logout">Çıkış Yap</string>
 </resources>

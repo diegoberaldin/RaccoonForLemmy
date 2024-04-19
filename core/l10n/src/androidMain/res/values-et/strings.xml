@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Ühevärviline</string>
     <string name="settings_fade_read_posts">Loetud postituste tuhmumine</string>
     <string name="settings_show_unread_comments">Kuva lugemata kommentaaride arv</string>
+    <string name="action_logout">Logi välja</string>
 </resources>

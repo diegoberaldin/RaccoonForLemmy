@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Monokromatiku</string>
     <string name="settings_fade_read_posts">Fade aqra postijiet</string>
     <string name="settings_show_unread_comments">Uri n-numru ta\' kummenti mhux moqrija</string>
+    <string name="action_logout">Oħroġ</string>
 </resources>

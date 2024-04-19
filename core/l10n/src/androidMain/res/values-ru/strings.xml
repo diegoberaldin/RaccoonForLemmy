@@ -381,4 +381,5 @@
     <string name="app_icon_alt_1">Монохроматический</string>
     <string name="settings_fade_read_posts">Блеклые прочитанные посты</string>
     <string name="settings_show_unread_comments">Показать количество непрочитанных комментариев</string>
+    <string name="action_logout">Выйти</string>
 </resources>

@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Monokromatski</string>
     <string name="settings_fade_read_posts">Izblijedjeti pročitani postovi</string>
     <string name="settings_show_unread_comments">Prikaži broj nepročitanih komentara</string>
+    <string name="action_logout">Odjavite se</string>
 </resources>

@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Monocromo</string>
     <string name="settings_fade_read_posts">Desvanecer publicaciones leídas</string>
     <string name="settings_show_unread_comments">Mostrar número de comentarios no leídos</string>
+    <string name="action_logout">Cerrar sesión</string>
 </resources>

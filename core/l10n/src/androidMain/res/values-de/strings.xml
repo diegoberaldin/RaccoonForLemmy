@@ -382,4 +382,5 @@
     <string name="app_icon_alt_1">Monochromatisch</string>
     <string name="settings_fade_read_posts">Gelesene Beiträge ausblenden</string>
     <string name="settings_show_unread_comments">Anzahl ungelesener Kommentare anzeigen</string>
+    <string name="action_logout">Ausloggen</string>
 </resources>
