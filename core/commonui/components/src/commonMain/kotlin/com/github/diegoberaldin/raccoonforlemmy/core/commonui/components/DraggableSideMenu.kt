@@ -11,6 +11,7 @@ import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isSpecified
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlin.math.roundToInt
@@ -49,8 +51,8 @@ fun DraggableSideMenu(
         AnchoredDraggableState(
             initialValue = SlideAnchorPosition.Closed,
             anchors = DraggableAnchors<SlideAnchorPosition> {
-                SlideAnchorPosition.Closed at with(density) { maxWidth.toPx() }
-                SlideAnchorPosition.Opened at 0f
+                SlideAnchorPosition.Closed at with(density) { availableWidth.toPx() }
+                SlideAnchorPosition.Opened at with(density) { (availableWidth - maxWidth).toPx() }
             },
             positionalThreshold = { distance: Float -> distance * 0.5f },
             velocityThreshold = { with(density) { 100.dp.toPx() } },
@@ -68,8 +70,8 @@ fun DraggableSideMenu(
     }
 
     LaunchedEffect(draggableState) {
-        snapshotFlow { draggableState.targetValue }.onEach { value: SlideAnchorPosition ->
-            if (value == SlideAnchorPosition.Closed && draggableState.currentValue == SlideAnchorPosition.Opened) {
+        snapshotFlow { draggableState.currentValue }.onEach { value: SlideAnchorPosition ->
+            if (value == SlideAnchorPosition.Closed) {
                 onDismiss?.invoke()
             }
         }.launchIn(this)
@@ -89,7 +91,13 @@ fun DraggableSideMenu(
                 state = draggableState,
                 orientation = Orientation.Horizontal,
             )
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
+            .padding(
+                top = Spacing.xxl,
+                bottom = Spacing.m,
+                end = Spacing.s,
+                start = Spacing.s
+            ),
     ) {
         content()
     }

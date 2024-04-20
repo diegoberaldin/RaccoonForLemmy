@@ -32,6 +32,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override val inboxUnread = MutableStateFlow(0)
     override val canPop = MutableStateFlow(false)
     override val exitMessageVisible = MutableStateFlow(false)
+    override val sideMenuEvents = MutableSharedFlow<SideMenuEvents>()
 
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
@@ -146,5 +147,17 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
 
     override fun changeTab(value: Tab) {
         tabNavigator?.current = value
+    }
+
+    override fun openSideMenu(screen: Screen) {
+        scope.launch {
+            sideMenuEvents.emit(SideMenuEvents.Open(screen))
+        }
+    }
+
+    override fun closeSideMenu() {
+        scope.launch {
+            sideMenuEvents.emit(SideMenuEvents.Close)
+        }
     }
 }

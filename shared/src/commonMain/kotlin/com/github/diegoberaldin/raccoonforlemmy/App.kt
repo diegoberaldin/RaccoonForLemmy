@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.DrawerValue
@@ -18,12 +19,16 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.TabNavigator
@@ -38,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.AppTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.DraggableSideMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFromUrl
@@ -45,11 +51,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getUserFro
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.ProvideXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.di.getL10nManager
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.SideMenuEvents
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getAccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageDirection
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerContent
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityScreen
@@ -84,6 +92,23 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val detailOpener = remember { getDetailOpener() }
     val l10nManager = remember { getL10nManager() }
     val l10nState by l10nManager.lyricist.state.collectAsState()
+    val barTheme: UiBarTheme = when {
+        settings.edgeToEdge && settings.opaqueSystemBars -> UiBarTheme.Opaque
+        settings.edgeToEdge && !settings.opaqueSystemBars -> UiBarTheme.Transparent
+        else -> UiBarTheme.Solid
+    }
+    var screenWidth by remember { mutableStateOf(0f) }
+    var sideMenuOpened by remember { mutableStateOf(false) }
+    var sideMenuContent by remember { mutableStateOf<@Composable (() -> Unit)?>(null) }
+    val scope = rememberCoroutineScope()
+
+    fun closeSideMenu() {
+        sideMenuOpened = false
+        scope.launch {
+            delay(250)
+            sideMenuContent = null
+        }
+    }
 
     LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
@@ -170,9 +195,22 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 else -> Unit
             }
         }.launchIn(this)
+
+        navigationCoordinator.sideMenuEvents.onEach { evt ->
+            when (evt) {
+                is SideMenuEvents.Open -> {
+                    sideMenuContent = @Composable {
+                        evt.screen.Content()
+                    }
+                    sideMenuOpened = true
+                }
+
+                SideMenuEvents.Close -> {
+                    closeSideMenu()
+                }
+            }
+        }.launchIn(this)
     }
-
-
 
     LaunchedEffect(drawerCoordinator) {
         // centralizes the information about drawer opening
@@ -221,11 +259,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         }.launchIn(this)
     }
 
-    val barTheme: UiBarTheme = when {
-        settings.edgeToEdge && settings.opaqueSystemBars -> UiBarTheme.Opaque
-        settings.edgeToEdge && !settings.opaqueSystemBars -> UiBarTheme.Transparent
-        else -> UiBarTheme.Solid
-    }
     AppTheme(
         useDynamicColors = useDynamicColors,
         barTheme = barTheme,
@@ -259,7 +292,13 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                         LaunchedEffect(Unit) {
                             navigationCoordinator.setRootNavigator(navigator)
                         }
+
                         ModalNavigationDrawer(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .onGloballyPositioned {
+                                    screenWidth = it.size.toSize().width
+                                },
                             drawerState = drawerState,
                             gesturesEnabled = drawerGesturesEnabled,
                             drawerContent = {
@@ -278,6 +317,17 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                                 )
                             }
                         }
+
+                        DraggableSideMenu(
+                            availableWidth = screenWidth.toLocalDp(),
+                            opened = sideMenuOpened,
+                            onDismiss = {
+                                closeSideMenu()
+                            },
+                            content = {
+                                sideMenuContent?.invoke()
+                            }
+                        )
                     }
                 }
             }

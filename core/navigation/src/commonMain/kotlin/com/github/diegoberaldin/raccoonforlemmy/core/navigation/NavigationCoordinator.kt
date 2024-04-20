@@ -18,6 +18,11 @@ sealed interface TabNavigationSection {
     data object Settings : TabNavigationSection
 }
 
+sealed interface SideMenuEvents {
+    data class Open(val screen: Screen) : SideMenuEvents
+    data object Close : SideMenuEvents
+}
+
 @Stable
 interface NavigationCoordinator {
 
@@ -27,6 +32,7 @@ interface NavigationCoordinator {
     val deepLinkUrl: Flow<String?>
     val canPop: StateFlow<Boolean>
     val exitMessageVisible: StateFlow<Boolean>
+    val sideMenuEvents: Flow<SideMenuEvents>
 
     fun setCurrentSection(section: TabNavigationSection)
     fun submitDeeplink(url: String)
@@ -44,4 +50,6 @@ interface NavigationCoordinator {
     fun setExitMessageVisible(value: Boolean)
     fun setTabNavigator(value: TabNavigator)
     fun changeTab(value: Tab)
+    fun openSideMenu(screen: Screen)
+    fun closeSideMenu()
 }

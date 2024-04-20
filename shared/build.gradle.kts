@@ -46,6 +46,7 @@ kotlin {
                 implementation(projects.core.api)
                 implementation(projects.core.appearance)
                 implementation(projects.core.architecture)
+                implementation(projects.core.commonui.components)
                 implementation(projects.core.commonui.detailopenerApi)
                 implementation(projects.core.commonui.detailopenerImpl)
                 implementation(projects.core.commonui.lemmyui)
