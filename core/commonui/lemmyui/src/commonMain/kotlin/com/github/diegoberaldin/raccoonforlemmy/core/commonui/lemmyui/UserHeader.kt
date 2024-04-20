@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.Cake
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,6 +53,7 @@ fun UserHeader(
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
     onOpenImage: ((String) -> Unit)? = null,
+    onInfo: (() -> Unit)? = null,
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
@@ -184,6 +186,19 @@ fun UserHeader(
                             text = user.accountAge.prettifyDate(),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    if (onInfo != null) {
+                        Icon(
+                            modifier = Modifier
+                                .padding(end = Spacing.s)
+                                .size(iconSize)
+                                .onClick(onClick = onInfo),
+                            imageVector = Icons.Default.Info,
+                            contentDescription = null,
                         )
                     }
                 }

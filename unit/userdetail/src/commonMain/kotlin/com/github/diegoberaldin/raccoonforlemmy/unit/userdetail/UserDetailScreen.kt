@@ -248,10 +248,6 @@ class UserDetailScreen(
                         Box {
                             val options = buildList {
                                 this += Option(
-                                    OptionId.Info,
-                                    LocalXmlStrings.current.userDetailInfo
-                                )
-                                this += Option(
                                     OptionId.ExploreInstance,
                                     buildString {
                                         append(LocalXmlStrings.current.navigationSearch)
@@ -315,16 +311,6 @@ class UserDetailScreen(
 
                                                 OptionId.Block -> {
                                                     model.reduce(UserDetailMviModel.Intent.Block)
-                                                }
-
-                                                OptionId.Info -> {
-                                                    navigationCoordinator.showBottomSheet(
-                                                        UserInfoScreen(
-                                                            userId = uiState.user.id,
-                                                            username = uiState.user.name,
-                                                            otherInstance = otherInstanceName,
-                                                        )
-                                                    )
                                                 }
 
                                                 OptionId.Share -> {
@@ -454,6 +440,14 @@ class UserDetailScreen(
                                         source = uiState.user.readableHandle,
                                     )
                                 )
+                            },
+                            onInfo = rememberCallback {
+                                val screen = UserInfoScreen(
+                                    userId = uiState.user.id,
+                                    username = uiState.user.name,
+                                    otherInstance = otherInstanceName,
+                                )
+                                navigationCoordinator.openSideMenu(screen)
                             },
                         )
                     }
