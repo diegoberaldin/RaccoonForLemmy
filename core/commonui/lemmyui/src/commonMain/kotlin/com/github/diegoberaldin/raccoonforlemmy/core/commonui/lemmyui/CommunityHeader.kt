@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarViewMonth
 import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -48,6 +50,7 @@ fun CommunityHeader(
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
     onOpenImage: ((String) -> Unit)? = null,
+    onInfo: (() -> Unit)? = null,
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
@@ -139,7 +142,7 @@ fun CommunityHeader(
                         Icon(
                             modifier = Modifier.size(iconSize),
                             imageVector = Icons.Default.Group,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                         Text(
                             text = community.subscribers.getPrettyNumber(
@@ -154,7 +157,7 @@ fun CommunityHeader(
                         Icon(
                             modifier = Modifier.size(iconSize),
                             imageVector = Icons.Default.CalendarViewMonth,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                         Text(
                             text = community.monthlyActiveUsers.getPrettyNumber(
@@ -163,6 +166,19 @@ fun CommunityHeader(
                             ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    if (onInfo != null) {
+                        Icon(
+                            modifier = Modifier
+                                .padding(end = Spacing.s)
+                                .size(iconSize)
+                                .onClick(onClick = onInfo),
+                            imageVector = Icons.Default.Info,
+                            contentDescription = null,
                         )
                     }
                 }

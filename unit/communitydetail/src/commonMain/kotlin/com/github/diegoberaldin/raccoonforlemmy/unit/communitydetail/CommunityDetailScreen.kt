@@ -328,10 +328,6 @@ class CommunityDetailScreen(
                         // options menu
                         Box {
                             val options = buildList {
-                                this += Option(
-                                    OptionId.Info,
-                                    LocalXmlStrings.current.communityDetailInfo,
-                                )
                                 if (!isOnOtherInstance) {
                                     this += Option(
                                         OptionId.Search,
@@ -448,16 +444,6 @@ class CommunityDetailScreen(
                                                     navigationCoordinator.pushScreen(
                                                         InstanceInfoScreen(
                                                             url = uiState.community.instanceUrl,
-                                                        ),
-                                                    )
-                                                }
-
-                                                OptionId.Info -> {
-                                                    navigationCoordinator.showBottomSheet(
-                                                        CommunityInfoScreen(
-                                                            communityId = uiState.community.id,
-                                                            communityName = uiState.community.name,
-                                                            otherInstance = otherInstanceName,
                                                         ),
                                                     )
                                                 }
@@ -707,6 +693,14 @@ class CommunityDetailScreen(
                                                 )
                                             )
                                         },
+                                        onInfo = rememberCallback {
+                                            val screen = CommunityInfoScreen(
+                                                communityId = uiState.community.id,
+                                                communityName = uiState.community.name,
+                                                otherInstance = otherInstanceName,
+                                            )
+                                            navigationCoordinator.openSideMenu(screen)
+                                        }
                                     )
                                 }
                             }
