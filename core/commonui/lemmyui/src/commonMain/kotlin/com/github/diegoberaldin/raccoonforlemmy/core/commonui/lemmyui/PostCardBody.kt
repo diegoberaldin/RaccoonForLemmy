@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.readContentAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.CustomMarkdownWrapper
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -43,7 +44,7 @@ fun PostCardBody(
     val themeRepository = remember { getThemeRepository() }
     val fontFamily by themeRepository.contentFontFamily.collectAsState()
     val typography = fontFamily.toTypography()
-    val additionalAlphaFactor = if (markRead) 0.8f else 1f
+    val additionalAlphaFactor = if (markRead) readContentAlpha else 1f
 
     if (text.isNotEmpty()) {
         CustomMarkdownWrapper(

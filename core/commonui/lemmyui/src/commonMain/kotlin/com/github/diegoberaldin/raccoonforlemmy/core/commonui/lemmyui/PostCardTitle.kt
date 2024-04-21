@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.readContentAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.CustomMarkdownWrapper
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -54,7 +55,7 @@ fun PostCardTitle(
     } else {
         FontWeight.Normal
     }
-    val additionalAlphaFactor = if (markRead) 0.8f else 1f
+    val additionalAlphaFactor = if (markRead) readContentAlpha else 1f
 
     CustomMarkdownWrapper(
         modifier = modifier,

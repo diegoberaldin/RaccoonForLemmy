@@ -45,6 +45,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.readContentAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FeedbackButton
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -82,7 +83,7 @@ fun PostCardFooter(
     val upVoteColor by themeRepository.upVoteColor.collectAsState()
     val downVoteColor by themeRepository.downVoteColor.collectAsState()
     val defaultUpvoteColor = MaterialTheme.colorScheme.primary
-    val additionalAlphaFactor = if (markRead) 0.8f else 1f
+    val additionalAlphaFactor = if (markRead) readContentAlpha else 1f
     val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f * additionalAlphaFactor)
 

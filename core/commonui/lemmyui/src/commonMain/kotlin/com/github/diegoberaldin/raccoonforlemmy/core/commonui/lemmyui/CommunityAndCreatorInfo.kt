@@ -36,6 +36,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Conte
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.readContentAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
@@ -68,7 +69,7 @@ fun CommunityAndCreatorInfo(
     onDoubleClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
 ) {
-    val additionalAlphaFactor = if (markRead) 0.8f else 1f
+    val additionalAlphaFactor = if (markRead) readContentAlpha else 1f
     val communityName = community?.readableName(preferNicknames).orEmpty()
     val communityIcon = community?.icon.orEmpty()
     val creatorName = creator?.readableName(preferNicknames).orEmpty()
