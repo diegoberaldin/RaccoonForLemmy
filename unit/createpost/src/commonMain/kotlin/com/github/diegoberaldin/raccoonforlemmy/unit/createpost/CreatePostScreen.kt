@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.createpost
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -51,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -61,6 +64,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
@@ -205,11 +209,14 @@ class CreatePostScreen(
                     }
 
                     CreatePostMviModel.Effect.DraftSaved -> navigationCoordinator.popScreen()
+
+                    CreatePostMviModel.Effect.AutoFillFailed -> {
+                        snackbarHostState.showSnackbar(genericError)
+                    }
                 }
             }.launchIn(this)
         }
-        LaunchedEffect(notificationCenter)
-        {
+        LaunchedEffect(notificationCenter) {
             notificationCenter.subscribe(NotificationCenterEvent.SelectCommunity::class)
                 .onEach { evt ->
                     model.reduce(CreatePostMviModel.Intent.SetCommunity(evt.model))
@@ -356,6 +363,29 @@ class CreatePostScreen(
                     textStyle = typography.titleMedium,
                     value = uiState.title,
                     singleLine = true,
+                    trailingIcon = {
+                        if (uiState.url.isNotBlank()) {
+                            Text(
+                                modifier = Modifier
+                                    .padding(horizontal = Spacing.s)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.primary,
+                                        shape = RoundedCornerShape(CornerSize.m),
+                                    )
+                                    .padding(Spacing.xs)
+                                    .onClick(
+                                        onClick = rememberCallback {
+                                            model.reduce(CreatePostMviModel.Intent.AutoFillTitle)
+                                        },
+                                    ),
+                                text = "auto".uppercase(),
+                                style = MaterialTheme.typography.labelSmall,
+                                fontFamily = FontFamily.Default,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onPrimary,
+                            )
+                        }
+                    },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Ascii,
                         autoCorrect = true,

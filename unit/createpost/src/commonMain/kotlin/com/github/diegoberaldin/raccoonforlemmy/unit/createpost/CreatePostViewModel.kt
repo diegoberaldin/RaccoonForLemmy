@@ -136,6 +136,7 @@ class CreatePostViewModel(
             CreatePostMviModel.Intent.Send -> submit()
 
             CreatePostMviModel.Intent.SaveDraft -> saveDraft()
+            CreatePostMviModel.Intent.AutoFillTitle -> autofillTitle()
         }
     }
 
@@ -336,6 +337,21 @@ class CreatePostViewModel(
         draftId?.also { id ->
             draftRepository.delete(id)
             notificationCenter.send(NotificationCenterEvent.DraftDeleted)
+        }
+    }
+
+    private fun autofillTitle() {
+        val url = uiState.value.url.takeUnless { it.isBlank() } ?: return
+        screenModelScope.launch {
+            updateState { it.copy(loading = true) }
+            val metadata = siteRepository.getMetadata(url)
+            val suggestedTitle = metadata?.title.takeUnless { it.isNullOrBlank() }
+            updateState { it.copy(loading = false) }
+            if (suggestedTitle == null) {
+                emitEffect(CreatePostMviModel.Effect.AutoFillFailed)
+            } else {
+                updateState { it.copy(title = suggestedTitle) }
+            }
         }
     }
 }

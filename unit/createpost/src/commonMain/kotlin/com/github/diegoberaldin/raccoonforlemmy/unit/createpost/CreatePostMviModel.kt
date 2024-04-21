@@ -58,6 +58,7 @@ interface CreatePostMviModel :
         data class ChangeBodyValue(val value: TextFieldValue) : Intent
         data object Send : Intent
         data object SaveDraft : Intent
+        data object AutoFillTitle : Intent
     }
 
     data class UiState(
@@ -91,5 +92,6 @@ interface CreatePostMviModel :
         data object Success : Effect
         data class Failure(val message: String?) : Effect
         data object DraftSaved : Effect
+        data object AutoFillFailed : Effect
     }
 }
