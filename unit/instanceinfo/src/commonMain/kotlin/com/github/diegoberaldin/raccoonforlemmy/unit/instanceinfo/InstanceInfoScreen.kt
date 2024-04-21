@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -166,14 +165,13 @@ class InstanceInfoScreen(
                     .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(top = Spacing.xs, start = Spacing.m, end = Spacing.m),
+                    modifier = Modifier.padding(top = Spacing.xs, start = Spacing.s, end = Spacing.s),
                     state = listState,
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 ) {
                     item {
                         CustomizedContent(ContentFontClass.Title) {
                             Column(
-                                modifier = Modifier.padding(horizontal = Spacing.s),
                                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
@@ -191,21 +189,25 @@ class InstanceInfoScreen(
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
                                 }
-                                Spacer(modifier = Modifier.height(Spacing.xxxs))
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = LocalXmlStrings.current.instanceDetailCommunities,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                )
                             }
                         }
                     }
+
+                    item {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = LocalXmlStrings.current.instanceDetailCommunities,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+
                     if (uiState.communities.isEmpty()) {
                         items(5) {
                             CommunityItemPlaceholder()
                         }
                     }
+
                     items(uiState.communities) { community ->
                         CommunityItem(
                             modifier = Modifier.onClick(
@@ -217,8 +219,10 @@ class InstanceInfoScreen(
                             autoLoadImages = uiState.autoLoadImages,
                             preferNicknames = uiState.preferNicknames,
                             showSubscribers = true,
+                            noPadding = true,
                         )
                     }
+
                     item {
                         if (!uiState.loading && !uiState.refreshing && uiState.canFetchMore) {
                             model.reduce(InstanceInfoMviModel.Intent.LoadNextPage)

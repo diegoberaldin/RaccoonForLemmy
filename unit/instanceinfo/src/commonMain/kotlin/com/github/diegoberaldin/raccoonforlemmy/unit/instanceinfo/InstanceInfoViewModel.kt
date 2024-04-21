@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviMode
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
@@ -99,13 +98,13 @@ class InstanceInfoViewModel(
                 page = currentPage,
                 sortType = currentState.sortType,
                 limit = 50,
-            ).filterIsInstance<SearchResult.Community>().let {
+            ).let {
                 if (refreshing) {
                     it
                 } else {
                     // prevents accidental duplication
                     it.filter { c1 ->
-                        currentState.communities.none { c2 -> c1.model.id == c2.id }
+                        currentState.communities.none { c2 -> c1.id == c2.id }
                     }
                 }
             }
@@ -113,8 +112,8 @@ class InstanceInfoViewModel(
                 currentPage++
             }
             val itemsToAdd = itemList.filter { e ->
-                e.model.instanceUrl == url
-            }.map { it.model }
+                e.instanceUrl == url
+            }
             updateState {
                 it.copy(
                     communities = if (refreshing) {
