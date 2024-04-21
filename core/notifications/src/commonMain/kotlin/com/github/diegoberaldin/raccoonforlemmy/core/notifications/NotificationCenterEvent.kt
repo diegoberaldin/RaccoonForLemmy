@@ -104,4 +104,14 @@ sealed interface NotificationCenterEvent {
     }
 
     data class AppIconVariantSelected(val value: Int) : NotificationCenterEvent
+
+    sealed interface ProfileSideMenuAction : NotificationCenterEvent {
+        data object ManageAccounts : ProfileSideMenuAction
+        data object ManageSubscriptions : ProfileSideMenuAction
+        data object Bookmarks : ProfileSideMenuAction
+        data object Drafts : ProfileSideMenuAction
+        data object Votes : ProfileSideMenuAction
+        data object ModeratorZone : ProfileSideMenuAction
+        data object Logout : ProfileSideMenuAction
+    }
 }
