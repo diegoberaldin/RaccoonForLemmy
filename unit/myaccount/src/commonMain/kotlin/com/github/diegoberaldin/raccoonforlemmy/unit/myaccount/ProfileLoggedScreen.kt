@@ -158,6 +158,17 @@ object ProfileLoggedScreen : Tab {
                             }
                         }
                         item {
+                            ProfileActionMenu(
+                                modifier = Modifier
+                                    .padding(
+                                        top = Spacing.xs,
+                                        bottom = Spacing.s,
+                                    )
+                                    .fillMaxWidth()
+                            )
+                            HorizontalDivider()
+                        }
+                        item {
                             SectionSelector(
                                 modifier = Modifier.padding(bottom = Spacing.xs),
                                 titles = listOf(
