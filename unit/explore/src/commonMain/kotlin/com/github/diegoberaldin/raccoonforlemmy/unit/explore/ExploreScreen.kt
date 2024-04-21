@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -170,18 +168,16 @@ class ExploreScreen(
 
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
-            contentWindowInsets = if (settings.edgeToEdge) {
-                WindowInsets(0, 0, 0, 0)
-            } else {
-                WindowInsets.navigationBars
-            },
+
             topBar = {
                 ExploreTopBar(
+                    topAppBarState = topAppBarState,
                     scrollBehavior = scrollBehavior,
                     listingType = uiState.listingType,
                     sortType = uiState.sortType,
                     resultType = uiState.resultType,
                     otherInstance = otherInstanceName,
+                    edgeToEdge = settings.edgeToEdge,
                     onSelectListingType = rememberCallback {
                         focusManager.clearFocus()
                         val sheet = ListingTypeBottomSheet(

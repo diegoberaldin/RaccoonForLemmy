@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
@@ -121,6 +120,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.keepscreenon.rememberKeepScreenOn
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
@@ -144,6 +144,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
+import kotlin.math.roundToInt
 
 class CommunityDetailScreen(
     private val communityId: Long,
@@ -199,6 +200,9 @@ class CommunityDetailScreen(
             }
         }
         var itemIdToDelete by remember { mutableStateOf<Long?>(null) }
+        val statusBarInset = with(LocalDensity.current) {
+            WindowInsets.statusBars.getTop(this)
+        }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -247,19 +251,13 @@ class CommunityDetailScreen(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xxs),
-            contentWindowInsets = if (settings.edgeToEdge) {
-                WindowInsets(0, 0, 0, 0)
-            } else {
-                WindowInsets.navigationBars
-            },
             topBar = {
-                val statusBarInset = WindowInsets.statusBars.getTop(LocalDensity.current)
-                val maxTopInset = Dimensions.topBarHeight.value.toInt()
+                val maxTopInset = Dimensions.topBarHeight.toLocalPixel()
                 var topInset by remember { mutableStateOf(maxTopInset) }
                 snapshotFlow { topAppBarState.collapsedFraction }.onEach {
-                    topInset = (maxTopInset * (1 - it)).toInt().let { insetValue ->
+                    topInset = (maxTopInset * (1 - it)).let { insetValue ->
                         if (uiState.searching) {
-                            insetValue.coerceAtLeast(statusBarInset)
+                            insetValue.coerceAtLeast(statusBarInset.toFloat())
                         } else {
                             insetValue
                         }
@@ -268,7 +266,7 @@ class CommunityDetailScreen(
 
                 TopAppBar(
                     windowInsets = if (settings.edgeToEdge) {
-                        WindowInsets(0, topInset, 0, 0)
+                        WindowInsets(0, topInset.roundToInt(), 0, 0)
                     } else {
                         TopAppBarDefaults.windowInsets
                     },

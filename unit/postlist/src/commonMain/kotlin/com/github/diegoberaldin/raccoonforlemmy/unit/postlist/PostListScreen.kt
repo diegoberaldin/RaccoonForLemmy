@@ -185,11 +185,6 @@ class PostListScreen : Screen {
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xxs),
-            contentWindowInsets = if (settings.edgeToEdge) {
-                WindowInsets(0, 0, 0, 0)
-            } else {
-                WindowInsets.navigationBars
-            },
             topBar = {
                 PostsTopBar(
                     currentInstance = uiState.instance,

@@ -62,6 +62,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.notlogged.ProfileNotLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsScreen
@@ -78,6 +79,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 internal object ProfileMainScreen : Tab {
 
@@ -130,15 +132,15 @@ internal object ProfileMainScreen : Tab {
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
             topBar = {
-                val maxTopInset = Dimensions.topBarHeight.value.toInt()
+                val maxTopInset = Dimensions.topBarHeight.toLocalPixel()
                 var topInset by remember { mutableStateOf(maxTopInset) }
                 snapshotFlow { topAppBarState.collapsedFraction }.onEach {
-                    topInset = (maxTopInset * (1 - it)).toInt()
+                    topInset = maxTopInset * (1 - it)
                 }.launchIn(scope)
 
                 TopAppBar(
                     windowInsets = if (settings.edgeToEdge) {
-                        WindowInsets(0, topInset, 0, 0)
+                        WindowInsets(0, topInset.roundToInt(), 0, 0)
                     } else {
                         TopAppBarDefaults.windowInsets
                     },
