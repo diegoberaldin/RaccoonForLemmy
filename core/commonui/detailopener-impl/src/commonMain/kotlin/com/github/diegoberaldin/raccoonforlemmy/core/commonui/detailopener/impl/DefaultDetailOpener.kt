@@ -41,7 +41,7 @@ class DefaultDetailOpener(
         scope.launch {
             val (actualCommunity, actualInstance) = withContext(Dispatchers.IO) {
                 val defaultResult = community to otherInstance
-                if (otherInstance.isEmpty()) {
+                if (otherInstance.isNotEmpty()) {
                     val found = searchCommunity(name = community.name, host = otherInstance)
                     if (found != null) {
                         found to ""

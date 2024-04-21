@@ -113,7 +113,7 @@ fun UiFontFamily.toTypography(): Typography {
         labelSmall = TextStyle(
             fontFamily = fontFamily,
             fontWeight = FontWeight.Normal,
-            fontSize = 11.sp,
+            fontSize = 10.sp,
             letterSpacing = (0.5).sp, // original: 1.5
         ),
     )
