@@ -18,6 +18,11 @@ sealed interface TabNavigationSection {
     data object Settings : TabNavigationSection
 }
 
+sealed interface ComposeEvent {
+    data class WithUrl(val url: String) : ComposeEvent
+    data class WithText(val text: String) : ComposeEvent
+}
+
 sealed interface SideMenuEvents {
     data class Open(val screen: Screen) : SideMenuEvents
     data object Close : SideMenuEvents
@@ -30,12 +35,14 @@ interface NavigationCoordinator {
     val onDoubleTabSelection: Flow<TabNavigationSection>
     val inboxUnread: StateFlow<Int>
     val deepLinkUrl: Flow<String?>
+    val composeEvents: Flow<ComposeEvent?>
     val canPop: StateFlow<Boolean>
     val exitMessageVisible: StateFlow<Boolean>
     val sideMenuEvents: Flow<SideMenuEvents>
 
     fun setCurrentSection(section: TabNavigationSection)
     fun submitDeeplink(url: String)
+    fun submitComposeEvent(event: ComposeEvent)
     fun setRootNavigator(value: Navigator?)
     fun setCanGoBackCallback(value: (() -> Boolean)?)
     fun getCanGoBackCallback(): (() -> Boolean)?

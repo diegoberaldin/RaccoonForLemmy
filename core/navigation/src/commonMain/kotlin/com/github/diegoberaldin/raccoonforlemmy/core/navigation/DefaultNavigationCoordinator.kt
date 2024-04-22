@@ -29,6 +29,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override val currentSection = MutableStateFlow<TabNavigationSection?>(null)
     override val onDoubleTabSelection = MutableSharedFlow<TabNavigationSection>()
     override val deepLinkUrl = MutableSharedFlow<String>()
+    override val composeEvents = MutableSharedFlow<ComposeEvent>()
     override val inboxUnread = MutableStateFlow(0)
     override val canPop = MutableStateFlow(false)
     override val exitMessageVisible = MutableStateFlow(false)
@@ -98,6 +99,16 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
             runCatching {
                 ensureActive()
                 deepLinkUrl.emit(url)
+            }
+        }
+    }
+
+    override fun submitComposeEvent(event: ComposeEvent) {
+        scope.launch {
+            delay(DEEP_LINK_DELAY)
+            runCatching {
+                ensureActive()
+                composeEvents.emit(event)
             }
         }
     }
