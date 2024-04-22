@@ -2,21 +2,21 @@ package com.github.diegoberaldin.raccoonforlemmy.android
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.github.diegoberaldin.raccoonforlemmy.MainView
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.ComposeEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 private const val DEEP_LINK_DELAY = 500L
 
@@ -71,17 +71,22 @@ class MainActivity : ComponentActivity() {
             )
         }
 
-        intent?.data?.toString()?.also {
-            handleDeeplink(it)
-        }
+        handleIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        intent?.data?.toString()?.also {
-            runBlocking {
-                delay(DEEP_LINK_DELAY)
-                handleDeeplink(it)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) = intent?.apply {
+        when (action) {
+            Intent.ACTION_SEND -> intent.getStringExtra(Intent.EXTRA_TEXT)?.let { content ->
+                handleCreatePost(content)
+            }
+
+            else -> data.toString().takeUnless { it.isEmpty() }?.also { url ->
+                handleDeeplink(url)
             }
         }
     }
@@ -89,5 +94,16 @@ class MainActivity : ComponentActivity() {
     private fun handleDeeplink(url: String) {
         val navigationCoordinator = getNavigationCoordinator()
         navigationCoordinator.submitDeeplink(url)
+    }
+
+    private fun handleCreatePost(content: String) {
+        val looksLikeAnUrl = Patterns.WEB_URL.matcher(content).matches()
+        val event = if (looksLikeAnUrl) {
+            ComposeEvent.WithUrl(content)
+        } else {
+            ComposeEvent.WithText(content)
+        }
+        val navigationCoordinator = getNavigationCoordinator()
+        navigationCoordinator.submitComposeEvent(event)
     }
 }
