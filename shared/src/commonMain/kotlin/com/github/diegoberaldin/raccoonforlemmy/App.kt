@@ -50,6 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFro
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getUserFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.ProvideXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.di.getL10nManager
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.ComposeEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.SideMenuEvents
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
@@ -195,7 +196,21 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 else -> Unit
             }
         }.launchIn(this)
+        navigationCoordinator.composeEvents.debounce(750).onEach { event ->
+            when (event) {
+                is ComposeEvent.WithText -> detailOpener.openCreatePost(
+                    initialText = event.text,
+                    forceCommunitySelection = true,
+                )
 
+                is ComposeEvent.WithUrl -> detailOpener.openCreatePost(
+                    initialUrl = event.url,
+                    forceCommunitySelection = true,
+                )
+
+                else -> Unit
+            }
+        }.launchIn(this)
         navigationCoordinator.sideMenuEvents.onEach { evt ->
             when (evt) {
                 is SideMenuEvents.Open -> {
