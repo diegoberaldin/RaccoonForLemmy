@@ -20,15 +20,20 @@ import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -40,6 +45,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
@@ -57,11 +63,18 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDuration
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.fs.getFileSystemManager
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
+
+private const val SETTINGS_MIME_TYPE = "application/json"
+private const val SETTINGS_FILE_NAME = "raccoon_settings.json"
 
 class AdvancedSettingsScreen : Screen {
 
@@ -76,6 +89,23 @@ class AdvancedSettingsScreen : Screen {
         val scrollState = rememberScrollState()
         var screenWidth by remember { mutableStateOf(0f) }
         var languageDialogOpened by remember { mutableStateOf(false) }
+        val snackbarHostState = remember { SnackbarHostState() }
+        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val errorMessage = LocalXmlStrings.current.messageGenericError
+        val scope = rememberCoroutineScope()
+        val fileSystemManager = remember { getFileSystemManager() }
+        var fileInputOpened by remember { mutableStateOf(false) }
+        var settingsContent by remember { mutableStateOf<String?>(null) }
+
+        LaunchedEffect(model) {
+            model.effects.onEach { evt ->
+                when (evt) {
+                    is AdvancedSettingsMviModel.Effect.SaveSettings -> {
+                        settingsContent = evt.content
+                    }
+                }
+            }.launchIn(this)
+        }
 
         Scaffold(
             modifier = Modifier
@@ -107,6 +137,15 @@ class AdvancedSettingsScreen : Screen {
                         }
                     },
                 )
+            },
+            snackbarHost = {
+                SnackbarHost(snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        snackbarData = data,
+                    )
+                }
             },
         ) { paddingValues ->
             Box(
@@ -418,9 +457,28 @@ class AdvancedSettingsScreen : Screen {
                         )
                     }
 
+                    if (uiState.supportSettingsImportExport) {
+                        SettingsRow(
+                            title = LocalXmlStrings.current.settingsExport,
+                            onTap = rememberCallback(model) {
+                                model.reduce(AdvancedSettingsMviModel.Intent.ExportSettings)
+                            }
+                        )
+                        SettingsRow(
+                            title = LocalXmlStrings.current.settingsImport,
+                            onTap = rememberCallback {
+                                fileInputOpened = true
+                            },
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(Spacing.xxxl))
                 }
             }
+        }
+
+        if (uiState.loading) {
+            ProgressHud()
         }
 
         if (languageDialogOpened) {
@@ -434,6 +492,34 @@ class AdvancedSettingsScreen : Screen {
                     languageDialogOpened = false
                 }
             )
+        }
+
+        if (fileInputOpened) {
+            fileSystemManager.readFromFile(mimeTypes = arrayOf(SETTINGS_MIME_TYPE)) { content ->
+                if (content != null) {
+                    model.reduce(AdvancedSettingsMviModel.Intent.ImportSettings(content))
+                }
+                fileInputOpened = false
+            }
+        }
+
+        settingsContent?.also { content ->
+            fileSystemManager.writeToFile(
+                mimeType = SETTINGS_MIME_TYPE,
+                name = SETTINGS_FILE_NAME,
+                data = content
+            ) { success ->
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        if (success) {
+                            successMessage
+                        } else {
+                            errorMessage
+                        }
+                    )
+                }
+                settingsContent = null
+            }
         }
     }
 }
