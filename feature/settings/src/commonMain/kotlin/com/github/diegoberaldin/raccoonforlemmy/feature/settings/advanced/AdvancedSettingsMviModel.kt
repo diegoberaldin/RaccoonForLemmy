@@ -25,6 +25,8 @@ interface AdvancedSettingsMviModel :
         data class ChangeDefaultLanguage(val value: Long?) : Intent
         data class ChangeFadeReadPosts(val value: Boolean) : Intent
         data class ChangeShowUnreadComments(val value: Boolean) : Intent
+        data object ExportSettings : Intent
+        data class ImportSettings(val content: String) : Intent
     }
 
     data class UiState(
@@ -51,7 +53,11 @@ interface AdvancedSettingsMviModel :
         val appIconChangeSupported: Boolean = false,
         val fadeReadPosts: Boolean = false,
         val showUnreadComments: Boolean = false,
+        val supportSettingsImportExport: Boolean = true,
+        val loading: Boolean = false,
     )
 
-    sealed interface Effect
+    sealed interface Effect {
+        data class SaveSettings(val content: String) : Effect
+    }
 }
