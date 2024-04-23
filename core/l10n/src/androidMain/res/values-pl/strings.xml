@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Przyciemnij przeczytane posty</string>
     <string name="settings_show_unread_comments">Pokaż liczbę nieprzeczytanych komentarzy</string>
     <string name="action_logout">Wyloguj</string>
+    <string name="settings_import">Importuj ustawienia z pliku</string>
+    <string name="settings_export">Eksportuj ustawienia do pliku</string>
 </resources>

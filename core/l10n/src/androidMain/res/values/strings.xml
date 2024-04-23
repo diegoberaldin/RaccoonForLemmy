@@ -391,4 +391,6 @@
     <string name="settings_fade_read_posts">Fade read posts</string>
     <string name="settings_show_unread_comments">Show number of unread comments</string>
     <string name="action_logout">Logout</string>
+    <string name="settings_import">Import settings from file</string>
+    <string name="settings_export">Export settings to file</string>
 </resources>

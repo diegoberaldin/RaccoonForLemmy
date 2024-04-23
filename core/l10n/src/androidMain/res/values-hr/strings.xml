@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Izblijedjeti pročitani postovi</string>
     <string name="settings_show_unread_comments">Prikaži broj nepročitanih komentara</string>
     <string name="action_logout">Odjavite se</string>
+    <string name="settings_import">Uvoz postavki iz datoteke</string>
+    <string name="settings_export">Izvezi postavke u datoteku</string>
 </resources>

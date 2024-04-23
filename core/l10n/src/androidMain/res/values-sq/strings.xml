@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Zbeh postimet e lexuara</string>
     <string name="settings_show_unread_comments">Shfaq numrin e komenteve të palexuara</string>
     <string name="action_logout">Shkyç</string>
+    <string name="settings_import">Importoni cilësimet nga një skedar</string>
+    <string name="settings_export">Eksporto cilësimet në skedar</string>
 </resources>

@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">تتلاشى قراءة المشاركات</string>
     <string name="settings_show_unread_comments">إظهار عدد التعليقات غير المقروءة</string>
     <string name="action_logout">تسجيل خروج</string>
+    <string name="settings_import">إعدادات الاستيراد من الملف</string>
+    <string name="settings_export">إعدادات التصدير إلى الملف</string>
 </resources>

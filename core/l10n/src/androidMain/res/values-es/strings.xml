@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Desvanecer publicaciones leídas</string>
     <string name="settings_show_unread_comments">Mostrar número de comentarios no leídos</string>
     <string name="action_logout">Cerrar sesión</string>
+    <string name="settings_import">Importar configuración desde un archivo</string>
+    <string name="settings_export">Exportar configuración a archivo</string>
 </resources>

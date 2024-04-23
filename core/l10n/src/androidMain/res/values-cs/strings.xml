@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Fade přečtené příspěvky</string>
     <string name="settings_show_unread_comments">Zobrazit počet nepřečtených komentářů</string>
     <string name="action_logout">Odhlásit se</string>
+    <string name="settings_import">Import nastavení ze souboru</string>
+    <string name="settings_export">Export nastavení do souboru</string>
 </resources>

@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Избледняват четени публикации</string>
     <string name="settings_show_unread_comments">Показване на броя непрочетени коментари</string>
     <string name="action_logout">Излез от профила си</string>
+    <string name="settings_import">Импортиране на настройки от файл</string>
+    <string name="settings_export">Експортирайте настройките във файл</string>
 </resources>

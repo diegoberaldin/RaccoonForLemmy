@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Céimnithe léamh postálacha</string>
     <string name="settings_show_unread_comments">Taispeáin líon na dtuairimí neamhléite</string>
     <string name="action_logout">Logáil Amach</string>
+    <string name="settings_import">Íosluchtaigh socruithe ó chomhad</string>
+    <string name="settings_export">Easpórtáil socruithe go comhad</string>
 </resources>

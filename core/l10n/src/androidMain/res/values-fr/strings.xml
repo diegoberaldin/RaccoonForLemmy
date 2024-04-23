@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Fondu les publications lues</string>
     <string name="settings_show_unread_comments">Afficher le nombre de commentaires non lus</string>
     <string name="action_logout">Se déconnecter</string>
+    <string name="settings_import">Importer paramètres à partir d\'un fichier</string>
+    <string name="settings_export">Exporter paramètres vers un fichier</string>
 </resources>

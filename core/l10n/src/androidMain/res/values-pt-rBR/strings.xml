@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Desbotar os posts lidos</string>
     <string name="settings_show_unread_comments">Mostrar número de comentários não lidos</string>
     <string name="action_logout">Sair</string>
+    <string name="settings_import">Importar configurações de um arquivo</string>
+    <string name="settings_export">Exportar configurações para um arquivo</string>
 </resources>

@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Loetud postituste tuhmumine</string>
     <string name="settings_show_unread_comments">Kuva lugemata kommentaaride arv</string>
     <string name="action_logout">Logi välja</string>
+    <string name="settings_import">Importige seaded failist</string>
+    <string name="settings_export">Ekspordi sätted faili</string>
 </resources>

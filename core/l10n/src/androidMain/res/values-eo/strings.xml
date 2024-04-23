@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Fadi legitajn afiŝojn</string>
     <string name="settings_show_unread_comments">Montri nombron da nelegitaj komentoj</string>
     <string name="action_logout">Elsaluti</string>
+    <string name="settings_import">Importi agordojn el dosiero</string>
+    <string name="settings_export">Eksporti agordojn al dosiero</string>
 </resources>

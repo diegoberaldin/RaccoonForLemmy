@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Εξασθένιση αναγνωσμένων αναρτήσεων</string>
     <string name="settings_show_unread_comments">Εμφάνιση αριθμού μη αναγνωσμένων σχολίων</string>
     <string name="action_logout">Αποσύνδεση</string>
+    <string name="settings_import">Εισαγωγή ρυθμίσεων από το αρχείο</string>
+    <string name="settings_export">Εξαγωγή ρυθμίσεων σε αρχείο</string>
 </resources>

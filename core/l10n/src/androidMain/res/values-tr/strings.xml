@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Okunan gönderileri soldur</string>
     <string name="settings_show_unread_comments">Okunmamış yorumların sayısını göster</string>
     <string name="action_logout">Çıkış Yap</string>
+    <string name="settings_import">Ayarları bir dosyadan içe aktarın</string>
+    <string name="settings_export">Ayarları bir dosyaya aktar</string>
 </resources>

@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Az olvasott bejegyzések elhalványítása</string>
     <string name="settings_show_unread_comments">Az olvasatlan megjegyzések számának megjelenítése</string>
     <string name="action_logout">Kijelentkezés</string>
+    <string name="settings_import">Beállítások importálása fájlból</string>
+    <string name="settings_export">Beállítások exportálása fájlba</string>
 </resources>

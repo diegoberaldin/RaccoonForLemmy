@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Fade læse indlæg</string>
     <string name="settings_show_unread_comments">Vis antal ulæste kommentarer</string>
     <string name="action_logout">Log ud</string>
+    <string name="settings_import">Importer indstillinger fra fil</string>
+    <string name="settings_export">Eksporter indstillinger til fil</string>
 </resources>

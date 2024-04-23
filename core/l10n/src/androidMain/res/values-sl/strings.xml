@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Zbledi prebrane objave</string>
     <string name="settings_show_unread_comments">Pokaži število neprebranih komentarjev</string>
     <string name="action_logout">Odjava</string>
+    <string name="settings_import">Uvozi nastavitve iz datoteke</string>
+    <string name="settings_export">Izvozi nastavitve v datoteko</string>
 </resources>

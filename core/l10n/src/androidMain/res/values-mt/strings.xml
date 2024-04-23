@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Fade aqra postijiet</string>
     <string name="settings_show_unread_comments">Uri n-numru ta\' kummenti mhux moqrija</string>
     <string name="action_logout">Oħroġ</string>
+    <string name="settings_import">Importa settings mill-fajl</string>
+    <string name="settings_export">Esportazzjoni settings għall-fajl</string>
 </resources>

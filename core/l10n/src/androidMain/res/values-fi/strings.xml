@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Häivyttää luetut viestit</string>
     <string name="settings_show_unread_comments">Näytä lukemattomien kommenttien määrä</string>
     <string name="action_logout">Kirjautua ulos</string>
+    <string name="settings_import">Tuo asetukset tiedostosta</string>
+    <string name="settings_export">Vie asetukset tiedostoon</string>
 </resources>

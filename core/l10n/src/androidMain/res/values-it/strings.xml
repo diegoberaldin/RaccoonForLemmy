@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Dissolvenza post letti</string>
     <string name="settings_show_unread_comments">Mostra il numero di commenti non letti</string>
     <string name="action_logout">Disconnettersi</string>
+    <string name="settings_import">Importa impostazioni da file</string>
+    <string name="settings_export">Esporta impostazioni su file</string>
 </resources>

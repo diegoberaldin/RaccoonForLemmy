@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Išblukinti skaitytus įrašus</string>
     <string name="settings_show_unread_comments">Rodyti neskaitytų komentarų skaičių</string>
     <string name="action_logout">Atsijungti</string>
+    <string name="settings_import">Importuoti nustatymus iš failo</string>
+    <string name="settings_export">Eksportuokite nustatymus į failą</string>
 </resources>

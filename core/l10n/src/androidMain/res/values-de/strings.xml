@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Gelesene Beiträge ausblenden</string>
     <string name="settings_show_unread_comments">Anzahl ungelesener Kommentare anzeigen</string>
     <string name="action_logout">Ausloggen</string>
+    <string name="settings_import">Einstellungen aus Datei importieren</string>
+    <string name="settings_export">Einstellungen in eine Datei exportieren</string>
 </resources>

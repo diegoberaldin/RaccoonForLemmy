@@ -382,4 +382,6 @@
     <string name="settings_fade_read_posts">Блеклые прочитанные посты</string>
     <string name="settings_show_unread_comments">Показать количество непрочитанных комментариев</string>
     <string name="action_logout">Выйти</string>
+    <string name="settings_import">Импортировать настройки из файла</string>
+    <string name="settings_export">Экспорт настроек в файл</string>
 </resources>

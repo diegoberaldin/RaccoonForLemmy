@@ -383,4 +383,6 @@
     <string name="settings_fade_read_posts">Estompează postările citite</string>
     <string name="settings_show_unread_comments">Afișează numărul de comentarii necitite</string>
     <string name="action_logout">Deconectare</string>
+    <string name="settings_import">Importă setările dintr-un fișier</string>
+    <string name="settings_export">Exportă setările într-un fișier</string>
 </resources>
