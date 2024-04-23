@@ -16,6 +16,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Favo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.InstanceSelectionRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.usecase.DefaultExportSettingsUseCase
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.usecase.DefaultImportSettingsUseCase
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.usecase.ExportSettingsUseCase
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.usecase.ImportSettingsUseCase
 import org.koin.dsl.module
 
 val corePersistenceModule = module {
@@ -59,6 +63,17 @@ val corePersistenceModule = module {
     single<CommunitySortRepository> {
         DefaultCommunitySortRepository(
             keyStore = get()
+        )
+    }
+    single<ImportSettingsUseCase> {
+        DefaultImportSettingsUseCase(
+            settingsRepository = get(),
+            accountRepository = get(),
+        )
+    }
+    single<ExportSettingsUseCase> {
+        DefaultExportSettingsUseCase(
+            settingsRepository = get(),
         )
     }
 }

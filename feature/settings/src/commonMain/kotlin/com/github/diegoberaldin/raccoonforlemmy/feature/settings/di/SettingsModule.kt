@@ -43,6 +43,9 @@ val settingsTabModule = module {
             galleryHelper = get(),
             siteRepository = get(),
             appIconManager = get(),
+            fileSystemManager = get(),
+            importSettings = get(),
+            exportSettings = get(),
         )
     }
 }

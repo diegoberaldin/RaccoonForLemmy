@@ -13,6 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.appIconModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.networkModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.fs.fileSystemModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.galleryHelperModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.shareHelperModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.hapticFeedbackModule
@@ -109,5 +110,6 @@ val sharedHelperModule = module {
         editCommunityModule,
         licenceModule,
         appIconModule,
+        fileSystemModule,
     )
 }
