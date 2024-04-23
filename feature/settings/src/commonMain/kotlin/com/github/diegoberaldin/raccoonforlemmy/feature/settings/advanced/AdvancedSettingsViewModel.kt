@@ -9,9 +9,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.usecase.ExportSettingsUseCase
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.usecase.ImportSettingsUseCase
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.AppIconManager
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.AppIconVariant
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.toAppIconVariant
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.fs.FileSystemManager
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.GalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxDefaultType
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
@@ -36,6 +39,9 @@ class AdvancedSettingsViewModel(
     private val notificationCenter: NotificationCenter,
     private val galleryHelper: GalleryHelper,
     private val appIconManager: AppIconManager,
+    private val fileSystemManager: FileSystemManager,
+    private val importSettings: ImportSettingsUseCase,
+    private val exportSettings: ExportSettingsUseCase,
 ) : AdvancedSettingsMviModel,
     DefaultMviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect>(
         initialState = AdvancedSettingsMviModel.UiState(),
@@ -107,6 +113,7 @@ class AdvancedSettingsViewModel(
                 appIconChangeSupported = appIconManager.supportsMultipleIcons,
                 fadeReadPosts = settings.fadeReadPosts,
                 showUnreadComments = settings.showUnreadComments,
+                supportSettingsImportExport = fileSystemManager.isSupported,
             )
         }
     }
@@ -141,6 +148,8 @@ class AdvancedSettingsViewModel(
 
             is AdvancedSettingsMviModel.Intent.ChangeFadeReadPosts -> changeFadeReadPosts(intent.value)
             is AdvancedSettingsMviModel.Intent.ChangeShowUnreadComments -> changeShowUnreadPosts(intent.value)
+            is AdvancedSettingsMviModel.Intent.ExportSettings -> handleExportSettings()
+            is AdvancedSettingsMviModel.Intent.ImportSettings -> handleImportSettings(intent.content)
         }
     }
 
@@ -318,5 +327,22 @@ class AdvancedSettingsViewModel(
 
     private fun changeAppIconVariant(value: AppIconVariant) {
         appIconManager.changeIcon(value)
+    }
+
+    private fun handleImportSettings(content: String) {
+        screenModelScope.launch {
+            updateState { it.copy(loading = true) }
+            importSettings(content)
+            updateState { it.copy(loading = false) }
+        }
+    }
+
+    private fun handleExportSettings() {
+        screenModelScope.launch {
+            updateState { it.copy(loading = true) }
+            val content = exportSettings()
+            updateState { it.copy(loading = false) }
+            emitEffect(AdvancedSettingsMviModel.Effect.SaveSettings(content))
+        }
     }
 }
