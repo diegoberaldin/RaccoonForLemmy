@@ -24,4 +24,3 @@ internal class DefaultImportSettingsUseCase(
         settingsRepository.changeCurrentSettings(settings)
     }
 }
-
