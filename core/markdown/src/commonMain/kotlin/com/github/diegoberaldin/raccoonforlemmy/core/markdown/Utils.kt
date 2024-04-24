@@ -22,6 +22,7 @@ internal fun String.sanitize(): String = this
     .spoilerFixUp()
     .quoteFixUp()
     .expandLemmyHandles()
+    .cleanupEscapes()
 
 private fun String.removeEntities(): String =
     replace("&amp;", "&")
@@ -92,3 +93,6 @@ private fun String.expandLemmyHandles(): String = let { content ->
         }
     }
 }
+
+private fun String.cleanupEscapes(): String =
+    replace("\\#", "#")
