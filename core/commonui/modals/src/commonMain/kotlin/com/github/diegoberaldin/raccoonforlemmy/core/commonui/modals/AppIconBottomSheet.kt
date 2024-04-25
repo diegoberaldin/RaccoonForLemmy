@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
@@ -24,7 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
+import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.getCoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.AppIconVariant
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.appicon.toReadableName
@@ -34,6 +33,7 @@ class AppIconBottomSheet : Screen {
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
+        val coreResources = remember { getCoreResources() }
 
         Column(
             modifier = Modifier
@@ -72,7 +72,10 @@ class AppIconBottomSheet : Screen {
                         SettingsRow(
                             modifier = Modifier.padding(vertical = Spacing.xxs),
                             title = value.toReadableName(),
-                            painter = value.toPainter(),
+                            painter = when (value) {
+                                AppIconVariant.Alt1 -> coreResources.appIconAlt1
+                                else -> coreResources.appIconDefault
+                            },
                             onTap = {
                                 navigationCoordinator.hideBottomSheet()
                                 notificationCenter.send(
@@ -87,8 +90,3 @@ class AppIconBottomSheet : Screen {
     }
 }
 
-@Composable
-fun AppIconVariant.toPainter(): Painter = when (this) {
-    AppIconVariant.Alt1 -> CoreResources.appIconAlt1
-    else -> CoreResources.appIconDefault
-}

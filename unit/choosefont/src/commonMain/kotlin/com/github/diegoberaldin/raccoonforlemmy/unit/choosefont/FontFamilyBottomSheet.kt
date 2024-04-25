@@ -25,7 +25,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
+import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.getCoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
@@ -47,6 +47,8 @@ class FontFamilyBottomSheet(
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
+        val coreResources = remember { getCoreResources() }
+
         Column(
             modifier = Modifier
                 .padding(
@@ -97,10 +99,10 @@ class FontFamilyBottomSheet(
                                 ),
                         ) {
                             val fontFamily = when (family) {
-                                UiFontFamily.NotoSans -> CoreResources.notoSans
-                                UiFontFamily.CharisSIL -> CoreResources.charisSil
-                                UiFontFamily.Poppins -> CoreResources.poppins
-                                UiFontFamily.Comfortaa -> CoreResources.comfortaa
+                                UiFontFamily.NotoSans -> coreResources.notoSans
+                                UiFontFamily.CharisSIL -> coreResources.charisSil
+                                UiFontFamily.Poppins -> coreResources.poppins
+                                UiFontFamily.Comfortaa -> coreResources.comfortaa
                                 else -> FontFamily.Default
                             }
                             Text(

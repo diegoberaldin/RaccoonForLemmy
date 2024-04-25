@@ -2,20 +2,22 @@ package com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamily
-import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
+import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.getCoreResources
 
 @Composable
 fun UiFontFamily.toTypography(): Typography {
+    val coreResources = remember { getCoreResources() }
     val fontFamily = when (this) {
-        UiFontFamily.NotoSans -> CoreResources.notoSans
-        UiFontFamily.CharisSIL -> CoreResources.charisSil
-        UiFontFamily.Poppins -> CoreResources.poppins
-        UiFontFamily.Comfortaa -> CoreResources.comfortaa
+        UiFontFamily.NotoSans -> coreResources.notoSans
+        UiFontFamily.CharisSIL -> coreResources.charisSil
+        UiFontFamily.Poppins -> coreResources.poppins
+        UiFontFamily.Comfortaa -> coreResources.comfortaa
         else -> FontFamily.Default
     }
     return Typography(

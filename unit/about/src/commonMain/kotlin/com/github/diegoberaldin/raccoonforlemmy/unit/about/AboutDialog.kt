@@ -37,7 +37,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
+import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.getCoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.components.AboutItem
@@ -57,6 +57,7 @@ class AboutDialog : Screen {
         val uiState by viewModel.uiState.collectAsState()
         val notificationCenter = remember { getNotificationCenter() }
         val detailOpener = remember { getDetailOpener() }
+        val coreResources = remember { getCoreResources() }
 
         BasicAlertDialog(
             onDismissRequest = {
@@ -139,7 +140,7 @@ class AboutDialog : Screen {
                     }
                     item {
                         AboutItem(
-                            painter = CoreResources.github,
+                            painter = coreResources.github,
                             text = LocalXmlStrings.current.settingsAboutViewGithub,
                             textDecoration = TextDecoration.Underline,
                             onClick = rememberCallback {
@@ -173,7 +174,7 @@ class AboutDialog : Screen {
                     }
                     item {
                         AboutItem(
-                            painter = CoreResources.lemmy,
+                            painter = coreResources.lemmy,
                             text = LocalXmlStrings.current.settingsAboutViewLemmy,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
