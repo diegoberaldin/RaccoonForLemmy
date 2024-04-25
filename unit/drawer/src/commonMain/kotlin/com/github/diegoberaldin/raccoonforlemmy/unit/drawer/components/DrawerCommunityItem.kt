@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -50,7 +51,7 @@ internal fun DrawerCommunityItem(
         },
         label = {
             val fullColor = MaterialTheme.colorScheme.onBackground
-            val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
+            val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
             Column {
                 Text(
                     text = title,

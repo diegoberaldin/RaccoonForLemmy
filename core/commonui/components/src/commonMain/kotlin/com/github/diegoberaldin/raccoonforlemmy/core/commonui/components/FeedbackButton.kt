@@ -17,12 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 
 @Composable
 fun FeedbackButton(
     modifier: Modifier = Modifier,
     imageVector: ImageVector,
-    tintColor: Color = MaterialTheme.colorScheme.background.copy(alpha = 0.75f),
+    tintColor: Color = MaterialTheme.colorScheme.background.copy(alpha = ancillaryTextAlpha),
     onClick: () -> Unit,
 ) {
     var zoomed by remember { mutableStateOf(false) }

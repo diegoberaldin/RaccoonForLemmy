@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 
 @Composable
 fun BottomSheetHandle(
@@ -24,7 +25,7 @@ fun BottomSheetHandle(
             )
             .height(3.dp)
             .background(
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
                 shape = RoundedCornerShape(1.5.dp),
             ),
     )

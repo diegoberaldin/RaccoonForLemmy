@@ -33,6 +33,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
@@ -160,7 +161,7 @@ class UserInfoScreen(
                             Text(
                                 text = LocalXmlStrings.current.settingsWebBio,
                                 style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
                             )
                             CustomizedContent(ContentFontClass.Body) {
                                 PostCardBody(
@@ -225,7 +226,7 @@ class UserInfoScreen(
                             Text(
                                 text = LocalXmlStrings.current.settingsWebMatrix,
                                 style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
                             )
                             CustomizedContent(ContentFontClass.AncillaryText) {
                                 SelectionContainer {

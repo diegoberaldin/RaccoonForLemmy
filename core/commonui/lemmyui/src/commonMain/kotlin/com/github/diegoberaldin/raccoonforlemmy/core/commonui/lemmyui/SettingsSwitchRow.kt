@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 
 @Composable
 fun SettingsSwitchRow(
@@ -26,7 +27,7 @@ fun SettingsSwitchRow(
             modifier = Modifier.weight(1f),
         ) {
             val fullColor = MaterialTheme.colorScheme.onBackground
-            val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f)
+            val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium,
