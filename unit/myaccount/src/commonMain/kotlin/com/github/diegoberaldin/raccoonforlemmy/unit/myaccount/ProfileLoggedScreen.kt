@@ -164,7 +164,8 @@ object ProfileLoggedScreen : Tab {
                                         top = Spacing.xs,
                                         bottom = Spacing.s,
                                     )
-                                    .fillMaxWidth()
+                                    .fillMaxWidth(),
+                                isModerator = uiState.user?.moderator == true,
                             )
                             HorizontalDivider()
                         }
