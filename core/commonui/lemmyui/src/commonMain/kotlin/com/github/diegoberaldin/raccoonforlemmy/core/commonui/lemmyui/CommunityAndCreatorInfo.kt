@@ -25,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -42,7 +41,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Customi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
@@ -170,15 +168,9 @@ fun CommunityAndCreatorInfo(
                 }
             }
             if (creator != null) {
-                val translationAmount = 3.dp.toLocalPixel()
                 CustomizedContent(ContentFontClass.AncillaryText) {
                     Text(
                         modifier = Modifier
-                            .graphicsLayer {
-                                if (communityName.isNotEmpty()) {
-                                    translationY = -translationAmount
-                                }
-                            }
                             .onClick(
                                 onClick = rememberCallback {
                                     onOpenCreator?.invoke(creator)
