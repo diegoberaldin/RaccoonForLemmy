@@ -5,7 +5,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Drafts
-import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.ThumbsUpDown
 import androidx.compose.runtime.Composable
@@ -26,13 +25,6 @@ internal fun ProfileActionMenu(
     Column(
         modifier = modifier,
     ) {
-        SettingsRow(
-            title = LocalXmlStrings.current.manageAccountsTitle,
-            icon = Icons.Default.ManageAccounts,
-            onTap = rememberCallback {
-                notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ManageAccounts)
-            },
-        )
         SettingsRow(
             title = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
             icon = Icons.Default.Book,

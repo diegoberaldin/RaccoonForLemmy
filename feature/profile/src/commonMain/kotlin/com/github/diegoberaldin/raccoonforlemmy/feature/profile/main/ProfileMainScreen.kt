@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -186,7 +188,19 @@ internal object ProfileMainScreen : Tab {
                     },
                     actions = {
                         if (uiState.logged == true) {
-                            Image(
+                            Icon(
+                                modifier = Modifier
+                                    .padding(end = Spacing.s)
+                                    .onClick(
+                                        onClick = rememberCallback {
+                                            notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ManageAccounts)
+                                        },
+                                    ),
+                                imageVector = Icons.Default.ManageAccounts,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground,
+                            )
+                            Icon(
                                 modifier = Modifier
                                     .padding(horizontal = Spacing.xs)
                                     .onClick(
@@ -196,7 +210,7 @@ internal object ProfileMainScreen : Tab {
                                     ),
                                 imageVector = Icons.AutoMirrored.Filled.Logout,
                                 contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+                                tint = MaterialTheme.colorScheme.primary,
                             )
                         }
                     },
