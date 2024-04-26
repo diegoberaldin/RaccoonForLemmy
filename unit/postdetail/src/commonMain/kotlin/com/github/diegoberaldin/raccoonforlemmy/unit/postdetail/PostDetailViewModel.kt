@@ -95,6 +95,7 @@ class PostDetailViewModel(
                         actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
                         actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
                         showScores = settings.showScores,
+                        enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
                     )
                 }
             }.launchIn(this)

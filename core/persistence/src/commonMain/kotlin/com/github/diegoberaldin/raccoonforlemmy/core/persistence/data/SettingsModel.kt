@@ -59,4 +59,5 @@ data class SettingsModel(
     val inboxBackgroundCheckPeriod: Duration? = null,
     val fadeReadPosts: Boolean = false,
     val showUnreadComments: Boolean = false,
+    val enableButtonsToScrollBetweenComments: Boolean = false,
 )

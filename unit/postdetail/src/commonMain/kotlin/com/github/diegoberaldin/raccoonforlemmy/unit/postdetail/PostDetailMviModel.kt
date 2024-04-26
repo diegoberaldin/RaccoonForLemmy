@@ -67,6 +67,7 @@ interface PostDetailMviModel :
         val actionsOnSwipeToEndComments: List<ActionOnSwipe> = emptyList(),
         val searching: Boolean = false,
         val searchText: String = "",
+        val enableButtonsToScrollBetweenComments: Boolean = false,
     )
 
     sealed interface Effect {
