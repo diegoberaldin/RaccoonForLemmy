@@ -500,15 +500,18 @@ private fun ExtendedPost(
                 }
             }
         }
-        if (post.url != post.imageUrl && post.url != post.videoUrl && !post.url.isNullOrEmpty()) {
-            val url = post.url.orEmpty()
+        val postLinkUrl = post.url.orEmpty()
+        if (postLinkUrl != post.imageUrl && postLinkUrl != post.videoUrl) {
             PostLinkBanner(
                 modifier = Modifier
-                    .padding(top = Spacing.s, bottom = Spacing.xxs)
+                    .padding(
+                        top = Spacing.s,
+                        bottom = Spacing.xxs,
+                    )
                     .onClick(
                         onClick = rememberCallback {
                             navigationCoordinator.handleUrl(
-                                url = url,
+                                url = postLinkUrl,
                                 openExternal = settings.openUrlsInExternalBrowser,
                                 uriHandler = uriHandler,
                                 onOpenWeb = onOpenWeb,
@@ -519,7 +522,7 @@ private fun ExtendedPost(
                         },
                         onDoubleClick = onDoubleClick ?: {},
                     ),
-                url = url,
+                url = postLinkUrl,
             )
         }
         PostCardFooter(
