@@ -61,6 +61,7 @@ private object KeyStoreKeys {
     const val IMAGE_SOURCE_PATH = "imageSourcePath"
     const val DEFAULT_LANGUAGE_ID = "defaultLanguageId"
     const val FADE_READ_POSTS = "fadeReadPosts"
+    const val ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS = "enableButtonsToScrollBetweenComments"
 }
 
 internal class DefaultSettingsRepository(
@@ -137,6 +138,7 @@ internal class DefaultSettingsRepository(
                 inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod?.inWholeMinutes,
                 fadeReadPosts = if (settings.fadeReadPosts) 1L else 0L,
                 showUnreadComments = if (settings.showUnreadComments) 1L else 0L,
+                enableButtonsToScrollBetweenComments = if (settings.enableButtonsToScrollBetweenComments) 1L else 0L,
             )
         }
 
@@ -201,6 +203,7 @@ internal class DefaultSettingsRepository(
                         keyStore[KeyStoreKeys.DEFAULT_LANGUAGE_ID, 0L]
                     } else null,
                     fadeReadPosts = keyStore[KeyStoreKeys.FADE_READ_POSTS, false],
+                    enableButtonsToScrollBetweenComments = keyStore[KeyStoreKeys.ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS, false],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -309,6 +312,10 @@ internal class DefaultSettingsRepository(
                     keyStore.remove(KeyStoreKeys.DEFAULT_LANGUAGE_ID)
                 }
                 keyStore.save(KeyStoreKeys.FADE_READ_POSTS, settings.fadeReadPosts)
+                keyStore.save(
+                    KeyStoreKeys.ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS,
+                    settings.enableButtonsToScrollBetweenComments,
+                )
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -373,6 +380,7 @@ internal class DefaultSettingsRepository(
                     inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod?.inWholeMinutes,
                     fadeReadPosts = if (settings.fadeReadPosts) 1L else 0L,
                     showUnreadComments = if (settings.showUnreadComments) 1L else 0L,
+                    enableButtonsToScrollBetweenComments = if (settings.enableButtonsToScrollBetweenComments) 1L else 0L,
                 )
             }
         }
@@ -453,4 +461,5 @@ private fun GetBy.toModel() = SettingsModel(
     inboxBackgroundCheckPeriod = inboxBackgroundCheckPeriod?.minutes,
     fadeReadPosts = fadeReadPosts == 1L,
     showUnreadComments = showUnreadComments == 1L,
+    enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments == 1L,
 )

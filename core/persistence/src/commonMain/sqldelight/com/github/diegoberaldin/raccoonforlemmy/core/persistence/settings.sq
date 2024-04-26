@@ -56,6 +56,7 @@ CREATE TABLE SettingsEntity (
     inboxBackgroundCheckPeriod INTEGER DEFAULT NULL,
     fadeReadPosts INTEGER NOT NULL DEFAULT 0,
     showUnreadComments INTEGER NOT NULL DEFAULT 0,
+    enableButtonsToScrollBetweenComments INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
 );
@@ -117,8 +118,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     inboxBackgroundCheckPeriod,
     fadeReadPosts,
     showUnreadComments,
+    enableButtonsToScrollBetweenComments,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -233,7 +236,8 @@ SET theme = ?,
     defaultLanguageId = ?,
     inboxBackgroundCheckPeriod = ?,
     fadeReadPosts = ?,
-    showUnreadComments = ?
+    showUnreadComments = ?,
+    enableButtonsToScrollBetweenComments = ?
 WHERE account_id = ?;
 
 getBy:
@@ -293,6 +297,7 @@ SELECT
     defaultLanguageId,
     inboxBackgroundCheckPeriod,
     fadeReadPosts,
-    showUnreadComments
+    showUnreadComments,
+    enableButtonsToScrollBetweenComments
 FROM SettingsEntity
 WHERE account_id = ?;
