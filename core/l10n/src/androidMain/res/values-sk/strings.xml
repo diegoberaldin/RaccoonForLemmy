@@ -385,4 +385,5 @@
     <string name="action_logout">Odhlásiť sa</string>
     <string name="settings_import">Importujte nastavenia zo súboru</string>
     <string name="settings_export">Export nastavení do afile</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Tlačidlá na rolovanie medzi komentármi na obrazovke príspevku</string>
 </resources>

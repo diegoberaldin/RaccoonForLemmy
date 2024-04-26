@@ -385,4 +385,5 @@
     <string name="action_logout">Log ud</string>
     <string name="settings_import">Importer indstillinger fra fil</string>
     <string name="settings_export">Eksporter indstillinger til fil</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Knapper til at rulle mellem kommentarer på postskærmen</string>
 </resources>

@@ -385,4 +385,5 @@
     <string name="action_logout">Излез от профила си</string>
     <string name="settings_import">Импортиране на настройки от файл</string>
     <string name="settings_export">Експортирайте настройките във файл</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Бутони за превъртане между коментарите в екрана за публикации</string>
 </resources>

@@ -385,4 +385,5 @@
     <string name="action_logout">Elsaluti</string>
     <string name="settings_import">Importi agordojn el dosiero</string>
     <string name="settings_export">Eksporti agordojn al dosiero</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Butonoj por rulumi inter komentoj en afiŝekrano</string>
 </resources>

@@ -385,4 +385,5 @@
     <string name="action_logout">Oħroġ</string>
     <string name="settings_import">Importa settings mill-fajl</string>
     <string name="settings_export">Esportazzjoni settings għall-fajl</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Buttuni biex tiskrollja bejn il-kummenti fl-iskrin tal-post</string>
 </resources>

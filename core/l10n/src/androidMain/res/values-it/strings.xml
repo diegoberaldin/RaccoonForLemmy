@@ -385,4 +385,5 @@
     <string name="action_logout">Disconnettersi</string>
     <string name="settings_import">Importa impostazioni da file</string>
     <string name="settings_export">Esporta impostazioni su file</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Pulsanti per scorrere tra i commenti nella schermata del post</string>
 </resources>

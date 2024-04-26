@@ -385,4 +385,5 @@
     <string name="action_logout">Odjava</string>
     <string name="settings_import">Uvozi nastavitve iz datoteke</string>
     <string name="settings_export">Izvozi nastavitve v datoteko</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Gumbi za pomikanje med komentarji na zaslonu objave</string>
 </resources>

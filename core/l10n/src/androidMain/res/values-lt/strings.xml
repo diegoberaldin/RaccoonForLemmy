@@ -385,4 +385,5 @@
     <string name="action_logout">Atsijungti</string>
     <string name="settings_import">Importuoti nustatymus iš failo</string>
     <string name="settings_export">Eksportuokite nustatymus į failą</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Mygtukai, skirti slinkti tarp komentarų įrašo ekrane</string>
 </resources>

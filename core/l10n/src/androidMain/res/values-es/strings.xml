@@ -385,4 +385,5 @@
     <string name="action_logout">Cerrar sesión</string>
     <string name="settings_import">Importar configuración desde un archivo</string>
     <string name="settings_export">Exportar configuración a archivo</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Botones para desplazarse entre comentarios en la pantalla de publicación</string>
 </resources>

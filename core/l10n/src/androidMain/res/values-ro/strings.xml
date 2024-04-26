@@ -385,4 +385,5 @@
     <string name="action_logout">Deconectare</string>
     <string name="settings_import">Importă setările dintr-un fișier</string>
     <string name="settings_export">Exportă setările într-un fișier</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Butoane pentru a defila între comentarii în ecranul postării</string>
 </resources>

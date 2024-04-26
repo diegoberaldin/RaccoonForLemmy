@@ -385,4 +385,5 @@
     <string name="action_logout">Αποσύνδεση</string>
     <string name="settings_import">Εισαγωγή ρυθμίσεων από το αρχείο</string>
     <string name="settings_export">Εξαγωγή ρυθμίσεων σε αρχείο</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Κουμπιά για κύλιση μεταξύ σχολίων στην οθόνη ανάρτησης</string>
 </resources>

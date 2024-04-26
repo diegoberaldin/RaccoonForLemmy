@@ -384,4 +384,5 @@
     <string name="action_logout">Выйти</string>
     <string name="settings_import">Импортировать настройки из файла</string>
     <string name="settings_export">Экспорт настроек в файл</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Кнопки для прокрутки комментариев на экране публикации</string>
 </resources>

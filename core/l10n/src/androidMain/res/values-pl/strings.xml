@@ -385,4 +385,5 @@
     <string name="action_logout">Wyloguj</string>
     <string name="settings_import">Importuj ustawienia z pliku</string>
     <string name="settings_export">Eksportuj ustawienia do pliku</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Przyciski do przewijania komentarzy na ekranie posta</string>
 </resources>

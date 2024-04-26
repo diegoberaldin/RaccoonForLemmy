@@ -393,4 +393,5 @@
     <string name="action_logout">Logout</string>
     <string name="settings_import">Import settings from file</string>
     <string name="settings_export">Export settings to file</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Buttons to scroll between comments in post screen</string>
 </resources>

@@ -385,4 +385,5 @@
     <string name="action_logout">Se déconnecter</string>
     <string name="settings_import">Importer paramètres à partir d\'un fichier</string>
     <string name="settings_export">Exporter paramètres vers un fichier</string>
+    <string name="settings_enable_buttons_to_scroll_between_comments">Boutons pour faire défiler les commentaires dans l\'écran de publication</string>
 </resources>

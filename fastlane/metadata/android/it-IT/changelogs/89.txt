@@ -1,4 +1,4 @@
-- feat: strumenti per modratori in profilo
+- feat: strumenti per moderatori in profilo
 - feat: contenuti votati in profilo
 - feat: durata ban
 - feat: directory download e ordinamento specifico per comunità
