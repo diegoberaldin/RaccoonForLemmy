@@ -27,6 +27,7 @@ interface AdvancedSettingsMviModel :
         data class ChangeShowUnreadComments(val value: Boolean) : Intent
         data object ExportSettings : Intent
         data class ImportSettings(val content: String) : Intent
+        data class ChangeEnableButtonsToScrollBetweenComments(val value: Boolean) : Intent
     }
 
     data class UiState(
@@ -55,6 +56,7 @@ interface AdvancedSettingsMviModel :
         val showUnreadComments: Boolean = false,
         val supportSettingsImportExport: Boolean = true,
         val loading: Boolean = false,
+        val enableButtonsToScrollBetweenComments: Boolean = false,
     )
 
     sealed interface Effect {

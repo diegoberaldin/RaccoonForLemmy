@@ -114,6 +114,7 @@ class AdvancedSettingsViewModel(
                 fadeReadPosts = settings.fadeReadPosts,
                 showUnreadComments = settings.showUnreadComments,
                 supportSettingsImportExport = fileSystemManager.isSupported,
+                enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
             )
         }
     }
@@ -142,14 +143,13 @@ class AdvancedSettingsViewModel(
                 changeInfiniteScrollDisabled(intent.value)
 
             is AdvancedSettingsMviModel.Intent.ChangeImageSourcePath -> changeImageSourcePath(intent.value)
-            is AdvancedSettingsMviModel.Intent.ChangeDefaultLanguage -> changeDefaultLanguageId(
-                intent.value
-            )
-
+            is AdvancedSettingsMviModel.Intent.ChangeDefaultLanguage -> changeDefaultLanguageId(intent.value)
             is AdvancedSettingsMviModel.Intent.ChangeFadeReadPosts -> changeFadeReadPosts(intent.value)
             is AdvancedSettingsMviModel.Intent.ChangeShowUnreadComments -> changeShowUnreadPosts(intent.value)
             is AdvancedSettingsMviModel.Intent.ExportSettings -> handleExportSettings()
             is AdvancedSettingsMviModel.Intent.ImportSettings -> handleImportSettings(intent.content)
+            is AdvancedSettingsMviModel.Intent.ChangeEnableButtonsToScrollBetweenComments ->
+                changeEnableButtonsToScrollBetweenComments(intent.value)
         }
     }
 
@@ -315,6 +315,14 @@ class AdvancedSettingsViewModel(
         updateState { it.copy(showUnreadComments = value) }
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(showUnreadComments = value)
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeEnableButtonsToScrollBetweenComments(value: Boolean) {
+        updateState { it.copy(enableButtonsToScrollBetweenComments = value) }
+        screenModelScope.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(enableButtonsToScrollBetweenComments = value)
             saveSettings(settings)
         }
     }

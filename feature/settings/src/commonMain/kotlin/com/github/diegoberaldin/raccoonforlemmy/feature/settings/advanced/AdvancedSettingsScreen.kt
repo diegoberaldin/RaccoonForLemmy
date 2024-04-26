@@ -354,6 +354,17 @@ class AdvancedSettingsScreen : Screen {
                         },
                     )
 
+                    // enable buttons to scroll between comments
+                    SettingsSwitchRow(
+                        title = LocalXmlStrings.current.settingsEnableButtonsToScrollBetweenComments,
+                        value = uiState.enableButtonsToScrollBetweenComments,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                AdvancedSettingsMviModel.Intent.ChangeEnableButtonsToScrollBetweenComments(value)
+                            )
+                        },
+                    )
+
                     SettingsHeader(
                         title = LocalXmlStrings.current.settingsTitlePictures,
                         icon = Icons.Default.Photo,
