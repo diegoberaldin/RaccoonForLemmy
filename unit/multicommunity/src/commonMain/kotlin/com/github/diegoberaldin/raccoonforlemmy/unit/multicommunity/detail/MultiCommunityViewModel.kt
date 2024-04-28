@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -19,7 +21,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.utils.MultiCommunityPaginator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -29,6 +30,7 @@ import kotlinx.coroutines.withContext
 
 class MultiCommunityViewModel(
     private val communityId: Long,
+    private val postPaginationManager: PostPaginationManager,
     private val postRepository: PostRepository,
     private val identityRepository: IdentityRepository,
     private val multiCommunityRepository: MultiCommunityRepository,
@@ -38,7 +40,6 @@ class MultiCommunityViewModel(
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
-    private val paginator: MultiCommunityPaginator,
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
 ) : MultiCommunityMviModel,
@@ -110,7 +111,6 @@ class MultiCommunityViewModel(
                             availableSortTypes = sortTypes,
                         )
                     }
-                    paginator.setCommunities(uiState.value.community.communityIds)
                     refresh(initial = true)
                 }
             }
@@ -129,8 +129,14 @@ class MultiCommunityViewModel(
             }
 
             MultiCommunityMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            MultiCommunityMviModel.Intent.LoadNextPage -> loadNextPage()
-            MultiCommunityMviModel.Intent.Refresh -> refresh()
+            MultiCommunityMviModel.Intent.LoadNextPage -> screenModelScope.launch {
+                loadNextPage()
+            }
+
+            MultiCommunityMviModel.Intent.Refresh -> screenModelScope.launch {
+                refresh()
+            }
+
             is MultiCommunityMviModel.Intent.SavePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
@@ -166,9 +172,16 @@ class MultiCommunityViewModel(
         }
     }
 
-    private fun refresh(initial: Boolean = false) {
+    private suspend fun refresh(initial: Boolean = false) {
         hideReadPosts = false
-        paginator.reset()
+        val sortType = uiState.value.sortType ?: return
+        postPaginationManager.reset(
+            PostPaginationSpecification.MultiCommunity(
+                communityIds = uiState.value.community.communityIds,
+                sortType = sortType,
+                includeNsfw = settingsRepository.currentSettings.value.includeNsfw,
+            )
+        )
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -180,60 +193,38 @@ class MultiCommunityViewModel(
         loadNextPage()
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             updateState { it.copy(refreshing = false) }
             return
         }
 
-        screenModelScope.launch(Dispatchers.IO) {
-            updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val sort = currentState.sortType ?: SortType.Active
-            val refreshing = currentState.refreshing
-            val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
+        updateState { it.copy(loading = true) }
 
-            val itemList = paginator.loadNextPage(
-                auth = auth,
-                sort = sort,
-                currentIds = if (refreshing) emptyList() else currentState.posts.map { it.id }
+        val posts = postPaginationManager.loadNextPage().let {
+            if (!hideReadPosts) {
+                it
+            } else {
+                it.filter { post -> !post.read }
+            }
+        }
+        val canFetchMore = postPaginationManager.canFetchMore
+        if (uiState.value.autoLoadImages) {
+            posts.forEach { post ->
+                post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                    imagePreloadManager.preload(url)
+                }
+            }
+        }
+        updateState {
+            it.copy(
+                posts = posts,
+                loading = false,
+                canFetchMore = canFetchMore,
+                refreshing = false,
+                initial = posts.isEmpty(),
             )
-            val canFetchMore = paginator.canFetchMore
-            val itemsToAdd = itemList.let {
-                if (includeNsfw) {
-                    it
-                } else {
-                    it.filter { post -> !post.nsfw }
-                }
-            }.let {
-                if (!hideReadPosts) {
-                    it
-                } else {
-                    it.filter { post -> !post.read }
-                }
-            }
-            if (uiState.value.autoLoadImages) {
-                itemsToAdd.forEach { post ->
-                    post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
-                        imagePreloadManager.preload(url)
-                    }
-                }
-            }
-            updateState {
-                val newPosts = if (refreshing) {
-                    itemsToAdd
-                } else {
-                    it.posts + itemsToAdd
-                }
-                it.copy(
-                    posts = newPosts,
-                    loading = false,
-                    canFetchMore = canFetchMore,
-                    refreshing = false,
-                    initial = newPosts.isEmpty(),
-                )
-            }
         }
     }
 
@@ -242,7 +233,10 @@ class MultiCommunityViewModel(
             return
         }
         updateState { it.copy(sortType = value) }
-        refresh()
+        screenModelScope.launch {
+            emitEffect(MultiCommunityMviModel.Effect.BackToTop)
+            refresh()
+        }
     }
 
     private fun toggleUpVote(post: PostModel) {

@@ -4,8 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.Multi
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityViewModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor.MultiCommunityEditorMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor.MultiCommunityEditorViewModel
-import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.utils.DefaultMultiCommunityPaginator
-import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.utils.MultiCommunityPaginator
 import org.koin.dsl.module
 
 val multiCommunityModule = module {
@@ -20,15 +18,10 @@ val multiCommunityModule = module {
             settingsRepository = get(),
             notificationCenter = get(),
             hapticFeedback = get(),
-            paginator = get(),
+            postPaginationManager = get(),
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
             multiCommunityRepository = get(),
-        )
-    }
-    factory<MultiCommunityPaginator> {
-        DefaultMultiCommunityPaginator(
-            postRepository = get(),
         )
     }
     factory<MultiCommunityEditorMviModel> { params ->

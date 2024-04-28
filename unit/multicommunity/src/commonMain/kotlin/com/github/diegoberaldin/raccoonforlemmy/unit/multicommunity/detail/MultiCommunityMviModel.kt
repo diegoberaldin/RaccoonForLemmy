@@ -53,6 +53,7 @@ interface MultiCommunityMviModel :
     )
 
     sealed interface Effect {
+        data object BackToTop : Effect
         data class TriggerCopy(val text: String) : Effect
     }
 }

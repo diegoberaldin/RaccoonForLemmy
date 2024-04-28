@@ -135,6 +135,12 @@ class MultiCommunityScreen(
                     is MultiCommunityMviModel.Effect.TriggerCopy -> {
                         clipboardManager.setText(AnnotatedString(text = effect.text))
                     }
+
+                    MultiCommunityMviModel.Effect.BackToTop -> {
+                        lazyListState.scrollToItem(0)
+                        topAppBarState.heightOffset = 0f
+                        topAppBarState.contentOffset = 0f
+                    }
                 }
             }.launchIn(this)
         }
