@@ -41,6 +41,7 @@ include(":core:utils")
 include(":domain:identity")
 include(":domain:inbox")
 include(":domain:lemmy:data")
+include(":domain:lemmy:pagination")
 include(":domain:lemmy:repository")
 
 include(":feature:home")

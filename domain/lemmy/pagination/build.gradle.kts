@@ -22,7 +22,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "postdetail"
+            baseName = "pagination"
         }
     }
 
@@ -36,35 +36,12 @@ kotlin {
                 implementation(compose.materialIconsExtended)
 
                 implementation(libs.koin.core)
-                implementation(libs.voyager.navigator)
-                implementation(libs.voyager.screenmodel)
-                implementation(libs.voyager.koin)
 
-                implementation(projects.core.appearance)
-                implementation(projects.core.architecture)
-                implementation(projects.core.commonui.components)
-                implementation(projects.core.commonui.detailopenerApi)
-                implementation(projects.core.commonui.lemmyui)
-                implementation(projects.core.commonui.modals)
-                implementation(projects.core.l10n)
-                implementation(projects.core.navigation)
-                implementation(projects.core.notifications)
-                implementation(projects.core.persistence)
                 implementation(projects.core.utils)
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
-                implementation(projects.domain.lemmy.pagination)
                 implementation(projects.domain.lemmy.repository)
-
-                implementation(projects.unit.zoomableimage)
-                implementation(projects.unit.web)
-                implementation(projects.unit.createreport)
-                implementation(projects.unit.createcomment)
-                implementation(projects.unit.createpost)
-                implementation(projects.unit.remove)
-                implementation(projects.unit.ban)
-                implementation(projects.unit.rawcontent)
             }
         }
         val commonTest by getting {
@@ -76,7 +53,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.postdetail"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
