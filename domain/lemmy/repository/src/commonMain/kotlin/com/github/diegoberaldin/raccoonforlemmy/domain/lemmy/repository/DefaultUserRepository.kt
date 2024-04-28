@@ -60,7 +60,7 @@ internal class DefaultUserRepository(
     }
 
     override suspend fun getPosts(
-        id: Long,
+        id: Long?,
         auth: String?,
         page: Int,
         limit: Int,
@@ -115,7 +115,7 @@ internal class DefaultUserRepository(
     }
 
     override suspend fun getComments(
-        id: Long,
+        id: Long?,
         auth: String?,
         page: Int,
         limit: Int,

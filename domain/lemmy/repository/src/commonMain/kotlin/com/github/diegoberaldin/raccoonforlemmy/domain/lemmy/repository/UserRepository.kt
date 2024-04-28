@@ -22,7 +22,7 @@ interface UserRepository {
     ): UserModel?
 
     suspend fun getPosts(
-        id: Long,
+        id: Long? = null,
         auth: String? = null,
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
@@ -40,7 +40,7 @@ interface UserRepository {
     ): List<PostModel>?
 
     suspend fun getComments(
-        id: Long,
+        id: Long?,
         auth: String? = null,
         page: Int,
         limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
