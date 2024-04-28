@@ -9,7 +9,6 @@ val myAccountModule = module {
         ProfileLoggedViewModel(
             identityRepository = get(),
             apiConfigurationRepository = get(),
-            userRepository = get(),
             postRepository = get(),
             commentRepository = get(),
             themeRepository = get(),
@@ -17,6 +16,8 @@ val myAccountModule = module {
             shareHelper = get(),
             notificationCenter = get(),
             hapticFeedback = get(),
+            postPaginationManager = get(),
+            commentPaginationManager = get(),
         )
     }
 }

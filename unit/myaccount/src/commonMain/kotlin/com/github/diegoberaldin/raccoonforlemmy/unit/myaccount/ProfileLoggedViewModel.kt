@@ -1,6 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.myaccount
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ProfileLoggedSection
@@ -16,7 +20,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
@@ -35,9 +38,10 @@ import kotlinx.coroutines.yield
 class ProfileLoggedViewModel(
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
+    private val postPaginationManager: PostPaginationManager,
+    private val commentPaginationManager: CommentPaginationManager,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
-    private val userRepository: UserRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
@@ -47,8 +51,6 @@ class ProfileLoggedViewModel(
     DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>(
         initialState = ProfileLoggedMviModel.UiState()
     ) {
-
-    private val currentPage = mutableMapOf<ProfileLoggedSection, Int>()
 
     init {
         updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
@@ -104,6 +106,9 @@ class ProfileLoggedViewModel(
                             user = userFromCache,
                             initial = false,
                         )
+                    }
+                    withContext(Dispatchers.IO) {
+                        refresh(initial = false)
                     }
                 } else {
                     withContext(Dispatchers.IO) {
@@ -210,8 +215,19 @@ class ProfileLoggedViewModel(
     }
 
     private suspend fun refresh(initial: Boolean = false) {
-        currentPage[ProfileLoggedSection.Posts] = 1
-        currentPage[ProfileLoggedSection.Comments] = 1
+        val userId = uiState.value.user?.id ?: return
+        postPaginationManager.reset(
+            PostPaginationSpecification.User(
+                id = userId,
+                sortType = SortType.New,
+            )
+        )
+        commentPaginationManager.reset(
+            CommentPaginationSpecification.User(
+                id = userId,
+                sortType = SortType.New,
+            )
+        )
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -228,9 +244,7 @@ class ProfileLoggedViewModel(
 
     private fun changeSection(section: ProfileLoggedSection) {
         updateState {
-            it.copy(
-                section = section,
-            )
+            it.copy(section = section)
         }
     }
 
@@ -242,97 +256,43 @@ class ProfileLoggedViewModel(
         }
 
         updateState { it.copy(loading = true) }
-        val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
-        val userId = currentState.user.id
         val section = currentState.section
-        val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
         if (section == ProfileLoggedSection.Posts) {
-            val page = currentPage[ProfileLoggedSection.Posts] ?: 1
             coroutineScope {
-                val itemList = async {
-                    userRepository.getPosts(
-                        auth = auth,
-                        id = userId,
-                        page = page,
-                        sort = SortType.New,
-                    )
+                val posts = async {
+                    postPaginationManager.loadNextPage()
                 }.await()
                 val comments = async {
-                    if (page == 1 && (currentState.comments.isEmpty() || refreshing)) {
+                    if (currentState.comments.isEmpty() || refreshing) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
-                        userRepository.getComments(
-                            auth = auth,
-                            id = userId,
-                            page = 1,
-                            sort = SortType.New,
-                        ).orEmpty()
+                        commentPaginationManager.loadNextPage()
                     } else {
                         currentState.comments
                     }
                 }.await()
-                val postsToAdd = itemList.orEmpty()
-                    .filterNot { post ->
-                        post.deleted
-                    }.let {
-                        if (includeNsfw) {
-                            it
-                        } else {
-                            it.filter { post -> !post.nsfw }
-                        }
-                    }
-                val commentsToAdd = comments
-                    .filterNot { post ->
-                        post.deleted
-                    }
                 updateState {
-                    val newPosts = if (refreshing) {
-                        postsToAdd
-                    } else {
-                        it.posts + postsToAdd
-                    }
                     it.copy(
-                        posts = newPosts,
-                        comments = commentsToAdd,
+                        posts = posts,
+                        comments = comments,
                         loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
+                        canFetchMore = postPaginationManager.canFetchMore,
                         refreshing = false,
                         initial = false,
                     )
                 }
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage[ProfileLoggedSection.Posts] = page + 1
-                }
             }
         } else {
-            val page = currentPage[ProfileLoggedSection.Comments] ?: 1
-            val itemList = userRepository.getComments(
-                auth = auth,
-                id = userId,
-                page = page,
-                sort = SortType.New,
-            )
-            val commentsToAdd = itemList.orEmpty()
-                .filterNot { post ->
-                    post.deleted
-                }
+            val comments = commentPaginationManager.loadNextPage()
             updateState {
-                val newComments = if (refreshing) {
-                    commentsToAdd
-                } else {
-                    it.comments + commentsToAdd
-                }
                 it.copy(
-                    comments = newComments,
+                    comments = comments,
                     loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
+                    canFetchMore = commentPaginationManager.canFetchMore,
                     refreshing = false,
                     initial = false,
                 )
-            }
-            if (!itemList.isNullOrEmpty()) {
-                currentPage[ProfileLoggedSection.Comments] = page + 1
             }
         }
     }
