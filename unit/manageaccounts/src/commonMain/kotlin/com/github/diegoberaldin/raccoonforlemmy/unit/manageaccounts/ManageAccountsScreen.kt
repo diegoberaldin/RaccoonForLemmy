@@ -118,7 +118,8 @@ class ManageAccountsScreen : Screen {
             Button(
                 modifier = Modifier.padding(vertical = Spacing.m),
                 onClick = {
-                    navigationCoordinator.showBottomSheet(LoginBottomSheet())
+                    navigationCoordinator.hideBottomSheet()
+                    navigationCoordinator.pushScreen(LoginBottomSheet())
                 },
             ) {
                 Row(

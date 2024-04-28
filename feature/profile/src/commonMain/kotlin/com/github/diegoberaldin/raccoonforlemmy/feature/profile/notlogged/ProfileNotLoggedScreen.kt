@@ -41,9 +41,7 @@ internal object ProfileNotLoggedScreen : Tab {
             Button(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = {
-                    navigationCoordinator.showBottomSheet(
-                        LoginBottomSheet(),
-                    )
+                    navigationCoordinator.pushScreen(LoginBottomSheet())
                 },
             ) {
                 Text(LocalXmlStrings.current.profileButtonLogin)

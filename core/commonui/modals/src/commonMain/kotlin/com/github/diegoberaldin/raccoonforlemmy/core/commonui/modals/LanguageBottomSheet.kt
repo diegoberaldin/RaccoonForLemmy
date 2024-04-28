@@ -98,7 +98,10 @@ class LanguageBottomSheet : Screen {
                     Locales.Uk,
                 )
                 Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     for (value in values) {
