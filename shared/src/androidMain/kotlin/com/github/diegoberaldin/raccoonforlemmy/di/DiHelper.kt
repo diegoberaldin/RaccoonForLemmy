@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.di
 
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.di.paginationModule
 import com.github.diegoberaldin.raccoonforlemmy.core.api.di.coreApiModule
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.coreAppearanceModule
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.lemmyUiModule
@@ -113,5 +114,6 @@ val sharedHelperModule = module {
         appIconModule,
         fileSystemModule,
         coreResourceModule,
+        paginationModule,
     )
 }
