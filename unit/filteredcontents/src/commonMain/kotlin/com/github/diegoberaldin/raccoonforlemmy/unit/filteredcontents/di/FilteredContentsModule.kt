@@ -13,10 +13,11 @@ val filteredContentsModule = module {
             identityRepository = get(),
             postRepository = get(),
             commentRepository = get(),
-            userRepository = get(),
             hapticFeedback = get(),
             imagePreloadManager = get(),
             notificationCenter = get(),
+            postPaginationManager = get(),
+            commentPaginationManager = get(),
         )
     }
 }

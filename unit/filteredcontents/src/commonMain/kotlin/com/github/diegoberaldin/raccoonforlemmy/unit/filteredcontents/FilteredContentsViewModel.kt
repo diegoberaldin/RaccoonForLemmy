@@ -1,6 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -16,7 +20,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
@@ -27,12 +30,13 @@ import kotlinx.coroutines.launch
 
 class FilteredContentsViewModel(
     private val contentsType: Int,
+    private val postPaginationManager: PostPaginationManager,
+    private val commentPaginationManager: CommentPaginationManager,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
-    private val userRepository: UserRepository,
     private val imagePreloadManager: ImagePreloadManager,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
@@ -40,9 +44,6 @@ class FilteredContentsViewModel(
     DefaultMviModel<FilteredContentsMviModel.Intent, FilteredContentsMviModel.State, FilteredContentsMviModel.Effect>(
         initialState = FilteredContentsMviModel.State(),
     ) {
-
-    private val currentPage = mutableMapOf<FilteredContentsSection, Int>()
-    private var pageCursor: String? = null
 
     init {
         screenModelScope.launch {
@@ -81,7 +82,10 @@ class FilteredContentsViewModel(
     override fun reduce(intent: FilteredContentsMviModel.Intent) {
         when (intent) {
             is FilteredContentsMviModel.Intent.ChangeSection -> changeSection(intent.value)
-            FilteredContentsMviModel.Intent.Refresh -> refresh()
+            FilteredContentsMviModel.Intent.Refresh -> screenModelScope.launch {
+                refresh()
+            }
+
             FilteredContentsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             FilteredContentsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
@@ -159,10 +163,32 @@ class FilteredContentsViewModel(
         }
     }
 
-    private fun refresh(initial: Boolean = false) {
-        currentPage[FilteredContentsSection.Posts] = 1
-        currentPage[FilteredContentsSection.Comments] = 1
-        pageCursor = null
+    private suspend fun refresh(initial: Boolean = false) {
+        val currentState = uiState.value
+        val postSpecification = when (currentState.contentsType) {
+            FilteredContentsType.Moderated -> PostPaginationSpecification.Listing(
+                listingType = ListingType.ModeratorView,
+                sortType = SortType.New,
+            )
+
+            FilteredContentsType.Votes -> PostPaginationSpecification.Votes(
+                liked = currentState.liked,
+                sortType = SortType.New,
+            )
+        }
+        postPaginationManager.reset(postSpecification)
+        val commentSpecification = when (currentState.contentsType) {
+            FilteredContentsType.Moderated -> CommentPaginationSpecification.Replies(
+                listingType = ListingType.ModeratorView,
+                sortType = SortType.New,
+            )
+
+            FilteredContentsType.Votes -> CommentPaginationSpecification.Votes(
+                liked = currentState.liked,
+                sortType = SortType.New,
+            )
+        }
+        commentPaginationManager.reset(commentSpecification)
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -203,37 +229,12 @@ class FilteredContentsViewModel(
         val refreshing = currentState.refreshing
 
         if (currentState.section == FilteredContentsSection.Posts) {
-            val page = currentPage[FilteredContentsSection.Posts] ?: 1
             coroutineScope {
-                val itemList = async {
-                    postRepository.getAll(
-                        auth = auth,
-                        page = page,
-                        pageCursor = pageCursor,
-                        type = ListingType.ModeratorView,
-                        sort = SortType.New,
-                    )?.let {
-                        if (refreshing) {
-                            it
-                        } else {
-                            // prevents accidental duplication
-                            val posts = it.first
-                            it.copy(
-                                first = posts.filter { p1 ->
-                                    currentState.posts.none { p2 -> p2.id == p1.id }
-                                },
-                            )
-                        }
-                    }?.let {
-                        val nextPage = it.second
-                        if (nextPage != null) {
-                            pageCursor = nextPage
-                        }
-                        it.first
-                    }
+                val posts = async {
+                    postPaginationManager.loadNextPage()
                 }.await()
                 val comments = async {
-                    if (page == 1 && (currentState.comments.isEmpty() || refreshing)) {
+                    if (currentState.comments.isEmpty() || refreshing) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
                         commentRepository.getAll(
@@ -245,71 +246,34 @@ class FilteredContentsViewModel(
                         currentState.comments
                     }
                 }.await()
-                val itemsToAdd = itemList.orEmpty().filter { post ->
-                    !post.deleted
-                }
                 if (uiState.value.autoLoadImages) {
-                    itemsToAdd.forEach { post ->
+                    posts.forEach { post ->
                         post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
                             imagePreloadManager.preload(url)
                         }
                     }
                 }
                 updateState {
-                    val newPosts = if (refreshing) {
-                        itemsToAdd
-                    } else {
-                        it.posts + itemsToAdd
-                    }
                     it.copy(
-                        posts = newPosts,
+                        posts = posts,
                         comments = comments,
-                        loading = if (it.initial) itemsToAdd.isEmpty() else false,
-                        canFetchMore = itemList?.isEmpty() != true,
+                        loading = if (it.initial) posts.isEmpty() else false,
+                        canFetchMore = postPaginationManager.canFetchMore,
                         refreshing = false,
-                        initial = if (it.initial) itemsToAdd.isEmpty() else false,
+                        initial = if (it.initial) posts.isEmpty() else false,
                     )
-                }
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage[FilteredContentsSection.Posts] = page + 1
                 }
             }
         } else {
-            val page = currentPage[FilteredContentsSection.Comments] ?: 1
-            val itemList = commentRepository.getAll(
-                auth = auth,
-                page = page,
-                type = ListingType.ModeratorView,
-            )?.let { list ->
-                if (refreshing) {
-                    list
-                } else {
-                    list.filter { c1 ->
-                        // prevents accidental duplication
-                        currentState.comments.none { c2 -> c1.id == c2.id }
-                    }
-                }
-            }
-
-            val itemsToAdd = itemList.orEmpty().filter { comment ->
-                !comment.deleted
-            }
+            val comments = commentPaginationManager.loadNextPage()
             updateState {
-                val comments = if (refreshing) {
-                    itemsToAdd
-                } else {
-                    it.comments + itemsToAdd
-                }
                 it.copy(
                     comments = comments,
-                    loading = if (it.initial) itemsToAdd.isEmpty() else false,
-                    canFetchMore = itemList?.isEmpty() != true,
+                    loading = if (it.initial) comments.isEmpty() else false,
+                    canFetchMore = commentPaginationManager.canFetchMore,
                     refreshing = false,
-                    initial = if (it.initial) itemsToAdd.isEmpty() else false,
+                    initial = if (it.initial) comments.isEmpty() else false,
                 )
-            }
-            if (!itemList.isNullOrEmpty()) {
-                currentPage[FilteredContentsSection.Comments] = page + 1
             }
         }
     }
@@ -317,119 +281,50 @@ class FilteredContentsViewModel(
     private suspend fun loadNextPageVotes() {
         val currentState = uiState.value
         updateState { it.copy(loading = true) }
-        val auth = identityRepository.authToken.value.orEmpty()
         val refreshing = currentState.refreshing
 
         if (currentState.section == FilteredContentsSection.Posts) {
-            val page = currentPage[FilteredContentsSection.Posts] ?: 1
             coroutineScope {
-                val itemList = async {
-                    userRepository.getLikedPosts(
-                        auth = auth,
-                        page = page,
-                        pageCursor = pageCursor,
-                        liked = currentState.liked,
-                        sort = SortType.New,
-                    )?.let {
-                        if (refreshing) {
-                            it
-                        } else {
-                            // prevents accidental duplication
-                            val posts = it.first
-                            it.copy(
-                                first = posts.filter { p1 ->
-                                    currentState.posts.none { p2 -> p2.id == p1.id }
-                                },
-                            )
-                        }
-                    }?.let {
-                        val nextPage = it.second
-                        if (nextPage != null) {
-                            pageCursor = nextPage
-                        }
-                        it.first
-                    }
+                val posts = async {
+                    postPaginationManager.loadNextPage()
                 }.await()
                 val comments = async {
-                    if (page == 1 && (currentState.comments.isEmpty() || refreshing)) {
+                    if (currentState.comments.isEmpty() || refreshing) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
-                        userRepository.getLikedComments(
-                            auth = auth,
-                            page = 1,
-                            liked = currentState.liked,
-                            sort = SortType.New,
-                        ).orEmpty()
+                        commentPaginationManager.loadNextPage()
                     } else {
                         currentState.comments
                     }
                 }.await()
-                val itemsToAdd = itemList.orEmpty().filter { post ->
-                    !post.deleted
-                }
                 if (uiState.value.autoLoadImages) {
-                    itemsToAdd.forEach { post ->
+                    posts.forEach { post ->
                         post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
                             imagePreloadManager.preload(url)
                         }
                     }
                 }
                 updateState {
-                    val newPosts = if (refreshing) {
-                        itemsToAdd
-                    } else {
-                        it.posts + itemsToAdd
-                    }
                     it.copy(
-                        posts = newPosts,
+                        posts = posts,
                         comments = comments,
-                        loading = if (it.initial) itemsToAdd.isEmpty() else false,
-                        canFetchMore = itemList?.isEmpty() != true,
+                        loading = if (it.initial) posts.isEmpty() else false,
+                        canFetchMore = postPaginationManager.canFetchMore,
                         refreshing = false,
-                        initial = if (it.initial) itemsToAdd.isEmpty() else false,
+                        initial = if (it.initial) posts.isEmpty() else false,
                     )
-                }
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage[FilteredContentsSection.Posts] = page + 1
                 }
             }
         } else {
-            val page = currentPage[FilteredContentsSection.Comments] ?: 1
-            val itemList = userRepository.getLikedComments(
-                auth = auth,
-                page = page,
-                liked = currentState.liked,
-                sort = SortType.New,
-            )?.let { list ->
-                if (refreshing) {
-                    list
-                } else {
-                    list.filter { c1 ->
-                        // prevents accidental duplication
-                        currentState.comments.none { c2 -> c1.id == c2.id }
-                    }
-                }
-            }
-
-            val itemsToAdd = itemList.orEmpty().filter { comment ->
-                !comment.deleted
-            }
+            val comments = commentPaginationManager.loadNextPage()
             updateState {
-                val comments = if (refreshing) {
-                    itemsToAdd
-                } else {
-                    it.comments + itemsToAdd
-                }
                 it.copy(
                     comments = comments,
-                    loading = if (it.initial) itemsToAdd.isEmpty() else false,
-                    canFetchMore = itemList?.isEmpty() != true,
+                    loading = if (it.initial) comments.isEmpty() else false,
+                    canFetchMore = commentPaginationManager.canFetchMore,
                     refreshing = false,
-                    initial = if (it.initial) itemsToAdd.isEmpty() else false,
+                    initial = if (it.initial) comments.isEmpty() else false,
                 )
-            }
-            if (!itemList.isNullOrEmpty()) {
-                currentPage[FilteredContentsSection.Comments] = page + 1
             }
         }
     }
