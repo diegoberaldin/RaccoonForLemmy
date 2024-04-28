@@ -11,15 +11,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.corePersiste
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.corePreferencesModule
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.coreResourceModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.AppInfo
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.crashReportModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.appIconModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.crashReportModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.customTabsModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.fileSystemModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.galleryHelperModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.hapticFeedbackModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.imagePreloadModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.networkModule
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.shareHelperModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.utilsModule
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.fs.fileSystemModule
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.galleryHelperModule
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.shareHelperModule
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.hapticFeedbackModule
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.coreIdentityModule
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.di.domainInboxModule
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.di.repositoryModule
@@ -118,6 +119,7 @@ fun initKoin() {
             fileSystemModule,
             coreResourceModule,
             paginationModule,
+            customTabsModule,
         )
     }
 

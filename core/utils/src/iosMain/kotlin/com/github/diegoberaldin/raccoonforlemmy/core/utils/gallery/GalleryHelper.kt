@@ -13,7 +13,6 @@ import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.usePinned
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.dsl.module
 import platform.Foundation.NSData
 import platform.Foundation.create
 import platform.PhotosUI.PHPickerConfiguration
@@ -83,12 +82,6 @@ class DefaultGalleryHelper : GalleryHelper {
                 completion = null
             )
         }
-    }
-}
-
-actual val galleryHelperModule = module {
-    single<GalleryHelper> {
-        DefaultGalleryHelper()
     }
 }
 

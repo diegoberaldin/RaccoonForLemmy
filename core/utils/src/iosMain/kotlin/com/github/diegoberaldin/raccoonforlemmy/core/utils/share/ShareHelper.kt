@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.core.utils.share
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.dsl.module
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIImage
@@ -23,11 +22,7 @@ class DefaultShareHelper : ShareHelper {
     }
 }
 
-actual val shareHelperModule = module {
-    single<ShareHelper> {
-        DefaultShareHelper()
-    }
-}
+
 
 actual fun getShareHelper(): ShareHelper = ShareHelperInjectHelper.shareHelper
 

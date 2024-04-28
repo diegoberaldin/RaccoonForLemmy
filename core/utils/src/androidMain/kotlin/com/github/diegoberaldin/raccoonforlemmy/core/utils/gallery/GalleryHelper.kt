@@ -14,7 +14,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent.inject
 
 private const val DEFAULT_BASE_PATH = "RaccoonForLemmy"
@@ -84,14 +83,6 @@ class DefaultGalleryHelper(
         SideEffect {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
-    }
-}
-
-actual val galleryHelperModule = module {
-    single<GalleryHelper> {
-        DefaultGalleryHelper(
-            context = get()
-        )
     }
 }
 

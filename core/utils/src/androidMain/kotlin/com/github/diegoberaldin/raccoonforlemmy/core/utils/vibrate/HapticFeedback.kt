@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import org.koin.dsl.module
 
 class DefaultHapticFeedback(
     private val context: Context,
@@ -22,13 +21,5 @@ class DefaultHapticFeedback(
             )
         }
         vibrator.vibrate(effect)
-    }
-}
-
-actual val hapticFeedbackModule = module {
-    single<HapticFeedback> {
-        DefaultHapticFeedback(
-            context = get(),
-        )
     }
 }

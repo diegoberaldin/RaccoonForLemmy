@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate
 
-import org.koin.dsl.module
 import platform.UIKit.UIImpactFeedbackGenerator
 
 class DefaultHapticFeedback() : HapticFeedback {
@@ -9,11 +8,5 @@ class DefaultHapticFeedback() : HapticFeedback {
             prepare()
             impactOccurred()
         }
-    }
-}
-
-actual val hapticFeedbackModule = module {
-    single<HapticFeedback> {
-        DefaultHapticFeedback()
     }
 }

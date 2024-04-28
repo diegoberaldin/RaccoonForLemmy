@@ -5,7 +5,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
@@ -46,14 +45,6 @@ class DefaultFileSystemManager(
         SideEffect {
             launcher.launch(name)
         }
-    }
-}
-
-actual val fileSystemModule = module {
-    single<FileSystemManager> {
-        DefaultFileSystemManager(
-            context = get()
-        )
     }
 }
 
