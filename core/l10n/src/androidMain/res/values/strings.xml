@@ -197,7 +197,7 @@
     <string name="settings_include_nsfw">Include NSFW contents</string>
     <string name="settings_language">Language</string>
     <string name="settings_navigation_bar_titles_visible">Show navigation bar titles</string>
-    <string name="settings_open_url_external">Open URLs in external browser</string>
+    <string name="settings_open_url_external">Open URLs</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Post layout</string>
     <string name="settings_post_layout_card">Card</string>
@@ -394,4 +394,7 @@
     <string name="settings_import">Import settings from file</string>
     <string name="settings_export">Export settings to file</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigation buttons in post screen</string>
+    <string name="settings_url_opening_mode_internal">In app</string>
+    <string name="settings_url_opening_mode_external">External browser</string>
+    <string name="settings_url_opening_mode_custom_tabs">Custom tabs</string>
 </resources>

@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Include conținuturile NSFW</string>
     <string name="settings_language">Limbă</string>
     <string name="settings_navigation_bar_titles_visible">Afișează titlurile barei de navigare</string>
-    <string name="settings_open_url_external">Deschide URL-urile în browser extern</string>
+    <string name="settings_open_url_external">Deschide URL-urile</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Aspect postărilor</string>
     <string name="settings_post_layout_card">Fișă</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importă setările dintr-un fișier</string>
     <string name="settings_export">Exportă setările într-un fișier</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Butoane de navigare în ecranul postării</string>
+    <string name="settings_url_opening_mode_internal">În aplicație</string>
+    <string name="settings_url_opening_mode_external">Browser extern</string>
+    <string name="settings_url_opening_mode_custom_tabs">File personalizate</string>
 </resources>

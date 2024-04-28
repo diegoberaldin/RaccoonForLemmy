@@ -191,7 +191,7 @@
     <string name="settings_include_nsfw">Включити вміст NSFW</string>
     <string name="settings_language">Мова</string>
     <string name="settings_navigation_bar_titles_visible">Показати заголовки панелі навігації</string>
-    <string name="settings_open_url_external">Відкрити у зовнішньому навігаторі</string>
+    <string name="settings_open_url_external">Відкрити URL-адреси</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Макет дописів</string>
     <string name="settings_post_layout_card">Картка</string>
@@ -385,4 +385,7 @@
     <string name="settings_import">Імпорт налаштувань із файлу</string>
     <string name="settings_export">Експорт налаштувань у файл</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Кнопки навігації на екрані дописів</string>
+    <string name="settings_url_opening_mode_internal">У додатку</string>
+    <string name="settings_url_opening_mode_external">Зовнішній браузер</string>
+    <string name="settings_url_opening_mode_custom_tabs">Спеціальні вкладки</string>
 </resources>

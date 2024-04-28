@@ -193,7 +193,7 @@
     <string name="settings_include_nsfw">Dołączanie treści NSFW</string>
     <string name="settings_language">Język</string>
     <string name="settings_navigation_bar_titles_visible">Pokaż tytuły pasków nawigacji</string>
-    <string name="settings_open_url_external">Otwieranie adresów URL w zewnętrznej przeglądarce</string>
+    <string name="settings_open_url_external">Otwórz adresy URL</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Układ posta</string>
     <string name="settings_post_layout_card">Kartka</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importuj ustawienia z pliku</string>
     <string name="settings_export">Eksportuj ustawienia do pliku</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Przyciski nawigacyjne na ekranie postu</string>
+    <string name="settings_url_opening_mode_internal">W aplikacji</string>
+    <string name="settings_url_opening_mode_external">Przeglądarka zewnętrzna</string>
+    <string name="settings_url_opening_mode_custom_tabs">Zakładki niestandardowe</string>
 </resources>

@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">NSFW-tartalom belefoglalása</string>
     <string name="settings_language">Nyelv</string>
     <string name="settings_navigation_bar_titles_visible">Navigációs sáv címeinek megjelenítése</string>
-    <string name="settings_open_url_external">Megnyitás külső böngészőben</string>
+    <string name="settings_open_url_external">Nyissa meg az URL-eket</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Bejegyzés elrendezés</string>
     <string name="settings_post_layout_card">Kártya</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Beállítások importálása fájlból</string>
     <string name="settings_export">Beállítások exportálása fájlba</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigációs gombok a bejegyzés képernyőjén</string>
+    <string name="settings_url_opening_mode_internal">Alkalmazáson belül</string>
+    <string name="settings_url_opening_mode_external">Külső böngésző</string>
+    <string name="settings_url_opening_mode_custom_tabs">Egyéni lapok</string>
 </resources>

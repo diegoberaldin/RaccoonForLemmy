@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Включване на съдържание на NSFW</string>
     <string name="settings_language">Език</string>
     <string name="settings_navigation_bar_titles_visible">Показване на заглавията на лентата за навига</string>
-    <string name="settings_open_url_external">Отваряне във външен браузър</string>
+    <string name="settings_open_url_external">Отворете URL адреси</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Оформление на статията</string>
     <string name="settings_post_layout_card">Картa</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Импортиране на настройки от файл</string>
     <string name="settings_export">Експортирайте настройките във файл</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Бутони за навигация в екрана за публикации</string>
+    <string name="settings_url_opening_mode_internal">В приложението</string>
+    <string name="settings_url_opening_mode_external">Браузър esterno</string>
+    <string name="settings_url_opening_mode_custom_tabs">Персонализирани раздели</string>
 </resources>

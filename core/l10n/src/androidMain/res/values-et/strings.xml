@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Kaasa NSFW sisu</string>
     <string name="settings_language">Keel</string>
     <string name="settings_navigation_bar_titles_visible">Kuva navigeerimisriba pealkirjad</string>
-    <string name="settings_open_url_external">Ava välises veebilehitsejas</string>
+    <string name="settings_open_url_external">Avage URL-id</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Postituse paigutus</string>
     <string name="settings_post_layout_card">Kaart</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importige seaded failist</string>
     <string name="settings_export">Ekspordi sätted faili</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigeerimisnupud postitusekraanil</string>
+    <string name="settings_url_opening_mode_internal">Rakendusesisene</string>
+    <string name="settings_url_opening_mode_external">Väline brauser</string>
+    <string name="settings_url_opening_mode_custom_tabs">Kohandatud vahelehed</string>
 </resources>

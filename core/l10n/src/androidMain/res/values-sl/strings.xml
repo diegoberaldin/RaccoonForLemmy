@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Vključite vsebino NSFW</string>
     <string name="settings_language">Jezik</string>
     <string name="settings_navigation_bar_titles_visible">Prikaži naslove navigacijske vrstice</string>
-    <string name="settings_open_url_external">Odprite v zunanjem brskalniku</string>
+    <string name="settings_open_url_external">Odpri URL-je</string>
     <string name="settings_points_short">tč</string>
     <string name="settings_post_layout">Postavitev</string>
     <string name="settings_post_layout_card">Kartica</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Uvozi nastavitve iz datoteke</string>
     <string name="settings_export">Izvozi nastavitve v datoteko</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigacijski gumbi na zaslonu objave</string>
+    <string name="settings_url_opening_mode_internal">V aplikaciji</string>
+    <string name="settings_url_opening_mode_external">Zunanji brskalnik</string>
+    <string name="settings_url_opening_mode_custom_tabs">Zavihki po meri</string>
 </resources>

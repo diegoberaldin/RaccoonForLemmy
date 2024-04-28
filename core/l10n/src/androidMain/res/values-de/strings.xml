@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">NSFW-Inhalte anzeigen</string>
     <string name="settings_language">Sprache</string>
     <string name="settings_navigation_bar_titles_visible">Titel der Navigationsleiste anzeigen</string>
-    <string name="settings_open_url_external">URLs in einem externen Browser öffnen</string>
+    <string name="settings_open_url_external">Öffnen Sie URLs</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Beitragsformat</string>
     <string name="settings_post_layout_card">Karte</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Einstellungen aus Datei importieren</string>
     <string name="settings_export">Einstellungen in eine Datei exportieren</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigationsschaltflächen im Beitragsbildschirm</string>
+    <string name="settings_url_opening_mode_internal">In-App</string>
+    <string name="settings_url_opening_mode_external">Externer Browser</string>
+    <string name="settings_url_opening_mode_custom_tabs">Benutzerdefinierte Registerkarten</string>
 </resources>

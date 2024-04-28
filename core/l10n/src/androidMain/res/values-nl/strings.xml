@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">NSFW-inhoud opnemen</string>
     <string name="settings_language">Taal</string>
     <string name="settings_navigation_bar_titles_visible">Navigatiebalktitels weergeven</string>
-    <string name="settings_open_url_external">Openen in externe browser</string>
+    <string name="settings_open_url_external">URL\'s openen</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Bericht lay-out</string>
     <string name="settings_post_layout_card">Kaart</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importeer instellingen uit bestand</string>
     <string name="settings_export">Instellingen exporteren naar bestand</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigatieknoppen in het berichtscherm</string>
+    <string name="settings_url_opening_mode_internal">In-app</string>
+    <string name="settings_url_opening_mode_external">Externe browser</string>
+    <string name="settings_url_opening_mode_custom_tabs">Aangepaste tabbladen</string>
 </resources>

@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Inclure contenus NSFW</string>
     <string name="settings_language">Langue</string>
     <string name="settings_navigation_bar_titles_visible">Afficher la barre de navigation</string>
-    <string name="settings_open_url_external">Ouvrir URL dans le navigateur externe</string>
+    <string name="settings_open_url_external">Ouvrir URL</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Présentation des publications</string>
     <string name="settings_post_layout_card">Fiche</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importer paramètres à partir d\'un fichier</string>
     <string name="settings_export">Exporter paramètres vers un fichier</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Boutons de navigation dans l\'écran de publication</string>
+    <string name="settings_url_opening_mode_internal">Dans l\'application</string>
+    <string name="settings_url_opening_mode_external">Navigateur externe</string>
+    <string name="settings_url_opening_mode_custom_tabs">Onglets personnalisés</string>
 </resources>

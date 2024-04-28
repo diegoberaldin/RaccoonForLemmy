@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Inkludera NSFW-innehåll</string>
     <string name="settings_language">Språk</string>
     <string name="settings_navigation_bar_titles_visible">Visa navigeringsfältstitlar</string>
-    <string name="settings_open_url_external">Öppna i extern webbläsare</string>
+    <string name="settings_open_url_external">Öppna webbadresser</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Inläggs layout</string>
     <string name="settings_post_layout_card">Kort</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importera inställningar från en fil</string>
     <string name="settings_export">Exportera inställningar till en fil</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigeringsknappar på postskärmen</string>
+    <string name="settings_url_opening_mode_internal">I appen</string>
+    <string name="settings_url_opening_mode_external">Extern webbläsare</string>
+    <string name="settings_url_opening_mode_custom_tabs">Anpassade flikar</string>
 </resources>

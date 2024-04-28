@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">NSFW içeriklerini dahil et</string>
     <string name="settings_language">Dil</string>
     <string name="settings_navigation_bar_titles_visible">Gezinme çubuğu başlıklarını göster</string>
-    <string name="settings_open_url_external">Harici Tarayıcıda Aç</string>
+    <string name="settings_open_url_external">URL\'leri aç</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Yazı Düzeni</string>
     <string name="settings_post_layout_card">Kart</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Ayarları bir dosyadan içe aktarın</string>
     <string name="settings_export">Ayarları bir dosyaya aktar</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Gönderi ekranındaki gezinme düğmeleri</string>
+    <string name="settings_url_opening_mode_internal">Uygulama içi</string>
+    <string name="settings_url_opening_mode_external">Harici tarayıcı</string>
+    <string name="settings_url_opening_mode_custom_tabs">Özel sekmeler</string>
 </resources>

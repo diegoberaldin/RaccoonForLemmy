@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Iekļaut NSFW saturu</string>
     <string name="settings_language">Valoda</string>
     <string name="settings_navigation_bar_titles_visible">Rādīt navigācijas joslu virsrakstus</string>
-    <string name="settings_open_url_external">Atvērt pārlūkā</string>
+    <string name="settings_open_url_external">Atveriet vietrāžus URL</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Ieraksta Izkārtojums</string>
     <string name="settings_post_layout_card">Kartiņa</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importējiet iestatījumus no faila</string>
     <string name="settings_export">Eksportējiet iestatījumus failā</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigācijas pogas ziņas ekrānā</string>
+    <string name="settings_url_opening_mode_internal">Lietotnē</string>
+    <string name="settings_url_opening_mode_external">Ārējā pārlūkprogramma</string>
+    <string name="settings_url_opening_mode_custom_tabs">Pielāgotas cilnes</string>
 </resources>

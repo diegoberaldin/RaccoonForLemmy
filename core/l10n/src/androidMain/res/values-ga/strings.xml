@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Cuir ábhar NSFW san áireamh</string>
     <string name="settings_language">Teangacha</string>
     <string name="settings_navigation_bar_titles_visible">Taispeáin teidil an bharra nascleanúna</string>
-    <string name="settings_open_url_external">Oscail i mBrabhsálaí Seachtrach</string>
+    <string name="settings_open_url_external">Oscail URLanna</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Leagan amach an phoist</string>
     <string name="settings_post_layout_card">cárta</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Íosluchtaigh socruithe ó chomhad</string>
     <string name="settings_export">Easpórtáil socruithe go comhad</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Cnaipí nascleanúna sa scáileán postála</string>
+    <string name="settings_url_opening_mode_internal">In-app</string>
+    <string name="settings_url_opening_mode_external">Brabhsálaí seachtrach</string>
+    <string name="settings_url_opening_mode_custom_tabs">Cluaisíní saincheaptha</string>
 </resources>

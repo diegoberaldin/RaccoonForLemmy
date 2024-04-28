@@ -191,7 +191,7 @@
     <string name="settings_include_nsfw">Включить содержимое NSFW</string>
     <string name="settings_language">Язык</string>
     <string name="settings_navigation_bar_titles_visible">Показать заголовки панели навигации</string>
-    <string name="settings_open_url_external">Открыть во внешнем браузере</string>
+    <string name="settings_open_url_external">Открыть URL-адреса</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Шаблон записи</string>
     <string name="settings_post_layout_card">Карта</string>
@@ -385,4 +385,7 @@
     <string name="settings_import">Импортировать настройки из файла</string>
     <string name="settings_export">Экспорт настроек в файл</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Кнопки навигации на экране публикации</string>
+    <string name="settings_url_opening_mode_internal">В приложении</string>
+    <string name="settings_url_opening_mode_external">Внешний браузер</string>
+    <string name="settings_url_opening_mode_custom_tabs">Пользовательские вкладки</string>
 </resources>

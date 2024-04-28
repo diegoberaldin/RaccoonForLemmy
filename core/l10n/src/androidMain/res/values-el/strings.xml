@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Συμπερίληψη περιεχομένων NSFW</string>
     <string name="settings_language">Γλώσσα</string>
     <string name="settings_navigation_bar_titles_visible">Εμφάνιση τίτλων γραμμής πλοήγησης</string>
-    <string name="settings_open_url_external">Άνοιγμα URL σε εξωτερικό πρόγραμμα περιήγησης</string>
+    <string name="settings_open_url_external">Άνοιγμα των διευθυνσέων URL</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Διάταξη ανάρτησης</string>
     <string name="settings_post_layout_card">Κάρτα</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Εισαγωγή ρυθμίσεων από το αρχείο</string>
     <string name="settings_export">Εξαγωγή ρυθμίσεων σε αρχείο</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Κουμπιά πλοήγησης στην οθόνη ανάρτησης</string>
+    <string name="settings_url_opening_mode_internal">Εντός εφαρμογής</string>
+    <string name="settings_url_opening_mode_external">Εξωτερικό πρόγραμμα περιήγησης</string>
+    <string name="settings_url_opening_mode_custom_tabs">Προσαρμοσμένες καρτέλες</string>
 </resources>

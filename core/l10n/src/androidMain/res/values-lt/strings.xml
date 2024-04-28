@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Įtraukti NSFW turinį</string>
     <string name="settings_language">Kalba</string>
     <string name="settings_navigation_bar_titles_visible">Rodyti naršymo juostos pavadinimus</string>
-    <string name="settings_open_url_external">Atidarykite URL išorinėje naršyklėje</string>
+    <string name="settings_open_url_external">Atidaryti URL</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Įrašo maketas</string>
     <string name="settings_post_layout_card">Kortelė</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importuoti nustatymus iš failo</string>
     <string name="settings_export">Eksportuokite nustatymus į failą</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Naršymo mygtukai įrašo ekrane</string>
+    <string name="settings_url_opening_mode_internal">Programoje</string>
+    <string name="settings_url_opening_mode_external">Išorinė naršyklė</string>
+    <string name="settings_url_opening_mode_custom_tabs">Tinkinti skirtukai</string>
 </resources>

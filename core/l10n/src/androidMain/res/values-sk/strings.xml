@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Zahrnúť obsah NSFW</string>
     <string name="settings_language">Jazyk</string>
     <string name="settings_navigation_bar_titles_visible">Zobraziť názvy navigačného panela</string>
-    <string name="settings_open_url_external">Otvoriť v externom prehliadači</string>
+    <string name="settings_open_url_external">Otvoriť adresy URL</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Číslo članku</string>
     <string name="settings_post_layout_card">Karta</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importujte nastavenia zo súboru</string>
     <string name="settings_export">Export nastavení do afile</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigačné tlačidlá na obrazovke príspevku</string>
+    <string name="settings_url_opening_mode_internal">V aplikácii</string>
+    <string name="settings_url_opening_mode_external">Externý prehliadač</string>
+    <string name="settings_url_opening_mode_custom_tabs">Vlastné karty</string>
 </resources>

@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Inkluzivi NSFW-enhavojn</string>
     <string name="settings_language">Lingvo</string>
     <string name="settings_navigation_bar_titles_visible">Montri navigadbretajn titolojn</string>
-    <string name="settings_open_url_external">Malfermu en ekstera retumilo</string>
+    <string name="settings_open_url_external">Malfermi URLojn</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Poŝta aranĝo</string>
     <string name="settings_post_layout_card">Karto</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importi agordojn el dosiero</string>
     <string name="settings_export">Eksporti agordojn al dosiero</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigaj butonoj en post-ekrano</string>
+    <string name="settings_url_opening_mode_internal">En-apo</string>
+    <string name="settings_url_opening_mode_external">Ekstera retumilo</string>
+    <string name="settings_url_opening_mode_custom_tabs">Propraj langetoj</string>
 </resources>

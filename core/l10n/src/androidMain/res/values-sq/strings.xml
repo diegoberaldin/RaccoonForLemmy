@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Përfshi përmbajtjen e NSFW</string>
     <string name="settings_language">Gjuha</string>
     <string name="settings_navigation_bar_titles_visible">Shfaq titujt e shiritit të navigimit</string>
-    <string name="settings_open_url_external">Hap URL-të në shfletuesin e jashtëm</string>
+    <string name="settings_open_url_external">Hapni URL-të</string>
     <string name="settings_points_short">length unit</string>
     <string name="settings_post_layout">Planimetria e postimit</string>
     <string name="settings_post_layout_card">Karteles</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importoni cilësimet nga një skedar</string>
     <string name="settings_export">Eksporto cilësimet në skedar</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Butonat e navigimit në ekranin e postimit</string>
+    <string name="settings_url_opening_mode_internal">Brenda aplikacionit</string>
+    <string name="settings_url_opening_mode_external">Shfletuesi i jashtëm</string>
+    <string name="settings_url_opening_mode_custom_tabs">Skedat e personalizuara</string>
 </resources>

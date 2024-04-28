@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Inkluder NSFW-innhold</string>
     <string name="settings_language">Språk</string>
     <string name="settings_navigation_bar_titles_visible">Vis navigasjonslinjetitler</string>
-    <string name="settings_open_url_external">Opna i ekstern nettlesar</string>
+    <string name="settings_open_url_external">Åpne URL-er</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Innleggsoppsett</string>
     <string name="settings_post_layout_card">Kort</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Importer innstillinger fra fil</string>
     <string name="settings_export">Eksporter innstillinger til fil</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigasjonsknapper i postskjermen</string>
+    <string name="settings_url_opening_mode_internal">I appen</string>
+    <string name="settings_url_opening_mode_external">Ekstern nettleser</string>
+    <string name="settings_url_opening_mode_custom_tabs">Egendefinerte faner</string>
 </resources>

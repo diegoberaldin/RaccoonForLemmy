@@ -192,7 +192,7 @@
     <string name="settings_include_nsfw">Sisällytä NSFW-sisältö</string>
     <string name="settings_language">Kieli</string>
     <string name="settings_navigation_bar_titles_visible">Näytä navigointipalkin otsikot</string>
-    <string name="settings_open_url_external">Avaa ulkoiseen selaimeen</string>
+    <string name="settings_open_url_external">Avaa URL-osoitteet</string>
     <string name="settings_points_short">pt</string>
     <string name="settings_post_layout">Artikkelin asettelu</string>
     <string name="settings_post_layout_card">Kortti</string>
@@ -386,4 +386,7 @@
     <string name="settings_import">Tuo asetukset tiedostosta</string>
     <string name="settings_export">Vie asetukset tiedostoon</string>
     <string name="settings_enable_buttons_to_scroll_between_comments">Navigointipainikkeet viestinäytössä</string>
+    <string name="settings_url_opening_mode_internal">Sovelluksen sisällä</string>
+    <string name="settings_url_opening_mode_external">Ulkoinen selain</string>
+    <string name="settings_url_opening_mode_custom_tabs">Mukautetut välilehdet</string>
 </resources>
