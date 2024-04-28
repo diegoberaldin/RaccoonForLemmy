@@ -24,6 +24,7 @@ val postDetailModule = module {
             hapticFeedback = get(),
             getSortTypesUseCase = get(),
             itemCache = get(),
+            commentPaginationManager = get(),
         )
     }
 }

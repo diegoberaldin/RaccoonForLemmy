@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.postdetail
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -42,6 +44,7 @@ class PostDetailViewModel(
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val siteRepository: SiteRepository,
     private val postRepository: PostRepository,
+    private val commentPaginationManager: CommentPaginationManager,
     private val commentRepository: CommentRepository,
     private val communityRepository: CommunityRepository,
     private val themeRepository: ThemeRepository,
@@ -56,7 +59,6 @@ class PostDetailViewModel(
         initialState = PostDetailMviModel.UiState()
     ) {
 
-    private var currentPage: Int = 1
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
     private val searchEventChannel = Channel<Unit>()
@@ -369,7 +371,13 @@ class PostDetailViewModel(
     }
 
     private suspend fun refresh() {
-        currentPage = 1
+        commentPaginationManager.reset(
+            CommentPaginationSpecification.Replies(
+                postId = uiState.value.post.id,
+                sortType = uiState.value.sortType,
+                otherInstance = otherInstance,
+            )
+        )
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -389,28 +397,10 @@ class PostDetailViewModel(
         val autoExpandComments = settingsRepository.currentSettings.value.autoExpandComments
 
         updateState { it.copy(loading = true) }
-        val auth = identityRepository.authToken.value
-        val refreshing = currentState.refreshing
-        val sort = currentState.sortType
-        val itemList = commentRepository.getAll(
-            auth = auth,
-            postId = postId,
-            instance = otherInstance,
-            page = currentPage,
-            sort = sort,
-        )
-            ?.sortToNestedOrder()
-            ?.populateLoadMoreComments()
-            ?.let { list ->
-                if (refreshing) {
-                    list
-                } else {
-                    list.filter { c1 ->
-                        // prevents accidental duplication
-                        currentState.comments.none { c2 -> c1.id == c2.id }
-                    }
-                }
-            }?.map {
+        val itemList = commentPaginationManager.loadNextPage()
+            .sortToNestedOrder()
+            .populateLoadMoreComments()
+            .map {
                 it.copy(
                     expanded = autoExpandComments,
                     // only first level are visible and can be expanded
@@ -418,33 +408,20 @@ class PostDetailViewModel(
                 )
             }
 
-        if (!itemList.isNullOrEmpty()) {
-            currentPage++
-        }
-        val itemsToAdd = itemList
-            .orEmpty()
-            .filterNot { comment ->
-                comment.deleted
-            }.let {
-                if (currentState.searching) {
-                    it.filter { comment ->
-                        comment.text.contains(other = currentState.searchText, ignoreCase = true)
-                    }
-                } else {
-                    it
+        val comments = itemList.let {
+            if (currentState.searching) {
+                it.filter { comment ->
+                    comment.text.contains(other = currentState.searchText, ignoreCase = true)
                 }
-            }
-        updateState {
-            val newComments = if (refreshing) {
-                itemsToAdd
             } else {
-                it.comments + itemsToAdd
+                it
             }
+        }
+        updateState {
             it.copy(
-                comments = newComments,
+                comments = comments,
                 loading = false,
-                // deleted comments should not be counted
-                canFetchMore = itemsToAdd.isNotEmpty(),
+                canFetchMore = commentPaginationManager.canFetchMore,
                 refreshing = false,
                 initial = false,
             )
