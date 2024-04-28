@@ -21,6 +21,7 @@ val postListModule = module {
             zombieModeHelper = get(),
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
+            postPaginationManager = get(),
         )
     }
 }

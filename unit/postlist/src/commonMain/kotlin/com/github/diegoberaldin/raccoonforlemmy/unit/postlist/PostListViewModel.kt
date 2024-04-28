@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.postlist
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -31,6 +33,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class PostListViewModel(
+    private val postPaginationManager: PostPaginationManager,
     private val postRepository: PostRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val identityRepository: IdentityRepository,
@@ -50,8 +53,6 @@ class PostListViewModel(
         initialState = PostListMviModel.UiState()
     ) {
 
-    private var currentPage: Int = 1
-    private var pageCursor: String? = null
     private var hideReadPosts = false
 
     init {
@@ -252,9 +253,16 @@ class PostListViewModel(
     }
 
     private suspend fun refresh(initial: Boolean = false) {
-        currentPage = 1
-        pageCursor = null
         hideReadPosts = false
+        val listingType = uiState.value.listingType ?: return
+        val sortType = uiState.value.sortType ?: return
+        postPaginationManager.reset(
+            PostPaginationSpecification.Listing(
+                listingType = listingType,
+                sortType = sortType,
+                includeNsfw = settingsRepository.currentSettings.value.includeNsfw,
+            )
+        )
         updateState {
             it.copy(
                 initial = initial,
@@ -276,71 +284,28 @@ class PostListViewModel(
             return
         }
         updateState { it.copy(loading = true) }
-        val auth = identityRepository.authToken.value
-        val type = currentState.listingType ?: ListingType.Local
-        val sort = currentState.sortType ?: SortType.Active
         val refreshing = currentState.refreshing
-        val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
-        val (itemList, nextPage) = postRepository.getAll(
-            auth = auth,
-            page = currentPage,
-            pageCursor = pageCursor,
-            type = type,
-            sort = sort,
-        )?.let {
-            if (refreshing) {
+        val posts = postPaginationManager.loadNextPage().let {
+            if (!hideReadPosts) {
                 it
             } else {
-                // prevents accidental duplication
-                val posts = it.first
-                it.copy(
-                    first = posts.filter { p1 ->
-                        currentState.posts.none { p2 -> p2.id == p1.id }
-                    },
-                )
+                it.filter { post -> !post.read }
             }
-        } ?: (null to null)
-        if (!itemList.isNullOrEmpty()) {
-            currentPage++
         }
-        if (nextPage != null) {
-            pageCursor = nextPage
-        }
-        val itemsToAdd = itemList.orEmpty()
-            .let {
-                if (!hideReadPosts) {
-                    it
-                } else {
-                    it.filter { post -> !post.read }
-                }
-            }.let {
-                if (includeNsfw) {
-                    it
-                } else {
-                    it.filter { post -> !post.nsfw }
-                }
-            }.filterNot { post ->
-                post.deleted
-            }
         if (uiState.value.autoLoadImages) {
-            itemsToAdd.forEach { post ->
+            posts.forEach { post ->
                 post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
                     imagePreloadManager.preload(url)
                 }
             }
         }
         updateState {
-            val newPosts = if (refreshing) {
-                itemsToAdd
-            } else {
-                it.posts + itemsToAdd
-            }
             it.copy(
-                posts = newPosts,
-                loading = if (it.initial) itemsToAdd.isEmpty() else false,
-                canFetchMore = itemList?.isEmpty() != true,
+                posts = posts,
+                loading = if (it.initial) posts.isEmpty() else false,
+                canFetchMore = postPaginationManager.canFetchMore,
                 refreshing = false,
-                initial = if (it.initial) itemsToAdd.isEmpty() else false,
+                initial = if (it.initial) posts.isEmpty() else false,
             )
         }
     }
@@ -472,8 +437,6 @@ class PostListViewModel(
     }
 
     private fun handleLogout() {
-        currentPage = 1
-        pageCursor = null
         updateState {
             it.copy(
                 posts = emptyList(),
