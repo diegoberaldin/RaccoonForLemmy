@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.utils
+package com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination
 
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -12,6 +12,5 @@ interface MultiCommunityPaginator {
     suspend fun loadNextPage(
         auth: String? = null,
         sort: SortType,
-        currentIds: List<Long> = emptyList(),
     ): List<PostModel>
 }
