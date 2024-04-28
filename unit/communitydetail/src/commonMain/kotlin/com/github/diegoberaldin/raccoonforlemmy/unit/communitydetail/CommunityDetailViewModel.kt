@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -18,8 +20,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiCo
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
@@ -47,6 +47,7 @@ class CommunityDetailViewModel(
     private val otherInstance: String,
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
+    private val postPaginationManager: PostPaginationManager,
     private val communityRepository: CommunityRepository,
     private val postRepository: PostRepository,
     private val siteRepository: SiteRepository,
@@ -67,8 +68,6 @@ class CommunityDetailViewModel(
         initialState = CommunityDetailMviModel.UiState(),
     ) {
 
-    private var currentPage: Int = 1
-    private var pageCursor: String? = null
     private var hideReadPosts = false
     private val searchEventChannel = Channel<Unit>()
 
@@ -299,23 +298,31 @@ class CommunityDetailViewModel(
     }
 
     private suspend fun refresh() {
-        currentPage = 1
-        pageCursor = null
         hideReadPosts = false
+        val currentState = uiState.value
+        postPaginationManager.reset(
+            PostPaginationSpecification.Community(
+                id = currentState.community.id,
+                sortType = currentState.sortType,
+                name = currentState.community.name,
+                otherInstance = otherInstance,
+                query = currentState.searchText.takeIf { currentState.searching },
+                includeNsfw = settingsRepository.currentSettings.value.includeNsfw,
+            )
+        )
         updateState { it.copy(canFetchMore = true, refreshing = true) }
-        val community = uiState.value.community
         val auth = identityRepository.authToken.value
         val accountId = accountRepository.getActive()?.id
-        val isFavorite = favoriteCommunityRepository.getBy(accountId, community.id) != null
+        val isFavorite = favoriteCommunityRepository.getBy(accountId, currentState.community.id) != null
         val refreshedCommunity = communityRepository.get(
             auth = auth,
-            name = community.name,
-            id = community.id,
+            name = currentState.community.name,
+            id = currentState.community.id,
             instance = otherInstance,
         )?.copy(favorite = isFavorite)
         val moderators = communityRepository.getModerators(
             auth = auth,
-            id = community.id,
+            id = currentState.community.id,
         )
         if (refreshedCommunity != null) {
             updateState {
@@ -348,108 +355,38 @@ class CommunityDetailViewModel(
             return
         }
         updateState { it.copy(loading = true) }
-        val auth = identityRepository.authToken.value
-        val refreshing = currentState.refreshing
-        val sort = currentState.sortType
-        val community = currentState.community
-        val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
-
-        val (itemList, nextPage) = if (currentState.searching) {
-            communityRepository.search(
-                auth = auth,
-                communityId = community.id,
-                page = currentPage,
-                sortType = sort,
-                resultType = SearchResultType.Posts,
-                query = currentState.searchText,
-            ).mapNotNull {
-                (it as? SearchResult.Post)?.model
-            }.let { posts ->
-                if (refreshing) {
-                    posts
-                } else {
-                    // prevents accidental duplication
-                    posts.filter { p1 ->
-                        currentState.posts.none { p2 -> p2.id == p1.id }
-                    }
-                }
-            } to null
-        } else {
-            postRepository.getAll(
-                auth = auth,
-                otherInstance = otherInstance,
-                communityId = community.id,
-                communityName = community.name,
-                page = currentPage,
-                pageCursor = pageCursor,
-                sort = sort,
-            )?.let {
-                if (refreshing) {
-                    it
-                } else {
-                    // prevents accidental duplication
-                    val posts = it.first
-                    it.copy(
-                        first = posts.filter { p1 ->
-                            currentState.posts.none { p2 -> p2.id == p1.id }
-                        },
-                    )
-                }
-            } ?: (null to null)
-        }
-
-        if (!itemList.isNullOrEmpty()) {
-            currentPage++
-        }
-        if (nextPage != null) {
-            pageCursor = nextPage
-        }
-        val itemsToAdd = itemList.orEmpty()
-            .filterNot { post ->
-                post.deleted
-            }.let {
-                if (!hideReadPosts) {
-                    it
-                } else {
-                    it.filter { post -> !post.read }
-                }
-            }.let {
-                if (includeNsfw || community.nsfw) {
-                    it
-                } else {
-                    it.filter { post -> !post.nsfw }
-                }
-            }.let {
-                if (currentState.searching) {
-                    it.filter { post ->
-                        listOf(post.title, post.text).any { s ->
-                            s.contains(
-                                other = currentState.searchText,
-                                ignoreCase = true,
-                            )
-                        }
-                    }
-                } else {
-                    it
-                }
+        val posts = postPaginationManager.loadNextPage().let {
+            if (!hideReadPosts) {
+                it
+            } else {
+                it.filter { post -> !post.read }
             }
+        }.let {
+            if (currentState.searching) {
+                it.filter { post ->
+                    listOf(post.title, post.text).any { s ->
+                        s.contains(
+                            other = currentState.searchText,
+                            ignoreCase = true,
+                        )
+                    }
+                }
+            } else {
+                it
+            }
+        }
         if (uiState.value.autoLoadImages) {
-            itemsToAdd.forEach { post ->
+            posts.forEach { post ->
                 post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
                     imagePreloadManager.preload(url)
                 }
             }
         }
-        val newItems = if (refreshing) {
-            itemsToAdd
-        } else {
-            currentState.posts + itemsToAdd
-        }
         updateState {
             it.copy(
-                posts = newItems,
+                posts = posts,
                 loading = false,
-                canFetchMore = itemList?.isEmpty() != true,
+                canFetchMore = postPaginationManager.canFetchMore,
                 refreshing = false,
             )
         }
