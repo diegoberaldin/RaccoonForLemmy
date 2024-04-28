@@ -2,6 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.ui.platform.UriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.NavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.CustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.UrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -38,8 +40,9 @@ fun getPostFromUrl(url: String?): Pair<PostModel, String>? {
 
 fun NavigationCoordinator.handleUrl(
     url: String,
-    openExternal: Boolean,
+    openingMode: UrlOpeningMode,
     uriHandler: UriHandler,
+    customTabsHelper: CustomTabsHelper,
     onOpenCommunity: ((CommunityModel, String) -> Unit)? = null,
     onOpenUser: ((UserModel, String) -> Unit)? = null,
     onOpenPost: ((PostModel, String) -> Unit)? = null,
@@ -62,9 +65,19 @@ fun NavigationCoordinator.handleUrl(
             onOpenPost?.invoke(post, postInstance.orEmpty())
         }
 
-        openExternal -> {
+        openingMode == UrlOpeningMode.External -> {
             runCatching {
                 uriHandler.openUri(url)
+            }
+        }
+
+        openingMode == UrlOpeningMode.CustomTabs -> {
+            runCatching {
+                customTabsHelper.handle(url)
+            }.also {
+                it.exceptionOrNull()?.also { e ->
+                    e.printStackTrace()
+                }
             }
         }
 
