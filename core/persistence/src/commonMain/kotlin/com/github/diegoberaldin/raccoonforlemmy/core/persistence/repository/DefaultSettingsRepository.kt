@@ -92,7 +92,7 @@ internal class DefaultSettingsRepository(
                 blurNsfw = if (settings.blurNsfw) 1L else 0L,
                 navigationTitlesVisible = if (settings.navigationTitlesVisible) 1L else 0L,
                 dynamicColors = if (settings.dynamicColors) 1L else 0L,
-                openUrlsInExternalBrowser = if (settings.openUrlsInExternalBrowser) 1L else 0L,
+                openUrlsInExternalBrowser = settings.urlOpeningMode.toLong(),
                 enableSwipeActions = if (settings.enableSwipeActions) 1L else 0L,
                 enableDoubleTapAction = if (settings.enableDoubleTapAction) 1L else 0L,
                 customSeedColor = settings.customSeedColor?.toLong(),
@@ -169,7 +169,7 @@ internal class DefaultSettingsRepository(
                     blurNsfw = keyStore[KeyStoreKeys.BLUR_NSFW, true],
                     navigationTitlesVisible = keyStore[KeyStoreKeys.NAV_ITEM_TITLES_VISIBLE, true],
                     dynamicColors = keyStore[KeyStoreKeys.DYNAMIC_COLORS, false],
-                    openUrlsInExternalBrowser = keyStore[KeyStoreKeys.OPEN_URLS_IN_EXTERNAL_BROWSER, true],
+                    urlOpeningMode = keyStore[KeyStoreKeys.OPEN_URLS_IN_EXTERNAL_BROWSER, 1],
                     enableSwipeActions = keyStore[KeyStoreKeys.ENABLE_SWIPE_ACTIONS, true],
                     enableDoubleTapAction = keyStore[KeyStoreKeys.ENABLE_DOUBLE_TAP_ACTION, false],
                     customSeedColor = if (!keyStore.containsKey(KeyStoreKeys.CUSTOM_SEED_COLOR)) {
@@ -258,7 +258,7 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.DYNAMIC_COLORS, settings.dynamicColors)
                 keyStore.save(
                     key = KeyStoreKeys.OPEN_URLS_IN_EXTERNAL_BROWSER,
-                    value = settings.openUrlsInExternalBrowser
+                    value = settings.urlOpeningMode
                 )
                 keyStore.save(KeyStoreKeys.ENABLE_SWIPE_ACTIONS, settings.enableSwipeActions)
                 keyStore.save(KeyStoreKeys.ENABLE_DOUBLE_TAP_ACTION, settings.enableDoubleTapAction)
@@ -334,7 +334,7 @@ internal class DefaultSettingsRepository(
                     blurNsfw = if (settings.blurNsfw) 1L else 0L,
                     navigationTitlesVisible = if (settings.navigationTitlesVisible) 1L else 0L,
                     dynamicColors = if (settings.dynamicColors) 1L else 0L,
-                    openUrlsInExternalBrowser = if (settings.openUrlsInExternalBrowser) 1L else 0L,
+                    openUrlsInExternalBrowser = settings.urlOpeningMode.toLong(),
                     enableSwipeActions = if (settings.enableSwipeActions) 1L else 0L,
                     enableDoubleTapAction = if (settings.enableDoubleTapAction) 1L else 0L,
                     customSeedColor = settings.customSeedColor?.toLong(),
@@ -410,7 +410,7 @@ private fun GetBy.toModel() = SettingsModel(
     blurNsfw = blurNsfw != 0L,
     navigationTitlesVisible = navigationTitlesVisible != 0L,
     dynamicColors = dynamicColors != 0L,
-    openUrlsInExternalBrowser = openUrlsInExternalBrowser != 0L,
+    urlOpeningMode = openUrlsInExternalBrowser.toInt(),
     enableSwipeActions = enableSwipeActions != 0L,
     enableDoubleTapAction = enableDoubleTapAction != 0L,
     customSeedColor = customSeedColor?.toInt(),

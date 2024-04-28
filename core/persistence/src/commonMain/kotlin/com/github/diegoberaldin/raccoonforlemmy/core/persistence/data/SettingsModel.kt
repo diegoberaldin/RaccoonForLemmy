@@ -22,7 +22,7 @@ data class SettingsModel(
     val blurNsfw: Boolean = true,
     val navigationTitlesVisible: Boolean = true,
     val dynamicColors: Boolean = false,
-    val openUrlsInExternalBrowser: Boolean = true,
+    val urlOpeningMode: Int = 1,
     val enableSwipeActions: Boolean = true,
     val enableDoubleTapAction: Boolean = false,
     val customSeedColor: Int? = null,
