@@ -21,6 +21,7 @@ val settingsTabModule = module {
             notificationCenter = get(),
             crashReportConfiguration = get(),
             getSortTypesUseCase = get(),
+            customTabsHelper = get(),
         )
     }
     factory<SettingsColorAndFontMviModel> {

@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.feature.settings.main
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.UrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
@@ -16,7 +17,6 @@ interface SettingsMviModel :
         data class ChangeIncludeNsfw(val value: Boolean) : Intent
         data class ChangeBlurNsfw(val value: Boolean) : Intent
         data class ChangeEnableSwipeActions(val value: Boolean) : Intent
-        data class ChangeOpenUrlsInExternalBrowser(val value: Boolean) : Intent
         data class ChangeCrashReportEnabled(val value: Boolean) : Intent
     }
 
@@ -30,10 +30,11 @@ interface SettingsMviModel :
         val enableSwipeActions: Boolean = true,
         val includeNsfw: Boolean = true,
         val blurNsfw: Boolean = true,
-        val openUrlsInExternalBrowser: Boolean = false,
+        val urlOpeningMode: UrlOpeningMode = UrlOpeningMode.Internal,
         val crashReportEnabled: Boolean = false,
         val availableSortTypesForPosts: List<SortType> = emptyList(),
         val availableSortTypesForComments: List<SortType> = emptyList(),
+        val customTabsEnabled: Boolean = true,
     )
 
     sealed interface Effect

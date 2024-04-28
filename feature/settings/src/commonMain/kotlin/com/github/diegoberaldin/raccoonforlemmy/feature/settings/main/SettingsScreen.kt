@@ -49,6 +49,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LanguageBot
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.UrlOpeningModeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
@@ -60,6 +61,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageFlag
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.UrlOpeningMode
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.advanced.AdvancedSettingsScreen
@@ -90,6 +94,7 @@ class SettingsScreen : Screen {
         var infoDialogOpened by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
         val uriHandler = LocalUriHandler.current
+        val customTabsHelper = remember { getCustomTabsHelper() }
 
         LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -261,13 +266,20 @@ class SettingsScreen : Screen {
                     }
 
                     // URL open
-                    SettingsSwitchRow(
+                    SettingsRow(
                         title = LocalXmlStrings.current.settingsOpenUrlExternal,
-                        value = uiState.openUrlsInExternalBrowser,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser(value)
+                        value = uiState.urlOpeningMode.toReadableName(),
+                        onTap = rememberCallback {
+                            val screen = UrlOpeningModeBottomSheet(
+                                values = buildList {
+                                    this += UrlOpeningMode.Internal
+                                    if (uiState.customTabsEnabled) {
+                                        this += UrlOpeningMode.CustomTabs
+                                    }
+                                    this += UrlOpeningMode.External
+                                }
                             )
+                            navigationCoordinator.showBottomSheet(screen)
                         },
                     )
 
@@ -361,8 +373,9 @@ class SettingsScreen : Screen {
                         onTap = rememberCallback {
                             navigationCoordinator.handleUrl(
                                 url = "https://diegoberaldin.github.io/RaccoonForLemmy/user_manual/main",
-                                openExternal = uiState.openUrlsInExternalBrowser,
+                                openingMode = uiState.urlOpeningMode,
                                 uriHandler = uriHandler,
+                                customTabsHelper = customTabsHelper,
                                 onOpenWeb = { url ->
                                     navigationCoordinator.pushScreen(WebViewScreen(url))
                                 },

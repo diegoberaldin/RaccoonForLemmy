@@ -114,4 +114,6 @@ sealed interface NotificationCenterEvent {
         data object ModeratorZone : ProfileSideMenuAction
         data object Logout : ProfileSideMenuAction
     }
+
+    data class ChangeUrlOpeningMode(val value: Int) : NotificationCenterEvent
 }

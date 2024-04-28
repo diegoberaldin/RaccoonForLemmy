@@ -12,6 +12,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsMo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportConfiguration
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.CustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.UrlOpeningMode
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toInt
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
@@ -34,6 +38,7 @@ class SettingsViewModel(
     private val crashReportConfiguration: CrashReportConfiguration,
     private val l10nManager: L10nManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
+    private val customTabsHelper: CustomTabsHelper,
 ) : SettingsMviModel,
     DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>(
         initialState = SettingsMviModel.UiState(),
@@ -81,6 +86,10 @@ class SettingsViewModel(
                         changeDefaultCommentSortType(evt.value)
                     }
                 }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeUrlOpeningMode::class)
+                .onEach { evt ->
+                    changeUrlOpeningMode(evt.value.toUrlOpeningMode())
+                }.launchIn(this)
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
             val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
@@ -100,9 +109,10 @@ class SettingsViewModel(
                 defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
                 includeNsfw = settings.includeNsfw,
                 blurNsfw = settings.blurNsfw,
-                openUrlsInExternalBrowser = settings.openUrlsInExternalBrowser,
+                urlOpeningMode = settings.urlOpeningMode.toUrlOpeningMode(),
                 enableSwipeActions = settings.enableSwipeActions,
                 crashReportEnabled = crashReportConfiguration.isEnabled(),
+                customTabsEnabled = customTabsHelper.isSupported,
             )
         }
     }
@@ -113,9 +123,6 @@ class SettingsViewModel(
             is SettingsMviModel.Intent.ChangeLanguage -> changeLanguage(intent.value)
             is SettingsMviModel.Intent.ChangeBlurNsfw -> changeBlurNsfw(intent.value)
             is SettingsMviModel.Intent.ChangeIncludeNsfw -> changeIncludeNsfw(intent.value)
-            is SettingsMviModel.Intent.ChangeOpenUrlsInExternalBrowser ->
-                changeOpenUrlsInExternalBrowser(intent.value)
-
             is SettingsMviModel.Intent.ChangeEnableSwipeActions -> changeEnableSwipeActions(intent.value)
             is SettingsMviModel.Intent.ChangeCrashReportEnabled -> changeCrashReportEnabled(intent.value)
         }
@@ -193,11 +200,11 @@ class SettingsViewModel(
         }
     }
 
-    private fun changeOpenUrlsInExternalBrowser(value: Boolean) {
-        updateState { it.copy(openUrlsInExternalBrowser = value) }
+    private fun changeUrlOpeningMode(value: UrlOpeningMode) {
+        updateState { it.copy(urlOpeningMode = value) }
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                openUrlsInExternalBrowser = value
+                urlOpeningMode = value.toInt()
             )
             saveSettings(settings)
         }
