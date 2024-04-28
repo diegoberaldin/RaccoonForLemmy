@@ -17,6 +17,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.markdown.CustomMarkdownWrap
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -40,6 +42,7 @@ fun PostCardTitle(
     onOpenWeb: ((String) -> Unit)? = null,
 ) {
     val uriHandler = LocalUriHandler.current
+    val customTabsHelper = remember { getCustomTabsHelper() }
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val settingsRepository = remember { getSettingsRepository() }
     val themeRepository = remember { getThemeRepository() }
@@ -85,8 +88,9 @@ fun PostCardTitle(
         onOpenUrl = rememberCallbackArgs { url ->
             navigationCoordinator.handleUrl(
                 url = url,
-                openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
+                openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
                 uriHandler = uriHandler,
+                customTabsHelper = customTabsHelper,
                 onOpenCommunity = onOpenCommunity,
                 onOpenUser = onOpenUser,
                 onOpenPost = onOpenPost,

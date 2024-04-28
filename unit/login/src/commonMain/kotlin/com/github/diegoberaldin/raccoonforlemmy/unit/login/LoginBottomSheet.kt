@@ -66,6 +66,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -84,6 +86,7 @@ class LoginBottomSheet : Screen {
         val genericError = LocalXmlStrings.current.messageGenericError
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val uriHandler = LocalUriHandler.current
+        val customTabsHelper = remember { getCustomTabsHelper() }
         val settingsRepository = remember { getSettingsRepository() }
         val instanceFocusRequester = remember { FocusRequester() }
         val usernameFocusRequester = remember { FocusRequester() }
@@ -136,8 +139,9 @@ class LoginBottomSheet : Screen {
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
                                     url = HELP_URL,
-                                    openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
+                                    openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
                                     uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
                                     onOpenWeb = { url ->
                                         navigationCoordinator.pushScreen(WebViewScreen(url))
                                     }

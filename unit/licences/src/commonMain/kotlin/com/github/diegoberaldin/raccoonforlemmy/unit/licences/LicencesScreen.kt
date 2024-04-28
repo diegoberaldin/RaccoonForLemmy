@@ -35,6 +35,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.components.LicenceItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 
@@ -49,6 +51,7 @@ class LicencesScreen : Screen {
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val settingsRepository = remember { getSettingsRepository() }
         val uriHandler = LocalUriHandler.current
+        val customTabsHelper = remember { getCustomTabsHelper() }
 
         Scaffold(
             modifier = Modifier
@@ -96,8 +99,9 @@ class LicencesScreen : Screen {
                                     if (item.url.isNotBlank()) {
                                         navigationCoordinator.handleUrl(
                                             url = item.url,
-                                            openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
+                                            openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
                                             uriHandler = uriHandler,
+                                            customTabsHelper = customTabsHelper,
                                             onOpenWeb = { url ->
                                                 navigationCoordinator.pushScreen(WebViewScreen(url))
                                             },

@@ -39,6 +39,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.getCoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.components.AboutItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.LicencesScreen
@@ -51,6 +53,7 @@ class AboutDialog : Screen {
     override fun Content() {
         val viewModel = getScreenModel<AboutDialogMviModel>()
         val uriHandler = LocalUriHandler.current
+        val customTabsHelper = remember { getCustomTabsHelper() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
@@ -96,8 +99,9 @@ class AboutDialog : Screen {
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
                                     url = AboutConstants.CHANGELOG_URL,
-                                    openExternal = settings.openUrlsInExternalBrowser,
+                                    openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                                     uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
                                     onOpenWeb = { url ->
                                         navigationCoordinator.pushScreen(WebViewScreen(url))
                                     },
@@ -110,8 +114,9 @@ class AboutDialog : Screen {
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
                                     url = AboutConstants.REPORT_URL,
-                                    openExternal = settings.openUrlsInExternalBrowser,
+                                    openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                                     uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
                                     onOpenWeb = { url ->
                                         navigationCoordinator.pushScreen(WebViewScreen(url))
                                     },
@@ -146,8 +151,9 @@ class AboutDialog : Screen {
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
                                     url = AboutConstants.WEBSITE_URL,
-                                    openExternal = settings.openUrlsInExternalBrowser,
+                                    openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                                     uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
                                     onOpenWeb = { url ->
                                         navigationCoordinator.pushScreen(WebViewScreen(url))
                                     },
@@ -163,8 +169,9 @@ class AboutDialog : Screen {
                             onClick = rememberCallback {
                                 navigationCoordinator.handleUrl(
                                     url = AboutConstants.GOOGLE_PLAY_URL,
-                                    openExternal = settings.openUrlsInExternalBrowser,
+                                    openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                                     uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
                                     onOpenWeb = { url ->
                                         navigationCoordinator.pushScreen(WebViewScreen(url))
                                     },

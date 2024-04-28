@@ -25,6 +25,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -42,6 +44,9 @@ internal fun PostReportCard(
 ) {
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val detailOpener = remember { getDetailOpener() }
+    val settingsRepository = remember { getSettingsRepository() }
+    val uriHandler = LocalUriHandler.current
+    val customTabsHelper = remember { getCustomTabsHelper() }
 
     InnerReportCard(
         modifier = modifier,
@@ -110,8 +115,6 @@ internal fun PostReportCard(
                     )
                 }
                 report.originalUrl?.also { url ->
-                    val settingsRepository = remember { getSettingsRepository() }
-                    val uriHandler = LocalUriHandler.current
                     PostLinkBanner(
                         modifier = Modifier
                             .padding(top = Spacing.s, bottom = Spacing.xxs)
@@ -119,8 +122,9 @@ internal fun PostReportCard(
                                 onClick = rememberCallback {
                                     navigationCoordinator.handleUrl(
                                         url = url,
-                                        openExternal = settingsRepository.currentSettings.value.openUrlsInExternalBrowser,
-                                        uriHandler = uriHandler
+                                        openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
+                                        uriHandler = uriHandler,
+                                        customTabsHelper = customTabsHelper,
                                     )
                                 },
                             ),

@@ -45,6 +45,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAVideo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -205,6 +207,7 @@ private fun CompactPost(
     val settingsRepository = remember { getSettingsRepository() }
     val settings by settingsRepository.currentSettings.collectAsState()
     val uriHandler = LocalUriHandler.current
+    val customTabsHelper = remember { getCustomTabsHelper() }
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val postLinkUrl = post.url.orEmpty().takeIf { !it.looksLikeAnImage && !it.looksLikeAVideo }.orEmpty()
 
@@ -279,8 +282,9 @@ private fun CompactPost(
                         if (postLinkUrl.isNotEmpty()) {
                             navigationCoordinator.handleUrl(
                                 url = postLinkUrl,
-                                openExternal = settings.openUrlsInExternalBrowser,
+                                openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                                 uriHandler = uriHandler,
+                                customTabsHelper = customTabsHelper,
                                 onOpenWeb = onOpenWeb,
                                 onOpenCommunity = onOpenCommunity,
                                 onOpenPost = onOpenPost,
@@ -316,8 +320,9 @@ private fun CompactPost(
                         if (postLinkUrl.isNotEmpty()) {
                             navigationCoordinator.handleUrl(
                                 url = postLinkUrl,
-                                openExternal = settings.openUrlsInExternalBrowser,
+                                openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                                 uriHandler = uriHandler,
+                                customTabsHelper = customTabsHelper,
                                 onOpenWeb = onOpenWeb,
                                 onOpenCommunity = onOpenCommunity,
                                 onOpenPost = onOpenPost,
@@ -399,6 +404,7 @@ private fun ExtendedPost(
     val settingsRepository = remember { getSettingsRepository() }
     val settings by settingsRepository.currentSettings.collectAsState()
     val uriHandler = LocalUriHandler.current
+    val customTabsHelper = remember { getCustomTabsHelper() }
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val optionsMenuOpen = remember { mutableStateOf(false) }
     val postLinkUrl = post.url.orEmpty().takeIf {
@@ -476,8 +482,9 @@ private fun ExtendedPost(
                     if (postLinkUrl.isNotEmpty()) {
                         navigationCoordinator.handleUrl(
                             url = postLinkUrl,
-                            openExternal = settings.openUrlsInExternalBrowser,
+                            openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                             uriHandler = uriHandler,
+                            customTabsHelper = customTabsHelper,
                             onOpenWeb = onOpenWeb,
                             onOpenCommunity = onOpenCommunity,
                             onOpenPost = onOpenPost,
@@ -511,8 +518,9 @@ private fun ExtendedPost(
                     if (postLinkUrl.isNotEmpty()) {
                         navigationCoordinator.handleUrl(
                             url = postLinkUrl,
-                            openExternal = settings.openUrlsInExternalBrowser,
+                            openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                             uriHandler = uriHandler,
+                            customTabsHelper = customTabsHelper,
                             onOpenWeb = onOpenWeb,
                             onOpenCommunity = onOpenCommunity,
                             onOpenPost = onOpenPost,
@@ -578,8 +586,9 @@ private fun ExtendedPost(
                         onClick = rememberCallback {
                             navigationCoordinator.handleUrl(
                                 url = postLinkUrl,
-                                openExternal = settings.openUrlsInExternalBrowser,
+                                openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
                                 uriHandler = uriHandler,
+                                customTabsHelper = customTabsHelper,
                                 onOpenWeb = onOpenWeb,
                                 onOpenCommunity = onOpenCommunity,
                                 onOpenPost = onOpenPost,
