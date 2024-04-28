@@ -1,6 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.userdetail
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserDetailSection
@@ -39,6 +43,8 @@ class UserDetailViewModel(
     private val otherInstance: String = "",
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
+    private val postPaginationManager: PostPaginationManager,
+    private val commentPaginationManager: CommentPaginationManager,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
@@ -55,8 +61,6 @@ class UserDetailViewModel(
     DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>(
         initialState = UserDetailMviModel.UiState(),
     ) {
-
-    private val currentPage = mutableMapOf<UserDetailSection, Int>()
 
     init {
         updateState {
@@ -245,8 +249,22 @@ class UserDetailViewModel(
     }
 
     private suspend fun refresh(initial: Boolean = false) {
-        currentPage[UserDetailSection.Posts] = 1
-        currentPage[UserDetailSection.Comments] = 1
+        postPaginationManager.reset(
+            PostPaginationSpecification.User(
+                id = userId,
+                name = uiState.value.user.name,
+                sortType = uiState.value.sortType,
+                otherInstance = otherInstance,
+            )
+        )
+        commentPaginationManager.reset(
+            CommentPaginationSpecification.User(
+                id = userId,
+                name = uiState.value.user.name,
+                sortType = uiState.value.sortType,
+                otherInstance = otherInstance,
+            )
+        )
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -275,110 +293,50 @@ class UserDetailViewModel(
             return
         }
         updateState { it.copy(loading = true) }
-        val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val section = currentState.section
-        val userId = currentState.user.id
-        val includeNsfw = settingsRepository.currentSettings.value.includeNsfw
         if (section == UserDetailSection.Posts) {
-            val page = currentPage[UserDetailSection.Posts] ?: 1
             coroutineScope {
-                val itemList = async {
-                    userRepository.getPosts(
-                        auth = auth,
-                        id = userId,
-                        page = page,
-                        sort = currentState.sortType,
-                        username = uiState.value.user.name,
-                        otherInstance = otherInstance,
-                    )
+                val posts = async {
+                    postPaginationManager.loadNextPage()
                 }.await()
                 val comments = async {
-                    if (page == 1 && (currentState.comments.isEmpty() || refreshing)) {
+                    if (currentState.comments.isEmpty() || refreshing) {
                         // this is needed because otherwise on first selector change
                         // the lazy column scrolls back to top (it must have an empty data set)
-                        userRepository.getComments(
-                            auth = auth,
-                            id = userId,
-                            page = 1,
-                            sort = currentState.sortType,
-                            username = uiState.value.user.name,
-                            otherInstance = otherInstance,
-                        ).orEmpty()
+                        commentPaginationManager.loadNextPage()
                     } else {
                         currentState.comments
                     }
                 }.await()
-                val postsToAdd = itemList.orEmpty()
-                    .let {
-                        if (includeNsfw) {
-                            it
-                        } else {
-                            it.filter { post -> !post.nsfw }
-                        }
-                    }
-                    .filterNot { post ->
-                        post.deleted
-                    }
-                val commentsToAdd = comments
-                    .filterNot { post ->
-                        post.deleted
-                    }
                 updateState {
-                    val newPosts = if (refreshing) {
-                        postsToAdd
-                    } else {
-                        it.posts + postsToAdd
-                    }
                     if (uiState.value.autoLoadImages) {
-                        newPosts.forEach { post ->
+                        posts.forEach { post ->
                             post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
                                 imagePreloadManager.preload(url)
                             }
                         }
                     }
                     it.copy(
-                        posts = newPosts,
-                        comments = commentsToAdd,
+                        posts = posts,
+                        comments = comments,
                         loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
+                        canFetchMore = postPaginationManager.canFetchMore,
                         refreshing = false,
                         initial = false,
                     )
                 }
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage[UserDetailSection.Posts] = page + 1
-                }
             }
         } else {
-            val page = currentPage[UserDetailSection.Comments] ?: 1
-            val itemList = userRepository.getComments(
-                auth = auth,
-                id = userId,
-                page = page,
-                sort = currentState.sortType,
-                otherInstance = otherInstance,
-            )
-            val commentsToAdd = itemList.orEmpty()
-                .filterNot { post ->
-                    post.deleted
-                }
+            val comments = commentPaginationManager.loadNextPage()
             updateState {
-                val newcomments = if (refreshing) {
-                    commentsToAdd
-                } else {
-                    it.comments + commentsToAdd
-                }
                 it.copy(
-                    comments = newcomments,
+                    comments = comments,
                     loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
+                    canFetchMore = commentPaginationManager.canFetchMore,
                     refreshing = false,
                     initial = false,
                 )
-            }
-            if (!itemList.isNullOrEmpty()) {
-                currentPage[UserDetailSection.Comments] = page + 1
             }
         }
     }

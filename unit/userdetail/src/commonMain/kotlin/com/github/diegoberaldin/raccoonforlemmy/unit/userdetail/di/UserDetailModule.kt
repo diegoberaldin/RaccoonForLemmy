@@ -23,6 +23,8 @@ val userDetailModule = module {
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
             itemCache = get(),
+            postPaginationManager = get(),
+            commentPaginationManager = get(),
         )
     }
 }
