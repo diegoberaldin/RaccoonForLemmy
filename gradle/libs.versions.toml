@@ -1,6 +1,7 @@
 [versions]
 
 androidx_activity = "1.8.2"
+androidx_browser = "1.8.0"
 androidx_core = "1.13.0"
 androidx_crypto = "1.0.0"
 androidx_media3 = "1.3.0"
@@ -39,6 +40,7 @@ android_minSdk = "26"
 
 androidx_activity_compose = { module = "androidx.activity:activity-compose", version.ref = "androidx.activity" }
 androidx_activity = { module = "androidx.activity:activity", version.ref = "androidx.activity" }
+androidx_browser = { module = "androidx.browser:browser", version.ref = "androidx.browser" }
 androidx_core = { module = "androidx.core:core", version.ref = "androidx.core" }
 androidx_security_crypto = { module = "androidx.security:security-crypto", version.ref = "androidx.crypto" }
 androidx_splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx.splashscreen" }
