@@ -202,6 +202,12 @@ private fun CompactPost(
     onDoubleClick: (() -> Unit)?,
 ) {
     val optionsMenuOpen = remember { mutableStateOf(false) }
+    val settingsRepository = remember { getSettingsRepository() }
+    val settings by settingsRepository.currentSettings.collectAsState()
+    val uriHandler = LocalUriHandler.current
+    val navigationCoordinator = remember { getNavigationCoordinator() }
+    val postLinkUrl = post.url.orEmpty().takeIf { !it.looksLikeAnImage && !it.looksLikeAVideo }.orEmpty()
+
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
             .pointerInput(Unit) {
@@ -269,7 +275,21 @@ private fun CompactPost(
                     url = post.videoUrl,
                     blurred = blurNsfw && post.nsfw,
                     autoLoadImages = autoLoadImages,
-                    onOpen = onClick,
+                    onOpen = rememberCallback {
+                        if (postLinkUrl.isNotEmpty()) {
+                            navigationCoordinator.handleUrl(
+                                url = postLinkUrl,
+                                openExternal = settings.openUrlsInExternalBrowser,
+                                uriHandler = uriHandler,
+                                onOpenWeb = onOpenWeb,
+                                onOpenCommunity = onOpenCommunity,
+                                onOpenPost = onOpenPost,
+                                onOpenUser = onOpenCreator,
+                            )
+                        } else {
+                            onClick?.invoke()
+                        }
+                    },
                 )
             } else {
                 PostCardImage(
@@ -292,9 +312,23 @@ private fun CompactPost(
                         Icon(imageVector = Icons.Default.Download, contentDescription = null)
                     },
                     blurred = blurNsfw && post.nsfw,
-                    onImageClick = onOpenImage,
+                    onImageClick = rememberCallbackArgs { url ->
+                        if (postLinkUrl.isNotEmpty()) {
+                            navigationCoordinator.handleUrl(
+                                url = postLinkUrl,
+                                openExternal = settings.openUrlsInExternalBrowser,
+                                uriHandler = uriHandler,
+                                onOpenWeb = onOpenWeb,
+                                onOpenCommunity = onOpenCommunity,
+                                onOpenPost = onOpenPost,
+                                onOpenUser = onOpenCreator,
+                            )
+                        } else {
+                            onOpenImage?.invoke(url)
+                        }
+                    },
                     onDoubleClick = onDoubleClick,
-                    onLongClick = {
+                    onLongClick = rememberCallback {
                         optionsMenuOpen.value = true
                     },
                 )
@@ -367,6 +401,9 @@ private fun ExtendedPost(
     val uriHandler = LocalUriHandler.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val optionsMenuOpen = remember { mutableStateOf(false) }
+    val postLinkUrl = post.url.orEmpty().takeIf {
+        it != post.imageUrl && it != post.videoUrl && !it.looksLikeAnImage && !it.looksLikeAVideo
+    }.orEmpty()
 
     Column(
         modifier = modifier
@@ -422,7 +459,7 @@ private fun ExtendedPost(
                 onClick = onClick,
                 onOpenImage = onOpenImage,
                 onDoubleClick = onDoubleClick,
-                onLongClick = {
+                onLongClick = rememberCallback {
                     optionsMenuOpen.value = true
                 },
             )
@@ -435,7 +472,21 @@ private fun ExtendedPost(
                 blurred = blurNsfw && post.nsfw,
                 autoLoadImages = autoLoadImages,
                 backgroundColor = backgroundColor,
-                onOpen = onClick,
+                onOpen = {
+                    if (postLinkUrl.isNotEmpty()) {
+                        navigationCoordinator.handleUrl(
+                            url = postLinkUrl,
+                            openExternal = settings.openUrlsInExternalBrowser,
+                            uriHandler = uriHandler,
+                            onOpenWeb = onOpenWeb,
+                            onOpenCommunity = onOpenCommunity,
+                            onOpenPost = onOpenPost,
+                            onOpenUser = onOpenCreator,
+                        )
+                    } else {
+                        onClick?.invoke()
+                    }
+                },
             )
         } else {
             PostCardImage(
@@ -456,7 +507,21 @@ private fun ExtendedPost(
                     ),
                 imageUrl = post.imageUrl,
                 blurred = blurNsfw && post.nsfw,
-                onImageClick = onOpenImage,
+                onImageClick = rememberCallbackArgs { url ->
+                    if (postLinkUrl.isNotEmpty()) {
+                        navigationCoordinator.handleUrl(
+                            url = postLinkUrl,
+                            openExternal = settings.openUrlsInExternalBrowser,
+                            uriHandler = uriHandler,
+                            onOpenWeb = onOpenWeb,
+                            onOpenCommunity = onOpenCommunity,
+                            onOpenPost = onOpenPost,
+                            onOpenUser = onOpenCreator,
+                        )
+                    } else {
+                        onOpenImage?.invoke(url)
+                    }
+                },
                 onDoubleClick = onDoubleClick,
                 autoLoadImages = autoLoadImages,
                 onLongClick = {
@@ -502,7 +567,6 @@ private fun ExtendedPost(
                 }
             }
         }
-        val postLinkUrl = post.url.orEmpty().takeIf { !it.looksLikeAnImage && !it.looksLikeAVideo }.orEmpty()
         if (postLinkUrl.isNotEmpty() && postLinkUrl != post.imageUrl && postLinkUrl != post.videoUrl) {
             PostLinkBanner(
                 modifier = Modifier
