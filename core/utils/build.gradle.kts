@@ -46,6 +46,7 @@ kotlin {
                 dependsOn(commonMain)
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.activity)
+                implementation(libs.androidx.browser)
                 implementation(libs.ktor.android)
                 implementation(libs.coil)
                 implementation(libs.coil.gif)

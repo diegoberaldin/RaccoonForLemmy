@@ -138,3 +138,6 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
 }
+dependencies {
+    implementation(project(":core:utils"))
+}
