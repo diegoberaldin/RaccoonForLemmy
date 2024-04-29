@@ -26,6 +26,7 @@ interface ProfileLoggedMviModel :
         data class UpVoteComment(val id: Long, val feedback: Boolean = false) : Intent
         data class DownVoteComment(val id: Long, val feedback: Boolean = false) : Intent
         data class SaveComment(val id: Long, val feedback: Boolean = false) : Intent
+        data object WillOpenDetail : Intent
     }
 
     data class UiState(

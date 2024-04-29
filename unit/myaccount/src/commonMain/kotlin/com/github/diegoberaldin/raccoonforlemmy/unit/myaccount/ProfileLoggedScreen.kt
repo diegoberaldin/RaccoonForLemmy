@@ -225,7 +225,11 @@ object ProfileLoggedScreen : Tab {
                                     hideAuthor = true,
                                     blurNsfw = false,
                                     onClick = rememberCallback {
-                                        detailOpener.openPostDetail(post)
+                                        model.reduce(ProfileLoggedMviModel.Intent.WillOpenDetail)
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            supportNavigation = true,
+                                        )
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
                                         detailOpener.openCommunityDetail(community, instance)

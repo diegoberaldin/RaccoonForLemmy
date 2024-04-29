@@ -18,6 +18,7 @@ val myAccountModule = module {
             hapticFeedback = get(),
             postPaginationManager = get(),
             commentPaginationManager = get(),
+            postNavigationManager = get(),
         )
     }
 }

@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.myaccount
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -47,6 +48,7 @@ class ProfileLoggedViewModel(
     private val shareHelper: ShareHelper,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
+    private val postNavigationManager: PostNavigationManager,
 ) : ProfileLoggedMviModel,
     DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>(
         initialState = ProfileLoggedMviModel.UiState()
@@ -189,6 +191,11 @@ class ProfileLoggedViewModel(
                 uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
                     toggleUpVotePost(post = post)
                 }
+            }
+
+            ProfileLoggedMviModel.Intent.WillOpenDetail -> {
+                val state = postPaginationManager.extractState()
+                postNavigationManager.setPagination(state)
             }
         }
     }
