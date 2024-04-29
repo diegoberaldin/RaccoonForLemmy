@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -42,6 +43,7 @@ class MultiCommunityViewModel(
     private val hapticFeedback: HapticFeedback,
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
+    private val postNavigationManager: PostNavigationManager,
 ) : MultiCommunityMviModel,
     DefaultMviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect>(
         initialState = MultiCommunityMviModel.UiState()
@@ -168,6 +170,11 @@ class MultiCommunityViewModel(
 
             is MultiCommunityMviModel.Intent.Copy -> screenModelScope.launch {
                 emitEffect(MultiCommunityMviModel.Effect.TriggerCopy(intent.value))
+            }
+
+            MultiCommunityMviModel.Intent.WillOpenDetail -> {
+                val state = postPaginationManager.extractState()
+                postNavigationManager.setPagination(state)
             }
         }
     }

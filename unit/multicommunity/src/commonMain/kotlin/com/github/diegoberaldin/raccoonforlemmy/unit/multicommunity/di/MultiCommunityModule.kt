@@ -22,6 +22,7 @@ val multiCommunityModule = module {
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
             multiCommunityRepository = get(),
+            postNavigationManager = get(),
         )
     }
     factory<MultiCommunityEditorMviModel> { params ->

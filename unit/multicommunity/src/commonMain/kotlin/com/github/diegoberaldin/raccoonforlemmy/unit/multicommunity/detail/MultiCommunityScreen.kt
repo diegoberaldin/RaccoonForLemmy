@@ -402,7 +402,11 @@ class MultiCommunityScreen(
                                     showUnreadComments = uiState.showUnreadComments,
                                     onClick = rememberCallback {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
-                                        detailOpener.openPostDetail(post)
+                                        model.reduce(MultiCommunityMviModel.Intent.WillOpenDetail)
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            supportNavigation = true,
+                                        )
                                     },
                                     onDoubleClick = if (uiState.swipeActionsEnabled) {
                                         null
@@ -454,8 +458,12 @@ class MultiCommunityScreen(
                                             ),
                                         )
                                     },
-                                    onReply = rememberCallback {
-                                        detailOpener.openPostDetail(post)
+                                    onReply = rememberCallback(model) {
+                                        model.reduce(MultiCommunityMviModel.Intent.WillOpenDetail)
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            supportNavigation = true,
+                                        )
                                     },
                                     onOpenImage = rememberCallbackArgs { url ->
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
