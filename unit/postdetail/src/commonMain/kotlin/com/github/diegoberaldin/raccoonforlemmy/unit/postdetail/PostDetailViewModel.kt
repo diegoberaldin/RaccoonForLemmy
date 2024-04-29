@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.postdetail
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationManager
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -36,7 +37,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class PostDetailViewModel(
-    private val postId: Long,
+    postId: Long,
     private val otherInstance: String,
     private val highlightCommentId: Long?,
     private val isModerator: Boolean,
@@ -54,6 +55,7 @@ class PostDetailViewModel(
     private val hapticFeedback: HapticFeedback,
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val itemCache: LemmyItemCache,
+    private val postNavigationManager: PostNavigationManager,
 ) : PostDetailMviModel,
     DefaultMviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>(
         initialState = PostDetailMviModel.UiState()
@@ -118,8 +120,10 @@ class PostDetailViewModel(
                 refresh()
             }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach {
-                refreshPost()
+            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
+                if (evt.model.id == uiState.value.post.id) {
+                    refreshPost()
+                }
             }.launchIn(this)
             notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
                 shareHelper.share(evt.url)
@@ -353,17 +357,20 @@ class PostDetailViewModel(
             }
 
             is PostDetailMviModel.Intent.SetSearch -> updateSearchText(intent.value)
+            PostDetailMviModel.Intent.NavigatePrevious -> navigateToPrevious()
+            PostDetailMviModel.Intent.NavigateNext -> navigateToNext()
         }
     }
 
     private fun refreshPost() {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value
+            val post = uiState.value.post
             val updatedPost = postRepository.get(
-                id = postId,
+                id = post.id,
                 auth = auth,
                 instance = otherInstance,
-            ) ?: uiState.value.post
+            ) ?: post
             updateState {
                 it.copy(post = updatedPost)
             }
@@ -677,6 +684,7 @@ class PostDetailViewModel(
     private fun deletePost() {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
+            val postId = uiState.value.post.id
             postRepository.delete(id = postId, auth = auth)
             notificationCenter.send(
                 event = NotificationCenterEvent.PostDeleted(uiState.value.post),
@@ -784,5 +792,41 @@ class PostDetailViewModel(
         screenModelScope.launch {
             searchEventChannel.send(Unit)
         }
+    }
+
+    private fun navigateToPrevious() {
+        val currentId = uiState.value.post.id
+        updateState { it.copy(loading = true, initial = true) }
+        screenModelScope.launch {
+            postNavigationManager.getPrevious(currentId)?.also { newPost ->
+                loadNewPost(newPost)
+            }
+        }
+    }
+
+    private fun navigateToNext() {
+        val currentId = uiState.value.post.id
+        updateState { it.copy(loading = true, initial = true) }
+        screenModelScope.launch {
+            postNavigationManager.getNext(currentId)?.also { newPost ->
+                loadNewPost(newPost)
+            }
+        }
+    }
+
+    private suspend fun loadNewPost(post: PostModel) {
+        itemCache.putPost(post)
+        updateState {
+            it.copy(
+                searching = false,
+                searchText = "",
+                post = post,
+            )
+        }
+        // reset unread comments
+        notificationCenter.send(
+            event = NotificationCenterEvent.PostUpdated(post.copy(unreadComments = 0)),
+        )
+        refresh()
     }
 }

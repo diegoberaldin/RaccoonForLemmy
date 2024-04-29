@@ -39,6 +39,8 @@ interface PostDetailMviModel :
         data class Copy(val value: String) : Intent
         data class SetSearch(val value: String) : Intent
         data class ChangeSearching(val value: Boolean) : Intent
+        data object NavigatePrevious : Intent
+        data object NavigateNext : Intent
     }
 
     data class UiState(

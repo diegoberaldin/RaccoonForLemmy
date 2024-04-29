@@ -83,6 +83,7 @@ class DefaultDetailOpener(
         otherInstance: String,
         highlightCommentId: Long?,
         isMod: Boolean,
+        supportNavigation: Boolean
     ) {
         scope.launch {
             withContext(Dispatchers.IO) {
@@ -94,6 +95,7 @@ class DefaultDetailOpener(
                     highlightCommentId = highlightCommentId,
                     otherInstance = otherInstance,
                     isMod = isMod,
+                    supportNavigation = supportNavigation,
                 ),
             )
         }

@@ -33,6 +33,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.NavigateBefore
+import androidx.compose.material.icons.automirrored.filled.NavigateNext
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
@@ -153,6 +155,7 @@ class PostDetailScreen(
     private val otherInstance: String = "",
     private val highlightCommentId: Long? = null,
     private val isMod: Boolean = false,
+    private val supportNavigation: Boolean = false,
 ) : Screen {
     override val key: ScreenKey
         get() = super.key + postId.toString()
@@ -173,7 +176,8 @@ class PostDetailScreen(
                     highlightCommentId,
                     isMod,
                 )
-            })
+            },
+        )
         val uiState by model.uiState.collectAsState()
         val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
         val otherInstanceName = remember { otherInstance }
@@ -237,6 +241,7 @@ class PostDetailScreen(
                 }
             }
         }
+        val isNavigationSupported = remember { supportNavigation }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -796,7 +801,7 @@ class PostDetailScreen(
                                                             )
                                                             detailOpener.openPostDetail(
                                                                 post = post,
-                                                                otherInstance = otherInstanceName
+                                                                otherInstance = otherInstanceName,
                                                             )
                                                         },
                                                     ),
@@ -1482,6 +1487,21 @@ class PostDetailScreen(
                             }
                             .background(color = MaterialTheme.colorScheme.background.copy(alpha = 0.45f)),
                     ) {
+                        if (isNavigationSupported) {
+                            Icon(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(vertical = Spacing.xs)
+                                    .onClick(
+                                        onClick = rememberCallback(model) {
+                                            model.reduce(PostDetailMviModel.Intent.NavigatePrevious)
+                                        },
+                                    ),
+                                imageVector = Icons.AutoMirrored.Default.NavigateBefore,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
                         Icon(
                             modifier = Modifier
                                 .weight(1f)
@@ -1514,6 +1534,21 @@ class PostDetailScreen(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
+                        if (isNavigationSupported) {
+                            Icon(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(vertical = Spacing.xs)
+                                    .onClick(
+                                        onClick = rememberCallback(model) {
+                                            model.reduce(PostDetailMviModel.Intent.NavigateNext)
+                                        },
+                                    ),
+                                imageVector = Icons.AutoMirrored.Default.NavigateNext,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
                     }
                 }
             }

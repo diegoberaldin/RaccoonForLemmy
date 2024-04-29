@@ -25,6 +25,7 @@ val postDetailModule = module {
             getSortTypesUseCase = get(),
             itemCache = get(),
             commentPaginationManager = get(),
+            postNavigationManager = get(),
         )
     }
 }
