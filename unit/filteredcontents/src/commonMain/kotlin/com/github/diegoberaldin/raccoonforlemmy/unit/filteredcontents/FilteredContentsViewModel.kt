@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -40,6 +41,7 @@ class FilteredContentsViewModel(
     private val imagePreloadManager: ImagePreloadManager,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
+    private val postNavigationManager: PostNavigationManager,
 ) : FilteredContentsMviModel,
     DefaultMviModel<FilteredContentsMviModel.Intent, FilteredContentsMviModel.State, FilteredContentsMviModel.Effect>(
         initialState = FilteredContentsMviModel.State(),
@@ -159,6 +161,11 @@ class FilteredContentsViewModel(
                 it.id == intent.commentId
             }?.also { comment ->
                 distinguish(comment)
+            }
+
+            FilteredContentsMviModel.Intent.WillOpenDetail -> {
+                val state = postPaginationManager.extractState()
+                postNavigationManager.setPagination(state)
             }
         }
     }

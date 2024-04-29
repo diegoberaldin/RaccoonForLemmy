@@ -379,7 +379,11 @@ class FilteredContentsScreen(
                                             fadeRead = uiState.fadeReadPosts,
                                             showUnreadComments = uiState.showUnreadComments,
                                             onClick = rememberCallback(model) {
-                                                detailOpener.openPostDetail(post)
+                                                model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
+                                                detailOpener.openPostDetail(
+                                                    post = post,
+                                                    supportNavigation = true
+                                                )
                                             },
                                             onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                 detailOpener.openCommunityDetail(
@@ -414,7 +418,11 @@ class FilteredContentsScreen(
                                                 )
                                             },
                                             onReply = rememberCallback(model) {
-                                                detailOpener.openPostDetail(post)
+                                                model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
+                                                detailOpener.openPostDetail(
+                                                    post = post,
+                                                    supportNavigation = true
+                                                )
                                             },
                                             onOpenImage = rememberCallbackArgs(model, post) { url ->
                                                 navigationCoordinator.pushScreen(
@@ -618,10 +626,12 @@ class FilteredContentsScreen(
                                                 detailOpener.openUserDetail(user, instance)
                                             },
                                             onOpen = rememberCallback {
+                                                model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
                                                 detailOpener.openPostDetail(
                                                     post = PostModel(id = comment.postId),
                                                     highlightCommentId = comment.id,
                                                     isMod = true,
+                                                    supportNavigation = true,
                                                 )
                                             },
                                             onUpVote = rememberCallback(model) {

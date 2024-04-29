@@ -18,6 +18,7 @@ val filteredContentsModule = module {
             notificationCenter = get(),
             postPaginationManager = get(),
             commentPaginationManager = get(),
+            postNavigationManager = get(),
         )
     }
 }
