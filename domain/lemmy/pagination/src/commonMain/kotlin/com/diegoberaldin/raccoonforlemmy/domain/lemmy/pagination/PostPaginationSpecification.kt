@@ -39,11 +39,7 @@ sealed interface PostPaginationSpecification {
         val sortType: SortType = SortType.New,
     ) : PostPaginationSpecification
 
-    data class Explore(
-        val otherInstance: String? = null,
-        val query: String? = null,
-        val listingType: ListingType = ListingType.All,
+    data class Saved(
         val sortType: SortType = SortType.Active,
-        val includeNsfw: Boolean = true,
     ) : PostPaginationSpecification
 }

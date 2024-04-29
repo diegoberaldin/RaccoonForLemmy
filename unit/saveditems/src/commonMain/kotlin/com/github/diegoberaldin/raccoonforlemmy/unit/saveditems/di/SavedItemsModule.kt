@@ -10,7 +10,8 @@ val savedItemsModule = module {
             identityRepository = get(),
             apiConfigurationRepository = get(),
             siteRepository = get(),
-            userRepository = get(),
+            postPaginationManager = get(),
+            commentPaginationManager = get(),
             postRepository = get(),
             commentRepository = get(),
             themeRepository = get(),
@@ -19,6 +20,7 @@ val savedItemsModule = module {
             hapticFeedback = get(),
             notificationCenter = get(),
             getSortTypesUseCase = get(),
+            postNavigationManager = get(),
         )
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -97,6 +98,9 @@ class SavedItemsScreen : Screen {
         val detailOpener = remember { getDetailOpener() }
 
         Scaffold(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(Spacing.xxs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -167,13 +171,15 @@ class SavedItemsScreen : Screen {
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier.padding(paddingValues).then(
-                    if (settings.hideNavigationBarWhileScrolling) {
-                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    } else {
-                        Modifier
-                    }
-                ).nestedScroll(fabNestedScrollConnection),
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .then(
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            Modifier
+                        }
+                    ).nestedScroll(fabNestedScrollConnection),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
@@ -205,7 +211,7 @@ class SavedItemsScreen : Screen {
                 ) {
                     LazyColumn(
                         state = lazyListState,
-                        modifier = Modifier.padding(horizontal = Spacing.xxxs),
+                        modifier = Modifier.padding(horizontal = Spacing.xs),
                     ) {
                         if (uiState.section == SavedItemsSection.Posts) {
                             items(uiState.posts) { post ->
@@ -220,7 +226,11 @@ class SavedItemsScreen : Screen {
                                     showScores = uiState.showScores,
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = rememberCallback {
-                                        detailOpener.openPostDetail(post)
+                                        model.reduce(SavedItemsMviModel.Intent.WillOpenSave)
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            supportNavigation = true,
+                                        )
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
                                         detailOpener.openCommunityDetail(community, instance)
@@ -260,7 +270,11 @@ class SavedItemsScreen : Screen {
                                         )
                                     },
                                     onReply = rememberCallback {
-                                        detailOpener.openPostDetail(post)
+                                        model.reduce(SavedItemsMviModel.Intent.WillOpenSave)
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            supportNavigation = true,
+                                        )
                                     },
                                     onOpenImage = rememberCallbackArgs { url ->
                                         navigatorCoordinator.pushScreen(

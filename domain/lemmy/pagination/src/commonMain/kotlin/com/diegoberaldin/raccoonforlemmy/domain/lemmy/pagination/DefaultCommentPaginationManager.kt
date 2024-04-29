@@ -22,10 +22,9 @@ internal class DefaultCommentPaginationManager(
     private var currentPage: Int = 1
     private val history: MutableList<CommentModel> = mutableListOf()
 
-    override suspend fun reset(specification: CommentPaginationSpecification) {
+    override fun reset(specification: CommentPaginationSpecification) {
         this.specification = specification
         history.clear()
-        history.addAll(specification.history)
         canFetchMore = true
         currentPage = 1
     }
@@ -47,6 +46,7 @@ internal class DefaultCommentPaginationManager(
                 if (!itemList.isNullOrEmpty()) {
                     currentPage++
                 }
+                canFetchMore = itemList?.isEmpty() != true
                 itemList
                     .orEmpty()
                     .deduplicate()
@@ -69,6 +69,7 @@ internal class DefaultCommentPaginationManager(
                 if (!itemList.isNullOrEmpty()) {
                     currentPage++
                 }
+                canFetchMore = itemList?.isEmpty() != true
                 itemList
                     .orEmpty()
                     .deduplicate()
@@ -84,6 +85,26 @@ internal class DefaultCommentPaginationManager(
                     page = currentPage,
                     sort = specification.sortType,
                     liked = specification.liked,
+                )
+                if (!itemList.isNullOrEmpty()) {
+                    currentPage++
+                }
+                canFetchMore = itemList?.isEmpty() != true
+                itemList
+                    .orEmpty()
+                    .deduplicate()
+                    .filterDeleted()
+                    .also {
+                        canFetchMore = it.isNotEmpty()
+                    }
+            }
+
+            is CommentPaginationSpecification.Saved -> {
+                val itemList = userRepository.getSavedComments(
+                    auth = auth,
+                    page = currentPage,
+                    sort = specification.sortType,
+                    id = identityRepository.cachedUser?.id ?: 0,
                 )
                 if (!itemList.isNullOrEmpty()) {
                     currentPage++

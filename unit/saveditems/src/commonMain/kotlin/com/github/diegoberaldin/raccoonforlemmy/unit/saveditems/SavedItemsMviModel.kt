@@ -26,6 +26,7 @@ interface SavedItemsMviModel :
         data class DownVoteComment(val id: Long, val feedback: Boolean = false) : Intent
         data class SaveComment(val id: Long, val feedback: Boolean = false) : Intent
         data class Share(val url: String) : Intent
+        data object WillOpenSave : Intent
     }
 
     data class UiState(

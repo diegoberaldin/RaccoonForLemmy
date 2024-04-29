@@ -129,6 +129,7 @@ internal class DefaultPostPaginationManager(
                 if (!itemList.isNullOrEmpty()) {
                     currentPage++
                 }
+                canFetchMore = itemList?.isEmpty() != true
                 itemList
                     .orEmpty()
                     .deduplicate()
@@ -155,23 +156,20 @@ internal class DefaultPostPaginationManager(
                     .deduplicate()
             }
 
-            is PostPaginationSpecification.Explore -> {
-                val itemList = communityRepository.search(
+            is PostPaginationSpecification.Saved -> {
+                val itemList = userRepository.getSavedPosts(
                     auth = auth,
                     page = currentPage,
-                    sortType = specification.sortType,
-                    resultType = SearchResultType.Posts,
-                    query = specification.query.orEmpty(),
-                ).mapNotNull {
-                    (it as? SearchResult.Post)?.model
-                }
-                if (itemList.isNotEmpty()) {
+                    sort = specification.sortType,
+                    id = identityRepository.cachedUser?.id ?: 0,
+                )
+                if (!itemList.isNullOrEmpty()) {
                     currentPage++
                 }
-                canFetchMore = itemList.isNotEmpty()
+                canFetchMore = itemList?.isEmpty() != true
                 itemList
+                    .orEmpty()
                     .deduplicate()
-                    .filterNsfw(specification.includeNsfw)
                     .filterDeleted()
             }
         }

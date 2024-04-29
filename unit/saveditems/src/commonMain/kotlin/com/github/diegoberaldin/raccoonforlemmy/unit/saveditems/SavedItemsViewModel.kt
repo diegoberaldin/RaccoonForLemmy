@@ -1,6 +1,11 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.saveditems
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -17,7 +22,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentR
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
@@ -28,7 +32,8 @@ class SavedItemsViewModel(
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val siteRepository: SiteRepository,
-    private val userRepository: UserRepository,
+    private val postPaginationManager: PostPaginationManager,
+    private val commentPaginationManager: CommentPaginationManager,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
     private val themeRepository: ThemeRepository,
@@ -37,12 +42,11 @@ class SavedItemsViewModel(
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val getSortTypesUseCase: GetSortTypesUseCase,
+    private val postNavigationManager: PostNavigationManager,
 ) : SavedItemsMviModel,
     DefaultMviModel<SavedItemsMviModel.Intent, SavedItemsMviModel.UiState, SavedItemsMviModel.Effect>(
         initialState = SavedItemsMviModel.UiState(),
     ) {
-
-    private var currentPage: Int = 1
 
     init {
         updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
@@ -147,11 +151,21 @@ class SavedItemsViewModel(
                     post = uiState.value.posts.first { it.id == intent.id },
                 )
             }
+
+            SavedItemsMviModel.Intent.WillOpenSave -> {
+                val state = postPaginationManager.extractState()
+                postNavigationManager.setPagination(state)
+            }
         }
     }
 
     private fun refresh() {
-        currentPage = 1
+        postPaginationManager.reset(
+            PostPaginationSpecification.Saved(sortType = uiState.value.sortType)
+        )
+        commentPaginationManager.reset(
+            CommentPaginationSpecification.Saved(sortType = uiState.value.sortType)
+        )
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -171,54 +185,24 @@ class SavedItemsViewModel(
 
         screenModelScope.launch {
             updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val user = siteRepository.getCurrentUser(auth.orEmpty()) ?: return@launch
-            val refreshing = currentState.refreshing
             val section = currentState.section
-            val sortType = currentState.sortType
             if (section == SavedItemsSection.Posts) {
-                val itemList = userRepository.getSavedPosts(
-                    auth = auth,
-                    id = user.id,
-                    page = currentPage,
-                    sort = sortType,
-                )
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage++
-                }
+                val posts = postPaginationManager.loadNextPage()
                 updateState {
-                    val newPosts = if (refreshing) {
-                        itemList.orEmpty()
-                    } else {
-                        it.posts + itemList.orEmpty()
-                    }
                     it.copy(
-                        posts = newPosts,
+                        posts = posts,
                         loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
+                        canFetchMore = postPaginationManager.canFetchMore,
                         refreshing = false,
                     )
                 }
             } else {
-                val itemList = userRepository.getSavedComments(
-                    auth = auth,
-                    id = user.id,
-                    page = currentPage,
-                    sort = sortType,
-                )
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage++
-                }
+                val comments = commentPaginationManager.loadNextPage()
                 updateState {
-                    val newComments = if (refreshing) {
-                        itemList.orEmpty()
-                    } else {
-                        it.comments + itemList.orEmpty()
-                    }
                     it.copy(
-                        comments = newComments,
+                        comments = comments,
                         loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
+                        canFetchMore = commentPaginationManager.canFetchMore,
                         refreshing = false,
                     )
                 }
