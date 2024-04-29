@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.postlist
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -48,6 +49,7 @@ class PostListViewModel(
     private val zombieModeHelper: ZombieModeHelper,
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
+    private val postNavigationManager: PostNavigationManager,
 ) : PostListMviModel,
     DefaultMviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>(
         initialState = PostListMviModel.UiState()
@@ -248,6 +250,11 @@ class PostListViewModel(
 
             is PostListMviModel.Intent.Copy -> screenModelScope.launch {
                 emitEffect(PostListMviModel.Effect.TriggerCopy(intent.value))
+            }
+
+            PostListMviModel.Intent.WillOpenDetail -> {
+                val state = postPaginationManager.extractState()
+                postNavigationManager.setPagination(state)
             }
         }
     }

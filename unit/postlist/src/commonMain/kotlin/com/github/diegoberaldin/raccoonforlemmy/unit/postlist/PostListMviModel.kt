@@ -32,6 +32,7 @@ interface PostListMviModel :
         data class StartZombieMode(val index: Int) : Intent
         data object PauseZombieMode : Intent
         data class Copy(val value: String) : Intent
+        data object WillOpenDetail : Intent
     }
 
     data class UiState(

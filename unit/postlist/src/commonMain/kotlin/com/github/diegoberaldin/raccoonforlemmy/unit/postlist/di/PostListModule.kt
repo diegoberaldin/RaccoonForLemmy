@@ -22,6 +22,7 @@ val postListModule = module {
             imagePreloadManager = get(),
             getSortTypesUseCase = get(),
             postPaginationManager = get(),
+            postNavigationManager = get(),
         )
     }
 }
