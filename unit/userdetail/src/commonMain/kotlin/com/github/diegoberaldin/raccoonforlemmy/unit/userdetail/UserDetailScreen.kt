@@ -596,7 +596,11 @@ class UserDetailScreen(
                                         showScores = uiState.showScores,
                                         actionButtonsActive = uiState.isLogged,
                                         onClick = rememberCallback {
-                                            detailOpener.openPostDetail(post)
+                                            model.reduce(UserDetailMviModel.Intent.WillOpenDetail)
+                                            detailOpener.openPostDetail(
+                                                post = post,
+                                                supportNavigation = true,
+                                            )
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled) {
                                             null
@@ -650,10 +654,7 @@ class UserDetailScreen(
                                             )
                                         },
                                         onOpenPost = rememberCallbackArgs { p, instance ->
-                                            detailOpener.openPostDetail(
-                                                post = p,
-                                                otherInstance = instance
-                                            )
+                                            detailOpener.openPostDetail(p, instance)
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(WebViewScreen(url))
@@ -661,8 +662,12 @@ class UserDetailScreen(
                                         onReply = if (!uiState.isLogged || isOnOtherInstance) {
                                             null
                                         } else {
+                                            model.reduce(UserDetailMviModel.Intent.WillOpenDetail)
                                             rememberCallback {
-                                                detailOpener.openPostDetail(post)
+                                                detailOpener.openPostDetail(
+                                                    post = post,
+                                                    supportNavigation = true,
+                                                )
                                             }
                                         },
                                         onOpenImage = rememberCallbackArgs { url ->
@@ -938,20 +943,14 @@ class UserDetailScreen(
                                             null
                                         } else {
                                             rememberCallback(model) {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.UpVoteComment(comment.id),
-                                                )
+                                                model.reduce(UserDetailMviModel.Intent.UpVoteComment(comment.id))
                                             }
                                         },
                                         onDownVote = if (!uiState.isLogged || isOnOtherInstance) {
                                             null
                                         } else {
                                             rememberCallback(model) {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.DownVoteComment(
-                                                        comment.id
-                                                    ),
-                                                )
+                                                model.reduce(UserDetailMviModel.Intent.DownVoteComment(comment.id))
                                             }
                                         },
                                         onReply = if (!uiState.isLogged || isOnOtherInstance) {
@@ -967,19 +966,19 @@ class UserDetailScreen(
                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
                                             detailOpener.openCommunityDetail(
                                                 community = community,
-                                                otherInstance = instance
+                                                otherInstance = instance,
                                             )
                                         },
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
                                             detailOpener.openUserDetail(
                                                 user = user,
-                                                otherInstance = instance
+                                                otherInstance = instance,
                                             )
                                         },
                                         onOpenPost = rememberCallbackArgs { post, instance ->
                                             detailOpener.openPostDetail(
                                                 post = post,
-                                                otherInstance = instance
+                                                otherInstance = instance,
                                             )
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->

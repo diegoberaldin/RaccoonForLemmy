@@ -32,6 +32,7 @@ interface UserDetailMviModel :
         data object Block : Intent
         data object BlockInstance : Intent
         data class Copy(val value: String) : Intent
+        data object WillOpenDetail : Intent
     }
 
     data class UiState(

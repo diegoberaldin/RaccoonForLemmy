@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.userdetail
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationSpecification
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -57,6 +58,7 @@ class UserDetailViewModel(
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val itemCache: LemmyItemCache,
+    private val postNavigationManager: PostNavigationManager,
 ) : UserDetailMviModel,
     DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>(
         initialState = UserDetailMviModel.UiState(),
@@ -217,6 +219,11 @@ class UserDetailViewModel(
             UserDetailMviModel.Intent.BlockInstance -> blockInstance()
             is UserDetailMviModel.Intent.Copy -> screenModelScope.launch {
                 emitEffect(UserDetailMviModel.Effect.TriggerCopy(intent.value))
+            }
+
+            UserDetailMviModel.Intent.WillOpenDetail -> {
+                val state = postPaginationManager.extractState()
+                postNavigationManager.setPagination(state)
             }
         }
     }

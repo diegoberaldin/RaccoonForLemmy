@@ -25,6 +25,7 @@ val userDetailModule = module {
             itemCache = get(),
             postPaginationManager = get(),
             commentPaginationManager = get(),
+            postNavigationManager = get(),
         )
     }
 }
