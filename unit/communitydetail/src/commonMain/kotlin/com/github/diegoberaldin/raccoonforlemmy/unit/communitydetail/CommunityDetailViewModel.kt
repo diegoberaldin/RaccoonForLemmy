@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
@@ -63,6 +64,7 @@ class CommunityDetailViewModel(
     private val notificationCenter: NotificationCenter,
     private val itemCache: LemmyItemCache,
     private val communitySortRepository: CommunitySortRepository,
+    private val postNavigationManager: PostNavigationManager,
 ) : CommunityDetailMviModel,
     DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>(
         initialState = CommunityDetailMviModel.UiState(),
@@ -293,6 +295,11 @@ class CommunityDetailViewModel(
             is CommunityDetailMviModel.Intent.SetSearch -> updateSearchText(intent.value)
             is CommunityDetailMviModel.Intent.Copy -> screenModelScope.launch {
                 emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(intent.value))
+            }
+
+            CommunityDetailMviModel.Intent.WillOpenDetail -> {
+                val state = postPaginationManager.extractState()
+                postNavigationManager.setPagination(state)
             }
         }
     }

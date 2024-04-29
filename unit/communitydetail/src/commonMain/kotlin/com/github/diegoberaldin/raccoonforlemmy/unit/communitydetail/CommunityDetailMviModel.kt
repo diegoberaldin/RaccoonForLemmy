@@ -41,6 +41,7 @@ interface CommunityDetailMviModel :
         data class SetSearch(val value: String) : Intent
         data class ChangeSearching(val value: Boolean) : Intent
         data class Copy(val value: String) : Intent
+        data object WillOpenDetail : Intent
     }
 
     data class UiState(

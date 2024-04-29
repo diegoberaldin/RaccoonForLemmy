@@ -27,6 +27,7 @@ val communityDetailModule = module {
             itemCache = get(),
             communitySortRepository = get(),
             postPaginationManager = get(),
+            postNavigationManager = get(),
         )
     }
 }
