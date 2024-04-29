@@ -26,9 +26,9 @@ internal class DefaultPostPaginationManager(
     private var specification: PostPaginationSpecification? = null
     private var currentPage: Int = 1
     private var pageCursor: String? = null
-    private val history: MutableList<PostModel> = mutableListOf()
+    override val history: MutableList<PostModel> = mutableListOf()
 
-    override suspend fun reset(specification: PostPaginationSpecification) {
+    override fun reset(specification: PostPaginationSpecification) {
         this.specification = specification
         history.clear()
         canFetchMore = true

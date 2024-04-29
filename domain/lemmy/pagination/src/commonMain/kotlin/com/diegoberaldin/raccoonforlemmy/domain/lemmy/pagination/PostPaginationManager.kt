@@ -7,8 +7,9 @@ interface PostPaginationManagerState
 
 interface PostPaginationManager {
     val canFetchMore: Boolean
+    val history: List<PostModel>
 
-    suspend fun reset(specification: PostPaginationSpecification)
+    fun reset(specification: PostPaginationSpecification)
     suspend fun loadNextPage(): List<PostModel>
     fun extractState(): PostPaginationManagerState
     fun restoreState(state: PostPaginationManagerState)
