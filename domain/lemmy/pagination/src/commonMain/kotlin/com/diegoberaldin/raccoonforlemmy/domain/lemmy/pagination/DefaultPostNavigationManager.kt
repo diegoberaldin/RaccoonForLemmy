@@ -1,14 +1,32 @@
 package com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination
 
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class DefaultPostNavigationManager(
     private val postPaginationManager: PostPaginationManager,
 ) : PostNavigationManager {
 
+    override val canNavigate = MutableStateFlow(false)
 
-    override fun setPagination(state: PostPaginationManagerState) {
+    private var states: MutableList<PostPaginationManagerState> = mutableListOf()
+
+    override fun push(state: PostPaginationManagerState) {
+        states += state
+        canNavigate.value = true
         postPaginationManager.restoreState(state)
+    }
+
+    override fun pop() {
+        states.removeLast()
+        val canStillNavigate = states.isNotEmpty()
+        canNavigate.value = canStillNavigate
+        if (canStillNavigate) {
+            val lastState = states.last()
+            postPaginationManager.restoreState(lastState)
+        } else {
+            postPaginationManager.reset()
+        }
     }
 
     override suspend fun getPrevious(postId: Long): PostModel? {
