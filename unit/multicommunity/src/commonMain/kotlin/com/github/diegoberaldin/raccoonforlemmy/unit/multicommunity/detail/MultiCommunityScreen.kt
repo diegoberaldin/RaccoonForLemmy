@@ -243,6 +243,8 @@ class MultiCommunityScreen(
                                     model.reduce(MultiCommunityMviModel.Intent.ClearRead)
                                     scope.launch {
                                         lazyListState.scrollToItem(0)
+                                        topAppBarState.heightOffset = 0f
+                                        topAppBarState.contentOffset = 0f
                                     }
                                 },
                             )

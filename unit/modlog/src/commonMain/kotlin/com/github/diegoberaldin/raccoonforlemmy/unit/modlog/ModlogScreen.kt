@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -76,7 +77,8 @@ class ModlogScreen(
     override fun Content() {
         val model = getScreenModel<ModlogMviModel> { parametersOf(communityId) }
         val uiState by model.uiState.collectAsState()
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        val topAppBarState = rememberTopAppBarState()
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scope = rememberCoroutineScope()
         val settingsRepository = remember { getSettingsRepository() }
@@ -96,6 +98,8 @@ class ModlogScreen(
                     ModlogMviModel.Effect.BackToTop -> {
                         scope.launch {
                             lazyListState.scrollToItem(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
                         }
                     }
                 }

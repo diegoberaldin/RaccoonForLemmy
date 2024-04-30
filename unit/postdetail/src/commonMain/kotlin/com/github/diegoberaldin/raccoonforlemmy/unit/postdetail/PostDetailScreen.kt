@@ -258,6 +258,8 @@ class PostDetailScreen(
                     PostDetailMviModel.Effect.BackToTop -> {
                         scope.launch {
                             lazyListState.scrollToItem(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
                         }
                     }
 
