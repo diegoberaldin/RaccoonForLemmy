@@ -223,7 +223,7 @@ class UserDetailViewModel(
 
             UserDetailMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()
-                postNavigationManager.setPagination(state)
+                postNavigationManager.push(state)
             }
         }
     }

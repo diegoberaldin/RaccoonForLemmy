@@ -165,7 +165,7 @@ class FilteredContentsViewModel(
 
             FilteredContentsMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()
-                postNavigationManager.setPagination(state)
+                postNavigationManager.push(state)
             }
         }
     }

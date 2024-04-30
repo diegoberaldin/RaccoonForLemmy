@@ -154,7 +154,7 @@ class SavedItemsViewModel(
 
             SavedItemsMviModel.Intent.WillOpenSave -> {
                 val state = postPaginationManager.extractState()
-                postNavigationManager.setPagination(state)
+                postNavigationManager.push(state)
             }
         }
     }

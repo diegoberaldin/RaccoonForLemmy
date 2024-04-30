@@ -299,7 +299,7 @@ class CommunityDetailViewModel(
 
             CommunityDetailMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()
-                postNavigationManager.setPagination(state)
+                postNavigationManager.push(state)
             }
         }
     }

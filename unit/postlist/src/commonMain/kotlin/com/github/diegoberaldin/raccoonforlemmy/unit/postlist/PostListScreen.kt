@@ -452,10 +452,7 @@ class PostListScreen : Screen {
                                         onClick = rememberCallback(model) {
                                             model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
                                             model.reduce(PostListMviModel.Intent.WillOpenDetail)
-                                            detailOpener.openPostDetail(
-                                                post = post,
-                                                supportNavigation = true,
-                                            )
+                                            detailOpener.openPostDetail(post)
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged) {
                                             null
@@ -508,10 +505,7 @@ class PostListScreen : Screen {
                                             if (uiState.isLogged) {
                                                 model.reduce(PostListMviModel.Intent.MarkAsRead(post.id))
                                                 model.reduce(PostListMviModel.Intent.WillOpenDetail)
-                                                detailOpener.openPostDetail(
-                                                    post = post,
-                                                    supportNavigation = true,
-                                                )
+                                                detailOpener.openPostDetail(post)
                                             }
                                         },
                                         onOpenImage = rememberCallbackArgs(model, post) { url ->

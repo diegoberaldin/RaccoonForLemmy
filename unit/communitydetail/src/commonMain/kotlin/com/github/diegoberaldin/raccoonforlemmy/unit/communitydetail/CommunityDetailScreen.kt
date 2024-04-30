@@ -845,7 +845,6 @@ class CommunityDetailScreen(
                                                     post = post,
                                                     otherInstance = otherInstanceName,
                                                     isMod = uiState.moderators.containsId(uiState.currentUserId),
-                                                    supportNavigation = true,
                                                 )
                                             },
                                             onDoubleClick = if (!uiState.doubleTapActionEnabled || !uiState.isLogged || isOnOtherInstance) {
@@ -902,10 +901,7 @@ class CommunityDetailScreen(
                                                 if (uiState.isLogged && !isOnOtherInstance) {
                                                     model.reduce(CommunityDetailMviModel.Intent.MarkAsRead(post.id))
                                                     model.reduce(CommunityDetailMviModel.Intent.WillOpenDetail)
-                                                    detailOpener.openPostDetail(
-                                                        post = post,
-                                                        supportNavigation = true,
-                                                    )
+                                                    detailOpener.openPostDetail(post)
                                                 }
                                             },
                                             onOpenImage = rememberCallbackArgs(model) { url ->

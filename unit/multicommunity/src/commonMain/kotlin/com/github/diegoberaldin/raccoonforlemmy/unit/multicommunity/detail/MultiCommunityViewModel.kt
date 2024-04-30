@@ -174,7 +174,7 @@ class MultiCommunityViewModel(
 
             MultiCommunityMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()
-                postNavigationManager.setPagination(state)
+                postNavigationManager.push(state)
             }
         }
     }

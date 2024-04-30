@@ -254,7 +254,7 @@ class PostListViewModel(
 
             PostListMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()
-                postNavigationManager.setPagination(state)
+                postNavigationManager.push(state)
             }
         }
     }

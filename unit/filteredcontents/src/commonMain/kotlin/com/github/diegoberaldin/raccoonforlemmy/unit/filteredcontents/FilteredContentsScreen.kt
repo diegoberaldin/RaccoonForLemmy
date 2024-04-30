@@ -380,10 +380,7 @@ class FilteredContentsScreen(
                                             showUnreadComments = uiState.showUnreadComments,
                                             onClick = rememberCallback(model) {
                                                 model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
-                                                detailOpener.openPostDetail(
-                                                    post = post,
-                                                    supportNavigation = true
-                                                )
+                                                detailOpener.openPostDetail(post)
                                             },
                                             onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                 detailOpener.openCommunityDetail(
@@ -419,10 +416,7 @@ class FilteredContentsScreen(
                                             },
                                             onReply = rememberCallback(model) {
                                                 model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
-                                                detailOpener.openPostDetail(
-                                                    post = post,
-                                                    supportNavigation = true
-                                                )
+                                                detailOpener.openPostDetail(post)
                                             },
                                             onOpenImage = rememberCallbackArgs(model, post) { url ->
                                                 navigationCoordinator.pushScreen(
@@ -631,7 +625,6 @@ class FilteredContentsScreen(
                                                     post = PostModel(id = comment.postId),
                                                     highlightCommentId = comment.id,
                                                     isMod = true,
-                                                    supportNavigation = true,
                                                 )
                                             },
                                             onUpVote = rememberCallback(model) {

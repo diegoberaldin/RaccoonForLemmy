@@ -227,10 +227,7 @@ class SavedItemsScreen : Screen {
                                     blurNsfw = uiState.blurNsfw,
                                     onClick = rememberCallback {
                                         model.reduce(SavedItemsMviModel.Intent.WillOpenSave)
-                                        detailOpener.openPostDetail(
-                                            post = post,
-                                            supportNavigation = true,
-                                        )
+                                        detailOpener.openPostDetail(post)
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
                                         detailOpener.openCommunityDetail(community, instance)
@@ -271,10 +268,7 @@ class SavedItemsScreen : Screen {
                                     },
                                     onReply = rememberCallback {
                                         model.reduce(SavedItemsMviModel.Intent.WillOpenSave)
-                                        detailOpener.openPostDetail(
-                                            post = post,
-                                            supportNavigation = true,
-                                        )
+                                        detailOpener.openPostDetail(post)
                                     },
                                     onOpenImage = rememberCallbackArgs { url ->
                                         navigatorCoordinator.pushScreen(
