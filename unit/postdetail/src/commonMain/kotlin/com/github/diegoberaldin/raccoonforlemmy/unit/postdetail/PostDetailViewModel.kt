@@ -64,6 +64,14 @@ class PostDetailViewModel(
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
     private val searchEventChannel = Channel<Unit>()
+    private val initialNavigationEnabled = postNavigationManager.canNavigate.value
+
+    override fun onDispose() {
+        super.onDispose()
+        if (initialNavigationEnabled) {
+            postNavigationManager.pop()
+        }
+    }
 
     init {
         updateState {
@@ -150,6 +158,7 @@ class PostDetailViewModel(
                         )
                     }
                 }.launchIn(this)
+
             searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
                 updateState { it.copy(loading = false) }
                 emitEffect(PostDetailMviModel.Effect.BackToTop)
@@ -158,6 +167,10 @@ class PostDetailViewModel(
 
             identityRepository.isLogged.onEach { logged ->
                 updateState { it.copy(isLogged = logged ?: false) }
+            }.launchIn(this)
+
+            postNavigationManager.canNavigate.onEach { canNavigate ->
+                updateState { it.copy(isNavigationSupported = canNavigate) }
             }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
@@ -827,6 +840,7 @@ class PostDetailViewModel(
         notificationCenter.send(
             event = NotificationCenterEvent.PostUpdated(post.copy(unreadComments = 0)),
         )
+        emitEffect(PostDetailMviModel.Effect.BackToTop)
         refresh()
     }
 }

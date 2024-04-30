@@ -155,7 +155,6 @@ class PostDetailScreen(
     private val otherInstance: String = "",
     private val highlightCommentId: Long? = null,
     private val isMod: Boolean = false,
-    private val supportNavigation: Boolean = false,
 ) : Screen {
     override val key: ScreenKey
         get() = super.key + postId.toString()
@@ -241,7 +240,6 @@ class PostDetailScreen(
                 }
             }
         }
-        val isNavigationSupported = remember { supportNavigation }
 
         LaunchedEffect(notificationCenter) {
             notificationCenter.resetCache()
@@ -1487,11 +1485,11 @@ class PostDetailScreen(
                             }
                             .background(color = MaterialTheme.colorScheme.background.copy(alpha = 0.45f)),
                     ) {
-                        if (isNavigationSupported) {
+                        if (uiState.isNavigationSupported) {
                             Icon(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(vertical = Spacing.xs)
+                                    .padding(vertical = Spacing.s)
                                     .onClick(
                                         onClick = rememberCallback(model) {
                                             model.reduce(PostDetailMviModel.Intent.NavigatePrevious)
@@ -1505,7 +1503,7 @@ class PostDetailScreen(
                         Icon(
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(vertical = Spacing.xs)
+                                .padding(vertical = Spacing.s)
                                 .onClick(
                                     onClick = rememberCallback {
                                         val index = lazyListState.firstVisibleItemIndex
@@ -1521,7 +1519,7 @@ class PostDetailScreen(
                         Icon(
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(vertical = Spacing.xs)
+                                .padding(vertical = Spacing.s)
                                 .onClick(
                                     onClick = rememberCallback {
                                         val index = lazyListState.layoutInfo.visibleItemsInfo.lastIndex
@@ -1534,11 +1532,11 @@ class PostDetailScreen(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
-                        if (isNavigationSupported) {
+                        if (uiState.isNavigationSupported) {
                             Icon(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(vertical = Spacing.xs)
+                                    .padding(vertical = Spacing.s)
                                     .onClick(
                                         onClick = rememberCallback(model) {
                                             model.reduce(PostDetailMviModel.Intent.NavigateNext)
