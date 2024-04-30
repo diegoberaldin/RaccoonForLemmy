@@ -23,7 +23,6 @@ interface DetailOpener {
         otherInstance: String = "",
         highlightCommentId: Long? = null,
         isMod: Boolean = false,
-        supportNavigation: Boolean = false,
     )
 
     fun openReply(
