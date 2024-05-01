@@ -24,7 +24,7 @@ fun Int.toUrlOpeningMode(): UrlOpeningMode = when (this) {
 
 @Composable
 fun UrlOpeningMode.toReadableName(): String = when (this) {
-    UrlOpeningMode.CustomTabs -> LocalXmlStrings.current.settingsUrlOpeningModeInternal
+    UrlOpeningMode.CustomTabs -> LocalXmlStrings.current.settingsUrlOpeningModeCustomTabs
     UrlOpeningMode.External -> LocalXmlStrings.current.settingsUrlOpeningModeExternal
-    UrlOpeningMode.Internal -> LocalXmlStrings.current.settingsUrlOpeningModeCustomTabs
+    UrlOpeningMode.Internal -> LocalXmlStrings.current.settingsUrlOpeningModeInternal
 }
