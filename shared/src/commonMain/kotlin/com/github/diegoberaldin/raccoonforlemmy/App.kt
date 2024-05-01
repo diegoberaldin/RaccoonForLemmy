@@ -99,17 +99,9 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         else -> UiBarTheme.Solid
     }
     var screenWidth by remember { mutableStateOf(0f) }
-    var sideMenuOpened by remember { mutableStateOf(false) }
     var sideMenuContent by remember { mutableStateOf<@Composable (() -> Unit)?>(null) }
+    val sideMenuOpened by navigationCoordinator.sideMenuOpened.collectAsState()
     val scope = rememberCoroutineScope()
-
-    fun closeSideMenu() {
-        sideMenuOpened = false
-        scope.launch {
-            delay(250)
-            sideMenuContent = null
-        }
-    }
 
     LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
@@ -217,11 +209,11 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                     sideMenuContent = @Composable {
                         evt.screen.Content()
                     }
-                    sideMenuOpened = true
                 }
 
                 SideMenuEvents.Close -> {
-                    closeSideMenu()
+                    delay(250)
+                    sideMenuContent = null
                 }
             }
         }.launchIn(this)
@@ -300,6 +292,20 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                     Navigator(
                         screen = MainScreen,
                         onBackPressed = {
+                            // if the drawer is open, closes it
+                            if (drawerCoordinator.drawerOpened.value) {
+                                scope.launch {
+                                    drawerCoordinator.toggleDrawer()
+                                }
+                                return@Navigator false
+                            }
+                            // if the side menu is open, closes it
+                            if (navigationCoordinator.sideMenuOpened.value) {
+                                navigationCoordinator.closeSideMenu()
+                                return@Navigator false
+                            }
+
+                            // otherwise use the screen-provided callback
                             val callback = navigationCoordinator.getCanGoBackCallback()
                             callback?.let { it() } ?: true
                         },
@@ -337,7 +343,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                             availableWidth = screenWidth.toLocalDp(),
                             opened = sideMenuOpened,
                             onDismiss = {
-                                closeSideMenu()
+                                navigationCoordinator.closeSideMenu()
                             },
                             content = {
                                 sideMenuContent?.invoke()

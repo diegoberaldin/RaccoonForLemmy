@@ -25,6 +25,5 @@ interface DrawerCoordinator {
     suspend fun closeDrawer()
     suspend fun sendEvent(event: DrawerEvent)
     fun setGesturesEnabled(value: Boolean)
-
     fun changeDrawerOpened(value: Boolean)
 }

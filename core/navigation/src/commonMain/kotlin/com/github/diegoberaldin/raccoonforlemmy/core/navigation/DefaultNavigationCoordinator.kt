@@ -34,6 +34,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override val canPop = MutableStateFlow(false)
     override val exitMessageVisible = MutableStateFlow(false)
     override val sideMenuEvents = MutableSharedFlow<SideMenuEvents>()
+    override val sideMenuOpened = MutableStateFlow(false)
 
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
@@ -163,12 +164,14 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override fun openSideMenu(screen: Screen) {
         scope.launch {
             sideMenuEvents.emit(SideMenuEvents.Open(screen))
+            sideMenuOpened.value = true
         }
     }
 
     override fun closeSideMenu() {
         scope.launch {
             sideMenuEvents.emit(SideMenuEvents.Close)
+            sideMenuOpened.value = false
         }
     }
 }

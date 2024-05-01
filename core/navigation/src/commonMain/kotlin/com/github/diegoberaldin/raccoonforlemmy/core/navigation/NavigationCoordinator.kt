@@ -39,6 +39,7 @@ interface NavigationCoordinator {
     val canPop: StateFlow<Boolean>
     val exitMessageVisible: StateFlow<Boolean>
     val sideMenuEvents: Flow<SideMenuEvents>
+    val sideMenuOpened: StateFlow<Boolean>
 
     fun setCurrentSection(section: TabNavigationSection)
     fun submitDeeplink(url: String)

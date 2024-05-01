@@ -11,12 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import com.github.diegoberaldin.raccoonforlemmy.MainView
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.ComposeEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
-import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 private const val DEEP_LINK_DELAY = 500L
 
@@ -31,18 +29,9 @@ class MainActivity : ComponentActivity() {
 
         // manage exit confirmation
         val navigationCoordinator = getNavigationCoordinator()
-        val drawerCoordinator = getDrawerCoordinator()
         val backPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // if the drawer is open, closes it
-                if (drawerCoordinator.drawerOpened.value) {
-                    lifecycleScope.launch {
-                        drawerCoordinator.toggleDrawer()
-                    }
-                    return
-                }
-
-                // otherwise ask for confirmation
+                // if in home, ask for confirmation
                 if (navigationCoordinator.currentSection.value == TabNavigationSection.Home) {
                     // asks for confirmation
                     if (!navigationCoordinator.exitMessageVisible.value) {
