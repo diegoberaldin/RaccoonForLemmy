@@ -119,11 +119,12 @@ fun FloatingActionButtonMenu(
                     ) {
                         Text(
                             modifier = Modifier
+                                .padding(horizontal = Spacing.xs)
                                 .background(
-                                    color = MaterialTheme.colorScheme.background,
+                                    color = MaterialTheme.colorScheme.surfaceVariant,
                                     shape = RoundedCornerShape(CornerSize.s),
                                 ).padding(
-                                    vertical = Spacing.s,
+                                    vertical = Spacing.xs,
                                     horizontal = Spacing.s
                                 ),
                             text = item.text,
