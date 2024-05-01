@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MyLocation
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -50,7 +50,7 @@ data class FloatingActionButtonMenuItem(
     val onSelected: (() -> Unit)? = null,
 )
 
-private const val ANIMATION_DURATION = 150
+private const val ANIMATION_DURATION = 50
 
 @Composable
 fun FloatingActionButtonMenu(
@@ -63,7 +63,7 @@ fun FloatingActionButtonMenu(
     val theme by themeRepository.uiTheme.collectAsState()
     val dynamicColors by themeRepository.dynamicColors.collectAsState()
     var fabExpanded by remember { mutableStateOf(false) }
-    val fabRotation by animateFloatAsState(if (fabExpanded) 45f else 0f)
+    val fabRotation by animateFloatAsState(if (fabExpanded) 180f else 0f)
     val enterTransition = remember {
         fadeIn(
             initialAlpha = 0.3f,
@@ -166,7 +166,7 @@ fun FloatingActionButtonMenu(
             content = {
                 Icon(
                     modifier = Modifier.rotate(fabRotation),
-                    imageVector = Icons.Default.MyLocation,
+                    imageVector = Icons.Default.Menu,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
