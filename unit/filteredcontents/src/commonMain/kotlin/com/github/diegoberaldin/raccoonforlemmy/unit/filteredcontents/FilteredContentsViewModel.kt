@@ -48,6 +48,9 @@ class FilteredContentsViewModel(
     ) {
 
     init {
+        updateState {
+            it.copy(contentsType = contentsType.toFilteredContentsType())
+        }
         screenModelScope.launch {
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
@@ -55,7 +58,6 @@ class FilteredContentsViewModel(
             settingsRepository.currentSettings.onEach { settings ->
                 updateState {
                     it.copy(
-                        contentsType = contentsType.toFilteredContentsType(),
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
                         swipeActionsEnabled = settings.enableSwipeActions,
@@ -223,70 +225,6 @@ class FilteredContentsViewModel(
             updateState { it.copy(refreshing = false) }
             return
         }
-        when (currentState.contentsType) {
-            FilteredContentsType.Moderated -> loadNextPageModded()
-            FilteredContentsType.Votes -> loadNextPageVotes()
-        }
-    }
-
-    private suspend fun loadNextPageModded() {
-        val currentState = uiState.value
-        updateState { it.copy(loading = true) }
-        val auth = identityRepository.authToken.value.orEmpty()
-        val refreshing = currentState.refreshing
-
-        if (currentState.section == FilteredContentsSection.Posts) {
-            coroutineScope {
-                val posts = async {
-                    postPaginationManager.loadNextPage()
-                }.await()
-                val comments = async {
-                    if (currentState.comments.isEmpty() || refreshing) {
-                        // this is needed because otherwise on first selector change
-                        // the lazy column scrolls back to top (it must have an empty data set)
-                        commentRepository.getAll(
-                            auth = auth,
-                            page = 1,
-                            type = ListingType.ModeratorView,
-                        ).orEmpty()
-                    } else {
-                        currentState.comments
-                    }
-                }.await()
-                if (uiState.value.autoLoadImages) {
-                    posts.forEach { post ->
-                        post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
-                            imagePreloadManager.preload(url)
-                        }
-                    }
-                }
-                updateState {
-                    it.copy(
-                        posts = posts,
-                        comments = comments,
-                        loading = if (it.initial) posts.isEmpty() else false,
-                        canFetchMore = postPaginationManager.canFetchMore,
-                        refreshing = false,
-                        initial = if (it.initial) posts.isEmpty() else false,
-                    )
-                }
-            }
-        } else {
-            val comments = commentPaginationManager.loadNextPage()
-            updateState {
-                it.copy(
-                    comments = comments,
-                    loading = if (it.initial) comments.isEmpty() else false,
-                    canFetchMore = commentPaginationManager.canFetchMore,
-                    refreshing = false,
-                    initial = if (it.initial) comments.isEmpty() else false,
-                )
-            }
-        }
-    }
-
-    private suspend fun loadNextPageVotes() {
-        val currentState = uiState.value
         updateState { it.copy(loading = true) }
         val refreshing = currentState.refreshing
 
