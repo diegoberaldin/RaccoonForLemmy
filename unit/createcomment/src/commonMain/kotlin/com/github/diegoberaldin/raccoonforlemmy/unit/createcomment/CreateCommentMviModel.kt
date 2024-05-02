@@ -48,6 +48,7 @@ interface CreateCommentMviModel :
         val editedComment: CommentModel? = null,
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
+        val fullWidthImages: Boolean = false,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val textValue: TextFieldValue = TextFieldValue(),
         val textError: ValidationError? = null,

@@ -380,6 +380,7 @@ class FilteredContentsScreen(
                                             postLayout = uiState.postLayout,
                                             limitBodyHeight = true,
                                             fullHeightImage = uiState.fullHeightImages,
+                                            fullWidthImage = uiState.fullWidthImages,
                                             voteFormat = uiState.voteFormat,
                                             autoLoadImages = uiState.autoLoadImages,
                                             preferNicknames = uiState.preferNicknames,

@@ -62,6 +62,7 @@ interface FilteredContentsMviModel :
         val swipeActionsEnabled: Boolean = true,
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
+        val fullWidthImages: Boolean = false,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val section: FilteredContentsSection = FilteredContentsSection.Posts,
         val posts: List<PostModel> = emptyList(),

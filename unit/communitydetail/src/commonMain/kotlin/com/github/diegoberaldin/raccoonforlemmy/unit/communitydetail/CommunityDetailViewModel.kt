@@ -101,6 +101,7 @@ class CommunityDetailViewModel(
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
                         fullHeightImages = settings.fullHeightImages,
+                        fullWidthImages = settings.fullWidthImages,
                         voteFormat = settings.voteFormat,
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,

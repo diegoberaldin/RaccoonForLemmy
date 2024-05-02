@@ -104,6 +104,7 @@ class PostDetailViewModel(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
+                        fullWidthImages = settings.fullWidthImages,
                         actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
                         actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
                         showScores = settings.showScores,

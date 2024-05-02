@@ -15,6 +15,7 @@ interface ConfigureContentViewMviModel :
     sealed interface Intent {
         data class ChangePreferUserNicknames(val value: Boolean) : Intent
         data class ChangeFullHeightImages(val value: Boolean) : Intent
+        data class ChangeFullWidthImages(val value: Boolean) : Intent
     }
 
     data class State(
@@ -26,6 +27,7 @@ interface ConfigureContentViewMviModel :
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val postBodyMaxLines: Int? = null,
         val fullHeightImages: Boolean = false,
+        val fullWidthImages: Boolean = false,
         val preferUserNicknames: Boolean = true,
     )
 

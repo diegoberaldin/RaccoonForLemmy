@@ -71,6 +71,7 @@ class MultiCommunityViewModel(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
+                        fullWidthImages = settings.fullWidthImages,
                         actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
                         actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
                         showScores = settings.showScores,

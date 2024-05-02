@@ -536,6 +536,7 @@ class PostDetailScreen(
                                         PostLayout.Full
                                     },
                                     fullHeightImage = uiState.fullHeightImages,
+                                    fullWidthImage = uiState.fullWidthImages,
                                     includeFullBody = true,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,

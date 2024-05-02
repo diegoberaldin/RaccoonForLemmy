@@ -61,6 +61,7 @@ class SavedItemsViewModel(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
+                        fullWidthImages = settings.fullWidthImages,
                         showScores = settings.showScores,
                     )
                 }

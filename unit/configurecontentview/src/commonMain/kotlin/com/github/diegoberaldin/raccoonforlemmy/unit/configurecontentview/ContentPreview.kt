@@ -26,6 +26,7 @@ internal fun ContentPreview(
     showScores: Boolean,
     voteFormat: VoteFormat,
     fullHeightImage: Boolean,
+    fullWidthImage : Boolean,
 ) {
     Column {
         PostCard(
@@ -36,6 +37,7 @@ internal fun ContentPreview(
             postLayout = postLayout,
             voteFormat = voteFormat,
             fullHeightImage = fullHeightImage,
+            fullWidthImage = fullWidthImage,
             includeFullBody = true,
             limitBodyHeight = true,
         )

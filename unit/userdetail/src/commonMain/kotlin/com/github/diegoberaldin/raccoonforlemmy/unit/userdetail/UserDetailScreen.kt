@@ -589,6 +589,7 @@ class UserDetailScreen(
                                         postLayout = uiState.postLayout,
                                         limitBodyHeight = true,
                                         fullHeightImage = uiState.fullHeightImages,
+                                        fullWidthImage = uiState.fullWidthImages,
                                         blurNsfw = uiState.blurNsfw,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,

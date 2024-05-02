@@ -379,6 +379,7 @@ class CreateCommentScreen(
                                 PostLayout.Full
                             },
                             fullHeightImage = uiState.fullHeightImages,
+                            fullWidthImage = uiState.fullWidthImages,
                             post = originalPost,
                             blurNsfw = false,
                             includeFullBody = true,

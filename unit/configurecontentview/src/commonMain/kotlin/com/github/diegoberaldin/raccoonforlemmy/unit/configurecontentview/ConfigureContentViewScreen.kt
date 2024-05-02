@@ -207,6 +207,17 @@ class ConfigureContentViewScreen : Screen {
                         },
                     )
 
+                    // full width images
+                    SettingsSwitchRow(
+                        title = LocalXmlStrings.current.settingsFullWidthImages,
+                        value = uiState.fullWidthImages,
+                        onValueChanged = rememberCallbackArgs(model) { value ->
+                            model.reduce(
+                                ConfigureContentViewMviModel.Intent.ChangeFullWidthImages(value)
+                            )
+                        },
+                    )
+
                     // vote format
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsVoteFormat,
@@ -238,6 +249,7 @@ class ConfigureContentViewScreen : Screen {
                         showScores = uiState.voteFormat != VoteFormat.Hidden,
                         voteFormat = uiState.voteFormat,
                         fullHeightImage = uiState.fullHeightImages,
+                        fullWidthImage = uiState.fullWidthImages,
                     )
 
                     Spacer(modifier = Modifier.height(Spacing.xxxl))

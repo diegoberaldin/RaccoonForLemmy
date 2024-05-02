@@ -88,6 +88,7 @@ class ExploreViewModel(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
+                        fullWidthImages = settings.fullWidthImages,
                         swipeActionsEnabled = settings.enableSwipeActions,
                         doubleTapActionEnabled = settings.enableDoubleTapAction,
                         actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,

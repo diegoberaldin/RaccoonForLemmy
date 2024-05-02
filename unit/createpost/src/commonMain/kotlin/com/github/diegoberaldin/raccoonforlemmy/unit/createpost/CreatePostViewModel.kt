@@ -63,6 +63,7 @@ class CreatePostViewModel(
                         autoLoadImages = settings.autoLoadImages,
                         preferNicknames = settings.preferUserNicknames,
                         fullHeightImages = settings.fullHeightImages,
+                        fullWidthImages = settings.fullWidthImages,
                         showScores = settings.showScores,
                         currentLanguageId = settings.defaultLanguageId,
                     )

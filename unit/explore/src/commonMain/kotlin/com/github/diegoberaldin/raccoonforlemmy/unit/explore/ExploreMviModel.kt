@@ -44,6 +44,7 @@ interface ExploreMviModel :
         val resultType: SearchResultType = SearchResultType.Posts,
         val postLayout: PostLayout = PostLayout.Card,
         val fullHeightImages: Boolean = true,
+        val fullWidthImages: Boolean = false,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,

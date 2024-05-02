@@ -74,6 +74,7 @@ class ConfigureContentViewViewModel(
                 it.copy(
                     voteFormat = if (!settings.showScores) VoteFormat.Hidden else settings.voteFormat,
                     fullHeightImages = settings.fullHeightImages,
+                    fullWidthImages = settings.fullWidthImages,
                     postBodyMaxLines = settings.postBodyMaxLines,
                     preferUserNicknames = settings.preferUserNicknames,
                 )
@@ -84,11 +85,15 @@ class ConfigureContentViewViewModel(
     override fun reduce(intent: ConfigureContentViewMviModel.Intent) {
         when (intent) {
             is ConfigureContentViewMviModel.Intent.ChangeFullHeightImages -> changeFullHeightImages(
-                intent.value
+                intent.value,
+            )
+
+            is ConfigureContentViewMviModel.Intent.ChangeFullWidthImages -> changeFullWidthImages(
+                intent.value,
             )
 
             is ConfigureContentViewMviModel.Intent.ChangePreferUserNicknames -> changePreferUserNicknames(
-                intent.value
+                intent.value,
             )
         }
     }
@@ -124,7 +129,17 @@ class ConfigureContentViewViewModel(
         updateState { it.copy(fullHeightImages = value) }
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                fullHeightImages = value
+                fullHeightImages = value,
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeFullWidthImages(value: Boolean) {
+        updateState { it.copy(fullWidthImages = value) }
+        screenModelScope.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                fullWidthImages = value,
             )
             saveSettings(settings)
         }
@@ -134,7 +149,7 @@ class ConfigureContentViewViewModel(
         updateState { it.copy(preferUserNicknames = value) }
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                preferUserNicknames = value
+                preferUserNicknames = value,
             )
             saveSettings(settings)
         }
@@ -144,7 +159,7 @@ class ConfigureContentViewViewModel(
         updateState { it.copy(postBodyMaxLines = value) }
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                postBodyMaxLines = value
+                postBodyMaxLines = value,
             )
             saveSettings(settings)
         }
@@ -161,7 +176,7 @@ class ConfigureContentViewViewModel(
         }
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                contentFontScale = contentFontScale
+                contentFontScale = contentFontScale,
             )
             saveSettings(settings)
         }
@@ -181,7 +196,7 @@ class ConfigureContentViewViewModel(
         themeRepository.changeCommentBarThickness(value)
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
-                commentBarThickness = value
+                commentBarThickness = value,
             )
             saveSettings(settings)
         }
