@@ -41,6 +41,8 @@ interface PostDetailMviModel :
         data class ChangeSearching(val value: Boolean) : Intent
         data object NavigatePrevious : Intent
         data object NavigateNext : Intent
+        data class NavigatePreviousComment(val currentIndex: Int) : Intent
+        data class NavigateNextComment(val currentIndex: Int) : Intent
     }
 
     data class UiState(

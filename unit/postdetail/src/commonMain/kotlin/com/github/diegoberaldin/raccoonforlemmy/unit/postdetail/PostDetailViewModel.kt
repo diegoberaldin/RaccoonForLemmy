@@ -351,11 +351,12 @@ class PostDetailViewModel(
 
             PostDetailMviModel.Intent.ModFeaturePost -> feature(uiState.value.post)
             PostDetailMviModel.Intent.ModLockPost -> lock(uiState.value.post)
-            is PostDetailMviModel.Intent.ModDistinguishComment -> uiState.value.comments.firstOrNull {
-                it.id == intent.commentId
-            }?.also { comment ->
-                distinguish(comment)
-            }
+            is PostDetailMviModel.Intent.ModDistinguishComment ->
+                uiState.value.comments.firstOrNull {
+                    it.id == intent.commentId
+                }?.also { comment ->
+                    distinguish(comment)
+                }
 
             is PostDetailMviModel.Intent.ModToggleModUser -> toggleModeratorStatus(intent.id)
             is PostDetailMviModel.Intent.Copy -> screenModelScope.launch {
@@ -370,8 +371,13 @@ class PostDetailViewModel(
             }
 
             is PostDetailMviModel.Intent.SetSearch -> updateSearchText(intent.value)
-            PostDetailMviModel.Intent.NavigatePrevious -> navigateToPrevious()
-            PostDetailMviModel.Intent.NavigateNext -> navigateToNext()
+            PostDetailMviModel.Intent.NavigatePrevious -> navigateToPreviousPost()
+            PostDetailMviModel.Intent.NavigateNext -> navigateToNextPost()
+            is PostDetailMviModel.Intent.NavigatePreviousComment ->
+                navigateToPreviousComment(intent.currentIndex)
+
+            is PostDetailMviModel.Intent.NavigateNextComment ->
+                navigateToNextComment(intent.currentIndex)
         }
     }
 
@@ -807,7 +813,7 @@ class PostDetailViewModel(
         }
     }
 
-    private fun navigateToPrevious() {
+    private fun navigateToPreviousPost() {
         val currentId = uiState.value.post.id
         updateState { it.copy(loading = true, initial = true) }
         screenModelScope.launch {
@@ -817,7 +823,7 @@ class PostDetailViewModel(
         }
     }
 
-    private fun navigateToNext() {
+    private fun navigateToNextPost() {
         val currentId = uiState.value.post.id
         updateState { it.copy(loading = true, initial = true) }
         screenModelScope.launch {
@@ -842,5 +848,44 @@ class PostDetailViewModel(
         )
         emitEffect(PostDetailMviModel.Effect.BackToTop)
         refresh()
+    }
+
+    private fun navigateToPreviousComment(index: Int) {
+        val currentState = uiState.value
+        val newIndex = currentState.comments.subList(
+            fromIndex = 0,
+            toIndex = index,
+        ).indexOfLast {
+            it.depth == 0
+        }.takeIf { it >= 0 }
+        if (newIndex != null) {
+            screenModelScope.launch {
+                emitEffect(PostDetailMviModel.Effect.ScrollToComment(newIndex))
+            }
+        }
+    }
+
+    private fun navigateToNextComment(index: Int) {
+        val currentState = uiState.value
+        val offset = index + 1
+        val newIndex = currentState.comments.subList(
+            fromIndex = offset,
+            toIndex = currentState.comments.size,
+        ).indexOfFirst {
+            it.depth == 0
+        }.takeIf { it >= 0 }?.let {
+            it + offset
+        }
+        if (newIndex != null) {
+            screenModelScope.launch {
+                emitEffect(PostDetailMviModel.Effect.ScrollToComment(newIndex))
+            }
+        } else if (currentState.canFetchMore) {
+            // fetch a new page and try again if possible (terminates on pagination end)
+            screenModelScope.launch {
+                loadNextPage()
+                navigateToNextComment(index)
+            }
+        }
     }
 }

@@ -367,7 +367,11 @@ class PostDetailScreen(
                                             optionsExpanded = false
                                             when (option.id) {
                                                 OptionId.Search -> {
-                                                    model.reduce(PostDetailMviModel.Intent.ChangeSearching(!uiState.searching))
+                                                    model.reduce(
+                                                        PostDetailMviModel.Intent.ChangeSearching(
+                                                            !uiState.searching
+                                                        )
+                                                    )
                                                 }
 
                                                 else -> Unit
@@ -524,7 +528,9 @@ class PostDetailScreen(
                                 PostCard(
                                     post = uiState.post,
                                     isFromModerator = uiState.post.creator?.id.let { creatorId ->
-                                        uiState.isModerator && uiState.moderators.containsId(creatorId)
+                                        uiState.isModerator && uiState.moderators.containsId(
+                                            creatorId
+                                        )
                                     },
                                     postLayout = if (uiState.postLayout == PostLayout.Card) {
                                         uiState.postLayout
@@ -690,7 +696,11 @@ class PostDetailScreen(
                                                     "https://${uiState.instance}/post/${uiState.post.id}"
                                                 ).distinct()
                                                 if (urls.size == 1) {
-                                                    model.reduce(PostDetailMviModel.Intent.Share(urls.first()))
+                                                    model.reduce(
+                                                        PostDetailMviModel.Intent.Share(
+                                                            urls.first()
+                                                        )
+                                                    )
                                                 } else {
                                                     val screen = ShareBottomSheet(urls = urls)
                                                     navigationCoordinator.showBottomSheet(screen)
@@ -714,7 +724,8 @@ class PostDetailScreen(
                                                 uiState.post.creator?.id?.also { userId ->
                                                     val screen = BanUserScreen(
                                                         userId = userId,
-                                                        communityId = uiState.post.community?.id ?: 0,
+                                                        communityId = uiState.post.community?.id
+                                                            ?: 0,
                                                         newValue = uiState.post.creator?.banned != true,
                                                         postId = uiState.post.id,
                                                     )
@@ -743,7 +754,10 @@ class PostDetailScreen(
                                                     )
                                                 } else {
                                                     val screen =
-                                                        CopyPostBottomSheet(uiState.post.title, uiState.post.text)
+                                                        CopyPostBottomSheet(
+                                                            uiState.post.title,
+                                                            uiState.post.text
+                                                        )
                                                     navigationCoordinator.showBottomSheet(screen)
                                                 }
                                             }
@@ -1019,7 +1033,10 @@ class PostDetailScreen(
                                                             }
                                                         },
                                                         onOpenCreator = rememberCallbackArgs { user, instance ->
-                                                            detailOpener.openUserDetail(user, instance)
+                                                            detailOpener.openUserDetail(
+                                                                user,
+                                                                instance
+                                                            )
                                                         },
                                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
                                                             detailOpener.openCommunityDetail(
@@ -1031,7 +1048,9 @@ class PostDetailScreen(
                                                             detailOpener.openPostDetail(p, instance)
                                                         },
                                                         onOpenWeb = rememberCallbackArgs { url ->
-                                                            navigationCoordinator.pushScreen(WebViewScreen(url))
+                                                            navigationCoordinator.pushScreen(
+                                                                WebViewScreen(url)
+                                                            )
                                                         },
                                                         onImageClick = rememberCallbackArgs { url ->
                                                             navigationCoordinator.pushScreen(
@@ -1098,7 +1117,9 @@ class PostDetailScreen(
                                                                 }
                                                             }
                                                         },
-                                                        onOptionSelected = rememberCallbackArgs(model) { optionId ->
+                                                        onOptionSelected = rememberCallbackArgs(
+                                                            model
+                                                        ) { optionId ->
                                                             when (optionId) {
                                                                 OptionId.Delete -> {
                                                                     commentIdToDelete = comment.id
@@ -1226,7 +1247,10 @@ class PostDetailScreen(
                                                     }
                                                 },
                                                 onOpenCreator = rememberCallbackArgs { user ->
-                                                    detailOpener.openUserDetail(user, otherInstanceName)
+                                                    detailOpener.openUserDetail(
+                                                        user,
+                                                        otherInstanceName
+                                                    )
                                                 },
                                                 options = buildList {
                                                     this += Option(
@@ -1507,11 +1531,11 @@ class PostDetailScreen(
                                 .weight(1f)
                                 .padding(vertical = Spacing.s)
                                 .onClick(
-                                    onClick = rememberCallback {
-                                        val index = lazyListState.firstVisibleItemIndex
-                                        scope.launch {
-                                            lazyListState.animateScrollToItem((index - 1).coerceAtLeast(0))
-                                        }
+                                    onClick = rememberCallback(lazyListState) {
+                                        val idx = lazyListState.firstVisibleItemIndex
+                                        model.reduce(
+                                            PostDetailMviModel.Intent.NavigatePreviousComment(idx)
+                                        )
                                     },
                                 ),
                             imageVector = Icons.Default.KeyboardArrowUp,
@@ -1523,11 +1547,12 @@ class PostDetailScreen(
                                 .weight(1f)
                                 .padding(vertical = Spacing.s)
                                 .onClick(
-                                    onClick = rememberCallback {
-                                        val index = lazyListState.layoutInfo.visibleItemsInfo.lastIndex
-                                        scope.launch {
-                                            lazyListState.animateScrollToItem((index + 1))
-                                        }
+                                    onClick = rememberCallback(lazyListState) {
+                                        val idx = lazyListState.firstVisibleItemIndex +
+                                                lazyListState.layoutInfo.visibleItemsInfo.size
+                                        model.reduce(
+                                            PostDetailMviModel.Intent.NavigateNextComment(idx)
+                                        )
                                     },
                                 ),
                             imageVector = Icons.Default.KeyboardArrowDown,
