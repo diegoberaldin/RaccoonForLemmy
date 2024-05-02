@@ -25,6 +25,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionM
 fun InboxCardHeader(
     mention: PersonMentionModel,
     type: InboxCardType,
+    modifier: Modifier = Modifier,
 ) {
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
@@ -56,20 +57,25 @@ fun InboxCardHeader(
         }
     }
     Row(
-        modifier = Modifier.padding(end = Spacing.s),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             modifier = Modifier
                 .weight(1f)
-                .padding(vertical = Spacing.xs, horizontal = Spacing.xs),
+                .padding(
+                    vertical = Spacing.xs,
+                    horizontal = Spacing.xs,
+                ),
             text = header,
             style = MaterialTheme.typography.bodySmall,
             color = fullColor,
         )
         if (!mention.read) {
             Icon(
-                modifier = Modifier.size(IconSize.xs),
+                modifier = Modifier
+                    .padding(end = Spacing.s)
+                    .size(IconSize.xs),
                 imageVector = Icons.Filled.FiberManualRecord,
                 contentDescription = null,
                 tint = ancillaryColor,

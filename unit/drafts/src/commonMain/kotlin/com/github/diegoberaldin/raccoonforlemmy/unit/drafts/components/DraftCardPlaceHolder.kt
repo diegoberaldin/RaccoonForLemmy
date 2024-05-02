@@ -29,6 +29,7 @@ fun DraftCardPlaceHolder(
         modifier = Modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
+                    .padding(horizontal = Spacing.xs)
                     .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
                     .clip(RoundedCornerShape(CornerSize.l))
                     .padding(horizontal = Spacing.xs)

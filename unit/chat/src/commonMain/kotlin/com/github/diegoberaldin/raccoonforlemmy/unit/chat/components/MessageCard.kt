@@ -134,7 +134,8 @@ internal fun MessageCard(
                         ) {
                             if (options.isNotEmpty()) {
                                 Icon(
-                                    modifier = Modifier.size(IconSize.m)
+                                    modifier = Modifier
+                                        .size(IconSize.m)
                                         .padding(Spacing.xs)
                                         .onGloballyPositioned {
                                             optionsOffset = it.positionInParent()

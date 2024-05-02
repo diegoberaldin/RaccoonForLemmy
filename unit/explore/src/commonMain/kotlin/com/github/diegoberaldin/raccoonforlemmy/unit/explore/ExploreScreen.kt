@@ -167,8 +167,6 @@ class ExploreScreen(
         }
 
         Scaffold(
-            modifier = Modifier.padding(Spacing.xxs),
-
             topBar = {
                 ExploreTopBar(
                     topAppBarState = topAppBarState,

@@ -58,13 +58,16 @@ fun InboxCard(
         modifier = Modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                    .padding(horizontal = Spacing.xs)
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(CornerSize.l),
+                    )
                     .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                        shape = RoundedCornerShape(CornerSize.l),
                     )
-                    .padding(Spacing.s)
+                    .padding(vertical = Spacing.s,)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }
@@ -78,11 +81,13 @@ fun InboxCard(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             InboxCardHeader(
+                modifier = Modifier.padding(horizontal = Spacing.s),
                 mention = mention,
                 type = type,
             )
             if (mention.comment.removed) {
                 Text(
+                    modifier = Modifier.padding(horizontal = Spacing.s),
                     text = LocalXmlStrings.current.messageContentRemoved,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),

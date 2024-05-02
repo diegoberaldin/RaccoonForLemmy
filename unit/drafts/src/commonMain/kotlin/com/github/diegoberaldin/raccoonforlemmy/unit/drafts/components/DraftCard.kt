@@ -66,13 +66,14 @@ fun DraftCard(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
+                    .padding(horizontal = Spacing.xs)
                     .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
                     .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),
                     )
-                    .padding(Spacing.xs)
+                    .padding(vertical = Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }

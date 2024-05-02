@@ -299,7 +299,9 @@ class CreatePostScreen(
             })
         { padding ->
             Column(
-                modifier = Modifier.padding(padding).verticalScroll(rememberScrollState()),
+                modifier = Modifier
+                    .padding(padding)
+                    .verticalScroll(rememberScrollState()),
             ) {
                 // community
                 if (forceCommunitySelection) {

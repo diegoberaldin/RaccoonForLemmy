@@ -114,7 +114,7 @@ object ProfileLoggedScreen : Tab {
         }
 
         Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxxs),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -210,7 +210,6 @@ object ProfileLoggedScreen : Tab {
                                 key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { post ->
                                 PostCard(
-                                    modifier = Modifier.padding(horizontal = Spacing.xs),
                                     post = post,
                                     postLayout = uiState.postLayout,
                                     limitBodyHeight = true,

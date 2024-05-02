@@ -196,9 +196,7 @@ class UserDetailScreen(
         }
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xxs),
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             topBar = {
                 val userName = uiState.user.readableName(uiState.preferNicknames)
                 val maxTopInset = Dimensions.maxTopBarInset.toLocalPixel()

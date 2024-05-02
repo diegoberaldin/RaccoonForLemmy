@@ -182,9 +182,7 @@ class PostListScreen : Screen {
         }
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xxs),
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             topBar = {
                 PostsTopBar(
                     currentInstance = uiState.instance,
@@ -320,7 +318,6 @@ class PostListScreen : Screen {
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
-                        modifier = Modifier.padding(horizontal = Spacing.xs),
                         state = lazyListState,
                         userScrollEnabled = !uiState.zombieModeActive,
                     ) {

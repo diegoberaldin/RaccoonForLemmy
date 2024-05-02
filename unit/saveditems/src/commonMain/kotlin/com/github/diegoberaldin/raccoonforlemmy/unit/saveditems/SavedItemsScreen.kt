@@ -98,9 +98,7 @@ class SavedItemsScreen : Screen {
         val detailOpener = remember { getDetailOpener() }
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xxs),
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -211,7 +209,6 @@ class SavedItemsScreen : Screen {
                 ) {
                     LazyColumn(
                         state = lazyListState,
-                        modifier = Modifier.padding(horizontal = Spacing.xs),
                     ) {
                         if (uiState.section == SavedItemsSection.Posts) {
                             items(uiState.posts) { post ->

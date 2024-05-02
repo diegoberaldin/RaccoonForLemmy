@@ -68,14 +68,15 @@ fun ModdedCommentCard(
     Box(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
-                Modifier.shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                Modifier
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
                     .clip(RoundedCornerShape(CornerSize.l))
                     .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),
                     )
-                    .padding(Spacing.xs)
+                    .padding(vertical = Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }
@@ -100,7 +101,7 @@ fun ModdedCommentCard(
             )
 
             ModdedCommentFooter(
-                modifier = Modifier.padding(horizontal = Spacing.xs),
+                modifier = Modifier.padding(horizontal = Spacing.s),
                 communityName = comment.community?.name,
                 postTitle = comment.postTitle,
                 options = options,

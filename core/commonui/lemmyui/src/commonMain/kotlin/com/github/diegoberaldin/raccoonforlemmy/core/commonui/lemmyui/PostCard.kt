@@ -55,8 +55,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.videoUrl
 
 @Composable
 fun PostCard(
-    modifier: Modifier = Modifier,
     post: PostModel,
+    modifier: Modifier = Modifier,
     isFromModerator: Boolean = false,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
@@ -90,6 +90,7 @@ fun PostCard(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
+                    .padding(horizontal = Spacing.xs)
                     .shadow(
                         elevation = 5.dp,
                         shape = RoundedCornerShape(CornerSize.l)
@@ -98,7 +99,7 @@ fun PostCard(
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                     )
-                    .padding(Spacing.s)
+                    .padding(vertical = Spacing.s)
             } else {
                 Modifier
             }
@@ -209,10 +210,13 @@ private fun CompactPost(
     val uriHandler = LocalUriHandler.current
     val customTabsHelper = remember { getCustomTabsHelper() }
     val navigationCoordinator = remember { getNavigationCoordinator() }
-    val postLinkUrl = post.url.orEmpty().takeIf { !it.looksLikeAnImage && !it.looksLikeAVideo }.orEmpty()
+    val postLinkUrl =
+        post.url.orEmpty().takeIf { !it.looksLikeAnImage && !it.looksLikeAVideo }.orEmpty()
 
     Column(
-        modifier = modifier.background(MaterialTheme.colorScheme.background)
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
+            .padding(horizontal = Spacing.xs)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
@@ -226,6 +230,7 @@ private fun CompactPost(
         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {
         CommunityAndCreatorInfo(
+            modifier = Modifier.padding(horizontal = Spacing.xs),
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
             featuredCommunity = post.featuredCommunity,
@@ -247,7 +252,7 @@ private fun CompactPost(
             },
         )
         Row(
-            modifier = Modifier.padding(horizontal = Spacing.s),
+            modifier = Modifier.padding(horizontal = Spacing.xs),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
         ) {
@@ -340,7 +345,11 @@ private fun CompactPost(
             }
         }
         PostCardFooter(
-            modifier = Modifier.padding(top = Spacing.xxs),
+            modifier = Modifier.padding(
+                top = Spacing.xxs,
+                start = Spacing.xs,
+                end = Spacing.xs,
+            ),
             markRead = markRead,
             comments = post.comments,
             voteFormat = voteFormat,
@@ -427,7 +436,7 @@ private fun ExtendedPost(
         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {
         CommunityAndCreatorInfo(
-            modifier = Modifier.padding(horizontal = Spacing.xxs),
+            modifier = Modifier.padding(horizontal = Spacing.s),
             community = post.community,
             creator = post.creator.takeIf { !hideAuthor },
             featuredCommunity = post.featuredCommunity,
@@ -452,7 +461,7 @@ private fun ExtendedPost(
             PostCardTitle(
                 modifier = Modifier.padding(
                     vertical = Spacing.xs,
-                    horizontal = Spacing.xs,
+                    horizontal = Spacing.s,
                 ),
                 text = post.title,
                 markRead = markRead,
@@ -541,6 +550,7 @@ private fun ExtendedPost(
         if (showBody) {
             if (post.removed) {
                 Text(
+                    modifier = Modifier.padding(horizontal = Spacing.s),
                     text = LocalXmlStrings.current.messageContentRemoved,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
@@ -550,8 +560,8 @@ private fun ExtendedPost(
                     PostCardBody(
                         modifier = Modifier.padding(
                             top = Spacing.xxs,
-                            start = Spacing.xs,
-                            end = Spacing.xs,
+                            start = Spacing.s,
+                            end = Spacing.s,
                         ),
                         text = post.text,
                         maxLines = if (limitBodyHeight) {
@@ -581,6 +591,8 @@ private fun ExtendedPost(
                     .padding(
                         top = Spacing.s,
                         bottom = Spacing.xxs,
+                        start = Spacing.s,
+                        end = Spacing.s,
                     )
                     .onClick(
                         onClick = rememberCallback {
@@ -601,7 +613,11 @@ private fun ExtendedPost(
             )
         }
         PostCardFooter(
-            modifier = Modifier.padding(top = Spacing.xs),
+            modifier = Modifier.padding(
+                top = Spacing.xs,
+                start = Spacing.s,
+                end = Spacing.s,
+            ),
             markRead = markRead,
             comments = post.comments,
             voteFormat = voteFormat,

@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Article
-import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.DisplaySettings
 import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material.icons.filled.Science
@@ -113,7 +112,7 @@ class AdvancedSettingsScreen : Screen {
                 .background(MaterialTheme.colorScheme.background)
                 .onGloballyPositioned {
                     screenWidth = it.size.toSize().width
-                }.padding(Spacing.xs),
+                },
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,

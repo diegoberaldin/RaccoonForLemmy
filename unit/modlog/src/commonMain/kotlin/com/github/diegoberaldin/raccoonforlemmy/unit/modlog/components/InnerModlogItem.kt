@@ -76,14 +76,19 @@ internal fun InnerModlogItem(
     Box(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
-                Modifier.shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                Modifier
+                    .padding(horizontal = Spacing.xs)
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(CornerSize.l)
+                    )
                     .clip(RoundedCornerShape(CornerSize.l))
                     .padding(horizontal = Spacing.xs)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),
                     )
-                    .padding(Spacing.xs)
+                    .padding(vertical = Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }
@@ -93,6 +98,7 @@ internal fun InnerModlogItem(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
             ModlogHeader(
+                modifier = Modifier.padding(horizontal = Spacing.s),
                 creator = moderator,
                 autoLoadImages = autoLoadImages,
                 preferNicknames = preferNicknames,
@@ -121,7 +127,10 @@ internal fun InnerModlogItem(
                 }
             }
             ModlogFooter(
-                modifier = Modifier.padding(vertical = Spacing.xs),
+                modifier = Modifier.padding(
+                    vertical = Spacing.xs,
+                    horizontal = Spacing.s,
+                ),
                 date = date,
                 onOpen = onOpen,
                 options = options,
@@ -145,7 +154,6 @@ private fun ModlogHeader(
     if (creatorName.isNotEmpty()) {
         Row(
             modifier = modifier
-                .padding(horizontal = Spacing.xs)
                 .onClick(
                     onClick = rememberCallback {
                         if (creator != null) {

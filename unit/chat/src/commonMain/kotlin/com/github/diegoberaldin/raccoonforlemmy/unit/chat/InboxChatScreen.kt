@@ -122,8 +122,7 @@ class InboxChatScreen(
         Scaffold(
             modifier = Modifier
                 .imePadding()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+                .background(MaterialTheme.colorScheme.background),
             topBar = {
                 TopAppBar(
                     title = {

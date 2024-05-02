@@ -92,7 +92,11 @@ class CommunityInfoScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(top = Spacing.xs, start = Spacing.m, end = Spacing.m),
+                    .padding(
+                        top = Spacing.xs,
+                        start = Spacing.m,
+                        end = Spacing.m
+                    ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {

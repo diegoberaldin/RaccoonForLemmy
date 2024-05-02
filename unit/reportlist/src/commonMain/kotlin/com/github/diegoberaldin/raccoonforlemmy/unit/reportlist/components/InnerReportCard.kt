@@ -78,13 +78,17 @@ internal fun InnerReportCard(
         modifier = modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                    .padding(horizontal = Spacing.xs)
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(CornerSize.l)
+                    )
                     .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                         shape = RoundedCornerShape(CornerSize.l),
                     )
-                    .padding(Spacing.xs)
+                    .padding(vertical = Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }
@@ -94,6 +98,7 @@ internal fun InnerReportCard(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
             ReportHeader(
+                modifier = Modifier.padding(horizontal = Spacing.s),
                 creator = creator,
                 autoLoadImages = autoLoadImages,
                 onOpenCreator = onOpenCreator,
@@ -101,9 +106,7 @@ internal fun InnerReportCard(
             )
             CustomizedContent(ContentFontClass.Body) {
                 PostCardBody(
-                    modifier = Modifier.padding(
-                        horizontal = Spacing.xs,
-                    ),
+                    modifier = Modifier.padding(horizontal = Spacing.s),
                     text = reason,
                 )
                 if (originalContent != null) {
@@ -122,7 +125,10 @@ internal fun InnerReportCard(
                 }
             }
             ReportFooter(
-                modifier = Modifier.padding(vertical = Spacing.xs),
+                modifier = Modifier.padding(
+                    vertical = Spacing.xs,
+                    horizontal = Spacing.s,
+                ),
                 date = date,
                 onOpenResolve = onOpen,
                 options = options,

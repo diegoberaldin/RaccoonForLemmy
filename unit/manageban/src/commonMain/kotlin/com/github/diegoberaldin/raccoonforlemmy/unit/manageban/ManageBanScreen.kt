@@ -65,9 +65,7 @@ class ManageBanScreen : Screen {
         val lazyListState = rememberLazyListState()
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,

@@ -29,12 +29,16 @@ internal fun ReportCardPlaceHolder(
         modifier = Modifier.then(
             if (postLayout == PostLayout.Card) {
                 Modifier
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                    .padding(horizontal = Spacing.xs)
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(CornerSize.l)
+                    )
                     .clip(RoundedCornerShape(CornerSize.l))
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                     )
-                    .padding(Spacing.s)
+                    .padding(vertical = Spacing.s)
             } else {
                 Modifier
             }
