@@ -53,6 +53,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -210,11 +212,11 @@ class CommunityDetailScreen(
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
-                    is CommunityDetailMviModel.Effect.BlockError -> {
+                    is CommunityDetailMviModel.Effect.Error -> {
                         snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
 
-                    CommunityDetailMviModel.Effect.BlockSuccess -> {
+                    CommunityDetailMviModel.Effect.Success -> {
                         snackbarHostState.showSnackbar(successMessage)
                     }
 
@@ -606,6 +608,15 @@ class CommunityDetailScreen(
                                 )
                             }
                         },
+                    )
+                }
+            },
+            snackbarHost = {
+                SnackbarHost(snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        snackbarData = data,
                     )
                 }
             },

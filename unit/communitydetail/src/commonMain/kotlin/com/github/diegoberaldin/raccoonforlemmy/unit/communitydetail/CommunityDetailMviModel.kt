@@ -76,8 +76,8 @@ interface CommunityDetailMviModel :
     )
 
     sealed interface Effect {
-        data object BlockSuccess : Effect
-        data class BlockError(val message: String?) : Effect
+        data object Success : Effect
+        data class Error(val message: String?) : Effect
         data object BackToTop : Effect
         data class ZombieModeTick(val index: Int) : Effect
         data class TriggerCopy(val text: String) : Effect

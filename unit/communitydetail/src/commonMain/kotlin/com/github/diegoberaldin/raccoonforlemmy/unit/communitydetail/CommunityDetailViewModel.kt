@@ -550,9 +550,9 @@ class CommunityDetailViewModel(
             try {
                 val auth = identityRepository.authToken.value
                 communityRepository.block(communityId, true, auth).getOrThrow()
-                emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
+                emitEffect(CommunityDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
-                emitEffect(CommunityDetailMviModel.Effect.BlockError(e.message))
+                emitEffect(CommunityDetailMviModel.Effect.Error(e.message))
             } finally {
                 updateState { it.copy(asyncInProgress = false) }
             }
@@ -567,9 +567,9 @@ class CommunityDetailViewModel(
                 val instanceId = community.instanceId
                 val auth = identityRepository.authToken.value
                 siteRepository.block(instanceId, true, auth).getOrThrow()
-                emitEffect(CommunityDetailMviModel.Effect.BlockSuccess)
+                emitEffect(CommunityDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
-                emitEffect(CommunityDetailMviModel.Effect.BlockError(e.message))
+                emitEffect(CommunityDetailMviModel.Effect.Error(e.message))
             } finally {
                 updateState { it.copy(asyncInProgress = false) }
             }
@@ -654,6 +654,7 @@ class CommunityDetailViewModel(
             }
             val newCommunity = uiState.value.community.copy(favorite = newValue)
             updateState { it.copy(community = newCommunity) }
+            emitEffect(CommunityDetailMviModel.Effect.Success)
         }
     }
 

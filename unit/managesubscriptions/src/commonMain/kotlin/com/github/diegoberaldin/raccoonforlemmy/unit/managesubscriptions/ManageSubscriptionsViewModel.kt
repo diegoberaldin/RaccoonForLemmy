@@ -51,12 +51,14 @@ class ManageSubscriptionsViewModel(
                     )
                 }
             }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.MultiCommunityCreated::class).onEach { evt ->
-                handleMultiCommunityCreated(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CommunitySubscriptionChanged::class).onEach { evt ->
-                handleCommunityUpdate(evt.value)
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.MultiCommunityCreated::class)
+                .onEach { evt ->
+                    handleMultiCommunityCreated(evt.model)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.CommunitySubscriptionChanged::class)
+                .onEach { evt ->
+                    handleCommunityUpdate(evt.value)
+                }.launchIn(this)
 
             searchEventChannel.receiveAsFlow().debounce(1000).onEach {
                 emitEffect(ManageSubscriptionsMviModel.Effect.BackToTop)
@@ -197,6 +199,7 @@ class ManageSubscriptionsViewModel(
             }
             val newCommunity = community.copy(favorite = newValue)
             handleCommunityUpdate(newCommunity)
+            emitEffect(ManageSubscriptionsMviModel.Effect.Success)
         }
     }
 

@@ -31,5 +31,6 @@ interface ManageSubscriptionsMviModel :
 
     sealed interface Effect {
         data object BackToTop : Effect
+        data object Success : Effect
     }
 }

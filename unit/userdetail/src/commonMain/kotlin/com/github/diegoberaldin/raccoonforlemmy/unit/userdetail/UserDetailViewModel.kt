@@ -511,9 +511,9 @@ class UserDetailViewModel(
             try {
                 val auth = identityRepository.authToken.value
                 userRepository.block(userId, true, auth).getOrThrow()
-                emitEffect(UserDetailMviModel.Effect.BlockSuccess)
+                emitEffect(UserDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
-                emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
+                emitEffect(UserDetailMviModel.Effect.Error(e.message))
             } finally {
                 updateState { it.copy(asyncInProgress = false) }
             }
@@ -528,9 +528,9 @@ class UserDetailViewModel(
                 val instanceId = user.instanceId
                 val auth = identityRepository.authToken.value
                 siteRepository.block(instanceId, true, auth).getOrThrow()
-                emitEffect(UserDetailMviModel.Effect.BlockSuccess)
+                emitEffect(UserDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
-                emitEffect(UserDetailMviModel.Effect.BlockError(e.message))
+                emitEffect(UserDetailMviModel.Effect.Error(e.message))
             } finally {
                 updateState { it.copy(asyncInProgress = false) }
             }

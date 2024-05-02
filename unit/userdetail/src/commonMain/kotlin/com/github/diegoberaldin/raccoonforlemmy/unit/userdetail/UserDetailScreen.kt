@@ -172,11 +172,11 @@ class UserDetailScreen(
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
-                    is UserDetailMviModel.Effect.BlockError -> {
+                    is UserDetailMviModel.Effect.Error -> {
                         snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
 
-                    UserDetailMviModel.Effect.BlockSuccess -> {
+                    UserDetailMviModel.Effect.Success -> {
                         snackbarHostState.showSnackbar(successMessage)
                     }
 
