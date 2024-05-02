@@ -208,6 +208,7 @@ object ModalDrawerContent : Tab {
                                         icon = listingType.toIcon(),
                                         onSelected = rememberCallback(coordinator) {
                                             scope.launch {
+                                                focusManager.clearFocus()
                                                 coordinator.toggleDrawer()
                                                 coordinator.sendEvent(
                                                     DrawerEvent.ChangeListingType(listingType)
@@ -228,6 +229,7 @@ object ModalDrawerContent : Tab {
                                 url = community.icon,
                                 autoLoadImages = uiState.autoLoadImages,
                                 onSelected = {
+                                    focusManager.clearFocus()
                                     scope.launch {
                                         coordinator.toggleDrawer()
                                         coordinator.sendEvent(
@@ -249,6 +251,7 @@ object ModalDrawerContent : Tab {
                                 autoLoadImages = uiState.autoLoadImages,
                                 onSelected = {
                                     scope.launch {
+                                        focusManager.clearFocus()
                                         coordinator.toggleDrawer()
                                         coordinator.sendEvent(
                                             DrawerEvent.OpenCommunity(community),
