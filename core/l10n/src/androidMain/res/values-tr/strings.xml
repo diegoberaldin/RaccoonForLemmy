@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">Uygulama içi</string>
     <string name="settings_url_opening_mode_external">Harici tarayıcı</string>
     <string name="settings_url_opening_mode_custom_tabs">Özel sekmeler</string>
+    <string name="settings_full_width_images">Tam genişlikte resimler</string>
 </resources>

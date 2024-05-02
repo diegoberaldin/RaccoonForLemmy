@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">Rakendusesisene</string>
     <string name="settings_url_opening_mode_external">Väline brauser</string>
     <string name="settings_url_opening_mode_custom_tabs">Kohandatud vahelehed</string>
+    <string name="settings_full_width_images">Täislaiuses pildid</string>
 </resources>

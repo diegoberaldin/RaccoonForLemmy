@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">In-app</string>
     <string name="settings_url_opening_mode_external">Externe browser</string>
     <string name="settings_url_opening_mode_custom_tabs">Aangepaste tabbladen</string>
+    <string name="settings_full_width_images">Afbeeldingen over de volledige breedte</string>
 </resources>

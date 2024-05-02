@@ -397,4 +397,5 @@
     <string name="settings_url_opening_mode_internal">In app</string>
     <string name="settings_url_opening_mode_external">External browser</string>
     <string name="settings_url_opening_mode_custom_tabs">Custom tabs</string>
+    <string name="settings_full_width_images">Full width images</string>
 </resources>

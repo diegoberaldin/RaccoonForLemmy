@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">V aplikácii</string>
     <string name="settings_url_opening_mode_external">Externý prehliadač</string>
     <string name="settings_url_opening_mode_custom_tabs">Vlastné karty</string>
+    <string name="settings_full_width_images">Obrázky v plnej šírke</string>
 </resources>

@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">En-apo</string>
     <string name="settings_url_opening_mode_external">Ekstera retumilo</string>
     <string name="settings_url_opening_mode_custom_tabs">Propraj langetoj</string>
+    <string name="settings_full_width_images">Plenlarĝaj bildoj</string>
 </resources>

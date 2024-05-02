@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">In-app</string>
     <string name="settings_url_opening_mode_external">Brabhsálaí seachtrach</string>
     <string name="settings_url_opening_mode_custom_tabs">Cluaisíní saincheaptha</string>
+    <string name="settings_full_width_images">Íomhánna ar leithead iomlán</string>
 </resources>

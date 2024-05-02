@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">V aplikaciji</string>
     <string name="settings_url_opening_mode_external">Zunanji brskalnik</string>
     <string name="settings_url_opening_mode_custom_tabs">Zavihki po meri</string>
+    <string name="settings_full_width_images">Slike polne širine</string>
 </resources>

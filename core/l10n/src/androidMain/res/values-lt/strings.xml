@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">Programoje</string>
     <string name="settings_url_opening_mode_external">Išorinė naršyklė</string>
     <string name="settings_url_opening_mode_custom_tabs">Tinkinti skirtukai</string>
+    <string name="settings_full_width_images">Viso pločio vaizdai</string>
 </resources>

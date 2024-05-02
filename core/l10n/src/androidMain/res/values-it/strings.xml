@@ -188,7 +188,7 @@
     <string name="settings_enable_crash_report">Abilitare segnalazioni di crash</string>
     <string name="settings_enable_double_tap">Abilita azione doppio tap</string>
     <string name="settings_enable_swipe_actions">Consenti azioni allo swipe</string>
-    <string name="settings_full_height_images">Altezza completa immagini</string>
+    <string name="settings_full_height_images">Immagini ad altezza completa</string>
     <string name="settings_include_nsfw">Includi contenuti NSFW</string>
     <string name="settings_language">Lingua</string>
     <string name="settings_navigation_bar_titles_visible">Mostra titoli barra di navigazione</string>
@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">In app</string>
     <string name="settings_url_opening_mode_external">Browser esterno</string>
     <string name="settings_url_opening_mode_custom_tabs">Schede personalizzate</string>
+    <string name="settings_full_width_images">Immagini a larghezza completa</string>
 </resources>

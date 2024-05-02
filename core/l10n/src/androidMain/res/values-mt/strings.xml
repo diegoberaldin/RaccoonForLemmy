@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">Fl-app</string>
     <string name="settings_url_opening_mode_external">Browser estern</string>
     <string name="settings_url_opening_mode_custom_tabs">Tabs tad-dwana</string>
+    <string name="settings_full_width_images">Immaġini ta \'wisa\' sħiħ</string>
 </resources>

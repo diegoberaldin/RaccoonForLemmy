@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">Lietotnē</string>
     <string name="settings_url_opening_mode_external">Ārējā pārlūkprogramma</string>
     <string name="settings_url_opening_mode_custom_tabs">Pielāgotas cilnes</string>
+    <string name="settings_full_width_images">Pilna platuma attēli</string>
 </resources>

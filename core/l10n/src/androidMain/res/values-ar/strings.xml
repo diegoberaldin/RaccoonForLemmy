@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">داخل التطبيق</string>
     <string name="settings_url_opening_mode_external">متصفح خارجي</string>
     <string name="settings_url_opening_mode_custom_tabs">علامات التبويب المخصصة</string>
+    <string name="settings_full_width_images">صور بالعرض الكامل</string>
 </resources>

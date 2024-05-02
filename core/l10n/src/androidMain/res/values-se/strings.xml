@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">I appen</string>
     <string name="settings_url_opening_mode_external">Extern webbläsare</string>
     <string name="settings_url_opening_mode_custom_tabs">Anpassade flikar</string>
+    <string name="settings_full_width_images">Bilder i full bredd</string>
 </resources>

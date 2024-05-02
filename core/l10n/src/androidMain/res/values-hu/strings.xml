@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">Alkalmazáson belül</string>
     <string name="settings_url_opening_mode_external">Külső böngésző</string>
     <string name="settings_url_opening_mode_custom_tabs">Egyéni lapok</string>
+    <string name="settings_full_width_images">Teljes szélességű képek</string>
 </resources>

@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">У апликацији</string>
     <string name="settings_url_opening_mode_external">Екстерни претраживач</string>
     <string name="settings_url_opening_mode_custom_tabs">Прилагођене картице</string>
+    <string name="settings_full_width_images">Слике пуне ширине</string>
 </resources>

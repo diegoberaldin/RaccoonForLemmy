@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">Dans l\'application</string>
     <string name="settings_url_opening_mode_external">Navigateur externe</string>
     <string name="settings_url_opening_mode_custom_tabs">Onglets personnalisés</string>
+    <string name="settings_full_width_images">Images pleine largeur</string>
 </resources>

@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">No aplicativo</string>
     <string name="settings_url_opening_mode_external">Navegador externo</string>
     <string name="settings_url_opening_mode_custom_tabs">Tabs personalizadas</string>
+    <string name="settings_full_width_images">Imagens de largura total</string>
 </resources>

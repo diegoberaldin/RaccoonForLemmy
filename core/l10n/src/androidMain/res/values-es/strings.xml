@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">En la aplicación</string>
     <string name="settings_url_opening_mode_external">Navegador externo</string>
     <string name="settings_url_opening_mode_custom_tabs">Pestañas personalizadas</string>
+    <string name="settings_full_width_images">Imágenes de ancho completo</string>
 </resources>

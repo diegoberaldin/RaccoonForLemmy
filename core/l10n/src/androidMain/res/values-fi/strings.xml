@@ -389,4 +389,5 @@
     <string name="settings_url_opening_mode_internal">Sovelluksen sisällä</string>
     <string name="settings_url_opening_mode_external">Ulkoinen selain</string>
     <string name="settings_url_opening_mode_custom_tabs">Mukautetut välilehdet</string>
+    <string name="settings_full_width_images">Täysleveät kuvat</string>
 </resources>
