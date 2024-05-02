@@ -275,7 +275,7 @@ class PostDetailScreen(
                 .background(MaterialTheme.colorScheme.background)
                 .padding(Spacing.xs),
             topBar = {
-                val maxTopInset = Dimensions.topBarHeight.toLocalPixel()
+                val maxTopInset = Dimensions.maxTopBarInset.toLocalPixel()
                 var topInset by remember { mutableStateOf(maxTopInset) }
                 snapshotFlow { topAppBarState.collapsedFraction }.onEach {
                     topInset = (maxTopInset * (1 - it)).let { insetValue ->

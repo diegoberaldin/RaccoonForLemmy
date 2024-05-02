@@ -59,7 +59,7 @@ internal fun ExploreTopBar(
     onBack: (() -> Unit)? = null,
 ) {
     val scope = rememberCoroutineScope()
-    val maxTopInset = Dimensions.topBarHeight.toLocalPixel()
+    val maxTopInset = Dimensions.maxTopBarInset.toLocalPixel()
     var topInset by remember { mutableStateOf(maxTopInset) }
     snapshotFlow { topAppBarState.collapsedFraction }.onEach {
         topInset = maxTopInset * (1 - it)

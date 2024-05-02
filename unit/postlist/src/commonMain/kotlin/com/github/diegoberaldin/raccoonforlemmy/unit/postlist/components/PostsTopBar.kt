@@ -1,11 +1,30 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.postlist.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.TopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
@@ -15,7 +34,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.*
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalLabel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlin.math.roundToInt
@@ -35,7 +58,7 @@ internal fun PostsTopBar(
     onHamburgerTapped: (() -> Unit)? = null,
 ) {
     val scope = rememberCoroutineScope()
-    val maxTopInset = Dimensions.topBarHeight.toLocalPixel()
+    val maxTopInset = Dimensions.maxTopBarInset.toLocalPixel()
     var topInset by remember { mutableStateOf(maxTopInset) }
     snapshotFlow { topAppBarState.collapsedFraction }.onEach {
         topInset = maxTopInset * (1 - it)

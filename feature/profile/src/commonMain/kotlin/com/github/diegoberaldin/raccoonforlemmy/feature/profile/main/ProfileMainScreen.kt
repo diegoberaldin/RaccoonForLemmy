@@ -152,7 +152,7 @@ internal object ProfileMainScreen : Tab {
         Scaffold(
             modifier = Modifier.padding(Spacing.xxs),
             topBar = {
-                val maxTopInset = Dimensions.topBarHeight.toLocalPixel()
+                val maxTopInset = Dimensions.maxTopBarInset.toLocalPixel()
                 var topInset by remember { mutableStateOf(maxTopInset) }
                 snapshotFlow { topAppBarState.collapsedFraction }.onEach {
                     topInset = maxTopInset * (1 - it)
