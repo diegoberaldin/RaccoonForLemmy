@@ -481,7 +481,7 @@ class PostDetailScreen(
                             trailingIcon = {
                                 Icon(
                                     modifier = Modifier.onClick(
-                                        onClick = rememberCallback {
+                                        onClick = rememberCallback(model) {
                                             if (uiState.searchText.isNotEmpty()) {
                                                 model.reduce(PostDetailMviModel.Intent.SetSearch(""))
                                             }
@@ -867,7 +867,7 @@ class PostDetailScreen(
                                                         },
                                                         backgroundColor = downVoteColor
                                                             ?: defaultDownVoteColor,
-                                                        onTriggered = rememberCallback {
+                                                        onTriggered = rememberCallback(model) {
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.DownVoteComment(
                                                                     comment.id
@@ -904,7 +904,7 @@ class PostDetailScreen(
                                                         },
                                                         backgroundColor = saveColor
                                                             ?: defaultSaveColor,
-                                                        onTriggered = rememberCallback {
+                                                        onTriggered = rememberCallback(model) {
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.SaveComment(
                                                                     commentId = comment.id,
@@ -1217,7 +1217,7 @@ class PostDetailScreen(
                                                         )
                                                     }
                                                 },
-                                                onReply = rememberCallback(model) {
+                                                onReply = rememberCallback {
                                                     if (uiState.isLogged && !isOnOtherInstance) {
                                                         detailOpener.openReply(
                                                             originalPost = uiState.post,

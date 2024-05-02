@@ -186,9 +186,7 @@ object ProfileLoggedScreen : Tab {
                                         else -> ProfileLoggedSection.Posts
                                     }
                                     model.reduce(
-                                        ProfileLoggedMviModel.Intent.ChangeSection(
-                                            section
-                                        )
+                                        ProfileLoggedMviModel.Intent.ChangeSection(section)
                                     )
                                 },
                             )
@@ -224,7 +222,11 @@ object ProfileLoggedScreen : Tab {
                                     showUnreadComments = uiState.showUnreadComments,
                                     hideAuthor = true,
                                     blurNsfw = false,
-                                    onClick = rememberCallback {
+                                    onClick = rememberCallback(model) {
+                                        model.reduce(ProfileLoggedMviModel.Intent.WillOpenDetail)
+                                        detailOpener.openPostDetail(post)
+                                    },
+                                    onReply = rememberCallback(model) {
                                         model.reduce(ProfileLoggedMviModel.Intent.WillOpenDetail)
                                         detailOpener.openPostDetail(post)
                                     },
@@ -275,25 +277,25 @@ object ProfileLoggedScreen : Tab {
                                         add(
                                             Option(
                                                 OptionId.Share,
-                                                LocalXmlStrings.current.postActionShare
+                                                LocalXmlStrings.current.postActionShare,
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.SeeRaw,
-                                                LocalXmlStrings.current.postActionSeeRaw
+                                                LocalXmlStrings.current.postActionSeeRaw,
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Edit,
-                                                LocalXmlStrings.current.postActionEdit
+                                                LocalXmlStrings.current.postActionEdit,
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Delete,
-                                                LocalXmlStrings.current.commentActionDelete
+                                                LocalXmlStrings.current.commentActionDelete,
                                             )
                                         )
                                     },
@@ -363,7 +365,7 @@ object ProfileLoggedScreen : Tab {
                                     )
                                     HorizontalDivider(
                                         modifier = Modifier.padding(vertical = Spacing.xxxs),
-                                        thickness = 0.25.dp
+                                        thickness = 0.25.dp,
                                     )
                                 }
                             }
@@ -399,6 +401,12 @@ object ProfileLoggedScreen : Tab {
                                             highlightCommentId = comment.id,
                                         )
                                     },
+                                    onReply = rememberCallback {
+                                        detailOpener.openReply(
+                                            originalPost = PostModel(id = comment.postId),
+                                            originalComment = comment,
+                                        )
+                                    },
                                     onUpVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVoteComment(
@@ -424,19 +432,19 @@ object ProfileLoggedScreen : Tab {
                                         add(
                                             Option(
                                                 OptionId.SeeRaw,
-                                                LocalXmlStrings.current.postActionSeeRaw
+                                                LocalXmlStrings.current.postActionSeeRaw,
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Edit,
-                                                LocalXmlStrings.current.postActionEdit
+                                                LocalXmlStrings.current.postActionEdit,
                                             )
                                         )
                                         add(
                                             Option(
                                                 OptionId.Delete,
-                                                LocalXmlStrings.current.commentActionDelete
+                                                LocalXmlStrings.current.commentActionDelete,
                                             )
                                         )
                                     },
