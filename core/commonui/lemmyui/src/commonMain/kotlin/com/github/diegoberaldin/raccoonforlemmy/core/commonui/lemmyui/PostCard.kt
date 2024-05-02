@@ -66,6 +66,7 @@ fun PostCard(
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     includeFullBody: Boolean = false,
     fullHeightImage: Boolean = true,
+    fullWidthImage: Boolean = false,
     limitBodyHeight: Boolean = false,
     blurNsfw: Boolean = true,
     fadeRead: Boolean = false,
@@ -125,6 +126,7 @@ fun PostCard(
                 showScores = showScores,
                 roundedCornerImage = postLayout == PostLayout.Card,
                 fullHeightImage = fullHeightImage,
+                fullWidthImage = fullWidthImage,
                 blurNsfw = blurNsfw,
                 markRead = markRead,
                 actionButtonsActive = actionButtonsActive,
@@ -392,6 +394,7 @@ private fun ExtendedPost(
     showBody: Boolean,
     limitBodyHeight: Boolean,
     fullHeightImage: Boolean,
+    fullWidthImage: Boolean = false,
     roundedCornerImage: Boolean,
     actionButtonsActive: Boolean,
     backgroundColor: Color,
@@ -482,7 +485,11 @@ private fun ExtendedPost(
 
         if (post.videoUrl.isNotEmpty()) {
             PostCardVideo(
-                modifier = Modifier.padding(vertical = Spacing.xxs),
+                modifier = Modifier
+                    .padding(
+                        vertical = Spacing.xxs,
+                        horizontal = if (fullWidthImage) 0.dp else Spacing.s,
+                    ),
                 url = post.videoUrl,
                 blurred = blurNsfw && post.nsfw,
                 autoLoadImages = autoLoadImages,
@@ -507,9 +514,12 @@ private fun ExtendedPost(
         } else {
             PostCardImage(
                 modifier = Modifier
-                    .padding(vertical = Spacing.xs)
+                    .padding(
+                        vertical = Spacing.xs,
+                        horizontal = if (fullWidthImage) 0.dp else Spacing.s,
+                    )
                     .then(
-                        if (roundedCornerImage) {
+                        if (roundedCornerImage && !fullWidthImage) {
                             Modifier.clip(RoundedCornerShape(CornerSize.xl))
                         } else {
                             Modifier
