@@ -147,7 +147,7 @@ class ManageSubscriptionsScreen : Screen {
                                     navigatorCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )

@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.feature.home.ui
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Adjust
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
@@ -15,7 +15,7 @@ object HomeTab : Tab {
     override val options: TabOptions
         @Composable
         get() {
-            val icon = rememberVectorPainter(Icons.Default.Adjust)
+            val icon = rememberVectorPainter(Icons.AutoMirrored.Default.Article)
             val title = LocalXmlStrings.current.navigationHome
 
             return TabOptions(

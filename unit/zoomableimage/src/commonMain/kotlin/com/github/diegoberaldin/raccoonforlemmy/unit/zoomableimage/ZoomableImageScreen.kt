@@ -89,7 +89,7 @@ class ZoomableImageScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )

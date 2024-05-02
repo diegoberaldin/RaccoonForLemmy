@@ -25,7 +25,7 @@ fun SearchResultType.toIcon(): ImageVector = when (this) {
     SearchResultType.All -> Icons.Default.AllInclusive
     SearchResultType.Comments -> Icons.AutoMirrored.Default.Message
     SearchResultType.Communities -> Icons.Default.Groups
-    SearchResultType.Posts -> Icons.AutoMirrored.Filled.Article
+    SearchResultType.Posts -> Icons.AutoMirrored.Default.Article
     SearchResultType.Users -> Icons.Default.Person
     SearchResultType.Urls -> Icons.Default.AlternateEmail
 }

@@ -202,7 +202,7 @@ internal class SortBottomSheetTop(
                             navigator.pop()
                         },
                     ),
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
                     tint = MaterialTheme.colorScheme.onBackground,
                     contentDescription = null,
                 )

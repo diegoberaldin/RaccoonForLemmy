@@ -242,7 +242,7 @@ private fun ReportFooter(
                                 onOpenResolve.invoke()
                             },
                         ),
-                    imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                    imageVector = Icons.AutoMirrored.Default.OpenInNew,
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                 )

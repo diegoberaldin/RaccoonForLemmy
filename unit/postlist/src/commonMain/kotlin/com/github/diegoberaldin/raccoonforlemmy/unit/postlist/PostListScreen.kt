@@ -389,7 +389,7 @@ class PostListScreen : Screen {
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.AutoMirrored.Filled.Reply,
+                                                    imageVector = Icons.AutoMirrored.Default.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )

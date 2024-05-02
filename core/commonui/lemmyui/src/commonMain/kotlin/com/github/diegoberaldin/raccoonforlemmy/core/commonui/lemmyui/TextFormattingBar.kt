@@ -367,7 +367,7 @@ fun TextFormattingBar(
                         onTextFieldValueChanged(newValue)
                     },
                 ),
-                imageVector = Icons.AutoMirrored.Filled.FormatListBulleted,
+                imageVector = Icons.AutoMirrored.Default.FormatListBulleted,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
             )

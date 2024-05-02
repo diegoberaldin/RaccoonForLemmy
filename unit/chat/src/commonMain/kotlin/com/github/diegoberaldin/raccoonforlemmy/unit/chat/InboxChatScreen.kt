@@ -157,7 +157,7 @@ class InboxChatScreen(
                                     navigationCoordinator.popScreen()
                                 },
                             ),
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -176,7 +176,7 @@ class InboxChatScreen(
                         onSelectImage = {
                             openImagePicker = true
                         },
-                        lastActionIcon = Icons.AutoMirrored.Filled.Send,
+                        lastActionIcon = Icons.AutoMirrored.Default.Send,
                         onLastAction = rememberCallback {
                             model.reduce(
                                 InboxChatMviModel.Intent.SubmitNewMessage(

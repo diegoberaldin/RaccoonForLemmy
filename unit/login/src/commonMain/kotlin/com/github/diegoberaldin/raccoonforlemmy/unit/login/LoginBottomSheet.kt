@@ -149,7 +149,7 @@ class LoginBottomSheet : Screen {
                             },
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Filled.HelpOutline,
+                                imageVector = Icons.AutoMirrored.Default.HelpOutline,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onBackground,
                             )

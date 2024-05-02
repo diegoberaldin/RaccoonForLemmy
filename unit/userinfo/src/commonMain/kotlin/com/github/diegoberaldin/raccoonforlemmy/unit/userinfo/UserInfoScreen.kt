@@ -117,7 +117,7 @@ class UserInfoScreen(
                         uiState.user.score?.also { score ->
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
-                                icon = Icons.AutoMirrored.Filled.Article,
+                                icon = Icons.AutoMirrored.Default.Article,
                                 title = LocalXmlStrings.current.communityInfoPosts,
                                 value = score.postScore.getPrettyNumber(
                                     thousandLabel = LocalXmlStrings.current.profileThousandShort,
@@ -126,7 +126,7 @@ class UserInfoScreen(
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
-                                icon = Icons.AutoMirrored.Filled.Reply,
+                                icon = Icons.AutoMirrored.Default.Reply,
                                 title = LocalXmlStrings.current.communityInfoComments,
                                 value = score.commentScore.getPrettyNumber(
                                     thousandLabel = LocalXmlStrings.current.profileThousandShort,

@@ -208,7 +208,7 @@ internal object ProfileMainScreen : Tab {
                                             logoutConfirmDialogOpen = true
                                         },
                                     ),
-                                imageVector = Icons.AutoMirrored.Filled.Logout,
+                                imageVector = Icons.AutoMirrored.Default.Logout,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
                             )

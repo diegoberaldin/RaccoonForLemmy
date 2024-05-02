@@ -386,7 +386,7 @@ class PostDetailScreen(
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -428,7 +428,7 @@ class PostDetailScreen(
                             )
                             if (uiState.isLogged && !isOnOtherInstance) {
                                 this += FloatingActionButtonMenuItem(
-                                    icon = Icons.AutoMirrored.Filled.Reply,
+                                    icon = Icons.AutoMirrored.Default.Reply,
                                     text = LocalXmlStrings.current.actionReply,
                                     onSelected = rememberCallback {
                                         detailOpener.openReply(
@@ -879,7 +879,7 @@ class PostDetailScreen(
                                                     ActionOnSwipe.Reply -> SwipeAction(
                                                         swipeContent = {
                                                             Icon(
-                                                                imageVector = Icons.AutoMirrored.Filled.Reply,
+                                                                imageVector = Icons.AutoMirrored.Default.Reply,
                                                                 contentDescription = null,
                                                                 tint = Color.White,
                                                             )

@@ -105,7 +105,7 @@ fun PostCardFooter(
                                     onReply?.invoke()
                                 },
                             ),
-                        imageVector = Icons.AutoMirrored.Filled.Chat,
+                        imageVector = Icons.AutoMirrored.Default.Chat,
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(color = ancillaryColor),
                     )

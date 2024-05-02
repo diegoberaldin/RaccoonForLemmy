@@ -161,7 +161,7 @@ class AccountSettingsScreen : Screen {
                                             }
                                         },
                                     ),
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -296,7 +296,7 @@ class AccountSettingsScreen : Screen {
                     )
 
                     SettingsHeader(
-                        icon = Icons.AutoMirrored.Filled.Article,
+                        icon = Icons.AutoMirrored.Default.Article,
                         title = LocalXmlStrings.current.settingsWebHeaderContents,
                     )
 

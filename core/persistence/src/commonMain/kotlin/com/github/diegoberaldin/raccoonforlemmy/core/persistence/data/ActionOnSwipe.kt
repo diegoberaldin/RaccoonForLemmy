@@ -93,7 +93,7 @@ fun ActionOnSwipe.toReadableName(): String = when (this) {
 fun ActionOnSwipe.toIcon(): ImageVector? = when (this) {
     ActionOnSwipe.DownVote -> Icons.Default.ArrowCircleDown
     ActionOnSwipe.None -> null
-    ActionOnSwipe.Reply -> Icons.AutoMirrored.Filled.Reply
+    ActionOnSwipe.Reply -> Icons.AutoMirrored.Default.Reply
     ActionOnSwipe.Save -> Icons.Default.Bookmark
     ActionOnSwipe.ToggleRead -> Icons.Default.MarkChatUnread
     ActionOnSwipe.UpVote -> Icons.Default.ArrowCircleUp

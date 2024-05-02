@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.DisplaySettings
 import androidx.compose.material.icons.filled.Photo
@@ -130,7 +131,7 @@ class AdvancedSettingsScreen : Screen {
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -215,7 +216,7 @@ class AdvancedSettingsScreen : Screen {
 
                     SettingsHeader(
                         title = LocalXmlStrings.current.settingsTitleReading,
-                        icon = Icons.Default.Book,
+                        icon = Icons.AutoMirrored.Default.Article,
                     )
                     if (uiState.isLogged) {
                         // visually differentiate read posts

@@ -123,7 +123,7 @@ class CreateReportScreen(
                             modifier = Modifier.padding(horizontal = Spacing.xs),
                             content = {
                                 Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.Send,
+                                    imageVector = Icons.AutoMirrored.Default.Send,
                                     contentDescription = null,
                                 )
                             },

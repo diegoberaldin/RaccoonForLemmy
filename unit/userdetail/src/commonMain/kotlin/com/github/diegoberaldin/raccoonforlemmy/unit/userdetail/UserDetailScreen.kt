@@ -350,7 +350,7 @@ class UserDetailScreen(
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -383,7 +383,7 @@ class UserDetailScreen(
                             )
                             if (uiState.isLogged && !isOnOtherInstance) {
                                 this += FloatingActionButtonMenuItem(
-                                    icon = Icons.AutoMirrored.Filled.Chat,
+                                    icon = Icons.AutoMirrored.Default.Chat,
                                     text = LocalXmlStrings.current.actionChat,
                                     onSelected = rememberCallback {
                                         val screen = InboxChatScreen(otherUserId = userId)
@@ -533,7 +533,7 @@ class UserDetailScreen(
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.AutoMirrored.Filled.Reply,
+                                                    imageVector = Icons.AutoMirrored.Default.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )
@@ -833,7 +833,7 @@ class UserDetailScreen(
                                         ActionOnSwipe.Reply -> SwipeAction(
                                             swipeContent = {
                                                 Icon(
-                                                    imageVector = Icons.AutoMirrored.Filled.Reply,
+                                                    imageVector = Icons.AutoMirrored.Default.Reply,
                                                     contentDescription = null,
                                                     tint = Color.White,
                                                 )

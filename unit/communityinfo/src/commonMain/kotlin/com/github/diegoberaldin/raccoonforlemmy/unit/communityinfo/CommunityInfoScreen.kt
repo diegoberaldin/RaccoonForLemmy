@@ -114,7 +114,7 @@ class CommunityInfoScreen(
                         )
                         DetailInfoItem(
                             modifier = Modifier.fillMaxWidth(),
-                            icon = Icons.AutoMirrored.Filled.Article,
+                            icon = Icons.AutoMirrored.Default.Article,
                             title = LocalXmlStrings.current.communityInfoPosts,
                             value = uiState.community.posts.getPrettyNumber(
                                 thousandLabel = LocalXmlStrings.current.profileThousandShort,
@@ -123,7 +123,7 @@ class CommunityInfoScreen(
                         )
                         DetailInfoItem(
                             modifier = Modifier.fillMaxWidth(),
-                            icon = Icons.AutoMirrored.Filled.Reply,
+                            icon = Icons.AutoMirrored.Default.Reply,
                             title = LocalXmlStrings.current.communityInfoComments,
                             value = uiState.community.comments.getPrettyNumber(
                                 thousandLabel = LocalXmlStrings.current.profileThousandShort,

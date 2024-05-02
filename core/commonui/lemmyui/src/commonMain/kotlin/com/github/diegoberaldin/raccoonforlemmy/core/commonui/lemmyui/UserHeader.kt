@@ -142,7 +142,7 @@ fun UserHeader(
                     if (postScore != null) {
                         Icon(
                             modifier = Modifier.size(iconSize),
-                            imageVector = Icons.AutoMirrored.Filled.Article,
+                            imageVector = Icons.AutoMirrored.Default.Article,
                             contentDescription = null
                         )
                         Text(
@@ -160,7 +160,7 @@ fun UserHeader(
                         }
                         Icon(
                             modifier = Modifier.size(iconSize),
-                            imageVector = Icons.AutoMirrored.Filled.Reply,
+                            imageVector = Icons.AutoMirrored.Default.Reply,
                             contentDescription = null
                         )
                         Text(

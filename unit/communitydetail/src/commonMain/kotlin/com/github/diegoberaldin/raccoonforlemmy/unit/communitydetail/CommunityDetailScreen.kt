@@ -534,7 +534,7 @@ class CommunityDetailScreen(
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
@@ -780,7 +780,7 @@ class CommunityDetailScreen(
                                             ActionOnSwipe.Reply -> SwipeAction(
                                                 swipeContent = {
                                                     Icon(
-                                                        imageVector = Icons.AutoMirrored.Filled.Reply,
+                                                        imageVector = Icons.AutoMirrored.Default.Reply,
                                                         contentDescription = null,
                                                         tint = Color.White,
                                                     )
@@ -850,7 +850,11 @@ class CommunityDetailScreen(
                                             fadeRead = uiState.fadeReadPosts,
                                             showUnreadComments = uiState.showUnreadComments,
                                             onClick = rememberCallback(model) {
-                                                model.reduce(CommunityDetailMviModel.Intent.MarkAsRead(post.id))
+                                                model.reduce(
+                                                    CommunityDetailMviModel.Intent.MarkAsRead(
+                                                        post.id
+                                                    )
+                                                )
                                                 model.reduce(CommunityDetailMviModel.Intent.WillOpenDetail)
                                                 detailOpener.openPostDetail(
                                                     post = post,
@@ -910,7 +914,11 @@ class CommunityDetailScreen(
                                             },
                                             onReply = rememberCallback {
                                                 if (uiState.isLogged && !isOnOtherInstance) {
-                                                    model.reduce(CommunityDetailMviModel.Intent.MarkAsRead(post.id))
+                                                    model.reduce(
+                                                        CommunityDetailMviModel.Intent.MarkAsRead(
+                                                            post.id
+                                                        )
+                                                    )
                                                     model.reduce(CommunityDetailMviModel.Intent.WillOpenDetail)
                                                     detailOpener.openPostDetail(post)
                                                 }

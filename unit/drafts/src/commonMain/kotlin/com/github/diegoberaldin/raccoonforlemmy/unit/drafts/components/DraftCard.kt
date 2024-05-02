@@ -89,8 +89,8 @@ fun DraftCard(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
                     ) {
                         val imageVector = when (draft.type) {
-                            DraftType.Comment -> Icons.AutoMirrored.Filled.Reply
-                            DraftType.Post -> Icons.AutoMirrored.Filled.Article
+                            DraftType.Comment -> Icons.AutoMirrored.Default.Reply
+                            DraftType.Post -> Icons.AutoMirrored.Default.Article
                         }
                         Icon(
                             imageVector = imageVector,
