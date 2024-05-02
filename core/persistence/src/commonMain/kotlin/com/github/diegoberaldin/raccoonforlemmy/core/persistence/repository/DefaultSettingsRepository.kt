@@ -62,6 +62,7 @@ private object KeyStoreKeys {
     const val DEFAULT_LANGUAGE_ID = "defaultLanguageId"
     const val FADE_READ_POSTS = "fadeReadPosts"
     const val ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS = "enableButtonsToScrollBetweenComments"
+    const val FULL_WIDTH_IMAGES = "fullWidthImages"
 }
 
 internal class DefaultSettingsRepository(
@@ -139,6 +140,7 @@ internal class DefaultSettingsRepository(
                 fadeReadPosts = if (settings.fadeReadPosts) 1L else 0L,
                 showUnreadComments = if (settings.showUnreadComments) 1L else 0L,
                 enableButtonsToScrollBetweenComments = if (settings.enableButtonsToScrollBetweenComments) 1L else 0L,
+                fullWidthImages = if (settings.fullWidthImages) 1L else 0L,
             )
         }
 
@@ -204,6 +206,7 @@ internal class DefaultSettingsRepository(
                     } else null,
                     fadeReadPosts = keyStore[KeyStoreKeys.FADE_READ_POSTS, false],
                     enableButtonsToScrollBetweenComments = keyStore[KeyStoreKeys.ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS, false],
+                    fullWidthImages = keyStore[KeyStoreKeys.FULL_WIDTH_IMAGES, false],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -316,6 +319,7 @@ internal class DefaultSettingsRepository(
                     KeyStoreKeys.ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS,
                     settings.enableButtonsToScrollBetweenComments,
                 )
+                keyStore.save(KeyStoreKeys.FULL_WIDTH_IMAGES, settings.fullWidthImages)
             } else {
                 db.settingsQueries.update(
                     theme = settings.theme?.toLong(),
@@ -381,6 +385,7 @@ internal class DefaultSettingsRepository(
                     fadeReadPosts = if (settings.fadeReadPosts) 1L else 0L,
                     showUnreadComments = if (settings.showUnreadComments) 1L else 0L,
                     enableButtonsToScrollBetweenComments = if (settings.enableButtonsToScrollBetweenComments) 1L else 0L,
+                    fullWidthImages = if (settings.fullWidthImages) 1L else 0L,
                 )
             }
         }
@@ -462,4 +467,5 @@ private fun GetBy.toModel() = SettingsModel(
     fadeReadPosts = fadeReadPosts == 1L,
     showUnreadComments = showUnreadComments == 1L,
     enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments == 1L,
+    fullWidthImages = fullWidthImages == 1L,
 )

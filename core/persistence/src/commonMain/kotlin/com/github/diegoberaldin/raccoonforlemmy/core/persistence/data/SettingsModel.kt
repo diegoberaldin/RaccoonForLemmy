@@ -30,6 +30,7 @@ data class SettingsModel(
     val downVoteColor: Int? = null,
     val postLayout: Int = 0,
     val fullHeightImages: Boolean = true,
+    val fullWidthImages: Boolean = false,
     val voteFormat: VoteFormat = VoteFormat.Aggregated,
     val autoLoadImages: Boolean = true,
     val autoExpandComments: Boolean = true,

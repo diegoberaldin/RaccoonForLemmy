@@ -70,6 +70,8 @@ internal data class SerializableSettings(
     val inboxBackgroundCheckPeriod: Duration? = null,
     val fadeReadPosts: Boolean = false,
     val showUnreadComments: Boolean = false,
+    val enableButtonsToScrollBetweenComments: Boolean = false,
+    val fullWidthImages: Boolean = false,
 )
 
 internal fun SerializableSettings.toModel() = SettingsModel(
@@ -130,6 +132,8 @@ internal fun SerializableSettings.toModel() = SettingsModel(
     inboxBackgroundCheckPeriod = inboxBackgroundCheckPeriod,
     fadeReadPosts = fadeReadPosts,
     showUnreadComments = showUnreadComments,
+    enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments,
+    fullWidthImages = fullWidthImages,
 )
 
 internal fun SettingsModel.toData() = SerializableSettings(
@@ -185,4 +189,6 @@ internal fun SettingsModel.toData() = SerializableSettings(
     inboxBackgroundCheckPeriod = inboxBackgroundCheckPeriod,
     fadeReadPosts = fadeReadPosts,
     showUnreadComments = showUnreadComments,
+    enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments,
+    fullWidthImages = fullWidthImages,
 )

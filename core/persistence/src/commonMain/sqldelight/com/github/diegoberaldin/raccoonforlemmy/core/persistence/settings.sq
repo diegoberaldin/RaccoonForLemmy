@@ -57,6 +57,7 @@ CREATE TABLE SettingsEntity (
     fadeReadPosts INTEGER NOT NULL DEFAULT 0,
     showUnreadComments INTEGER NOT NULL DEFAULT 0,
     enableButtonsToScrollBetweenComments INTEGER NOT NULL DEFAULT 0,
+    fullWidthImages INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
 );
@@ -119,8 +120,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     fadeReadPosts,
     showUnreadComments,
     enableButtonsToScrollBetweenComments,
+    fullWidthImages,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -237,7 +240,8 @@ SET theme = ?,
     inboxBackgroundCheckPeriod = ?,
     fadeReadPosts = ?,
     showUnreadComments = ?,
-    enableButtonsToScrollBetweenComments = ?
+    enableButtonsToScrollBetweenComments = ?,
+    fullWidthImages = ?
 WHERE account_id = ?;
 
 getBy:
@@ -298,6 +302,7 @@ SELECT
     inboxBackgroundCheckPeriod,
     fadeReadPosts,
     showUnreadComments,
-    enableButtonsToScrollBetweenComments
+    enableButtonsToScrollBetweenComments,
+    fullWidthImages
 FROM SettingsEntity
 WHERE account_id = ?;
