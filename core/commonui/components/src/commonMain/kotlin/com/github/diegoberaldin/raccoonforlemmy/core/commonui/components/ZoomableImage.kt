@@ -5,6 +5,8 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.animateZoomBy
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -17,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,9 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import kotlinx.coroutines.launch
 
 private const val LOADING_ANIMATION_DURATION = 1000
 
@@ -37,6 +42,7 @@ fun ZoomableImage(
     url: String,
     autoLoadImages: Boolean = false,
 ) {
+    val scope = rememberCoroutineScope()
     var scale by remember {
         mutableStateOf(1f)
     }
@@ -68,6 +74,20 @@ fun ZoomableImage(
                 .clip(RectangleShape)
                 .fillMaxSize()
                 .background(Color.Black)
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onDoubleTap = {
+                            scope.launch {
+                                if (scale != 1f) {
+                                    transformableState.animateZoomBy(1 / scale)
+                                    offset = Offset.Zero
+                                } else {
+                                    transformableState.animateZoomBy(2f)
+                                }
+                            }
+                        },
+                    )
+                }
                 .graphicsLayer(
                     scaleX = scale,
                     scaleY = scale,
