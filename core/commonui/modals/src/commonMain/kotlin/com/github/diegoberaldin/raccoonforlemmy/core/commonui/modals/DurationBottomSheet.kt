@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -60,26 +60,11 @@ class DurationBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = when (type) {
-                        DurationBottomSheetType.ZOMBIE_MODE_INTERVAL -> LocalXmlStrings.current.settingsZombieModeInterval
-                        DurationBottomSheetType.INBOX_CHECK_PERIOD -> LocalXmlStrings.current.settingsInboxBackgroundCheckPeriod
-                    },
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+            val title =  when (type) {
+                DurationBottomSheetType.ZOMBIE_MODE_INTERVAL -> LocalXmlStrings.current.settingsZombieModeInterval
+                DurationBottomSheetType.INBOX_CHECK_PERIOD -> LocalXmlStrings.current.settingsInboxBackgroundCheckPeriod
             }
-
+            BottomSheetHeader(title)
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),

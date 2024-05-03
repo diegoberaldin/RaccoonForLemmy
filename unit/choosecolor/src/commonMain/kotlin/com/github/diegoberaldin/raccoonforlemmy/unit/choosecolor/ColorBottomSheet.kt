@@ -29,7 +29,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -55,22 +55,7 @@ class ColorBottomSheet : Screen {
             ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.settingsCustomSeedColor,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-            }
+            BottomSheetHeader(LocalXmlStrings.current.settingsCustomSeedColor)
             val customText = LocalXmlStrings.current.settingsColorCustom
             val values: List<Pair<Color?, String>> = listOf(
                 Color(0xFF001F7D) to LocalXmlStrings.current.settingsColorBlue,

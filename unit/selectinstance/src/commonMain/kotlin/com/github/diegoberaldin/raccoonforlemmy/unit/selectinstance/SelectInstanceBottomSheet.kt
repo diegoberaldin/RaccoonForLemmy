@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -102,23 +102,7 @@ class SelectInstanceBottomSheet : Screen {
             Box(
                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
             ) {
-                Column(
-                    modifier = Modifier.align(Alignment.TopCenter),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    BottomSheetHandle()
-                    Text(
-                        modifier = Modifier.padding(
-                            start = Spacing.s,
-                            top = Spacing.s,
-                            end = Spacing.s,
-                        ),
-                        text = LocalXmlStrings.current.dialogTitleChangeInstance,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
+                BottomSheetHeader(LocalXmlStrings.current.dialogTitleChangeInstance)
                 IconButton(
                     modifier = Modifier.align(Alignment.TopEnd),
                     content = {

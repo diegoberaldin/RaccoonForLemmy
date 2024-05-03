@@ -35,7 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReplyColo
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toSaveColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUpVoteColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -67,27 +67,14 @@ class VoteThemeBottomSheet(
             ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = when (actionType) {
-                        3 -> LocalXmlStrings.current.settingsSaveColor
-                        2 -> LocalXmlStrings.current.settingsReplyColor
-                        1 -> LocalXmlStrings.current.settingsDownvoteColor
-                        else -> LocalXmlStrings.current.settingsUpvoteColor
-                    },
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+            val title = when (actionType) {
+                3 -> LocalXmlStrings.current.settingsSaveColor
+                2 -> LocalXmlStrings.current.settingsReplyColor
+                1 -> LocalXmlStrings.current.settingsDownvoteColor
+                else -> LocalXmlStrings.current.settingsUpvoteColor
             }
+            BottomSheetHeader(title)
+
             val customText = LocalXmlStrings.current.settingsColorCustom
             val values: List<CommentBarTheme?> = listOf(
                 CommentBarTheme.Blue,

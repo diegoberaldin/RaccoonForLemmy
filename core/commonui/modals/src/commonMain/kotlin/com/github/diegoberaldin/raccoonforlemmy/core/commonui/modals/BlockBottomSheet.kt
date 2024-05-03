@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.BlockActionType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -55,100 +55,86 @@ class BlockBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            BottomSheetHeader(LocalXmlStrings.current.communityDetailBlock)
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.communityDetailBlock,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-                ) {
-                    val values: List<Triple<BlockActionType, Long, String>> = buildList {
-                        if (userName != null && userId != null) {
-                            this += Triple(
-                                BlockActionType.User,
-                                userId,
-                                userName,
-                            )
-                        }
-                        if (communityName != null && communityId != null) {
-                            this += Triple(
-                                BlockActionType.Community,
-                                communityId,
-                                communityName,
-                            )
-                        }
-                        if (instanceName != null && instanceId != null) {
-                            this += Triple(
-                                BlockActionType.Instance,
-                                instanceId,
-                                instanceName,
-                            )
-                        }
-                        if (userInstanceName != null && userInstanceId != null && userInstanceName != instanceName) {
-                            this += Triple(
-                                BlockActionType.Instance,
-                                userInstanceId,
-                                userInstanceName,
-                            )
-                        }
+                val values: List<Triple<BlockActionType, Long, String>> = buildList {
+                    if (userName != null && userId != null) {
+                        this += Triple(
+                            BlockActionType.User,
+                            userId,
+                            userName,
+                        )
                     }
-                    for (value in values) {
-                        Row(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = Spacing.s,
-                                    vertical = Spacing.s,
-                                )
-                                .fillMaxWidth()
-                                .onClick(
-                                    onClick = rememberCallback {
-                                        val event = when (value.first) {
-                                            BlockActionType.Community -> NotificationCenterEvent.BlockActionSelected(
-                                                communityId = value.second
-                                            )
-
-                                            BlockActionType.Instance ->
-                                                NotificationCenterEvent.BlockActionSelected(
-                                                    instanceId = value.second
-                                                )
-
-                                            BlockActionType.User -> NotificationCenterEvent.BlockActionSelected(
-                                                userId = value.second
-                                            )
-                                        }
-                                        notificationCenter.send(event)
-                                        navigationCoordinator.hideBottomSheet()
-                                    },
-                                ),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            val valueText = buildString {
-                                append(value.first.toReadableName())
-                                val additionalText = value.third
-                                if (additionalText.isNotEmpty()) {
-                                    append("\n")
-                                    append("(")
-                                    append(additionalText)
-                                    append(")")
-                                }
-                            }
-                            Text(
-                                text = valueText,
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onBackground,
+                    if (communityName != null && communityId != null) {
+                        this += Triple(
+                            BlockActionType.Community,
+                            communityId,
+                            communityName,
+                        )
+                    }
+                    if (instanceName != null && instanceId != null) {
+                        this += Triple(
+                            BlockActionType.Instance,
+                            instanceId,
+                            instanceName,
+                        )
+                    }
+                    if (userInstanceName != null && userInstanceId != null && userInstanceName != instanceName) {
+                        this += Triple(
+                            BlockActionType.Instance,
+                            userInstanceId,
+                            userInstanceName,
+                        )
+                    }
+                }
+                for (value in values) {
+                    Row(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
                             )
+                            .fillMaxWidth()
+                            .onClick(
+                                onClick = rememberCallback {
+                                    val event = when (value.first) {
+                                        BlockActionType.Community -> NotificationCenterEvent.BlockActionSelected(
+                                            communityId = value.second
+                                        )
+
+                                        BlockActionType.Instance ->
+                                            NotificationCenterEvent.BlockActionSelected(
+                                                instanceId = value.second
+                                            )
+
+                                        BlockActionType.User -> NotificationCenterEvent.BlockActionSelected(
+                                            userId = value.second
+                                        )
+                                    }
+                                    notificationCenter.send(event)
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        val valueText = buildString {
+                            append(value.first.toReadableName())
+                            val additionalText = value.third
+                            if (additionalText.isNotEmpty()) {
+                                append("\n")
+                                append("(")
+                                append(additionalText)
+                                append(")")
+                            }
                         }
+                        Text(
+                            text = valueText,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
                     }
                 }
             }

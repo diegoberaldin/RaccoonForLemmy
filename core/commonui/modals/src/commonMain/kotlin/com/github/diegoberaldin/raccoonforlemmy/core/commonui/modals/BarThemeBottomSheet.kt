@@ -14,13 +14,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -45,22 +44,7 @@ class BarThemeBottomSheet : Screen {
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.settingsBarTheme,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-            }
+            BottomSheetHeader(LocalXmlStrings.current.settingsBarTheme,)
             val values = listOf(
                 UiBarTheme.Transparent,
                 UiBarTheme.Opaque,

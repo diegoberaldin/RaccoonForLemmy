@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +29,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -61,9 +62,6 @@ class SortBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            BottomSheetHandle(
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
             Navigator(
                 SortBottomSheetMain(
                     values = values,
@@ -89,19 +87,8 @@ internal class SortBottomSheetMain(
         val navigator = LocalNavigator.currentOrThrow
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                modifier = Modifier.padding(
-                    start = Spacing.s,
-                    top = Spacing.s,
-                    end = Spacing.s,
-                ),
-                text = LocalXmlStrings.current.homeSortTitle,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+        Column {
+            BottomSheetHeader(LocalXmlStrings.current.homeSortTitle)
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -192,30 +179,26 @@ internal class SortBottomSheetTop(
         val notificationCenter = remember { getNotificationCenter() }
 
         Column {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(Spacing.s),
-                verticalAlignment = Alignment.CenterVertically,
+            Box(
+                contentAlignment = Alignment.Center,
             ) {
-                Icon(
-                    modifier = Modifier.onClick(
-                        onClick = rememberCallback {
-                            navigator.pop()
-                        },
-                    ),
-                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    contentDescription = null,
-                )
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = SortType.Top.Generic.toReadableName() + "…",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+                BottomSheetHeader(SortType.Top.Generic.toReadableName() + "…")
+                Row(
+                    modifier = Modifier.padding(start = Spacing.xxs)
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .onClick(
+                                onClick = rememberCallback {
+                                    navigator.pop()
+                                },
+                            ),
+                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        contentDescription = null,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                }
             }
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),

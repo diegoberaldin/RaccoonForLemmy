@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -43,69 +43,55 @@ class LikedTypeSheet : Screen {
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            BottomSheetHeader(LocalXmlStrings.current.filteredContentsType)
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.filteredContentsType,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                Row(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = Spacing.s,
+                            vertical = Spacing.s,
+                        )
+                        .fillMaxWidth()
+                        .onClick(
+                            onClick = rememberCallback {
+                                notificationCenter.send(
+                                    NotificationCenterEvent.ChangedLikedType(true)
+                                )
+                                navigationCoordinator.hideBottomSheet()
+                            },
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = rememberCallback {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangedLikedType(true)
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = LocalXmlStrings.current.actionUpvote,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                    }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            ).onClick(
-                                onClick = rememberCallback {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangedLikedType(false)
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = LocalXmlStrings.current.actionDownvote,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                    }
+                    Text(
+                        text = LocalXmlStrings.current.actionUpvote,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = Spacing.s,
+                            vertical = Spacing.s,
+                        ).onClick(
+                            onClick = rememberCallback {
+                                notificationCenter.send(
+                                    NotificationCenterEvent.ChangedLikedType(false)
+                                )
+                                navigationCoordinator.hideBottomSheet()
+                            },
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = LocalXmlStrings.current.actionDownvote,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
                 }
             }
         }

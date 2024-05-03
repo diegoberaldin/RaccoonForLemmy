@@ -24,7 +24,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -49,22 +49,7 @@ class ThemeBottomSheet : Screen {
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.settingsUiTheme,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-            }
+            BottomSheetHeader(LocalXmlStrings.current.settingsUiTheme)
             val values = listOf(
                 UiTheme.Light,
                 UiTheme.Dark,

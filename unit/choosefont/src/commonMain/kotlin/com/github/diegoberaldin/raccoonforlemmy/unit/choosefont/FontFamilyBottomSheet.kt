@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import cafe.adriel.voyager.core.screen.Screen
@@ -20,7 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUiFontFamily
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -59,60 +58,46 @@ class FontFamilyBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            BottomSheetHeader(LocalXmlStrings.current.settingsUiFontFamily)
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.settingsUiFontFamily,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-                ) {
-                    for (value in values) {
-                        val family = value.toUiFontFamily()
-                        Row(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = Spacing.s,
-                                    vertical = Spacing.s,
-                                )
-                                .fillMaxWidth()
-                                .onClick(
-                                    onClick = rememberCallback {
-                                        val event = if (content) {
-                                            NotificationCenterEvent.ChangeContentFontFamily(family)
-                                        } else {
-                                            NotificationCenterEvent.ChangeFontFamily(family)
-                                        }
-                                        notificationCenter.send(event)
-                                        navigationCoordinator.hideBottomSheet()
-                                    },
-                                ),
-                        ) {
-                            val fontFamily = when (family) {
-                                UiFontFamily.NotoSans -> coreResources.notoSans
-                                UiFontFamily.CharisSIL -> coreResources.charisSil
-                                UiFontFamily.Poppins -> coreResources.poppins
-                                UiFontFamily.Comfortaa -> coreResources.comfortaa
-                                else -> FontFamily.Default
-                            }
-                            Text(
-                                text = family.toReadableName(),
-                                style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontFamily = fontFamily,
-                                ),
-                                color = MaterialTheme.colorScheme.onBackground,
+                for (value in values) {
+                    val family = value.toUiFontFamily()
+                    Row(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
                             )
+                            .fillMaxWidth()
+                            .onClick(
+                                onClick = rememberCallback {
+                                    val event = if (content) {
+                                        NotificationCenterEvent.ChangeContentFontFamily(family)
+                                    } else {
+                                        NotificationCenterEvent.ChangeFontFamily(family)
+                                    }
+                                    notificationCenter.send(event)
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
+                    ) {
+                        val fontFamily = when (family) {
+                            UiFontFamily.NotoSans -> coreResources.notoSans
+                            UiFontFamily.CharisSIL -> coreResources.charisSil
+                            UiFontFamily.Poppins -> coreResources.poppins
+                            UiFontFamily.Comfortaa -> coreResources.comfortaa
+                            else -> FontFamily.Default
                         }
+                        Text(
+                            text = family.toReadableName(),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontFamily = fontFamily,
+                            ),
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
                     }
                 }
             }

@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -47,71 +47,58 @@ class ShareImageBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            BottomSheetHeader(LocalXmlStrings.current.postActionShare)
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.postActionShare,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                Row(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = Spacing.s,
+                            vertical = Spacing.s,
+                        )
+                        .fillMaxWidth()
+                        .onClick(
+                            onClick = rememberCallback {
+                                val event =
+                                    NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url)
+                                notificationCenter.send(event)
+                                navigationCoordinator.hideBottomSheet()
+                            },
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = rememberCallback {
-                                    val event = NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url)
-                                    notificationCenter.send(event)
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = LocalXmlStrings.current.shareModeUrl,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
+                    Text(
+                        text = LocalXmlStrings.current.shareModeUrl,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = Spacing.s,
+                            vertical = Spacing.s,
                         )
-                    }
-                    Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = rememberCallback {
-                                    val event = NotificationCenterEvent.ShareImageModeSelected.ModeFile(
-                                        url = url,
-                                        source = source,
-                                    )
-                                    notificationCenter.send(event)
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = LocalXmlStrings.current.shareModeFile,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                    }
+                        .fillMaxWidth()
+                        .onClick(
+                            onClick = rememberCallback {
+                                val event = NotificationCenterEvent.ShareImageModeSelected.ModeFile(
+                                    url = url,
+                                    source = source,
+                                )
+                                notificationCenter.send(event)
+                                navigationCoordinator.hideBottomSheet()
+                            },
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = LocalXmlStrings.current.shareModeFile,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
                 }
             }
         }

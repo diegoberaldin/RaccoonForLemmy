@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,11 +17,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -49,45 +47,29 @@ class SliderBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            Column(
+            BottomSheetHeader(LocalXmlStrings.current.settingsZombieModeScrollAmount)
+            var value by remember {
+                mutableStateOf(initial)
+            }
+            Slider(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                value = value,
+                valueRange = min.rangeTo(max),
+                onValueChange = {
+                    value = it
+                }
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.s))
+            Button(
+                onClick = {
+                    notificationCenter.send(
+                        NotificationCenterEvent.ChangeZombieScrollAmount(value)
+                    )
+                    navigationCoordinator.hideBottomSheet()
+                },
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.settingsZombieModeScrollAmount,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-
-                var value by remember {
-                    mutableStateOf(initial)
-                }
-                Slider(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = value,
-                    valueRange = min.toFloat().rangeTo(max.toFloat()),
-                    onValueChange = {
-                        value = it
-                    }
-                )
-
-                Spacer(modifier = Modifier.height(Spacing.s))
-                Button(
-                    onClick = {
-                        notificationCenter.send(
-                            NotificationCenterEvent.ChangeZombieScrollAmount(value)
-                        )
-                        navigationCoordinator.hideBottomSheet()
-                    },
-                ) {
-                    Text(text = LocalXmlStrings.current.buttonConfirm)
-                }
+                Text(text = LocalXmlStrings.current.buttonConfirm)
             }
         }
     }

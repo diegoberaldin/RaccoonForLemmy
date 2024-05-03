@@ -9,15 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ModeratorZoneAction
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toIcon
@@ -45,45 +42,31 @@ class ModeratorZoneBottomSheet : Screen {
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            BottomSheetHeader(LocalXmlStrings.current.moderatorZoneTitle)
+            val values = listOf(
+                ModeratorZoneAction.GlobalReports,
+                ModeratorZoneAction.GlobalModLog,
+                ModeratorZoneAction.ModeratedContents,
+            )
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.moderatorZoneTitle,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                val values = listOf(
-                    ModeratorZoneAction.GlobalReports,
-                    ModeratorZoneAction.GlobalModLog,
-                    ModeratorZoneAction.ModeratedContents,
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-                ) {
-                    for (value in values) {
-                        SettingsRow(
-                            modifier = Modifier.padding(vertical = Spacing.xxs),
-                            icon = value.toIcon(),
-                            title = value.toReadableName(),
-                            disclosureIndicator = true,
-                            onTap = {
-                                navigationCoordinator.hideBottomSheet()
-                                notificationCenter.send(
-                                    NotificationCenterEvent.ModeratorZoneActionSelected(
-                                        value.toInt(),
-                                    )
+                for (value in values) {
+                    SettingsRow(
+                        modifier = Modifier.padding(vertical = Spacing.xxs),
+                        icon = value.toIcon(),
+                        title = value.toReadableName(),
+                        disclosureIndicator = true,
+                        onTap = {
+                            navigationCoordinator.hideBottomSheet()
+                            notificationCenter.send(
+                                NotificationCenterEvent.ModeratorZoneActionSelected(
+                                    value.toInt(),
                                 )
-                            },
-                        )
-                    }
+                            )
+                        },
+                    )
                 }
             }
         }

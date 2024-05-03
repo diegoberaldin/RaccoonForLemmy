@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.Locales
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -47,92 +47,78 @@ class LanguageBottomSheet : Screen {
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            BottomSheetHeader(LocalXmlStrings.current.settingsLanguage)
+            val values = listOf(
+                Locales.Ar,
+                Locales.Bg,
+                Locales.Cs,
+                Locales.Da,
+                Locales.De,
+                Locales.Et,
+                Locales.El,
+                Locales.En,
+                Locales.Es,
+                Locales.Eo,
+                Locales.Fr,
+                Locales.Ga,
+                Locales.Hr,
+                Locales.It,
+                Locales.Lv,
+                Locales.Lt,
+                Locales.Hu,
+                Locales.Mt,
+                Locales.Nl,
+                Locales.No,
+                Locales.Pl,
+                Locales.Pt,
+                Locales.PtBr,
+                Locales.Ro,
+                Locales.Ru,
+                Locales.Sk,
+                Locales.Sl,
+                Locales.Sq,
+                Locales.Sr,
+                Locales.Fi,
+                Locales.Se,
+                Locales.Tok,
+                Locales.Tr,
+                Locales.Uk,
+            )
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.settingsLanguage,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                val values = listOf(
-                    Locales.Ar,
-                    Locales.Bg,
-                    Locales.Cs,
-                    Locales.Da,
-                    Locales.De,
-                    Locales.Et,
-                    Locales.El,
-                    Locales.En,
-                    Locales.Es,
-                    Locales.Eo,
-                    Locales.Fr,
-                    Locales.Ga,
-                    Locales.Hr,
-                    Locales.It,
-                    Locales.Lv,
-                    Locales.Lt,
-                    Locales.Hu,
-                    Locales.Mt,
-                    Locales.Nl,
-                    Locales.No,
-                    Locales.Pl,
-                    Locales.Pt,
-                    Locales.PtBr,
-                    Locales.Ro,
-                    Locales.Ru,
-                    Locales.Sk,
-                    Locales.Sl,
-                    Locales.Sq,
-                    Locales.Sr,
-                    Locales.Fi,
-                    Locales.Se,
-                    Locales.Tok,
-                    Locales.Tr,
-                    Locales.Uk,
-                )
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-                ) {
-                    for (value in values) {
-                        Row(
-                            modifier = Modifier.padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                                .fillMaxWidth()
-                                .onClick(
-                                    onClick = rememberCallback {
-                                        notificationCenter.send(
-                                            NotificationCenterEvent.ChangeLanguage(value)
-                                        )
-                                        navigationCoordinator.hideBottomSheet()
-                                    },
-                                ),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = buildAnnotatedString {
-                                    with(value) {
-                                        append(toLanguageFlag())
-                                        append("  ")
-                                        append(toLanguageName())
-                                    }
+                for (value in values) {
+                    Row(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.s,
+                            vertical = Spacing.s,
+                        )
+                            .fillMaxWidth()
+                            .onClick(
+                                onClick = rememberCallback {
+                                    notificationCenter.send(
+                                        NotificationCenterEvent.ChangeLanguage(value)
+                                    )
+                                    navigationCoordinator.hideBottomSheet()
                                 },
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-                        }
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = buildAnnotatedString {
+                                with(value) {
+                                    append(toLanguageFlag())
+                                    append("  ")
+                                    append(toLanguageName())
+                                }
+                            },
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
                     }
                 }
             }

@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.FontScale
@@ -20,7 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toFontScale
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -58,65 +57,61 @@ class FontScaleBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            val title = when (contentClass) {
+                ContentFontClass.Title -> LocalXmlStrings.current.settingsTitleFontScale
+                ContentFontClass.Body -> LocalXmlStrings.current.settingsContentFontScale
+                ContentFontClass.Comment -> LocalXmlStrings.current.settingsCommentFontScale
+                ContentFontClass.AncillaryText -> LocalXmlStrings.current.settingsAncillaryFontScale
+                else -> LocalXmlStrings.current.settingsUiFontScale
+            }
+            BottomSheetHeader(title)
+            Text(
+                modifier = Modifier.padding(
+                    start = Spacing.s,
+                    top = Spacing.s,
+                    end = Spacing.s,
+                ),
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                val title = when (contentClass) {
-                    ContentFontClass.Title -> LocalXmlStrings.current.settingsTitleFontScale
-                    ContentFontClass.Body -> LocalXmlStrings.current.settingsContentFontScale
-                    ContentFontClass.Comment -> LocalXmlStrings.current.settingsCommentFontScale
-                    ContentFontClass.AncillaryText -> LocalXmlStrings.current.settingsAncillaryFontScale
-                    else -> LocalXmlStrings.current.settingsUiFontScale
-                }
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-                ) {
-                    for (value in values) {
-                        val fontScale = value.toFontScale()
-                        Row(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = Spacing.s,
-                                    vertical = Spacing.s,
-                                )
-                                .fillMaxWidth()
-                                .onClick(
-                                    onClick = rememberCallback {
-                                        notificationCenter.send(
-                                            if (contentClass != null) {
-                                                NotificationCenterEvent.ChangeContentFontSize(
-                                                    value = value,
-                                                    contentClass = contentClass
-                                                )
-                                            } else {
-                                                NotificationCenterEvent.ChangeUiFontSize(value)
-                                            }
-                                        )
-                                        navigationCoordinator.hideBottomSheet()
-                                    },
-                                ),
-                        ) {
-                            val originalFontSize = MaterialTheme.typography.bodyLarge.fontSize
-                            Text(
-                                text = fontScale.toReadableName(),
-                                style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontSize = originalFontSize * value,
-                                ),
-                                color = MaterialTheme.colorScheme.onBackground,
+                for (value in values) {
+                    val fontScale = value.toFontScale()
+                    Row(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
                             )
-                        }
+                            .fillMaxWidth()
+                            .onClick(
+                                onClick = rememberCallback {
+                                    notificationCenter.send(
+                                        if (contentClass != null) {
+                                            NotificationCenterEvent.ChangeContentFontSize(
+                                                value = value,
+                                                contentClass = contentClass
+                                            )
+                                        } else {
+                                            NotificationCenterEvent.ChangeUiFontSize(value)
+                                        }
+                                    )
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
+                    ) {
+                        val originalFontSize = MaterialTheme.typography.bodyLarge.fontSize
+                        Text(
+                            text = fontScale.toReadableName(),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = originalFontSize * value,
+                            ),
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
                     }
                 }
             }

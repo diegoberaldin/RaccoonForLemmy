@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -58,56 +58,42 @@ class ResultTypeBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            BottomSheetHeader(LocalXmlStrings.current.exploreResultTypeTitle)
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.exploreResultTypeTitle,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-                ) {
-                    for (value in values) {
-                        Row(
-                            modifier = Modifier.padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                                .fillMaxWidth()
-                                .onClick(
-                                    onClick = rememberCallback {
-                                        notificationCenter.send(
-                                            NotificationCenterEvent.ChangeSearchResultType(
-                                                value = value,
-                                                screenKey = screenKey,
-                                            )
+                for (value in values) {
+                    Row(
+                        modifier = Modifier.padding(
+                            horizontal = Spacing.s,
+                            vertical = Spacing.s,
+                        )
+                            .fillMaxWidth()
+                            .onClick(
+                                onClick = rememberCallback {
+                                    notificationCenter.send(
+                                        NotificationCenterEvent.ChangeSearchResultType(
+                                            value = value,
+                                            screenKey = screenKey,
                                         )
-                                        navigationCoordinator.hideBottomSheet()
-                                    },
-                                ),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = value.toReadableName(),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-                            Spacer(modifier = Modifier.weight(1f))
-                            Image(
-                                imageVector = value.toIcon(),
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                            )
-                        }
+                                    )
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = value.toReadableName(),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Image(
+                            imageVector = value.toIcon(),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
+                        )
                     }
                 }
             }

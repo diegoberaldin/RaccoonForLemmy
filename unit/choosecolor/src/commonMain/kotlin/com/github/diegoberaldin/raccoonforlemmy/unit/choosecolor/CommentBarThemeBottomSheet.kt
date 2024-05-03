@@ -21,7 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.CommentBarT
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.MultiColorPreview
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -46,22 +46,7 @@ class CommentBarThemeBottomSheet : Screen {
             ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.settingsCommentBarTheme,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-            }
+            BottomSheetHeader(LocalXmlStrings.current.settingsCommentBarTheme)
             val values: List<CommentBarTheme> = listOf(
                 CommentBarTheme.Blue,
                 CommentBarTheme.Green,

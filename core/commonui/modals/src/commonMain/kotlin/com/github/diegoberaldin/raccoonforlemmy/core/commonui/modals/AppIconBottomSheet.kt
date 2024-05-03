@@ -9,15 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHandle
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -46,44 +43,30 @@ class AppIconBottomSheet : Screen {
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
+            BottomSheetHeader(LocalXmlStrings.current.settingsAppIcon)
+            val values = listOf(
+                AppIconVariant.Default,
+                AppIconVariant.Alt1,
+            )
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                BottomSheetHandle()
-                Text(
-                    modifier = Modifier.padding(
-                        start = Spacing.s,
-                        top = Spacing.s,
-                        end = Spacing.s,
-                    ),
-                    text = LocalXmlStrings.current.settingsAppIcon,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                val values = listOf(
-                    AppIconVariant.Default,
-                    AppIconVariant.Alt1,
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-                ) {
-                    for (value in values) {
-                        SettingsRow(
-                            modifier = Modifier.padding(vertical = Spacing.xxs),
-                            title = value.toReadableName(),
-                            painter = when (value) {
-                                AppIconVariant.Alt1 -> coreResources.appIconAlt1
-                                else -> coreResources.appIconDefault
-                            },
-                            onTap = {
-                                navigationCoordinator.hideBottomSheet()
-                                notificationCenter.send(
-                                    NotificationCenterEvent.AppIconVariantSelected(value.toInt())
-                                )
-                            },
-                        )
-                    }
+                for (value in values) {
+                    SettingsRow(
+                        modifier = Modifier.padding(vertical = Spacing.xxs),
+                        title = value.toReadableName(),
+                        painter = when (value) {
+                            AppIconVariant.Alt1 -> coreResources.appIconAlt1
+                            else -> coreResources.appIconDefault
+                        },
+                        onTap = {
+                            navigationCoordinator.hideBottomSheet()
+                            notificationCenter.send(
+                                NotificationCenterEvent.AppIconVariantSelected(value.toInt())
+                            )
+                        },
+                    )
                 }
             }
         }
