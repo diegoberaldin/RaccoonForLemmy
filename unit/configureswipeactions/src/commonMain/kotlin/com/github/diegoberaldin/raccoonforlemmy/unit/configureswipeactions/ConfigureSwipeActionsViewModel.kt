@@ -127,7 +127,6 @@ class ConfigureSwipeActionsViewModel(
                     }
                 }
             }
-            updateAvailableOptions()
         }
     }
 
@@ -171,7 +170,6 @@ class ConfigureSwipeActionsViewModel(
                     }
                 }
             }
-            updateAvailableOptions()
         }
     }
 
@@ -215,7 +213,6 @@ class ConfigureSwipeActionsViewModel(
                     }
                 }
             }
-            updateAvailableOptions()
         }
     }
 
@@ -259,7 +256,6 @@ class ConfigureSwipeActionsViewModel(
                     }
                 }
             }
-            updateAvailableOptions()
         }
     }
 
@@ -303,7 +299,6 @@ class ConfigureSwipeActionsViewModel(
                     }
                 }
             }
-            updateAvailableOptions()
         }
     }
 
@@ -347,7 +342,6 @@ class ConfigureSwipeActionsViewModel(
                     }
                 }
             }
-            updateAvailableOptions()
         }
     }
 
@@ -396,25 +390,33 @@ class ConfigureSwipeActionsViewModel(
         }
     }
 
-    private fun updateAvailableOptions() {
+    private fun updateAvailableOptions(
+        preventActionsOnBothSides: Boolean = false,
+    ) {
         val currentState = uiState.value
         val actionsPosts: Set<ActionOnSwipe> = buildSet {
             this += ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS
             this += ActionOnSwipe.DEFAULT_SWIPE_TO_END_POSTS
-            this -= currentState.actionsOnSwipeToStartPosts.toSet()
-            this -= currentState.actionsOnSwipeToEndPosts.toSet()
+            if (preventActionsOnBothSides) {
+                this -= currentState.actionsOnSwipeToStartPosts.toSet()
+                this -= currentState.actionsOnSwipeToEndPosts.toSet()
+            }
         }
         val actionsComments: Set<ActionOnSwipe> = buildSet {
             this += ActionOnSwipe.DEFAULT_SWIPE_TO_START_COMMENTS
             this += ActionOnSwipe.DEFAULT_SWIPE_TO_END_COMMENTS
-            this -= currentState.actionsOnSwipeToStartComments.toSet()
-            this -= currentState.actionsOnSwipeToEndComments.toSet()
+            if (preventActionsOnBothSides) {
+                this -= currentState.actionsOnSwipeToStartComments.toSet()
+                this -= currentState.actionsOnSwipeToEndComments.toSet()
+            }
         }
         val actionsInbox: Set<ActionOnSwipe> = buildSet {
             this += ActionOnSwipe.DEFAULT_SWIPE_TO_START_INBOX
             this += ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX
-            this -= currentState.actionsOnSwipeToStartInbox.toSet()
-            this -= currentState.actionsOnSwipeToEndInbox.toSet()
+            if (preventActionsOnBothSides) {
+                this -= currentState.actionsOnSwipeToStartInbox.toSet()
+                this -= currentState.actionsOnSwipeToEndInbox.toSet()
+            }
         }
         updateState {
             it.copy(

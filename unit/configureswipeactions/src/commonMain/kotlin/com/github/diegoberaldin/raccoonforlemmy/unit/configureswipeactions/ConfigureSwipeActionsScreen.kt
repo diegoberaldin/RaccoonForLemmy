@@ -50,7 +50,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSw
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeTarget
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ui.components.ConfigureActionItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ui.components.ConfigureAddAction
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ui.modals.SelectActionOnSwipeBottomSheet
@@ -183,7 +182,9 @@ class ConfigureSwipeActionsScreen : Screen {
                         item {
                             ConfigureAddAction {
                                 val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsPosts,
+                                    values = uiState.availableOptionsPosts.filterNot { a ->
+                                        uiState.actionsOnSwipeToStartPosts.contains(a)
+                                    },
                                     direction = ActionOnSwipeDirection.ToStart,
                                     target = ActionOnSwipeTarget.Posts,
                                 )
@@ -239,7 +240,9 @@ class ConfigureSwipeActionsScreen : Screen {
                         item {
                             ConfigureAddAction {
                                 val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsPosts,
+                                    values = uiState.availableOptionsPosts.filterNot { a ->
+                                        uiState.actionsOnSwipeToEndPosts.contains(a)
+                                    },
                                     direction = ActionOnSwipeDirection.ToEnd,
                                     target = ActionOnSwipeTarget.Posts,
                                 )
@@ -322,7 +325,9 @@ class ConfigureSwipeActionsScreen : Screen {
                         item {
                             ConfigureAddAction {
                                 val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsComments,
+                                    values = uiState.availableOptionsComments.filterNot { a ->
+                                        uiState.actionsOnSwipeToStartComments.contains(a)
+                                    },
                                     direction = ActionOnSwipeDirection.ToStart,
                                     target = ActionOnSwipeTarget.Comments,
                                 )
@@ -378,7 +383,9 @@ class ConfigureSwipeActionsScreen : Screen {
                         item {
                             ConfigureAddAction {
                                 val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsComments,
+                                    values = uiState.availableOptionsComments.filterNot { a ->
+                                        uiState.actionsOnSwipeToEndComments.contains(a)
+                                    },
                                     direction = ActionOnSwipeDirection.ToEnd,
                                     target = ActionOnSwipeTarget.Comments,
                                 )
@@ -461,7 +468,9 @@ class ConfigureSwipeActionsScreen : Screen {
                         item {
                             ConfigureAddAction {
                                 val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsInbox,
+                                    values = uiState.availableOptionsInbox.filterNot { a ->
+                                       uiState.actionsOnSwipeToStartInbox.contains(a)
+                                    },
                                     direction = ActionOnSwipeDirection.ToStart,
                                     target = ActionOnSwipeTarget.Inbox,
                                 )
@@ -517,7 +526,9 @@ class ConfigureSwipeActionsScreen : Screen {
                         item {
                             ConfigureAddAction {
                                 val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsInbox,
+                                    values = uiState.availableOptionsInbox.filterNot { a ->
+                                        uiState.actionsOnSwipeToEndInbox.contains(a)
+                                    },
                                     direction = ActionOnSwipeDirection.ToEnd,
                                     target = ActionOnSwipeTarget.Inbox,
                                 )
