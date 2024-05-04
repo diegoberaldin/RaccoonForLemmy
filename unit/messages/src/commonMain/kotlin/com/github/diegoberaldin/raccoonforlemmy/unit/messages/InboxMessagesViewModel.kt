@@ -34,7 +34,10 @@ class InboxMessagesViewModel(
         screenModelScope.launch {
             coordinator.events.onEach {
                 when (it) {
-                    InboxCoordinator.Event.Refresh -> refresh()
+                    InboxCoordinator.Event.Refresh -> {
+                        refresh()
+                        emitEffect(InboxMessagesMviModel.Effect.BackToTop)
+                    }
                 }
             }.launchIn(this)
             coordinator.unreadOnly.onEach {
@@ -77,6 +80,7 @@ class InboxMessagesViewModel(
 
             InboxMessagesMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
+                emitEffect(InboxMessagesMviModel.Effect.BackToTop)
             }
         }
     }

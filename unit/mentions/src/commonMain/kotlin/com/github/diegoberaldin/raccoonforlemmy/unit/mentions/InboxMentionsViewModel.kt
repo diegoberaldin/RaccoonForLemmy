@@ -37,7 +37,10 @@ class InboxMentionsViewModel(
         screenModelScope.launch {
             coordinator.events.onEach {
                 when (it) {
-                    InboxCoordinator.Event.Refresh -> refresh()
+                    InboxCoordinator.Event.Refresh -> {
+                        refresh()
+                        emitEffect(InboxMentionsMviModel.Effect.BackToTop)
+                    }
                 }
             }.launchIn(this)
             coordinator.unreadOnly.onEach {
@@ -79,6 +82,7 @@ class InboxMentionsViewModel(
 
             InboxMentionsMviModel.Intent.Refresh -> screenModelScope.launch {
                 refresh()
+                emitEffect(InboxMentionsMviModel.Effect.BackToTop)
             }
 
             is InboxMentionsMviModel.Intent.MarkAsRead -> {
