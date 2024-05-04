@@ -15,9 +15,9 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -194,7 +194,7 @@ fun RawContentDialog(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Icon(
-                                    modifier = Modifier.size(IconSize.s),
+                                    modifier = Modifier.size(IconSize.s).padding(0.5.dp),
                                     imageVector = Icons.Default.Schedule,
                                     contentDescription = null,
                                     tint = fullColor,
@@ -218,8 +218,8 @@ fun RawContentDialog(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                         ) {
                             Icon(
-                                modifier = Modifier.size(IconSize.m).padding(end = 3.5.dp),
-                                imageVector = Icons.Default.Edit,
+                                modifier = Modifier.size(IconSize.s),
+                                imageVector = Icons.Default.Update,
                                 contentDescription = null,
                                 tint = fullColor,
                             )

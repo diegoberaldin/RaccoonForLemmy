@@ -96,7 +96,7 @@ fun InboxCard(
                 CustomizedContent(ContentFontClass.Body) {
                     PostCardBody(
                         modifier = Modifier.padding(
-                            horizontal = Spacing.xs,
+                            horizontal = Spacing.s,
                         ),
                         text = mention.comment.text.substringBefore("\n"),
                         autoLoadImages = autoLoadImages,
@@ -109,8 +109,8 @@ fun InboxCard(
             }
             InboxReplySubtitle(
                 modifier = Modifier.padding(
-                    start = Spacing.xs,
-                    end = Spacing.xs,
+                    start = Spacing.s,
+                    end = Spacing.s,
                     top = Spacing.xs,
                 ),
                 creator = mention.creator,

@@ -185,7 +185,7 @@ fun InboxReplySubtitle(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
-                        modifier = Modifier.size(IconSize.s),
+                        modifier = Modifier.size(IconSize.s).padding(0.5.dp),
                         imageVector = Icons.Default.Schedule,
                         contentDescription = null,
                         tint = ancillaryColor,

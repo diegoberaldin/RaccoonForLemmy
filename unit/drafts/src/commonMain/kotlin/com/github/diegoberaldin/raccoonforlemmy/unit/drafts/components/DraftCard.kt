@@ -48,7 +48,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardTi
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftType
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.toIso8601Timestamp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
@@ -158,7 +157,7 @@ private fun DraftFooter(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
-                    modifier = Modifier.size(IconSize.s),
+                    modifier = Modifier.size(IconSize.s).padding(0.5.dp),
                     imageVector = Icons.Default.Schedule,
                     contentDescription = null,
                     tint = ancillaryColor,

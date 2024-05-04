@@ -29,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -148,7 +149,7 @@ internal fun ChatCard(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Icon(
-                                modifier = Modifier.size(IconSize.s),
+                                modifier = Modifier.size(IconSize.s).padding(0.5.dp),
                                 imageVector = Icons.Default.Schedule,
                                 contentDescription = null,
                                 tint = ancillaryColor,

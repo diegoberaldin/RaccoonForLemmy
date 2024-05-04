@@ -17,9 +17,9 @@ import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -85,7 +85,8 @@ fun PostCardFooter(
     val defaultUpvoteColor = MaterialTheme.colorScheme.primary
     val additionalAlphaFactor = if (markRead) readContentAlpha else 1f
     val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
-    val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha * additionalAlphaFactor)
+    val ancillaryColor =
+        MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha * additionalAlphaFactor)
 
     Box(modifier = modifier) {
         Row(
@@ -139,9 +140,20 @@ fun PostCardFooter(
                     modifier = Modifier.padding(start = Spacing.xs),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    val isShowingUpdateDate = !updateDate.isNullOrBlank()
                     Icon(
-                        modifier = Modifier.size(IconSize.s),
-                        imageVector = Icons.Default.Schedule,
+                        modifier = Modifier.size(IconSize.s).then(
+                            if (!isShowingUpdateDate) {
+                                Modifier.padding(0.5.dp)
+                            } else {
+                                Modifier
+                            }
+                        ),
+                        imageVector = if (isShowingUpdateDate) {
+                            Icons.Default.Update
+                        } else {
+                            Icons.Default.Schedule
+                        },
                         contentDescription = null,
                         tint = ancillaryColor,
                     )
@@ -152,14 +164,6 @@ fun PostCardFooter(
                         color = ancillaryColor,
                     )
                 }
-            }
-            if (updateDate.orEmpty().isNotBlank()) {
-                Icon(
-                    modifier = buttonModifier,
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = null,
-                    tint = ancillaryColor,
-                )
             }
             if (options.isNotEmpty()) {
                 Icon(
