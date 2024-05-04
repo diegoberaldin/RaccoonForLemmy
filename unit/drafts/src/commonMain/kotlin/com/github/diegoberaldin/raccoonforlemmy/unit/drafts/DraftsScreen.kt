@@ -91,7 +91,7 @@ class DraftsScreen : Screen {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),

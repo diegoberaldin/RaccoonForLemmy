@@ -101,7 +101,7 @@ class MultiCommunityEditorScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
@@ -248,7 +248,7 @@ class MultiCommunityEditorScreen(
                                             it
                                         }
                                     }.onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             model.reduce(
                                                 MultiCommunityEditorMviModel.Intent.SelectImage(
                                                     null,
@@ -302,7 +302,7 @@ class MultiCommunityEditorScreen(
                         trailingIcon = {
                             Icon(
                                 modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         if (uiState.searchText.isNotEmpty()) {
                                             model.reduce(
                                                 MultiCommunityEditorMviModel.Intent.SetSearch("")

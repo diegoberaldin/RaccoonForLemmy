@@ -174,7 +174,7 @@ object ModalDrawerContent : Tab {
                                 trailingIcon = {
                                     Icon(
                                         modifier = Modifier.onClick(
-                                            onClick = rememberCallback {
+                                            onClick = {
                                                 if (uiState.searchText.isNotEmpty()) {
                                                     model.reduce(
                                                         ModalDrawerMviModel.Intent.SetSearch(

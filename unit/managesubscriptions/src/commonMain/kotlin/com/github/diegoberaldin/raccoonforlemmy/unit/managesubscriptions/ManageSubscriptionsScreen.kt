@@ -143,7 +143,7 @@ class ManageSubscriptionsScreen : Screen {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigatorCoordinator.popScreen()
                                 },
                             ),
@@ -215,7 +215,7 @@ class ManageSubscriptionsScreen : Screen {
                     trailingIcon = {
                         Icon(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     if (uiState.searchText.isNotEmpty()) {
                                         model.reduce(ManageSubscriptionsMviModel.Intent.SetSearch(""))
                                     }
@@ -270,7 +270,7 @@ class ManageSubscriptionsScreen : Screen {
                                 Icon(
                                     modifier = Modifier
                                         .onClick(
-                                            onClick = rememberCallback {
+                                            onClick = {
                                                 navigatorCoordinator.pushScreen(
                                                     MultiCommunityEditorScreen()
                                                 )
@@ -286,7 +286,7 @@ class ManageSubscriptionsScreen : Screen {
                             MultiCommunityItem(
                                 modifier = Modifier.fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.background).onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             community.id?.also {
                                                 navigatorCoordinator.pushScreen(
                                                     MultiCommunityScreen(it),
@@ -347,7 +347,7 @@ class ManageSubscriptionsScreen : Screen {
                                 modifier = Modifier.fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.background)
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             detailOpener.openCommunityDetail(community = community)
                                         },
                                     ),

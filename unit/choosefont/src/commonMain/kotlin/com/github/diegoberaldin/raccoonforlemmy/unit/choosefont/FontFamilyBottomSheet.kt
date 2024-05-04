@@ -26,7 +26,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.getCoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 private val defaultChoices: List<Int> = listOf(
     UiFontFamily.Poppins,
@@ -73,7 +72,7 @@ class FontFamilyBottomSheet(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     val event = if (content) {
                                         NotificationCenterEvent.ChangeContentFontFamily(family)
                                     } else {

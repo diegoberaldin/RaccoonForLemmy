@@ -27,7 +27,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.remembe
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.md5
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.getShareHelper
 
@@ -63,7 +62,7 @@ class WebViewScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
@@ -77,7 +76,7 @@ class WebViewScreen(
                             modifier = Modifier
                                 .padding(horizontal = Spacing.xs)
                                 .onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         shareHelper.share(url)
                                     },
                                 ),

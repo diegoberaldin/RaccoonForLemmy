@@ -111,7 +111,7 @@ internal fun AccountItem(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = true
                             },
                         ),
@@ -135,7 +135,7 @@ internal fun AccountItem(
                             text = {
                                 Text(option.text)
                             },
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = false
                                 onOptionSelected?.invoke(option.id)
                             },

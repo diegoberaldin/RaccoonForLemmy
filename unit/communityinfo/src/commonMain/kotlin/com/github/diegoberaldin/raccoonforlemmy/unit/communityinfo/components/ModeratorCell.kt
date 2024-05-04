@@ -50,7 +50,7 @@ internal fun ModeratorCell(
                     .size(iconSize)
                     .clip(RoundedCornerShape(iconSize / 2))
                     .onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             onOpenUser?.invoke(user)
                         },
                     ),
@@ -62,7 +62,7 @@ internal fun ModeratorCell(
         } else {
             PlaceholderImage(
                 modifier = Modifier.onClick(
-                    onClick = rememberCallback {
+                    onClick = {
                         onOpenUser?.invoke(user)
                     },
                 ),

@@ -39,7 +39,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
@@ -181,7 +180,7 @@ fun CommunityItem(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = true
                             },
                         ),
@@ -205,7 +204,7 @@ fun CommunityItem(
                             text = {
                                 Text(option.text)
                             },
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = false
                                 onOptionSelected?.invoke(option.id)
                             },

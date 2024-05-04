@@ -23,7 +23,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
@@ -119,7 +118,7 @@ internal fun PostReportCard(
                         modifier = Modifier
                             .padding(top = Spacing.s, bottom = Spacing.xxs)
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.handleUrl(
                                         url = url,
                                         openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),

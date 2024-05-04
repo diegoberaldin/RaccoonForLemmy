@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
 internal fun AboutItem(
@@ -34,7 +33,7 @@ internal fun AboutItem(
             horizontal = Spacing.xs,
             vertical = Spacing.s,
         ).onClick(
-            onClick = rememberCallback {
+            onClick = {
                 onClick?.invoke()
             },
         ),

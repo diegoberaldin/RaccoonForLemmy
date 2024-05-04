@@ -29,7 +29,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,7 +90,7 @@ internal fun ChangeInstanceDialog(
                     if (instanceName.isNotEmpty()) {
                         Icon(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     onChangeInstanceName?.invoke("")
                                 },
                             ),

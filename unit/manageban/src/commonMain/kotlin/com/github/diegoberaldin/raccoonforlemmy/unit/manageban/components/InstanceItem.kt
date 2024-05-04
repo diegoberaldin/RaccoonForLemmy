@@ -77,7 +77,7 @@ fun InstanceItem(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = true
                             },
                         ),
@@ -101,7 +101,7 @@ fun InstanceItem(
                             text = {
                                 Text(option.text)
                             },
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = false
                                 onOptionSelected?.invoke(option.id)
                             },

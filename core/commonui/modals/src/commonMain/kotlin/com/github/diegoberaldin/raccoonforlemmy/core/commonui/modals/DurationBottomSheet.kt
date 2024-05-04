@@ -24,7 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.getPrettyDuration
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -78,7 +77,7 @@ class DurationBottomSheet(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     val event = when (type) {
                                         DurationBottomSheetType.ZOMBIE_MODE_INTERVAL ->
                                             NotificationCenterEvent.ChangeZombieInterval(value)

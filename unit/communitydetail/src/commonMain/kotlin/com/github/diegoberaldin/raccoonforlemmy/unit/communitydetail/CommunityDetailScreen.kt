@@ -286,7 +286,7 @@ class CommunityDetailScreen(
                                 modifier = Modifier
                                     .padding(horizontal = Spacing.xs)
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             when (uiState.community.subscribed) {
                                                 true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
                                                 false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
@@ -309,7 +309,7 @@ class CommunityDetailScreen(
                             modifier = Modifier
                                 .padding(horizontal = Spacing.xs)
                                 .onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         val sheet = SortBottomSheet(
                                             values = uiState.availableSortTypes.map { it.toInt() },
                                             expandTop = true,
@@ -404,7 +404,7 @@ class CommunityDetailScreen(
                                 modifier = Modifier.onGloballyPositioned {
                                     optionsOffset = it.positionInParent()
                                 }.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         optionsExpanded = true
                                     },
                                 ),
@@ -427,7 +427,7 @@ class CommunityDetailScreen(
                                         text = {
                                             Text(option.text)
                                         },
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             optionsExpanded = false
                                             when (option.id) {
                                                 OptionId.BlockInstance -> model.reduce(
@@ -528,7 +528,7 @@ class CommunityDetailScreen(
                         if (navigationCoordinator.canPop.value) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
@@ -645,7 +645,7 @@ class CommunityDetailScreen(
                             trailingIcon = {
                                 Icon(
                                     modifier = Modifier.onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             if (uiState.searchText.isNotEmpty()) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.SetSearch(

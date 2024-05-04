@@ -126,7 +126,7 @@ class LoginBottomSheet : Screen {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
@@ -137,7 +137,7 @@ class LoginBottomSheet : Screen {
                     },
                     actions = {
                         IconButton(
-                            onClick = rememberCallback {
+                            onClick = {
                                 navigationCoordinator.handleUrl(
                                     url = HELP_URL,
                                     openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
@@ -306,7 +306,7 @@ class LoginBottomSheet : Screen {
                         trailingIcon = {
                             Image(
                                 modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         transformation =
                                             if (transformation == VisualTransformation.None) {
                                                 PasswordVisualTransformation()

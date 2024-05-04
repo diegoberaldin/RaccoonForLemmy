@@ -50,7 +50,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.readConten
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FeedbackButton
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 
@@ -101,7 +100,7 @@ fun PostCardFooter(
                     Image(
                         modifier = buttonModifier.padding(1.dp)
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     onReply?.invoke()
                                 },
                             ),
@@ -170,7 +169,7 @@ fun PostCardFooter(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen.value = true
                             },
                         ),
@@ -193,7 +192,7 @@ fun PostCardFooter(
                     } else {
                         ancillaryColor
                     },
-                    onClick = rememberCallback {
+                    onClick = {
                         onSave?.invoke()
                     },
                 )
@@ -210,7 +209,7 @@ fun PostCardFooter(
                 } else {
                     ancillaryColor
                 },
-                onClick = rememberCallback {
+                onClick = {
                     onUpVote?.invoke()
                 },
             )
@@ -242,7 +241,7 @@ fun PostCardFooter(
                 } else {
                     ancillaryColor
                 },
-                onClick = rememberCallback {
+                onClick = {
                     onDownVote?.invoke()
                 },
             )
@@ -263,7 +262,7 @@ fun PostCardFooter(
                     text = {
                         Text(option.text)
                     },
-                    onClick = rememberCallback {
+                    onClick = {
                         optionsMenuOpen.value = false
                         onOptionSelected?.invoke(option.id)
                     },

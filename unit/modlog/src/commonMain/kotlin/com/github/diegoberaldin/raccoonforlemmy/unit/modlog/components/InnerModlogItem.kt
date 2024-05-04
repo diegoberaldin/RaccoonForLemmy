@@ -52,7 +52,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -155,7 +154,7 @@ private fun ModlogHeader(
         Row(
             modifier = modifier
                 .onClick(
-                    onClick = rememberCallback {
+                    onClick = {
                         if (creator != null) {
                             onOpenCreator?.invoke(creator)
                         }
@@ -232,7 +231,7 @@ private fun ModlogFooter(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsExpanded = true
                             },
                         ),
@@ -246,7 +245,7 @@ private fun ModlogFooter(
                 Image(
                     modifier = buttonModifier
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 onOpen.invoke()
                             },
                         ),
@@ -271,7 +270,7 @@ private fun ModlogFooter(
                     text = {
                         Text(option.text)
                     },
-                    onClick = rememberCallback {
+                    onClick = {
                         optionsExpanded = false
                         onOptionSelected?.invoke(option.id)
                     },

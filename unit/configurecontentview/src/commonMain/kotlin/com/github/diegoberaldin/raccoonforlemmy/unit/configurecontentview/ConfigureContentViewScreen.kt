@@ -81,7 +81,7 @@ class ConfigureContentViewScreen : Screen {
                         if (navigationCoordinator.canPop.value) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         navigationCoordinator.popScreen()
                                     },
                                 ),

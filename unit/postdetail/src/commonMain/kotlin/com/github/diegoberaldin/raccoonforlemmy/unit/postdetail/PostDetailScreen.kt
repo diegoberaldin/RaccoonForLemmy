@@ -305,7 +305,7 @@ class PostDetailScreen(
                             modifier = Modifier
                                 .padding(horizontal = Spacing.xs)
                                 .onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         val sheet = SortBottomSheet(
                                             comments = true,
                                             values = uiState.availableSortTypes.map { it.toInt() },
@@ -338,7 +338,7 @@ class PostDetailScreen(
                                 modifier = Modifier.onGloballyPositioned {
                                     optionsOffset = it.positionInParent()
                                 }.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         optionsExpanded = true
                                     },
                                 ),
@@ -361,7 +361,7 @@ class PostDetailScreen(
                                         text = {
                                             Text(option.text)
                                         },
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             optionsExpanded = false
                                             when (option.id) {
                                                 OptionId.Search -> {
@@ -384,7 +384,7 @@ class PostDetailScreen(
                         if (navigationCoordinator.canPop.value) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
@@ -807,7 +807,7 @@ class PostDetailScreen(
                                                 }
                                                 Text(
                                                     modifier = Modifier.onClick(
-                                                        onClick = rememberCallback {
+                                                        onClick = {
                                                             val post = PostModel(
                                                                 id = crossPost.id,
                                                                 community = community,

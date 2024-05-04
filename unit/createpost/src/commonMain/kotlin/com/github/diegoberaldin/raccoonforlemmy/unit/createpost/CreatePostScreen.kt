@@ -240,7 +240,7 @@ class CreatePostScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.padding(start = Spacing.s).onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
@@ -378,7 +378,7 @@ class CreatePostScreen(
                                     )
                                     .padding(Spacing.xs)
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             model.reduce(CreatePostMviModel.Intent.AutoFillTitle)
                                         },
                                     ),
@@ -431,7 +431,7 @@ class CreatePostScreen(
                     trailingIcon = {
                         Icon(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     openImagePicker = true
                                 },
                             ),

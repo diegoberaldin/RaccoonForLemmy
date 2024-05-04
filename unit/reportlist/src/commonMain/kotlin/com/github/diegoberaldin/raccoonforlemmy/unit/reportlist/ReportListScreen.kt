@@ -103,7 +103,7 @@ class ReportListScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
@@ -124,7 +124,7 @@ class ReportListScreen(
                             }
                             Text(
                                 modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         val sheet = ReportListTypeSheet()
                                         navigationCoordinator.showBottomSheet(sheet)
                                     },

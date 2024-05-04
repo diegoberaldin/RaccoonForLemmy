@@ -32,7 +32,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 
 @Composable
@@ -87,7 +86,7 @@ internal fun SelectInstanceItem(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = true
                             },
                         ),
@@ -111,7 +110,7 @@ internal fun SelectInstanceItem(
                             text = {
                                 Text(option.text)
                             },
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = false
                                 onOptionSelected?.invoke(option.id)
                             },

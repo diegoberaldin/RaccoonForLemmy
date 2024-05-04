@@ -119,7 +119,7 @@ class SettingsScreen : Screen {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     scope.launch {
                                         drawerCoordinator.toggleDrawer()
                                     }

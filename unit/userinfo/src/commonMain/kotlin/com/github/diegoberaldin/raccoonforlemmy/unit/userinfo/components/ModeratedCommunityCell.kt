@@ -23,7 +23,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryT
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 
 @Composable
@@ -50,7 +49,7 @@ internal fun ModeratedCommunityCell(
                     .size(iconSize)
                     .clip(RoundedCornerShape(iconSize / 2))
                     .onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             onOpenCommunity?.invoke(community)
                         },
                     ),
@@ -62,7 +61,7 @@ internal fun ModeratedCommunityCell(
         } else {
             PlaceholderImage(
                 modifier = Modifier.onClick(
-                    onClick = rememberCallback {
+                    onClick = {
                         onOpenCommunity?.invoke(community)
                     },
                 ),

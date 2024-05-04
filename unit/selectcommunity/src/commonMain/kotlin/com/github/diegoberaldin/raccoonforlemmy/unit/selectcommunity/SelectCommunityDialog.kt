@@ -95,7 +95,7 @@ class SelectCommunityDialog : Screen {
                     trailingIcon = {
                         Icon(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     if (uiState.searchText.isNotEmpty()) {
                                         model.reduce(SelectCommunityMviModel.Intent.SetSearch(""))
                                     }
@@ -130,7 +130,7 @@ class SelectCommunityDialog : Screen {
                                 modifier = Modifier.fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.background)
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             notificationCenter.send(
                                                 NotificationCenterEvent.SelectCommunity(community)
                                             )

@@ -26,7 +26,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageFlag
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageName
 
@@ -99,7 +98,7 @@ class LanguageBottomSheet : Screen {
                         )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     notificationCenter.send(
                                         NotificationCenterEvent.ChangeLanguage(value)
                                     )

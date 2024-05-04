@@ -19,7 +19,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
 fun SettingsImageInfo(
@@ -38,7 +37,7 @@ fun SettingsImageInfo(
                 vertical = Spacing.xs,
                 horizontal = Spacing.m,
             ).onClick(
-                onClick = rememberCallback {
+                onClick = {
                     onEdit?.invoke()
                 },
             ),

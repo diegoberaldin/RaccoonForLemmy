@@ -35,7 +35,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
@@ -98,7 +97,7 @@ fun CommunityHeader(
                         .size(IconSize.xxl)
                         .clip(RoundedCornerShape(IconSize.xxl / 2))
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 onOpenImage?.invoke(communityIcon)
                             },
                         ),

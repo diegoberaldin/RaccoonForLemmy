@@ -113,7 +113,7 @@ class SavedItemsScreen : Screen {
                             modifier = Modifier
                                 .padding(horizontal = Spacing.xs)
                                 .onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         val sheet = SortBottomSheet(
                                             values = uiState.availableSortTypes.map { it.toInt() },
                                             screenKey = "savedItems",
@@ -129,7 +129,7 @@ class SavedItemsScreen : Screen {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigatorCoordinator.popScreen()
                                 },
                             ),
@@ -223,7 +223,7 @@ class SavedItemsScreen : Screen {
                                     preferNicknames = uiState.preferNicknames,
                                     showScores = uiState.showScores,
                                     blurNsfw = uiState.blurNsfw,
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         model.reduce(SavedItemsMviModel.Intent.WillOpenSave)
                                         detailOpener.openPostDetail(post)
                                     },

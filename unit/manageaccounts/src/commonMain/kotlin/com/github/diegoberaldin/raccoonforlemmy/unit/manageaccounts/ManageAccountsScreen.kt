@@ -80,7 +80,7 @@ class ManageAccountsScreen : Screen {
                     AccountItem(
                         account = account,
                         autoLoadImages = uiState.autoLoadImages,
-                        onClick = rememberCallback {
+                        onClick = {
                             model.reduce(ManageAccountsMviModel.Intent.SwitchAccount(idx))
                         },
                         options = buildList {

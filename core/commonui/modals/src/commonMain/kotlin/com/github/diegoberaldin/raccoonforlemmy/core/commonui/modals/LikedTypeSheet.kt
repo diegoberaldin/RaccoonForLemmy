@@ -24,7 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 class LikedTypeSheet : Screen {
     @Composable
@@ -56,7 +55,7 @@ class LikedTypeSheet : Screen {
                         )
                         .fillMaxWidth()
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 notificationCenter.send(
                                     NotificationCenterEvent.ChangedLikedType(true)
                                 )
@@ -78,7 +77,7 @@ class LikedTypeSheet : Screen {
                             horizontal = Spacing.s,
                             vertical = Spacing.s,
                         ).onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 notificationCenter.send(
                                     NotificationCenterEvent.ChangedLikedType(false)
                                 )

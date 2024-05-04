@@ -75,7 +75,7 @@ internal fun ConfigureActionItem(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsExpanded = true
                             },
                         ),
@@ -101,7 +101,7 @@ internal fun ConfigureActionItem(
                     text = {
                         Text(option.text)
                     },
-                    onClick = rememberCallback {
+                    onClick = {
                         optionsExpanded = false
                         onOptionSelected?.invoke(option.id)
                     },

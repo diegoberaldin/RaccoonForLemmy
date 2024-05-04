@@ -15,7 +15,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
 fun SettingsTextualInfo(
@@ -34,7 +33,7 @@ fun SettingsTextualInfo(
                 vertical = Spacing.xs,
                 horizontal = Spacing.m,
             ).onClick(
-                onClick = rememberCallback {
+                onClick = {
                     onEdit?.invoke()
                 },
             ),

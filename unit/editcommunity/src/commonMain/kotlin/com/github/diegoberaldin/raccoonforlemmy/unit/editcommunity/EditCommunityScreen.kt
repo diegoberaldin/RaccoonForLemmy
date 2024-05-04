@@ -155,7 +155,7 @@ class EditCommunityScreen(
                             Image(
                                 modifier = Modifier
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             if (uiState.hasUnsavedChanges) {
                                                 confirmBackWithUnsavedChangesDialog = true
                                             } else {

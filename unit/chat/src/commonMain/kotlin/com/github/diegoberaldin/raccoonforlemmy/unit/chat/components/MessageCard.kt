@@ -42,7 +42,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -141,7 +140,7 @@ internal fun MessageCard(
                                             optionsOffset = it.positionInParent()
                                         }
                                         .onClick(
-                                            onClick = rememberCallback {
+                                            onClick = {
                                                 optionsExpanded = true
                                             },
                                         ),
@@ -191,7 +190,7 @@ internal fun MessageCard(
                                     text = {
                                         Text(option.text)
                                     },
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         optionsExpanded = false
                                         onOptionSelected?.invoke(option.id)
                                     },

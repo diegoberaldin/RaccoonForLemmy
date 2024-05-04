@@ -170,7 +170,7 @@ class MultiCommunityScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
@@ -196,7 +196,7 @@ class MultiCommunityScreen(
                                 modifier = Modifier
                                     .padding(horizontal = Spacing.xs)
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             val sheet = SortBottomSheet(
                                                 values = uiState.availableSortTypes.map { it.toInt() },
                                                 expandTop = true,
@@ -403,7 +403,7 @@ class MultiCommunityScreen(
                                     blurNsfw = uiState.blurNsfw,
                                     fadeRead = uiState.fadeReadPosts,
                                     showUnreadComments = uiState.showUnreadComments,
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
                                         model.reduce(MultiCommunityMviModel.Intent.WillOpenDetail)
                                         detailOpener.openPostDetail(post)

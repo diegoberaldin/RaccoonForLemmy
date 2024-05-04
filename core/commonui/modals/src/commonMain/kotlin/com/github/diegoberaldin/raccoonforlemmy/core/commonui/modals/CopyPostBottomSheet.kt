@@ -24,7 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 class CopyPostBottomSheet(
     private val title: String? = null,
@@ -63,7 +62,7 @@ class CopyPostBottomSheet(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     val event = NotificationCenterEvent.CopyText(title.orEmpty())
                                     notificationCenter.send(event)
                                     navigationCoordinator.hideBottomSheet()
@@ -87,7 +86,7 @@ class CopyPostBottomSheet(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     val event = NotificationCenterEvent.CopyText(text.orEmpty())
                                     notificationCenter.send(event)
                                     navigationCoordinator.hideBottomSheet()
@@ -115,7 +114,7 @@ class CopyPostBottomSheet(
                                 )
                                 .fillMaxWidth()
                                 .onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         val event = NotificationCenterEvent.CopyText(textToCopy)
                                         notificationCenter.send(event)
                                         navigationCoordinator.hideBottomSheet()

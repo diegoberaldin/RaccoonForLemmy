@@ -50,7 +50,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.notlogged.ProfileNotLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.DraftsScreen
@@ -168,7 +167,7 @@ internal object ProfileMainScreen : Tab {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     scope.launch {
                                         drawerCoordinator.toggleDrawer()
                                     }
@@ -192,7 +191,7 @@ internal object ProfileMainScreen : Tab {
                                 modifier = Modifier
                                     .padding(end = Spacing.s)
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ManageAccounts)
                                         },
                                     ),
@@ -204,7 +203,7 @@ internal object ProfileMainScreen : Tab {
                                 modifier = Modifier
                                     .padding(horizontal = Spacing.xs)
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             logoutConfirmDialogOpen = true
                                         },
                                     ),

@@ -41,7 +41,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
@@ -86,7 +85,7 @@ fun CommunityAndCreatorInfo(
                 CustomImage(
                     modifier = Modifier
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 if (community != null) {
                                     onOpenCommunity?.invoke(community)
                                 }
@@ -103,7 +102,7 @@ fun CommunityAndCreatorInfo(
             } else {
                 PlaceholderImage(
                     modifier = Modifier.onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             if (community != null) {
                                 onOpenCommunity?.invoke(community)
                             }
@@ -119,7 +118,7 @@ fun CommunityAndCreatorInfo(
                 CustomImage(
                     modifier = Modifier
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 if (creator != null) {
                                     onOpenCreator?.invoke(creator)
                                 }
@@ -136,7 +135,7 @@ fun CommunityAndCreatorInfo(
             } else {
                 PlaceholderImage(
                     modifier = Modifier.onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             if (creator != null) {
                                 onOpenCreator?.invoke(creator)
                             }
@@ -156,7 +155,7 @@ fun CommunityAndCreatorInfo(
                     Text(
                         modifier = Modifier
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     onOpenCommunity?.invoke(community)
                                 },
                                 onDoubleClick = onDoubleClick ?: {},
@@ -173,7 +172,7 @@ fun CommunityAndCreatorInfo(
                     Text(
                         modifier = Modifier
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     onOpenCreator?.invoke(creator)
                                 },
                                 onDoubleClick = onDoubleClick ?: {},
@@ -231,7 +230,7 @@ fun CommunityAndCreatorInfo(
             val expandedModifier = Modifier
                 .padding(end = Spacing.xs)
                 .onClick(
-                    onClick = rememberCallback {
+                    onClick = {
                         onToggleExpanded?.invoke()
                     },
                 )

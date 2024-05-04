@@ -72,7 +72,7 @@ class LicencesScreen : Screen {
                             Image(
                                 modifier = Modifier
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             navigationCoordinator.popScreen()
                                         },
                                     ),
@@ -95,7 +95,7 @@ class LicencesScreen : Screen {
                         modifier = Modifier
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     if (item.url.isNotBlank()) {
                                         navigationCoordinator.handleUrl(
                                             url = item.url,

@@ -77,7 +77,7 @@ internal fun ExploreTopBar(
                 otherInstance.isNotEmpty() -> {
                     Image(
                         modifier = Modifier.onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 onBack?.invoke()
                             },
                         ),
@@ -90,7 +90,7 @@ internal fun ExploreTopBar(
                 onHamburgerTapped != null -> {
                     Image(
                         modifier = Modifier.onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 onHamburgerTapped()
                             },
                         ),
@@ -103,7 +103,7 @@ internal fun ExploreTopBar(
                 else -> {
                     Image(
                         modifier = Modifier.onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 onSelectListingType?.invoke()
                             },
                         ),
@@ -120,7 +120,7 @@ internal fun ExploreTopBar(
                     .fillMaxWidth()
                     .padding(horizontal = Spacing.s)
                     .onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             if (otherInstance.isEmpty()) {
                                 onSelectListingType?.invoke()
                             }
@@ -151,7 +151,7 @@ internal fun ExploreTopBar(
                 modifier = Modifier
                     .padding(horizontal = Spacing.xs)
                     .onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             onSelectResultTypeType?.invoke()
                         },
                     ),
@@ -176,7 +176,7 @@ internal fun ExploreTopBar(
                 modifier = Modifier
                     .padding(horizontal = Spacing.xs)
                     .onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             onSelectSortType?.invoke()
                         },
                     ),

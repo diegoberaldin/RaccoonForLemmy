@@ -23,7 +23,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 class CommentBarThicknessBottomSheet(
     private val values: List<Int> = listOf(
@@ -62,7 +61,7 @@ class CommentBarThicknessBottomSheet(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     notificationCenter.send(
                                         NotificationCenterEvent.ChangeCommentBarThickness(value)
                                     )

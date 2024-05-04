@@ -605,7 +605,7 @@ private fun ExtendedPost(
                         end = Spacing.s,
                     )
                     .onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             navigationCoordinator.handleUrl(
                                 url = postLinkUrl,
                                 openingMode = settings.urlOpeningMode.toUrlOpeningMode(),

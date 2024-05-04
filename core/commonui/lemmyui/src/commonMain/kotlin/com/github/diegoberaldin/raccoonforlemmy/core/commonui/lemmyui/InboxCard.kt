@@ -72,7 +72,7 @@ fun InboxCard(
                 Modifier.background(MaterialTheme.colorScheme.background)
             }
         ).onClick(
-            onClick = rememberCallback {
+            onClick = {
                 onOpenPost(mention.post)
             },
         ),

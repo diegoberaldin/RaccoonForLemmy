@@ -146,7 +146,7 @@ class FilteredContentsScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
@@ -171,7 +171,7 @@ class FilteredContentsScreen(
                                 }
                                 Text(
                                     modifier = Modifier.onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             navigationCoordinator.showBottomSheet(LikedTypeSheet())
                                         },
                                     ),

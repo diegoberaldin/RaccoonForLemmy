@@ -241,7 +241,7 @@ class ExploreScreen(
                     trailingIcon = {
                         Icon(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     if (uiState.searchText.isNotEmpty()) {
                                         model.reduce(ExploreMviModel.Intent.SetSearch(""))
                                     }
@@ -295,7 +295,7 @@ class ExploreScreen(
                                 is SearchResult.Community -> {
                                     CommunityItem(
                                         modifier = Modifier.fillMaxWidth().onClick(
-                                            onClick = rememberCallback {
+                                            onClick = {
                                                 detailOpener.openCommunityDetail(
                                                     community = result.model,
                                                     otherInstance = otherInstanceName,
@@ -423,7 +423,7 @@ class ExploreScreen(
                                                 showScores = uiState.showScores,
                                                 blurNsfw = uiState.blurNsfw,
                                                 actionButtonsActive = uiState.isLogged,
-                                                onClick = rememberCallback {
+                                                onClick = {
                                                     detailOpener.openPostDetail(
                                                         post = result.model,
                                                         otherInstance = otherInstanceName,
@@ -619,7 +619,7 @@ class ExploreScreen(
                                                 showExpandedIndicator = false,
                                                 hideIndent = true,
                                                 actionButtonsActive = uiState.isLogged,
-                                                onClick = rememberCallback {
+                                                onClick = {
                                                     detailOpener.openPostDetail(
                                                         post = PostModel(id = result.model.postId),
                                                         highlightCommentId = result.model.id,
@@ -706,7 +706,7 @@ class ExploreScreen(
                                 is SearchResult.User -> {
                                     UserItem(
                                         modifier = Modifier.fillMaxWidth().onClick(
-                                            onClick = rememberCallback {
+                                            onClick = {
                                                 detailOpener.openUserDetail(
                                                     user = result.model,
                                                     otherInstance = otherInstanceName,

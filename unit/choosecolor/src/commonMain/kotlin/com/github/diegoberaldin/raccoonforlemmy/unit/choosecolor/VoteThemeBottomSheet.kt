@@ -42,7 +42,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 class VoteThemeBottomSheet(
     val actionType: Int,
@@ -100,7 +99,7 @@ class VoteThemeBottomSheet(
                             horizontal = Spacing.s,
                             vertical = Spacing.s,
                         ).fillMaxWidth().onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 if (!isChooseCustom) {
                                     notificationCenter.send(
                                         NotificationCenterEvent.ChangeActionColor(

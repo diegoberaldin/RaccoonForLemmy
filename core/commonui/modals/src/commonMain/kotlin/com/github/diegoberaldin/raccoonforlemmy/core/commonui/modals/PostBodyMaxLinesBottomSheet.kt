@@ -28,7 +28,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 class PostBodyMaxLinesBottomSheet(
     private val values: List<Int?> = listOf(
@@ -72,7 +71,7 @@ class PostBodyMaxLinesBottomSheet(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     if (value != null && value < 0) {
                                         customDialogOpened = true
                                     } else {

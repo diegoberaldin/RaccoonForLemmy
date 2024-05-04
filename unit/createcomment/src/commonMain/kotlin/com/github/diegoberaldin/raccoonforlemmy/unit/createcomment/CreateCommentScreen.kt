@@ -167,7 +167,7 @@ class CreateCommentScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.padding(start = Spacing.s).onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),

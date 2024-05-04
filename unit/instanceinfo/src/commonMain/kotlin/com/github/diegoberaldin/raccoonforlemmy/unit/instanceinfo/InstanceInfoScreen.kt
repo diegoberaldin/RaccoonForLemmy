@@ -97,7 +97,7 @@ class InstanceInfoScreen(
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigationCoordinator.popScreen()
                                 },
                             ),
@@ -129,7 +129,7 @@ class InstanceInfoScreen(
                             modifier = Modifier
                                 .padding(horizontal = Spacing.xs)
                                 .onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         val sheet = SortBottomSheet(
                                             values = uiState.availableSortTypes.map { it.toInt() },
                                             expandTop = true,
@@ -211,7 +211,7 @@ class InstanceInfoScreen(
                     items(uiState.communities) { community ->
                         CommunityItem(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     detailOpener.openCommunityDetail(community, instanceName)
                                 },
                             ),

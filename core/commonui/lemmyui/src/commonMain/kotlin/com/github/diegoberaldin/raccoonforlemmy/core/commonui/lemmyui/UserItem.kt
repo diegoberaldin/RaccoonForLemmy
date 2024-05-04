@@ -36,7 +36,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
@@ -114,7 +113,7 @@ fun UserItem(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = true
                             },
                         ),
@@ -138,7 +137,7 @@ fun UserItem(
                             text = {
                                 Text(option.text)
                             },
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsMenuOpen = false
                                 onOptionSelected?.invoke(option.id)
                             },

@@ -226,7 +226,7 @@ class UserDetailScreen(
                             modifier = Modifier
                                 .padding(horizontal = Spacing.xs)
                                 .onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         val sheet = SortBottomSheet(
                                             values = uiState.availableSortTypes.map { it.toInt() },
                                             expandTop = true,
@@ -275,7 +275,7 @@ class UserDetailScreen(
                                 modifier = Modifier.onGloballyPositioned {
                                     optionsOffset = it.positionInParent()
                                 }.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         optionsExpanded = true
                                     },
                                 ),
@@ -298,7 +298,7 @@ class UserDetailScreen(
                                         text = {
                                             Text(option.text)
                                         },
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             optionsExpanded = false
                                             when (option.id) {
                                                 OptionId.BlockInstance -> {
@@ -344,7 +344,7 @@ class UserDetailScreen(
                         if (navigationCoordinator.canPop.value) {
                             Image(
                                 modifier = Modifier.onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         navigationCoordinator.popScreen()
                                     },
                                 ),
@@ -596,7 +596,7 @@ class UserDetailScreen(
                                         preferNicknames = uiState.preferNicknames,
                                         showScores = uiState.showScores,
                                         actionButtonsActive = uiState.isLogged,
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             model.reduce(UserDetailMviModel.Intent.WillOpenDetail)
                                             detailOpener.openPostDetail(post)
                                         },
@@ -899,7 +899,7 @@ class UserDetailScreen(
                                         hideAuthor = true,
                                         hideIndent = true,
                                         actionButtonsActive = uiState.isLogged,
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             detailOpener.openPostDetail(
                                                 post = PostModel(id = comment.postId),
                                                 highlightCommentId = comment.id,

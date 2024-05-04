@@ -24,7 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.UrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toReadableName
@@ -66,7 +65,7 @@ class UrlOpeningModeBottomSheet(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     val event =
                                         NotificationCenterEvent.ChangeUrlOpeningMode(value.toInt())
                                     notificationCenter.send(event)

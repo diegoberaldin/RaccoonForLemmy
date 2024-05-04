@@ -182,7 +182,7 @@ private fun DraftFooter(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsExpanded = true
                             },
                         ),
@@ -207,7 +207,7 @@ private fun DraftFooter(
                     text = {
                         Text(option.text)
                     },
-                    onClick = rememberCallback {
+                    onClick = {
                         optionsExpanded = false
                         onOptionSelected?.invoke(option.id)
                     },

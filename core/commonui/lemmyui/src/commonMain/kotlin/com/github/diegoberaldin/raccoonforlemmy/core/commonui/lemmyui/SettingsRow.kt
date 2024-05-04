@@ -22,7 +22,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
 fun SettingsRow(
@@ -42,7 +41,7 @@ fun SettingsRow(
         modifier = modifier
             .padding(vertical = Spacing.s, horizontal = Spacing.m)
             .onClick(
-                onClick = rememberCallback {
+                onClick = {
                     onTap?.invoke()
                 },
             ),

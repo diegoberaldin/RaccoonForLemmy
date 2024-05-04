@@ -395,7 +395,7 @@ object ProfileLoggedScreen : Tab {
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
                                         detailOpener.openCommunityDetail(community, instance)
                                     },
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         detailOpener.openPostDetail(
                                             post = PostModel(id = comment.postId),
                                             highlightCommentId = comment.id,

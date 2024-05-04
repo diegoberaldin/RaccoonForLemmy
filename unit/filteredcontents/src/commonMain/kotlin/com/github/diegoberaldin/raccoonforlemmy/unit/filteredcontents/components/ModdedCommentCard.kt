@@ -162,7 +162,7 @@ private fun ModdedCommentFooter(
                             optionsOffset = it.positionInParent()
                         }
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 optionsExpanded = true
                             },
                         ),
@@ -187,7 +187,7 @@ private fun ModdedCommentFooter(
                     text = {
                         Text(option.text)
                     },
-                    onClick = rememberCallback {
+                    onClick = {
                         optionsExpanded = false
                         onOptionSelected?.invoke(option.id)
                     },

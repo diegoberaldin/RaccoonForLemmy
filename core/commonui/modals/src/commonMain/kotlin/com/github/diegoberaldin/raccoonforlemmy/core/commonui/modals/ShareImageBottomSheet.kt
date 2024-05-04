@@ -24,7 +24,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 class ShareImageBottomSheet(
     val url: String,
@@ -60,7 +59,7 @@ class ShareImageBottomSheet(
                         )
                         .fillMaxWidth()
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 val event =
                                     NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url)
                                 notificationCenter.send(event)
@@ -83,7 +82,7 @@ class ShareImageBottomSheet(
                         )
                         .fillMaxWidth()
                         .onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 val event = NotificationCenterEvent.ShareImageModeSelected.ModeFile(
                                     url = url,
                                     source = source,

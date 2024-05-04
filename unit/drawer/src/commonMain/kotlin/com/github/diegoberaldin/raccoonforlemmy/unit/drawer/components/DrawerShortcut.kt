@@ -37,7 +37,7 @@ internal fun DrawerShortcut(
             )
 
         },
-        onClick = rememberCallback {
+        onClick = {
             onSelected?.invoke()
         },
     )

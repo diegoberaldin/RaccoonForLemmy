@@ -41,7 +41,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -71,7 +70,7 @@ internal fun ChatCard(
         modifier = modifier
             .padding(Spacing.xs)
             .onClick(
-                onClick = rememberCallback {
+                onClick = {
                     onOpen?.invoke()
                 },
             ),
@@ -85,7 +84,7 @@ internal fun ChatCard(
                     .size(iconSize)
                     .clip(RoundedCornerShape(iconSize / 2))
                     .onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             if (user != null) {
                                 onOpenUser?.invoke(user)
                             }
@@ -99,7 +98,7 @@ internal fun ChatCard(
         } else {
             PlaceholderImage(
                 modifier = Modifier.onClick(
-                    onClick = rememberCallback {
+                    onClick = {
                         if (user != null) {
                             onOpenUser?.invoke(user)
                         }
@@ -132,7 +131,7 @@ internal fun ChatCard(
                     maxLines = 2,
                     text = lastMessage,
                     autoLoadImages = autoLoadImages,
-                    onClick = rememberCallback {
+                    onClick = {
                         onOpen?.invoke()
                     },
                 )
@@ -170,7 +169,7 @@ internal fun ChatCard(
                                         optionsOffset = it.positionInParent()
                                     }
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             optionsExpanded = true
                                         },
                                     ),
@@ -196,7 +195,7 @@ internal fun ChatCard(
                                 text = {
                                     Text(option.text)
                                 },
-                                onClick = rememberCallback {
+                                onClick = {
                                     optionsExpanded = false
                                     onOptionSelected?.invoke(option.id)
                                 },

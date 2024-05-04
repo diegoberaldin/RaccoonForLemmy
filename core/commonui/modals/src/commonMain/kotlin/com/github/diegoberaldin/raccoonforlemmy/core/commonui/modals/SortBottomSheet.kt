@@ -35,7 +35,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
@@ -103,7 +102,7 @@ internal class SortBottomSheetMain(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     if (sortValue == SortType.Top.Generic && expandTop) {
                                         navigator.push(
                                             SortBottomSheetTop(
@@ -189,7 +188,7 @@ internal class SortBottomSheetTop(
                     Icon(
                         modifier = Modifier
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     navigator.pop()
                                 },
                             ),
@@ -214,7 +213,7 @@ internal class SortBottomSheetTop(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     val event = if (comments) {
                                         NotificationCenterEvent.ChangeCommentSortType(
                                             value = sortValue,

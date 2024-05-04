@@ -47,7 +47,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomI
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FeedbackButton
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -104,7 +103,7 @@ fun InboxReplySubtitle(
                         modifier = Modifier
                             .weight(1f)
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     if (creator != null) {
                                         onOpenCreator?.invoke(creator)
                                     }
@@ -141,7 +140,7 @@ fun InboxReplySubtitle(
                         modifier = Modifier
                             .weight(1f)
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     if (community != null) {
                                         onOpenCommunity?.invoke(community)
                                     }
@@ -206,7 +205,7 @@ fun InboxReplySubtitle(
                                 optionsOffset = it.positionInParent()
                             }
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     optionsExpanded = true
                                 },
                             ),
@@ -224,7 +223,7 @@ fun InboxReplySubtitle(
                     } else {
                         ancillaryColor
                     },
-                    onClick = rememberCallback {
+                    onClick = {
                         onUpVote?.invoke()
                     },
                 )
@@ -252,7 +251,7 @@ fun InboxReplySubtitle(
                     } else {
                         ancillaryColor
                     },
-                    onClick = rememberCallback {
+                    onClick = {
                         onDownVote?.invoke()
                     },
                 )
@@ -272,7 +271,7 @@ fun InboxReplySubtitle(
                         text = {
                             Text(option.text)
                         },
-                        onClick = rememberCallback {
+                        onClick = {
                             optionsExpanded = false
                             onOptionSelected?.invoke(option.id)
                         },

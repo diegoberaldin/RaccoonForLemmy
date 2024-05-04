@@ -100,7 +100,7 @@ internal fun DrawerHeader(
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
                     modifier = Modifier.onClick(
-                        onClick = rememberCallback {
+                        onClick = {
                             onOpenSwitchAccount?.invoke()
                         },
                     ),
@@ -131,7 +131,7 @@ internal fun DrawerHeader(
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
                         modifier = Modifier.onClick(
-                            onClick = rememberCallback {
+                            onClick = {
                                 onOpenChangeInstance?.invoke()
                             },
                         ),

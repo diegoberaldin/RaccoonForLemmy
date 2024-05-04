@@ -38,7 +38,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoor
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.unit.mentions.InboxMentionsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.messages.InboxMessagesScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.replies.InboxRepliesScreen
@@ -75,7 +74,7 @@ object InboxScreen : Tab {
                     navigationIcon = {
                         Image(
                             modifier = Modifier.onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     scope.launch {
                                         drawerCoordinator.toggleDrawer()
                                     }
@@ -92,7 +91,7 @@ object InboxScreen : Tab {
                                 .fillMaxWidth()
                                 .padding(horizontal = Spacing.s)
                                 .onClick(
-                                    onClick = rememberCallback {
+                                    onClick = {
                                         val sheet = InboxTypeSheet()
                                         navigationCoordinator.showBottomSheet(sheet)
                                     },
@@ -118,7 +117,7 @@ object InboxScreen : Tab {
                                 modifier = Modifier
                                     .padding(horizontal = Spacing.xs)
                                     .onClick(
-                                        onClick = rememberCallback {
+                                        onClick = {
                                             model.reduce(InboxMviModel.Intent.ReadAll)
                                         },
                                     ),

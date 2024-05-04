@@ -68,7 +68,7 @@ class SelectActionOnSwipeBottomSheet(
                             )
                             .fillMaxWidth()
                             .onClick(
-                                onClick = rememberCallback {
+                                onClick = {
                                     notificationCenter.send(
                                         NotificationCenterEvent.ActionsOnSwipeSelected(
                                             value = value,

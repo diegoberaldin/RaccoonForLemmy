@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
 internal fun SettingsColorRow(
@@ -30,7 +29,7 @@ internal fun SettingsColorRow(
         modifier = modifier
             .padding(vertical = Spacing.s, horizontal = Spacing.m)
             .onClick(
-                onClick = rememberCallback {
+                onClick = {
                     onTap?.invoke()
                 },
             ),

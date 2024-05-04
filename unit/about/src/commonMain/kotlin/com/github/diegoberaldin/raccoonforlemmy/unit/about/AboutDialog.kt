@@ -38,7 +38,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.getCoreResources
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -96,7 +95,7 @@ class AboutDialog : Screen {
                             text = LocalXmlStrings.current.settingsAboutChangelog,
                             vector = Icons.Default.OpenInBrowser,
                             textDecoration = TextDecoration.Underline,
-                            onClick = rememberCallback {
+                            onClick = {
                                 navigationCoordinator.handleUrl(
                                     url = AboutConstants.CHANGELOG_URL,
                                     openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
@@ -111,7 +110,7 @@ class AboutDialog : Screen {
                     }
                     item {
                         Button(
-                            onClick = rememberCallback {
+                            onClick = {
                                 navigationCoordinator.handleUrl(
                                     url = AboutConstants.REPORT_URL,
                                     openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
@@ -148,7 +147,7 @@ class AboutDialog : Screen {
                             painter = coreResources.github,
                             text = LocalXmlStrings.current.settingsAboutViewGithub,
                             textDecoration = TextDecoration.Underline,
-                            onClick = rememberCallback {
+                            onClick = {
                                 navigationCoordinator.handleUrl(
                                     url = AboutConstants.WEBSITE_URL,
                                     openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
@@ -166,7 +165,7 @@ class AboutDialog : Screen {
                             vector = Icons.Default.Shop,
                             text = LocalXmlStrings.current.settingsAboutViewGooglePlay,
                             textDecoration = TextDecoration.Underline,
-                            onClick = rememberCallback {
+                            onClick = {
                                 navigationCoordinator.handleUrl(
                                     url = AboutConstants.GOOGLE_PLAY_URL,
                                     openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
@@ -198,7 +197,7 @@ class AboutDialog : Screen {
                             text = LocalXmlStrings.current.settingsAboutLicences,
                             vector = Icons.Default.Gavel,
                             textDecoration = TextDecoration.Underline,
-                            onClick = rememberCallback {
+                            onClick = {
                                 navigationCoordinator.pushScreen(LicencesScreen())
                             },
                         )

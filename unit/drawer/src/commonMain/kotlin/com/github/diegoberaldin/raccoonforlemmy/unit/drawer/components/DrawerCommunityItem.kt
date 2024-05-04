@@ -81,7 +81,7 @@ internal fun DrawerCommunityItem(
         } else {
             null
         },
-        onClick = rememberCallback {
+        onClick = {
             onSelected?.invoke()
         },
     )
