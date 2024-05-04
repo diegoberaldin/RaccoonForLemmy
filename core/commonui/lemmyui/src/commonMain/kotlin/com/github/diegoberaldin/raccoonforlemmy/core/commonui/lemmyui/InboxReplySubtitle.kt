@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.MoreHoriz
@@ -75,6 +76,7 @@ fun InboxReplySubtitle(
     onUpVote: (() -> Unit)? = null,
     onDownVote: (() -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
+    onReply: (() -> Unit)? = null,
 ) {
     val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
     val themeRepository = remember { getThemeRepository() }
@@ -181,6 +183,17 @@ fun InboxReplySubtitle(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
+                Icon(
+                    modifier = buttonModifier.padding(1.dp)
+                        .onClick(
+                            onClick = {
+                                onReply?.invoke()
+                            },
+                        ),
+                    imageVector = Icons.AutoMirrored.Default.Chat,
+                    contentDescription = null,
+                    tint = ancillaryColor,
+                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {

@@ -23,9 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryT
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -50,9 +48,10 @@ fun InboxCard(
     onOpenPost: (PostModel) -> Unit,
     onOpenCreator: (UserModel) -> Unit,
     onOpenCommunity: (CommunityModel) -> Unit,
-    onUpVote: ((CommentModel) -> Unit)? = null,
-    onDownVote: ((CommentModel) -> Unit)? = null,
+    onUpVote: (() -> Unit)? = null,
+    onDownVote: (() -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
+    onReply: (() -> Unit)? = null,
 ) {
     Box(
         modifier = Modifier.then(
@@ -130,13 +129,10 @@ fun InboxCard(
                 onOpenCreator = rememberCallbackArgs { user ->
                     onOpenCreator(user)
                 },
-                onUpVote = rememberCallback {
-                    onUpVote?.invoke(mention.comment)
-                },
-                onDownVote = rememberCallback {
-                    onDownVote?.invoke(mention.comment)
-                },
+                onUpVote = onUpVote,
+                onDownVote = onDownVote,
                 onOptionSelected = onOptionSelected,
+                onReply = onReply,
             )
         }
     }

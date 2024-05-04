@@ -248,12 +248,18 @@ class InboxMentionsScreen : Tab {
                                         )
                                     )
                                 },
-                                onUpVote = rememberCallbackArgs(model) { _ ->
+                                onUpVote = rememberCallback(model) {
                                     model.reduce(InboxMentionsMviModel.Intent.UpVoteComment(mention.id))
                                 },
-                                onDownVote = rememberCallbackArgs(model) { _ ->
+                                onDownVote = rememberCallback(model) {
                                     model.reduce(
                                         InboxMentionsMviModel.Intent.DownVoteComment(mention.id)
+                                    )
+                                },
+                                onReply = rememberCallback {
+                                    detailOpener.openReply(
+                                        originalPost = mention.post,
+                                        originalComment = mention.comment,
                                     )
                                 },
                                 options = buildList {

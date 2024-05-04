@@ -244,11 +244,17 @@ class InboxRepliesScreen : Tab {
                                         )
                                     )
                                 },
-                                onUpVote = rememberCallbackArgs(model) { _ ->
+                                onUpVote = rememberCallback(model) {
                                     model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
                                 },
-                                onDownVote = rememberCallbackArgs(model) { _ ->
+                                onDownVote = rememberCallback(model) {
                                     model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
+                                },
+                                onReply = rememberCallback {
+                                    detailOpener.openReply(
+                                        originalPost = reply.post,
+                                        originalComment = reply.comment,
+                                    )
                                 },
                                 options = buildList {
                                     add(

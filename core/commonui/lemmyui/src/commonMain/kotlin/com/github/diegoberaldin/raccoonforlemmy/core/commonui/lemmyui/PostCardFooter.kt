@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpOffset
@@ -98,7 +96,7 @@ fun PostCardFooter(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Image(
+                    Icon(
                         modifier = buttonModifier.padding(1.dp)
                             .onClick(
                                 onClick = {
@@ -107,7 +105,7 @@ fun PostCardFooter(
                             ),
                         imageVector = Icons.AutoMirrored.Default.Chat,
                         contentDescription = null,
-                        colorFilter = ColorFilter.tint(color = ancillaryColor),
+                        tint = ancillaryColor,
                     )
                     Text(
                         text = "$comments",
