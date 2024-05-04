@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
@@ -301,6 +302,7 @@ class CreatePostScreen(
             Column(
                 modifier = Modifier
                     .padding(padding)
+                    .consumeWindowInsets(padding)
                     .verticalScroll(rememberScrollState()),
             ) {
                 // community

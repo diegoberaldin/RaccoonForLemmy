@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -223,7 +224,9 @@ class InboxChatScreen(
         ) { padding ->
             if (uiState.currentUserId != null) {
                 Box(
-                    modifier = Modifier.padding(padding)
+                    modifier = Modifier
+                        .padding(padding)
+                        .consumeWindowInsets(padding)
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
