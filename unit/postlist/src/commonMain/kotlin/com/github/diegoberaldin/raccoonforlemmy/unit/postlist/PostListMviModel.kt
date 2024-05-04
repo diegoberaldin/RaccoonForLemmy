@@ -16,7 +16,7 @@ interface PostListMviModel :
     ScreenModel {
 
     sealed interface Intent {
-        data object Refresh : Intent
+        data class Refresh(val hardReset: Boolean = false) : Intent
         data object LoadNextPage : Intent
         data class ChangeListing(val value: ListingType) : Intent
         data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent

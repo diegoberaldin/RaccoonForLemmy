@@ -66,6 +66,7 @@ class PostListViewModel(
             }.launchIn(this)
 
             identityRepository.isLogged.onEach { logged ->
+                refreshUser()
                 updateState {
                     it.copy(isLogged = logged ?: false)
                 }
@@ -150,10 +151,6 @@ class PostListViewModel(
                     emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
                 }
             }.launchIn(this)
-
-            val auth = identityRepository.authToken.value.orEmpty()
-            val user = siteRepository.getCurrentUser(auth)
-            updateState { it.copy(currentUserId = user?.id ?: 0) }
         }
 
         onFirstLoad()
@@ -168,9 +165,16 @@ class PostListViewModel(
             )
         }
         screenModelScope.launch {
+            refreshUser()
             refresh(initial = true)
             emitEffect(PostListMviModel.Effect.BackToTop)
         }
+    }
+
+    private suspend fun refreshUser() {
+        val auth = identityRepository.authToken.value.orEmpty()
+        val user = siteRepository.getCurrentUser(auth)
+        updateState { it.copy(currentUserId = user?.id ?: 0) }
     }
 
     private suspend fun updateAvailableSortTypes() {
@@ -184,7 +188,10 @@ class PostListViewModel(
                 loadNextPage()
             }
 
-            PostListMviModel.Intent.Refresh -> screenModelScope.launch {
+            is PostListMviModel.Intent.Refresh -> screenModelScope.launch {
+                if (intent.hardReset) {
+                    refreshUser()
+                }
                 refresh()
             }
 
@@ -292,7 +299,6 @@ class PostListViewModel(
             return
         }
         updateState { it.copy(loading = true) }
-        val refreshing = currentState.refreshing
         val posts = postPaginationManager.loadNextPage().let {
             if (!hideReadPosts) {
                 it

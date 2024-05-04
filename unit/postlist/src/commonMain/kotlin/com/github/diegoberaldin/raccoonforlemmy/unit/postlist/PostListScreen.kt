@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -294,7 +295,7 @@ class PostListScreen : Screen {
                 val pullRefreshState = rememberPullRefreshState(
                     refreshing = uiState.refreshing,
                     onRefresh = rememberCallback(model) {
-                        model.reduce(PostListMviModel.Intent.Refresh)
+                        model.reduce(PostListMviModel.Intent.Refresh())
                     },
                 )
                 Box(
@@ -637,7 +638,10 @@ class PostListScreen : Screen {
                                                             PostListMviModel.Intent.Copy(texts.first())
                                                         )
                                                     } else {
-                                                        val screen = CopyPostBottomSheet(post.title, post.text)
+                                                        val screen = CopyPostBottomSheet(
+                                                            post.title,
+                                                            post.text,
+                                                        )
                                                         navigationCoordinator.showBottomSheet(screen)
                                                     }
                                                 }
@@ -714,6 +718,29 @@ class PostListScreen : Screen {
                         backgroundColor = MaterialTheme.colorScheme.background,
                         contentColor = MaterialTheme.colorScheme.onBackground,
                     )
+                }
+            } else {
+                Column(
+                    modifier = Modifier.padding(vertical = Spacing.m),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.s),
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = Spacing.xs),
+                        textAlign = TextAlign.Center,
+                        text = LocalXmlStrings.current.messageGenericError,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        onClick = rememberCallback {
+                            model.reduce(PostListMviModel.Intent.Refresh(hardReset = true))
+                        },
+                    ) {
+                        Text(LocalXmlStrings.current.buttonRetry)
+                    }
                 }
             }
         }
