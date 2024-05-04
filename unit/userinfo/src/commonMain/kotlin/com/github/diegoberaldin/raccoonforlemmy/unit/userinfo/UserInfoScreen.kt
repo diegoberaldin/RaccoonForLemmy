@@ -2,8 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.userinfo
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,10 +13,15 @@ import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Cake
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,6 +45,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBo
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
@@ -60,6 +64,7 @@ class UserInfoScreen(
     private val otherInstance: String,
 ) : Screen {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<UserInfoMviModel>(
@@ -78,24 +83,43 @@ class UserInfoScreen(
             contentColor = MaterialTheme.colorScheme.onBackground,
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
             topBar = {
-                Row(
+                val title = uiState.user.readableName(uiState.preferNicknames)
+                TopAppBar(
                     modifier = Modifier.padding(top = Spacing.s),
-                ) {
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        text = uiState.user.readableName(uiState.preferNicknames),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                }
+                    colors = TopAppBarDefaults.topAppBarColors().copy(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                    ),
+                    title = {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                    },
+                    actions = {
+                        Icon(
+                            modifier = Modifier.padding(end = Spacing.s).onClick(
+                                onClick = {
+                                    navigationCoordinator.closeSideMenu()
+                                },
+                            ),
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+                )
             }
         ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(top = Spacing.xs, start = Spacing.m, end = Spacing.m),
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.m,
+                        end = Spacing.m
+                    ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 item {

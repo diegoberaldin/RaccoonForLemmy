@@ -2,8 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,10 +16,15 @@ import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.CalendarViewDay
 import androidx.compose.material.icons.filled.CalendarViewMonth
 import androidx.compose.material.icons.filled.CalendarViewWeek
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Group
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -41,6 +44,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBo
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
@@ -59,6 +63,7 @@ class CommunityInfoScreen(
     private val otherInstance: String = "",
 ) : Screen {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<CommunityInfoMviModel>(
@@ -74,18 +79,32 @@ class CommunityInfoScreen(
             contentColor = MaterialTheme.colorScheme.onBackground,
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
             topBar = {
-                Row(
+                val title = uiState.community.readableName(uiState.preferNicknames)
+                TopAppBar(
                     modifier = Modifier.padding(top = Spacing.s),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        text = uiState.community.readableName(uiState.preferNicknames),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                }
+                    colors = TopAppBarDefaults.topAppBarColors().copy(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                    ),
+                    title = {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                    },
+                    actions = {
+                        Icon(
+                            modifier = Modifier.padding(end = Spacing.s).onClick(
+                                onClick = {
+                                    navigationCoordinator.closeSideMenu()
+                                },
+                            ),
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+                )
             }
         ) { paddingValues ->
             LazyColumn(
@@ -93,9 +112,9 @@ class CommunityInfoScreen(
                     .fillMaxSize()
                     .padding(paddingValues)
                     .padding(
-                        top = Spacing.xs,
+                        top = Spacing.s,
                         start = Spacing.m,
-                        end = Spacing.m
+                        end = Spacing.m,
                     ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
