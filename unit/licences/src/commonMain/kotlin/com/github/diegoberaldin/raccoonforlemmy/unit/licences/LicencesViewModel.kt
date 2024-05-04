@@ -19,7 +19,7 @@ class LicencesViewModel : LicencesMviModel,
                 items = buildList {
                     this += LicenceItem(
                         type = LicenceItemType.Resource,
-                        title = "Charis SIL, Comfortaa, Noto Sans, Poppins",
+                        title = "Charis SIL, Noto Sans, Poppins",
                         subtitle = "Fonts used in the app are released under the Open Font Library (OFL)",
                         url = LicenceUrls.OFL,
                     )

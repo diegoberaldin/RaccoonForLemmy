@@ -49,13 +49,4 @@ internal class DefaultCoreResources : CoreResources {
             font("CharisSIL", "charissil_bold", FontWeight.Bold, FontStyle.Normal),
             font("CharisSIL", "charissil_italic", FontWeight.Normal, FontStyle.Italic),
         )
-
-    override val comfortaa: FontFamily
-        @Composable
-        get() = FontFamily(
-            font("Comfortaa", "comfortaa_regular", FontWeight.Normal, FontStyle.Normal),
-            font("Comfortaa", "comfortaa_bold", FontWeight.Bold, FontStyle.Normal),
-            font("Comfortaa", "comfortaa_medium", FontWeight.Medium, FontStyle.Normal),
-            font("Comfortaa", "comfortaa_light", FontWeight.Light, FontStyle.Normal),
-        )
 }

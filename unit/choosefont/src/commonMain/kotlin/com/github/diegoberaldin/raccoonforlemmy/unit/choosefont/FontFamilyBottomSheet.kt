@@ -31,7 +31,6 @@ private val defaultChoices: List<Int> = listOf(
     UiFontFamily.Poppins,
     UiFontFamily.NotoSans,
     UiFontFamily.CharisSIL,
-    UiFontFamily.Comfortaa,
     UiFontFamily.Default,
 ).map { it.toInt() }
 
@@ -87,7 +86,6 @@ class FontFamilyBottomSheet(
                             UiFontFamily.NotoSans -> coreResources.notoSans
                             UiFontFamily.CharisSIL -> coreResources.charisSil
                             UiFontFamily.Poppins -> coreResources.poppins
-                            UiFontFamily.Comfortaa -> coreResources.comfortaa
                             else -> FontFamily.Default
                         }
                         Text(

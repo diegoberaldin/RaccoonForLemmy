@@ -12,5 +12,4 @@ interface CoreResources {
     val notoSans: FontFamily @Composable get
     val poppins: FontFamily @Composable get
     val charisSil: FontFamily @Composable get
-    val comfortaa: FontFamily @Composable get
 }

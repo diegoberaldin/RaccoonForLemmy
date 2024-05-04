@@ -17,7 +17,6 @@ fun UiFontFamily.toTypography(): Typography {
         UiFontFamily.NotoSans -> coreResources.notoSans
         UiFontFamily.CharisSIL -> coreResources.charisSil
         UiFontFamily.Poppins -> coreResources.poppins
-        UiFontFamily.Comfortaa -> coreResources.comfortaa
         else -> FontFamily.Default
     }
     return Typography(
