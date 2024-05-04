@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -28,23 +31,41 @@ internal object ProfileNotLoggedScreen : Tab {
 
     @Composable
     override fun Content() {
+        val model = getScreenModel<ProfileNotLoggedMviModel>()
         val navigationCoordinator = remember { getNavigationCoordinator() }
+        val uiState by model.uiState.collectAsState()
 
         Column(
             modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.m),
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
-            Text(
-                text = LocalXmlStrings.current.profileNotLoggedMessage,
-            )
+            val message = if (uiState.authError) {
+                LocalXmlStrings.current.messageAuthIssue
+            } else {
+                LocalXmlStrings.current.profileNotLoggedMessage
+            }
+            Text(text = message)
+
             Spacer(modifier = Modifier.height(Spacing.l))
-            Button(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onClick = {
-                    navigationCoordinator.pushScreen(LoginBottomSheet())
-                },
-            ) {
-                Text(LocalXmlStrings.current.profileButtonLogin)
+
+            if (uiState.authError) {
+                Button(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onClick = {
+                        model.reduce(ProfileNotLoggedMviModel.Intent.Retry)
+                    },
+                ) {
+                    Text(LocalXmlStrings.current.buttonRetry)
+                }
+            } else {
+                Button(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onClick = {
+                        navigationCoordinator.pushScreen(LoginBottomSheet())
+                    },
+                ) {
+                    Text(LocalXmlStrings.current.profileButtonLogin)
+                }
             }
         }
     }
