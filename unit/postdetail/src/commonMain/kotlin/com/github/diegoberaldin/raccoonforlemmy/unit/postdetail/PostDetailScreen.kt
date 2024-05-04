@@ -322,6 +322,80 @@ class PostDetailScreen(
                         Box {
                             val options = buildList {
                                 this += Option(
+                                    OptionId.Share,
+                                    LocalXmlStrings.current.postActionShare,
+                                )
+                                this += Option(
+                                    OptionId.Copy,
+                                    LocalXmlStrings.current.actionCopyClipboard,
+                                )
+                                this += Option(
+                                    OptionId.SeeRaw,
+                                    LocalXmlStrings.current.postActionSeeRaw,
+                                )
+                                if (uiState.isLogged && !isOnOtherInstance) {
+                                    this += Option(
+                                        OptionId.CrossPost,
+                                        LocalXmlStrings.current.postActionCrossPost,
+                                    )
+                                    this += Option(
+                                        OptionId.Report,
+                                        LocalXmlStrings.current.postActionReport,
+                                    )
+                                }
+                                if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
+                                    this += Option(
+                                        OptionId.Edit,
+                                        LocalXmlStrings.current.postActionEdit,
+                                    )
+                                    this += Option(
+                                        OptionId.Delete,
+                                        LocalXmlStrings.current.commentActionDelete,
+                                    )
+                                }
+                                if (uiState.isModerator) {
+                                    this += Option(
+                                        OptionId.FeaturePost,
+                                        if (uiState.post.featuredCommunity) {
+                                            LocalXmlStrings.current.modActionUnmarkAsFeatured
+                                        } else {
+                                            LocalXmlStrings.current.modActionMarkAsFeatured
+                                        },
+                                    )
+                                    this += Option(
+                                        OptionId.LockPost,
+                                        if (uiState.post.locked) {
+                                            LocalXmlStrings.current.modActionUnlock
+                                        } else {
+                                            LocalXmlStrings.current.modActionLock
+                                        },
+                                    )
+                                    this += Option(
+                                        OptionId.Remove,
+                                        LocalXmlStrings.current.modActionRemove,
+                                    )
+                                    this += Option(
+                                        OptionId.BanUser,
+                                        if (uiState.post.creator?.banned == true) {
+                                            LocalXmlStrings.current.modActionAllow
+                                        } else {
+                                            LocalXmlStrings.current.modActionBan
+                                        },
+                                    )
+                                    uiState.post.creator?.id?.also { creatorId ->
+                                        if (uiState.currentUserId != creatorId) {
+                                            this += Option(
+                                                OptionId.AddMod,
+                                                if (uiState.moderators.containsId(creatorId)) {
+                                                    LocalXmlStrings.current.modActionRemoveMod
+                                                } else {
+                                                    LocalXmlStrings.current.modActionAddMod
+                                                },
+                                            )
+                                        }
+                                    }
+                                }
+                                this += Option(
                                     OptionId.Search,
                                     if (uiState.searching) {
                                         LocalXmlStrings.current.actionExitSearch
@@ -364,6 +438,104 @@ class PostDetailScreen(
                                         onClick = {
                                             optionsExpanded = false
                                             when (option.id) {
+                                                OptionId.Delete -> {
+                                                    postToDelete = Unit
+                                                }
+
+                                                OptionId.Edit -> {
+                                                    detailOpener.openCreatePost(editedPost = uiState.post)
+                                                }
+
+                                                OptionId.Report -> {
+                                                    navigationCoordinator.pushScreen(
+                                                        CreateReportScreen(postId = uiState.post.id),
+                                                    )
+                                                }
+
+                                                OptionId.CrossPost -> {
+                                                    detailOpener.openCreatePost(
+                                                        crossPost = uiState.post,
+                                                        forceCommunitySelection = true,
+                                                    )
+                                                }
+
+                                                OptionId.SeeRaw -> {
+                                                    rawContent = uiState.post
+                                                }
+
+                                                OptionId.Share -> {
+                                                    val urls = listOfNotNull(
+                                                        uiState.post.originalUrl,
+                                                        "https://${uiState.instance}/post/${uiState.post.id}"
+                                                    ).distinct()
+                                                    if (urls.size == 1) {
+                                                        model.reduce(
+                                                            PostDetailMviModel.Intent.Share(
+                                                                urls.first()
+                                                            )
+                                                        )
+                                                    } else {
+                                                        val screen = ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    }
+                                                }
+
+                                                OptionId.FeaturePost -> model.reduce(
+                                                    PostDetailMviModel.Intent.ModFeaturePost,
+                                                )
+
+                                                OptionId.LockPost -> model.reduce(
+                                                    PostDetailMviModel.Intent.ModLockPost,
+                                                )
+
+                                                OptionId.Remove -> {
+                                                    val screen =
+                                                        RemoveScreen(postId = uiState.post.id)
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.BanUser -> {
+                                                    uiState.post.creator?.id?.also { userId ->
+                                                        val screen = BanUserScreen(
+                                                            userId = userId,
+                                                            communityId = uiState.post.community?.id
+                                                                ?: 0,
+                                                            newValue = uiState.post.creator?.banned != true,
+                                                            postId = uiState.post.id,
+                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
+                                                    }
+                                                }
+
+                                                OptionId.AddMod -> {
+                                                    uiState.post.creator?.id?.also { userId ->
+                                                        model.reduce(
+                                                            PostDetailMviModel.Intent.ModToggleModUser(
+                                                                userId
+                                                            )
+                                                        )
+                                                    }
+                                                }
+
+                                                OptionId.Copy -> {
+                                                    val texts = listOfNotNull(
+                                                        uiState.post.title.takeIf { it.isNotBlank() },
+                                                        uiState.post.text.takeIf { it.isNotBlank() },
+                                                    ).distinct()
+                                                    if (texts.size == 1) {
+                                                        model.reduce(
+                                                            PostDetailMviModel.Intent.Copy(texts.first())
+                                                        )
+                                                    } else {
+                                                        val screen =
+                                                            CopyPostBottomSheet(
+                                                                uiState.post.title,
+                                                                uiState.post.text
+                                                            )
+                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    }
+                                                }
+
                                                 OptionId.Search -> {
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.ChangeSearching(
@@ -584,184 +756,6 @@ class PostDetailScreen(
                                             detailOpener.openReply(
                                                 originalPost = uiState.post,
                                             )
-                                        }
-                                    },
-                                    options = buildList {
-                                        this += Option(
-                                            OptionId.Share,
-                                            LocalXmlStrings.current.postActionShare,
-                                        )
-                                        this += Option(
-                                            OptionId.Copy,
-                                            LocalXmlStrings.current.actionCopyClipboard,
-                                        )
-                                        this += Option(
-                                            OptionId.SeeRaw,
-                                            LocalXmlStrings.current.postActionSeeRaw,
-                                        )
-                                        if (uiState.isLogged && !isOnOtherInstance) {
-                                            this += Option(
-                                                OptionId.CrossPost,
-                                                LocalXmlStrings.current.postActionCrossPost,
-                                            )
-                                            this += Option(
-                                                OptionId.Report,
-                                                LocalXmlStrings.current.postActionReport,
-                                            )
-                                        }
-                                        if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
-                                            this += Option(
-                                                OptionId.Edit,
-                                                LocalXmlStrings.current.postActionEdit,
-                                            )
-                                            this += Option(
-                                                OptionId.Delete,
-                                                LocalXmlStrings.current.commentActionDelete,
-                                            )
-                                        }
-                                        if (uiState.isModerator) {
-                                            this += Option(
-                                                OptionId.FeaturePost,
-                                                if (uiState.post.featuredCommunity) {
-                                                    LocalXmlStrings.current.modActionUnmarkAsFeatured
-                                                } else {
-                                                    LocalXmlStrings.current.modActionMarkAsFeatured
-                                                },
-                                            )
-                                            this += Option(
-                                                OptionId.LockPost,
-                                                if (uiState.post.locked) {
-                                                    LocalXmlStrings.current.modActionUnlock
-                                                } else {
-                                                    LocalXmlStrings.current.modActionLock
-                                                },
-                                            )
-                                            this += Option(
-                                                OptionId.Remove,
-                                                LocalXmlStrings.current.modActionRemove,
-                                            )
-                                            this += Option(
-                                                OptionId.BanUser,
-                                                if (uiState.post.creator?.banned == true) {
-                                                    LocalXmlStrings.current.modActionAllow
-                                                } else {
-                                                    LocalXmlStrings.current.modActionBan
-                                                },
-                                            )
-                                            uiState.post.creator?.id?.also { creatorId ->
-                                                if (uiState.currentUserId != creatorId) {
-                                                    this += Option(
-                                                        OptionId.AddMod,
-                                                        if (uiState.moderators.containsId(creatorId)) {
-                                                            LocalXmlStrings.current.modActionRemoveMod
-                                                        } else {
-                                                            LocalXmlStrings.current.modActionAddMod
-                                                        },
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    },
-                                    onOptionSelected = rememberCallbackArgs(model) { idx ->
-                                        when (idx) {
-                                            OptionId.Delete -> {
-                                                postToDelete = Unit
-                                            }
-
-                                            OptionId.Edit -> {
-                                                detailOpener.openCreatePost(editedPost = uiState.post)
-                                            }
-
-                                            OptionId.Report -> {
-                                                navigationCoordinator.pushScreen(
-                                                    CreateReportScreen(postId = uiState.post.id),
-                                                )
-                                            }
-
-                                            OptionId.CrossPost -> {
-                                                detailOpener.openCreatePost(
-                                                    crossPost = uiState.post,
-                                                    forceCommunitySelection = true,
-                                                )
-                                            }
-
-                                            OptionId.SeeRaw -> {
-                                                rawContent = uiState.post
-                                            }
-
-                                            OptionId.Share -> {
-                                                val urls = listOfNotNull(
-                                                    uiState.post.originalUrl,
-                                                    "https://${uiState.instance}/post/${uiState.post.id}"
-                                                ).distinct()
-                                                if (urls.size == 1) {
-                                                    model.reduce(
-                                                        PostDetailMviModel.Intent.Share(
-                                                            urls.first()
-                                                        )
-                                                    )
-                                                } else {
-                                                    val screen = ShareBottomSheet(urls = urls)
-                                                    navigationCoordinator.showBottomSheet(screen)
-                                                }
-                                            }
-
-                                            OptionId.FeaturePost -> model.reduce(
-                                                PostDetailMviModel.Intent.ModFeaturePost,
-                                            )
-
-                                            OptionId.LockPost -> model.reduce(
-                                                PostDetailMviModel.Intent.ModLockPost,
-                                            )
-
-                                            OptionId.Remove -> {
-                                                val screen = RemoveScreen(postId = uiState.post.id)
-                                                navigationCoordinator.pushScreen(screen)
-                                            }
-
-                                            OptionId.BanUser -> {
-                                                uiState.post.creator?.id?.also { userId ->
-                                                    val screen = BanUserScreen(
-                                                        userId = userId,
-                                                        communityId = uiState.post.community?.id
-                                                            ?: 0,
-                                                        newValue = uiState.post.creator?.banned != true,
-                                                        postId = uiState.post.id,
-                                                    )
-                                                    navigationCoordinator.pushScreen(screen)
-                                                }
-                                            }
-
-                                            OptionId.AddMod -> {
-                                                uiState.post.creator?.id?.also { userId ->
-                                                    model.reduce(
-                                                        PostDetailMviModel.Intent.ModToggleModUser(
-                                                            userId
-                                                        )
-                                                    )
-                                                }
-                                            }
-
-                                            OptionId.Copy -> {
-                                                val texts = listOfNotNull(
-                                                    uiState.post.title.takeIf { it.isNotBlank() },
-                                                    uiState.post.text.takeIf { it.isNotBlank() },
-                                                ).distinct()
-                                                if (texts.size == 1) {
-                                                    model.reduce(
-                                                        PostDetailMviModel.Intent.Copy(texts.first())
-                                                    )
-                                                } else {
-                                                    val screen =
-                                                        CopyPostBottomSheet(
-                                                            uiState.post.title,
-                                                            uiState.post.text
-                                                        )
-                                                    navigationCoordinator.showBottomSheet(screen)
-                                                }
-                                            }
-
-                                            else -> Unit
                                         }
                                     },
                                     onOpenImage = rememberCallbackArgs { url ->
