@@ -2,6 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.ui.platform.UriHandler
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.NavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAVideo
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.CustomTabsHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.UrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -51,17 +53,18 @@ fun NavigationCoordinator.handleUrl(
     val community = getCommunityFromUrl(url)
     val user = getUserFromUrl(url)
     val (post, postInstance) = getPostFromUrl(url) ?: (null to null)
+    val isMedia = url.looksLikeAVideo || url.looksLikeAnImage
 
     when {
-        community != null -> {
+        community != null && !isMedia -> {
             onOpenCommunity?.invoke(community, community.host)
         }
 
-        user != null -> {
+        user != null && !isMedia -> {
             onOpenUser?.invoke(user, user.host)
         }
 
-        post != null -> {
+        post != null && !isMedia -> {
             onOpenPost?.invoke(post, postInstance.orEmpty())
         }
 
