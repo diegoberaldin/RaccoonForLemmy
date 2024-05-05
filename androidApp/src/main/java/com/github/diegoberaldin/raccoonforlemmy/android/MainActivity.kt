@@ -16,8 +16,6 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-private const val DEEP_LINK_DELAY = 500L
-
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +45,19 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        // when back is detected and the confirmation callback is not active, terminate the activity
+        val finishBackPressedCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                navigationCoordinator.setExitMessageVisible(false)
+                finish()
+            }
+        }
         navigationCoordinator.exitMessageVisible.onEach { exitMessageVisible ->
             backPressedCallback.isEnabled = !exitMessageVisible
+            finishBackPressedCallback.isEnabled = exitMessageVisible
         }.launchIn(lifecycleScope)
         onBackPressedDispatcher.addCallback(backPressedCallback)
+        onBackPressedDispatcher.addCallback(finishBackPressedCallback)
 
         setContent {
             MainView(
