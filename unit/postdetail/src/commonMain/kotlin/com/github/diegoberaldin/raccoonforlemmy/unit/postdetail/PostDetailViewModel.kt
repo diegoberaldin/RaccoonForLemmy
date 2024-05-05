@@ -852,10 +852,11 @@ class PostDetailViewModel(
     }
 
     private fun navigateToPreviousComment(index: Int) {
-        val currentState = uiState.value
-        val newIndex = currentState.comments.subList(
-            fromIndex = 0,
-            toIndex = index,
+        val comments = uiState.value.comments
+        val (start, end) = 0 to index.coerceAtMost(comments.lastIndex)
+        val newIndex = comments.subList(
+            fromIndex = start,
+            toIndex = end,
         ).indexOfLast {
             it.depth == 0
         }.takeIf { it >= 0 }
@@ -867,21 +868,21 @@ class PostDetailViewModel(
     }
 
     private fun navigateToNextComment(index: Int) {
-        val currentState = uiState.value
-        val offset = index + 1
-        val newIndex = currentState.comments.subList(
-            fromIndex = offset,
-            toIndex = currentState.comments.size,
+        val comments = uiState.value.comments
+        val (start, end) = (index + 1).coerceAtMost(comments.lastIndex) to comments.lastIndex
+        val newIndex = comments.subList(
+            fromIndex = start,
+            toIndex = end,
         ).indexOfFirst {
             it.depth == 0
         }.takeIf { it >= 0 }?.let {
-            it + offset
+            it + start
         }
         if (newIndex != null) {
             screenModelScope.launch {
                 emitEffect(PostDetailMviModel.Effect.ScrollToComment(newIndex))
             }
-        } else if (currentState.canFetchMore) {
+        } else if (uiState.value.canFetchMore) {
             // fetch a new page and try again if possible (terminates on pagination end)
             screenModelScope.launch {
                 loadNextPage()
