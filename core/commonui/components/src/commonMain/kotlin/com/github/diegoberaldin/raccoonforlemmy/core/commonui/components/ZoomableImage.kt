@@ -97,6 +97,7 @@ fun ZoomableImage(
                 .transformable(transformableState),
             url = url,
             contentScale = ContentScale.FillWidth,
+            dynamicallyAdjustScale = true,
             quality = FilterQuality.High,
             autoload = autoLoadImages,
             onFailure = {

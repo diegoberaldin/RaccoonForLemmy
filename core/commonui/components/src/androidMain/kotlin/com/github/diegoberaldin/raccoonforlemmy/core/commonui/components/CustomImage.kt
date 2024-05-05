@@ -29,6 +29,7 @@ actual fun CustomImage(
     contentDescription: String?,
     quality: FilterQuality,
     contentScale: ContentScale,
+    dynamicallyAdjustScale: Boolean,
     alignment: Alignment,
     contentAlignment: Alignment,
     alpha: Float,
@@ -37,6 +38,7 @@ actual fun CustomImage(
     onFailure: @Composable (BoxScope.(Throwable) -> Unit)?,
 ) {
     var shouldBeRendered by remember(autoload) { mutableStateOf(autoload) }
+    var scale by remember { mutableStateOf(contentScale) }
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center,
@@ -50,7 +52,7 @@ actual fun CustomImage(
                 model = url,
                 contentDescription = contentDescription,
                 filterQuality = quality,
-                contentScale = contentScale,
+                contentScale = scale,
                 alignment = alignment,
                 alpha = alpha,
                 colorFilter = colorFilter,
@@ -62,6 +64,9 @@ actual fun CustomImage(
                 },
                 onSuccess = {
                     painterState = it
+                    if (it.result.drawable.intrinsicHeight > it.result.drawable.intrinsicWidth && dynamicallyAdjustScale) {
+                        scale = ContentScale.FillHeight
+                    }
                 }
             )
 
