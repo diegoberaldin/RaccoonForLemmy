@@ -719,9 +719,9 @@ class PostListScreen : Screen {
                         contentColor = MaterialTheme.colorScheme.onBackground,
                     )
                 }
-            } else {
+            } else if (!uiState.initial) {
                 Column(
-                    modifier = Modifier.padding(vertical = Spacing.m),
+                    modifier = Modifier.padding(padding),
                     verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 ) {
                     Text(
