@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.markdown
 
 internal object SpoilerRegex {
-    val spoilerOpening = Regex("(:::\\s+spoiler\\s+)(?<title>.*)")
+    val spoilerOpening = Regex("(:::\\s?spoiler\\s+)(?<title>.*)")
     val spoilerClosing = Regex(":::")
 }
 

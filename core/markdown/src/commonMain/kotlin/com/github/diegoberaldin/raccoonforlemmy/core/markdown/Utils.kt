@@ -44,9 +44,9 @@ private fun String.spoilerFixUp(): String = run {
             finalLinesSizeAtLastSpoiler = finalLines.size
         } else if (line.isNotBlank()) {
             if (isSpoilerOnTopOfStack) {
-                // removes list inside spoilers
+                // removes list and blank lines inside spoilers
                 val cleanLine = line.replace(Regex("^\\s*?- "), "").trim()
-                if (cleanLine.isNotEmpty()) {
+                if (cleanLine.isNotBlank()) {
                     finalLines += cleanLine
                 }
             } else {
