@@ -449,7 +449,7 @@ class UserDetailScreen(
                     }
                     item {
                         SectionSelector(
-                            modifier = Modifier.padding(bottom = Spacing.xs),
+                            modifier = Modifier.padding(bottom = Spacing.s),
                             titles = listOf(
                                 LocalXmlStrings.current.profileSectionPosts,
                                 LocalXmlStrings.current.profileSectionComments,

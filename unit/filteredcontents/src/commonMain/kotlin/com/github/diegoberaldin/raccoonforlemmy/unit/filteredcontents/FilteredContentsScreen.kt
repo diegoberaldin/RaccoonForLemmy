@@ -224,7 +224,6 @@ class FilteredContentsScreen(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
-                    modifier = Modifier.padding(vertical = Spacing.xs),
                     titles = listOf(
                         LocalXmlStrings.current.profileSectionPosts,
                         LocalXmlStrings.current.profileSectionComments,
