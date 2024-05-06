@@ -32,27 +32,31 @@ private fun String.removeEntities(): String =
 
 private fun String.spoilerFixUp(): String = run {
     val finalLines = mutableListOf<String>()
-    var finalLinesSizeAtLastSpoiler = 0
+    var isInsideSpoiler = false
     lines().forEach { line ->
-        val isSpoilerOnTopOfStack =
-            finalLines.isNotEmpty() && finalLinesSizeAtLastSpoiler == finalLines.size
         if (line.contains(SpoilerRegex.spoilerOpening)) {
             if (finalLines.lastOrNull()?.isEmpty() == false) {
                 finalLines += ""
             }
             finalLines += line
-            finalLinesSizeAtLastSpoiler = finalLines.size
+            isInsideSpoiler = true
+        } else if (line.contains(SpoilerRegex.spoilerClosing)) {
+            isInsideSpoiler = false
         } else if (line.isNotBlank()) {
-            if (isSpoilerOnTopOfStack) {
-                // removes list and blank lines inside spoilers
-                val cleanLine = line.replace(Regex("^\\s*?- "), "").trim()
+            if (isInsideSpoiler) {
+                // spoilers must be treated as a single paragraph, so if inside spoilers it is necessary to remove
+                // all bulleted lists, numbered lists and blank lines in general
+                val cleanLine = line
+                    .replace(Regex("^\\s*?-\\s*?"), "")
+                    .replace(Regex("^\\s*?\\d?\\.\\s*?"), "")
+                    .trim()
                 if (cleanLine.isNotBlank()) {
                     finalLines += cleanLine
                 }
             } else {
                 finalLines += line
             }
-        } else if (!isSpoilerOnTopOfStack) {
+        } else if (!isInsideSpoiler) {
             finalLines += ""
         }
     }
