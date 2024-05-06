@@ -199,7 +199,6 @@ internal fun Post.toModel() = PostModel(
     publishDate = published,
     updateDate = updated,
     nsfw = nsfw,
-    embedVideoUrl = embedVideoUrl,
     featuredCommunity = featuredCommunity,
     featuredLocal = featuredLocal,
     removed = removed,

@@ -157,14 +157,22 @@ fun Boolean.toInboxDefaultType(): Int = if (this) 0 else 1
 
 val String.looksLikeAnImage: Boolean
     get() {
-        val imageExtensions = listOf(".jpeg", ".jpg", ".png", ".webp", ".gif")
-        return imageExtensions.any { this.endsWith(it) }
+        val extensions = listOf(".jpeg", ".jpg", ".png", ".webp", ".gif")
+        return extensions.any { this.endsWith(it) }
     }
 
 val String.looksLikeAVideo: Boolean
     get() {
-        val imageExtensions = listOf(".mp4", ".mov", ".webm", ".avi")
-        return imageExtensions.any { this.endsWith(it) }
+        val extensions = listOf(".mp4", ".mov", ".webm", ".avi")
+        return extensions.any { this.endsWith(it) }
+    }
+
+val String.showInEmbeddedWebView: Boolean
+    get() {
+        val patterns = listOf(
+            ".redgifs.com/",
+        )
+        return patterns.any { this.contains(it) }
     }
 
 
