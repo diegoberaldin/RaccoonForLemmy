@@ -1,11 +1,13 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,9 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.VideoPlayer
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
 @Composable
 fun PostCardVideo(
@@ -39,15 +41,14 @@ fun PostCardVideo(
     }
 
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(1.33f)
-            .onClick(),
+        modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
         if (blurred) {
             Column(
+                modifier = Modifier.padding(vertical = Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
                     text = LocalXmlStrings.current.messageVideoNsfw,
@@ -70,7 +71,7 @@ fun PostCardVideo(
             var loading by remember { mutableStateOf(true) }
             if (shouldBeRendered) {
                 VideoPlayer(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.aspectRatio(4f / 3f),
                     url = url,
                     onPlaybackStarted = {
                         loading = false
@@ -89,6 +90,7 @@ fun PostCardVideo(
                 }
             } else {
                 Button(
+                    modifier = Modifier.padding(vertical = Spacing.s),
                     onClick = {
                         shouldBeRendered = true
                     },
