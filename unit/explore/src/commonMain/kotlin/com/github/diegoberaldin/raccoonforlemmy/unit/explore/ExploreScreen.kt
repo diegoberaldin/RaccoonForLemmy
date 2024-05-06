@@ -56,7 +56,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -75,6 +74,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -99,7 +99,10 @@ class ExploreScreen(
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<ExploreMviModel>(parameters = { parametersOf(otherInstance) })
+        val model = getScreenModel<ExploreMviModel>(
+            tag = otherInstance,
+            parameters = { parametersOf(otherInstance) },
+        )
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
@@ -307,7 +310,11 @@ class ExploreScreen(
                                         preferNicknames = uiState.preferNicknames,
                                         showSubscribeButton = !isOnOtherInstance,
                                         onSubscribe = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.ToggleSubscription(result.model.id))
+                                            model.reduce(
+                                                ExploreMviModel.Intent.ToggleSubscription(
+                                                    result.model.id
+                                                )
+                                            )
                                         }
                                     )
                                 }
@@ -469,7 +476,9 @@ class ExploreScreen(
                                                 onDownVote = rememberCallback(model) {
                                                     if (uiState.isLogged) {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.DownVotePost(result.model.id),
+                                                            ExploreMviModel.Intent.DownVotePost(
+                                                                result.model.id
+                                                            ),
                                                         )
                                                     }
                                                 },
@@ -529,7 +538,9 @@ class ExploreScreen(
                                                         ?: defaultUpvoteColor,
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.UpVoteComment(result.model.id)
+                                                            ExploreMviModel.Intent.UpVoteComment(
+                                                                result.model.id
+                                                            )
                                                         )
                                                     },
                                                 )
@@ -546,7 +557,9 @@ class ExploreScreen(
                                                         ?: defaultDownVoteColor,
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.DownVoteComment(result.model.id),
+                                                            ExploreMviModel.Intent.DownVoteComment(
+                                                                result.model.id
+                                                            ),
                                                         )
                                                     },
                                                 )
@@ -582,7 +595,9 @@ class ExploreScreen(
                                                         ?: defaultSaveColor,
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
-                                                            ExploreMviModel.Intent.SaveComment(result.model.id),
+                                                            ExploreMviModel.Intent.SaveComment(
+                                                                result.model.id
+                                                            ),
                                                         )
                                                     },
                                                 )
@@ -692,7 +707,11 @@ class ExploreScreen(
                                                     )
                                                 },
                                                 onOpenWeb = rememberCallbackArgs { url ->
-                                                    navigationCoordinator.pushScreen(WebViewScreen(url))
+                                                    navigationCoordinator.pushScreen(
+                                                        WebViewScreen(
+                                                            url
+                                                        )
+                                                    )
                                                 },
                                             )
                                         },
