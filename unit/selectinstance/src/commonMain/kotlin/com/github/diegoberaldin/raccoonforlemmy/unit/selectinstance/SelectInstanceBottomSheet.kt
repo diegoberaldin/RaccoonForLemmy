@@ -50,7 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.dialog.Chang
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 class SelectInstanceBottomSheet : Screen {
     @OptIn(ExperimentalFoundationApi::class)
@@ -65,7 +65,7 @@ class SelectInstanceBottomSheet : Screen {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val lazyListState = rememberLazyListState()
         val reorderableLazyColumnState =
-            rememberReorderableLazyColumnState(lazyListState) { from, to ->
+            rememberReorderableLazyListState(lazyListState) { from, to ->
                 model.reduce(
                     SelectInstanceMviModel.Intent.SwapIntances(
                         from = from.index - 1,
@@ -136,7 +136,7 @@ class SelectInstanceBottomSheet : Screen {
                     item {
                         // workaround for https://github.com/Calvin-LL/Reorderable/issues/4
                         ReorderableItem(
-                            reorderableLazyListState = reorderableLazyColumnState,
+                            state = reorderableLazyColumnState,
                             key = "dummy",
                             enabled = false,
                             modifier = Modifier.fillMaxWidth().height(Dp.Hairline)
@@ -148,7 +148,7 @@ class SelectInstanceBottomSheet : Screen {
                     key = { it },
                 ) { instance ->
                     ReorderableItem(
-                        reorderableLazyListState = reorderableLazyColumnState,
+                        state = reorderableLazyColumnState,
                         key = instance,
                     ) { isDragging ->
                         val isActive = instance == uiState.currentInstance
