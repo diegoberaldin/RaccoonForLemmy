@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
@@ -232,10 +230,6 @@ class CreatePostScreen(
         }
 
         Scaffold(
-            modifier = Modifier
-                .imePadding()
-                .navigationBarsPadding(),
-            contentWindowInsets = WindowInsets(0, 0, 0, 0),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -290,8 +284,8 @@ class CreatePostScreen(
                         )
                     },
                 )
-            }, snackbarHost =
-            {
+            },
+            snackbarHost = {
                 SnackbarHost(snackbarHostState) { data ->
                     Snackbar(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -299,12 +293,14 @@ class CreatePostScreen(
                         snackbarData = data,
                     )
                 }
-            })
+            },
+        )
         { padding ->
             Column(
                 modifier = Modifier
                     .padding(padding)
-                    .consumeWindowInsets(padding)
+                    .imePadding()
+                    .navigationBarsPadding()
                     .verticalScroll(rememberScrollState()),
             ) {
                 // community

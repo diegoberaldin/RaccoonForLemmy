@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -91,10 +90,6 @@ class CreateReportScreen(
         }
 
         Scaffold(
-            modifier = Modifier
-                .imePadding()
-                .navigationBarsPadding(),
-            contentWindowInsets = WindowInsets(0, 0, 0, 0),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -150,7 +145,9 @@ class CreateReportScreen(
             Column(
                 modifier = Modifier
                     .padding(padding)
-                    .consumeWindowInsets(padding),
+                    .consumeWindowInsets(padding)
+                    .imePadding()
+                    .navigationBarsPadding(),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
