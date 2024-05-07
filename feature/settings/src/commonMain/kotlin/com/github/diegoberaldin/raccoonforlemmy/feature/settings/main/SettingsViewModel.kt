@@ -187,6 +187,8 @@ class SettingsViewModel(
                 includeNsfw = value
             )
             saveSettings(settings)
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
+            notificationCenter.send(NotificationCenterEvent.ResetExplore)
         }
     }
 
