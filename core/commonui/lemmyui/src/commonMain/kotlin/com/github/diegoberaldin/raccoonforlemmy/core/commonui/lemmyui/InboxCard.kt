@@ -110,7 +110,7 @@ fun InboxCard(
                 modifier = Modifier.padding(
                     start = Spacing.s,
                     end = Spacing.s,
-                    top = Spacing.xs,
+                    top = Spacing.s,
                 ),
                 creator = mention.creator,
                 community = mention.community,

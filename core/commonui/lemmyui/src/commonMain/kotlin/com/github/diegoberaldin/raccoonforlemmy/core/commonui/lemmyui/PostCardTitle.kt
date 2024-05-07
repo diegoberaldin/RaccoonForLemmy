@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,6 +12,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.readContentAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.CustomMarkdownWrapper
@@ -61,7 +63,7 @@ fun PostCardTitle(
     val additionalAlphaFactor = if (markRead) readContentAlpha else 1f
 
     CustomMarkdownWrapper(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = Spacing.xxs),
         content = text,
         autoLoadImages = autoLoadImages,
         typography = markdownTypography(

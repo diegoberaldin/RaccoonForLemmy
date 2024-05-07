@@ -91,13 +91,17 @@ fun PostCardFooter(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
-            val buttonModifier = Modifier.size(IconSize.m).padding(2.5.dp)
+            val buttonModifier = Modifier.size(IconSize.m)
             if (comments != null) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
-                        modifier = buttonModifier.padding(1.dp)
+                        modifier = buttonModifier.padding(
+                            top = 3.5.dp,
+                            end = 3.5.dp,
+                            bottom = 3.5.dp,
+                        )
                             .onClick(
                                 onClick = {
                                     onReply?.invoke()
@@ -183,7 +187,11 @@ fun PostCardFooter(
             Spacer(modifier = Modifier.weight(1f))
             if (actionButtonsActive) {
                 FeedbackButton(
-                    modifier = buttonModifier,
+                    modifier = buttonModifier.padding(
+                        top = 2.5.dp,
+                        bottom = 2.5.dp,
+                        end = 2.5.dp,
+                    ),
                     imageVector = if (!saved) {
                         Icons.Default.BookmarkBorder
                     } else {
@@ -200,7 +208,7 @@ fun PostCardFooter(
                 )
             }
             FeedbackButton(
-                modifier = buttonModifier,
+                modifier = buttonModifier.padding(all = 2.5.dp),
                 imageVector = if (actionButtonsActive) {
                     Icons.Default.ArrowCircleUp
                 } else {
@@ -232,7 +240,11 @@ fun PostCardFooter(
                 )
             }
             FeedbackButton(
-                modifier = buttonModifier,
+                modifier = buttonModifier.padding(
+                    top = 2.5.dp,
+                    bottom = 2.5.dp,
+                    end = 2.5.dp,
+                ),
                 imageVector = if (actionButtonsActive) {
                     Icons.Default.ArrowCircleDown
                 } else {

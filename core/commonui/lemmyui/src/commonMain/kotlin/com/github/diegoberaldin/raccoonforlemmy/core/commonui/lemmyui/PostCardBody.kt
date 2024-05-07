@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,6 +11,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.readContentAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
 import com.github.diegoberaldin.raccoonforlemmy.core.markdown.CustomMarkdownWrapper
@@ -51,7 +53,7 @@ fun PostCardBody(
 
     if (text.isNotEmpty()) {
         CustomMarkdownWrapper(
-            modifier = modifier,
+            modifier = modifier.padding(horizontal = Spacing.xxs),
             content = text,
             maxLines = maxLines,
             autoLoadImages = autoLoadImages,

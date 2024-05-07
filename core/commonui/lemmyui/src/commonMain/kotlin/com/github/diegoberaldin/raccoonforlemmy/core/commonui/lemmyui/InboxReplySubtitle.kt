@@ -78,7 +78,7 @@ fun InboxReplySubtitle(
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onReply: (() -> Unit)? = null,
 ) {
-    val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
+    val buttonModifier = Modifier.size(IconSize.m)
     val themeRepository = remember { getThemeRepository() }
     val upVoteColor by themeRepository.upVoteColor.collectAsState()
     val downVoteColor by themeRepository.downVoteColor.collectAsState()
@@ -90,6 +90,7 @@ fun InboxReplySubtitle(
 
     Column(
         modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {
         val communityName = community?.readableName(preferNicknames).orEmpty()
         val communityIcon = community?.icon.orEmpty()
@@ -97,6 +98,7 @@ fun InboxReplySubtitle(
         val creatorAvatar = creator?.avatar.orEmpty()
         if (communityName.isNotEmpty() || creatorName.isNotEmpty()) {
             Row(
+                modifier = Modifier.padding(horizontal = Spacing.xxs),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
@@ -176,119 +178,130 @@ fun InboxReplySubtitle(
                     }
                 }
             }
-        }
 
-        Box {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
-            ) {
-                Icon(
-                    modifier = buttonModifier.padding(1.dp)
-                        .onClick(
+            Box {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                ) {
+                    Icon(
+                        modifier = buttonModifier.padding(
+                            top = 3.5.dp,
+                            bottom = 3.5.dp,
+                            end = 3.5.dp,
+                        ).onClick(
                             onClick = {
                                 onReply?.invoke()
                             },
                         ),
-                    imageVector = Icons.AutoMirrored.Default.Chat,
-                    contentDescription = null,
-                    tint = ancillaryColor,
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        modifier = Modifier.size(IconSize.s).padding(0.5.dp),
-                        imageVector = Icons.Default.Schedule,
+                        imageVector = Icons.AutoMirrored.Default.Chat,
                         contentDescription = null,
                         tint = ancillaryColor,
                     )
-                    Text(
-                        modifier = Modifier.padding(start = Spacing.xxs),
-                        text = date?.prettifyDate() ?: "",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = ancillaryColor,
-                    )
-                }
-                if (options.isNotEmpty()) {
-                    Icon(
-                        modifier = Modifier.size(IconSize.m)
-                            .padding(Spacing.xs)
-                            .onGloballyPositioned {
-                                optionsOffset = it.positionInParent()
-                            }
-                            .onClick(
-                                onClick = {
-                                    optionsExpanded = true
-                                },
-                            ),
-                        imageVector = Icons.Default.MoreHoriz,
-                        contentDescription = null,
-                        tint = ancillaryColor
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                FeedbackButton(
-                    modifier = buttonModifier.onClick(),
-                    imageVector = Icons.Default.ArrowCircleUp,
-                    tintColor = if (upVoted) {
-                        upVoteColor ?: defaultUpvoteColor
-                    } else {
-                        ancillaryColor
-                    },
-                    onClick = {
-                        onUpVote?.invoke()
-                    },
-                )
-                if (showScores) {
-                    Text(
-                        text = formatToReadableValue(
-                            voteFormat = voteFormat,
-                            score = score,
-                            upVotes = upVotes,
-                            downVotes = downVotes,
-                            upVoteColor = upVoteColor ?: defaultUpvoteColor,
-                            downVoteColor = downVoteColor ?: defaultDownVoteColor,
-                            upVoted = upVoted,
-                            downVoted = downVoted,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(IconSize.s).padding(0.5.dp),
+                            imageVector = Icons.Default.Schedule,
+                            contentDescription = null,
+                            tint = ancillaryColor,
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = Spacing.xxs),
+                            text = date?.prettifyDate() ?: "",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = ancillaryColor,
+                        )
+                    }
+                    if (options.isNotEmpty()) {
+                        Icon(
+                            modifier = Modifier.size(IconSize.m)
+                                .padding(Spacing.xs)
+                                .onGloballyPositioned {
+                                    optionsOffset = it.positionInParent()
+                                }
+                                .onClick(
+                                    onClick = {
+                                        optionsExpanded = true
+                                    },
+                                ),
+                            imageVector = Icons.Default.MoreHoriz,
+                            contentDescription = null,
+                            tint = ancillaryColor
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    FeedbackButton(
+                        modifier = buttonModifier.padding(
+                            top = 2.5.dp,
+                            bottom = 2.5.dp,
+                            end = 2.5.dp,
                         ),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = ancillaryColor,
-                    )
-                }
-                FeedbackButton(
-                    modifier = buttonModifier.onClick(),
-                    imageVector = Icons.Default.ArrowCircleDown,
-                    tintColor = if (downVoted) {
-                        downVoteColor ?: defaultDownVoteColor
-                    } else {
-                        ancillaryColor
-                    },
-                    onClick = {
-                        onDownVote?.invoke()
-                    },
-                )
-            }
-            CustomDropDown(
-                expanded = optionsExpanded,
-                onDismiss = {
-                    optionsExpanded = false
-                },
-                offset = DpOffset(
-                    x = optionsOffset.x.toLocalDp(),
-                    y = optionsOffset.y.toLocalDp(),
-                ),
-            ) {
-                options.forEach { option ->
-                    DropdownMenuItem(
-                        text = {
-                            Text(option.text)
+                        imageVector = Icons.Default.ArrowCircleUp,
+                        tintColor = if (upVoted) {
+                            upVoteColor ?: defaultUpvoteColor
+                        } else {
+                            ancillaryColor
                         },
                         onClick = {
-                            optionsExpanded = false
-                            onOptionSelected?.invoke(option.id)
+                            onUpVote?.invoke()
                         },
                     )
+                    if (showScores) {
+                        Text(
+                            text = formatToReadableValue(
+                                voteFormat = voteFormat,
+                                score = score,
+                                upVotes = upVotes,
+                                downVotes = downVotes,
+                                upVoteColor = upVoteColor ?: defaultUpvoteColor,
+                                downVoteColor = downVoteColor ?: defaultDownVoteColor,
+                                upVoted = upVoted,
+                                downVoted = downVoted,
+                            ),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = ancillaryColor,
+                        )
+                    }
+                    FeedbackButton(
+                        modifier = buttonModifier.padding(
+                            top = 2.5.dp,
+                            bottom = 2.5.dp,
+                            start = 2.5.dp,
+                        ),
+                        imageVector = Icons.Default.ArrowCircleDown,
+                        tintColor = if (downVoted) {
+                            downVoteColor ?: defaultDownVoteColor
+                        } else {
+                            ancillaryColor
+                        },
+                        onClick = {
+                            onDownVote?.invoke()
+                        },
+                    )
+                }
+                CustomDropDown(
+                    expanded = optionsExpanded,
+                    onDismiss = {
+                        optionsExpanded = false
+                    },
+                    offset = DpOffset(
+                        x = optionsOffset.x.toLocalDp(),
+                        y = optionsOffset.y.toLocalDp(),
+                    ),
+                ) {
+                    options.forEach { option ->
+                        DropdownMenuItem(
+                            text = {
+                                Text(option.text)
+                            },
+                            onClick = {
+                                optionsExpanded = false
+                                onOptionSelected?.invoke(option.id)
+                            },
+                        )
+                    }
                 }
             }
         }
