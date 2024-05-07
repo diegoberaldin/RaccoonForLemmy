@@ -38,6 +38,7 @@ fun CollapsedCommentCard(
     showScores: Boolean = true,
     actionButtonsActive: Boolean = true,
     isOp: Boolean = false,
+    showBot: Boolean = false,
     options: List<Option> = emptyList(),
     onClick: (() -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
@@ -81,8 +82,9 @@ fun CollapsedCommentCard(
                     iconSize = IconSize.s,
                     creator = comment.creator,
                     indicatorExpanded = comment.expanded,
-                    distinguished =  comment.distinguished,
+                    distinguished = comment.distinguished,
                     isOp = isOp,
+                    isBot = comment.creator?.bot?.takeIf { showBot } ?: false,
                     autoLoadImages = autoLoadImages,
                     preferNicknames = preferNicknames,
                     onToggleExpanded = {

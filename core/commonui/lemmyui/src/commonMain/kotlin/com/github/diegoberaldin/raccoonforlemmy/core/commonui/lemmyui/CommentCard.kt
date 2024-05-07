@@ -58,6 +58,7 @@ fun CommentCard(
     showExpandedIndicator: Boolean = true,
     actionButtonsActive: Boolean = true,
     isOp: Boolean = false,
+    showBot: Boolean = false,
     options: List<Option> = emptyList(),
     onClick: (() -> Unit)? = null,
     onImageClick: ((String) -> Unit)? = null,
@@ -115,6 +116,7 @@ fun CommentCard(
                     indicatorExpanded = comment.expanded.takeIf { showExpandedIndicator },
                     distinguished = comment.distinguished,
                     isOp = isOp,
+                    isBot = comment.creator?.bot.takeIf { showBot } ?: false,
                     onOpenCreator = rememberCallbackArgs { user ->
                         onOpenCreator?.invoke(user, "")
                     },
