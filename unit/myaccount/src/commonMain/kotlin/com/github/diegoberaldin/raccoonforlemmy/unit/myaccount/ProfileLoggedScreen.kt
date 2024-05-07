@@ -282,6 +282,12 @@ object ProfileLoggedScreen : Tab {
                                         )
                                         add(
                                             Option(
+                                                OptionId.CrossPost,
+                                                LocalXmlStrings.current.postActionCrossPost,
+                                            )
+                                        )
+                                        add(
+                                            Option(
                                                 OptionId.SeeRaw,
                                                 LocalXmlStrings.current.postActionSeeRaw,
                                             )
@@ -313,6 +319,13 @@ object ProfileLoggedScreen : Tab {
 
                                             OptionId.SeeRaw -> {
                                                 rawContent = post
+                                            }
+
+                                            OptionId.CrossPost -> {
+                                                detailOpener.openCreatePost(
+                                                    crossPost = post,
+                                                    forceCommunitySelection = true,
+                                                )
                                             }
 
                                             OptionId.Share -> {
