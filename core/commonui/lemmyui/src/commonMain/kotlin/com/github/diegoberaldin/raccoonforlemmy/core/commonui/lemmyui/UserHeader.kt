@@ -188,6 +188,13 @@ fun UserHeader(
                         )
                     }
 
+                    if (user.bot) {
+                        if (postScore != null || commentScore != null || user.accountAge.isNotEmpty()) {
+                            Spacer(modifier = Modifier.width(Spacing.xxxs))
+                        }
+                        IndicatorChip(text = "BOT")
+                    }
+
                     Spacer(modifier = Modifier.weight(1f))
 
                     if (onInfo != null) {
