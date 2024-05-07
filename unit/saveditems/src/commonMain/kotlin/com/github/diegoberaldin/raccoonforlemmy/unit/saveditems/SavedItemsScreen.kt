@@ -355,6 +355,7 @@ class SavedItemsScreen : Screen {
                                     autoLoadImages = uiState.autoLoadImages,
                                     preferNicknames = uiState.preferNicknames,
                                     showScores = uiState.showScores,
+                                    showBot = true,
                                     hideIndent = true,
                                     onClick = {
                                         detailOpener.openPostDetail(

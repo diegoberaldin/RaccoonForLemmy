@@ -616,6 +616,7 @@ class ExploreScreen(
                                                 autoLoadImages = uiState.autoLoadImages,
                                                 preferNicknames = uiState.preferNicknames,
                                                 showScores = uiState.showScores,
+                                                showBot = true,
                                                 showExpandedIndicator = false,
                                                 hideIndent = true,
                                                 actionButtonsActive = uiState.isLogged,

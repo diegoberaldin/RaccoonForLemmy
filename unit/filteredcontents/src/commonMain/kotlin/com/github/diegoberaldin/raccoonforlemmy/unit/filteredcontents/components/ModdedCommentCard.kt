@@ -43,7 +43,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommentCar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -91,6 +90,7 @@ fun ModdedCommentCard(
                 autoLoadImages = autoLoadImages,
                 preferNicknames = preferNicknames,
                 showExpandedIndicator = false,
+                showBot = true,
                 hideIndent = true,
                 onClick = onOpen,
                 onOpenCreator = onOpenUser,
