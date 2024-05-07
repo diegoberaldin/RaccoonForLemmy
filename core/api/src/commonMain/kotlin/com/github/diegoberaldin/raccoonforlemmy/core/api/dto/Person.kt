@@ -19,7 +19,7 @@ data class Person(
     @SerialName("deleted") val deleted: Boolean,
     @SerialName("matrix_user_id") val matrixUserId: String? = null,
     @SerialName("admin") val admin: Boolean? = null,
-    @SerialName("bot_account") val botAccount: Boolean,
+    @SerialName("bot_account") val botAccount: Boolean? = null,
     @SerialName("ban_expires") val banExpires: String? = null,
     @SerialName("instance_id") val instanceId: InstanceId,
 )

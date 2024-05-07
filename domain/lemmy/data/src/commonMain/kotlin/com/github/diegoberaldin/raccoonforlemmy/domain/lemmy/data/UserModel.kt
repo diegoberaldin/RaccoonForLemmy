@@ -16,6 +16,7 @@ data class UserModel(
     val updateDate: String? = null,
     val admin: Boolean = false,
     val moderator: Boolean = false,
+    val bot: Boolean = false,
 )
 
 fun List<UserModel>.containsId(value: Long?): Boolean = any { it.id == value }

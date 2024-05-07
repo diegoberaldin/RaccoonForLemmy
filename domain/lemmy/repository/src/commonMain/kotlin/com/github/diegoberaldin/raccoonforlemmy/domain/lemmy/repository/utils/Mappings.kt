@@ -165,6 +165,7 @@ internal fun Person.toModel() = UserModel(
     matrixUserId = matrixUserId,
     updateDate = updated,
     admin = admin ?: false,
+    bot = botAccount ?: false,
 )
 
 internal fun PersonView.toModel() = person.toModel().copy(

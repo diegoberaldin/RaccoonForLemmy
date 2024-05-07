@@ -91,7 +91,7 @@ internal class DefaultSiteRepository(
                     avatar = person.avatar,
                     banner = person.banner,
                     bio = person.bio,
-                    bot = person.botAccount,
+                    bot = person.botAccount ?: false,
                     displayName = person.displayName,
                     matrixUserId = person.matrixUserId,
                 )
