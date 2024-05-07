@@ -20,7 +20,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
-import io.ktor.client.request.forms.*
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.Dispatchers
@@ -113,19 +114,20 @@ internal class DefaultPostRepository(
         }
     )
 
-    override suspend fun upVote(post: PostModel, auth: String, voted: Boolean) = withContext(Dispatchers.IO) {
-        runCatching {
-            val data = CreatePostLikeForm(
-                postId = post.id,
-                score = if (voted) 1 else 0,
-                auth = auth,
-            )
-            services.post.like(
-                authHeader = auth.toAuthHeader(),
-                form = data,
-            )
+    override suspend fun upVote(post: PostModel, auth: String, voted: Boolean) =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data = CreatePostLikeForm(
+                    postId = post.id,
+                    score = if (voted) 1 else 0,
+                    auth = auth,
+                )
+                services.post.like(
+                    authHeader = auth.toAuthHeader(),
+                    form = data,
+                )
+            }
         }
-    }
 
     override fun asDownVoted(post: PostModel, downVoted: Boolean) = post.copy(
         myVote = if (downVoted) -1 else 0,
@@ -145,35 +147,37 @@ internal class DefaultPostRepository(
         }
     )
 
-    override suspend fun downVote(post: PostModel, auth: String, downVoted: Boolean) = withContext(Dispatchers.IO) {
-        runCatching {
-            val data = CreatePostLikeForm(
-                postId = post.id,
-                score = if (downVoted) -1 else 0,
-                auth = auth,
-            )
-            services.post.like(
-                authHeader = auth.toAuthHeader(),
-                form = data,
-            )
+    override suspend fun downVote(post: PostModel, auth: String, downVoted: Boolean) =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data = CreatePostLikeForm(
+                    postId = post.id,
+                    score = if (downVoted) -1 else 0,
+                    auth = auth,
+                )
+                services.post.like(
+                    authHeader = auth.toAuthHeader(),
+                    form = data,
+                )
+            }
         }
-    }
 
     override fun asSaved(post: PostModel, saved: Boolean): PostModel = post.copy(saved = saved)
 
-    override suspend fun save(post: PostModel, auth: String, saved: Boolean) = withContext(Dispatchers.IO) {
-        runCatching {
-            val data = SavePostForm(
-                postId = post.id,
-                save = saved,
-                auth = auth,
-            )
-            services.post.save(
-                authHeader = auth.toAuthHeader(),
-                form = data,
-            )
+    override suspend fun save(post: PostModel, auth: String, saved: Boolean) =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data = SavePostForm(
+                    postId = post.id,
+                    save = saved,
+                    auth = auth,
+                )
+                services.post.save(
+                    authHeader = auth.toAuthHeader(),
+                    form = data,
+                )
+            }
         }
-    }
 
     override suspend fun create(
         communityId: Long,
@@ -184,21 +188,19 @@ internal class DefaultPostRepository(
         languageId: Long?,
         auth: String,
     ): Unit = withContext(Dispatchers.IO) {
-        runCatching {
-            val data = CreatePostForm(
-                communityId = communityId,
-                name = title,
-                body = body,
-                url = url,
-                nsfw = nsfw,
-                languageId = languageId,
-                auth = auth,
-            )
-            services.post.create(
-                authHeader = auth.toAuthHeader(),
-                form = data,
-            )
-        }.getOrDefault(Unit)
+        val data = CreatePostForm(
+            communityId = communityId,
+            name = title,
+            body = body,
+            url = url,
+            nsfw = nsfw,
+            languageId = languageId,
+            auth = auth,
+        )
+        services.post.create(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 
     override suspend fun edit(
@@ -210,36 +212,35 @@ internal class DefaultPostRepository(
         languageId: Long?,
         auth: String,
     ): Unit = withContext(Dispatchers.IO) {
-        runCatching {
-            val data = EditPostForm(
-                postId = postId,
-                name = title,
-                body = body,
-                url = url,
-                nsfw = nsfw,
-                languageId = languageId,
-                auth = auth,
-            )
-            services.post.edit(
-                authHeader = auth.toAuthHeader(),
-                form = data,
-            )
-        }.getOrDefault(Unit)
+        val data = EditPostForm(
+            postId = postId,
+            name = title,
+            body = body,
+            url = url,
+            nsfw = nsfw,
+            languageId = languageId,
+            auth = auth,
+        )
+        services.post.edit(
+            authHeader = auth.toAuthHeader(),
+            form = data,
+        )
     }
 
-    override suspend fun setRead(read: Boolean, postId: Long, auth: String?) = withContext(Dispatchers.IO) {
-        runCatching {
-            val data = MarkPostAsReadForm(
-                postId = postId,
-                read = read,
-                auth = auth.orEmpty(),
-            )
-            services.post.markAsRead(
-                authHeader = auth.toAuthHeader(),
-                form = data,
-            )
+    override suspend fun setRead(read: Boolean, postId: Long, auth: String?) =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data = MarkPostAsReadForm(
+                    postId = postId,
+                    read = read,
+                    auth = auth.orEmpty(),
+                )
+                services.post.markAsRead(
+                    authHeader = auth.toAuthHeader(),
+                    form = data,
+                )
+            }
         }
-    }
 
     override suspend fun delete(id: Long, auth: String): Unit = withContext(Dispatchers.IO) {
         runCatching {
@@ -258,42 +259,44 @@ internal class DefaultPostRepository(
         }.getOrDefault(Unit)
     }
 
-    override suspend fun uploadImage(auth: String, bytes: ByteArray): String? = withContext(Dispatchers.IO) {
-        runCatching {
-            val url = "https://${services.currentInstance}/pictrs/image"
-            val multipart = MultiPartFormDataContent(formData {
-                append(key = "images[]", value = bytes, headers = Headers.build {
-                    append(HttpHeaders.ContentType, "image/*")
-                    append(HttpHeaders.ContentDisposition, "filename=image.jpeg")
+    override suspend fun uploadImage(auth: String, bytes: ByteArray): String? =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val url = "https://${services.currentInstance}/pictrs/image"
+                val multipart = MultiPartFormDataContent(formData {
+                    append(key = "images[]", value = bytes, headers = Headers.build {
+                        append(HttpHeaders.ContentType, "image/*")
+                        append(HttpHeaders.ContentDisposition, "filename=image.jpeg")
+                    })
                 })
-            })
-            val images = services.post.uploadImage(
-                url = url,
-                token = "jwt=$auth",
-                authHeader = auth.toAuthHeader(),
-                content = multipart,
-            ).body()
-            "$url/${images?.files?.firstOrNull()?.file}"
-        }.apply {
-            exceptionOrNull()?.also {
-                it.printStackTrace()
-            }
-        }.getOrNull()
-    }
-
-    override suspend fun report(postId: Long, reason: String, auth: String): Unit = withContext(Dispatchers.IO) {
-        runCatching {
-            val data = CreatePostReportForm(
-                postId = postId,
-                reason = reason,
-                auth = auth,
-            )
-            services.post.createReport(
-                form = data,
-                authHeader = auth.toAuthHeader(),
-            )
+                val images = services.post.uploadImage(
+                    url = url,
+                    token = "jwt=$auth",
+                    authHeader = auth.toAuthHeader(),
+                    content = multipart,
+                ).body()
+                "$url/${images?.files?.firstOrNull()?.file}"
+            }.apply {
+                exceptionOrNull()?.also {
+                    it.printStackTrace()
+                }
+            }.getOrNull()
         }
-    }
+
+    override suspend fun report(postId: Long, reason: String, auth: String): Unit =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data = CreatePostReportForm(
+                    postId = postId,
+                    reason = reason,
+                    auth = auth,
+                )
+                services.post.createReport(
+                    form = data,
+                    authHeader = auth.toAuthHeader(),
+                )
+            }
+        }
 
     override suspend fun featureInCommunity(
         postId: Long,
