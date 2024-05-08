@@ -1,16 +1,18 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.createcomment
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -38,6 +40,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -88,7 +91,7 @@ class CreateCommentScreen(
     private val editedCommentId: Long? = null,
     private val initialText: String? = null,
 ) : Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
         val model = getScreenModel<CreateCommentMviModel> {
@@ -218,9 +221,89 @@ class CreateCommentScreen(
                     }
                 )
             },
-            bottomBar = {
+        ) { padding ->
+            Box(
+                modifier = Modifier
+                    .padding(padding)
+                    .consumeWindowInsets(padding)
+                    .imePadding()
+                    .navigationBarsPadding()
+                    .fillMaxSize(),
+            ) {
+                // reference post or comment
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    val referenceModifier = Modifier.padding(
+                        horizontal = Spacing.s,
+                        vertical = Spacing.xxs,
+                    )
+                    val originalComment = uiState.originalComment
+                    val originalPost = uiState.originalPost
+                    if (originalComment != null) {
+                        CommentCard(
+                            modifier = referenceModifier,
+                            comment = originalComment,
+                            preferNicknames = uiState.preferNicknames,
+                            hideIndent = true,
+                            voteFormat = uiState.voteFormat,
+                            autoLoadImages = uiState.autoLoadImages,
+                            showScores = uiState.showScores,
+                            options = buildList {
+                                add(
+                                    Option(
+                                        OptionId.SeeRaw,
+                                        LocalXmlStrings.current.postActionSeeRaw
+                                    )
+                                )
+                            },
+                            onOptionSelected = {
+                                rawContent = originalComment
+                            },
+                        )
+                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
+                    } else if (originalPost != null) {
+                        PostCard(
+                            modifier = referenceModifier,
+                            postLayout = if (uiState.postLayout == PostLayout.Card) {
+                                uiState.postLayout
+                            } else {
+                                PostLayout.Full
+                            },
+                            fullHeightImage = uiState.fullHeightImages,
+                            fullWidthImage = uiState.fullWidthImages,
+                            post = originalPost,
+                            blurNsfw = false,
+                            includeFullBody = true,
+                            voteFormat = uiState.voteFormat,
+                            autoLoadImages = uiState.autoLoadImages,
+                            preferNicknames = uiState.preferNicknames,
+                            showScores = uiState.showScores,
+                            options = buildList {
+                                add(
+                                    Option(
+                                        OptionId.SeeRaw,
+                                        LocalXmlStrings.current.postActionSeeRaw
+                                    )
+                                )
+                            },
+                            onOptionSelected = {
+                                rawContent = originalPost
+                            },
+                        )
+                    }
+                }
+
+                // form fields
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .background(MaterialTheme.colorScheme.background)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     SectionSelector(
                         titles = listOf(
@@ -317,7 +400,11 @@ class CreateCommentScreen(
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = Spacing.m),
+                                .padding(
+                                    start = Spacing.m,
+                                    end = Spacing.m,
+                                    bottom = Spacing.s,
+                                ),
                             text = buildString {
                                 append(LocalXmlStrings.current.postReplySourceAccount)
                                 append(" ")
@@ -334,133 +421,64 @@ class CreateCommentScreen(
                         )
                     }
                 }
-            },
-        ) { padding ->
-            val referenceModifier = Modifier.padding(
-                horizontal = Spacing.s,
-                vertical = Spacing.xxs,
-            )
-            LazyColumn(
-                modifier = Modifier
-                    .padding(padding)
-                    .consumeWindowInsets(padding)
-                    .imePadding()
-                    .navigationBarsPadding(),
-            ) {
-                item {
-                    val originalComment = uiState.originalComment
-                    val originalPost = uiState.originalPost
-                    if (originalComment != null) {
-                        CommentCard(
-                            modifier = referenceModifier,
-                            comment = originalComment,
-                            preferNicknames = uiState.preferNicknames,
-                            hideIndent = true,
-                            voteFormat = uiState.voteFormat,
-                            autoLoadImages = uiState.autoLoadImages,
-                            showScores = uiState.showScores,
-                            options = buildList {
-                                add(
-                                    Option(
-                                        OptionId.SeeRaw,
-                                        LocalXmlStrings.current.postActionSeeRaw
-                                    )
-                                )
-                            },
-                            onOptionSelected = {
-                                rawContent = originalComment
+            }
+
+            if (uiState.loading) {
+                ProgressHud()
+            }
+
+            if (openImagePicker) {
+                galleryHelper.getImageFromGallery { bytes ->
+                    openImagePicker = false
+                    model.reduce(CreateCommentMviModel.Intent.ImageSelected(bytes))
+                }
+            }
+
+            if (rawContent != null) {
+                when (val content = rawContent) {
+                    is PostModel -> {
+                        RawContentDialog(
+                            title = content.title,
+                            publishDate = content.publishDate,
+                            updateDate = content.updateDate,
+                            url = content.url,
+                            text = content.text,
+                            upVotes = content.upvotes,
+                            downVotes = content.downvotes,
+                            onDismiss = {
+                                rawContent = null
                             },
                         )
-                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
-                    } else if (originalPost != null) {
-                        PostCard(
-                            modifier = referenceModifier,
-                            postLayout = if (uiState.postLayout == PostLayout.Card) {
-                                uiState.postLayout
-                            } else {
-                                PostLayout.Full
-                            },
-                            fullHeightImage = uiState.fullHeightImages,
-                            fullWidthImage = uiState.fullWidthImages,
-                            post = originalPost,
-                            blurNsfw = false,
-                            includeFullBody = true,
-                            voteFormat = uiState.voteFormat,
-                            autoLoadImages = uiState.autoLoadImages,
-                            preferNicknames = uiState.preferNicknames,
-                            showScores = uiState.showScores,
-                            options = buildList {
-                                add(
-                                    Option(
-                                        OptionId.SeeRaw,
-                                        LocalXmlStrings.current.postActionSeeRaw
-                                    )
-                                )
-                            },
-                            onOptionSelected = {
-                                rawContent = originalPost
+                    }
+
+                    is CommentModel -> {
+                        RawContentDialog(
+                            text = content.text,
+                            upVotes = content.upvotes,
+                            downVotes = content.downvotes,
+                            publishDate = content.publishDate,
+                            updateDate = content.updateDate,
+                            onDismiss = {
+                                rawContent = null
                             },
                         )
                     }
                 }
             }
-        }
 
-        if (uiState.loading) {
-            ProgressHud()
-        }
-
-        if (openImagePicker) {
-            galleryHelper.getImageFromGallery { bytes ->
-                openImagePicker = false
-                model.reduce(CreateCommentMviModel.Intent.ImageSelected(bytes))
+            if (selectLanguageDialogOpen) {
+                SelectLanguageDialog(
+                    languages = uiState.availableLanguages,
+                    currentLanguageId = uiState.currentLanguageId,
+                    onSelect = rememberCallbackArgs { langId ->
+                        model.reduce(CreateCommentMviModel.Intent.ChangeLanguage(langId))
+                        selectLanguageDialogOpen = false
+                    },
+                    onDismiss = rememberCallback {
+                        selectLanguageDialogOpen = false
+                    }
+                )
             }
-        }
-
-        if (rawContent != null) {
-            when (val content = rawContent) {
-                is PostModel -> {
-                    RawContentDialog(
-                        title = content.title,
-                        publishDate = content.publishDate,
-                        updateDate = content.updateDate,
-                        url = content.url,
-                        text = content.text,
-                        upVotes = content.upvotes,
-                        downVotes = content.downvotes,
-                        onDismiss = {
-                            rawContent = null
-                        },
-                    )
-                }
-
-                is CommentModel -> {
-                    RawContentDialog(
-                        text = content.text,
-                        upVotes = content.upvotes,
-                        downVotes = content.downvotes,
-                        publishDate = content.publishDate,
-                        updateDate = content.updateDate,
-                        onDismiss = {
-                            rawContent = null
-                        },
-                    )
-                }
-            }
-        }
-
-        if (selectLanguageDialogOpen) {
-            SelectLanguageDialog(
-                languages = uiState.availableLanguages,
-                currentLanguageId = uiState.currentLanguageId,
-                onSelect = rememberCallbackArgs { langId ->
-                    model.reduce(CreateCommentMviModel.Intent.ChangeLanguage(langId))
-                    selectLanguageDialogOpen = false
-                },
-                onDismiss = rememberCallback {
-                    selectLanguageDialogOpen = false
-                }
-            )
         }
     }
 }
