@@ -189,7 +189,7 @@ internal object ProfileMainScreen : Tab {
                         if (uiState.logged == true) {
                             Icon(
                                 modifier = Modifier
-                                    .padding(end = Spacing.s)
+                                    .padding(horizontal = Spacing.xs)
                                     .onClick(
                                         onClick = {
                                             notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ManageAccounts)

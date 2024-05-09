@@ -94,7 +94,7 @@ class CommunityInfoScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier.padding(end = Spacing.s).onClick(
+                            modifier = Modifier.padding(horizontal = Spacing.xs).onClick(
                                 onClick = {
                                     navigationCoordinator.closeSideMenu()
                                 },
