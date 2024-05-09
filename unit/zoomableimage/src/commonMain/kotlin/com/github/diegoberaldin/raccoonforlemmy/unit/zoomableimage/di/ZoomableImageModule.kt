@@ -5,12 +5,14 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImage
 import org.koin.dsl.module
 
 val zoomableImageModule = module {
-    factory<ZoomableImageMviModel> {
+    factory<ZoomableImageMviModel> { params ->
         ZoomableImageViewModel(
+            url = params[0],
             shareHelper = get(),
             galleryHelper = get(),
             settingsRepository = get(),
             notificationCenter = get(),
+            imagePreloadManager = get(),
         )
     }
 }
