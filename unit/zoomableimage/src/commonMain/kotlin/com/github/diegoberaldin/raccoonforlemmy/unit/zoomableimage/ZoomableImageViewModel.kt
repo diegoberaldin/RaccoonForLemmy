@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage
 
+import androidx.compose.ui.layout.ContentScale
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
@@ -8,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Sett
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.GalleryHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.download
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload.ImagePreloadManager
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -17,10 +19,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ZoomableImageViewModel(
+    private val url: String,
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
     private val galleryHelper: GalleryHelper,
     private val notificationCenter: NotificationCenter,
+    private val imagePreloadManager: ImagePreloadManager,
 ) : ZoomableImageMviModel,
     DefaultMviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect>(
         initialState = ZoomableImageMviModel.UiState(),
@@ -43,14 +47,12 @@ class ZoomableImageViewModel(
 
     override fun reduce(intent: ZoomableImageMviModel.Intent) {
         when (intent) {
-            is ZoomableImageMviModel.Intent.SaveToGallery -> downloadAndSave(
-                folder = intent.source,
-                url = intent.url,
-            )
+            is ZoomableImageMviModel.Intent.SaveToGallery -> downloadAndSave(intent.source)
+            is ZoomableImageMviModel.Intent.ChangeContentScale -> changeContentScale(intent.contentScale)
         }
     }
 
-    private fun downloadAndSave(url: String, folder: String) {
+    private fun downloadAndSave(folder: String) {
         val imageSourcePath = settingsRepository.currentSettings.value.imageSourcePath
         screenModelScope.launch {
             updateState { it.copy(loading = true) }
@@ -113,6 +115,13 @@ class ZoomableImageViewModel(
                 updateState { it.copy(loading = false) }
                 emitEffect(ZoomableImageMviModel.Effect.ShareFailure)
             }
+        }
+    }
+
+    private fun changeContentScale(contentScale: ContentScale) {
+        imagePreloadManager.remove(url)
+        updateState {
+            it.copy(contentScale = contentScale)
         }
     }
 }
