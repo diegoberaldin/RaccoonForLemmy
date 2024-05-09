@@ -44,21 +44,21 @@ internal class DefaultIdentityRepository(
 
     override suspend fun refreshLoggedState() = withContext(Dispatchers.IO) {
         val auth = authToken.value.orEmpty()
-        if (auth.isEmpty()) {
-            isLogged.value = false
-        } else {
+        isLogged.value = null
+        if (auth.isNotEmpty()) {
             val newIsLogged = if (networkManager.isNetworkAvailable()) {
-                refreshCachedUser()
+                refreshCachedUser(auth)
                 cachedUser != null
             } else {
                 null
             }
             isLogged.value = newIsLogged
+        } else {
+            isLogged.value = false
         }
     }
 
-    private suspend fun refreshCachedUser() {
-        val auth = authToken.value.orEmpty()
+    private suspend fun refreshCachedUser(auth: String) {
         val remoteUser = siteRepository.getCurrentUser(auth)?.let { user ->
             val communities = userRepository.getModeratedCommunities(auth, id = user.id)
             user.copy(
