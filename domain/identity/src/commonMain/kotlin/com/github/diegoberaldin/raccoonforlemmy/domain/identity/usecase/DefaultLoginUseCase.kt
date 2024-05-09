@@ -36,46 +36,48 @@ internal class DefaultLoginUseCase(
         )
         return response.onFailure {
             logDebug("Login failure: ${it.message}")
-        }.map {
+        }.mapCatching {
             val auth = it.token
             if (auth == null) {
                 apiConfigurationRepository.changeInstance(oldInstance)
-            } else {
-                val accountSettings = siteRepository.getAccountSettings(auth)
-                identityRepository.storeToken(auth)
-                identityRepository.refreshLoggedState()
-
-                val account = AccountModel(
-                    username = username,
-                    instance = instance,
-                    jwt = auth
-                )
-                val existingId = accountRepository.getBy(username, instance)?.id
-                val id = existingId ?: run {
-                    // new account with a copy of the anonymous settings
-                    // (except a couple of fields from the Lemmy accounts)
-                    val res = accountRepository.createAccount(account)
-                    val anonymousSettings = settingsRepository.getSettings(null)
-                        .copy(
-                            showScores = accountSettings?.showScores ?: true,
-                            includeNsfw = accountSettings?.showNsfw ?: false,
-                        )
-                    settingsRepository.createSettings(
-                        settings = anonymousSettings,
-                        accountId = res,
-                    )
-                    res
-                }
-                val oldActiveAccountId = accountRepository.getActive()?.id
-                if (oldActiveAccountId != null) {
-                    accountRepository.setActive(oldActiveAccountId, false)
-                }
-                accountRepository.setActive(id, true)
-
-                val newSettings = settingsRepository.getSettings(id)
-                settingsRepository.changeCurrentSettings(newSettings)
-                communitySortRepository.clear()
+                throw Exception("Unable to log in")
             }
+
+            val accountSettings = siteRepository.getAccountSettings(auth)
+            identityRepository.storeToken(auth)
+            identityRepository.refreshLoggedState()
+
+            val account = AccountModel(
+                username = username,
+                instance = instance,
+                jwt = auth
+            )
+            val existingId = accountRepository.getBy(username, instance)?.id
+            val id = existingId ?: run {
+                // new account with a copy of the anonymous settings
+                // (except a couple of fields from the Lemmy accounts)
+                val res = accountRepository.createAccount(account)
+                val anonymousSettings = settingsRepository.getSettings(null)
+                    .copy(
+                        showScores = accountSettings?.showScores ?: true,
+                        includeNsfw = accountSettings?.showNsfw ?: false,
+                    )
+                settingsRepository.createSettings(
+                    settings = anonymousSettings,
+                    accountId = res,
+                )
+                res
+            }
+            val oldActiveAccountId = accountRepository.getActive()?.id
+            if (oldActiveAccountId != null) {
+                accountRepository.setActive(oldActiveAccountId, false)
+            }
+            accountRepository.setActive(id, true)
+
+            communitySortRepository.clear()
+
+            val newSettings = settingsRepository.getSettings(id)
+            settingsRepository.changeCurrentSettings(newSettings)
         }
     }
 }

@@ -21,15 +21,17 @@ internal class DefaultSwitchAccountUseCase(
         val accountId = account.id ?: return
         val jwt = account.jwt.takeIf { it.isNotEmpty() } ?: return
         val instance = account.instance.takeIf { it.isNotEmpty() } ?: return
+        val oldActiveAccountId = accountRepository.getActive()?.id.takeIf { it != accountId } ?: return
 
-        val oldActiveAccountId = accountRepository.getActive()?.id
-        if (oldActiveAccountId != null) {
-            accountRepository.setActive(oldActiveAccountId, false)
-        }
+        accountRepository.setActive(oldActiveAccountId, false)
         accountRepository.setActive(accountId, true)
+
         notificationCenter.send(NotificationCenterEvent.Logout)
+
         communitySortRepository.clear()
+
         serviceProvider.changeInstance(instance)
+
         identityRepository.storeToken(jwt)
         identityRepository.refreshLoggedState()
 

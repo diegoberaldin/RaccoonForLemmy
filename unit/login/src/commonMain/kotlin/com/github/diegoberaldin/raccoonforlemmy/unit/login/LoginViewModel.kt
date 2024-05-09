@@ -82,27 +82,21 @@ class LoginViewModel(
         val valid = when {
             instance.isEmpty() -> {
                 updateState {
-                    it.copy(
-                        instanceNameError = ValidationError.MissingField,
-                    )
+                    it.copy(instanceNameError = ValidationError.MissingField)
                 }
                 false
             }
 
             username.isEmpty() -> {
                 updateState {
-                    it.copy(
-                        usernameError = ValidationError.MissingField,
-                    )
+                    it.copy(usernameError = ValidationError.MissingField)
                 }
                 false
             }
 
             password.isEmpty() -> {
                 updateState {
-                    it.copy(
-                        passwordError = ValidationError.MissingField,
-                    )
+                    it.copy(passwordError = ValidationError.MissingField)
                 }
                 false
             }
@@ -146,22 +140,23 @@ class LoginViewModel(
                         emitEffect(LoginMviModel.Effect.LoginError(message))
                     }
                 }
-            } else {
-                val accountId = accountRepository.getActive()?.id
-                if (accountId != null) {
-                    val auth = identityRepository.authToken.value.orEmpty()
-                    val avatar = siteRepository.getCurrentUser(auth = auth)?.avatar
-                    accountRepository.update(
-                        id = accountId,
-                        avatar = avatar,
-                        jwt = auth
-                    )
-                }
-                notificationCenter.send(NotificationCenterEvent.ResetExplore)
-                notificationCenter.send(NotificationCenterEvent.ResetHome)
-                withContext(Dispatchers.Main) {
-                    emitEffect(LoginMviModel.Effect.LoginSuccess)
-                }
+                return@launch
+            }
+
+            val accountId = accountRepository.getActive()?.id
+            if (accountId != null) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val avatar = siteRepository.getCurrentUser(auth = auth)?.avatar
+                accountRepository.update(
+                    id = accountId,
+                    avatar = avatar,
+                    jwt = auth
+                )
+            }
+            notificationCenter.send(NotificationCenterEvent.ResetExplore)
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
+            withContext(Dispatchers.Main) {
+                emitEffect(LoginMviModel.Effect.LoginSuccess)
             }
         }
     }

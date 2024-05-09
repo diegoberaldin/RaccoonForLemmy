@@ -49,6 +49,7 @@ import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -93,6 +94,7 @@ class LoginBottomSheet : Screen {
         val usernameFocusRequester = remember { FocusRequester() }
         val passwordFocusRequester = remember { FocusRequester() }
         val tokenFocusRequester = remember { FocusRequester() }
+        val focusManager = LocalFocusManager.current
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -366,6 +368,7 @@ class LoginBottomSheet : Screen {
                     Button(
                         modifier = Modifier.padding(top = Spacing.l),
                         onClick = rememberCallback(model) {
+                            focusManager.clearFocus()
                             model.reduce(LoginMviModel.Intent.Confirm)
                         },
                     ) {
