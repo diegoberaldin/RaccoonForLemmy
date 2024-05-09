@@ -18,7 +18,6 @@ expect fun CustomImage(
     contentDescription: String? = null,
     quality: FilterQuality = FilterQuality.Medium,
     contentScale: ContentScale = ContentScale.Fit,
-    dynamicallyAdjustScale: Boolean = false,
     alignment: Alignment = Alignment.Center,
     contentAlignment: Alignment = Alignment.Center,
     alpha: Float = DefaultAlpha,

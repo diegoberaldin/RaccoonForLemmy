@@ -29,7 +29,6 @@ actual fun CustomImage(
     contentDescription: String?,
     quality: FilterQuality,
     contentScale: ContentScale,
-    dynamicallyAdjustScale: Boolean,
     alignment: Alignment,
     contentAlignment: Alignment,
     alpha: Float,
