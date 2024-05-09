@@ -389,4 +389,7 @@
     <string name="settings_url_opening_mode_external">Внешний браузер</string>
     <string name="settings_url_opening_mode_custom_tabs">Пользовательские вкладки</string>
     <string name="settings_full_width_images">Изображения в полную ширину</string>
+    <string name="content_scale_fit">Подогнать размер</string>
+    <string name="content_scale_fill_width">Заполните ширину</string>
+    <string name="content_scale_fill_height">Заполните высоту</string>
 </resources>

@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Browser estern</string>
     <string name="settings_url_opening_mode_custom_tabs">Tabs tad-dwana</string>
     <string name="settings_full_width_images">Immaġini ta \'wisa\' sħiħ</string>
+    <string name="content_scale_fit">Waħħal id-daqs</string>
+    <string name="content_scale_fill_width">Imla l-wisa</string>
+    <string name="content_scale_fill_height">Imla l-għoli</string>
 </resources>

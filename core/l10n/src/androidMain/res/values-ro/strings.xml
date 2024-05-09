@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Browser extern</string>
     <string name="settings_url_opening_mode_custom_tabs">File personalizate</string>
     <string name="settings_full_width_images">Imagini la lățime completă</string>
+    <string name="content_scale_fit">Se potrivește mărimii</string>
+    <string name="content_scale_fill_width">Umpleți lățimea</string>
+    <string name="content_scale_fill_height">Umpleți înălțimea</string>
 </resources>

@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">متصفح خارجي</string>
     <string name="settings_url_opening_mode_custom_tabs">علامات التبويب المخصصة</string>
     <string name="settings_full_width_images">صور بالعرض الكامل</string>
+    <string name="content_scale_fit">ناسب الحجم</string>
+    <string name="content_scale_fill_width">ملء العرض</string>
+    <string name="content_scale_fill_height">ملء الارتفاع</string>
 </resources>

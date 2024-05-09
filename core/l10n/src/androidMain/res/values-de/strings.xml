@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Externer Browser</string>
     <string name="settings_url_opening_mode_custom_tabs">Benutzerdefinierte Registerkarten</string>
     <string name="settings_full_width_images">Bilder in voller Breite</string>
+    <string name="content_scale_fit">Passen Sie die Größe an</string>
+    <string name="content_scale_fill_width">Füllen Sie die Breite</string>
+    <string name="content_scale_fill_height">Füllen Sie die Höhe aus</string>
 </resources>

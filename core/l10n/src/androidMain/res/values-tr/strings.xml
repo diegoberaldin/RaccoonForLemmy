@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Harici tarayıcı</string>
     <string name="settings_url_opening_mode_custom_tabs">Özel sekmeler</string>
     <string name="settings_full_width_images">Tam genişlikte resimler</string>
+    <string name="content_scale_fit">Boyutu sığdır</string>
+    <string name="content_scale_fill_width">Genişliği doldurun</string>
+    <string name="content_scale_fill_height">Yüksekliği doldurun</string>
 </resources>

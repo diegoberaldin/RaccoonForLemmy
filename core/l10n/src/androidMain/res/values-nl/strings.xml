@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Externe browser</string>
     <string name="settings_url_opening_mode_custom_tabs">Aangepaste tabbladen</string>
     <string name="settings_full_width_images">Afbeeldingen over de volledige breedte</string>
+    <string name="content_scale_fit">Pas de maat aan</string>
+    <string name="content_scale_fill_width">Vul de breedte</string>
+    <string name="content_scale_fill_height">Vul de hoogte</string>
 </resources>

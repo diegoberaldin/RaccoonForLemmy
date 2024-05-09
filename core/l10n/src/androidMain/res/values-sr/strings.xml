@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Екстерни претраживач</string>
     <string name="settings_url_opening_mode_custom_tabs">Прилагођене картице</string>
     <string name="settings_full_width_images">Слике пуне ширине</string>
+    <string name="content_scale_fit">Прилагодите величину</string>
+    <string name="content_scale_fill_width">Попуните ширину</string>
+    <string name="content_scale_fill_height">Попуните висину</string>
 </resources>

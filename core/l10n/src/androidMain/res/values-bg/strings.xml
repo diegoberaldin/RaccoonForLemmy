@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Браузър esterno</string>
     <string name="settings_url_opening_mode_custom_tabs">Персонализирани раздели</string>
     <string name="settings_full_width_images">Изображения с пълна ширина</string>
+    <string name="content_scale_fit">Съответства на размера</string>
+    <string name="content_scale_fill_width">Попълнете ширината</string>
+    <string name="content_scale_fill_height">Запълнете височината</string>
 </resources>

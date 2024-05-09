@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Shfletuesi i jashtëm</string>
     <string name="settings_url_opening_mode_custom_tabs">Skedat e personalizuara</string>
     <string name="settings_full_width_images">Imazhe me gjerësi të plotë</string>
+    <string name="content_scale_fit">Përshtatet me madhësinë</string>
+    <string name="content_scale_fill_width">Mbushni gjerësinë</string>
+    <string name="content_scale_fill_height">Mbushni lartësinë</string>
 </resources>

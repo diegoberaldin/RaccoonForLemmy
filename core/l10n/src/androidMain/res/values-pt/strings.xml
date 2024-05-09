@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Navegador externo</string>
     <string name="settings_url_opening_mode_custom_tabs">Guias personalizadas</string>
     <string name="settings_full_width_images">Imagens de largura total</string>
+    <string name="content_scale_fit">Ajuste o tamanho</string>
+    <string name="content_scale_fill_width">Preencha a largura</string>
+    <string name="content_scale_fill_height">Preencha a altura</string>
 </resources>

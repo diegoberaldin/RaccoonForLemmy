@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Ārējā pārlūkprogramma</string>
     <string name="settings_url_opening_mode_custom_tabs">Pielāgotas cilnes</string>
     <string name="settings_full_width_images">Pilna platuma attēli</string>
+    <string name="content_scale_fit">Atbilst izmēram</string>
+    <string name="content_scale_fill_width">Aizpildiet platumu</string>
+    <string name="content_scale_fill_height">Aizpildiet augstumu</string>
 </resources>

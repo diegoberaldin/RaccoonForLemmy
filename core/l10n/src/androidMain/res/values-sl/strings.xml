@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Zunanji brskalnik</string>
     <string name="settings_url_opening_mode_custom_tabs">Zavihki po meri</string>
     <string name="settings_full_width_images">Slike polne širine</string>
+    <string name="content_scale_fit">Prilagodite velikost</string>
+    <string name="content_scale_fill_width">Izpolnite širino</string>
+    <string name="content_scale_fill_height">Izpolnite višino</string>
 </resources>

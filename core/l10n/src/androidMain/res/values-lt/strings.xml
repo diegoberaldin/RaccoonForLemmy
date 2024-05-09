@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Išorinė naršyklė</string>
     <string name="settings_url_opening_mode_custom_tabs">Tinkinti skirtukai</string>
     <string name="settings_full_width_images">Viso pločio vaizdai</string>
+    <string name="content_scale_fit">Atitinka dydį</string>
+    <string name="content_scale_fill_width">Užpildykite plotį</string>
+    <string name="content_scale_fill_height">Užpildykite aukštį</string>
 </resources>

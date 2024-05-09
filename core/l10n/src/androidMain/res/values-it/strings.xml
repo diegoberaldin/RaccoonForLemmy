@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Browser esterno</string>
     <string name="settings_url_opening_mode_custom_tabs">Schede personalizzate</string>
     <string name="settings_full_width_images">Immagini a larghezza completa</string>
+    <string name="content_scale_fit">Adatta alla dimensione</string>
+    <string name="content_scale_fill_width">Adatta alla larghezza</string>
+    <string name="content_scale_fill_height">Adatta alla altezza</string>
 </resources>

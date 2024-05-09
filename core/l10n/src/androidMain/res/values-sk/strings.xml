@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Externý prehliadač</string>
     <string name="settings_url_opening_mode_custom_tabs">Vlastné karty</string>
     <string name="settings_full_width_images">Obrázky v plnej šírke</string>
+    <string name="content_scale_fit">Prispôsobte sa veľkosti</string>
+    <string name="content_scale_fill_width">Vyplňte šírku</string>
+    <string name="content_scale_fill_height">Vyplňte výšku</string>
 </resources>

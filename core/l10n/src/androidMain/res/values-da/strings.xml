@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Browser esterno</string>
     <string name="settings_url_opening_mode_custom_tabs">Brugerdefinerede faner</string>
     <string name="settings_full_width_images">Billeder i fuld bredde</string>
+    <string name="content_scale_fit">Tilpas størrelsen</string>
+    <string name="content_scale_fill_width">Fyld bredden</string>
+    <string name="content_scale_fill_height">Fyld højden</string>
 </resources>

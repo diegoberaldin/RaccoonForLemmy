@@ -390,4 +390,7 @@
     <string name="settings_url_opening_mode_external">Väline brauser</string>
     <string name="settings_url_opening_mode_custom_tabs">Kohandatud vahelehed</string>
     <string name="settings_full_width_images">Täislaiuses pildid</string>
+    <string name="content_scale_fit">Sobivad suurusele</string>
+    <string name="content_scale_fill_width">Täida laius</string>
+    <string name="content_scale_fill_height">Täida kõrgus</string>
 </resources>
