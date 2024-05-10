@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.markdown
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -14,6 +13,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.mikepenz.markdown.compose.Markdown
@@ -56,7 +57,7 @@ fun CustomMarkdownWrapper(
 ) {
     val maxHeightDp = with(LocalDensity.current) {
         if (maxLines == null) {
-            null
+            Dp.Unspecified
         } else {
             val lineHeight =
                 typography.paragraph.lineHeight
@@ -128,15 +129,9 @@ fun CustomMarkdownWrapper(
             fontScale = LocalDensity.current.fontScale * GLOBAL_SCALE_FACTOR,
         ),
     ) {
-        Box(
+        Markdown(
             modifier = modifier
-                .then(
-                    if (maxHeightDp != null) {
-                        Modifier.heightIn(max = maxHeightDp)
-                    } else {
-                        Modifier
-                    }
-                )
+                .heightIn(min = 0.dp, max = maxHeightDp)
                 .onClick(
                     onClick = {
                         if (!isOpeningUrl) {
@@ -149,15 +144,12 @@ fun CustomMarkdownWrapper(
                     onDoubleClick = {
                         onDoubleClick?.invoke()
                     },
-                )
-        ) {
-            Markdown(
-                content = content.sanitize(),
-                colors = colors,
-                typography = typography,
-                padding = padding,
-                components = components,
-            )
-        }
+                ),
+            content = content.sanitize(),
+            colors = colors,
+            typography = typography,
+            padding = padding,
+            components = components,
+        )
     }
 }
