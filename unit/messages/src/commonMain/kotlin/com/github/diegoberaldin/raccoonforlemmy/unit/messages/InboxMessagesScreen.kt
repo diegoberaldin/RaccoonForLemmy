@@ -1,6 +1,5 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.messages
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -91,11 +90,8 @@ class InboxMessagesScreen : Tab {
             modifier = Modifier.pullRefresh(pullRefreshState),
         ) {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = Spacing.m),
+                modifier = Modifier.fillMaxSize(),
                 state = lazyListState,
-                verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 if (uiState.chats.isEmpty() && uiState.initial) {
                     items(3) {

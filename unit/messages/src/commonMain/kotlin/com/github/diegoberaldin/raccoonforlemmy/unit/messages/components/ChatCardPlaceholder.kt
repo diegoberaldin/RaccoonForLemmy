@@ -23,7 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 @Composable
 internal fun ChatCardPlaceholder() {
     Row(
-        modifier = Modifier.padding(Spacing.xs),
+        modifier = Modifier.padding(horizontal = Spacing.xs, vertical = Spacing.s),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.m),
     ) {

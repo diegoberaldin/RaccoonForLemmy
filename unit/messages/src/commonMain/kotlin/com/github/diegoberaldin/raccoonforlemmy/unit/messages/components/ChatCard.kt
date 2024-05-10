@@ -43,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.ellipsize
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
@@ -69,14 +70,14 @@ internal fun ChatCard(
 
     Row(
         modifier = modifier
-            .padding(Spacing.xs)
+            .padding(horizontal = Spacing.xs, vertical = Spacing.s)
             .onClick(
                 onClick = {
                     onOpen?.invoke()
                 },
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.m),
+        horizontalArrangement = Arrangement.spacedBy(Spacing.s),
     ) {
         if (creatorAvatar.isNotEmpty()) {
             CustomImage(
@@ -129,8 +130,7 @@ internal fun ChatCard(
             CustomizedContent(ContentFontClass.Body) {
                 // last message text
                 PostCardBody(
-                    maxLines = 2,
-                    text = lastMessage,
+                    text = lastMessage.ellipsize(90),
                     autoLoadImages = autoLoadImages,
                     onClick = {
                         onOpen?.invoke()

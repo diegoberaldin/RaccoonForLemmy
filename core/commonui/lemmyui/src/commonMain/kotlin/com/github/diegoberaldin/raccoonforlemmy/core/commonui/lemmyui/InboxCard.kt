@@ -66,7 +66,7 @@ fun InboxCard(
                     .background(
                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                     )
-                    .padding(vertical = Spacing.s,)
+                    .padding(vertical = Spacing.s)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
             }
@@ -97,12 +97,13 @@ fun InboxCard(
                         modifier = Modifier.padding(
                             horizontal = Spacing.s,
                         ),
+                        // takes just the first line
                         text = mention.comment.text.substringBefore("\n"),
                         autoLoadImages = autoLoadImages,
                         onOpenImage = onImageClick,
                         onClick = {
                             onOpenPost(mention.post)
-                        }
+                        },
                     )
                 }
             }
