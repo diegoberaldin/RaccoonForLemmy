@@ -44,6 +44,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
@@ -104,6 +106,7 @@ class InboxChatScreen(
         val lazyListState = rememberLazyListState()
         val detailOpener = remember { getDetailOpener() }
         var itemIdToDelete by remember { mutableStateOf<Long?>(null) }
+        val focusRequester = remember { FocusRequester() }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -168,9 +171,14 @@ class InboxChatScreen(
             },
             bottomBar = {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                    modifier = Modifier.padding(
+                        top = Spacing.xs,
+                        bottom = Spacing.l,
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
                 ) {
                     TextFormattingBar(
+                        modifier = Modifier.padding(horizontal = Spacing.s),
                         textFieldValue = textFieldValue,
                         onTextFieldValueChanged = {
                             textFieldValue = it
@@ -191,7 +199,11 @@ class InboxChatScreen(
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(max = 400.dp),
+                            .focusRequester(focusRequester)
+                            .heightIn(
+                                min = 80.dp,
+                                max = 360.dp,
+                            ),
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
@@ -200,11 +212,13 @@ class InboxChatScreen(
                         label = {
                             Text(
                                 text = buildString {
-                                    append(LocalXmlStrings.current.inboxChatMessage)
                                     if (uiState.editedMessageId != null) {
+                                        append(LocalXmlStrings.current.inboxChatMessage)
                                         append(" (")
                                         append(LocalXmlStrings.current.postActionEdit)
                                         append(")")
+                                    } else {
+                                        append(LocalXmlStrings.current.actionChat)
                                     }
                                 },
                                 style = typography.bodyMedium,
