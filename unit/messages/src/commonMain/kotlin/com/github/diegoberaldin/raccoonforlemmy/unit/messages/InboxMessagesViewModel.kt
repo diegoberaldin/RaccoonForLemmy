@@ -167,5 +167,8 @@ class InboxMessagesViewModel(
 
     private fun handleLogout() {
         updateState { it.copy(chats = emptyList()) }
+        screenModelScope.launch(Dispatchers.IO) {
+            refresh(initial = true)
+        }
     }
 }

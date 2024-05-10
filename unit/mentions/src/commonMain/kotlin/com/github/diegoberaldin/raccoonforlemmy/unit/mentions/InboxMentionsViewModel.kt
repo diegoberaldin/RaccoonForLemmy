@@ -13,6 +13,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -263,5 +265,8 @@ class InboxMentionsViewModel(
 
     private fun handleLogout() {
         updateState { it.copy(mentions = emptyList()) }
+        screenModelScope.launch(Dispatchers.IO) {
+            refresh(initial = true)
+        }
     }
 }

@@ -14,6 +14,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -263,5 +265,8 @@ class InboxRepliesViewModel(
 
     private fun handleLogout() {
         updateState { it.copy(replies = emptyList()) }
+        screenModelScope.launch(Dispatchers.IO) {
+            refresh(initial = true)
+        }
     }
 }
