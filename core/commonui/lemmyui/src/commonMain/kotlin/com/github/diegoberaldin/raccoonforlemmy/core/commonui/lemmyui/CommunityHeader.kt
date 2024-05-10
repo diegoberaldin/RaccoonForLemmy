@@ -118,7 +118,7 @@ fun CommunityHeader(
             ) {
                 Text(
                     text = community.readableName(preferNicknames),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
                 if (community.readableHandle != community.readableName(preferNicknames)) {

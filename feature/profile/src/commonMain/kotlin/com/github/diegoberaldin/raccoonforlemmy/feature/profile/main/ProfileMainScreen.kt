@@ -182,7 +182,6 @@ internal object ProfileMainScreen : Tab {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.navigationProfile,
-                            style = MaterialTheme.typography.titleLarge,
                         )
                     },
                     actions = {

@@ -118,7 +118,6 @@ class LoginBottomSheet : Screen {
                     title = {
                         Text(
                             text = LocalXmlStrings.current.profileButtonLogin,
-                            style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     },

@@ -134,7 +134,6 @@ class SettingsScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.navigationSettings,
-                            style = MaterialTheme.typography.titleLarge,
                         )
                     },
                 )

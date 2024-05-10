@@ -251,7 +251,6 @@ class CreatePostScreen(
                                 editedPost != null -> LocalXmlStrings.current.editPostTitle
                                 else -> LocalXmlStrings.current.createPostTitle
                             },
-                            style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     },

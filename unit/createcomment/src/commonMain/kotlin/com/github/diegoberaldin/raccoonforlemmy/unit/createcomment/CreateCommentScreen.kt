@@ -187,7 +187,6 @@ class CreateCommentScreen(
                                     LocalXmlStrings.current.createCommentTitle
                                 }
                             },
-                            style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     },

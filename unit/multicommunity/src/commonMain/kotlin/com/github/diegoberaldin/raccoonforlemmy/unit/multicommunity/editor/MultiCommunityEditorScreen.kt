@@ -94,7 +94,6 @@ class MultiCommunityEditorScreen(
                     title = {
                         Text(
                             text = LocalXmlStrings.current.multiCommunityEditorTitle,
-                            style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     },

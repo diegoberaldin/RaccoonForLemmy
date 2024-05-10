@@ -42,7 +42,7 @@ fun SettingsHeader(
         Text(
             text = title,
             color = fullColor,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
         )
         Spacer(modifier = Modifier.weight(1f))
         if (rightButton != null) {

@@ -117,7 +117,7 @@ fun UserHeader(
             ) {
                 Text(
                     text = user.readableName(preferNicknames),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
                 if (user.readableHandle != user.readableName(preferNicknames)) {

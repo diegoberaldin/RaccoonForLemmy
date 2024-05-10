@@ -136,7 +136,7 @@ class ManageSubscriptionsScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.titleMedium
                         )
                     },
                     scrollBehavior = scrollBehavior,
@@ -263,7 +263,7 @@ class ManageSubscriptionsScreen : Screen {
                             ) {
                                 Text(
                                     text = LocalXmlStrings.current.manageSubscriptionsHeaderMulticommunities,
-                                    style = MaterialTheme.typography.titleLarge,
+                                    style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
                                 Spacer(modifier = Modifier.weight(1f))
@@ -332,7 +332,7 @@ class ManageSubscriptionsScreen : Screen {
                             ) {
                                 Text(
                                     text = LocalXmlStrings.current.manageSubscriptionsHeaderSubscriptions,
-                                    style = MaterialTheme.typography.titleLarge,
+                                    style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
                             }

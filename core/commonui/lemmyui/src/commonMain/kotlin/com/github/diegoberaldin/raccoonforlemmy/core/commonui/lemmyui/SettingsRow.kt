@@ -39,7 +39,10 @@ fun SettingsRow(
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
     Row(
         modifier = modifier
-            .padding(vertical = Spacing.s, horizontal = Spacing.m)
+            .padding(
+                vertical = Spacing.s,
+                horizontal = Spacing.m,
+            )
             .onClick(
                 onClick = {
                     onTap?.invoke()

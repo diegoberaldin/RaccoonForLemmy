@@ -122,7 +122,6 @@ class BanUserScreen(
                         }
                         Text(
                             text = title,
-                            style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     },
