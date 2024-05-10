@@ -11,9 +11,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class InboxChatViewModel(
     private val otherUserId: Long,
@@ -28,7 +31,6 @@ class InboxChatViewModel(
     DefaultMviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.Effect>(
         initialState = InboxChatMviModel.UiState(),
     ) {
-
 
     private var currentPage: Int = 1
 
@@ -48,11 +50,11 @@ class InboxChatViewModel(
                 notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
                     handleLogout()
                 }.launchIn(this)
-                launch {
+
+                withContext(Dispatchers.IO) {
                     val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
                     updateState { it.copy(currentUserId = currentUserId) }
-                }
-                launch {
+
                     val user = userRepository.get(
                         id = otherUserId,
                         auth = auth,
@@ -115,7 +117,7 @@ class InboxChatViewModel(
         loadNextPage()
     }
 
-    private suspend fun loadNextPage() {
+    private suspend fun loadNextPage(tryCount: Int = 0) {
         val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             updateState { it.copy(refreshing = false) }
@@ -142,6 +144,7 @@ class InboxChatViewModel(
         val itemsToAdd = itemList.orEmpty().filter {
             it.creator?.id == otherUserId || it.recipient?.id == otherUserId
         }
+        val shouldTryNextPage = itemsToAdd.isEmpty() && tryCount < 10
         updateState {
             val newItems = if (refreshing) {
                 itemsToAdd
@@ -153,11 +156,11 @@ class InboxChatViewModel(
                 loading = false,
                 canFetchMore = itemList?.isEmpty() != true,
                 refreshing = false,
-                initial = itemsToAdd.isEmpty(),
+                initial = !shouldTryNextPage,
             )
         }
-        if (currentState.initial && itemsToAdd.isEmpty()) {
-            loadNextPage()
+        if (currentState.initial && shouldTryNextPage) {
+            loadNextPage(tryCount + 1)
         }
     }
 
@@ -178,11 +181,11 @@ class InboxChatViewModel(
     private fun handleMessageUpdate(newMessage: PrivateMessageModel) {
         updateState {
             it.copy(
-                messages = it.messages.map { m ->
-                    if (m.id == newMessage.id) {
+                messages = it.messages.map { msg ->
+                    if (msg.id == newMessage.id) {
                         newMessage
                     } else {
-                        m
+                        msg
                     }
                 }
             )
@@ -272,7 +275,7 @@ class InboxChatViewModel(
                     auth = auth,
                 )
                 updateState {
-                    it.copy(messages = it.messages.filter { m -> m.id != message.id })
+                    it.copy(messages = it.messages.filter { msg -> msg.id != message.id })
                 }
             }
         }
