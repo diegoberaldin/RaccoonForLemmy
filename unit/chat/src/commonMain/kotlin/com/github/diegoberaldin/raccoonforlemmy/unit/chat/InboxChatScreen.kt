@@ -232,7 +232,6 @@ class InboxChatScreen(
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                         reverseLayout = true,
                         state = lazyListState,
                     ) {
@@ -240,7 +239,7 @@ class InboxChatScreen(
                             Spacer(modifier = Modifier.height(Spacing.s))
                         }
                         if (uiState.messages.isEmpty() && uiState.initial) {
-                            items(10) {
+                            items(5) {
                                 MessageCardPlaceholder()
                             }
                         }

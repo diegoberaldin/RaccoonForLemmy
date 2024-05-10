@@ -50,6 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 @Composable
 internal fun MessageCard(
+    modifier: Modifier = Modifier,
     isMyMessage: Boolean = false,
     content: String = "",
     date: String = "",
@@ -72,15 +73,22 @@ internal fun MessageCard(
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
 
-    Box {
+    Box(
+        modifier = modifier.padding(
+            horizontal = Spacing.xs,
+            vertical = Spacing.xs,
+        )
+    ) {
         Canvas(
-            modifier = Modifier.size(mediumDistance).then(
-                if (isMyMessage) {
-                    Modifier.align(Alignment.TopEnd)
-                } else {
-                    Modifier.align(Alignment.TopStart)
-                }
-            )
+            modifier = Modifier
+                .size(mediumDistance)
+                .then(
+                    if (isMyMessage) {
+                        Modifier.align(Alignment.TopEnd)
+                    } else {
+                        Modifier.align(Alignment.TopStart)
+                    }
+                )
         ) {
             if (isMyMessage) {
                 val path = Path().apply {
