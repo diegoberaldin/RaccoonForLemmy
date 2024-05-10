@@ -15,6 +15,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class InboxMessagesViewModel(
     private val identityRepository: IdentityRepository,
@@ -57,7 +58,7 @@ class InboxMessagesViewModel(
                 handleLogout()
             }.launchIn(this)
 
-            launch(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
                 updateState { it.copy(currentUserId = currentUserId) }
@@ -65,10 +66,11 @@ class InboxMessagesViewModel(
                 if (uiState.value.initial) {
                     val value = coordinator.unreadOnly.value
                     changeUnreadOnly(value)
+                    refresh(initial = true)
                 }
+                updateUnreadItems()
             }
 
-            updateUnreadItems()
         }
     }
 
