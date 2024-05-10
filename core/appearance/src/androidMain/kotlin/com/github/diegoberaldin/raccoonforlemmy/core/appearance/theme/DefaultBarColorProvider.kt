@@ -23,12 +23,7 @@ class DefaultBarColorProvider : BarColorProvider {
                 }
                 val barColor = when (barTheme) {
                     UiBarTheme.Opaque -> baseColor.copy(alpha = 0.25f)
-                    UiBarTheme.Transparent -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        Color.Transparent
-                    } else {
-                        baseColor
-                    }
-
+                    UiBarTheme.Transparent -> baseColor.copy(alpha = 0.01f)
                     else -> baseColor
                 }.toArgb()
                 statusBarColor = barColor
