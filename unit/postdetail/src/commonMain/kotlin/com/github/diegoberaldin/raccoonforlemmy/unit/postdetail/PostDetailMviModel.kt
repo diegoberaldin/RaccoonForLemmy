@@ -56,6 +56,8 @@ interface PostDetailMviModel :
         val canFetchMore: Boolean = true,
         val sortType: SortType = SortType.New,
         val comments: List<CommentModel> = emptyList(),
+        val commentBarThickness: Int = 1,
+        val commentIndentAmount: Int = 2,
         val currentUserId: Long? = null,
         val swipeActionsEnabled: Boolean = true,
         val doubleTapActionEnabled: Boolean = true,

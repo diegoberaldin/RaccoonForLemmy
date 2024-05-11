@@ -986,6 +986,8 @@ class PostDetailScreen(
                                                         comment = comment,
                                                         isOp = comment.creator?.id == uiState.post.creator?.id,
                                                         showBot = true,
+                                                        indentAmount = uiState.commentIndentAmount,
+                                                        barThickness = uiState.commentBarThickness,
                                                         voteFormat = uiState.voteFormat,
                                                         autoLoadImages = uiState.autoLoadImages,
                                                         preferNicknames = uiState.preferNicknames,

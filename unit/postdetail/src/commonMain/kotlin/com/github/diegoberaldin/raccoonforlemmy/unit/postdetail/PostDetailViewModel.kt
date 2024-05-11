@@ -110,6 +110,8 @@ class PostDetailViewModel(
                         actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
                         showScores = settings.showScores,
                         enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
+                        commentBarThickness = settings.commentBarThickness,
+                        commentIndentAmount = settings.commentIndentAmount,
                     )
                 }
             }.launchIn(this)
