@@ -299,8 +299,8 @@ class CreatePostScreen(
             Column(
                 modifier = Modifier
                     .padding(padding)
-                    .imePadding()
                     .navigationBarsPadding()
+                    .imePadding()
                     .verticalScroll(rememberScrollState()),
             ) {
                 // community

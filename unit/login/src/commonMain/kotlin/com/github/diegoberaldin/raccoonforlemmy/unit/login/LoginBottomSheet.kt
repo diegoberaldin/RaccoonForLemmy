@@ -173,8 +173,8 @@ class LoginBottomSheet : Screen {
                     modifier = Modifier
                         .padding(padding)
                         .consumeWindowInsets(padding)
-                        .imePadding()
                         .navigationBarsPadding()
+                        .imePadding()
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,

@@ -156,8 +156,8 @@ class BanUserScreen(
                 modifier = Modifier
                     .padding(padding)
                     .consumeWindowInsets(padding)
-                    .imePadding()
-                    .navigationBarsPadding(),
+                    .navigationBarsPadding()
+                    .imePadding(),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {

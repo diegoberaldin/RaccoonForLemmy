@@ -226,8 +226,8 @@ class CreateCommentScreen(
                 modifier = Modifier
                     .padding(padding)
                     .consumeWindowInsets(padding)
-                    .imePadding()
                     .navigationBarsPadding()
+                    .imePadding()
                     .fillMaxSize(),
             ) {
                 // reference post or comment
