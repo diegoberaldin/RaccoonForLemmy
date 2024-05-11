@@ -37,8 +37,8 @@ fun BottomSheetHeader(
             ),
             text = title,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.titleMedium,
         )
     }
 }
