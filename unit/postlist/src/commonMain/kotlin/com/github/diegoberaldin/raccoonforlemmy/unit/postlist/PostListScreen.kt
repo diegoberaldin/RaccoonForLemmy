@@ -707,8 +707,7 @@ class PostListScreen : Screen {
                         if (uiState.posts.isEmpty() && !uiState.initial && !uiState.loading) {
                             item {
                                 Text(
-                                    modifier = Modifier.fillMaxWidth()
-                                        .padding(top = Spacing.xs),
+                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
                                     text = LocalXmlStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,

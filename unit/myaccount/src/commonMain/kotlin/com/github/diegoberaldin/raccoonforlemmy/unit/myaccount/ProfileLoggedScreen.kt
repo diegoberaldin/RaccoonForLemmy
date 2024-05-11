@@ -361,9 +361,7 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.posts.isEmpty() && !uiState.loading && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(top = Spacing.xs),
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
@@ -492,8 +490,7 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.comments.isEmpty() && !uiState.loading && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth()
-                                            .padding(top = Spacing.xs),
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,

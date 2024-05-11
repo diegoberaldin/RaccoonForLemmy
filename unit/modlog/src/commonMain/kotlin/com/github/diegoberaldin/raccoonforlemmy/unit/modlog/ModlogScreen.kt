@@ -172,7 +172,7 @@ class ModlogScreen(
                         if (uiState.items.isEmpty() && !uiState.initial) {
                             item {
                                 Text(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
                                     text = LocalXmlStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,

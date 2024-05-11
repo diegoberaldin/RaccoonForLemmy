@@ -168,7 +168,7 @@ class DraftsScreen : Screen {
                             if (uiState.postDrafts.isEmpty() && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth(),
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
@@ -232,7 +232,7 @@ class DraftsScreen : Screen {
                             if (uiState.commentDrafts.isEmpty() && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth(),
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,

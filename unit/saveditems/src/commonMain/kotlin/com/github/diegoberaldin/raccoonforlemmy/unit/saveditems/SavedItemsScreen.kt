@@ -341,8 +341,7 @@ class SavedItemsScreen : Screen {
                             if (uiState.posts.isEmpty() && !uiState.loading) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth()
-                                            .padding(top = Spacing.xs),
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
@@ -441,8 +440,7 @@ class SavedItemsScreen : Screen {
                             if (uiState.comments.isEmpty() && !uiState.loading) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth()
-                                            .padding(top = Spacing.xs),
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalXmlStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
