@@ -9,7 +9,6 @@ val savedItemsModule = module {
         SavedItemsViewModel(
             identityRepository = get(),
             apiConfigurationRepository = get(),
-            siteRepository = get(),
             postPaginationManager = get(),
             commentPaginationManager = get(),
             postRepository = get(),
