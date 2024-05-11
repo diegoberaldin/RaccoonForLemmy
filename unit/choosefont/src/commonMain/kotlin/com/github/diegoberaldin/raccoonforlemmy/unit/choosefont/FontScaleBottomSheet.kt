@@ -71,7 +71,7 @@ class FontScaleBottomSheet(
                     end = Spacing.s,
                 ),
                 text = title,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
             Column(

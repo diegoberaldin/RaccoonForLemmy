@@ -74,7 +74,7 @@ class AboutDialog : Screen {
             ) {
                 Text(
                     text = LocalXmlStrings.current.settingsAbout,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
                 Spacer(modifier = Modifier.height(Spacing.s))

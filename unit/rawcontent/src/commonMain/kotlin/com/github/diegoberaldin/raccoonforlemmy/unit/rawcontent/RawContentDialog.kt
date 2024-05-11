@@ -78,7 +78,7 @@ fun RawContentDialog(
         ) {
             Text(
                 text = LocalXmlStrings.current.dialogTitleRawContent,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 color = fullColor,
             )
             Spacer(modifier = Modifier.height(Spacing.s))

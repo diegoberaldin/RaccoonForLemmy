@@ -55,7 +55,7 @@ internal fun ChangeInstanceDialog(
         ) {
             Text(
                 text = LocalXmlStrings.current.dialogTitleAddInstance,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
             TextField(

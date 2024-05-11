@@ -68,7 +68,7 @@ class SelectCommunityDialog : Screen {
             ) {
                 Text(
                     text = LocalXmlStrings.current.dialogTitleSelectCommunity,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
                 Spacer(modifier = Modifier.height(Spacing.s))
