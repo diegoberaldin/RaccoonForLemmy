@@ -83,8 +83,10 @@ fun RawContentDialog(
             )
             Spacer(modifier = Modifier.height(Spacing.s))
             LazyColumn(
-                modifier = Modifier.padding(vertical = Spacing.s, horizontal = Spacing.m)
-                    .heightIn(max = 400.dp), verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                modifier = Modifier
+                    .padding(vertical = Spacing.s, horizontal = Spacing.m)
+                    .heightIn(max = 400.dp),
+                verticalArrangement = Arrangement.spacedBy(Spacing.xs)
             ) {
                 title?.takeIf { it.trim().isNotEmpty() }?.also {
                     item {

@@ -717,6 +717,7 @@ class PostDetailScreen(
                             .pullRefresh(pullRefreshState),
                     ) {
                         LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
                             state = lazyListState
                         ) {
                             item {

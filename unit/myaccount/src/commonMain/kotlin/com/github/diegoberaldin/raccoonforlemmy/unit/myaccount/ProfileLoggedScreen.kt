@@ -130,6 +130,7 @@ object ProfileLoggedScreen : Tab {
                 modifier = Modifier.pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
                     state = lazyListState,
                 ) {
                     if (uiState.user == null) {

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -283,6 +284,7 @@ class ExploreScreen(
                         ).nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
                         state = lazyListState,
                     ) {
                         if (uiState.results.isEmpty() && uiState.loading) {

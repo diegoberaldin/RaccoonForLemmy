@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -156,8 +157,8 @@ class ModlogScreen(
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
                     ) {
                         if (uiState.items.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {

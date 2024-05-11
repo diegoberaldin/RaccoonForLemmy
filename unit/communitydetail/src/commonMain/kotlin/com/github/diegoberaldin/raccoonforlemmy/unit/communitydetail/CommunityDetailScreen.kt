@@ -699,6 +699,7 @@ class CommunityDetailScreen(
                             .pullRefresh(pullRefreshState),
                     ) {
                         LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
                             state = lazyListState,
                             userScrollEnabled = !uiState.zombieModeActive,
                         ) {
