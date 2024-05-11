@@ -29,6 +29,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.sortToNest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -466,6 +467,7 @@ class PostDetailViewModel(
         updateState { it.copy(sortType = value) }
         screenModelScope.launch {
             emitEffect(PostDetailMviModel.Effect.BackToTop)
+            delay(50)
             refresh()
         }
     }

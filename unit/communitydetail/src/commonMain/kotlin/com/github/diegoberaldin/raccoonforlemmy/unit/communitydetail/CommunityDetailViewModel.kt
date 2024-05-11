@@ -36,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -354,6 +355,7 @@ class CommunityDetailViewModel(
         updateState { it.copy(sortType = value) }
         screenModelScope.launch(Dispatchers.IO) {
             emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+            delay(50)
             refresh()
         }
     }

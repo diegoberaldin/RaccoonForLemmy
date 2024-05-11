@@ -333,6 +333,7 @@ class PostListViewModel(
         updateState { it.copy(sortType = value) }
         screenModelScope.launch {
             emitEffect(PostListMviModel.Effect.BackToTop)
+            delay(50)
             refresh()
         }
     }
@@ -344,6 +345,7 @@ class PostListViewModel(
         updateState { it.copy(listingType = value) }
         screenModelScope.launch(Dispatchers.IO) {
             emitEffect(PostListMviModel.Effect.BackToTop)
+            delay(50)
             refresh()
         }
     }

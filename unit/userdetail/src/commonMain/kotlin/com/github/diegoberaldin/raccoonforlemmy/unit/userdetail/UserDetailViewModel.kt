@@ -34,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -236,6 +237,8 @@ class UserDetailViewModel(
         updateState { it.copy(sortType = value) }
         screenModelScope.launch(Dispatchers.Main) {
             emitEffect(UserDetailMviModel.Effect.BackToTop)
+            delay(50)
+            refresh()
         }
     }
 

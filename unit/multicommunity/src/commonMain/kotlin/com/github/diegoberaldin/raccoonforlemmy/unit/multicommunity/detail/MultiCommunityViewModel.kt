@@ -24,6 +24,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -243,6 +244,7 @@ class MultiCommunityViewModel(
         updateState { it.copy(sortType = value) }
         screenModelScope.launch {
             emitEffect(MultiCommunityMviModel.Effect.BackToTop)
+            delay(50)
             refresh()
         }
     }

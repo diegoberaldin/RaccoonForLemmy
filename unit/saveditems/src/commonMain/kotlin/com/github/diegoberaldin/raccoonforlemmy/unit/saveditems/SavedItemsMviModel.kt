@@ -50,5 +50,7 @@ interface SavedItemsMviModel :
         val availableSortTypes: List<SortType> = emptyList(),
     )
 
-    sealed interface Effect
+    sealed interface Effect {
+        data object BackToTop : Effect
+    }
 }

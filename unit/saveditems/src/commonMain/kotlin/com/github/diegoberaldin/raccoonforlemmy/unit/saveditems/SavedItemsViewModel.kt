@@ -21,9 +21,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,7 +31,6 @@ import kotlinx.coroutines.launch
 class SavedItemsViewModel(
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
-    private val siteRepository: SiteRepository,
     private val postPaginationManager: PostPaginationManager,
     private val commentPaginationManager: CommentPaginationManager,
     private val postRepository: PostRepository,
@@ -92,8 +91,14 @@ class SavedItemsViewModel(
 
     override fun reduce(intent: SavedItemsMviModel.Intent) {
         when (intent) {
-            SavedItemsMviModel.Intent.LoadNextPage -> loadNextPage()
-            SavedItemsMviModel.Intent.Refresh -> refresh()
+            SavedItemsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
+                loadNextPage()
+            }
+
+            SavedItemsMviModel.Intent.Refresh -> screenModelScope.launch {
+                refresh()
+            }
+
             is SavedItemsMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is SavedItemsMviModel.Intent.DownVoteComment -> {
                 if (intent.feedback) {
@@ -160,7 +165,7 @@ class SavedItemsViewModel(
         }
     }
 
-    private fun refresh() {
+    private suspend fun refresh() {
         postPaginationManager.reset(
             PostPaginationSpecification.Saved(sortType = uiState.value.sortType)
         )
@@ -177,36 +182,34 @@ class SavedItemsViewModel(
         loadNextPage()
     }
 
-    private fun loadNextPage() {
+    private suspend fun loadNextPage() {
         val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
             updateState { it.copy(refreshing = false) }
             return
         }
 
-        screenModelScope.launch {
-            updateState { it.copy(loading = true) }
-            val section = currentState.section
-            if (section == SavedItemsSection.Posts) {
-                val posts = postPaginationManager.loadNextPage()
-                updateState {
-                    it.copy(
-                        posts = posts,
-                        loading = false,
-                        canFetchMore = postPaginationManager.canFetchMore,
-                        refreshing = false,
-                    )
-                }
-            } else {
-                val comments = commentPaginationManager.loadNextPage()
-                updateState {
-                    it.copy(
-                        comments = comments,
-                        loading = false,
-                        canFetchMore = commentPaginationManager.canFetchMore,
-                        refreshing = false,
-                    )
-                }
+        updateState { it.copy(loading = true) }
+        val section = currentState.section
+        if (section == SavedItemsSection.Posts) {
+            val posts = postPaginationManager.loadNextPage()
+            updateState {
+                it.copy(
+                    posts = posts,
+                    loading = false,
+                    canFetchMore = postPaginationManager.canFetchMore,
+                    refreshing = false,
+                )
+            }
+        } else {
+            val comments = commentPaginationManager.loadNextPage()
+            updateState {
+                it.copy(
+                    comments = comments,
+                    loading = false,
+                    canFetchMore = commentPaginationManager.canFetchMore,
+                    refreshing = false,
+                )
             }
         }
     }
@@ -216,7 +219,11 @@ class SavedItemsViewModel(
             return
         }
         updateState { it.copy(sortType = value) }
-        refresh()
+        screenModelScope.launch {
+            emitEffect(SavedItemsMviModel.Effect.BackToTop)
+            delay(50)
+            refresh()
+        }
     }
 
     private fun handlePostUpdate(post: PostModel) {
